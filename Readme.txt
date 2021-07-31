@@ -1,3 +1,5 @@
+/************ Setting up the security structure, selecting your default Metadata folders to be selected and encrypting the credentials to be stored on your machine ************/
+
 The SalesforceMetadata application uses AES-2048 encryption to encrypt the user settings file and requires:
     A master password
     A salt
@@ -32,3 +34,11 @@ Click Save.
 
 To confirm whether the encrypted text is decrypting successfully, on the Landing Page form, click Metadata Form. You should see your username(s) in the drop down and when you select one, the Security Token field should also be populated if you filled that value in the security token xml element.
 
+
+
+/************ Items to complete ************/
+There are many items which still need to be completed or updated, but the below list provides a few items which could definitely be enhanced to make this tool more user friendly.
+
+The primary one is for long running tasks such as downloading the metadata package, genereating the Excel reports, etc, spinning up a new thread for asynchronous processing needs to be implemented. Since I built this myself, I did not put the time into creating threads. However this would be nice.
+
+For the GenerateDeploymentPackage, after running the Metadata comparison, then clicking the Generate Deployment Package button, bringing over the differences, whether all or selected into the GenerateDeploymentPackage tree view would be more efficient. There are some caveats to this though which need to be considered, especially since there are required metadata items which need to be selected when another item is brought over from the difference.

@@ -1,0 +1,226 @@
+C:\Users\mharikian.CORP\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe.config
+C:\Users\mharikian.CORP\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe
+C:\Users\mharikian.CORP\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.pdb
+C:\Users\mharikian.CORP\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csprojResolveAssemblyReference.cache
+C:\Users\mharikian.CORP\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
+C:\Users\mharikian.CORP\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.Properties.Resources.resources
+C:\Users\mharikian.CORP\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.Cache
+C:\Users\mharikian.CORP\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe
+C:\Users\mharikian.CORP\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb
+C:\Users\mharikian.CORP\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.WizardPage2.resources
+G:\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe.config
+G:\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe
+G:\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.pdb
+G:\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.Properties.Resources.resources
+G:\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.Cache
+G:\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe
+G:\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb
+G:\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
+G:\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep1.resources
+G:\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep2.resources
+G:\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SandboxSeedingStep1.resources
+G:\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SandboxSeedingStep2.resources
+G:\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csprojResolveAssemblyReference.cache
+C:\Users\marcu\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe.config
+C:\Users\marcu\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe
+C:\Users\marcu\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.pdb
+C:\Users\marcu\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csprojResolveAssemblyReference.cache
+C:\Users\marcu\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
+C:\Users\marcu\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep1.resources
+C:\Users\marcu\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.Properties.Resources.resources
+C:\Users\marcu\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SandboxSeedingStep1.resources
+C:\Users\marcu\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep2.resources
+C:\Users\marcu\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SandboxSeedingStep2.resources
+C:\Users\marcu\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.Cache
+C:\Users\marcu\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
+C:\Users\marcu\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe
+C:\Users\marcu\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb
+C:\Users\marcus\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe.config
+C:\Users\marcus\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe
+C:\Users\marcus\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.pdb
+C:\Users\marcus\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csprojResolveAssemblyReference.cache
+C:\Users\marcus\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
+C:\Users\marcus\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep1.resources
+C:\Users\marcus\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.Properties.Resources.resources
+C:\Users\marcus\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SandboxSeedingStep1.resources
+C:\Users\marcus\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep2.resources
+C:\Users\marcus\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SandboxSeedingStep2.resources
+C:\Users\marcus\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.Cache
+C:\Users\marcus\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
+C:\Users\marcus\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe
+C:\Users\marcus\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb
+C:\Users\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe.config
+C:\Users\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe
+C:\Users\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.pdb
+C:\Users\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csprojResolveAssemblyReference.cache
+C:\Users\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
+C:\Users\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep1.resources
+C:\Users\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.Properties.Resources.resources
+C:\Users\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SandboxSeedingStep1.resources
+C:\Users\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep2.resources
+C:\Users\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SandboxSeedingStep2.resources
+C:\Users\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.Cache
+C:\Users\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
+C:\Users\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe
+C:\Users\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb
+D:\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe.config
+D:\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe
+D:\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.pdb
+D:\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csprojResolveAssemblyReference.cache
+D:\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
+D:\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep1.resources
+D:\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.Properties.Resources.resources
+D:\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SandboxSeedingStep1.resources
+D:\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep2.resources
+D:\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SandboxSeedingStep2.resources
+D:\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.Cache
+D:\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
+D:\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe
+D:\mharikian\Google Drive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe.config
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.pdb
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep1.resources
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.Properties.Resources.resources
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SandboxSeedingStep1.resources
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep2.resources
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SandboxSeedingStep2.resources
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.Cache
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmSearch.resources
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmUserSettings.resources
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csprojAssemblyReference.cache
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.GenerateTestClasses.resources
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.DeployMetadata.resources
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ObjectModification.resources
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ProfilesUpdater.resources
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ObjectFieldInspector.resources
+C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmParseDebugLogs.resources
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.DeployMetadata.resources
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmParseDebugLogs.resources
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmUserSettings.resources
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ObjectFieldInspector.resources
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ObjectModification.resources
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep1.resources
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.Properties.Resources.resources
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep2.resources
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmSearch.resources
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.Cache
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe.config
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.pdb
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.EncryptDecryptText.resources
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.RESTService.resources
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ConfigurationWorkbook.resources
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.ResolveComReference.cache
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csprojAssemblyReference.cache
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ExtractWebsites.resources
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\Interop.SHDocVw.dll
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\itextsharp.dll
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CopyComplete
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ClassMethodExtractor.resources
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.MetadataComparison.resources
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe.config
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.pdb
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\bin\Debug\itextsharp.dll
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csprojAssemblyReference.cache
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\Interop.SHDocVw.dll
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.ResolveComReference.cache
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ClassMethodExtractor.resources
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.DeployMetadata.resources
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.EncryptDecryptText.resources
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ExtractWebsites.resources
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmParseDebugLogs.resources
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmUserSettings.resources
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.MetadataComparison.resources
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ObjectFieldInspector.resources
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ObjectModification.resources
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep1.resources
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.Properties.Resources.resources
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.RESTService.resources
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep2.resources
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ConfigurationWorkbook.resources
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmSearch.resources
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.cache
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CopyComplete
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.VersionUpdater.resources
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.VersionUpdater.resources
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.GenerateDeploymentPackage.resources
+C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.GenerateDeploymentPackage.resources
+D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.MetadataToolingReportForm.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe.config
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.pdb
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\bin\Debug\itextsharp.dll
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\Interop.SHDocVw.dll
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.ResolveComReference.cache
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ClassMethodExtractor.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.DeployMetadata.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.EncryptDecryptText.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ExtractWebsites.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmParseDebugLogs.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmUserSettings.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.GenerateDeploymentPackage.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.MetadataComparison.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.MetadataToolingReportForm.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ObjectFieldInspector.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ObjectModification.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep1.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.Properties.Resources.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.RESTService.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep2.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ConfigurationWorkbook.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmSearch.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.VersionUpdater.resources
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.cache
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CopyComplete
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ExtractFieldsFromMetadata.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe.config
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\bin\Debug\SalesforceMetadata.pdb
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\bin\Debug\itextsharp.dll
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\Interop.SHDocVw.dll
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.ResolveComReference.cache
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ClassMethodExtractor.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.DeployMetadata.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.EncryptDecryptText.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ExtractFieldsFromMetadata.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ExtractWebsites.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmParseDebugLogs.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmUserSettings.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.GenerateDeploymentPackage.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.MetadataComparison.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.MetadataToolingReportForm.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ObjectFieldInspector.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ObjectModification.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep1.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.Properties.Resources.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.RESTService.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep2.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ConfigurationWorkbook.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmSearch.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.VersionUpdater.resources
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.cache
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CopyComplete
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb
+C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.AssemblyReference.cache
+D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.AssemblyReference.cache

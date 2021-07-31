@@ -1,0 +1,209 @@
+﻿namespace SalesforceMetadata
+{
+    partial class MetadataComparison
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.lblPackageDifferences = new System.Windows.Forms.Label();
+            this.RunComparison = new System.Windows.Forms.Button();
+            this.tbFromFolder = new System.Windows.Forms.TextBox();
+            this.tbToFolder = new System.Windows.Forms.TextBox();
+            this.lblFromFolder = new System.Windows.Forms.Label();
+            this.lblToFolder = new System.Windows.Forms.Label();
+            this.GenerateDeploymentPackage = new System.Windows.Forms.Button();
+            this.treeViewDifferences = new System.Windows.Forms.TreeView();
+            this.btnFindUnusedApexItems = new System.Windows.Forms.Button();
+            this.cbExportXML = new System.Windows.Forms.CheckBox();
+            this.btnExport = new System.Windows.Forms.Button();
+            this.cmbExportType = new System.Windows.Forms.ComboBox();
+            this.SuspendLayout();
+            // 
+            // lblPackageDifferences
+            // 
+            this.lblPackageDifferences.AutoSize = true;
+            this.lblPackageDifferences.Location = new System.Drawing.Point(12, 194);
+            this.lblPackageDifferences.Name = "lblPackageDifferences";
+            this.lblPackageDifferences.Size = new System.Drawing.Size(61, 13);
+            this.lblPackageDifferences.TabIndex = 9;
+            this.lblPackageDifferences.Text = "Differences";
+            // 
+            // RunComparison
+            // 
+            this.RunComparison.Location = new System.Drawing.Point(171, 100);
+            this.RunComparison.Name = "RunComparison";
+            this.RunComparison.Size = new System.Drawing.Size(182, 23);
+            this.RunComparison.TabIndex = 4;
+            this.RunComparison.Text = "Run Comparison";
+            this.RunComparison.UseVisualStyleBackColor = true;
+            this.RunComparison.Click += new System.EventHandler(this.RunComparison_Click);
+            // 
+            // tbFromFolder
+            // 
+            this.tbFromFolder.Location = new System.Drawing.Point(171, 16);
+            this.tbFromFolder.Name = "tbFromFolder";
+            this.tbFromFolder.Size = new System.Drawing.Size(572, 20);
+            this.tbFromFolder.TabIndex = 1;
+            this.tbFromFolder.DoubleClick += new System.EventHandler(this.tbFromFolder_DoubleClick);
+            // 
+            // tbToFolder
+            // 
+            this.tbToFolder.Location = new System.Drawing.Point(171, 57);
+            this.tbToFolder.Name = "tbToFolder";
+            this.tbToFolder.Size = new System.Drawing.Size(572, 20);
+            this.tbToFolder.TabIndex = 3;
+            this.tbToFolder.Tag = "Most of the time this will be your production org";
+            this.tbToFolder.DoubleClick += new System.EventHandler(this.tbToFolder_DoubleClick);
+            // 
+            // lblFromFolder
+            // 
+            this.lblFromFolder.AutoSize = true;
+            this.lblFromFolder.Location = new System.Drawing.Point(12, 19);
+            this.lblFromFolder.Name = "lblFromFolder";
+            this.lblFromFolder.Size = new System.Drawing.Size(71, 13);
+            this.lblFromFolder.TabIndex = 0;
+            this.lblFromFolder.Tag = "Most of the time this will be from your Sandbox Org";
+            this.lblFromFolder.Text = "Master Folder";
+            // 
+            // lblToFolder
+            // 
+            this.lblToFolder.AutoSize = true;
+            this.lblToFolder.Location = new System.Drawing.Point(12, 57);
+            this.lblToFolder.Name = "lblToFolder";
+            this.lblToFolder.Size = new System.Drawing.Size(87, 13);
+            this.lblToFolder.TabIndex = 2;
+            this.lblToFolder.Text = "Compared Folder";
+            // 
+            // GenerateDeploymentPackage
+            // 
+            this.GenerateDeploymentPackage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.GenerateDeploymentPackage.Location = new System.Drawing.Point(948, 129);
+            this.GenerateDeploymentPackage.Name = "GenerateDeploymentPackage";
+            this.GenerateDeploymentPackage.Size = new System.Drawing.Size(182, 23);
+            this.GenerateDeploymentPackage.TabIndex = 11;
+            this.GenerateDeploymentPackage.Text = "Generate Deployment Package";
+            this.GenerateDeploymentPackage.UseVisualStyleBackColor = true;
+            this.GenerateDeploymentPackage.Click += new System.EventHandler(this.GenerateDeploymentPackage_Click);
+            // 
+            // treeViewDifferences
+            // 
+            this.treeViewDifferences.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.treeViewDifferences.CheckBoxes = true;
+            this.treeViewDifferences.Location = new System.Drawing.Point(12, 210);
+            this.treeViewDifferences.Name = "treeViewDifferences";
+            this.treeViewDifferences.Size = new System.Drawing.Size(1339, 581);
+            this.treeViewDifferences.TabIndex = 10;
+            this.treeViewDifferences.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewDifference_AfterCheck);
+            // 
+            // btnFindUnusedApexItems
+            // 
+            this.btnFindUnusedApexItems.Location = new System.Drawing.Point(948, 164);
+            this.btnFindUnusedApexItems.Margin = new System.Windows.Forms.Padding(2);
+            this.btnFindUnusedApexItems.Name = "btnFindUnusedApexItems";
+            this.btnFindUnusedApexItems.Size = new System.Drawing.Size(182, 24);
+            this.btnFindUnusedApexItems.TabIndex = 12;
+            this.btnFindUnusedApexItems.Text = "Find Unused Apex Items";
+            this.btnFindUnusedApexItems.UseVisualStyleBackColor = true;
+            this.btnFindUnusedApexItems.Click += new System.EventHandler(this.btnFindUnusedApexItems_Click);
+            // 
+            // cbExportXML
+            // 
+            this.cbExportXML.AutoSize = true;
+            this.cbExportXML.Enabled = false;
+            this.cbExportXML.Location = new System.Drawing.Point(375, 168);
+            this.cbExportXML.Name = "cbExportXML";
+            this.cbExportXML.Size = new System.Drawing.Size(73, 17);
+            this.cbExportXML.TabIndex = 7;
+            this.cbExportXML.Text = "With XML";
+            this.cbExportXML.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.cbExportXML.UseVisualStyleBackColor = true;
+            // 
+            // btnExport
+            // 
+            this.btnExport.Enabled = false;
+            this.btnExport.Location = new System.Drawing.Point(499, 163);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(182, 24);
+            this.btnExport.TabIndex = 5;
+            this.btnExport.Text = "Export";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
+            // cmbExportType
+            // 
+            this.cmbExportType.FormattingEnabled = true;
+            this.cmbExportType.Items.AddRange(new object[] {
+            "Export All to CSV",
+            "Export All to Excel",
+            "Export Selected to CSV",
+            "Export Selected to Excel"});
+            this.cmbExportType.Location = new System.Drawing.Point(171, 163);
+            this.cmbExportType.Name = "cmbExportType";
+            this.cmbExportType.Size = new System.Drawing.Size(182, 21);
+            this.cmbExportType.TabIndex = 13;
+            this.cmbExportType.Text = "Export All to CSV";
+            // 
+            // MetadataComparison
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1363, 803);
+            this.Controls.Add(this.cmbExportType);
+            this.Controls.Add(this.btnExport);
+            this.Controls.Add(this.cbExportXML);
+            this.Controls.Add(this.btnFindUnusedApexItems);
+            this.Controls.Add(this.treeViewDifferences);
+            this.Controls.Add(this.GenerateDeploymentPackage);
+            this.Controls.Add(this.lblToFolder);
+            this.Controls.Add(this.lblFromFolder);
+            this.Controls.Add(this.tbToFolder);
+            this.Controls.Add(this.tbFromFolder);
+            this.Controls.Add(this.RunComparison);
+            this.Controls.Add(this.lblPackageDifferences);
+            this.Name = "MetadataComparison";
+            this.Text = "Comparison Form";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+        private System.Windows.Forms.Label lblPackageDifferences;
+        private System.Windows.Forms.Button RunComparison;
+        private System.Windows.Forms.Label lblFromFolder;
+        private System.Windows.Forms.Label lblToFolder;
+        private System.Windows.Forms.Button GenerateDeploymentPackage;
+        public System.Windows.Forms.TextBox tbFromFolder;
+        public System.Windows.Forms.TextBox tbToFolder;
+        private System.Windows.Forms.TreeView treeViewDifferences;
+        private System.Windows.Forms.Button btnFindUnusedApexItems;
+        private System.Windows.Forms.CheckBox cbExportXML;
+        private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.ComboBox cmbExportType;
+    }
+}

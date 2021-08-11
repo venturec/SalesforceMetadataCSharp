@@ -3582,12 +3582,23 @@ namespace SalesforceMetadata
 
         /*****************************************************************************************************/
         // This readjusts the column names to allow for a better report format
+        // The reason for the two blanks at the beginning are for the purpose of finding the Index which leads to setting 
+        // the proper Excel column. For example, when getting the IndexOf("field"), the return value will be 2.
+        // Excel column numbers cannot be set to 0.
         public static List<String> getSubHeaderNames(String folderName, String parentNode)
         {
             List<String> subHeaderNames = new List<string>();
             if (folderName == "permissionsets")
             {
-                if (parentNode == "objectPermissions")
+                if (parentNode == "fieldPermissions")
+                {
+                    subHeaderNames.Add("");
+                    subHeaderNames.Add("");
+                    subHeaderNames.Add("field");
+                    subHeaderNames.Add("readable");
+                    subHeaderNames.Add("editable");
+                }
+                else if (parentNode == "objectPermissions")
                 {
                     subHeaderNames.Add("");
                     subHeaderNames.Add("");
@@ -3603,33 +3614,30 @@ namespace SalesforceMetadata
                 {
                     subHeaderNames.Add("");
                     subHeaderNames.Add("");
-                    subHeaderNames.Add("object");
                     subHeaderNames.Add("recordType");
                     subHeaderNames.Add("visible");
                     subHeaderNames.Add("default");
                     subHeaderNames.Add("personAccountDefault");
                 }
-                else if (parentNode == "fieldPermissions")
-                {
-                    subHeaderNames.Add("");
-                    subHeaderNames.Add("");
-                    subHeaderNames.Add("object");
-                    subHeaderNames.Add("field");
-                    subHeaderNames.Add("readable");
-                    subHeaderNames.Add("editable");
-                }
                 else if (parentNode == "userPermissions")
                 {
                     subHeaderNames.Add("");
                     subHeaderNames.Add("");
-                    subHeaderNames.Add("object");
                     subHeaderNames.Add("name");
                     subHeaderNames.Add("enabled");
                 }
             }
             else if (folderName == "profiles")
             {
-                if (parentNode == "objectPermissions")
+                if (parentNode == "fieldPermissions")
+                {
+                    subHeaderNames.Add("");
+                    subHeaderNames.Add("");
+                    subHeaderNames.Add("field");
+                    subHeaderNames.Add("readable");
+                    subHeaderNames.Add("editable");
+                }
+                else if (parentNode == "objectPermissions")
                 {
                     subHeaderNames.Add("");
                     subHeaderNames.Add("");
@@ -3649,14 +3657,6 @@ namespace SalesforceMetadata
                     subHeaderNames.Add("visible");
                     subHeaderNames.Add("default");
                     subHeaderNames.Add("personAccountDefault");
-                }
-                else if (parentNode == "fieldPermissions")
-                {
-                    subHeaderNames.Add("");
-                    subHeaderNames.Add("");
-                    subHeaderNames.Add("field");
-                    subHeaderNames.Add("readable");
-                    subHeaderNames.Add("editable");
                 }
                 else if (parentNode == "userPermissions")
                 {

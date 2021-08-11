@@ -400,21 +400,21 @@ namespace SalesforceMetadata
 
                     writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, "Apex Classes");
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        14,
-                                        255,
-                                        255,
-                                        255,
-                                        63,
-                                        98,
-                                        174,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    14,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    63,
+                    //                    98,
+                    //                    174,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd += 2;
                     rowStart = rowEnd;
@@ -436,21 +436,21 @@ namespace SalesforceMetadata
                         writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol[colName], colName);
                     }
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        10,
-                                        255,
-                                        255,
-                                        255,
-                                        0,
-                                        51,
-                                        102,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    10,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    0,
+                    //                    51,
+                    //                    102,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd++;
                     lastRowNumber = rowEnd;
@@ -468,21 +468,21 @@ namespace SalesforceMetadata
                         if (fl.EndsWith(".xml"))
                         {
                             writeDataToExcelSheet(xlWorksheet, rowEnd, 2, objectName);
-                            addFormatToExcelRange(xlWorksheet,
-                                                rowEnd,
-                                                rowEnd,
-                                                2,
-                                                2,
-                                                10,
-                                                0,
-                                                0,
-                                                0,
-                                                192,
-                                                192,
-                                                192,
-                                                false,
-                                                true,
-                                                "");
+                            //addFormatToExcelRange(xlWorksheet,
+                            //                    rowEnd,
+                            //                    rowEnd,
+                            //                    2,
+                            //                    2,
+                            //                    10,
+                            //                    0,
+                            //                    0,
+                            //                    0,
+                            //                    192,
+                            //                    192,
+                            //                    192,
+                            //                    false,
+                            //                    true,
+                            //                    "");
 
                             XmlDocument xd = new XmlDocument();
                             xd.Load(fl);
@@ -509,21 +509,21 @@ namespace SalesforceMetadata
                             if (fileContents.ToLower().Contains("@istest"))
                             {
                                 writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, "TRUE");
-                                addFormatToExcelRange(xlWorksheet,
-                                                    rowEnd,
-                                                    rowEnd,
-                                                    colEnd,
-                                                    colEnd,
-                                                    10,
-                                                    0,
-                                                    0,
-                                                    0,
-                                                    255,
-                                                    255,
-                                                    255,
-                                                    false,
-                                                    false,
-                                                    "TRUE");
+                                //addFormatToExcelRange(xlWorksheet,
+                                //                    rowEnd,
+                                //                    rowEnd,
+                                //                    colEnd,
+                                //                    colEnd,
+                                //                    10,
+                                //                    0,
+                                //                    0,
+                                //                    0,
+                                //                    255,
+                                //                    255,
+                                //                    255,
+                                //                    false,
+                                //                    false,
+                                //                    "TRUE");
 
                             }
                             else
@@ -560,21 +560,21 @@ namespace SalesforceMetadata
 
                     writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, "Cors Whitelist Origin");
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        14,
-                                        255,
-                                        255,
-                                        255,
-                                        63,
-                                        98,
-                                        174,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    14,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    63,
+                    //                    98,
+                    //                    174,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd += 2;
                     rowStart = rowEnd;
@@ -594,21 +594,21 @@ namespace SalesforceMetadata
                         writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol[colName], colName);
                     }
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        10,
-                                        255,
-                                        255,
-                                        255,
-                                        0,
-                                        51,
-                                        102,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    10,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    0,
+                    //                    51,
+                    //                    102,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd++;
                     lastRowNumber = rowEnd;
@@ -617,21 +617,21 @@ namespace SalesforceMetadata
                     {
                         // Write the file name value in the appropriate column
                         writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol["Name"], fullObjectNameExtract(fl));
-                        addFormatToExcelRange(xlWorksheet,
-                                            rowEnd,
-                                            rowEnd,
-                                            nodeNameToCol["Name"],
-                                            nodeNameToCol["Name"],
-                                            10,
-                                            0,
-                                            0,
-                                            0,
-                                            255,
-                                            255,
-                                            255,
-                                            false,
-                                            false,
-                                            fullObjectNameExtract(fl));
+                        //addFormatToExcelRange(xlWorksheet,
+                        //                    rowEnd,
+                        //                    rowEnd,
+                        //                    nodeNameToCol["Name"],
+                        //                    nodeNameToCol["Name"],
+                        //                    10,
+                        //                    0,
+                        //                    0,
+                        //                    0,
+                        //                    255,
+                        //                    255,
+                        //                    255,
+                        //                    false,
+                        //                    false,
+                        //                    fullObjectNameExtract(fl));
 
                         XmlDocument xd = new XmlDocument();
                         xd.Load(fl);
@@ -643,21 +643,21 @@ namespace SalesforceMetadata
                                 if (nd2.Name != "xml")
                                 {
                                     writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol[nd2.Name], nd2.InnerText);
-                                    addFormatToExcelRange(xlWorksheet,
-                                                        rowEnd,
-                                                        rowEnd,
-                                                        nodeNameToCol[nd2.Name],
-                                                        nodeNameToCol[nd2.Name],
-                                                        10,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        255,
-                                                        255,
-                                                        255,
-                                                        false,
-                                                        false,
-                                                        nd2.InnerText);
+                                    //addFormatToExcelRange(xlWorksheet,
+                                    //                    rowEnd,
+                                    //                    rowEnd,
+                                    //                    nodeNameToCol[nd2.Name],
+                                    //                    nodeNameToCol[nd2.Name],
+                                    //                    10,
+                                    //                    0,
+                                    //                    0,
+                                    //                    0,
+                                    //                    255,
+                                    //                    255,
+                                    //                    255,
+                                    //                    false,
+                                    //                    false,
+                                    //                    nd2.InnerText);
 
                                     rowEnd++;
                                 }
@@ -688,21 +688,21 @@ namespace SalesforceMetadata
 
                     writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, "Apex Components");
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        14,
-                                        255,
-                                        255,
-                                        255,
-                                        63,
-                                        98,
-                                        174,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    14,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    63,
+                    //                    98,
+                    //                    174,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd += 2;
                     rowStart = rowEnd;
@@ -721,21 +721,21 @@ namespace SalesforceMetadata
                         writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol[colName], colName);
                     }
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd - 1,
-                                        10,
-                                        255,
-                                        255,
-                                        255,
-                                        0,
-                                        51,
-                                        102,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd - 1,
+                    //                    10,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    0,
+                    //                    51,
+                    //                    102,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd++;
                     lastRowNumber = rowEnd;
@@ -753,21 +753,21 @@ namespace SalesforceMetadata
                         if (fl.EndsWith(".xml"))
                         {
                             writeDataToExcelSheet(xlWorksheet, rowEnd, 2, objectName);
-                            addFormatToExcelRange(xlWorksheet,
-                                                rowEnd,
-                                                rowEnd,
-                                                2,
-                                                2,
-                                                10,
-                                                0,
-                                                0,
-                                                0,
-                                                192,
-                                                192,
-                                                192,
-                                                false,
-                                                true,
-                                                "");
+                            //addFormatToExcelRange(xlWorksheet,
+                            //                    rowEnd,
+                            //                    rowEnd,
+                            //                    2,
+                            //                    2,
+                            //                    10,
+                            //                    0,
+                            //                    0,
+                            //                    0,
+                            //                    192,
+                            //                    192,
+                            //                    192,
+                            //                    false,
+                            //                    true,
+                            //                    "");
 
                             XmlDocument xd = new XmlDocument();
                             xd.Load(fl);
@@ -814,21 +814,21 @@ namespace SalesforceMetadata
 
                     writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, "CSP Trusted Sites");
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        14,
-                                        255,
-                                        255,
-                                        255,
-                                        63,
-                                        98,
-                                        174,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    14,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    63,
+                    //                    98,
+                    //                    174,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd += 2;
                     rowStart = rowEnd;
@@ -848,21 +848,21 @@ namespace SalesforceMetadata
                         writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol[colName], colName);
                     }
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        10,
-                                        255,
-                                        255,
-                                        255,
-                                        0,
-                                        51,
-                                        102,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    10,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    0,
+                    //                    51,
+                    //                    102,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd++;
                     lastRowNumber = rowEnd;
@@ -871,21 +871,21 @@ namespace SalesforceMetadata
                     {
                         // Write the file name value in the appropriate column
                         writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol["Name"], fullObjectNameExtract(fl));
-                        addFormatToExcelRange(xlWorksheet,
-                                            rowEnd,
-                                            rowEnd,
-                                            nodeNameToCol["Name"],
-                                            nodeNameToCol["Name"],
-                                            10,
-                                            0,
-                                            0,
-                                            0,
-                                            255,
-                                            255,
-                                            255,
-                                            false,
-                                            false,
-                                            fullObjectNameExtract(fl));
+                        //addFormatToExcelRange(xlWorksheet,
+                        //                    rowEnd,
+                        //                    rowEnd,
+                        //                    nodeNameToCol["Name"],
+                        //                    nodeNameToCol["Name"],
+                        //                    10,
+                        //                    0,
+                        //                    0,
+                        //                    0,
+                        //                    255,
+                        //                    255,
+                        //                    255,
+                        //                    false,
+                        //                    false,
+                        //                    fullObjectNameExtract(fl));
 
                         XmlDocument xd = new XmlDocument();
                         xd.Load(fl);
@@ -897,21 +897,21 @@ namespace SalesforceMetadata
                                 if (nd2.Name != "xml")
                                 {
                                     writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol[nd2.Name], nd2.InnerText);
-                                    addFormatToExcelRange(xlWorksheet,
-                                                        rowEnd,
-                                                        rowEnd,
-                                                        nodeNameToCol[nd2.Name],
-                                                        nodeNameToCol[nd2.Name],
-                                                        10,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        255,
-                                                        255,
-                                                        255,
-                                                        false,
-                                                        false,
-                                                        nd2.InnerText);
+                                    //addFormatToExcelRange(xlWorksheet,
+                                    //                    rowEnd,
+                                    //                    rowEnd,
+                                    //                    nodeNameToCol[nd2.Name],
+                                    //                    nodeNameToCol[nd2.Name],
+                                    //                    10,
+                                    //                    0,
+                                    //                    0,
+                                    //                    0,
+                                    //                    255,
+                                    //                    255,
+                                    //                    255,
+                                    //                    false,
+                                    //                    false,
+                                    //                    nd2.InnerText);
                                 }
                             }
                         }
@@ -942,21 +942,21 @@ namespace SalesforceMetadata
 
                     writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, "Email Services");
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        14,
-                                        255,
-                                        255,
-                                        255,
-                                        63,
-                                        98,
-                                        174,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    14,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    63,
+                    //                    98,
+                    //                    174,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd += 2;
                     rowStart = rowEnd;
@@ -976,21 +976,21 @@ namespace SalesforceMetadata
                         writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol[colName], colName);
                     }
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        10,
-                                        255,
-                                        255,
-                                        255,
-                                        0,
-                                        51,
-                                        102,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    10,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    0,
+                    //                    51,
+                    //                    102,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd++;
                     lastRowNumber = rowEnd;
@@ -999,21 +999,21 @@ namespace SalesforceMetadata
                     {
                         // Write the file name value in the appropriate column
                         writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol["Name"], fullObjectNameExtract(fl));
-                        addFormatToExcelRange(xlWorksheet,
-                                            rowEnd,
-                                            rowEnd,
-                                            nodeNameToCol["Name"],
-                                            nodeNameToCol["Name"],
-                                            10,
-                                            0,
-                                            0,
-                                            0,
-                                            255,
-                                            255,
-                                            255,
-                                            false,
-                                            false,
-                                            fullObjectNameExtract(fl));
+                        //addFormatToExcelRange(xlWorksheet,
+                        //                    rowEnd,
+                        //                    rowEnd,
+                        //                    nodeNameToCol["Name"],
+                        //                    nodeNameToCol["Name"],
+                        //                    10,
+                        //                    0,
+                        //                    0,
+                        //                    0,
+                        //                    255,
+                        //                    255,
+                        //                    255,
+                        //                    false,
+                        //                    false,
+                        //                    fullObjectNameExtract(fl));
 
                         XmlDocument xd = new XmlDocument();
                         xd.Load(fl);
@@ -1025,21 +1025,21 @@ namespace SalesforceMetadata
                                 if (nd2.Name != "xml")
                                 {
                                     writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol[nd2.Name], nd2.InnerText);
-                                    addFormatToExcelRange(xlWorksheet,
-                                                        rowEnd,
-                                                        rowEnd,
-                                                        nodeNameToCol[nd2.Name],
-                                                        nodeNameToCol[nd2.Name],
-                                                        10,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        255,
-                                                        255,
-                                                        255,
-                                                        false,
-                                                        false,
-                                                        nd2.InnerText);
+                                    //addFormatToExcelRange(xlWorksheet,
+                                    //                    rowEnd,
+                                    //                    rowEnd,
+                                    //                    nodeNameToCol[nd2.Name],
+                                    //                    nodeNameToCol[nd2.Name],
+                                    //                    10,
+                                    //                    0,
+                                    //                    0,
+                                    //                    0,
+                                    //                    255,
+                                    //                    255,
+                                    //                    255,
+                                    //                    false,
+                                    //                    false,
+                                    //                    nd2.InnerText);
                                 }
                             }
                         }
@@ -1071,21 +1071,21 @@ namespace SalesforceMetadata
 
                     writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, "Installed Packages");
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        14,
-                                        255,
-                                        255,
-                                        255,
-                                        63,
-                                        98,
-                                        174,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    14,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    63,
+                    //                    98,
+                    //                    174,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd += 2;
                     rowStart = rowEnd;
@@ -1105,21 +1105,21 @@ namespace SalesforceMetadata
                         writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol[colName], colName);
                     }
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        10,
-                                        255,
-                                        255,
-                                        255,
-                                        0,
-                                        51,
-                                        102,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    10,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    0,
+                    //                    51,
+                    //                    102,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd++;
                     lastRowNumber = rowEnd;
@@ -1128,21 +1128,21 @@ namespace SalesforceMetadata
                     {
                         // Write the file name value in the appropriate column
                         writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol["Name"], fullObjectNameExtract(fl));
-                        addFormatToExcelRange(xlWorksheet,
-                                            rowEnd,
-                                            rowEnd,
-                                            nodeNameToCol["Name"],
-                                            nodeNameToCol["Name"],
-                                            10,
-                                            0,
-                                            0,
-                                            0,
-                                            255,
-                                            255,
-                                            255,
-                                            false,
-                                            false,
-                                            fullObjectNameExtract(fl));
+                        //addFormatToExcelRange(xlWorksheet,
+                        //                    rowEnd,
+                        //                    rowEnd,
+                        //                    nodeNameToCol["Name"],
+                        //                    nodeNameToCol["Name"],
+                        //                    10,
+                        //                    0,
+                        //                    0,
+                        //                    0,
+                        //                    255,
+                        //                    255,
+                        //                    255,
+                        //                    false,
+                        //                    false,
+                        //                    fullObjectNameExtract(fl));
 
                         XmlDocument xd = new XmlDocument();
                         xd.Load(fl);
@@ -1154,21 +1154,21 @@ namespace SalesforceMetadata
                                 if (nd2.Name != "xml")
                                 {
                                     writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol[nd2.Name], nd2.InnerText);
-                                    addFormatToExcelRange(xlWorksheet,
-                                                        rowEnd,
-                                                        rowEnd,
-                                                        nodeNameToCol[nd2.Name],
-                                                        nodeNameToCol[nd2.Name],
-                                                        10,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        255,
-                                                        255,
-                                                        255,
-                                                        false,
-                                                        false,
-                                                        nd2.InnerText);
+                                    //addFormatToExcelRange(xlWorksheet,
+                                    //                    rowEnd,
+                                    //                    rowEnd,
+                                    //                    nodeNameToCol[nd2.Name],
+                                    //                    nodeNameToCol[nd2.Name],
+                                    //                    10,
+                                    //                    0,
+                                    //                    0,
+                                    //                    0,
+                                    //                    255,
+                                    //                    255,
+                                    //                    255,
+                                    //                    false,
+                                    //                    false,
+                                    //                    nd2.InnerText);
                                 }
                             }
                         }
@@ -1203,21 +1203,21 @@ namespace SalesforceMetadata
 
                     writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, "Named Credentials");
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        14,
-                                        255,
-                                        255,
-                                        255,
-                                        63,
-                                        98,
-                                        174,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    14,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    63,
+                    //                    98,
+                    //                    174,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd += 2;
                     rowStart = rowEnd;
@@ -1237,21 +1237,21 @@ namespace SalesforceMetadata
                         writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol[colName], colName);
                     }
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        10,
-                                        255,
-                                        255,
-                                        255,
-                                        0,
-                                        51,
-                                        102,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    10,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    0,
+                    //                    51,
+                    //                    102,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd++;
                     lastRowNumber = rowEnd;
@@ -1260,21 +1260,21 @@ namespace SalesforceMetadata
                     {
                         // Write the file name value in the appropriate column
                         writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol["Name"], fullObjectNameExtract(fl));
-                        addFormatToExcelRange(xlWorksheet,
-                                            rowEnd,
-                                            rowEnd,
-                                            nodeNameToCol["Name"],
-                                            nodeNameToCol["Name"],
-                                            10,
-                                            0,
-                                            0,
-                                            0,
-                                            255,
-                                            255,
-                                            255,
-                                            false,
-                                            false,
-                                            fullObjectNameExtract(fl));
+                        //addFormatToExcelRange(xlWorksheet,
+                        //                    rowEnd,
+                        //                    rowEnd,
+                        //                    nodeNameToCol["Name"],
+                        //                    nodeNameToCol["Name"],
+                        //                    10,
+                        //                    0,
+                        //                    0,
+                        //                    0,
+                        //                    255,
+                        //                    255,
+                        //                    255,
+                        //                    false,
+                        //                    false,
+                        //                    fullObjectNameExtract(fl));
 
                         XmlDocument xd = new XmlDocument();
                         xd.Load(fl);
@@ -1286,21 +1286,21 @@ namespace SalesforceMetadata
                                 if (nd2.Name != "xml")
                                 {
                                     writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol[nd2.Name], nd2.InnerText);
-                                    addFormatToExcelRange(xlWorksheet,
-                                                        rowEnd,
-                                                        rowEnd,
-                                                        nodeNameToCol[nd2.Name],
-                                                        nodeNameToCol[nd2.Name],
-                                                        10,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        255,
-                                                        255,
-                                                        255,
-                                                        false,
-                                                        false,
-                                                        nd2.InnerText);
+                                    //addFormatToExcelRange(xlWorksheet,
+                                    //                    rowEnd,
+                                    //                    rowEnd,
+                                    //                    nodeNameToCol[nd2.Name],
+                                    //                    nodeNameToCol[nd2.Name],
+                                    //                    10,
+                                    //                    0,
+                                    //                    0,
+                                    //                    0,
+                                    //                    255,
+                                    //                    255,
+                                    //                    255,
+                                    //                    false,
+                                    //                    false,
+                                    //                    nd2.InnerText);
                                 }
                             }
                         }
@@ -1332,21 +1332,21 @@ namespace SalesforceMetadata
 
                     writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, "Visualforce Pages");
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        14,
-                                        255,
-                                        255,
-                                        255,
-                                        63,
-                                        98,
-                                        174,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    14,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    63,
+                    //                    98,
+                    //                    174,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd += 2;
                     rowStart = rowEnd;
@@ -1365,21 +1365,21 @@ namespace SalesforceMetadata
                         writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol[colName], colName);
                     }
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd - 1,
-                                        10,
-                                        255,
-                                        255,
-                                        255,
-                                        0,
-                                        51,
-                                        102,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd - 1,
+                    //                    10,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    0,
+                    //                    51,
+                    //                    102,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd++;
                     lastRowNumber = rowEnd;
@@ -1397,21 +1397,21 @@ namespace SalesforceMetadata
                         if (fl.EndsWith(".xml"))
                         {
                             writeDataToExcelSheet(xlWorksheet, rowEnd, 2, objectName);
-                            addFormatToExcelRange(xlWorksheet,
-                                                rowEnd,
-                                                rowEnd,
-                                                2,
-                                                2,
-                                                10,
-                                                0,
-                                                0,
-                                                0,
-                                                192,
-                                                192,
-                                                192,
-                                                false,
-                                                true,
-                                                "");
+                            //addFormatToExcelRange(xlWorksheet,
+                            //                    rowEnd,
+                            //                    rowEnd,
+                            //                    2,
+                            //                    2,
+                            //                    10,
+                            //                    0,
+                            //                    0,
+                            //                    0,
+                            //                    192,
+                            //                    192,
+                            //                    192,
+                            //                    false,
+                            //                    true,
+                            //                    "");
 
                             XmlDocument xd = new XmlDocument();
                             xd.Load(fl);
@@ -1458,21 +1458,21 @@ namespace SalesforceMetadata
 
                     writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, "Profile Password Policies");
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        14,
-                                        255,
-                                        255,
-                                        255,
-                                        63,
-                                        98,
-                                        174,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    14,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    63,
+                    //                    98,
+                    //                    174,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd += 2;
                     rowStart = rowEnd;
@@ -1492,21 +1492,21 @@ namespace SalesforceMetadata
                         writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol[colName], colName);
                     }
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        10,
-                                        255,
-                                        255,
-                                        255,
-                                        0,
-                                        51,
-                                        102,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    10,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    0,
+                    //                    51,
+                    //                    102,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd++;
                     lastRowNumber = rowEnd;
@@ -1515,21 +1515,21 @@ namespace SalesforceMetadata
                     {
                         // Write the file name value in the appropriate column
                         writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol["Name"], fullObjectNameExtract(fl));
-                        addFormatToExcelRange(xlWorksheet,
-                                            rowEnd,
-                                            rowEnd,
-                                            nodeNameToCol["Name"],
-                                            nodeNameToCol["Name"],
-                                            10,
-                                            0,
-                                            0,
-                                            0,
-                                            255,
-                                            255,
-                                            255,
-                                            false,
-                                            false,
-                                            fullObjectNameExtract(fl));
+                        //addFormatToExcelRange(xlWorksheet,
+                        //                    rowEnd,
+                        //                    rowEnd,
+                        //                    nodeNameToCol["Name"],
+                        //                    nodeNameToCol["Name"],
+                        //                    10,
+                        //                    0,
+                        //                    0,
+                        //                    0,
+                        //                    255,
+                        //                    255,
+                        //                    255,
+                        //                    false,
+                        //                    false,
+                        //                    fullObjectNameExtract(fl));
 
                         XmlDocument xd = new XmlDocument();
                         xd.Load(fl);
@@ -1541,21 +1541,21 @@ namespace SalesforceMetadata
                                 if (nd2.Name != "xml")
                                 {
                                     writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol[nd2.Name], nd2.InnerText);
-                                    addFormatToExcelRange(xlWorksheet,
-                                                        rowEnd,
-                                                        rowEnd,
-                                                        nodeNameToCol[nd2.Name],
-                                                        nodeNameToCol[nd2.Name],
-                                                        10,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        255,
-                                                        255,
-                                                        255,
-                                                        false,
-                                                        false,
-                                                        nd2.InnerText);
+                                    //addFormatToExcelRange(xlWorksheet,
+                                    //                    rowEnd,
+                                    //                    rowEnd,
+                                    //                    nodeNameToCol[nd2.Name],
+                                    //                    nodeNameToCol[nd2.Name],
+                                    //                    10,
+                                    //                    0,
+                                    //                    0,
+                                    //                    0,
+                                    //                    255,
+                                    //                    255,
+                                    //                    255,
+                                    //                    false,
+                                    //                    false,
+                                    //                    nd2.InnerText);
                                 }
                             }
                         }
@@ -1586,21 +1586,21 @@ namespace SalesforceMetadata
 
                     writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, "Remote Site Settings");
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        14,
-                                        255,
-                                        255,
-                                        255,
-                                        63,
-                                        98,
-                                        174,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    14,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    63,
+                    //                    98,
+                    //                    174,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd += 2;
                     rowStart = rowEnd;
@@ -1620,21 +1620,21 @@ namespace SalesforceMetadata
                         writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol[colName], colName);
                     }
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        10,
-                                        255,
-                                        255,
-                                        255,
-                                        0,
-                                        51,
-                                        102,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    10,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    0,
+                    //                    51,
+                    //                    102,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd++;
                     lastRowNumber = rowEnd;
@@ -1643,21 +1643,21 @@ namespace SalesforceMetadata
                     {
                         // Write the file name value in the appropriate column
                         writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol["Name"], fullObjectNameExtract(fl));
-                        addFormatToExcelRange(xlWorksheet,
-                                            rowEnd,
-                                            rowEnd,
-                                            nodeNameToCol["Name"],
-                                            nodeNameToCol["Name"],
-                                            10,
-                                            0,
-                                            0,
-                                            0,
-                                            255,
-                                            255,
-                                            255,
-                                            false,
-                                            false,
-                                            fullObjectNameExtract(fl));
+                        //addFormatToExcelRange(xlWorksheet,
+                        //                    rowEnd,
+                        //                    rowEnd,
+                        //                    nodeNameToCol["Name"],
+                        //                    nodeNameToCol["Name"],
+                        //                    10,
+                        //                    0,
+                        //                    0,
+                        //                    0,
+                        //                    255,
+                        //                    255,
+                        //                    255,
+                        //                    false,
+                        //                    false,
+                        //                    fullObjectNameExtract(fl));
 
                         XmlDocument xd = new XmlDocument();
                         xd.Load(fl);
@@ -1669,21 +1669,21 @@ namespace SalesforceMetadata
                                 if (nd2.Name != "xml")
                                 {
                                     writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol[nd2.Name], nd2.InnerText);
-                                    addFormatToExcelRange(xlWorksheet,
-                                                        rowEnd,
-                                                        rowEnd,
-                                                        nodeNameToCol[nd2.Name],
-                                                        nodeNameToCol[nd2.Name],
-                                                        10,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        255,
-                                                        255,
-                                                        255,
-                                                        false,
-                                                        false,
-                                                        nd2.InnerText);
+                                    //addFormatToExcelRange(xlWorksheet,
+                                    //                    rowEnd,
+                                    //                    rowEnd,
+                                    //                    nodeNameToCol[nd2.Name],
+                                    //                    nodeNameToCol[nd2.Name],
+                                    //                    10,
+                                    //                    0,
+                                    //                    0,
+                                    //                    0,
+                                    //                    255,
+                                    //                    255,
+                                    //                    255,
+                                    //                    false,
+                                    //                    false,
+                                    //                    nd2.InnerText);
                                 }
                             }
                         }
@@ -1714,21 +1714,21 @@ namespace SalesforceMetadata
 
                     writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, "Static Resources");
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        14,
-                                        255,
-                                        255,
-                                        255,
-                                        63,
-                                        98,
-                                        174,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    14,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    63,
+                    //                    98,
+                    //                    174,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd += 2;
                     rowStart = rowEnd;
@@ -1747,21 +1747,21 @@ namespace SalesforceMetadata
                         writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol[colName], colName);
                     }
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd - 1,
-                                        10,
-                                        255,
-                                        255,
-                                        255,
-                                        0,
-                                        51,
-                                        102,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd - 1,
+                    //                    10,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    0,
+                    //                    51,
+                    //                    102,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd++;
                     lastRowNumber = rowEnd;
@@ -1779,21 +1779,21 @@ namespace SalesforceMetadata
                         if (fl.EndsWith(".xml"))
                         {
                             writeDataToExcelSheet(xlWorksheet, rowEnd, 2, objectName);
-                            addFormatToExcelRange(xlWorksheet,
-                                                rowEnd,
-                                                rowEnd,
-                                                2,
-                                                2,
-                                                10,
-                                                0,
-                                                0,
-                                                0,
-                                                192,
-                                                192,
-                                                192,
-                                                false,
-                                                true,
-                                                "");
+                            //addFormatToExcelRange(xlWorksheet,
+                            //                    rowEnd,
+                            //                    rowEnd,
+                            //                    2,
+                            //                    2,
+                            //                    10,
+                            //                    0,
+                            //                    0,
+                            //                    0,
+                            //                    192,
+                            //                    192,
+                            //                    192,
+                            //                    false,
+                            //                    true,
+                            //                    "");
 
                             XmlDocument xd = new XmlDocument();
                             xd.Load(fl);
@@ -1840,21 +1840,21 @@ namespace SalesforceMetadata
 
                     writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, "Apex Triggers");
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        14,
-                                        255,
-                                        255,
-                                        255,
-                                        63,
-                                        98,
-                                        174,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    14,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    63,
+                    //                    98,
+                    //                    174,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd += 2;
                     rowStart = rowEnd;
@@ -1898,21 +1898,21 @@ namespace SalesforceMetadata
                         writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol[colName], colName);
                     }
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd - 1,
-                                        10,
-                                        255,
-                                        255,
-                                        255,
-                                        0,
-                                        51,
-                                        102,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd - 1,
+                    //                    10,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    0,
+                    //                    51,
+                    //                    102,
+                    //                    true,
+                    //                    false,
+                    //                    "");
 
                     rowEnd++;
                     lastRowNumber = rowEnd;
@@ -1930,21 +1930,21 @@ namespace SalesforceMetadata
                         if (fl.EndsWith(".xml"))
                         {
                             writeDataToExcelSheet(xlWorksheet, rowEnd, 2, objectName);
-                            addFormatToExcelRange(xlWorksheet,
-                                                rowEnd,
-                                                rowEnd,
-                                                2,
-                                                2,
-                                                10,
-                                                0,
-                                                0,
-                                                0,
-                                                192,
-                                                192,
-                                                192,
-                                                false,
-                                                true,
-                                                "");
+                            //addFormatToExcelRange(xlWorksheet,
+                            //                    rowEnd,
+                            //                    rowEnd,
+                            //                    2,
+                            //                    2,
+                            //                    10,
+                            //                    0,
+                            //                    0,
+                            //                    0,
+                            //                    192,
+                            //                    192,
+                            //                    192,
+                            //                    false,
+                            //                    true,
+                            //                    "");
 
                             XmlDocument xd = new XmlDocument();
                             xd.Load(fl);
@@ -2063,7 +2063,7 @@ namespace SalesforceMetadata
 
             foreach (ExcelBorderFormat ebf in excelBorderFormatList)
             {
-                applyExcelBorder(ebf);
+                //applyExcelBorder(ebf);
                 this.cwProgressBar.PerformStep();
             }
 
@@ -2080,7 +2080,7 @@ namespace SalesforceMetadata
 
             foreach (ExcelRangeFormat erf in excelRangeFormatList)
             {
-                formatExcelRange(erf);
+                //formatExcelRange(erf);
                 this.cwProgressBar.PerformStep();
             }
 
@@ -2163,21 +2163,21 @@ namespace SalesforceMetadata
                     colEnd++;
                     writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, fullObjectName);
 
-                    addFormatToExcelRange(xlWorksheet,
-                                        rowStart,
-                                        rowEnd,
-                                        colStart,
-                                        colEnd,
-                                        14,
-                                        255,
-                                        255,
-                                        255,
-                                        63,
-                                        98,
-                                        174,
-                                        true,
-                                        false,
-                                        "");
+                    //addFormatToExcelRange(xlWorksheet,
+                    //                    rowStart,
+                    //                    rowEnd,
+                    //                    colStart,
+                    //                    colEnd,
+                    //                    14,
+                    //                    255,
+                    //                    255,
+                    //                    255,
+                    //                    63,
+                    //                    98,
+                    //                    174,
+                    //                    true,
+                    //                    false,
+                    //                    "");
                 }
 
 
@@ -2314,21 +2314,21 @@ namespace SalesforceMetadata
                                                        columnNames7, 
                                                        columnNames8);
 
-                            addFormatToExcelRange(xlWorksheet,
-                                                rowStart,
-                                                rowEnd,
-                                                colStart,
-                                                colEnd,
-                                                10,
-                                                255,
-                                                255,
-                                                255,
-                                                0,
-                                                51,
-                                                102,
-                                                true,
-                                                false,
-                                                "");
+                            //addFormatToExcelRange(xlWorksheet,
+                            //                    rowStart,
+                            //                    rowEnd,
+                            //                    colStart,
+                            //                    colEnd,
+                            //                    10,
+                            //                    255,
+                            //                    255,
+                            //                    255,
+                            //                    0,
+                            //                    51,
+                            //                    102,
+                            //                    true,
+                            //                    false,
+                            //                    "");
 
                             nodeNameToCol2[colHeader2] = colEnd;
                             sectionColumnEnd = colEnd;
@@ -2356,42 +2356,42 @@ namespace SalesforceMetadata
                             if (colOffset3 >= 0)
                             {
                                 writeDataToExcelSheet(xlWorksheet, rowEnd, colOffset3, colHeader3);
-                                addFormatToExcelRange(xlWorksheet,
-                                                    rowEnd,
-                                                    rowEnd,
-                                                    colOffset3,
-                                                    colOffset3,
-                                                    10,
-                                                    0,
-                                                    0,
-                                                    0,
-                                                    192,
-                                                    192,
-                                                    192,
-                                                    false,
-                                                    true,
-                                                    "");
+                                //addFormatToExcelRange(xlWorksheet,
+                                //                    rowEnd,
+                                //                    rowEnd,
+                                //                    colOffset3,
+                                //                    colOffset3,
+                                //                    10,
+                                //                    0,
+                                //                    0,
+                                //                    0,
+                                //                    192,
+                                //                    192,
+                                //                    192,
+                                //                    false,
+                                //                    true,
+                                //                    "");
 
                                 nodeNameToCol3[colHeader3] = colOffset3;
                             }
                             else
                             {
                                 writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, colHeader3);
-                                addFormatToExcelRange(xlWorksheet,
-                                                    rowEnd,
-                                                    rowEnd,
-                                                    colEnd,
-                                                    sectionColumnEnd,
-                                                    10,
-                                                    0,
-                                                    0,
-                                                    0,
-                                                    192,
-                                                    192,
-                                                    192,
-                                                    false,
-                                                    true,
-                                                    "");
+                                //addFormatToExcelRange(xlWorksheet,
+                                //                    rowEnd,
+                                //                    rowEnd,
+                                //                    colEnd,
+                                //                    sectionColumnEnd,
+                                //                    10,
+                                //                    0,
+                                //                    0,
+                                //                    0,
+                                //                    192,
+                                //                    192,
+                                //                    192,
+                                //                    false,
+                                //                    true,
+                                //                    "");
 
                                 nodeNameToCol3[colHeader3] = colEnd;
                             }
@@ -2408,50 +2408,50 @@ namespace SalesforceMetadata
                                     foreach (String colHeader4 in columnNames4[colHeader3])
                                     {
                                         writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, colHeader4);
-                                        addFormatToExcelRange(xlWorksheet,
-                                                            rowEnd,
-                                                            rowEnd,
-                                                            colEnd,
-                                                            sectionColumnEnd,
-                                                            10,
-                                                            0,
-                                                            0,
-                                                            0,
-                                                            192,
-                                                            192,
-                                                            192,
-                                                            false,
-                                                            true,
-                                                            "");
+                                        //addFormatToExcelRange(xlWorksheet,
+                                        //                    rowEnd,
+                                        //                    rowEnd,
+                                        //                    colEnd,
+                                        //                    sectionColumnEnd,
+                                        //                    10,
+                                        //                    0,
+                                        //                    0,
+                                        //                    0,
+                                        //                    192,
+                                        //                    192,
+                                        //                    192,
+                                        //                    false,
+                                        //                    true,
+                                        //                    "");
 
                                         nodeNameToCol4[colHeader4] = colEnd;
                                         colEnd++;
                                     }
 
-                                    addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, colEnd, colEnd);
+                                    //addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, colEnd, colEnd);
                                 }
                                 else
                                 {
                                     rowEnd++;
 
                                     writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, columnNames4[colHeader3][0]);
-                                    addFormatToExcelRange(xlWorksheet,
-                                                        rowEnd,
-                                                        rowEnd,
-                                                        colEnd,
-                                                        sectionColumnEnd,
-                                                        10,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        192,
-                                                        192,
-                                                        192,
-                                                        false,
-                                                        true,
-                                                        "");
+                                    //addFormatToExcelRange(xlWorksheet,
+                                    //                    rowEnd,
+                                    //                    rowEnd,
+                                    //                    colEnd,
+                                    //                    sectionColumnEnd,
+                                    //                    10,
+                                    //                    0,
+                                    //                    0,
+                                    //                    0,
+                                    //                    192,
+                                    //                    192,
+                                    //                    192,
+                                    //                    false,
+                                    //                    true,
+                                    //                    "");
 
-                                    addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, colEnd, colEnd);
+                                    //addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, colEnd, colEnd);
 
                                     nodeNameToCol4[columnNames4[colHeader3][0]] = colEnd;
                                     colEnd++;
@@ -2468,50 +2468,50 @@ namespace SalesforceMetadata
                                     foreach (String colHeader5 in columnNames5[colHeader3])
                                     {
                                         writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, colHeader5);
-                                        addFormatToExcelRange(xlWorksheet,
-                                                            rowEnd,
-                                                            rowEnd,
-                                                            colEnd,
-                                                            sectionColumnEnd,
-                                                            10,
-                                                            0,
-                                                            0,
-                                                            0,
-                                                            192,
-                                                            192,
-                                                            192,
-                                                            false,
-                                                            true,
-                                                            "");
+                                        //addFormatToExcelRange(xlWorksheet,
+                                        //                    rowEnd,
+                                        //                    rowEnd,
+                                        //                    colEnd,
+                                        //                    sectionColumnEnd,
+                                        //                    10,
+                                        //                    0,
+                                        //                    0,
+                                        //                    0,
+                                        //                    192,
+                                        //                    192,
+                                        //                    192,
+                                        //                    false,
+                                        //                    true,
+                                        //                    "");
 
                                         nodeNameToCol5[colHeader5] = colEnd;
                                         colEnd++;
                                     }
 
-                                    addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, colStart, colEnd - 1);
+                                    //addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, colStart, colEnd - 1);
                                 }
                                 else
                                 {
                                     rowEnd++;
 
                                     writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, columnNames5[colHeader3][0]);
-                                    addFormatToExcelRange(xlWorksheet,
-                                                        rowEnd,
-                                                        rowEnd,
-                                                        colEnd,
-                                                        sectionColumnEnd,
-                                                        10,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        192,
-                                                        192,
-                                                        192,
-                                                        false,
-                                                        true,
-                                                        "");
+                                    //addFormatToExcelRange(xlWorksheet,
+                                    //                    rowEnd,
+                                    //                    rowEnd,
+                                    //                    colEnd,
+                                    //                    sectionColumnEnd,
+                                    //                    10,
+                                    //                    0,
+                                    //                    0,
+                                    //                    0,
+                                    //                    192,
+                                    //                    192,
+                                    //                    192,
+                                    //                    false,
+                                    //                    true,
+                                    //                    "");
 
-                                    addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, colEnd, colEnd);
+                                    //addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, colEnd, colEnd);
 
                                     nodeNameToCol5[columnNames5[colHeader3][0]] = colEnd;
                                     colEnd++;
@@ -2528,50 +2528,50 @@ namespace SalesforceMetadata
                                     foreach (String colHeader6 in columnNames6[colHeader3])
                                     {
                                         writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, colHeader6);
-                                        addFormatToExcelRange(xlWorksheet,
-                                                            rowEnd,
-                                                            rowEnd,
-                                                            colEnd,
-                                                            sectionColumnEnd,
-                                                            10,
-                                                            0,
-                                                            0,
-                                                            0,
-                                                            192,
-                                                            192,
-                                                            192,
-                                                            false,
-                                                            true,
-                                                            "");
+                                        //addFormatToExcelRange(xlWorksheet,
+                                        //                    rowEnd,
+                                        //                    rowEnd,
+                                        //                    colEnd,
+                                        //                    sectionColumnEnd,
+                                        //                    10,
+                                        //                    0,
+                                        //                    0,
+                                        //                    0,
+                                        //                    192,
+                                        //                    192,
+                                        //                    192,
+                                        //                    false,
+                                        //                    true,
+                                        //                    "");
 
                                         nodeNameToCol6[colHeader6] = colEnd;
                                         colEnd++;
                                     }
 
-                                    addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, colStart, colEnd - 1);
+                                    //addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, colStart, colEnd - 1);
                                 }
                                 else
                                 {
                                     rowEnd++;
 
                                     writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, columnNames6[colHeader3][0]);
-                                    addFormatToExcelRange(xlWorksheet,
-                                                        rowEnd,
-                                                        rowEnd,
-                                                        colEnd,
-                                                        sectionColumnEnd,
-                                                        10,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        192,
-                                                        192,
-                                                        192,
-                                                        false,
-                                                        true,
-                                                        "");
+                                    //addFormatToExcelRange(xlWorksheet,
+                                    //                    rowEnd,
+                                    //                    rowEnd,
+                                    //                    colEnd,
+                                    //                    sectionColumnEnd,
+                                    //                    10,
+                                    //                    0,
+                                    //                    0,
+                                    //                    0,
+                                    //                    192,
+                                    //                    192,
+                                    //                    192,
+                                    //                    false,
+                                    //                    true,
+                                    //                    "");
 
-                                    addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, colEnd, colEnd);
+                                    //addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, colEnd, colEnd);
 
                                     nodeNameToCol6[columnNames6[colHeader3][0]] = colEnd;
                                     colEnd++;
@@ -2588,48 +2588,48 @@ namespace SalesforceMetadata
                                     foreach (String colHeader7 in columnNames7[colHeader3])
                                     {
                                         writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, colHeader7);
-                                        addFormatToExcelRange(xlWorksheet,
-                                                            rowEnd,
-                                                            rowEnd,
-                                                            colEnd,
-                                                            sectionColumnEnd,
-                                                            10,
-                                                            0,
-                                                            0,
-                                                            0,
-                                                            192,
-                                                            192,
-                                                            192,
-                                                            false,
-                                                            true,
-                                                            "");
+                                        //addFormatToExcelRange(xlWorksheet,
+                                        //                    rowEnd,
+                                        //                    rowEnd,
+                                        //                    colEnd,
+                                        //                    sectionColumnEnd,
+                                        //                    10,
+                                        //                    0,
+                                        //                    0,
+                                        //                    0,
+                                        //                    192,
+                                        //                    192,
+                                        //                    192,
+                                        //                    false,
+                                        //                    true,
+                                        //                    "");
 
                                         nodeNameToCol7[colHeader7] = colEnd;
                                         colEnd++;
                                     }
 
-                                    addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, colStart, colEnd - 1);
+                                    //addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, colStart, colEnd - 1);
                                 }
                                 else
                                 {
                                     rowEnd++;
 
                                     writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, columnNames7[colHeader3][0]);
-                                    addFormatToExcelRange(xlWorksheet,
-                                                        rowEnd,
-                                                        rowEnd,
-                                                        colEnd,
-                                                        sectionColumnEnd,
-                                                        10,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        192,
-                                                        192,
-                                                        192,
-                                                        false,
-                                                        true,
-                                                        "");
+                                    //addFormatToExcelRange(xlWorksheet,
+                                    //                    rowEnd,
+                                    //                    rowEnd,
+                                    //                    colEnd,
+                                    //                    sectionColumnEnd,
+                                    //                    10,
+                                    //                    0,
+                                    //                    0,
+                                    //                    0,
+                                    //                    192,
+                                    //                    192,
+                                    //                    192,
+                                    //                    false,
+                                    //                    true,
+                                    //                    "");
 
                                     nodeNameToCol7[columnNames7[colHeader3][0]] = colEnd;
                                     colEnd++;
@@ -2646,48 +2646,48 @@ namespace SalesforceMetadata
                                     foreach (String colHeader8 in columnNames8[colHeader3])
                                     {
                                         writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, colHeader8);
-                                        addFormatToExcelRange(xlWorksheet,
-                                                            rowEnd,
-                                                            rowEnd,
-                                                            colEnd,
-                                                            sectionColumnEnd,
-                                                            10,
-                                                            0,
-                                                            0,
-                                                            0,
-                                                            192,
-                                                            192,
-                                                            192,
-                                                            false,
-                                                            true,
-                                                            "");
+                                        //addFormatToExcelRange(xlWorksheet,
+                                        //                    rowEnd,
+                                        //                    rowEnd,
+                                        //                    colEnd,
+                                        //                    sectionColumnEnd,
+                                        //                    10,
+                                        //                    0,
+                                        //                    0,
+                                        //                    0,
+                                        //                    192,
+                                        //                    192,
+                                        //                    192,
+                                        //                    false,
+                                        //                    true,
+                                        //                    "");
 
                                         nodeNameToCol8[colHeader8] = colEnd;
                                         colEnd++;
                                     }
 
-                                    addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, colStart, colEnd - 1);
+                                    //addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, colStart, colEnd - 1);
                                 }
                                 else
                                 {
                                     rowEnd++;
 
                                     writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, columnNames8[colHeader3][0]);
-                                    addFormatToExcelRange(xlWorksheet,
-                                                        rowEnd,
-                                                        rowEnd,
-                                                        colEnd,
-                                                        sectionColumnEnd,
-                                                        10,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        192,
-                                                        192,
-                                                        192,
-                                                        false,
-                                                        true,
-                                                        "");
+                                    //addFormatToExcelRange(xlWorksheet,
+                                    //                    rowEnd,
+                                    //                    rowEnd,
+                                    //                    colEnd,
+                                    //                    sectionColumnEnd,
+                                    //                    10,
+                                    //                    0,
+                                    //                    0,
+                                    //                    0,
+                                    //                    192,
+                                    //                    192,
+                                    //                    192,
+                                    //                    false,
+                                    //                    true,
+                                    //                    "");
 
                                     nodeNameToCol8[columnNames8[colHeader3][0]] = colEnd;
                                     colEnd++;
@@ -2906,21 +2906,21 @@ namespace SalesforceMetadata
                                         foreach (String ndValue in nodeValues2.nodeValues)
                                         {
                                             writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol2[key2], ndValue);
-                                            addFormatToExcelRange(xlWorksheet,
-                                                                rowEnd,
-                                                                rowEnd,
-                                                                nodeNameToCol2[key2],
-                                                                nodeNameToCol2[key2],
-                                                                10,
-                                                                0,
-                                                                0,
-                                                                0,
-                                                                255,
-                                                                255,
-                                                                255,
-                                                                false,
-                                                                false,
-                                                                ndValue);
+                                            //addFormatToExcelRange(xlWorksheet,
+                                            //                    rowEnd,
+                                            //                    rowEnd,
+                                            //                    nodeNameToCol2[key2],
+                                            //                    nodeNameToCol2[key2],
+                                            //                    10,
+                                            //                    0,
+                                            //                    0,
+                                            //                    0,
+                                            //                    255,
+                                            //                    255,
+                                            //                    255,
+                                            //                    false,
+                                            //                    false,
+                                            //                    ndValue);
 
                                             rowEnd++;
                                             if (rowEnd > lastRow2) lastRow2 = rowEnd;
@@ -2939,23 +2939,23 @@ namespace SalesforceMetadata
                                         foreach (String ndValue in nodeValues3.nodeValues)
                                         {
                                             writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol3[key3], ndValue);
-                                            addFormatToExcelRange(xlWorksheet,
-                                                                rowEnd,
-                                                                rowEnd,
-                                                                nodeNameToCol3[key3],
-                                                                nodeNameToCol3[key3],
-                                                                10,
-                                                                0,
-                                                                0,
-                                                                0,
-                                                                255,
-                                                                255,
-                                                                255,
-                                                                false,
-                                                                false,
-                                                                ndValue);
+                                            //addFormatToExcelRange(xlWorksheet,
+                                            //                    rowEnd,
+                                            //                    rowEnd,
+                                            //                    nodeNameToCol3[key3],
+                                            //                    nodeNameToCol3[key3],
+                                            //                    10,
+                                            //                    0,
+                                            //                    0,
+                                            //                    0,
+                                            //                    255,
+                                            //                    255,
+                                            //                    255,
+                                            //                    false,
+                                            //                    false,
+                                            //                    ndValue);
 
-                                            addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, nodeNameToCol3[key3], colEnd - 1);
+                                            //addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, nodeNameToCol3[key3], colEnd - 1);
 
                                             rowEnd++;
                                             if (rowEnd > lastRow3) lastRow3 = rowEnd;
@@ -2975,23 +2975,23 @@ namespace SalesforceMetadata
                                         foreach (String ndValue in nodeValues4.nodeValues)
                                         {
                                             writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol4[key4], ndValue);
-                                            addFormatToExcelRange(xlWorksheet,
-                                                                rowEnd,
-                                                                rowEnd,
-                                                                nodeNameToCol4[key4],
-                                                                nodeNameToCol4[key4],
-                                                                10,
-                                                                0,
-                                                                0,
-                                                                0,
-                                                                255,
-                                                                255,
-                                                                255,
-                                                                false,
-                                                                false,
-                                                                ndValue);
+                                            //addFormatToExcelRange(xlWorksheet,
+                                            //                    rowEnd,
+                                            //                    rowEnd,
+                                            //                    nodeNameToCol4[key4],
+                                            //                    nodeNameToCol4[key4],
+                                            //                    10,
+                                            //                    0,
+                                            //                    0,
+                                            //                    0,
+                                            //                    255,
+                                            //                    255,
+                                            //                    255,
+                                            //                    false,
+                                            //                    false,
+                                            //                    ndValue);
 
-                                            addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, nodeNameToCol4[key4], nodeNameToCol4[key4]);
+                                            //addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, nodeNameToCol4[key4], nodeNameToCol4[key4]);
 
                                             rowEnd++;
                                             if (rowEnd > lastRow4) lastRow4 = rowEnd;
@@ -3011,23 +3011,23 @@ namespace SalesforceMetadata
                                         foreach (String ndValue in nodeValues5.nodeValues)
                                         {
                                             writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol5[key5], ndValue);
-                                            addFormatToExcelRange(xlWorksheet,
-                                                                rowEnd,
-                                                                rowEnd,
-                                                                nodeNameToCol5[key5],
-                                                                nodeNameToCol5[key5],
-                                                                10,
-                                                                0,
-                                                                0,
-                                                                0,
-                                                                255,
-                                                                255,
-                                                                255,
-                                                                false,
-                                                                false,
-                                                                ndValue);
+                                            //addFormatToExcelRange(xlWorksheet,
+                                            //                    rowEnd,
+                                            //                    rowEnd,
+                                            //                    nodeNameToCol5[key5],
+                                            //                    nodeNameToCol5[key5],
+                                            //                    10,
+                                            //                    0,
+                                            //                    0,
+                                            //                    0,
+                                            //                    255,
+                                            //                    255,
+                                            //                    255,
+                                            //                    false,
+                                            //                    false,
+                                            //                    ndValue);
 
-                                            addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, nodeNameToCol5[key5], nodeNameToCol5[key5]);
+                                            //addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, nodeNameToCol5[key5], nodeNameToCol5[key5]);
 
                                             rowEnd++;
                                             if (rowEnd > lastRow5) lastRow5 = rowEnd;
@@ -3046,23 +3046,23 @@ namespace SalesforceMetadata
                                         foreach (String ndValue in nodeValues6.nodeValues)
                                         {
                                             writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol6[key6], ndValue);
-                                            addFormatToExcelRange(xlWorksheet,
-                                                                rowEnd,
-                                                                rowEnd,
-                                                                nodeNameToCol6[key6],
-                                                                nodeNameToCol6[key6],
-                                                                10,
-                                                                0,
-                                                                0,
-                                                                0,
-                                                                255,
-                                                                255,
-                                                                255,
-                                                                false,
-                                                                false,
-                                                                ndValue);
+                                            //addFormatToExcelRange(xlWorksheet,
+                                            //                    rowEnd,
+                                            //                    rowEnd,
+                                            //                    nodeNameToCol6[key6],
+                                            //                    nodeNameToCol6[key6],
+                                            //                    10,
+                                            //                    0,
+                                            //                    0,
+                                            //                    0,
+                                            //                    255,
+                                            //                    255,
+                                            //                    255,
+                                            //                    false,
+                                            //                    false,
+                                            //                    ndValue);
 
-                                            addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, nodeNameToCol6[key6], nodeNameToCol6[key6]);
+                                            //addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, nodeNameToCol6[key6], nodeNameToCol6[key6]);
 
                                             rowEnd++;
                                             if (rowEnd > lastRow6) lastRow6 = rowEnd;
@@ -3081,23 +3081,23 @@ namespace SalesforceMetadata
                                         foreach (String ndValue in nodeValues7.nodeValues)
                                         {
                                             writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol7[key7], ndValue);
-                                            addFormatToExcelRange(xlWorksheet,
-                                                                rowEnd,
-                                                                rowEnd,
-                                                                nodeNameToCol7[key7],
-                                                                nodeNameToCol7[key7],
-                                                                10,
-                                                                0,
-                                                                0,
-                                                                0,
-                                                                255,
-                                                                255,
-                                                                255,
-                                                                false,
-                                                                false,
-                                                                ndValue);
+                                            //addFormatToExcelRange(xlWorksheet,
+                                            //                    rowEnd,
+                                            //                    rowEnd,
+                                            //                    nodeNameToCol7[key7],
+                                            //                    nodeNameToCol7[key7],
+                                            //                    10,
+                                            //                    0,
+                                            //                    0,
+                                            //                    0,
+                                            //                    255,
+                                            //                    255,
+                                            //                    255,
+                                            //                    false,
+                                            //                    false,
+                                            //                    ndValue);
 
-                                            addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, nodeNameToCol7[key7], nodeNameToCol7[key7]);
+                                            //addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, nodeNameToCol7[key7], nodeNameToCol7[key7]);
 
                                             rowEnd++;
                                             if (rowEnd > lastRow7) lastRow7 = rowEnd;
@@ -3116,23 +3116,23 @@ namespace SalesforceMetadata
                                         foreach (String ndValue in nodeValues8.nodeValues)
                                         {
                                             writeDataToExcelSheet(xlWorksheet, rowEnd, nodeNameToCol8[key8], ndValue);
-                                            addFormatToExcelRange(xlWorksheet,
-                                                                rowEnd,
-                                                                rowEnd,
-                                                                nodeNameToCol8[key8],
-                                                                nodeNameToCol8[key8],
-                                                                10,
-                                                                0,
-                                                                0,
-                                                                0,
-                                                                255,
-                                                                255,
-                                                                255,
-                                                                false,
-                                                                false,
-                                                                ndValue);
+                                            //addFormatToExcelRange(xlWorksheet,
+                                            //                    rowEnd,
+                                            //                    rowEnd,
+                                            //                    nodeNameToCol8[key8],
+                                            //                    nodeNameToCol8[key8],
+                                            //                    10,
+                                            //                    0,
+                                            //                    0,
+                                            //                    0,
+                                            //                    255,
+                                            //                    255,
+                                            //                    255,
+                                            //                    false,
+                                            //                    false,
+                                            //                    ndValue);
 
-                                            addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, nodeNameToCol8[key8], nodeNameToCol8[key8]);
+                                            //addExcelBorderToList(xlWorksheet, rowEnd, rowEnd, nodeNameToCol8[key8], nodeNameToCol8[key8]);
 
                                             rowEnd++;
                                             if (rowEnd > lastRow8) lastRow8 = rowEnd;
@@ -4223,96 +4223,96 @@ namespace SalesforceMetadata
         }
 
 
-        public void addExcelBorderToList(Microsoft.Office.Interop.Excel.Worksheet xlWorksheet,
-                                     Int32 startRowNumber,
-                                     Int32 endRowNumber,
-                                     Int32 startColNumber,
-                                     Int32 endColNumber)
-        {
-            ExcelBorderFormat ebf = new ExcelBorderFormat();
-            ebf.xlWorksheet = xlWorksheet;
-            ebf.startRowNumber = startRowNumber;
-            ebf.endRowNumber = endRowNumber;
-            ebf.startColNumber = startColNumber;
-            ebf.endColNumber = endColNumber;
+        //public void addExcelBorderToList(Microsoft.Office.Interop.Excel.Worksheet xlWorksheet,
+        //                             Int32 startRowNumber,
+        //                             Int32 endRowNumber,
+        //                             Int32 startColNumber,
+        //                             Int32 endColNumber)
+        //{
+        //    ExcelBorderFormat ebf = new ExcelBorderFormat();
+        //    ebf.xlWorksheet = xlWorksheet;
+        //    ebf.startRowNumber = startRowNumber;
+        //    ebf.endRowNumber = endRowNumber;
+        //    ebf.startColNumber = startColNumber;
+        //    ebf.endColNumber = endColNumber;
 
-            excelBorderFormatList.Add(ebf);
-        }
+        //    excelBorderFormatList.Add(ebf);
+        //}
 
 
-        public void addFormatToExcelRange(Microsoft.Office.Interop.Excel.Worksheet xlWorksheet,
-                                             Int32 startRowNumber,
-                                             Int32 endRowNumber,
-                                             Int32 startColNumber,
-                                             Int32 endColNumber,
-                                             Int32 fontSize,
-                                             Int32 fontColorRed,
-                                             Int32 fontColorGreen,
-                                             Int32 fontColorBlue,
-                                             Int32 interiorColorRed,
-                                             Int32 interiorColorGreen,
-                                             Int32 interiorColorBlue,
-                                             Boolean boldText,
-                                             Boolean italicText,
-                                             String fieldValues)
-        {
-            ExcelRangeFormat erf = new ExcelRangeFormat();
-            erf.xlWorksheet = xlWorksheet;
-            erf.startRowNumber = startRowNumber;
-            erf.endRowNumber = endRowNumber;
-            erf.startColNumber = startColNumber;
-            erf.endColNumber = endColNumber;
-            erf.fontSize = fontSize;
-            erf.fontColorRed = fontColorRed;
-            erf.fontColorGreen = fontColorGreen;
-            erf.fontColorBlue = fontColorBlue;
-            erf.interiorColorRed = interiorColorRed;
-            erf.interiorColorGreen = interiorColorGreen;
-            erf.interiorColorBlue = interiorColorBlue;
-            erf.boldText = boldText;
-            erf.italicText = italicText;
-            erf.fieldValues = fieldValues;
+        //public void addFormatToExcelRange(Microsoft.Office.Interop.Excel.Worksheet xlWorksheet,
+        //                                     Int32 startRowNumber,
+        //                                     Int32 endRowNumber,
+        //                                     Int32 startColNumber,
+        //                                     Int32 endColNumber,
+        //                                     Int32 fontSize,
+        //                                     Int32 fontColorRed,
+        //                                     Int32 fontColorGreen,
+        //                                     Int32 fontColorBlue,
+        //                                     Int32 interiorColorRed,
+        //                                     Int32 interiorColorGreen,
+        //                                     Int32 interiorColorBlue,
+        //                                     Boolean boldText,
+        //                                     Boolean italicText,
+        //                                     String fieldValues)
+        //{
+        //    ExcelRangeFormat erf = new ExcelRangeFormat();
+        //    erf.xlWorksheet = xlWorksheet;
+        //    erf.startRowNumber = startRowNumber;
+        //    erf.endRowNumber = endRowNumber;
+        //    erf.startColNumber = startColNumber;
+        //    erf.endColNumber = endColNumber;
+        //    erf.fontSize = fontSize;
+        //    erf.fontColorRed = fontColorRed;
+        //    erf.fontColorGreen = fontColorGreen;
+        //    erf.fontColorBlue = fontColorBlue;
+        //    erf.interiorColorRed = interiorColorRed;
+        //    erf.interiorColorGreen = interiorColorGreen;
+        //    erf.interiorColorBlue = interiorColorBlue;
+        //    erf.boldText = boldText;
+        //    erf.italicText = italicText;
+        //    erf.fieldValues = fieldValues;
 
-            excelRangeFormatList.Add(erf);
-        }
+        //    excelRangeFormatList.Add(erf);
+        //}
 
-        public void applyExcelBorder(ExcelBorderFormat ebf)
-        {
-            Microsoft.Office.Interop.Excel.Range rng;
-            rng = ebf.xlWorksheet.Range[ebf.xlWorksheet.Cells[ebf.startRowNumber, ebf.startColNumber], ebf.xlWorksheet.Cells[ebf.endRowNumber, ebf.endColNumber]];
+        //public void applyExcelBorder(ExcelBorderFormat ebf)
+        //{
+        //    Microsoft.Office.Interop.Excel.Range rng;
+        //    rng = ebf.xlWorksheet.Range[ebf.xlWorksheet.Cells[ebf.startRowNumber, ebf.startColNumber], ebf.xlWorksheet.Cells[ebf.endRowNumber, ebf.endColNumber]];
 
-            Microsoft.Office.Interop.Excel.Borders border = rng.Borders;
-            border[Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeTop].LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
-            border[Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
-            border[Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
-            border[Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeRight].LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+        //    Microsoft.Office.Interop.Excel.Borders border = rng.Borders;
+        //    border[Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeTop].LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+        //    border[Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+        //    border[Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+        //    border[Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeRight].LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
 
-            border.Color = ColorTranslator.ToOle(Color.DarkGray);
-        }
+        //    border.Color = ColorTranslator.ToOle(Color.DarkGray);
+        //}
 
-        public void formatExcelRange(ExcelRangeFormat erf)
-        {
-            Microsoft.Office.Interop.Excel.Range rng;
-            rng = erf.xlWorksheet.Range[erf.xlWorksheet.Cells[erf.startRowNumber, erf.startColNumber], erf.xlWorksheet.Cells[erf.endRowNumber, erf.endColNumber]];
-            rng.Font.Bold = erf.boldText;
-            rng.Font.Italic = erf.italicText;
-            rng.Font.Size = erf.fontSize;
-            //rng.Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbFloralWhite;
-            rng.Font.Color = System.Drawing.Color.FromArgb(erf.fontColorRed, erf.fontColorGreen, erf.fontColorBlue);
+        //public void formatExcelRange(ExcelRangeFormat erf)
+        //{
+        //    Microsoft.Office.Interop.Excel.Range rng;
+        //    rng = erf.xlWorksheet.Range[erf.xlWorksheet.Cells[erf.startRowNumber, erf.startColNumber], erf.xlWorksheet.Cells[erf.endRowNumber, erf.endColNumber]];
+        //    rng.Font.Bold = erf.boldText;
+        //    rng.Font.Italic = erf.italicText;
+        //    rng.Font.Size = erf.fontSize;
+        //    //rng.Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbFloralWhite;
+        //    rng.Font.Color = System.Drawing.Color.FromArgb(erf.fontColorRed, erf.fontColorGreen, erf.fontColorBlue);
 
-            if (erf.fieldValues.ToLower() == "true")
-            {
-                rng.Interior.Color = System.Drawing.Color.FromArgb(220, 230, 241);
-            }
-            else if (erf.fieldValues.ToLower() == "false")
-            {
-                rng.Interior.Color = System.Drawing.Color.FromArgb(250, 191, 143);
-            }
-            else
-            {
-                rng.Interior.Color = System.Drawing.Color.FromArgb(erf.interiorColorRed, erf.interiorColorGreen, erf.interiorColorBlue);
-            }
-        }
+        //    if (erf.fieldValues.ToLower() == "true")
+        //    {
+        //        rng.Interior.Color = System.Drawing.Color.FromArgb(220, 230, 241);
+        //    }
+        //    else if (erf.fieldValues.ToLower() == "false")
+        //    {
+        //        rng.Interior.Color = System.Drawing.Color.FromArgb(250, 191, 143);
+        //    }
+        //    else
+        //    {
+        //        rng.Interior.Color = System.Drawing.Color.FromArgb(erf.interiorColorRed, erf.interiorColorGreen, erf.interiorColorBlue);
+        //    }
+        //}
 
 
         public Int32 getColumnEndValue(Int32 currColEndValue, Int32 c1, Int32 c2, Int32 c3,
@@ -5808,15 +5808,15 @@ namespace SalesforceMetadata
 
             writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, "Apex Trigger Name");
 
-            addFormatToExcelRange(xlWorksheet, rowStart, rowEnd, colStart, colEnd, 11, 0, 0, 0, 255, 255, 255, true, false, "");
+            //addFormatToExcelRange(xlWorksheet, rowStart, rowEnd, colStart, colEnd, 11, 0, 0, 0, 255, 255, 255, true, false, "");
 
             colEnd = 1;
             rowEnd++;
 
-            foreach (ExcelRangeFormat erf in excelRangeFormatList)
-            {
-                formatExcelRange(erf);
-            }
+            //foreach (ExcelRangeFormat erf in excelRangeFormatList)
+            //{
+            //    formatExcelRange(erf);
+            //}
 
 
             // 2021-05-04: Move to private method for better handling. For right now though, going to develop the entire structure here

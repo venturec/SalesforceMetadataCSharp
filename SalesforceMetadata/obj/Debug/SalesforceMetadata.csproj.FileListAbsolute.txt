@@ -224,3 +224,34 @@ C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadat
 C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb
 C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.AssemblyReference.cache
 D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.AssemblyReference.cache
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe.config
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\bin\Debug\SalesforceMetadata.pdb
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csprojAssemblyReference.cache
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\Interop.SHDocVw.dll
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.ResolveComReference.cache
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ClassMethodExtractor.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.DeployMetadata.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.EncryptDecryptText.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ExtractFieldsFromMetadata.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ExtractWebsites.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmParseDebugLogs.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmUserSettings.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.GenerateDeploymentPackage.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.MetadataComparison.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.MetadataToolingReportForm.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ObjectFieldInspector.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ObjectModification.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep1.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.Properties.Resources.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.RESTService.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep2.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ConfigurationWorkbook.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmSearch.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.VersionUpdater.resources
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.cache
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CopyComplete
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe
+C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb

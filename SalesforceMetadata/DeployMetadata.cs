@@ -156,6 +156,14 @@ namespace SalesforceMetadata
             DeployDetails dd = result.details;
             DeployMessage[] deployMsgs = dd.componentFailures;
 
+            Boolean errors = false;
+
+            if (result.errorMessage != null)
+            {
+                errorMessage.Append(result.errorMessage);
+                errors = true;
+            }
+
             if (deployMsgs != null)
             {
                 foreach (DeployMessage dm in deployMsgs)
@@ -163,6 +171,11 @@ namespace SalesforceMetadata
                     errorMessage.Append(dm.fileName + " - " + dm.lineNumber.ToString() + ":  " + dm.problem + Environment.NewLine + Environment.NewLine);
                 }
 
+                errors = true;
+            }
+
+            if (errors)
+            {
                 this.rtMessages.Text = errorMessage.ToString();
             }
             else

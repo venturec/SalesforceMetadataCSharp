@@ -50,7 +50,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treeViewFiltered.CheckBoxes = true;
-            this.treeViewFiltered.Location = new System.Drawing.Point(15, 173);
+            this.treeViewFiltered.Location = new System.Drawing.Point(15, 174);
             this.treeViewFiltered.Name = "treeViewFiltered";
             this.treeViewFiltered.Size = new System.Drawing.Size(1266, 593);
             this.treeViewFiltered.TabIndex = 7;
@@ -94,7 +94,7 @@
             // 
             // btnBuildPackageXml
             // 
-            this.btnBuildPackageXml.Location = new System.Drawing.Point(1066, 110);
+            this.btnBuildPackageXml.Location = new System.Drawing.Point(1066, 111);
             this.btnBuildPackageXml.Name = "btnBuildPackageXml";
             this.btnBuildPackageXml.Size = new System.Drawing.Size(215, 23);
             this.btnBuildPackageXml.TabIndex = 11;
@@ -104,7 +104,7 @@
             // 
             // btnBuildProfilesAndPermissionSets
             // 
-            this.btnBuildProfilesAndPermissionSets.Location = new System.Drawing.Point(15, 110);
+            this.btnBuildProfilesAndPermissionSets.Location = new System.Drawing.Point(15, 111);
             this.btnBuildProfilesAndPermissionSets.Name = "btnBuildProfilesAndPermissionSets";
             this.btnBuildProfilesAndPermissionSets.Size = new System.Drawing.Size(215, 23);
             this.btnBuildProfilesAndPermissionSets.TabIndex = 8;
@@ -131,7 +131,7 @@
             "destructiveChanges",
             "destructiveChangesPre",
             "destructiveChangesPost"});
-            this.cmbDestructiveChange.Location = new System.Drawing.Point(842, 112);
+            this.cmbDestructiveChange.Location = new System.Drawing.Point(842, 113);
             this.cmbDestructiveChange.Name = "cmbDestructiveChange";
             this.cmbDestructiveChange.Size = new System.Drawing.Size(206, 21);
             this.cmbDestructiveChange.TabIndex = 10;
@@ -141,7 +141,7 @@
             // lblDestructiveChangeType
             // 
             this.lblDestructiveChangeType.AutoSize = true;
-            this.lblDestructiveChangeType.Location = new System.Drawing.Point(708, 115);
+            this.lblDestructiveChangeType.Location = new System.Drawing.Point(708, 116);
             this.lblDestructiveChangeType.Name = "lblDestructiveChangeType";
             this.lblDestructiveChangeType.Size = new System.Drawing.Size(128, 13);
             this.lblDestructiveChangeType.TabIndex = 9;
@@ -153,7 +153,7 @@
             this.lblDestructiveChangesFirst.BackColor = System.Drawing.SystemColors.Window;
             this.lblDestructiveChangesFirst.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDestructiveChangesFirst.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.lblDestructiveChangesFirst.Location = new System.Drawing.Point(12, 152);
+            this.lblDestructiveChangesFirst.Location = new System.Drawing.Point(12, 153);
             this.lblDestructiveChangesFirst.Name = "lblDestructiveChangesFirst";
             this.lblDestructiveChangesFirst.Size = new System.Drawing.Size(732, 18);
             this.lblDestructiveChangesFirst.TabIndex = 6;
@@ -163,7 +163,7 @@
             // 
             // btnNext
             // 
-            this.btnNext.Location = new System.Drawing.Point(1066, 140);
+            this.btnNext.Location = new System.Drawing.Point(1066, 141);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(215, 23);
             this.btnNext.TabIndex = 12;

@@ -258,7 +258,6 @@ C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe.config
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\bin\Debug\SalesforceMetadata.pdb
-D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csprojAssemblyReference.cache
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\Interop.SHDocVw.dll
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.ResolveComReference.cache
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ClassMethodExtractor.resources
@@ -286,3 +285,4 @@ D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CopyComplete
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb
+D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.AssemblyReference.cache

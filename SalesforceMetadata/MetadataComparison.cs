@@ -1510,6 +1510,9 @@ namespace SalesforceMetadata
 
             gdp.tbMetadataFolderToReadFrom.Text = this.tbFromFolder.Text;
             gdp.populateMetadataTreeView();
+
+
+
             gdp.Show();
         }
 

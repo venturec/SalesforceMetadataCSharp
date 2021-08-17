@@ -3199,6 +3199,10 @@ namespace SalesforceMetadata
             {
                 typeName = "Layout";
             }
+            else if (folderName == "LeadConvertSettings")
+            {
+                typeName = "LeadConvertSettings";
+            }
             //else if (folderName == "")
             //{
             //    typeName = "Letterhead";

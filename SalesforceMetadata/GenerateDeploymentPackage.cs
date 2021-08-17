@@ -45,6 +45,19 @@ namespace SalesforceMetadata
         private void tbDeploymentPackageLocation_DoubleClick(object sender, EventArgs e)
         {
             this.tbDeploymentPackageLocation.Text = UtilityClass.folderBrowserSelectPath("Select folder to save Deployment items to", true, FolderEnum.SaveTo);
+
+            Boolean isEmpty = true;
+            String[] dirs = Directory.GetDirectories(this.tbDeploymentPackageLocation.Text);
+            String[] fls = Directory.GetFiles(this.tbDeploymentPackageLocation.Text);
+
+            if (dirs.Length > 0 || fls.Length > 0) isEmpty = false;
+
+            if (isEmpty == false)
+            {
+                // read from the items and mark the deployable items
+                // Which means you have to open the XML files and 
+
+            }
         }
 
         private void tbMetadataFolderToReadFrom_DoubleClick(object sender, EventArgs e)
@@ -429,7 +442,6 @@ namespace SalesforceMetadata
                 runTreeNodeSelector = true;
             }
         }
-
 
         public void selectRequiredObjectFields(String objectName)
         {

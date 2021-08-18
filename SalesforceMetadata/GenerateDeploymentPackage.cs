@@ -153,6 +153,7 @@ namespace SalesforceMetadata
                     continue;
                 }
 
+                // Get the incoming node text from the Differences.
                 foreach (TreeNode tnd2 in tnd1.Nodes)
                 {
                     String tnd2Text = "";
@@ -180,11 +181,56 @@ namespace SalesforceMetadata
                                 foreach (TreeNode tnd5 in tnd4.Nodes)
                                 {
                                     // Actual Name with [Updated] or [New]
-                                    // Now find it in the treeViewMetadata and set the Checked state to true
+                                    String tnd5Text = "";
 
-                                    foreach (TreeNode tnd6 in tnd5.Nodes)
+                                    if (tnd5.Text.StartsWith("[New]"))
                                     {
+                                        tnd5Text = tnd5.Text.Substring(6, tnd5.Text.Length - 6);
+                                    }
+                                    else if (tnd5.Text.StartsWith("[Updated]"))
+                                    {
+                                        tnd5Text = tnd5.Text.Substring(10, tnd5.Text.Length - 10);
+                                    }
+                                    else
+                                    {
+                                        tnd5Text = tnd5.Text;
+                                    }
 
+                                    // Now find it in the treeViewMetadata and set the Checked state to true
+                                    foreach (TreeNode mdTnd1 in this.treeViewMetadata.Nodes)
+                                    {
+                                        if (mdTnd1.Text == "objects")
+                                        {
+                                            foreach (TreeNode mdTnd2 in mdTnd1.Nodes)
+                                            {
+                                                if (mdTnd2.Text == tnd2Text)
+                                                {
+                                                    foreach (TreeNode mdTnd3 in mdTnd2.Nodes)
+                                                    {
+                                                        //foreach (TreeNode mdTnd4 in mdTnd3.Nodes)
+                                                        //{
+                                                        //    foreach (TreeNode mdTnd5 in mdTnd4.Nodes)
+                                                        //    {
+                                                        //        if (mdTnd5.Text == tnd5Text)
+                                                        //        {
+                                                        //            mdTnd4.Checked = true;
+                                                        //        }
+                                                        //    }
+                                                        //}
+
+                                                        // Load the XML from mdTnd3 to determine the name of the object types
+                                                        XmlDocument xd = new XmlDocument();
+                                                        xd.LoadXml("<document>" + mdTnd3.Text + "</document>");
+
+                                                        // Get the Name based on the object element type to see if it is in the differences
+                                                        // coming over from the difference report.
+
+
+
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }

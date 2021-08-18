@@ -25,6 +25,9 @@ namespace SalesforceMetadata
 
         private HashSet<String> standardValueSets = new HashSet<string>();
 
+        public TreeNodeCollection treeNodeCollFromDiff;
+
+
         public GenerateDeploymentPackage()
         {
             InitializeComponent();
@@ -38,7 +41,7 @@ namespace SalesforceMetadata
             if (rect.Width < 1200)
             {
                 this.ClientSize = new System.Drawing.Size(rect.Size.Width - 100, rect.Size.Height - 100);
-                this.treeViewFiltered.Size = new System.Drawing.Size(rect.Size.Width - 150, rect.Size.Height - 350);
+                this.treeViewMetadata.Size = new System.Drawing.Size(rect.Size.Width - 150, rect.Size.Height - 350);
             }
         }
 
@@ -72,7 +75,7 @@ namespace SalesforceMetadata
 
         public void populateMetadataTreeView()
         {
-            this.treeViewFiltered.Nodes.Clear();
+            this.treeViewMetadata.Nodes.Clear();
 
             String[] folders = Directory.GetDirectories(this.tbMetadataFolderToReadFrom.Text);
             foreach (String folderName in folders)
@@ -103,7 +106,7 @@ namespace SalesforceMetadata
                         tnd1.Nodes.Add(tnd2);
                     }
 
-                    this.treeViewFiltered.Nodes.Add(tnd1);
+                    this.treeViewMetadata.Nodes.Add(tnd1);
                 }
                 else
                 {
@@ -135,12 +138,76 @@ namespace SalesforceMetadata
                         }
                     }
 
-                    this.treeViewFiltered.Nodes.Add(tnd1);
+                    this.treeViewMetadata.Nodes.Add(tnd1);
                 }
             }
         }
 
-        private void treeViewFiltered_AfterCheck(object sender, TreeViewEventArgs e)
+        public void selectDefaultsFromDiff()
+        {
+            foreach (TreeNode tnd1 in treeNodeCollFromDiff)
+            {
+                if (tnd1.Text == "permissionsets"
+                    || tnd1.Text == "profiles")
+                {
+                    continue;
+                }
+
+                foreach (TreeNode tnd2 in tnd1.Nodes)
+                {
+                    String tnd2Text = "";
+
+                    if (tnd2.Text.StartsWith("[New]"))
+                    {
+                        tnd2Text = tnd2.Text.Substring(6, tnd2.Text.Length - 6);
+                    }
+                    else if (tnd2.Text.StartsWith("[Updated]"))
+                    {
+                        tnd2Text = tnd2.Text.Substring(10, tnd2.Text.Length - 10);
+                    }
+                    else
+                    {
+                        tnd2Text = tnd2.Text;
+                    }
+
+
+                    if (tnd1.Text == "objects")
+                    {
+                        foreach (TreeNode tnd3 in tnd2.Nodes)
+                        {
+                            foreach (TreeNode tnd4 in tnd3.Nodes)
+                            {
+                                foreach (TreeNode tnd5 in tnd4.Nodes)
+                                {
+                                    // Actual Name with [Updated] or [New]
+                                    // Now find it in the treeViewMetadata and set the Checked state to true
+
+                                    foreach (TreeNode tnd6 in tnd5.Nodes)
+                                    {
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (TreeNode mdTnd1 in this.treeViewMetadata.Nodes)
+                        {
+                            foreach (TreeNode mdTnd2 in mdTnd1.Nodes)
+                            {
+                                if (mdTnd2.Text == tnd2Text)
+                                {
+                                    mdTnd2.Checked = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void treeViewMetadata_AfterCheck(object sender, TreeViewEventArgs e)
         {
             if (runTreeNodeSelector == true)
             {
@@ -164,7 +231,7 @@ namespace SalesforceMetadata
                     if (nodeFullPath.Length > 2
                         && nodeFullPath[0] == "aura")
                     {
-                        foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
                         {
                             if (tnd1.Text == "aura")
                             {
@@ -185,7 +252,7 @@ namespace SalesforceMetadata
                     else if (nodeFullPath.Length > 2
                              && nodeFullPath[0] == "lwc")
                     {
-                        foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
                         {
                             if (tnd1.Text == "lwc")
                             {
@@ -234,7 +301,7 @@ namespace SalesforceMetadata
                         }
 
                         // Check off the Metadata Types in the customMetadata folder related to the metadata type checked.
-                        foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
                         {
                             if (tnd1.Text == "customMetadata")
                             {
@@ -260,7 +327,7 @@ namespace SalesforceMetadata
                             && nodeFullPath[0] == "certs")
                     {
                         // Get the class name and then make sure the XML file is checked too
-                        foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
                         {
                             if (tnd1.Text == "certs")
                             {
@@ -278,7 +345,7 @@ namespace SalesforceMetadata
                             && nodeFullPath[0] == "classes")
                     {
                         // Get the class name and then make sure the XML file is checked too
-                        foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
                         {
                             if (tnd1.Text == "classes")
                             {
@@ -296,7 +363,7 @@ namespace SalesforceMetadata
                             && nodeFullPath[0] == "components")
                     {
                         // Get the class name and then make sure the XML file is checked too
-                        foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
                         {
                             if (tnd1.Text == "components")
                             {
@@ -313,7 +380,7 @@ namespace SalesforceMetadata
                     else if (nodeFullPath.Length == 2
                              && nodeFullPath[0] == "contentassets")
                     {
-                        foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
                         {
                             if (tnd1.Text == "contentassets")
                             {
@@ -331,7 +398,7 @@ namespace SalesforceMetadata
                             && nodeFullPath[0] == "pages")
                     {
                         // Get the class name and then make sure the XML file is checked too
-                        foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
                         {
                             if (tnd1.Text == "pages")
                             {
@@ -349,7 +416,7 @@ namespace SalesforceMetadata
                             && nodeFullPath[0] == "staticresources")
                     {
                         // Get the class name and then make sure the XML file is checked too
-                        foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
                         {
                             if (tnd1.Text == "staticresources")
                             {
@@ -370,7 +437,7 @@ namespace SalesforceMetadata
                             && nodeFullPath[0] == "triggers")
                     {
                         // Get the trigger name and then make sure the XML file is checked too
-                        foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
                         {
                             if (tnd1.Text == "triggers")
                             {
@@ -391,7 +458,7 @@ namespace SalesforceMetadata
                         String xmlNodes = "<Layout>";
 
                         // First, make sure the entire layout is included
-                        foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
                         {
                             if (tnd1.Text == "layouts")
                             {
@@ -445,7 +512,7 @@ namespace SalesforceMetadata
 
         public void selectRequiredObjectFields(String objectName)
         {
-            foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
             {
                 if (tnd1.Text == "objects")
                 {
@@ -455,8 +522,6 @@ namespace SalesforceMetadata
                         {
                             foreach (TreeNode tnd3 in tnd2.Nodes)
                             {
-                                String parentNode = MetadataDifferenceProcessing.folderToType(tnd1.FullPath, "");
-
                                 if (tnd3.Text.StartsWith("<deploymentStatus"))
                                 {
                                     tnd3.Checked = true;
@@ -499,7 +564,7 @@ namespace SalesforceMetadata
                 }
             }
 
-            foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
             {
                 if (tnd1.Text == "objects")
                 {
@@ -519,9 +584,9 @@ namespace SalesforceMetadata
                                     {
                                         tnd3.Checked = true;
 
-                                        if (objectName.Contains("__c"))
+                                        if (objectName.EndsWith("__c"))
                                         {
-                                            selectRequiredObjectFields(objectName);
+                                            selectRequiredObjectFields(objectName + ".object");
                                         }
 
                                         // If a standard value set is available on the page layout, make sure to include it in the HashSet to add to the deployment package
@@ -606,7 +671,7 @@ namespace SalesforceMetadata
 
         public void selectStandardValueSets(HashSet<String> standardValueSets)
         {
-            foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
             {
                 if (tnd1.Text == "standardValueSets")
                 {
@@ -630,7 +695,7 @@ namespace SalesforceMetadata
         private void btnBuildProfilesAndPermissionSets_Click(object sender, EventArgs e)
         {
             // Clear all checkboxes as there may have been changes
-            foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
             {
                 if ((tnd1.Text == "profiles"
                     || tnd1.Text == "permissionsets"))
@@ -663,7 +728,7 @@ namespace SalesforceMetadata
 
             Dictionary<String, List<String>> profileNodesToObjectsSelected = new Dictionary<String, List<String>>();
 
-            foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
             {
                 foreach (TreeNode tnd2 in tnd1.Nodes)
                 {
@@ -885,7 +950,7 @@ namespace SalesforceMetadata
             String[] parsedNodePath = nodeFullPath.Split('\\');
             String[] parsedObjectName = parsedNodePath[1].Split('.');
 
-            foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
             {
                 if (tnd1.Text == "profiles"
                     || tnd1.Text == "permissionsets")
@@ -1103,7 +1168,7 @@ namespace SalesforceMetadata
 
         private void updateProfilePermissionSetUserPermission(Dictionary<String, HashSet<String>> profilesPermissionSetsUpdated)
         {
-            foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
             {
                 if ((tnd1.Text == "profiles"
                     || tnd1.Text == "permissionsets")
@@ -1215,11 +1280,11 @@ namespace SalesforceMetadata
             String xmlHeaderLine = "<?xml version =\"1.0\" encoding=\"UTF-8\"?>";
 
             Boolean writeClosingTag = false;
-            String  parentNode = "";
-            String  directoryName = "";
-            String  objectFileName = "";
+            String parentNode = "";
+            String directoryName = "";
+            String objectFileName = "";
 
-            foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
             {
                 if (tnd1.Text == "aura")
                 {
@@ -1489,7 +1554,7 @@ namespace SalesforceMetadata
                                 directoryName = parsedFullPath[0];
                                 objectFileName = parsedFullPath[1];
 
-                                String[] objectNameParsed = parsedFullPath[1].Split('.');
+                                String[] objectNameSplit = parsedFullPath[1].Split('.');
 
                                 // Handle Fields and Objects differently as you will need to list out the fields and objects in 
                                 // the packageXml file since you are generating those individually along with the permission sets and profiles.
@@ -1507,7 +1572,7 @@ namespace SalesforceMetadata
                                         XmlDocument xd = new XmlDocument();
                                         xd.LoadXml(xmlString);
 
-                                        String objectFieldCombo = objectNameParsed[0] + "." + xd.ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
+                                        String objectFieldCombo = objectNameSplit[0] + "." + xd.ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
 
                                         // Add the custom field to the dictionary
                                         if (packageXmlObjectMembers.ContainsKey("CustomField"))
@@ -1522,11 +1587,11 @@ namespace SalesforceMetadata
                                         // Add the custom object 
                                         if (packageXmlObjectMembers.ContainsKey(parentNode))
                                         {
-                                            packageXmlObjectMembers[parentNode].Add(objectNameParsed[0]);
+                                            packageXmlObjectMembers[parentNode].Add(objectNameSplit[0]);
                                         }
                                         else
                                         {
-                                            packageXmlObjectMembers.Add(parentNode, new HashSet<string> { objectNameParsed[0] });
+                                            packageXmlObjectMembers.Add(parentNode, new HashSet<string> { objectNameSplit[0] });
                                         }
 
                                     }
@@ -1534,11 +1599,11 @@ namespace SalesforceMetadata
                                     {
                                         if (packageXmlObjectMembers.ContainsKey(parentNode))
                                         {
-                                            packageXmlObjectMembers[parentNode].Add(objectNameParsed[0]);
+                                            packageXmlObjectMembers[parentNode].Add(objectNameSplit[0]);
                                         }
                                         else
                                         {
-                                            packageXmlObjectMembers.Add(parentNode, new HashSet<string> { objectNameParsed[0] });
+                                            packageXmlObjectMembers.Add(parentNode, new HashSet<string> { objectNameSplit[0] });
                                         }
                                     }
 
@@ -1601,7 +1666,7 @@ namespace SalesforceMetadata
             String directoryName = "";
             String objectFileName = "";
 
-            foreach (TreeNode tnd1 in this.treeViewFiltered.Nodes)
+            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
             {
                 if (tnd1.Text == "aura")
                 {

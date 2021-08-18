@@ -1509,9 +1509,9 @@ namespace SalesforceMetadata
             GenerateDeploymentPackage gdp = new GenerateDeploymentPackage();
 
             gdp.tbMetadataFolderToReadFrom.Text = this.tbFromFolder.Text;
+            gdp.treeNodeCollFromDiff = this.treeViewDifferences.Nodes;
             gdp.populateMetadataTreeView();
-
-
+            gdp.selectDefaultsFromDiff();
 
             gdp.Show();
         }

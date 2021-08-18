@@ -114,14 +114,23 @@ namespace SalesforceMetadata
                 {
                     dgr = SalesforceCredentials.getDescribeGlobalResult(reqOrg);
 
-                    String[] members = new String[dgr.sobjects.Length];
-
-                    for (Int32 i = 0; i < members.Length; i++)
+                    List<String> members = new List<string>();
+                    for (Int32 i = 0; i < dgr.sobjects.Length; i++)
                     {
-                        members[i] = dgr.sobjects[i].name;
+                        String[] memberNameSplit = dgr.sobjects[i].name.Split(new String[] { "__" }, StringSplitOptions.None);
+
+                        // Considerations:
+                        // StandardObject
+                        // Custom object with a name like IO__c
+                        // Custom object with a namespace namespace__Obj_Name__c
+
+                        if (memberNameSplit.Length < 3)
+                        {
+                            members.Add(dgr.sobjects[i].name);
+                        }
                     }
 
-                    getMetadataTypes("CustomObject", packageXmlSB, members);
+                    getMetadataTypes("CustomObject", packageXmlSB, members.ToArray());
                 }
                 else if (selected == "EmailTemplate" && !alreadyAdded.Contains(selected))
                 {

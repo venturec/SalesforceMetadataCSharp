@@ -147,11 +147,11 @@ namespace SalesforceMetadata
         {
             foreach (TreeNode tnd1 in treeNodeCollFromDiff)
             {
-                if (tnd1.Text == "permissionsets"
-                    || tnd1.Text == "profiles")
-                {
-                    continue;
-                }
+                //if (tnd1.Text == "permissionsets"
+                //    || tnd1.Text == "profiles")
+                //{
+                //    continue;
+                //}
 
                 // Get the incoming node text from the Differences.
                 foreach (TreeNode tnd2 in tnd1.Nodes)

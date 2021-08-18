@@ -207,26 +207,27 @@ namespace SalesforceMetadata
                                                 {
                                                     foreach (TreeNode mdTnd3 in mdTnd2.Nodes)
                                                     {
-                                                        //foreach (TreeNode mdTnd4 in mdTnd3.Nodes)
-                                                        //{
-                                                        //    foreach (TreeNode mdTnd5 in mdTnd4.Nodes)
-                                                        //    {
-                                                        //        if (mdTnd5.Text == tnd5Text)
-                                                        //        {
-                                                        //            mdTnd4.Checked = true;
-                                                        //        }
-                                                        //    }
-                                                        //}
-
                                                         // Load the XML from mdTnd3 to determine the name of the object types
                                                         XmlDocument xd = new XmlDocument();
                                                         xd.LoadXml("<document>" + mdTnd3.Text + "</document>");
 
                                                         // Get the Name based on the object element type to see if it is in the differences
                                                         // coming over from the difference report.
+                                                        String nodeBlockNameValue = MetadataDifferenceProcessing.getNameField("CustomObject", xd.ChildNodes[0].ChildNodes[0].Name, xd.ChildNodes[0].ChildNodes[0].OuterXml);
 
+                                                        if (nodeBlockNameValue == "")
+                                                        {
+                                                            nodeBlockNameValue = xd.ChildNodes[0].ChildNodes[0].Name;
+                                                        }
 
-
+                                                        if (nodeBlockNameValue == tnd5Text)
+                                                        {
+                                                            mdTnd3.Checked = true;
+                                                        }
+                                                        else if (nodeBlockNameValue == tnd2Text)
+                                                        {
+                                                            mdTnd3.Checked = true;
+                                                        }
                                                     }
                                                 }
                                             }
@@ -530,6 +531,10 @@ namespace SalesforceMetadata
                         // Third, go back to the object in the Tree View and select all fields which are on the layout based on the object selected
                         selectObjectFieldsFromLayout(objectNameSplit[0], xmlNodes);
                     }
+                    //else if (nodeFullPath[0] == "flexipages")
+                    //{ 
+                    //    String objectType = 
+                    //}
                     else if (nodeFullPath.Length == 2)
                     {
                         foreach (TreeNode tnd3 in e.Node.Nodes)

@@ -562,7 +562,8 @@ namespace SalesforceMetadata
                         if (nodeBlockNameValue == "")
                         {
                             // Just add the entire block to the dictionary
-                            nodeBlockNameValue = "--noName--";
+                            //nodeBlockNameValue = "--noName--";
+                            nodeBlockNameValue = nd2.Name;
 
                             String nd2OuterXml = nd2.OuterXml.Replace(" xmlns=\"http://soap.sforce.com/2006/04/metadata\"", "");
 

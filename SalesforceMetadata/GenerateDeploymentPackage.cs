@@ -241,11 +241,14 @@ namespace SalesforceMetadata
                     {
                         foreach (TreeNode mdTnd1 in this.treeViewMetadata.Nodes)
                         {
-                            foreach (TreeNode mdTnd2 in mdTnd1.Nodes)
+                            if (mdTnd1.Text == tnd1.Text)
                             {
-                                if (mdTnd2.Text == tnd2Text)
+                                foreach (TreeNode mdTnd2 in mdTnd1.Nodes)
                                 {
-                                    mdTnd2.Checked = true;
+                                    if (mdTnd2.Text == tnd2Text)
+                                    {
+                                        mdTnd2.Checked = true;
+                                    }
                                 }
                             }
                         }
@@ -441,6 +444,39 @@ namespace SalesforceMetadata
                             }
                         }
                     }
+                    else if (nodeFullPath[0] == "layouts")
+                    {
+                        String[] objectNameSplit = nodeFullPath[1].Split('-');
+
+                        String xmlNodes = "<Layout>";
+
+                        // First, make sure the entire layout is included
+                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+                        {
+                            if (tnd1.Text == "layouts")
+                            {
+                                foreach (TreeNode tnd2 in tnd1.Nodes)
+                                {
+                                    if (tnd2.Text == nodeFullPath[1])
+                                    {
+                                        tnd2.Checked = true;
+
+                                        foreach (TreeNode tnd3 in tnd2.Nodes)
+                                        {
+                                            tnd3.Checked = true;
+                                            xmlNodes = xmlNodes + tnd3.Text;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        xmlNodes = xmlNodes + "</Layout>";
+
+                        // Second, get the related object and fields from the layout
+                        // Third, go back to the object in the Tree View and select all fields which are on the layout based on the object selected
+                        selectObjectFieldsFromLayout(objectNameSplit[0], xmlNodes);
+                    }
                     else if (nodeFullPath.Length == 2
                             && nodeFullPath[0] == "pages")
                     {
@@ -454,6 +490,28 @@ namespace SalesforceMetadata
                                     if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
                                     {
                                         tnd2.Checked = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (nodeFullPath[0] == "permissionsets")
+                    {
+                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+                        {
+                            if (tnd1.Text == "permissionsets")
+                            {
+                                foreach (TreeNode tnd2 in tnd1.Nodes)
+                                {
+                                    if (tnd2.Text == nodeFullPath[1])
+                                    {
+                                        foreach (TreeNode tnd3 in tnd2.Nodes)
+                                        {
+                                            if (tnd3.Text.StartsWith("<label"))
+                                            {
+                                                tnd3.Checked = true;
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -497,39 +555,6 @@ namespace SalesforceMetadata
                                 }
                             }
                         }
-                    }
-                    else if (nodeFullPath[0] == "layouts")
-                    {
-                        String[] objectNameSplit = nodeFullPath[1].Split('-');
-
-                        String xmlNodes = "<Layout>";
-
-                        // First, make sure the entire layout is included
-                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
-                        {
-                            if (tnd1.Text == "layouts")
-                            {
-                                foreach (TreeNode tnd2 in tnd1.Nodes)
-                                {
-                                    if (tnd2.Text == nodeFullPath[1])
-                                    {
-                                        tnd2.Checked = true;
-
-                                        foreach (TreeNode tnd3 in tnd2.Nodes)
-                                        {
-                                            tnd3.Checked = true;
-                                            xmlNodes = xmlNodes + tnd3.Text;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        xmlNodes = xmlNodes + "</Layout>";
-
-                        // Second, get the related object and fields from the layout
-                        // Third, go back to the object in the Tree View and select all fields which are on the layout based on the object selected
-                        selectObjectFieldsFromLayout(objectNameSplit[0], xmlNodes);
                     }
                     //else if (nodeFullPath[0] == "flexipages")
                     //{ 
@@ -781,10 +806,27 @@ namespace SalesforceMetadata
 
             foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
             {
-                foreach (TreeNode tnd2 in tnd1.Nodes)
+                // We need to review and extract out the permissions for the objects within the detail: object name and permissions, field permissions, record type visibilities
+                if (tnd1.Text == "classes")
                 {
-                    // We need to review and extract out the permissions for the objects within the detail: object name and permissions, field permissions, record type visibilities
-                    if (tnd1.Text == "objects")
+                    foreach (TreeNode tnd2 in tnd1.Nodes)
+                    {
+                        if (tnd2.Checked == true)
+                        {
+                            if (!profileNodesToObjectsSelected.ContainsKey("classAccesses"))
+                            {
+                                profileNodesToObjectsSelected.Add("classAccesses", new List<string> { tnd2.FullPath });
+                            }
+                            else
+                            {
+                                profileNodesToObjectsSelected["classAccesses"].Add(tnd2.FullPath);
+                            }
+                        }
+                    }
+                }
+                else if (tnd1.Text == "objects")
+                {
+                    foreach (TreeNode tnd2 in tnd1.Nodes)
                     {
                         foreach (TreeNode tnd3 in tnd2.Nodes)
                         {
@@ -825,21 +867,11 @@ namespace SalesforceMetadata
                             }
                         }
                     }
-                    else if (tnd1.Text == "classes"
-                             && tnd2.Checked == true)
+                }
+                else
+                {
+                    foreach (TreeNode tnd2 in tnd1.Nodes)
                     {
-                        if (!profileNodesToObjectsSelected.ContainsKey("classAccesses"))
-                        {
-                            profileNodesToObjectsSelected.Add("classAccesses", new List<string> { tnd2.FullPath });
-                        }
-                        else
-                        {
-                            profileNodesToObjectsSelected["classAccesses"].Add(tnd2.FullPath);
-                        }
-                    }
-                    else
-                    {
-                        // For all others, only the folder and name are required when building the profiles and permission sets.
                         foreach (TreeNode tnd3 in tnd2.Nodes)
                         {
                             if (tnd3.Checked == true)

@@ -726,8 +726,6 @@ namespace SalesforceMetadata
         private void addValuesToDictionary(String directoryName, String fileName, String node1Name, String node2Name, String nodeBlockKeys, String value,
                                            Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> comparisonDictionary)
         {
-            //String[] splitNameValue = nodeBlockKeys.Split('|');
-
             value = value.Replace(" xmlns=\"http://soap.sforce.com/2006/04/metadata\"", "");
 
             if (comparisonDictionary.ContainsKey(directoryName))
@@ -927,7 +925,17 @@ namespace SalesforceMetadata
         // Directory Name -> File Name -> Nd1Name -> Nd2Name -> Name Value (may be noName) -> tagName -> node values which are different or do not exist
         private void addToComparedValuesWithNameValueDictionary(String directoryName, String fileName, String nd1Name, String nd2Name, String nameKey, String itemValue, Boolean fileIsNew, Boolean componentIsNew)
         {
+            // Do not include any objects or fields with a Namespace in them.
+            String[] splitFileName = fileName.Split(new String[] { "__" }, StringSplitOptions.None);
+            if (splitFileName.Length > 2) return;
+
+            // This one needs to be done first, then check if the name field contains a namespace
+            // If it does, return from this method without adding the differences to the comparedValuesWithNameValue
             String[] splitNameValue = nameKey.Split('|');
+            
+            String[] splitName = splitNameValue[0].Split(new String[] { "__" }, StringSplitOptions.None);
+            if (splitName.Length > 2) return;
+
 
             if (fileIsNew == true)
             {

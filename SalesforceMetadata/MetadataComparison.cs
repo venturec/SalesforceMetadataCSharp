@@ -357,7 +357,6 @@ namespace SalesforceMetadata
                                     {
                                         checkAndAddDifferencesToDictionary(mstrFileComparison, compFileComparison, true);
                                     }
-
                                 }
                                 catch (Exception exc2)
                                 {
@@ -931,10 +930,25 @@ namespace SalesforceMetadata
 
             // This one needs to be done first, then check if the name field contains a namespace
             // If it does, return from this method without adding the differences to the comparedValuesWithNameValue
-            String[] splitNameValue = nameKey.Split('|');
+            String[] splitKey = nameKey.Split('|');
+            String[] splitObjFieldCombo = splitKey[0].Split('.');
+
+            if (splitObjFieldCombo.Length == 1)
+            {
+                String[] splitNameField1 = splitObjFieldCombo[0].Split(new String[] { "__" }, StringSplitOptions.None);
+                if (splitNameField1.Length > 2) return;
+            }
+            else
+            {
+                String[] splitNameField1 = splitObjFieldCombo[0].Split(new String[] { "__" }, StringSplitOptions.None);
+                String[] splitNameField2 = splitObjFieldCombo[1].Split(new String[] { "__" }, StringSplitOptions.None);
+                if (splitNameField1.Length > 2
+                    || splitNameField2.Length > 2)
+                {
+                    return;
+                }
+            }
             
-            String[] splitName = splitNameValue[0].Split(new String[] { "__" }, StringSplitOptions.None);
-            if (splitName.Length > 2) return;
 
 
             if (fileIsNew == true)
@@ -948,11 +962,11 @@ namespace SalesforceMetadata
 
             if (componentIsNew == true)
             {
-                splitNameValue[0] = "[New] " + splitNameValue[0];
+                splitKey[0] = "[New] " + splitKey[0];
             }
             else
             {
-                splitNameValue[0] = "[Updated] " + splitNameValue[0];
+                splitKey[0] = "[Updated] " + splitKey[0];
             }
 
             if (comparedValuesWithNameValue.ContainsKey(directoryName))
@@ -963,26 +977,26 @@ namespace SalesforceMetadata
                     {
                         if (comparedValuesWithNameValue[directoryName][fileName][nd1Name].ContainsKey(nd2Name))
                         {
-                            if (comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].ContainsKey(splitNameValue[0]))
+                            if (comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].ContainsKey(splitKey[0]))
                             {
-                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][splitNameValue[0]].Add(itemValue);
+                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][splitKey[0]].Add(itemValue);
                             }
                             else
                             {
-                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(splitNameValue[0], new List<string> { itemValue });
+                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(splitKey[0], new List<string> { itemValue });
                             }
                         }
                         else
                         {
                             comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
-                            comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(splitNameValue[0], new List<string> { itemValue });
+                            comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(splitKey[0], new List<string> { itemValue });
                         }
                     }
                     else
                     {
                         comparedValuesWithNameValue[directoryName][fileName].Add(nd1Name, new Dictionary<string, Dictionary<string, List<string>>>());
                         comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
-                        comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(splitNameValue[0], new List<string> { itemValue });
+                        comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(splitKey[0], new List<string> { itemValue });
                     }
                 }
                 else
@@ -990,7 +1004,7 @@ namespace SalesforceMetadata
                     comparedValuesWithNameValue[directoryName].Add(fileName, new Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>());
                     comparedValuesWithNameValue[directoryName][fileName].Add(nd1Name, new Dictionary<string, Dictionary<string, List<string>>>());
                     comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
-                    comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(splitNameValue[0], new List<string> { itemValue });
+                    comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(splitKey[0], new List<string> { itemValue });
                 }
             }
             else
@@ -999,7 +1013,7 @@ namespace SalesforceMetadata
                 comparedValuesWithNameValue[directoryName].Add(fileName, new Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>());
                 comparedValuesWithNameValue[directoryName][fileName].Add(nd1Name, new Dictionary<string, Dictionary<string, List<string>>>());
                 comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
-                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(splitNameValue[0], new List<string> { itemValue });
+                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(splitKey[0], new List<string> { itemValue });
             }
         }
 

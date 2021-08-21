@@ -5248,85 +5248,10 @@ namespace SalesforceMetadata
             xlWorksheet.Cells[1, 13].Value = "LastModifiedDate";
 
             Int32 rowNumber = 2;
-
-            toolingRecords = toolingQr.records;
-            foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
-            {
-                String customObjName = "";
-                String objectFieldNameToLabelKey = "";
-
-                SalesforceMetadata.ToolingWSDL.CustomField1 customFld = (SalesforceMetadata.ToolingWSDL.CustomField1)toolingRecord;
-
-                xlWorksheet.Cells[rowNumber, 1].Value = customFld.Id;
-
-                if (customFld.TableEnumOrId != null && customObjIdToName18.ContainsKey(customFld.TableEnumOrId))
-                {
-                    customObjName = customObjIdToName18[customFld.TableEnumOrId];
-                    xlWorksheet.Cells[rowNumber, 2].Value = customObjName;
-                    objectFieldNameToLabelKey = customObjName + "." + customFld.DeveloperName;
-                }
-                else if (customFld.TableEnumOrId != null && customObjIdToName15.ContainsKey(customFld.TableEnumOrId))
-                {
-                    customObjName = customObjIdToName15[customFld.TableEnumOrId];
-                    xlWorksheet.Cells[rowNumber, 2].Value = customObjName;
-                    objectFieldNameToLabelKey = customObjName + "." + customFld.DeveloperName;
-                }
-                else
-                {
-                    customObjName = customFld.TableEnumOrId;
-                    xlWorksheet.Cells[rowNumber, 2].Value = customObjName;
-                    objectFieldNameToLabelKey = customObjName + "." + customFld.DeveloperName;
-                }
-
-                xlWorksheet.Cells[rowNumber, 3].Value = customFld.NamespacePrefix;
-                xlWorksheet.Cells[rowNumber, 4].Value = customFld.DeveloperName;
-
-                if (objectFieldNameToLabel.ContainsKey(objectFieldNameToLabelKey))
-                {
-                    xlWorksheet.Cells[rowNumber, 5].Value = objectFieldNameToLabel[objectFieldNameToLabelKey][0];
-                    xlWorksheet.Cells[rowNumber, 6].Value = objectFieldNameToLabel[objectFieldNameToLabelKey][1];
-                }
-
-                xlWorksheet.Cells[rowNumber, 7].Value = customFld.ManageableState.ToString();
-                xlWorksheet.Cells[rowNumber, 8].Value = customFld.CreatedById;
-
-                if (customFld.CreatedBy == null)
-                {
-                    xlWorksheet.Cells[rowNumber, 9].Value = "";
-                }
-                else
-                {
-                    xlWorksheet.Cells[rowNumber, 9].Value = customFld.CreatedBy.Name;
-                }
-
-                xlWorksheet.Cells[rowNumber, 10].Value = customFld.LastModifiedById;
-
-                if (customFld.LastModifiedBy == null)
-                {
-                    xlWorksheet.Cells[rowNumber, 11].Value = "";
-                }
-                else
-                {
-                    xlWorksheet.Cells[rowNumber, 11].Value = customFld.LastModifiedBy.Name;
-                }
-
-                xlWorksheet.Cells[rowNumber, 12].Value = customFld.CreatedDate;
-                xlWorksheet.Cells[rowNumber, 13].Value = customFld.LastModifiedDate;
-
-                rowNumber++;
-            }
-
-            //String queryLocatorId = "";
             Boolean done = false;
-            if (toolingQr.done == true)
-            {
-                done = true;
-            }
 
             while (done == false)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
-
                 toolingRecords = toolingQr.records;
 
                 foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
@@ -5340,19 +5265,21 @@ namespace SalesforceMetadata
 
                     if (customFld.TableEnumOrId != null && customObjIdToName18.ContainsKey(customFld.TableEnumOrId))
                     {
-                        xlWorksheet.Cells[rowNumber, 2].Value = customObjIdToName18[customFld.TableEnumOrId];
                         customObjName = customObjIdToName18[customFld.TableEnumOrId];
+                        xlWorksheet.Cells[rowNumber, 2].Value = customObjName;
                         objectFieldNameToLabelKey = customObjName + "." + customFld.DeveloperName;
                     }
                     else if (customFld.TableEnumOrId != null && customObjIdToName15.ContainsKey(customFld.TableEnumOrId))
                     {
-                        xlWorksheet.Cells[rowNumber, 2].Value = customObjIdToName15[customFld.TableEnumOrId];
                         customObjName = customObjIdToName15[customFld.TableEnumOrId];
+                        xlWorksheet.Cells[rowNumber, 2].Value = customObjName;
                         objectFieldNameToLabelKey = customObjName + "." + customFld.DeveloperName;
                     }
                     else
                     {
-                        xlWorksheet.Cells[rowNumber, 2].Value = customFld.TableEnumOrId;
+                        customObjName = customFld.TableEnumOrId;
+                        xlWorksheet.Cells[rowNumber, 2].Value = customObjName;
+                        objectFieldNameToLabelKey = customObjName + "." + customFld.DeveloperName;
                     }
 
                     xlWorksheet.Cells[rowNumber, 3].Value = customFld.NamespacePrefix;
@@ -5396,6 +5323,10 @@ namespace SalesforceMetadata
                 if (toolingQr.done)
                 {
                     done = true;
+                }
+                else
+                {
+                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }

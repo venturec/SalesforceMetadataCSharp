@@ -560,7 +560,7 @@ namespace SalesforceMetadata
 
         public static String CustomFieldQuery()
         {
-            String query = "SELECT Id, TableEnumOrId, DeveloperName, ManageableState, " +
+            String query = "SELECT Id, TableEnumOrId, DeveloperName, ManageableState, NamespacePrefix, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM CustomField";
 
@@ -5208,7 +5208,8 @@ namespace SalesforceMetadata
                                               String query, 
                                               UtilityClass.REQUESTINGORG reqOrg, 
                                               Dictionary<String, String> customObjIdToName18, 
-                                              Dictionary<String, String> customObjIdToName15)
+                                              Dictionary<String, String> customObjIdToName15,
+                                              Dictionary<String, List<String>> objectFieldNameToLabel)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
             SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
@@ -5224,7 +5225,6 @@ namespace SalesforceMetadata
 
             if (toolingQr.records == null) return;
 
-            toolingRecords = toolingQr.records;
 
             Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
                                                                     (System.Reflection.Missing.Value,
@@ -5235,63 +5235,168 @@ namespace SalesforceMetadata
             xlWorksheet.Name = "CustomFields";
             xlWorksheet.Cells[1, 1].Value = "Id";
             xlWorksheet.Cells[1, 2].Value = "CustomObjectName";
-            xlWorksheet.Cells[1, 3].Value = "DeveloperName";
-            xlWorksheet.Cells[1, 4].Value = "ManageableState";
-            xlWorksheet.Cells[1, 5].Value = "CreatedById";
-            xlWorksheet.Cells[1, 6].Value = "CreatedByName";
-            xlWorksheet.Cells[1, 7].Value = "LastModifiedById";
-            xlWorksheet.Cells[1, 8].Value = "LastModifiedByName";
-            xlWorksheet.Cells[1, 9].Value = "CreatedDate";
-            xlWorksheet.Cells[1, 10].Value = "LastModifiedDate";
+            xlWorksheet.Cells[1, 3].Value = "NamespacePrefix";
+            xlWorksheet.Cells[1, 4].Value = "DeveloperName";
+            xlWorksheet.Cells[1, 5].Value = "Label";
+            xlWorksheet.Cells[1, 6].Value = "Type";
+            xlWorksheet.Cells[1, 7].Value = "ManageableState";
+            xlWorksheet.Cells[1, 8].Value = "CreatedById";
+            xlWorksheet.Cells[1, 9].Value = "CreatedByName";
+            xlWorksheet.Cells[1, 10].Value = "LastModifiedById";
+            xlWorksheet.Cells[1, 11].Value = "LastModifiedByName";
+            xlWorksheet.Cells[1, 12].Value = "CreatedDate";
+            xlWorksheet.Cells[1, 13].Value = "LastModifiedDate";
 
             Int32 rowNumber = 2;
+
+            toolingRecords = toolingQr.records;
             foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
             {
+                String customObjName = "";
+                String objectFieldNameToLabelKey = "";
+
                 SalesforceMetadata.ToolingWSDL.CustomField1 customFld = (SalesforceMetadata.ToolingWSDL.CustomField1)toolingRecord;
 
                 xlWorksheet.Cells[rowNumber, 1].Value = customFld.Id;
 
                 if (customFld.TableEnumOrId != null && customObjIdToName18.ContainsKey(customFld.TableEnumOrId))
                 {
-                    xlWorksheet.Cells[rowNumber, 2].Value = customObjIdToName18[customFld.TableEnumOrId];
+                    customObjName = customObjIdToName18[customFld.TableEnumOrId];
+                    xlWorksheet.Cells[rowNumber, 2].Value = customObjName;
+                    objectFieldNameToLabelKey = customObjName + "." + customFld.DeveloperName;
                 }
                 else if (customFld.TableEnumOrId != null && customObjIdToName15.ContainsKey(customFld.TableEnumOrId))
                 {
-                    xlWorksheet.Cells[rowNumber, 2].Value = customObjIdToName15[customFld.TableEnumOrId];
+                    customObjName = customObjIdToName15[customFld.TableEnumOrId];
+                    xlWorksheet.Cells[rowNumber, 2].Value = customObjName;
+                    objectFieldNameToLabelKey = customObjName + "." + customFld.DeveloperName;
                 }
                 else
                 {
-                    xlWorksheet.Cells[rowNumber, 2].Value = customFld.TableEnumOrId;
+                    customObjName = customFld.TableEnumOrId;
+                    xlWorksheet.Cells[rowNumber, 2].Value = customObjName;
+                    objectFieldNameToLabelKey = customObjName + "." + customFld.DeveloperName;
                 }
 
-                xlWorksheet.Cells[rowNumber, 3].Value = customFld.DeveloperName;
-                xlWorksheet.Cells[rowNumber, 4].Value = customFld.ManageableState;
-                xlWorksheet.Cells[rowNumber, 5].Value = customFld.CreatedById;
+                xlWorksheet.Cells[rowNumber, 3].Value = customFld.NamespacePrefix;
+                xlWorksheet.Cells[rowNumber, 4].Value = customFld.DeveloperName;
+
+                if (objectFieldNameToLabel.ContainsKey(objectFieldNameToLabelKey))
+                {
+                    xlWorksheet.Cells[rowNumber, 5].Value = objectFieldNameToLabel[objectFieldNameToLabelKey][0];
+                    xlWorksheet.Cells[rowNumber, 6].Value = objectFieldNameToLabel[objectFieldNameToLabelKey][1];
+                }
+
+                xlWorksheet.Cells[rowNumber, 7].Value = customFld.ManageableState.ToString();
+                xlWorksheet.Cells[rowNumber, 8].Value = customFld.CreatedById;
 
                 if (customFld.CreatedBy == null)
                 {
-                    xlWorksheet.Cells[rowNumber, 6].Value = "";
+                    xlWorksheet.Cells[rowNumber, 9].Value = "";
                 }
                 else
                 {
-                    xlWorksheet.Cells[rowNumber, 6].Value = customFld.CreatedBy.Name;
+                    xlWorksheet.Cells[rowNumber, 9].Value = customFld.CreatedBy.Name;
                 }
 
-                xlWorksheet.Cells[rowNumber, 7].Value = customFld.LastModifiedById;
+                xlWorksheet.Cells[rowNumber, 10].Value = customFld.LastModifiedById;
 
                 if (customFld.LastModifiedBy == null)
                 {
-                    xlWorksheet.Cells[rowNumber, 8].Value = "";
+                    xlWorksheet.Cells[rowNumber, 11].Value = "";
                 }
                 else
                 {
-                    xlWorksheet.Cells[rowNumber, 8].Value = customFld.LastModifiedBy.Name;
+                    xlWorksheet.Cells[rowNumber, 11].Value = customFld.LastModifiedBy.Name;
                 }
 
-                xlWorksheet.Cells[rowNumber, 9].Value = customFld.CreatedDate;
-                xlWorksheet.Cells[rowNumber, 10].Value = customFld.LastModifiedDate;
+                xlWorksheet.Cells[rowNumber, 12].Value = customFld.CreatedDate;
+                xlWorksheet.Cells[rowNumber, 13].Value = customFld.LastModifiedDate;
 
                 rowNumber++;
+            }
+
+            //String queryLocatorId = "";
+            Boolean done = false;
+            if (toolingQr.done == true)
+            {
+                done = true;
+            }
+
+            while (done == false)
+            {
+                toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+
+                toolingRecords = toolingQr.records;
+
+                foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
+                {
+                    String customObjName = "";
+                    String objectFieldNameToLabelKey = "";
+
+                    SalesforceMetadata.ToolingWSDL.CustomField1 customFld = (SalesforceMetadata.ToolingWSDL.CustomField1)toolingRecord;
+
+                    xlWorksheet.Cells[rowNumber, 1].Value = customFld.Id;
+
+                    if (customFld.TableEnumOrId != null && customObjIdToName18.ContainsKey(customFld.TableEnumOrId))
+                    {
+                        xlWorksheet.Cells[rowNumber, 2].Value = customObjIdToName18[customFld.TableEnumOrId];
+                        customObjName = customObjIdToName18[customFld.TableEnumOrId];
+                        objectFieldNameToLabelKey = customObjName + "." + customFld.DeveloperName;
+                    }
+                    else if (customFld.TableEnumOrId != null && customObjIdToName15.ContainsKey(customFld.TableEnumOrId))
+                    {
+                        xlWorksheet.Cells[rowNumber, 2].Value = customObjIdToName15[customFld.TableEnumOrId];
+                        customObjName = customObjIdToName15[customFld.TableEnumOrId];
+                        objectFieldNameToLabelKey = customObjName + "." + customFld.DeveloperName;
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 2].Value = customFld.TableEnumOrId;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 3].Value = customFld.NamespacePrefix;
+                    xlWorksheet.Cells[rowNumber, 4].Value = customFld.DeveloperName;
+
+                    if (objectFieldNameToLabel.ContainsKey(objectFieldNameToLabelKey))
+                    {
+                        xlWorksheet.Cells[rowNumber, 5].Value = objectFieldNameToLabel[objectFieldNameToLabelKey][0];
+                        xlWorksheet.Cells[rowNumber, 6].Value = objectFieldNameToLabel[objectFieldNameToLabelKey][1];
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 7].Value = customFld.ManageableState.ToString();
+                    xlWorksheet.Cells[rowNumber, 8].Value = customFld.CreatedById;
+
+                    if (customFld.CreatedBy == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 9].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 9].Value = customFld.CreatedBy.Name;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 10].Value = customFld.LastModifiedById;
+
+                    if (customFld.LastModifiedBy == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 11].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 11].Value = customFld.LastModifiedBy.Name;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 12].Value = customFld.CreatedDate;
+                    xlWorksheet.Cells[rowNumber, 13].Value = customFld.LastModifiedDate;
+
+                    rowNumber++;
+                }
+
+                if (toolingQr.done)
+                {
+                    done = true;
+                }
             }
         }
 
@@ -5325,24 +5430,7 @@ namespace SalesforceMetadata
                                                                         System.Reflection.Missing.Value,
                                                                         System.Reflection.Missing.Value);
 
-            //Int32 rowNumberStart = 1;
             Int32 rowNumberEnd = 1;
-            //Int32 colNumberStart = 1;
-            //Int32 colNumberEnd = 12;
-
-            //String[] rowValues = new string[12];
-            //rowValues[0] = "CustomObjects";
-            //rowValues[1] = "Id";
-            //rowValues[2] = "DeveloperName";
-            //rowValues[3] = "NamespacePrefix";
-            //rowValues[4] = "ExternalName";
-            //rowValues[5] = "ExternalRepository";
-            //rowValues[6] = "ManageableState";
-            //rowValues[7] = "SharingModel";
-            //rowValues[8] = "LastModifiedById";
-            //rowValues[9] = "LastModifiedByName";
-            //rowValues[10] = "CreatedDate";
-            //rowValues[11] = "LastModifiedDate";
 
             xlWorksheet.Name = "CustomObjects";
             xlWorksheet.Cells[1, 1].Value = "Id";

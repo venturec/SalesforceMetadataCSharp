@@ -54,6 +54,8 @@ namespace SalesforceMetadata
                 Dictionary<String, String> customObjIdToName15 = new Dictionary<String, String>();
                 Dictionary<String, String> classIdToClassName = new Dictionary<String, String>();
 
+                // Key = ObjectName.FieldName, Value = Label, Type
+                Dictionary<String, List<String>> objectFieldNameToLabel = new Dictionary<String, List<String>>();
 
                 Dictionary<String, ToolingApiHelper.WorkflowRule> workflowRules = new Dictionary<String, ToolingApiHelper.WorkflowRule>();
                 Dictionary<String, ToolingApiHelper.WorkflowFieldUpdate> workflowFieldUpdatesByFullName = new Dictionary<String, ToolingApiHelper.WorkflowFieldUpdate>();
@@ -61,6 +63,10 @@ namespace SalesforceMetadata
                 //Dictionary<String, WorkflowAlert> workflowAlerts = new Dictionary<String, WorkflowAlert>();
                 //Dictionary<String, WorkflowOutboundMessage> workflowOutboundMsgs = new Dictionary<String, WorkflowOutboundMessage>();
 
+                // Salesforce does not return custom object and custom field api names with the __c so we can't match easily to what is in the metadata
+                // Some orgs have duplicate Case Type fields: one of them is the standard one, and the other is a custom one, but the Tooling API returns
+                // both with the same DeveloperName - Type and the custom one does not have the __c
+                parseObjectFiles(objectFieldNameToLabel);
                 parseWorkflowRules(workflowRules, workflowFieldUpdatesByFullName, workflowFieldUpdatesByName);
 
                 Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
@@ -74,7 +80,7 @@ namespace SalesforceMetadata
                 ToolingApiHelper.customObjectToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
 
                 query = ToolingApiHelper.CustomFieldQuery();
-                ToolingApiHelper.customFieldToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
+                ToolingApiHelper.customFieldToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15, objectFieldNameToLabel);
 
                 query = ToolingApiHelper.ApexClassQuery("");
                 ToolingApiHelper.apexClassToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
@@ -103,6 +109,10 @@ namespace SalesforceMetadata
                 query = ToolingApiHelper.WorkflowFieldUpdateQuery();
                 ToolingApiHelper.workflowFieldUpdateToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15, workflowFieldUpdatesByName);
 
+                query = ToolingApiHelper.ValidationRuleQuery("", "");
+                ToolingApiHelper.validationRuleToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
+
+
                 /*
                 query = ToolingApiHelper.WorkflowOutboundMessageQuery();
                 ToolingApiHelper.workflowOutboundMessageToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
@@ -113,11 +123,6 @@ namespace SalesforceMetadata
                 query = ToolingApiHelper.WorkSkillRoutingQuery();
                 ToolingApiHelper.workSkillRoutingToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
                 */
-
-
-                query = ToolingApiHelper.ValidationRuleQuery("", "");
-                ToolingApiHelper.validationRuleToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
-
 
                 // Now go through the metadata to find all configuration items and generate a lines report for each one:
                 // The main areas to focus on are:
@@ -145,155 +150,236 @@ namespace SalesforceMetadata
             }
         }
 
-        private void getLinesOfConfiguration(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, String directory, String folder, String tabName)
+        //private void getLinesOfConfiguration(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, String directory, String folder, String tabName)
+        //{
+
+        //    String[] files = Directory.GetFiles(directory + "\\" + folder);
+
+        //    Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
+        //                                                (System.Reflection.Missing.Value,
+        //                                                    xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
+        //                                                    System.Reflection.Missing.Value,
+        //                                                    System.Reflection.Missing.Value);
+
+        //    xlWorksheet.Name = tabName;
+        //    xlWorksheet.Cells[1, 1].Value = "Name";
+        //    xlWorksheet.Cells[1, 2].Value = "LinesOfConfiguration";
+
+        //    Int32 rowNumber = 2;
+        //    foreach (String file in files)
+        //    {
+        //        Int32 linesOfConfiguration = 0;
+
+        //        String[] fileNamePath = file.Split('\\');
+        //        String[] fileName = fileNamePath[fileNamePath.Length - 1].Split('.');
+
+        //        XmlDocument xd = new XmlDocument();
+        //        xd.Load(file);
+
+        //        XmlNodeList isActiveCheck = xd.GetElementsByTagName("active");
+
+        //        if (isActiveCheck.Count > 0 && isActiveCheck[0].InnerText == "false") continue;
+
+        //        foreach (XmlNode nd1 in xd.ChildNodes)
+        //        {
+        //            if (nd1.HasChildNodes)
+        //            {
+        //                foreach (XmlNode nd2 in nd1.ChildNodes)
+        //                {
+        //                    if (nd2.HasChildNodes)
+        //                    {
+        //                        foreach (XmlNode nd3 in nd2.ChildNodes)
+        //                        {
+        //                            if (nd3.HasChildNodes)
+        //                            {
+        //                                foreach (XmlNode nd4 in nd3.ChildNodes)
+        //                                {
+        //                                    if (nd4.HasChildNodes)
+        //                                    {
+        //                                        foreach (XmlNode nd5 in nd4.ChildNodes)
+        //                                        {
+        //                                            if (nd5.HasChildNodes)
+        //                                            {
+        //                                                foreach (XmlNode nd6 in nd5.ChildNodes)
+        //                                                {
+        //                                                    if (nd6.HasChildNodes)
+        //                                                    {
+        //                                                        foreach (XmlNode nd7 in nd6.ChildNodes)
+        //                                                        {
+        //                                                            if (nd7.HasChildNodes)
+        //                                                            {
+        //                                                                foreach (XmlNode nd8 in nd7.ChildNodes)
+        //                                                                {
+        //                                                                    if (nd8.HasChildNodes)
+        //                                                                    {
+        //                                                                        foreach (XmlNode nd9 in nd8.ChildNodes)
+        //                                                                        {
+        //                                                                            if (nd9.HasChildNodes)
+        //                                                                            {
+        //                                                                                foreach (XmlNode nd10 in nd9.ChildNodes)
+        //                                                                                {
+        //                                                                                    if (nd10.HasChildNodes)
+        //                                                                                    {
+        //                                                                                        foreach (XmlNode nd11 in nd10.ChildNodes)
+        //                                                                                        {
+        //                                                                                            if (nd11.HasChildNodes)
+        //                                                                                            {
+        //                                                                                            }
+        //                                                                                            else if (nd10.Name != "description" && nd11.Name == "#text")
+        //                                                                                            {
+        //                                                                                                linesOfConfiguration++;
+        //                                                                                            }
+        //                                                                                        }
+        //                                                                                    }
+        //                                                                                    else if (nd9.Name != "description" && nd10.Name == "#text")
+        //                                                                                    {
+        //                                                                                        linesOfConfiguration++;
+        //                                                                                    }
+        //                                                                                }
+        //                                                                            }
+        //                                                                            else if (nd8.Name != "description" && nd9.Name == "#text")
+        //                                                                            {
+        //                                                                                linesOfConfiguration++;
+        //                                                                            }
+        //                                                                        }
+        //                                                                    }
+        //                                                                    else if (nd7.Name != "description" && nd8.Name == "#text")
+        //                                                                    {
+        //                                                                        linesOfConfiguration++;
+        //                                                                    }
+        //                                                                }
+        //                                                            }
+        //                                                            else if (nd6.Name != "description" && nd7.Name == "#text")
+        //                                                            {
+        //                                                                linesOfConfiguration++;
+        //                                                            }
+        //                                                        }
+        //                                                    }
+        //                                                    else if (nd5.Name != "description" && nd6.Name == "#text")
+        //                                                    {
+        //                                                        linesOfConfiguration++;
+        //                                                    }
+        //                                                }
+        //                                            }
+        //                                            else if (nd4.Name != "description" && nd5.Name == "#text")
+        //                                            {
+        //                                                linesOfConfiguration++;
+        //                                            }
+        //                                        }
+        //                                    }
+        //                                    else if (nd3.Name != "description" && nd4.Name == "#text")
+        //                                    {
+        //                                        linesOfConfiguration++;
+        //                                    }
+        //                                }
+        //                            }
+        //                            else if (nd2.Name != "description" && nd3.Name == "#text")
+        //                            {
+        //                                linesOfConfiguration++;
+        //                            }
+        //                        }
+        //                    }
+        //                    else if (nd1.Name != "description" && nd2.Name == "#text")
+        //                    {
+        //                        linesOfConfiguration++;
+        //                    }
+        //                }
+        //            }
+        //            else if (nd1.Name == "#text")
+        //            {
+        //                linesOfConfiguration++;
+        //            }
+        //        }
+
+        //        xlWorksheet.Cells[rowNumber, 1].Value = fileName[fileName.Length - 2];
+        //        xlWorksheet.Cells[rowNumber, 2].Value = linesOfConfiguration;
+
+        //        rowNumber++;
+        //    }
+
+
+        //    //return linesOfConfiguration;
+        //}
+
+
+        // To match the Tooling API Object + Field DeveloperName:
+        // The Tooling API does not return standard fields, only custom fields.
+        // Remove the __c from the object name
+        // Do not add standard fields.
+        // Check if the field name contains a __c first, remove the __c from the field name and then add it
+        private void parseObjectFiles(Dictionary<String, List<String>> objectFieldNameToLabel)
         {
-
-            String[] files = Directory.GetFiles(directory + "\\" + folder);
-
-            Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
-                                                        (System.Reflection.Missing.Value,
-                                                            xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
-                                                            System.Reflection.Missing.Value,
-                                                            System.Reflection.Missing.Value);
-
-            xlWorksheet.Name = tabName;
-            xlWorksheet.Cells[1, 1].Value = "Name";
-            xlWorksheet.Cells[1, 2].Value = "LinesOfConfiguration";
-
-            Int32 rowNumber = 2;
-            foreach (String file in files)
+            if (Directory.Exists(this.tbMetadataFolderLocation.Text + "\\objects"))
             {
-                Int32 linesOfConfiguration = 0;
-
-                String[] fileNamePath = file.Split('\\');
-                String[] fileName = fileNamePath[fileNamePath.Length - 1].Split('.');
-
-                XmlDocument xd = new XmlDocument();
-                xd.Load(file);
-
-                XmlNodeList isActiveCheck = xd.GetElementsByTagName("active");
-
-                if (isActiveCheck.Count > 0 && isActiveCheck[0].InnerText == "false") continue;
-
-                foreach (XmlNode nd1 in xd.ChildNodes)
+                String[] objectFiles = Directory.GetFiles(this.tbMetadataFolderLocation.Text + "\\objects");
+                if (objectFiles.Length > 0)
                 {
-                    if (nd1.HasChildNodes)
+                    foreach (String fl in objectFiles)
                     {
-                        foreach (XmlNode nd2 in nd1.ChildNodes)
+                        String[] fileSplit = fl.Split('\\');
+                        String[] fileNameSplit = fileSplit[fileSplit.Length - 1].Split('.');
+                        String objectName = "";
+
+
+                        if (fileNameSplit[0].EndsWith("__c"))
                         {
-                            if (nd2.HasChildNodes)
+                            objectName = fileNameSplit[0].Substring(0, fileNameSplit[0].Length - 3);
+                        }
+                        else if (fileNameSplit[0].EndsWith("__kav"))
+                        {
+                            objectName = fileNameSplit[0].Substring(0, fileNameSplit[0].Length - 5);
+                        }
+                        else if (fileNameSplit[0].EndsWith("__mdt"))
+                        {
+                            objectName = fileNameSplit[0].Substring(0, fileNameSplit[0].Length - 5);
+                        }
+                        else
+                        {
+                            objectName = fileNameSplit[0];
+                        }
+
+                        XmlDocument xd = new XmlDocument();
+                        xd.Load(fl);
+
+                        XmlNodeList objectFieldsNodesList = xd.GetElementsByTagName("fields");
+                        foreach (XmlNode nd1 in objectFieldsNodesList)
+                        {
+                            if (nd1.ParentNode.Name == "CustomObject")
                             {
-                                foreach (XmlNode nd3 in nd2.ChildNodes)
+                                String fieldApiName = "";
+                                String label = "";
+                                String type = "";
+
+                                foreach (XmlNode nd2 in nd1.ChildNodes)
                                 {
-                                    if (nd3.HasChildNodes)
+                                    if (nd2.Name == "fullName"
+                                        && nd2.InnerText.EndsWith("__c"))
                                     {
-                                        foreach (XmlNode nd4 in nd3.ChildNodes)
-                                        {
-                                            if (nd4.HasChildNodes)
-                                            {
-                                                foreach (XmlNode nd5 in nd4.ChildNodes)
-                                                {
-                                                    if (nd5.HasChildNodes)
-                                                    {
-                                                        foreach (XmlNode nd6 in nd5.ChildNodes)
-                                                        {
-                                                            if (nd6.HasChildNodes)
-                                                            {
-                                                                foreach (XmlNode nd7 in nd6.ChildNodes)
-                                                                {
-                                                                    if (nd7.HasChildNodes)
-                                                                    {
-                                                                        foreach (XmlNode nd8 in nd7.ChildNodes)
-                                                                        {
-                                                                            if (nd8.HasChildNodes)
-                                                                            {
-                                                                                foreach (XmlNode nd9 in nd8.ChildNodes)
-                                                                                {
-                                                                                    if (nd9.HasChildNodes)
-                                                                                    {
-                                                                                        foreach (XmlNode nd10 in nd9.ChildNodes)
-                                                                                        {
-                                                                                            if (nd10.HasChildNodes)
-                                                                                            {
-                                                                                                foreach (XmlNode nd11 in nd10.ChildNodes)
-                                                                                                {
-                                                                                                    if (nd11.HasChildNodes)
-                                                                                                    {
-                                                                                                    }
-                                                                                                    else if (nd10.Name != "description" && nd11.Name == "#text")
-                                                                                                    {
-                                                                                                        linesOfConfiguration++;
-                                                                                                    }
-                                                                                                }
-                                                                                            }
-                                                                                            else if (nd9.Name != "description" && nd10.Name == "#text")
-                                                                                            {
-                                                                                                linesOfConfiguration++;
-                                                                                            }
-                                                                                        }
-                                                                                    }
-                                                                                    else if (nd8.Name != "description" && nd9.Name == "#text")
-                                                                                    {
-                                                                                        linesOfConfiguration++;
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                            else if (nd7.Name != "description" && nd8.Name == "#text")
-                                                                            {
-                                                                                linesOfConfiguration++;
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                    else if (nd6.Name != "description" && nd7.Name == "#text")
-                                                                    {
-                                                                        linesOfConfiguration++;
-                                                                    }
-                                                                }
-                                                            }
-                                                            else if (nd5.Name != "description" && nd6.Name == "#text")
-                                                            {
-                                                                linesOfConfiguration++;
-                                                            }
-                                                        }
-                                                    }
-                                                    else if (nd4.Name != "description" && nd5.Name == "#text")
-                                                    {
-                                                        linesOfConfiguration++;
-                                                    }
-                                                }
-                                            }
-                                            else if (nd3.Name != "description" && nd4.Name == "#text")
-                                            {
-                                                linesOfConfiguration++;
-                                            }
-                                        }
+                                        fieldApiName = nd2.InnerText.Substring(0, nd2.InnerText.Length - 3);
                                     }
-                                    else if (nd2.Name != "description" && nd3.Name == "#text")
+                                    else if (nd2.Name == "label")
                                     {
-                                        linesOfConfiguration++;
+                                        label = nd2.InnerText;
+                                    }
+                                    else if (nd2.Name == "type")
+                                    {
+                                        type = nd2.InnerText;
                                     }
                                 }
-                            }
-                            else if (nd1.Name != "description" && nd2.Name == "#text")
-                            {
-                                linesOfConfiguration++;
+
+                                if (fieldApiName != "")
+                                {
+                                    List<String> tempList = new List<string>();
+                                    tempList.Add(label);
+                                    tempList.Add(type);
+
+                                    objectFieldNameToLabel.Add(objectName + "." + fieldApiName, tempList);
+                                }
                             }
                         }
                     }
-                    else if (nd1.Name == "#text")
-                    {
-                        linesOfConfiguration++;
-                    }
                 }
-
-                xlWorksheet.Cells[rowNumber, 1].Value = fileName[fileName.Length - 2];
-                xlWorksheet.Cells[rowNumber, 2].Value = linesOfConfiguration;
-
-                rowNumber++;
             }
-
-
-            //return linesOfConfiguration;
         }
 
         private void parseWorkflowRules(Dictionary<String, ToolingApiHelper.WorkflowRule> workflowRules,
@@ -445,6 +531,7 @@ namespace SalesforceMetadata
                         }
                     }
                 }
+
             }
         }
     }

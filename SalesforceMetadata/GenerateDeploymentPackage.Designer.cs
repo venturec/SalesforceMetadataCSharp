@@ -51,16 +51,16 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treeViewMetadata.CheckBoxes = true;
             this.treeViewMetadata.Location = new System.Drawing.Point(20, 214);
-            this.treeViewMetadata.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.treeViewMetadata.Margin = new System.Windows.Forms.Padding(4);
             this.treeViewMetadata.Name = "treeViewMetadata";
-            this.treeViewMetadata.Size = new System.Drawing.Size(1687, 729);
+            this.treeViewMetadata.Size = new System.Drawing.Size(1377, 552);
             this.treeViewMetadata.TabIndex = 7;
             this.treeViewMetadata.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMetadata_AfterCheck);
             // 
             // tbDeploymentPackageLocation
             // 
             this.tbDeploymentPackageLocation.Location = new System.Drawing.Point(328, 47);
-            this.tbDeploymentPackageLocation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbDeploymentPackageLocation.Margin = new System.Windows.Forms.Padding(4);
             this.tbDeploymentPackageLocation.Name = "tbDeploymentPackageLocation";
             this.tbDeploymentPackageLocation.Size = new System.Drawing.Size(689, 22);
             this.tbDeploymentPackageLocation.TabIndex = 3;
@@ -80,7 +80,7 @@
             // tbMetadataFolderToReadFrom
             // 
             this.tbMetadataFolderToReadFrom.Location = new System.Drawing.Point(328, 15);
-            this.tbMetadataFolderToReadFrom.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbMetadataFolderToReadFrom.Margin = new System.Windows.Forms.Padding(4);
             this.tbMetadataFolderToReadFrom.Name = "tbMetadataFolderToReadFrom";
             this.tbMetadataFolderToReadFrom.Size = new System.Drawing.Size(689, 22);
             this.tbMetadataFolderToReadFrom.TabIndex = 1;
@@ -99,8 +99,8 @@
             // 
             // btnBuildPackageXml
             // 
-            this.btnBuildPackageXml.Location = new System.Drawing.Point(1421, 137);
-            this.btnBuildPackageXml.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBuildPackageXml.Location = new System.Drawing.Point(1053, 137);
+            this.btnBuildPackageXml.Margin = new System.Windows.Forms.Padding(4);
             this.btnBuildPackageXml.Name = "btnBuildPackageXml";
             this.btnBuildPackageXml.Size = new System.Drawing.Size(287, 28);
             this.btnBuildPackageXml.TabIndex = 11;
@@ -111,7 +111,7 @@
             // btnBuildProfilesAndPermissionSets
             // 
             this.btnBuildProfilesAndPermissionSets.Location = new System.Drawing.Point(20, 137);
-            this.btnBuildProfilesAndPermissionSets.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBuildProfilesAndPermissionSets.Margin = new System.Windows.Forms.Padding(4);
             this.btnBuildProfilesAndPermissionSets.Name = "btnBuildProfilesAndPermissionSets";
             this.btnBuildProfilesAndPermissionSets.Size = new System.Drawing.Size(287, 28);
             this.btnBuildProfilesAndPermissionSets.TabIndex = 8;
@@ -121,12 +121,12 @@
             // 
             // tbInformation
             // 
-            this.tbInformation.Location = new System.Drawing.Point(1191, 15);
-            this.tbInformation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbInformation.Location = new System.Drawing.Point(1038, 16);
+            this.tbInformation.Margin = new System.Windows.Forms.Padding(4);
             this.tbInformation.Multiline = true;
             this.tbInformation.Name = "tbInformation";
             this.tbInformation.ReadOnly = true;
-            this.tbInformation.Size = new System.Drawing.Size(516, 46);
+            this.tbInformation.Size = new System.Drawing.Size(369, 70);
             this.tbInformation.TabIndex = 13;
             this.tbInformation.Text = "This uses a TreeView and the TreeView object has not kept up with the current dat" +
     "a intensive needs. Performance is very slow.";
@@ -139,8 +139,8 @@
             "destructiveChanges",
             "destructiveChangesPre",
             "destructiveChangesPost"});
-            this.cmbDestructiveChange.Location = new System.Drawing.Point(1123, 139);
-            this.cmbDestructiveChange.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbDestructiveChange.Location = new System.Drawing.Point(744, 137);
+            this.cmbDestructiveChange.Margin = new System.Windows.Forms.Padding(4);
             this.cmbDestructiveChange.Name = "cmbDestructiveChange";
             this.cmbDestructiveChange.Size = new System.Drawing.Size(273, 24);
             this.cmbDestructiveChange.TabIndex = 10;
@@ -150,7 +150,7 @@
             // lblDestructiveChangeType
             // 
             this.lblDestructiveChangeType.AutoSize = true;
-            this.lblDestructiveChangeType.Location = new System.Drawing.Point(944, 143);
+            this.lblDestructiveChangeType.Location = new System.Drawing.Point(565, 141);
             this.lblDestructiveChangeType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDestructiveChangeType.Name = "lblDestructiveChangeType";
             this.lblDestructiveChangeType.Size = new System.Drawing.Size(168, 17);
@@ -174,8 +174,8 @@
             // 
             // btnNext
             // 
-            this.btnNext.Location = new System.Drawing.Point(1421, 174);
-            this.btnNext.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnNext.Location = new System.Drawing.Point(1053, 174);
+            this.btnNext.Margin = new System.Windows.Forms.Padding(4);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(287, 28);
             this.btnNext.TabIndex = 12;
@@ -199,7 +199,7 @@
             // 
             this.cmbDefaultAPI.FormattingEnabled = true;
             this.cmbDefaultAPI.Location = new System.Drawing.Point(328, 80);
-            this.cmbDefaultAPI.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbDefaultAPI.Margin = new System.Windows.Forms.Padding(4);
             this.cmbDefaultAPI.Name = "cmbDefaultAPI";
             this.cmbDefaultAPI.Size = new System.Drawing.Size(160, 24);
             this.cmbDefaultAPI.TabIndex = 5;
@@ -208,7 +208,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1724, 958);
+            this.ClientSize = new System.Drawing.Size(1482, 853);
             this.Controls.Add(this.cmbDefaultAPI);
             this.Controls.Add(this.lblDefaultAPI);
             this.Controls.Add(this.btnNext);
@@ -223,7 +223,7 @@
             this.Controls.Add(this.lblDeploymentFolder);
             this.Controls.Add(this.tbDeploymentPackageLocation);
             this.Controls.Add(this.treeViewMetadata);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "GenerateDeploymentPackage";
             this.Text = "GenerateDeploymentPackage";
             this.ResumeLayout(false);

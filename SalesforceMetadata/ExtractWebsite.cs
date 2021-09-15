@@ -427,6 +427,14 @@ namespace SalesforceMetadata
                         splitUrl = fileName.Split('#');
                         fileName = splitUrl[0];
                     }
+
+                    fileName = fileName.Replace(";", "_");
+                    fileName = fileName.Replace("-", "_");
+                    fileName = fileName.Replace("?", "_");
+                    fileName = fileName.Replace("+", "_");
+                    fileName = fileName.Replace("&", "_");
+                    fileName = fileName.Replace("=", "_");
+
                 }
                 else
                 {

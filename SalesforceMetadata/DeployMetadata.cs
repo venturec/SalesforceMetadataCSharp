@@ -38,39 +38,59 @@ namespace SalesforceMetadata
 
         private void btnDeployMetadata_Click(object sender, EventArgs e)
         {
+            Boolean quickDeploySuccessful = false;
+            this.rtMessages.Text = "";
+
+            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.TOORG);
+            if (loginSuccess == false)
+            {
+                MessageBox.Show("Please check username, password and/or security token");
+                return;
+            }
+
             if (this.tbZipFileLocation.Text == null
                 || this.tbZipFileLocation.Text == "")
             {
                 MessageBox.Show("Please select the location where the ZIP file + package.xml is located first. Then click Deploy Metadata Package again.");
             }
-            else if (this.tbDeploymentValidationId.Text == "")
+            else if (this.cbCheckOnly.Checked == false
+                && this.tbDeploymentValidationId.Text != "")
             {
                 String asyncResultId = "";
                 if (this.isProduction == true)
                 {
-                    asyncResultId = SalesforceCredentials.toOrgMS.deployRecentValidation(this.tbDeploymentValidationId.Text);
+                    try
+                    {
+                        asyncResultId = SalesforceCredentials.toOrgMS.deployRecentValidation(this.tbDeploymentValidationId.Text);
+                        quickDeploySuccessful = true;
+                    }
+                    catch (Exception exc1)
+                    {
+                        quickDeploySuccessful = false;
+                    }
                 }
                 else
                 {
-                    asyncResultId = SalesforceCredentials.toOrgMS.deployRecentValidation(this.tbDeploymentValidationId.Text);
+                    try
+                    {
+                        asyncResultId = SalesforceCredentials.toOrgMS.deployRecentValidation(this.tbDeploymentValidationId.Text);
+                        quickDeploySuccessful = true;
+                    }
+                    catch (Exception exc2)
+                    {
+                        quickDeploySuccessful = false;
+                    }
                 }
 
-                DeployResult result = waitForDeployCompletion(asyncResultId);
+                DeployResult result = waitForDeployCompletion(this.tbDeploymentValidationId.Text);
             }
-            else
+
+
+            if(quickDeploySuccessful == false)
             {
                 // If the username ends with .com, then use 'ms' for Production deployment
                 // If it does not end in .com, then use ms2 for sandbox deployment
                 // Set the deployment options as well for production (run all tests), or for the sandbox 
-
-                this.rtMessages.Text = "";
-
-                Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.TOORG);
-                if (loginSuccess == false)
-                {
-                    MessageBox.Show("Please check username, password and/or security token");
-                    return;
-                }
 
                 String zipFileLocation = this.tbZipFileLocation.Text;
 
@@ -194,7 +214,8 @@ namespace SalesforceMetadata
             }
             else
             {
-                this.rtMessages.Text = "Successfully deployed package";
+                this.rtMessages.Text = "Async Deploy ID: " + asyncResultId + "\n\n" + "Successfully deployed package\n\n";
+                this.rtMessages.Text = this.rtMessages.Text + "You can use the Async Deploy ID to run a Quick Deploy if this was a validation.";
             }
 
             return result;

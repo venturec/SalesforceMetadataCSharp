@@ -43,6 +43,20 @@ namespace SalesforceMetadata
             {
                 MessageBox.Show("Please select the location where the ZIP file + package.xml is located first. Then click Deploy Metadata Package again.");
             }
+            else if (this.tbDeploymentValidationId.Text == "")
+            {
+                String asyncResultId = "";
+                if (this.isProduction == true)
+                {
+                    asyncResultId = SalesforceCredentials.toOrgMS.deployRecentValidation(this.tbDeploymentValidationId.Text);
+                }
+                else
+                {
+                    asyncResultId = SalesforceCredentials.toOrgMS.deployRecentValidation(this.tbDeploymentValidationId.Text);
+                }
+
+                DeployResult result = waitForDeployCompletion(asyncResultId);
+            }
             else
             {
                 // If the username ends with .com, then use 'ms' for Production deployment
@@ -120,20 +134,20 @@ namespace SalesforceMetadata
                     ar = SalesforceCredentials.toOrgMS.deploy(byteArray, dopt);
                 }
 
-                DeployResult result = waitForDeployCompletion(ar, this.isProduction);
+                DeployResult result = waitForDeployCompletion(ar.id);
             }
         }
 
-        private DeployResult waitForDeployCompletion(AsyncResult asyncResult, Boolean isProduction)
+        //private DeployResult waitForDeployCompletion(AsyncResult asyncResult, Boolean isProduction)
+        private DeployResult waitForDeployCompletion(String asyncResultId)
         {
             // Wait for the retrieve to complete
             int poll = 0;
             int waitTimeMilliSecs = this.ONE_SECOND;
-            String asyncResultId = asyncResult.id;
+            //String asyncResultId = asyncResult.id;
             DeployResult result = new DeployResult();
 
             result = SalesforceCredentials.toOrgMS.checkDeployStatus(asyncResultId, true);
-
 
             while (!result.done)
             {

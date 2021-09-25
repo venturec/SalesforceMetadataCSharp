@@ -105,12 +105,18 @@ namespace SalesforceMetadata
             String[] fileNameSplit = this.tbDebugFile.Text.Split(char.Parse("\\"));
             String folderSaveLocation = "";
 
-            Boolean firstCodeUnitReached = false;
+            for (Int32 i = 0; i < fileNameSplit.Length - 1; i++)
+            {
+                folderSaveLocation += fileNameSplit[i] + "\\";
+            }
+
+
+            Boolean firstCodeUnitReached = true;
             Int32 tabCount = 0;
             String milSecStart = "";
             String milSecEnd = "";
 
-            StreamWriter debugSW = null;
+            StreamWriter debugSW = new StreamWriter(folderSaveLocation + "DebugLog_Aggregations.txt");
 
             // Open file for reading
             StreamReader debugSR = new StreamReader(this.tbDebugFile.Text);
@@ -126,95 +132,222 @@ namespace SalesforceMetadata
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.CODE_UNIT_STARTED)
                     {
-                        if (firstCodeUnitReached == false)
+                        if (firstCodeUnitReached == true)
                         {
-                            firstCodeUnitReached = true;
-
-                            for (Int32 i = 0; i < fileNameSplit.Length - 1; i++)
-                            {
-                                folderSaveLocation += fileNameSplit[i] + "\\";
-                            }
+                            firstCodeUnitReached = false;
 
                             String[] columnElements = line.Split(char.Parse("|"));
 
-                            String fileName = "";
-                            for (Int32 i = 0; i < columnElements.Length; i++)
+                            debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
+
+                            for (Int32 tc = 0; tc < tabCount; tc++)
                             {
-                                if (i == 0)
-                                {
-                                    milSecStart = columnElements[1];
-                                }
-                                else if (i == columnElements.Length - 1)
-                                {
-                                    String[] path = columnElements[i].Split(char.Parse("/"));
-                                    fileName = path[2];
-                                }
+                                debugSW.Write("\t");
                             }
 
-                            debugSW = new StreamWriter(folderSaveLocation + "Debug_" + fileName + ".txt");
+                            debugSW.Write("CODE_UNIT_STARTED: ");
+
+                            for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                            {
+                                if (ce > 2) debugSW.Write(columnElements[ce] + " ");
+                            }
+
+                            debugSW.Write(Environment.NewLine);
+
+                            tabCount++;
+
                         }
                         else
                         {
+                            String[] columnElements = line.Split(char.Parse("|"));
 
+                            debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
+
+                            for (Int32 tc = 0; tc < tabCount; tc++)
+                            {
+                                debugSW.Write("\t");
+                            }
+
+                            debugSW.Write("CODE_UNIT_STARTED: ");
+
+                            for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                            {
+                                if (ce > 2) debugSW.Write(columnElements[ce] + " ");
+                            }
+
+                            debugSW.Write(Environment.NewLine);
+
+                            tabCount++;
                         }
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.CODE_UNIT_FINISHED)
                     {
-
+                        if(tabCount > 0) tabCount--;
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.CONSTRUCTOR_ENTRY)
                     {
+                        String[] columnElements = line.Split(char.Parse("|"));
 
+                        debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
+
+                        for (Int32 tc = 0; tc < tabCount; tc++)
+                        {
+                            debugSW.Write("\t");
+                        }
+
+                        debugSW.Write("CONSTRUCTOR_ENTRY: ");
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if (ce > 2) debugSW.Write(columnElements[ce] + " ");
+                        }
+
+                        debugSW.Write(Environment.NewLine);
+
+                        tabCount++;
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.CONSTRUCTOR_EXIT)
                     {
-
+                        if (tabCount > 0) tabCount--;
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.DML_BEGIN)
                     {
+                        String[] columnElements = line.Split(char.Parse("|"));
 
+                        debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
+
+                        for (Int32 tc = 0; tc < tabCount; tc++)
+                        {
+                            debugSW.Write("\t");
+                        }
+
+                        debugSW.Write("DML_BEGIN: ");
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if (ce > 2) debugSW.Write(columnElements[ce] + " ");
+                        }
+
+                        debugSW.Write(Environment.NewLine);
+
+                        tabCount++;
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.DML_END)
                     {
-
+                        if (tabCount > 0) tabCount--;
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.ENTERING_MANAGED_PKG)
                     {
+                        String[] columnElements = line.Split(char.Parse("|"));
 
+                        debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
+
+                        for (Int32 tc = 0; tc < tabCount; tc++)
+                        {
+                            debugSW.Write("\t");
+                        }
+
+                        debugSW.Write("ENTERING_MANAGED_PKG: " + columnElements[2] + Environment.NewLine);
+
+                        //tabCount++;
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.EXCEPTION_THROWN)
                     {
+                        String[] columnElements = line.Split(char.Parse("|"));
 
+                        debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
+
+                        for (Int32 tc = 0; tc < tabCount; tc++)
+                        {
+                            debugSW.Write("\t");
+                        }
+
+                        debugSW.Write("EXCEPTION_THROWN: ");
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if (ce > 2) debugSW.Write(columnElements[ce] + " ");
+                        }
+
+                        debugSW.Write(Environment.NewLine);
+
+                        //tabCount++;
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.EXECUTION_STARTED)
                     {
-                        // Get the initial processing time in millisends and hold onto this to determine how long it takes for 
-                        // the entire process to complete when the EXECUTION_FINISHED is reached
+                        String[] columnElements = line.Split(char.Parse("|"));
+
+                        debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
+
+                        for (Int32 tc = 0; tc < tabCount; tc++)
+                        {
+                            debugSW.Write("\t");
+                        }
+
+                        debugSW.Write("EXECUTION_STARTED" + Environment.NewLine);
 
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.EXECUTION_FINISHED)
                     {
-
+                        //if (tabCount > 0) tabCount--;
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.FATAL_ERROR)
                     {
+                        String[] columnElements = line.Split(char.Parse("|"));
 
+                        debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
+
+                        for (Int32 tc = 0; tc < tabCount; tc++)
+                        {
+                            debugSW.Write("\t");
+                        }
+
+                        debugSW.Write("FATAL_ERROR: " + columnElements[2] + Environment.NewLine);
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.FLOW_CREATE_INTERVIEW_BEGIN)
                     {
+                        String[] columnElements = line.Split(char.Parse("|"));
 
+                        debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
+
+                        for (Int32 tc = 0; tc < tabCount; tc++)
+                        {
+                            debugSW.Write("\t");
+                        }
+
+                        debugSW.Write("FLOW_CREATE_INTERVIEW_BEGIN" + Environment.NewLine);
+
+                        tabCount++;
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.FLOW_CREATE_INTERVIEW_END)
                     {
-
+                        if (tabCount > 0) tabCount--;
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.FLOW_START_INTERVIEW_BEGIN)
                     {
+                        String[] columnElements = line.Split(char.Parse("|"));
 
+                        debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
+
+                        for (Int32 tc = 0; tc < tabCount; tc++)
+                        {
+                            debugSW.Write("\t");
+                        }
+
+                        debugSW.Write("FLOW_START_INTERVIEW_BEGIN: ");
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if (ce > 2) debugSW.Write(columnElements[ce] + " ");
+                        }
+
+                        debugSW.Write(Environment.NewLine);
+
+                        tabCount++;
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.FLOW_START_INTERVIEW_END)
                     {
-
+                        if (tabCount > 0) tabCount--;
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.HEAP_ALLOCATE)
                     {
@@ -222,19 +355,55 @@ namespace SalesforceMetadata
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.METHOD_ENTRY)
                     {
+                        String[] columnElements = line.Split(char.Parse("|"));
 
+                        debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
+
+                        for (Int32 tc = 0; tc < tabCount; tc++)
+                        {
+                            debugSW.Write("\t");
+                        }
+
+                        debugSW.Write("METHOD_ENTRY: ");
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if (ce > 2) debugSW.Write(columnElements[ce] + " ");
+                        }
+
+                        debugSW.Write(Environment.NewLine);
+
+                        tabCount++;
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.METHOD_EXIT)
                     {
-
+                        if (tabCount > 0) tabCount--;
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.SOQL_EXECUTE_BEGIN)
                     {
+                        String[] columnElements = line.Split(char.Parse("|"));
 
+                        debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
+
+                        for (Int32 tc = 0; tc < tabCount; tc++)
+                        {
+                            debugSW.Write("\t");
+                        }
+
+                        debugSW.Write("SOQL_EXECUTE_BEGIN: ");
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if (ce > 3) debugSW.Write(columnElements[ce] + " ");
+                        }
+
+                        debugSW.Write(Environment.NewLine);
+
+                        tabCount++;
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.SOQL_EXECUTE_END)
                     {
-
+                        if (tabCount > 0) tabCount--;
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.STATEMENT_EXECUTE)
                     {
@@ -242,7 +411,23 @@ namespace SalesforceMetadata
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.USER_DEBUG)
                     {
+                        String[] columnElements = line.Split(char.Parse("|"));
 
+                        debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
+
+                        for (Int32 tc = 0; tc < tabCount; tc++)
+                        {
+                            debugSW.Write("\t");
+                        }
+
+                        debugSW.Write("USER_DEBUG: ");
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if (ce > 3) debugSW.Write(columnElements[ce] + " ");
+                        }
+
+                        debugSW.Write(Environment.NewLine);
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.USER_INFO)
                     {
@@ -258,11 +443,23 @@ namespace SalesforceMetadata
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.WF_FLOW_ACTION_BEGIN)
                     {
+                        String[] columnElements = line.Split(char.Parse("|"));
+
+                        debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
+
+                        for (Int32 tc = 0; tc < tabCount; tc++)
+                        {
+                            debugSW.Write("\t");
+                        }
+
+                        debugSW.Write("WF_FLOW_ACTION_BEGIN" + Environment.NewLine);
+
+                        tabCount++;
 
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.WF_FLOW_ACTION_END)
                     {
-
+                        if (tabCount > 0) tabCount--;
                     }
                 }
             }

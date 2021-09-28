@@ -225,7 +225,7 @@ namespace SalesforceMetadata
 
                         for (Int32 ce = 0; ce < columnElements.Length; ce++)
                         {
-                            if (ce > 2) debugSW.Write(columnElements[ce] + " ");
+                            if (ce > 1) debugSW.Write(columnElements[ce] + " ");
                         }
 
                         debugSW.Write(Environment.NewLine);
@@ -303,6 +303,24 @@ namespace SalesforceMetadata
                         }
 
                         debugSW.Write("FATAL_ERROR: " + columnElements[2] + Environment.NewLine);
+
+                        line = debugSR.ReadLine();
+                        columnElements = line.Split(char.Parse("|"));
+                        while (columnElements.Length == 1)
+                        {
+                            if (line != "")
+                            {
+                                for (Int32 tc = 0; tc < tabCount + 9; tc++)
+                                {
+                                    debugSW.Write("\t");
+                                }
+
+                                debugSW.WriteLine(line);
+                            }
+
+                            line = debugSR.ReadLine();
+                            columnElements = line.Split(char.Parse("|"));
+                        }
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.FLOW_CREATE_INTERVIEW_BEGIN)
                     {
@@ -368,7 +386,7 @@ namespace SalesforceMetadata
 
                         for (Int32 ce = 0; ce < columnElements.Length; ce++)
                         {
-                            if (ce > 2) debugSW.Write(columnElements[ce] + " ");
+                            if (ce > 1) debugSW.Write(columnElements[ce] + " ");
                         }
 
                         debugSW.Write(Environment.NewLine);
@@ -394,7 +412,7 @@ namespace SalesforceMetadata
 
                         for (Int32 ce = 0; ce < columnElements.Length; ce++)
                         {
-                            if (ce > 3) debugSW.Write(columnElements[ce] + " ");
+                            if (ce > 1) debugSW.Write(columnElements[ce] + " ");
                         }
 
                         debugSW.Write(Environment.NewLine);
@@ -435,10 +453,48 @@ namespace SalesforceMetadata
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.VARIABLE_ASSIGNMENT)
                     {
+                        String[] columnElements = line.Split(char.Parse("|"));
+
+                        Int32 tCnt = tabCount + 2;
+
+                        debugSW.Write(tCnt.ToString() + " | " + columnElements[0].ToString() + " | ");
+
+                        for (Int32 tc = 0; tc < tCnt; tc++)
+                        {
+                            debugSW.Write("\t");
+                        }
+
+                        debugSW.Write("VARIABLE_ASSIGNMENT: ");
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if(ce > 1) debugSW.Write(columnElements[ce] + " ");
+                        }
+
+                        debugSW.Write(Environment.NewLine);
 
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.VARIABLE_SCOPE_BEGIN)
                     {
+                        String[] columnElements = line.Split(char.Parse("|"));
+
+                        Int32 tCnt = tabCount + 1;
+
+                        debugSW.Write(tCnt.ToString() + " | " + columnElements[0].ToString() + " | ");
+
+                        for (Int32 tc = 0; tc < tCnt; tc++)
+                        {
+                            debugSW.Write("\t");
+                        }
+
+                        debugSW.Write("VARIABLE_SCOPE_BEGIN: ");
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if(ce > 1) debugSW.Write(columnElements[ce] + " ");
+                        }
+
+                        debugSW.Write(Environment.NewLine);
 
                     }
                     else if (line.Contains(evtTag) && evtTag == DebugEventTags.WF_FLOW_ACTION_BEGIN)

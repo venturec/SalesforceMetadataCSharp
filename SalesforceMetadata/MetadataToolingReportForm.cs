@@ -82,7 +82,6 @@ namespace SalesforceMetadata
                 query = ToolingApiHelper.CustomFieldQuery();
                 ToolingApiHelper.customFieldToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15, objectFieldNameToLabel);
 
-                /*
                 query = ToolingApiHelper.ApexClassQuery("");
                 ToolingApiHelper.apexClassToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
 
@@ -112,7 +111,6 @@ namespace SalesforceMetadata
 
                 query = ToolingApiHelper.ValidationRuleQuery("", "");
                 ToolingApiHelper.validationRuleToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
-                */
 
                 /*
                 query = ToolingApiHelper.WorkflowOutboundMessageQuery();

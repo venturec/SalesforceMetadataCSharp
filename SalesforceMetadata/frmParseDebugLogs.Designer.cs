@@ -58,7 +58,7 @@
             this.horizontalLine1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.horizontalLine1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.horizontalLine1.Location = new System.Drawing.Point(-1, 311);
+            this.horizontalLine1.Location = new System.Drawing.Point(-1, 425);
             this.horizontalLine1.MaxLength = 0;
             this.horizontalLine1.Name = "horizontalLine1";
             this.horizontalLine1.Size = new System.Drawing.Size(1163, 20);
@@ -70,14 +70,23 @@
             this.parseSpecifics.Items.AddRange(new object[] {
             "All",
             "EXCEPTION_THROWN",
+            "FATAL_ERROR",
             "USER_DEBUG",
             "CODE_UNIT_STARTED",
+            "CONSTRUCTOR_ENTRY",
             "METHOD_ENTRY",
+            "ENTERING_MANAGED_PKG",
+            "FLOW_CREATE_INTERVIEW_BEGIN",
+            "FLOW_START_INTERVIEW_BEGIN",
+            "DML_BEGIN",
             "SOQL_EXECUTE_BEGIN",
-            "SOSL_EXECUTE_BEGIN"});
+            "SOSL_EXECUTE_BEGIN",
+            "WF_FLOW_ACTION_BEGIN",
+            "VARIABLE_ASSIGNMENT",
+            "VARIABLE_SCOPE_BEGIN"});
             this.parseSpecifics.Location = new System.Drawing.Point(111, 127);
             this.parseSpecifics.Name = "parseSpecifics";
-            this.parseSpecifics.Size = new System.Drawing.Size(231, 169);
+            this.parseSpecifics.Size = new System.Drawing.Size(231, 289);
             this.parseSpecifics.TabIndex = 3;
             // 
             // lblParseSpecifics

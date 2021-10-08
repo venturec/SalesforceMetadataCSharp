@@ -42,6 +42,7 @@
             this.cbPurgeOnDelete = new System.Windows.Forms.CheckBox();
             this.lblDeploymentID = new System.Windows.Forms.Label();
             this.tbDeploymentValidationId = new System.Windows.Forms.TextBox();
+            this.cbRunTests = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -99,7 +100,7 @@
             this.btnDeployMetadata.Margin = new System.Windows.Forms.Padding(2);
             this.btnDeployMetadata.Name = "btnDeployMetadata";
             this.btnDeployMetadata.Size = new System.Drawing.Size(193, 24);
-            this.btnDeployMetadata.TabIndex = 10;
+            this.btnDeployMetadata.TabIndex = 11;
             this.btnDeployMetadata.Text = "Deploy Metadata Package";
             this.btnDeployMetadata.UseVisualStyleBackColor = true;
             this.btnDeployMetadata.Click += new System.EventHandler(this.btnDeployMetadata_Click);
@@ -130,7 +131,7 @@
             this.rtMessages.Location = new System.Drawing.Point(12, 325);
             this.rtMessages.Name = "rtMessages";
             this.rtMessages.Size = new System.Drawing.Size(867, 215);
-            this.rtMessages.TabIndex = 12;
+            this.rtMessages.TabIndex = 13;
             this.rtMessages.Text = "";
             // 
             // lblDeploymentMessage
@@ -139,16 +140,16 @@
             this.lblDeploymentMessage.Location = new System.Drawing.Point(12, 309);
             this.lblDeploymentMessage.Name = "lblDeploymentMessage";
             this.lblDeploymentMessage.Size = new System.Drawing.Size(109, 13);
-            this.lblDeploymentMessage.TabIndex = 11;
+            this.lblDeploymentMessage.TabIndex = 12;
             this.lblDeploymentMessage.Text = "Deployment Message";
             // 
             // cbPurgeOnDelete
             // 
             this.cbPurgeOnDelete.AutoSize = true;
-            this.cbPurgeOnDelete.Location = new System.Drawing.Point(637, 179);
+            this.cbPurgeOnDelete.Location = new System.Drawing.Point(637, 191);
             this.cbPurgeOnDelete.Name = "cbPurgeOnDelete";
             this.cbPurgeOnDelete.Size = new System.Drawing.Size(103, 17);
-            this.cbPurgeOnDelete.TabIndex = 9;
+            this.cbPurgeOnDelete.TabIndex = 10;
             this.cbPurgeOnDelete.Text = "Purge on Delete";
             this.cbPurgeOnDelete.UseVisualStyleBackColor = true;
             // 
@@ -168,11 +169,22 @@
             this.tbDeploymentValidationId.Size = new System.Drawing.Size(496, 20);
             this.tbDeploymentValidationId.TabIndex = 5;
             // 
+            // cbRunTests
+            // 
+            this.cbRunTests.AutoSize = true;
+            this.cbRunTests.Location = new System.Drawing.Point(637, 168);
+            this.cbRunTests.Name = "cbRunTests";
+            this.cbRunTests.Size = new System.Drawing.Size(104, 17);
+            this.cbRunTests.TabIndex = 9;
+            this.cbRunTests.Text = "Run Local Tests";
+            this.cbRunTests.UseVisualStyleBackColor = true;
+            // 
             // DeployMetadata
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(891, 552);
+            this.Controls.Add(this.cbRunTests);
             this.Controls.Add(this.tbDeploymentValidationId);
             this.Controls.Add(this.lblDeploymentID);
             this.Controls.Add(this.cbPurgeOnDelete);
@@ -209,5 +221,6 @@
         private System.Windows.Forms.CheckBox cbPurgeOnDelete;
         private System.Windows.Forms.Label lblDeploymentID;
         private System.Windows.Forms.TextBox tbDeploymentValidationId;
+        private System.Windows.Forms.CheckBox cbRunTests;
     }
 }

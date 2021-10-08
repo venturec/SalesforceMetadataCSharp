@@ -113,7 +113,15 @@ namespace SalesforceMetadata
                     dopt.allowMissingFiles = true;
                     dopt.autoUpdatePackage = true;
                     dopt.rollbackOnError = false;
-                    dopt.testLevel = TestLevel.NoTestRun;
+
+                    if (this.cbRunTests.Checked)
+                    {
+                        dopt.testLevel = TestLevel.RunLocalTests;
+                    }
+                    else
+                    {
+                        dopt.testLevel = TestLevel.NoTestRun;
+                    }
                 }
 
                 if (this.tbTestsToRun.Text != "")

@@ -34,6 +34,8 @@
             this.parseSpecifics = new System.Windows.Forms.CheckedListBox();
             this.lblParseSpecifics = new System.Windows.Forms.Label();
             this.btnParseDebugLogFile = new System.Windows.Forms.Button();
+            this.btnDebugReplay = new System.Windows.Forms.Button();
+            this.tvDebugReplay = new System.Windows.Forms.TreeView();
             this.SuspendLayout();
             // 
             // tbDebugFile
@@ -58,7 +60,7 @@
             this.horizontalLine1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.horizontalLine1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.horizontalLine1.Location = new System.Drawing.Point(-1, 425);
+            this.horizontalLine1.Location = new System.Drawing.Point(1, 380);
             this.horizontalLine1.MaxLength = 0;
             this.horizontalLine1.Name = "horizontalLine1";
             this.horizontalLine1.Size = new System.Drawing.Size(1163, 20);
@@ -84,7 +86,7 @@
             "WF_FLOW_ACTION_BEGIN",
             "VARIABLE_ASSIGNMENT",
             "VARIABLE_SCOPE_BEGIN"});
-            this.parseSpecifics.Location = new System.Drawing.Point(111, 127);
+            this.parseSpecifics.Location = new System.Drawing.Point(111, 85);
             this.parseSpecifics.Name = "parseSpecifics";
             this.parseSpecifics.Size = new System.Drawing.Size(231, 289);
             this.parseSpecifics.TabIndex = 3;
@@ -92,7 +94,7 @@
             // lblParseSpecifics
             // 
             this.lblParseSpecifics.AutoSize = true;
-            this.lblParseSpecifics.Location = new System.Drawing.Point(25, 127);
+            this.lblParseSpecifics.Location = new System.Drawing.Point(25, 88);
             this.lblParseSpecifics.Name = "lblParseSpecifics";
             this.lblParseSpecifics.Size = new System.Drawing.Size(80, 13);
             this.lblParseSpecifics.TabIndex = 4;
@@ -100,7 +102,7 @@
             // 
             // btnParseDebugLogFile
             // 
-            this.btnParseDebugLogFile.Location = new System.Drawing.Point(1030, 262);
+            this.btnParseDebugLogFile.Location = new System.Drawing.Point(1030, 45);
             this.btnParseDebugLogFile.Name = "btnParseDebugLogFile";
             this.btnParseDebugLogFile.Size = new System.Drawing.Size(121, 34);
             this.btnParseDebugLogFile.TabIndex = 5;
@@ -108,11 +110,34 @@
             this.btnParseDebugLogFile.UseVisualStyleBackColor = true;
             this.btnParseDebugLogFile.Click += new System.EventHandler(this.btnParseDebugLogFile_Click);
             // 
+            // btnDebugReplay
+            // 
+            this.btnDebugReplay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDebugReplay.Location = new System.Drawing.Point(1030, 406);
+            this.btnDebugReplay.Name = "btnDebugReplay";
+            this.btnDebugReplay.Size = new System.Drawing.Size(121, 23);
+            this.btnDebugReplay.TabIndex = 6;
+            this.btnDebugReplay.Text = "Debug Replay";
+            this.btnDebugReplay.UseVisualStyleBackColor = true;
+            this.btnDebugReplay.Click += new System.EventHandler(this.btnDebugReplay_Click);
+            // 
+            // tvDebugReplay
+            // 
+            this.tvDebugReplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tvDebugReplay.Location = new System.Drawing.Point(12, 406);
+            this.tvDebugReplay.Name = "tvDebugReplay";
+            this.tvDebugReplay.Size = new System.Drawing.Size(995, 474);
+            this.tvDebugReplay.TabIndex = 7;
+            // 
             // frmParseDebugLogs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1163, 603);
+            this.ClientSize = new System.Drawing.Size(1163, 884);
+            this.Controls.Add(this.tvDebugReplay);
+            this.Controls.Add(this.btnDebugReplay);
             this.Controls.Add(this.btnParseDebugLogFile);
             this.Controls.Add(this.lblParseSpecifics);
             this.Controls.Add(this.parseSpecifics);
@@ -134,5 +159,7 @@
         private System.Windows.Forms.CheckedListBox parseSpecifics;
         private System.Windows.Forms.Label lblParseSpecifics;
         private System.Windows.Forms.Button btnParseDebugLogFile;
+        private System.Windows.Forms.Button btnDebugReplay;
+        private System.Windows.Forms.TreeView tvDebugReplay;
     }
 }

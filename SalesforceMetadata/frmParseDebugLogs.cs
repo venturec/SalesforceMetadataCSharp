@@ -30,6 +30,14 @@ namespace SalesforceMetadata
         // The reason for using a List is I need to guarantee the order. A HashSet won't guarantee order
         private List<String> eventTagHierarchy;
 
+        Int32 currentLevel = 0;
+        //Int32 lastLevel = 1;
+
+        //List<TreeNode> lastNodes = new List<TreeNode>();
+        //TreeNode lastNode = new TreeNode();
+        //TreeNode priorToLastNode = new TreeNode();
+
+        //TreeNode variableScopeBeginNode = new TreeNode();
 
         public frmParseDebugLogs()
         {
@@ -242,20 +250,19 @@ namespace SalesforceMetadata
             while (debugSR.EndOfStream == false)
             {
                 String line = debugSR.ReadLine();
+                String[] columnElements = line.Split(char.Parse("|"));
 
-                foreach (String evtTag in debugEventTags)
+                if(columnElements.Length > 1)
                 {
-                    if (line.Contains(evtTag) && evtTag == DebugEventTags.BULK_HEAP_ALLOCATE)
+                    if (columnElements[1] == DebugEventTags.BULK_HEAP_ALLOCATE)
                     {
 
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.CODE_UNIT_STARTED)
+                    else if (columnElements[1] == DebugEventTags.CODE_UNIT_STARTED)
                     {
                         if (firstCodeUnitReached == true)
                         {
                             firstCodeUnitReached = false;
-
-                            String[] columnElements = line.Split(char.Parse("|"));
 
                             debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
 
@@ -278,8 +285,6 @@ namespace SalesforceMetadata
                         }
                         else
                         {
-                            String[] columnElements = line.Split(char.Parse("|"));
-
                             debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
 
                             for (Int32 tc = 0; tc < tabCount; tc++)
@@ -299,11 +304,9 @@ namespace SalesforceMetadata
                             tabCount++;
                         }
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.CODE_UNIT_FINISHED)
+                    else if (columnElements[1] == DebugEventTags.CODE_UNIT_FINISHED)
                     {
                         if (tabCount > 0) tabCount--;
-
-                        String[] columnElements = line.Split(char.Parse("|"));
 
                         debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
 
@@ -317,10 +320,8 @@ namespace SalesforceMetadata
                         debugSW.Write(Environment.NewLine);
 
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.CONSTRUCTOR_ENTRY)
+                    else if (columnElements[1] == DebugEventTags.CONSTRUCTOR_ENTRY)
                     {
-                        String[] columnElements = line.Split(char.Parse("|"));
-
                         debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
 
                         for (Int32 tc = 0; tc < tabCount; tc++)
@@ -339,14 +340,12 @@ namespace SalesforceMetadata
 
                         tabCount++;
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.CONSTRUCTOR_EXIT)
+                    else if (columnElements[1] == DebugEventTags.CONSTRUCTOR_EXIT)
                     {
                         if (tabCount > 0) tabCount--;
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.DML_BEGIN)
+                    else if (columnElements[1] == DebugEventTags.DML_BEGIN)
                     {
-                        String[] columnElements = line.Split(char.Parse("|"));
-
                         debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
 
                         for (Int32 tc = 0; tc < tabCount; tc++)
@@ -365,14 +364,12 @@ namespace SalesforceMetadata
 
                         tabCount++;
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.DML_END)
+                    else if (columnElements[1] == DebugEventTags.DML_END)
                     {
                         if (tabCount > 0) tabCount--;
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.ENTERING_MANAGED_PKG)
+                    else if (columnElements[1] == DebugEventTags.ENTERING_MANAGED_PKG)
                     {
-                        String[] columnElements = line.Split(char.Parse("|"));
-
                         debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
 
                         for (Int32 tc = 0; tc < tabCount; tc++)
@@ -384,10 +381,8 @@ namespace SalesforceMetadata
 
                         //tabCount++;
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.EXCEPTION_THROWN)
+                    else if (columnElements[1] == DebugEventTags.EXCEPTION_THROWN)
                     {
-                        String[] columnElements = line.Split(char.Parse("|"));
-
                         debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
 
                         for (Int32 tc = 0; tc < tabCount; tc++)
@@ -406,10 +401,8 @@ namespace SalesforceMetadata
 
                         //tabCount++;
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.EXECUTION_STARTED)
+                    else if (columnElements[1] == DebugEventTags.EXECUTION_STARTED)
                     {
-                        String[] columnElements = line.Split(char.Parse("|"));
-
                         debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
 
                         for (Int32 tc = 0; tc < tabCount; tc++)
@@ -420,14 +413,12 @@ namespace SalesforceMetadata
                         debugSW.Write("EXECUTION_STARTED" + Environment.NewLine);
 
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.EXECUTION_FINISHED)
+                    else if (columnElements[1] == DebugEventTags.EXECUTION_FINISHED)
                     {
                         //if (tabCount > 0) tabCount--;
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.FATAL_ERROR)
+                    else if (columnElements[1] == DebugEventTags.FATAL_ERROR)
                     {
-                        String[] columnElements = line.Split(char.Parse("|"));
-
                         debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
 
                         for (Int32 tc = 0; tc < tabCount; tc++)
@@ -455,10 +446,8 @@ namespace SalesforceMetadata
                             columnElements = line.Split(char.Parse("|"));
                         }
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.FLOW_CREATE_INTERVIEW_BEGIN)
+                    else if (columnElements[1] == DebugEventTags.FLOW_CREATE_INTERVIEW_BEGIN)
                     {
-                        String[] columnElements = line.Split(char.Parse("|"));
-
                         debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
 
                         for (Int32 tc = 0; tc < tabCount; tc++)
@@ -470,14 +459,12 @@ namespace SalesforceMetadata
 
                         tabCount++;
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.FLOW_CREATE_INTERVIEW_END)
+                    else if (columnElements[1] == DebugEventTags.FLOW_CREATE_INTERVIEW_END)
                     {
                         if (tabCount > 0) tabCount--;
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.FLOW_START_INTERVIEW_BEGIN)
+                    else if (columnElements[1] == DebugEventTags.FLOW_START_INTERVIEW_BEGIN)
                     {
-                        String[] columnElements = line.Split(char.Parse("|"));
-
                         debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
 
                         for (Int32 tc = 0; tc < tabCount; tc++)
@@ -496,18 +483,16 @@ namespace SalesforceMetadata
 
                         tabCount++;
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.FLOW_START_INTERVIEW_END)
+                    else if (columnElements[1] == DebugEventTags.FLOW_START_INTERVIEW_END)
                     {
                         if (tabCount > 0) tabCount--;
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.HEAP_ALLOCATE)
+                    else if (columnElements[1] == DebugEventTags.HEAP_ALLOCATE)
                     {
 
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.METHOD_ENTRY)
+                    else if (columnElements[1] == DebugEventTags.METHOD_ENTRY)
                     {
-                        String[] columnElements = line.Split(char.Parse("|"));
-
                         debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
 
                         for (Int32 tc = 0; tc < tabCount; tc++)
@@ -526,11 +511,9 @@ namespace SalesforceMetadata
 
                         tabCount++;
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.METHOD_EXIT)
+                    else if (columnElements[1] == DebugEventTags.METHOD_EXIT)
                     {
                         if (tabCount > 0) tabCount--;
-
-                        String[] columnElements = line.Split(char.Parse("|"));
 
                         debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
 
@@ -542,10 +525,8 @@ namespace SalesforceMetadata
                         debugSW.Write("METHOD_EXIT");
                         debugSW.Write(Environment.NewLine);
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.SOQL_EXECUTE_BEGIN)
+                    else if (columnElements[1] == DebugEventTags.SOQL_EXECUTE_BEGIN)
                     {
-                        String[] columnElements = line.Split(char.Parse("|"));
-
                         debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
 
                         for (Int32 tc = 0; tc < tabCount; tc++)
@@ -565,18 +546,16 @@ namespace SalesforceMetadata
 
                         tabCount++;
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.SOQL_EXECUTE_END)
+                    else if (columnElements[1] == DebugEventTags.SOQL_EXECUTE_END)
                     {
                         if (tabCount > 0) tabCount--;
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.STATEMENT_EXECUTE)
+                    else if (columnElements[1] == DebugEventTags.STATEMENT_EXECUTE)
                     {
 
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.USER_DEBUG)
+                    else if (columnElements[1] == DebugEventTags.USER_DEBUG)
                     {
-                        String[] columnElements = line.Split(char.Parse("|"));
-
                         debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
 
                         for (Int32 tc = 0; tc < tabCount; tc++)
@@ -594,14 +573,12 @@ namespace SalesforceMetadata
 
                         debugSW.Write(Environment.NewLine);
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.USER_INFO)
+                    else if (columnElements[1] == DebugEventTags.USER_INFO)
                     {
 
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.VARIABLE_ASSIGNMENT)
+                    else if (columnElements[1] == DebugEventTags.VARIABLE_ASSIGNMENT)
                     {
-                        String[] columnElements = line.Split(char.Parse("|"));
-
                         Int32 tCnt = tabCount + 2;
 
                         debugSW.Write(tCnt.ToString() + " | " + columnElements[0].ToString() + " | ");
@@ -621,10 +598,8 @@ namespace SalesforceMetadata
                         debugSW.Write(Environment.NewLine);
 
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.VARIABLE_SCOPE_BEGIN)
+                    else if (columnElements[1] == DebugEventTags.VARIABLE_SCOPE_BEGIN)
                     {
-                        String[] columnElements = line.Split(char.Parse("|"));
-
                         Int32 tCnt = tabCount + 1;
 
                         debugSW.Write(tCnt.ToString() + " | " + columnElements[0].ToString() + " | ");
@@ -644,10 +619,8 @@ namespace SalesforceMetadata
                         debugSW.Write(Environment.NewLine);
 
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.WF_FLOW_ACTION_BEGIN)
+                    else if (columnElements[1] == DebugEventTags.WF_FLOW_ACTION_BEGIN)
                     {
-                        String[] columnElements = line.Split(char.Parse("|"));
-
                         debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
 
                         for (Int32 tc = 0; tc < tabCount; tc++)
@@ -660,7 +633,7 @@ namespace SalesforceMetadata
                         tabCount++;
 
                     }
-                    else if (line.Contains(evtTag) && evtTag == DebugEventTags.WF_FLOW_ACTION_END)
+                    else if (columnElements[1] == DebugEventTags.WF_FLOW_ACTION_END)
                     {
                         if (tabCount > 0) tabCount--;
                     }
@@ -686,5 +659,310 @@ namespace SalesforceMetadata
             List<String> codeBlock;
         }
 
+        private void btnDebugReplay_Click(object sender, EventArgs e)
+        {
+            //this.lastNode = new TreeNode();
+            this.currentLevel = 0;
+
+            List<String> debugLogWithLevels = new List<string>();
+
+            if (this.tbDebugFile.Text == null || this.tbDebugFile.Text == "")
+            {
+                MessageBox.Show("Please select a debug file to parse to continue");
+                return;
+            }
+
+            allocateEventTagsToDictinary();
+
+            String milSecStart = "";
+            String milSecEnd = "";
+
+            StreamReader debugSR = new StreamReader(this.tbDebugFile.Text);
+
+            while (debugSR.EndOfStream == false)
+            {
+                String line = debugSR.ReadLine();
+                String[] columnElements = line.Split(char.Parse("|"));
+
+                if (columnElements.Length > 1)
+                {
+                    // Check if we have a 
+
+                    if (columnElements[1] == DebugEventTags.BULK_HEAP_ALLOCATE)
+                    {
+
+                    }
+                    else if (columnElements[1] == DebugEventTags.CODE_UNIT_STARTED)
+                    {
+                        this.currentLevel++;
+
+                        String treeNodeText = "CODE_UNIT_STARTED: ";
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if (ce > 2) treeNodeText = treeNodeText + columnElements[ce] + " ";
+                        }
+
+                        debugLogWithLevels.Add(this.currentLevel.ToString() + "|" + treeNodeText);
+                    }
+                    else if (columnElements[1] == DebugEventTags.CODE_UNIT_FINISHED)
+                    {
+                        if (this.currentLevel > 0) this.currentLevel--;
+                    }
+                    else if (columnElements[1] == DebugEventTags.CONSTRUCTOR_ENTRY)
+                    {
+                        this.currentLevel++;
+
+                        String treeNodeText = "CONSTRUCTOR_ENTRY: ";
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if (ce > 2) treeNodeText = treeNodeText + columnElements[ce] + " ";
+                        }
+
+                        debugLogWithLevels.Add(this.currentLevel.ToString() + "|" + treeNodeText);
+                    }
+                    else if (columnElements[1] == DebugEventTags.CONSTRUCTOR_EXIT)
+                    {
+                        if (this.currentLevel > 0) this.currentLevel--;
+                    }
+                    else if (columnElements[1] == DebugEventTags.DML_BEGIN)
+                    {
+                        this.currentLevel++;
+
+                        String treeNodeText = "DML_BEGIN: ";
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if (ce > 1) treeNodeText = treeNodeText + columnElements[ce] + " ";
+                        }
+
+                        debugLogWithLevels.Add(this.currentLevel.ToString() + "|" + treeNodeText);
+                    }
+                    else if (columnElements[1] == DebugEventTags.DML_END)
+                    {
+                        if (this.currentLevel > 0) this.currentLevel--;
+                    }
+                    else if (columnElements[1] == DebugEventTags.ENTERING_MANAGED_PKG)
+                    {
+                        String treeNodeText = "ENTERING_MANAGED_PKG: " + columnElements[2];
+                        TreeNode newNode = new TreeNode(treeNodeText);
+                        
+                        debugLogWithLevels.Add(this.currentLevel.ToString() + "|" + treeNodeText);
+                    }
+                    else if (columnElements[1] == DebugEventTags.EXCEPTION_THROWN)
+                    {
+                        String treeNodeText = "EXCEPTION_THROWN: ";
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if (ce > 2) treeNodeText = treeNodeText + columnElements[ce] + " ";
+                        }
+
+                        debugLogWithLevels.Add(this.currentLevel.ToString() + "|" + treeNodeText);
+                    }
+                    else if (columnElements[1] == DebugEventTags.EXECUTION_STARTED)
+                    {
+                        String treeNodeText = "EXECUTION_STARTED";
+                        TreeNode newNode = new TreeNode(treeNodeText);
+
+                        debugLogWithLevels.Add(this.currentLevel.ToString() + "|" + treeNodeText);
+                    }
+                    else if (columnElements[1] == DebugEventTags.EXECUTION_FINISHED)
+                    {
+
+                    }
+                    else if (columnElements[1] == DebugEventTags.FATAL_ERROR)
+                    {
+                        String treeNodeText = "FATAL_ERROR: " + columnElements[2];
+                        line = debugSR.ReadLine();
+                        columnElements = line.Split(char.Parse("|"));
+                        while (columnElements.Length == 1)
+                        {
+                            if (line != "")
+                            {
+                                treeNodeText = treeNodeText + ", " + line;
+                            }
+
+                            line = debugSR.ReadLine();
+                            columnElements = line.Split(char.Parse("|"));
+                        }
+
+                        debugLogWithLevels.Add(this.currentLevel.ToString() + "|" + treeNodeText);
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_CREATE_INTERVIEW_BEGIN)
+                    {
+                        this.currentLevel++;
+
+                        String treeNodeText = "FLOW_CREATE_INTERVIEW_BEGIN";
+
+                        debugLogWithLevels.Add(this.currentLevel.ToString() + "|" + treeNodeText);
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_CREATE_INTERVIEW_END)
+                    {
+                        if (this.currentLevel > 0) this.currentLevel--;
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_ELEMENT_BEGIN)
+                    {
+                        this.currentLevel++;
+                        
+                        String treeNodeText = "FLOW_ELEMENT_BEGIN: " + columnElements[3] + " " + columnElements[4];
+
+                        debugLogWithLevels.Add(this.currentLevel.ToString() + "|" + treeNodeText);
+
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_ELEMENT_END)
+                    {
+                        if (this.currentLevel > 0) this.currentLevel--;
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_START_INTERVIEW_BEGIN)
+                    {
+                        this.currentLevel++;
+
+                        String treeNodeText = "FLOW_START_INTERVIEW_BEGIN: ";
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if (ce > 2) treeNodeText = treeNodeText + columnElements[ce] + " ";
+                        }
+
+                        debugLogWithLevels.Add(this.currentLevel.ToString() + "|" + treeNodeText);
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_START_INTERVIEW_END)
+                    {
+                        if (this.currentLevel > 0) this.currentLevel--;
+                    }
+                    else if (columnElements[1] == DebugEventTags.HEAP_ALLOCATE)
+                    {
+
+                    }
+                    else if (columnElements[1] == DebugEventTags.METHOD_ENTRY)
+                    {
+                        this.currentLevel++;
+
+                        String treeNodeText = "METHOD_ENTRY: ";
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if (ce > 1) treeNodeText = treeNodeText + columnElements[ce] + " ";
+                        }
+
+                        debugLogWithLevels.Add(this.currentLevel.ToString() + "|" + treeNodeText);
+                    }
+                    else if (columnElements[1] == DebugEventTags.METHOD_EXIT)
+                    {
+                        if (this.currentLevel > 0) this.currentLevel--;
+                    }
+                    else if (columnElements[1] == DebugEventTags.SOQL_EXECUTE_BEGIN)
+                    {
+                        this.currentLevel++;
+
+                        String treeNodeText = "SOQL_EXECUTE_BEGIN: ";
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if (ce > 1) treeNodeText = treeNodeText + columnElements[ce] + " ";
+                        }
+
+                        debugLogWithLevels.Add(this.currentLevel.ToString() + "|" + treeNodeText);
+                    }
+                    else if (columnElements[1] == DebugEventTags.SOQL_EXECUTE_END)
+                    {
+                        if (this.currentLevel > 0) this.currentLevel--;
+                    }
+                    else if (columnElements[1] == DebugEventTags.USER_DEBUG)
+                    {
+                        String treeNodeText = "USER_DEBUG: ";
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if (ce == 2) treeNodeText = treeNodeText + columnElements[ce] + " ";
+                            if (ce > 3) treeNodeText = treeNodeText + columnElements[ce] + " ";
+                        }
+
+                        Int32 tempCurrentLevel = this.currentLevel + 1;
+                        debugLogWithLevels.Add(tempCurrentLevel.ToString() + "|" + treeNodeText);
+                    }
+                    else if (columnElements[1] == DebugEventTags.VARIABLE_ASSIGNMENT)
+                    {
+                        String treeNodeText = "VARIABLE_ASSIGNMENT: ";
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if (ce > 1) treeNodeText = treeNodeText + columnElements[ce] + " ";
+                        }
+
+                        Int32 tempCurrentLevel = this.currentLevel + 2;
+                        debugLogWithLevels.Add(tempCurrentLevel.ToString() + "|" + treeNodeText);
+                    }
+                    else if (columnElements[1] == DebugEventTags.VARIABLE_SCOPE_BEGIN)
+                    {
+                        String treeNodeText = "VARIABLE_SCOPE_BEGIN: ";
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if (ce > 1) treeNodeText = treeNodeText + columnElements[ce] + " ";
+                        }
+
+                        Int32 tempCurrentLevel = this.currentLevel + 1;
+                        debugLogWithLevels.Add(tempCurrentLevel.ToString() + "|" + treeNodeText);
+                    }
+                    else if (columnElements[1] == DebugEventTags.WF_FLOW_ACTION_BEGIN)
+                    {
+                        this.currentLevel++;
+
+                        String treeNodeText = "WF_FLOW_ACTION_BEGIN";
+                        debugLogWithLevels.Add(this.currentLevel.ToString() + "|" + treeNodeText);
+
+                    }
+                    else if (columnElements[1] == DebugEventTags.WF_FLOW_ACTION_END)
+                    {
+                        if (this.currentLevel > 0) this.currentLevel--;
+                    }
+                }
+            }
+
+            populateTreeNodes(debugLogWithLevels);
+        }
+
+
+        private void populateTreeNodes(List<string> debugLogWithLevels)
+        {
+            Dictionary<Int32, TreeNode> parentTreeNode = new Dictionary<Int32, TreeNode>();
+
+            foreach(String dlText in debugLogWithLevels)
+            {
+                String[] splitDL = dlText.Split('|');
+                Int32 currentLevel = Int32.Parse(splitDL[0]);
+
+                if (Int32.Parse(splitDL[0]) == 1)
+                {
+                    parentTreeNode.Clear();
+
+                    TreeNode tnd = new TreeNode(splitDL[1]);
+                    this.tvDebugReplay.Nodes.Add(tnd);
+
+                    parentTreeNode.Add(currentLevel, tnd);
+                }
+                else if (parentTreeNode.ContainsKey(Int32.Parse(splitDL[0])))
+                {
+                    parentTreeNode.Remove(currentLevel);
+
+                    TreeNode parentNode = parentTreeNode[currentLevel - 1];
+                    TreeNode tnd = new TreeNode(splitDL[1]);
+                    parentNode.Nodes.Add(tnd);
+
+                    parentTreeNode.Add(currentLevel, tnd);
+                }
+                else
+                {
+                    TreeNode parentNode = parentTreeNode[currentLevel - 1];
+                    TreeNode tnd = new TreeNode(splitDL[1]);
+                    parentNode.Nodes.Add(tnd);
+
+                    parentTreeNode.Add(currentLevel, tnd);
+                }
+            }
+        }
     }
 }

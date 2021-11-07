@@ -135,6 +135,12 @@
       <DependentUpon>LandingPage.cs</DependentUpon>
     </Compile>
     <Compile Include="ListViewColumnSorter .cs" />
+    <Compile Include="LWCInspector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LWCInspector.Designer.cs">
+      <DependentUpon>LWCInspector.cs</DependentUpon>
+    </Compile>
     <Compile Include="MetadataComparison.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -244,6 +250,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LandingPage.resx">
       <DependentUpon>LandingPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LWCInspector.resx">
+      <DependentUpon>LWCInspector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MetadataComparison.resx">
       <DependentUpon>MetadataComparison.cs</DependentUpon>

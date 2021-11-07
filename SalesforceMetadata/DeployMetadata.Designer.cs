@@ -126,11 +126,12 @@
             // 
             // rtMessages
             // 
-            this.rtMessages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.rtMessages.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.rtMessages.Location = new System.Drawing.Point(12, 325);
             this.rtMessages.Name = "rtMessages";
-            this.rtMessages.Size = new System.Drawing.Size(867, 215);
+            this.rtMessages.Size = new System.Drawing.Size(1017, 357);
             this.rtMessages.TabIndex = 13;
             this.rtMessages.Text = "";
             // 
@@ -183,7 +184,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(891, 552);
+            this.ClientSize = new System.Drawing.Size(1047, 694);
             this.Controls.Add(this.cbRunTests);
             this.Controls.Add(this.tbDeploymentValidationId);
             this.Controls.Add(this.lblDeploymentID);

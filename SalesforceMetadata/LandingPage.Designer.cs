@@ -46,6 +46,7 @@
             this.btnUpdateAPIVersion = new System.Windows.Forms.Button();
             this.btnGenerateDeploymentPackage = new System.Windows.Forms.Button();
             this.btnGenerateObjectFieldsFromXML = new System.Windows.Forms.Button();
+            this.btnParseLWC = new System.Windows.Forms.Button();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -226,11 +227,22 @@
             this.btnGenerateObjectFieldsFromXML.UseVisualStyleBackColor = true;
             this.btnGenerateObjectFieldsFromXML.Click += new System.EventHandler(this.btnGenerateObjectFieldsFromXML_Click);
             // 
+            // btnParseLWC
+            // 
+            this.btnParseLWC.Location = new System.Drawing.Point(508, 167);
+            this.btnParseLWC.Name = "btnParseLWC";
+            this.btnParseLWC.Size = new System.Drawing.Size(187, 35);
+            this.btnParseLWC.TabIndex = 15;
+            this.btnParseLWC.Text = "Parse LWC Files";
+            this.btnParseLWC.UseVisualStyleBackColor = true;
+            this.btnParseLWC.Click += new System.EventHandler(this.btnParseLWC_Click);
+            // 
             // LandingPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(707, 441);
+            this.Controls.Add(this.btnParseLWC);
             this.Controls.Add(this.btnGenerateObjectFieldsFromXML);
             this.Controls.Add(this.btnGenerateDeploymentPackage);
             this.Controls.Add(this.btnUpdateAPIVersion);
@@ -277,5 +289,6 @@
         private System.Windows.Forms.Button btnUpdateAPIVersion;
         private System.Windows.Forms.Button btnGenerateDeploymentPackage;
         private System.Windows.Forms.Button btnGenerateObjectFieldsFromXML;
+        private System.Windows.Forms.Button btnParseLWC;
     }
 }

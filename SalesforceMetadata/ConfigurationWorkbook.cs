@@ -34,7 +34,7 @@ namespace SalesforceMetadata
         private Dictionary<String, String> usernameToSecurityToken;
 
 
-        private Dictionary<String, List<String>> memberNameToFiles;
+        //private Dictionary<String, List<String>> memberNameToFiles;
 
         // Columns 1,2,3,4 will contains the ObjectName, ObjectType, PrimaryKey and ForeignKey
         // when the columns are written

@@ -53,7 +53,8 @@
             // 
             // RunComparison
             // 
-            this.RunComparison.Location = new System.Drawing.Point(171, 100);
+            this.RunComparison.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.RunComparison.Location = new System.Drawing.Point(197, 100);
             this.RunComparison.Name = "RunComparison";
             this.RunComparison.Size = new System.Drawing.Size(182, 23);
             this.RunComparison.TabIndex = 4;
@@ -100,7 +101,7 @@
             // GenerateDeploymentPackage
             // 
             this.GenerateDeploymentPackage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.GenerateDeploymentPackage.Location = new System.Drawing.Point(948, 129);
+            this.GenerateDeploymentPackage.Location = new System.Drawing.Point(902, 129);
             this.GenerateDeploymentPackage.Name = "GenerateDeploymentPackage";
             this.GenerateDeploymentPackage.Size = new System.Drawing.Size(182, 23);
             this.GenerateDeploymentPackage.TabIndex = 11;
@@ -116,13 +117,14 @@
             this.treeViewDifferences.CheckBoxes = true;
             this.treeViewDifferences.Location = new System.Drawing.Point(12, 210);
             this.treeViewDifferences.Name = "treeViewDifferences";
-            this.treeViewDifferences.Size = new System.Drawing.Size(1339, 581);
+            this.treeViewDifferences.Size = new System.Drawing.Size(1293, 578);
             this.treeViewDifferences.TabIndex = 10;
             this.treeViewDifferences.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewDifference_AfterCheck);
             // 
             // btnFindUnusedApexItems
             // 
-            this.btnFindUnusedApexItems.Location = new System.Drawing.Point(948, 164);
+            this.btnFindUnusedApexItems.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFindUnusedApexItems.Location = new System.Drawing.Point(902, 164);
             this.btnFindUnusedApexItems.Margin = new System.Windows.Forms.Padding(2);
             this.btnFindUnusedApexItems.Name = "btnFindUnusedApexItems";
             this.btnFindUnusedApexItems.Size = new System.Drawing.Size(182, 24);
@@ -133,9 +135,10 @@
             // 
             // cbExportXML
             // 
+            this.cbExportXML.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbExportXML.AutoSize = true;
             this.cbExportXML.Enabled = false;
-            this.cbExportXML.Location = new System.Drawing.Point(375, 168);
+            this.cbExportXML.Location = new System.Drawing.Point(401, 168);
             this.cbExportXML.Name = "cbExportXML";
             this.cbExportXML.Size = new System.Drawing.Size(73, 17);
             this.cbExportXML.TabIndex = 7;
@@ -145,8 +148,9 @@
             // 
             // btnExport
             // 
+            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExport.Enabled = false;
-            this.btnExport.Location = new System.Drawing.Point(499, 163);
+            this.btnExport.Location = new System.Drawing.Point(531, 160);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(182, 24);
             this.btnExport.TabIndex = 5;
@@ -156,13 +160,14 @@
             // 
             // cmbExportType
             // 
+            this.cmbExportType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbExportType.FormattingEnabled = true;
             this.cmbExportType.Items.AddRange(new object[] {
             "Export All to CSV",
             "Export All to Excel",
             "Export Selected to CSV",
             "Export Selected to Excel"});
-            this.cmbExportType.Location = new System.Drawing.Point(171, 163);
+            this.cmbExportType.Location = new System.Drawing.Point(197, 163);
             this.cmbExportType.Name = "cmbExportType";
             this.cmbExportType.Size = new System.Drawing.Size(182, 21);
             this.cmbExportType.TabIndex = 13;
@@ -172,7 +177,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1363, 803);
+            this.ClientSize = new System.Drawing.Size(1317, 800);
             this.Controls.Add(this.cmbExportType);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.cbExportXML);

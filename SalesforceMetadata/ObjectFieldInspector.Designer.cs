@@ -52,8 +52,8 @@
             this.cbSelectAll = new System.Windows.Forms.CheckBox();
             this.btnGetReferenceFields = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cbCustomObjectsOnly = new System.Windows.Forms.CheckBox();
             this.cbFilterManagedPkg = new System.Windows.Forms.CheckBox();
+            this.cbCustomObjectsOnly = new System.Windows.Forms.CheckBox();
             this.salesforceOrgCredentials.SuspendLayout();
             this.grpSaveToExcel.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -104,7 +104,7 @@
             this.listViewSobjectFields.HideSelection = false;
             this.listViewSobjectFields.Location = new System.Drawing.Point(16, 401);
             this.listViewSobjectFields.Name = "listViewSobjectFields";
-            this.listViewSobjectFields.Size = new System.Drawing.Size(1055, 396);
+            this.listViewSobjectFields.Size = new System.Drawing.Size(1055, 408);
             this.listViewSobjectFields.TabIndex = 4;
             this.listViewSobjectFields.UseCompatibleStateImageBehavior = false;
             this.listViewSobjectFields.View = System.Windows.Forms.View.Details;
@@ -349,17 +349,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
             // 
-            // cbCustomObjectsOnly
-            // 
-            this.cbCustomObjectsOnly.AutoSize = true;
-            this.cbCustomObjectsOnly.Location = new System.Drawing.Point(11, 45);
-            this.cbCustomObjectsOnly.Name = "cbCustomObjectsOnly";
-            this.cbCustomObjectsOnly.Size = new System.Drawing.Size(125, 17);
-            this.cbCustomObjectsOnly.TabIndex = 2;
-            this.cbCustomObjectsOnly.Text = "Filter Custom Objects";
-            this.cbCustomObjectsOnly.UseVisualStyleBackColor = true;
-            this.cbCustomObjectsOnly.CheckedChanged += new System.EventHandler(this.cbCustomObjectsOnly_CheckedChanged);
-            // 
             // cbFilterManagedPkg
             // 
             this.cbFilterManagedPkg.AutoSize = true;
@@ -370,6 +359,17 @@
             this.cbFilterManagedPkg.Text = "Filter Managed Packages";
             this.cbFilterManagedPkg.UseVisualStyleBackColor = true;
             this.cbFilterManagedPkg.CheckedChanged += new System.EventHandler(this.cbFilterManagedPkg_CheckedChanged);
+            // 
+            // cbCustomObjectsOnly
+            // 
+            this.cbCustomObjectsOnly.AutoSize = true;
+            this.cbCustomObjectsOnly.Location = new System.Drawing.Point(11, 45);
+            this.cbCustomObjectsOnly.Name = "cbCustomObjectsOnly";
+            this.cbCustomObjectsOnly.Size = new System.Drawing.Size(125, 17);
+            this.cbCustomObjectsOnly.TabIndex = 2;
+            this.cbCustomObjectsOnly.Text = "Filter Custom Objects";
+            this.cbCustomObjectsOnly.UseVisualStyleBackColor = true;
+            this.cbCustomObjectsOnly.CheckedChanged += new System.EventHandler(this.cbCustomObjectsOnly_CheckedChanged);
             // 
             // ObjectFieldInspector
             // 

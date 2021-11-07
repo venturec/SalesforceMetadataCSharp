@@ -42,17 +42,16 @@ namespace SalesforceMetadata
         public frmParseDebugLogs()
         {
             InitializeComponent();
-            this.parseSpecifics.SetItemChecked(0, true);
         }
 
         private void allocateEventTagsToDictinary()
         {
             //CheckedListBox.CheckedItemCollection itemsColl = this.parseSpecifics.CheckedItems;
             HashSet<String> checkedDebugItems = new HashSet<string>();
-            for (Int32 i = 0; i < this.parseSpecifics.CheckedItems.Count; i++)
-            {
-                checkedDebugItems.Add((String)this.parseSpecifics.CheckedItems[i]);
-            }
+            //for (Int32 i = 0; i < this.parseSpecifics.CheckedItems.Count; i++)
+            //{
+            //    checkedDebugItems.Add((String)this.parseSpecifics.CheckedItems[i]);
+            //}
 
 
             debugEventTags = new HashSet<String>();
@@ -747,8 +746,9 @@ namespace SalesforceMetadata
                     {
                         String treeNodeText = "ENTERING_MANAGED_PKG: " + columnElements[2];
                         TreeNode newNode = new TreeNode(treeNodeText);
-                        
-                        debugLogWithLevels.Add(this.currentLevel.ToString() + "|" + treeNodeText);
+
+                        Int32 tempCurrentLevel = this.currentLevel + 1;
+                        debugLogWithLevels.Add(tempCurrentLevel.ToString() + "|" + treeNodeText);
                     }
                     else if (columnElements[1] == DebugEventTags.EXCEPTION_THROWN)
                     {
@@ -961,6 +961,26 @@ namespace SalesforceMetadata
                     parentNode.Nodes.Add(tnd);
 
                     parentTreeNode.Add(currentLevel, tnd);
+                }
+            }
+        }
+
+        private void tvDebugReplay_AfterExpand(object sender, TreeViewEventArgs e)
+        {
+            TreeNode currentNode = e.Node;
+            expandAllNodes(currentNode);
+        }
+
+
+        private void expandAllNodes(TreeNode currentNode)
+        {
+            foreach (TreeNode tnd in currentNode.Nodes)
+            {
+                tnd.Expand();
+
+                if (tnd.Nodes.Count > 0)
+                {
+                    expandAllNodes(tnd);
                 }
             }
         }

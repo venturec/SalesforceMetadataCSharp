@@ -156,6 +156,12 @@ namespace SalesforceMetadata
                     String[] fileNameSplit = filePathSplit[filePathSplit.Length - 1].Split('.');
 
                     Dictionary<String, String> importReference = new Dictionary<String, String>();
+                    
+                    // Property Name / availability
+                    Dictionary<String, String> properties = new Dictionary<String, String>();
+
+                    // Function Name / availability (if @wire, use @wire call back to Apex)
+                    Dictionary<String, String> functions = new Dictionary<String, String>();
 
                     JSFileHierarchy jsParsedFiles = new JSFileHierarchy();
                     jsParsedFiles.folderName = filePathSplit[filePathSplit.Length - 2];

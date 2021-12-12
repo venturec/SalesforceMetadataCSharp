@@ -13,7 +13,7 @@ namespace SalesforceMetadata
 {
     public partial class LWCInspector : Form
     {
-        private Dictionary<String, JSFunction> jsFunctionsDict;
+        private Dictionary<String, JSFileHierarchy> jsFileHierarchyDict;
 
         // Key = What file name the property or function is referenced in + the reference
         // Value = the file the above translates too so you can get the actual file the function is housed in
@@ -21,7 +21,9 @@ namespace SalesforceMetadata
         // Current jsFile name = otherJSFile
         // Key = otherJSFile|helper
         // Value = jsFile
+        private Dictionary<String, JSFunction> jsFunctionsDict;
         private Dictionary<String, String> importDictionary;
+
 
         public LWCInspector()
         {
@@ -147,13 +149,7 @@ namespace SalesforceMetadata
             }
 
             // Now loop through the LWC JS files to get the call hiearchy
-            Dictionary<String, JSFileHierarchy> jsFileHieararchyDict = new Dictionary<string, JSFileHierarchy>();
-
-            // Property / JavaScript file
-            Dictionary<String, String> properties = new Dictionary<String, String>();
-
-            // Function Name / / JavaScript file
-            Dictionary<String, String> functions = new Dictionary<String, String>();
+            jsFileHierarchyDict = new Dictionary<string, JSFileHierarchy>();
 
             // get the text values into a List<string> and then add them to the 
             Dictionary<String, List<String>> fileToParsedContent = new Dictionary<String, List<String>>();
@@ -164,17 +160,13 @@ namespace SalesforceMetadata
                     String[] filePathSplit = fileName.Split('\\');
                     String[] fileNameSplit = filePathSplit[filePathSplit.Length - 1].Split('.');
 
-                    //Dictionary<String, String> importReference = new Dictionary<String, String>();
-                    
-                    //JSFileHierarchy jsParsedFiles = new JSFileHierarchy();
-                    //jsParsedFiles.folderName = filePathSplit[filePathSplit.Length - 2];
-                    //jsParsedFiles.fileName = fileNameSplit[0];
+                    String folderName = filePathSplit[filePathSplit.Length - 2];
 
                     StreamReader sr = new StreamReader(fileName);
                     
-                    List<String> tempContent = new List<string>();
+                    List<String> stringArray = new List<string>();
                     Boolean isComment = false;
-                    Boolean isQuoteValue = false;
+                    Boolean isConsoleLog = false;
                     while (!sr.EndOfStream)
                     {
                         String[] parsedLine = readLineSplit(sr.ReadLine());
@@ -196,13 +188,19 @@ namespace SalesforceMetadata
                             }
                             else if (parsedLine[i].StartsWith("console.log"))
                             {
-                                break;
+                                //break;
+                                isConsoleLog = true;
+                            }
+                            else if (isConsoleLog == true
+                                && parsedLine[i] == ";")
+                            {
+                                isConsoleLog = false;
                             }
                             else if(isComment == false)
                             {
                                 if (parsedLine[i] != "")
                                 {
-                                    tempContent.Add(parsedLine[i]);
+                                    stringArray.Add(parsedLine[i]);
                                 }
                             }
                         }
@@ -211,146 +209,82 @@ namespace SalesforceMetadata
                     sr.Close();
 
                     // Now loop through the text array and determine the types, constructing them using the inner classes
+
+                    // This is more of a catch all in case the parser misses an end of block character or, in the case of much of LWC components, the develoepr
+                    // forgets to end their statement with a ";".
+                    // There's really no other reason to have this variable.
+                    //Boolean isNewBlock = false; 
+
                     Boolean isApiEnabled = false;
+                    Boolean isTrack = false;
                     Boolean isExport = false;
                     Boolean isImport = false;
-                    Boolean isWire = false;
-                    Boolean isTrack = false;
-                    Boolean isStatic = false;
-                    Boolean isFunction = false;
-                    Boolean isVariable = false;
 
-                    for (Int32 i = 0; i < tempContent.Count; i++)
+                    Boolean isOther = false;
+
+                    Int32 arrayPos = 0;
+                    for (Int32 i = 0; i < stringArray.Count; i++)
                     {
-                        if (tempContent[i].ToLower() == "export")
+                        if (arrayPos < i) arrayPos = i;
+
+                        if (arrayPos == i)
                         {
-
-                        }
-                        else if (tempContent[i].ToLower() == "import")
-                        {
-
-                        }
-                        else if (tempContent[i].ToLower() == "const")
-                        {
-
-                        }
-                        else if (tempContent[i].ToLower() == "static")
-                        {
-
-                        }
-                        else if (tempContent[i].ToLower() == "@api")
-                        {
-
-                        }
-                        else if (tempContent[i].ToLower() == "@wire")
-                        {
-
-                        }
-                        else if (tempContent[i].ToLower() == "@track")
-                        {
-
-                        }
-                        else if (tempContent[i].ToLower() == "function")
-                        {
-
-                        }
-                        else if (tempContent[i].ToLower().StartsWith("this."))
-                        {
-                            // Can be a function or a property
-
-                        }
-                        else
-                        {
-
-                        }
-                    }
-
-                    // jsFileHieararchyDict.Add(jsParsedFiles.folderName + "." + jsParsedFiles.fileName, jsParsedFiles);
-
-                    // Now determine how the properties are set, the functions, the function parameters and the return value if there is one
-
-                    // Deteremine the Function call hieararchy
-
-                }
-            }
-
-
-            // After the above is done, then start writing the values to the file
-            if (jsFileHieararchyDict.Count > 0)
-            {
-                if (!this.tbSaveResultsTo.Text.EndsWith("\\"))
-                {
-                    this.tbSaveResultsTo.Text = this.tbSaveResultsTo.Text + "\\";
-                }
-
-                StreamWriter sw = new StreamWriter(this.tbSaveResultsTo.Text + "LWCFunctionHierarchy.txt");
-
-                // Key = fileName + function name => function
-                this.jsFunctionsDict = new Dictionary<String, JSFunction>();
-                this.importDictionary = new Dictionary<String, String>();
-                foreach (JSFileHierarchy jsFileHier in jsFileHieararchyDict.Values)
-                {
-                    foreach (JSFunction fnc in jsFileHier.functions)
-                    {
-                        if (!fnc.functionName.StartsWith("export"))
-                        {
-                            String key = fnc.fileName + "|" + fnc.functionName;
-                            if (!jsFunctionsDict.ContainsKey(key))
+                            if (stringArray[i].ToLower() == "export")
                             {
-                                this.jsFunctionsDict.Add(key, fnc);
+                                isExport = true;
+
+                                // Call export function parser
+
+
+                                isExport = false;
+                            }
+                            else if (stringArray[i].ToLower() == "import")
+                            {
+                                arrayPos = parseImport(folderName, fileNameSplit[0], stringArray, i);
+                            }
+                            else if (stringArray[i].ToLower() == "const")
+                            {
+                                arrayPos = parseConstant(folderName, fileNameSplit[0], stringArray, i);
+                            }
+                            else if (stringArray[i].ToLower() == "static")
+                            {
+
+                            }
+                            else if (stringArray[i].ToLower() == "@api")
+                            {
+                                isApiEnabled = true;
+
+                                // Call API function parser
+
+                                isApiEnabled = false;
+                            }
+                            else if (stringArray[i].ToLower() == "@wire")
+                            {
+                                arrayPos = parseWireFunction(folderName, fileNameSplit[0], stringArray, i);
+                            }
+                            else if (stringArray[i].ToLower() == "@track")
+                            {
+
+                            }
+                            else if (stringArray[i].ToLower() == "function")
+                            {
+
+                            }
+                            else
+                            {
+                                isOther = true;
                             }
                         }
                     }
-
-                    foreach (JSImport imp in jsFileHier.imports)
-                    {
-                        foreach (String impItem in imp.importItems)
-                        {
-                            if (!this.importDictionary.ContainsKey(imp.fileName + "|" + impItem))
-                            {
-                                this.importDictionary.Add(imp.fileName + "|" + impItem, imp.importFrom);
-                            }
-                        }
-                    }
-                }
-
-                // Write the values contained in jsFileHierarchyDict to a file
-                foreach (JSFileHierarchy jsFileHier in jsFileHieararchyDict.Values)
-                {
-                    sw.WriteLine("/***************************************************************************************/");
-                    sw.WriteLine(jsFileHier.folderName + "." + jsFileHier.fileName);
-
-                    if (jsFileHier.functions.Count > 0)
-                    {
-                        foreach (JSFunction fnc in jsFileHier.functions)
-                        {
-                            Console.WriteLine("[NEW INCOMING FUNCTION] - " + fnc.fileName + "." + fnc.functionName);
-
-                            sw.WriteLine("        /***************************************************************************************/");
-                            
-                            writeFunctionsToFile(sw, fnc, 2);
-                            sw.WriteLine();
-                            sw.WriteLine();
-
-                        }
-                    }
-                }
-
-                sw.Close();
-
-                MessageBox.Show("LWC Parsing Complete");
-            }
-
-            if (htmlFiles.Count > 0)
-            {
-                foreach (String fileName in htmlFiles)
-                {
-                    StreamReader sr = new StreamReader(fileName);
-
                 }
             }
 
             // Now loop through the jsFileHieararchyDict and associate the calling fumctions to the function itself with a hierarchical value;
+
+
+            // Write the values for both functions and properties to the file
+
+
 
         }
 
@@ -450,8 +384,244 @@ namespace SalesforceMetadata
             return subDirectoryList;
         }
 
+        //private Int32 parseExport(String folderName, String fileName, List<String> stringArray, Int32 characterPos)
+        //{
 
-        List<String> layersDeep = new List<string>();
+        //}
+
+        private Int32 parseImport(String folderName, String fileName, List<String> stringArray, Int32 characterPos)
+        {
+            JSImport import = new JSImport();
+            import.folderName = folderName;
+            import.fileName = fileName;
+
+            Int32 braceCount = 0;
+            Int32 parenthCount = 0;
+
+            Int32 newPos = characterPos;
+            String imports = "";
+            for (Int32 i = characterPos; i < stringArray.Count; i++)
+            {
+                if (stringArray[i] == ";")
+                {
+                    newPos = i + 1;
+                    break;
+                }
+                else if (stringArray[i].ToLower() == "import"
+                    && stringArray[i + 1] != "{")
+                {
+                    import.importItems.Add(stringArray[i + 1]);
+                }
+                else if (stringArray[i].ToLower() == "{")
+                {
+                    braceCount++;
+                }
+                else if (stringArray[i].ToLower() == "}")
+                {
+                    braceCount--;
+
+                    if (imports != "")
+                    {
+                        String[] importArray = imports.Split(',');
+                        foreach (String imp in importArray)
+                        {
+                            import.importItems.Add(imp);
+                        }
+
+                        imports = "";
+                    }
+                }
+                else if (stringArray[i].ToLower() == "(")
+                {
+                    parenthCount++;
+                }
+                else if (stringArray[i].ToLower() == ")")
+                {
+                    parenthCount--;
+                }
+                else if (braceCount == 1)
+                {
+                    imports = imports + stringArray[i];
+                }
+                else if (stringArray[i].ToLower() == "from")
+                {
+                    if (imports != "")
+                    {
+                        String[] importArray = imports.Split(',');
+                        foreach (String imp in importArray)
+                        {
+                            import.importItems.Add(imp);
+                        }
+
+                        imports = "";
+                    }
+
+                    import.importFrom = stringArray[i + 1];
+                }
+            }
+
+            if (this.jsFileHierarchyDict.ContainsKey(folderName + "|" + fileName))
+            {
+                this.jsFileHierarchyDict[folderName + "|" + fileName].imports.Add(import);
+            }
+            else
+            {
+                JSFileHierarchy fileHier = new JSFileHierarchy();
+                fileHier.imports.Add(import);
+
+                this.jsFileHierarchyDict.Add(folderName + "|" + fileName, fileHier);
+            }
+
+            return newPos;
+        }
+
+        private Int32 parseConstant(String folderName, String fileName, List<String> stringArray, Int32 characterPos)
+        {
+            JSConstant constant = new JSConstant();
+            constant.folderName = folderName;
+            constant.fileName = fileName;
+
+            Int32 newPos = characterPos;
+            String constVal = "";
+            for (Int32 i = characterPos; i < stringArray.Count; i++)
+            {
+                if (stringArray[i] == ";")
+                {
+                    if (constVal != "")
+                    {
+                        constant.constantValue = constVal;
+                        constVal = "";
+                    }
+
+                    newPos = i + 1;
+                    break;
+                }
+                else if (stringArray[i].ToLower() == "const")
+                {
+                    constant.constantName = stringArray[i + 1];
+                }
+                else if (stringArray[i].ToLower() == "=")
+                {
+                    constVal = "";
+                }
+                else
+                {
+                    constVal = constVal + stringArray[i];
+                }
+            }
+
+            if (this.jsFileHierarchyDict.ContainsKey(folderName + "|" + fileName))
+            {
+                this.jsFileHierarchyDict[folderName + "|" + fileName].constants.Add(constant);
+            }
+            else
+            {
+                JSFileHierarchy fileHier = new JSFileHierarchy();
+                fileHier.constants.Add(constant);
+
+                this.jsFileHierarchyDict.Add(folderName + "|" + fileName, fileHier);
+            }
+
+
+            return newPos;
+        }
+
+        private Int32 parseWireFunction(String folderName, String fileName, List<String> stringArray, Int32 characterPos)
+        {
+            JSFunction function = new JSFunction();
+            function.folderName = folderName;
+            function.fileName = fileName;
+            function.wireFunction = true;
+
+            Int32 braceCount = 0;
+            Int32 parenthCount = 0;
+
+            Int32 newPos = characterPos;
+            String functionParameter = "";
+            for (Int32 i = characterPos; i < stringArray.Count; i++)
+            {
+                if (stringArray[i] == "{")
+                {
+                    braceCount++;
+                }
+                else if (stringArray[i] == "}")
+                {
+                    braceCount--;
+                    if (parenthCount == 1
+                        && braceCount == 0
+                        && functionParameter != "")
+                    {
+                            function.parameters.Add(functionParameter);
+                            functionParameter = "";
+                    }
+                }
+                else if (stringArray[i] == "(")
+                {
+                    parenthCount++;
+                }
+                else if (stringArray[i] == ")")
+                {
+                    parenthCount--;
+
+                    if (parenthCount == 0)
+                    {
+                        newPos = i + 1;
+                        break;
+                    }
+                }
+                // @wire Function Name
+                else if (parenthCount == 1
+                    && braceCount == 0
+                    && stringArray[i] != ",")
+                {
+                    function.functionName = stringArray[i];
+                }
+                else if (parenthCount == 1
+                    && braceCount == 1
+                    && stringArray[i] != ",")
+                {
+                    functionParameter = functionParameter + stringArray[i];
+                }
+                else if (parenthCount == 1
+                    && braceCount == 1
+                    && stringArray[i] == ",")
+                {
+                    function.parameters.Add(functionParameter);
+                    functionParameter = "";
+                }
+            }
+
+            if (this.jsFileHierarchyDict.ContainsKey(folderName + "|" + fileName))
+            {
+                this.jsFileHierarchyDict[folderName + "|" + fileName].functions.Add(function);
+            }
+            else
+            {
+                JSFileHierarchy fileHier = new JSFileHierarchy();
+                fileHier.functions.Add(function);
+
+                this.jsFileHierarchyDict.Add(folderName + "|" + fileName, fileHier);
+            }
+
+            return newPos;
+        }
+
+
+        private Int32 parseFunction(String folderName, String fileName, List<String> stringArray, Int32 characterPos)
+        {
+            JSFunction function = new JSFunction();
+            function.folderName = folderName;
+            function.fileName = fileName;
+
+            Int32 newPos = characterPos;
+            String functionParameter = "";
+
+
+
+
+            return newPos;
+
+        }
 
         private void writeFunctionsToFile(StreamWriter sw, 
             JSFunction parentFunction,
@@ -733,7 +903,6 @@ namespace SalesforceMetadata
                 importFrom = "";
             }
         }
-
         private class JSConstant
         {
             public String folderName;
@@ -765,7 +934,6 @@ namespace SalesforceMetadata
                 propertyValue = "";
             }
         }
-
         private class JSFunction 
         {
             public String folderName;
@@ -799,8 +967,6 @@ namespace SalesforceMetadata
                 propertiesSet = new List<string>();
             }
         }
-
-
         private class ChildFunction
         {
             public String folderName;

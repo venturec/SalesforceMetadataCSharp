@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace SalesforceMetadata
 {
@@ -217,7 +218,7 @@ namespace SalesforceMetadata
 
                     Boolean isApiEnabled = false;
                     Boolean isTrack = false;
-                    Boolean isExport = false;
+                    Boolean isExported = false;
                     Boolean isImport = false;
 
                     Boolean isOther = false;
@@ -229,50 +230,82 @@ namespace SalesforceMetadata
 
                         if (arrayPos == i)
                         {
-                            if (stringArray[i].ToLower() == "export")
+                            if (stringArray[i].ToLower() == "@api")
                             {
-                                isExport = true;
+                                //Debug.WriteLine(stringArray[i]);
+                                //Debug.WriteLine("+1 " + stringArray[i + 1]);
+                                //Debug.WriteLine("+2 " + stringArray[i + 2]);
+                                //Debug.WriteLine("+3 " + stringArray[i + 3]);
+                                //Debug.WriteLine("+4 " + stringArray[i + 4]);
+                                //Debug.WriteLine("+5 " + stringArray[i + 5]);
+                                //Debug.WriteLine("+6 " + stringArray[i + 6]);
+                                //Debug.WriteLine("+7 " + stringArray[i + 7]);
+                                //Debug.WriteLine("");
 
-                                // Call export function parser
-
-
-                                isExport = false;
-                            }
-                            else if (stringArray[i].ToLower() == "import")
-                            {
-                                arrayPos = parseImport(folderName, fileNameSplit[0], stringArray, i);
+                                // Determine if the item is a variable or function
+                                if (stringArray[i + 2] == ";" || stringArray[i + 4] == ";")
+                                {
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                }
+                                else
+                                {
+                                    arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                }
                             }
                             else if (stringArray[i].ToLower() == "const")
                             {
                                 arrayPos = parseConstant(folderName, fileNameSplit[0], stringArray, i);
                             }
+                            else if (stringArray[i].ToLower() == "export")
+                            {
+                                if (stringArray[i].ToLower() == "export"
+                                    && stringArray[i + 1].ToLower() == "default")
+                                {
+                                    isExported = true;
+                                    arrayPos = parseExportDefault(stringArray, i);
+                                }
+                                else
+                                {
+                                    // Call export function parser
+                                    arrayPos = parseExport(folderName, fileNameSplit[0], stringArray, i);
+                                }
+                            }
+                            else if (stringArray[i].ToLower() == "function")
+                            {
+                                arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
+                            }
+                            else if (stringArray[i].ToLower() == "import")
+                            {
+                                arrayPos = parseImport(folderName, fileNameSplit[0], stringArray, i);
+                            }
+
                             else if (stringArray[i].ToLower() == "static")
                             {
 
                             }
-                            else if (stringArray[i].ToLower() == "@api")
+                            else if (stringArray[i].ToLower() == "@track")
                             {
-                                isApiEnabled = true;
-
-                                // Call API function parser
-
-                                isApiEnabled = false;
+                                // I believe this is a variable
                             }
                             else if (stringArray[i].ToLower() == "@wire")
                             {
-                                arrayPos = parseWireFunction(folderName, fileNameSplit[0], stringArray, i);
-                            }
-                            else if (stringArray[i].ToLower() == "@track")
-                            {
-
-                            }
-                            else if (stringArray[i].ToLower() == "function")
-                            {
-
+                                arrayPos = parseWireFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
                             }
                             else
                             {
-                                isOther = true;
+                                Debug.WriteLine(stringArray[i]);
+                                Debug.WriteLine("+1 " + stringArray[i + 1]);
+                                Debug.WriteLine("+2 " + stringArray[i + 2]);
+                                Debug.WriteLine("+3 " + stringArray[i + 3]);
+
+                                if (stringArray[i + 1] == ";" || stringArray[i + 3] == ";")
+                                {
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                }
+                                else
+                                {
+                                    arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                }
                             }
                         }
                     }
@@ -323,46 +356,6 @@ namespace SalesforceMetadata
             }
         }
 
-        private String otherFunctionCallsCleanup(String functionOrPropertyString, Boolean isFunction)
-        {
-            while (functionOrPropertyString.StartsWith(" ")
-                || functionOrPropertyString.StartsWith("(")
-                || functionOrPropertyString.StartsWith(")")
-                || functionOrPropertyString.StartsWith("{")
-                || functionOrPropertyString.StartsWith("}")
-                || functionOrPropertyString.StartsWith("!"))
-            {
-                if (functionOrPropertyString.StartsWith(" "))
-                {
-                    functionOrPropertyString = functionOrPropertyString.Trim();
-                }
-                else if (functionOrPropertyString.StartsWith("("))
-                {
-                    functionOrPropertyString = functionOrPropertyString.Substring(1);
-                }
-                else if (functionOrPropertyString.StartsWith(")"))
-                {
-                    functionOrPropertyString = functionOrPropertyString.Substring(1);
-                }
-                else if (functionOrPropertyString.StartsWith("{"))
-                {
-                    functionOrPropertyString = functionOrPropertyString.Substring(1);
-                }
-                else if (functionOrPropertyString.StartsWith("}"))
-                {
-                    functionOrPropertyString = functionOrPropertyString.Substring(1);
-                }
-                else if (functionOrPropertyString.StartsWith("!"))
-                {
-                    functionOrPropertyString = functionOrPropertyString.Substring(1);
-                }
-            }
-
-            functionOrPropertyString = functionOrPropertyString.Trim();
-
-            return functionOrPropertyString;
-        }
-
         private List<String> getSubdirectories(String folderLocation)
         {
             // Check for additional subdirectories in the current subdirectory list and add them to the list
@@ -382,97 +375,6 @@ namespace SalesforceMetadata
             }
 
             return subDirectoryList;
-        }
-
-        //private Int32 parseExport(String folderName, String fileName, List<String> stringArray, Int32 characterPos)
-        //{
-
-        //}
-
-        private Int32 parseImport(String folderName, String fileName, List<String> stringArray, Int32 characterPos)
-        {
-            JSImport import = new JSImport();
-            import.folderName = folderName;
-            import.fileName = fileName;
-
-            Int32 braceCount = 0;
-            Int32 parenthCount = 0;
-
-            Int32 newPos = characterPos;
-            String imports = "";
-            for (Int32 i = characterPos; i < stringArray.Count; i++)
-            {
-                if (stringArray[i] == ";")
-                {
-                    newPos = i + 1;
-                    break;
-                }
-                else if (stringArray[i].ToLower() == "import"
-                    && stringArray[i + 1] != "{")
-                {
-                    import.importItems.Add(stringArray[i + 1]);
-                }
-                else if (stringArray[i].ToLower() == "{")
-                {
-                    braceCount++;
-                }
-                else if (stringArray[i].ToLower() == "}")
-                {
-                    braceCount--;
-
-                    if (imports != "")
-                    {
-                        String[] importArray = imports.Split(',');
-                        foreach (String imp in importArray)
-                        {
-                            import.importItems.Add(imp);
-                        }
-
-                        imports = "";
-                    }
-                }
-                else if (stringArray[i].ToLower() == "(")
-                {
-                    parenthCount++;
-                }
-                else if (stringArray[i].ToLower() == ")")
-                {
-                    parenthCount--;
-                }
-                else if (braceCount == 1)
-                {
-                    imports = imports + stringArray[i];
-                }
-                else if (stringArray[i].ToLower() == "from")
-                {
-                    if (imports != "")
-                    {
-                        String[] importArray = imports.Split(',');
-                        foreach (String imp in importArray)
-                        {
-                            import.importItems.Add(imp);
-                        }
-
-                        imports = "";
-                    }
-
-                    import.importFrom = stringArray[i + 1];
-                }
-            }
-
-            if (this.jsFileHierarchyDict.ContainsKey(folderName + "|" + fileName))
-            {
-                this.jsFileHierarchyDict[folderName + "|" + fileName].imports.Add(import);
-            }
-            else
-            {
-                JSFileHierarchy fileHier = new JSFileHierarchy();
-                fileHier.imports.Add(import);
-
-                this.jsFileHierarchyDict.Add(folderName + "|" + fileName, fileHier);
-            }
-
-            return newPos;
         }
 
         private Int32 parseConstant(String folderName, String fileName, List<String> stringArray, Int32 characterPos)
@@ -517,6 +419,8 @@ namespace SalesforceMetadata
             else
             {
                 JSFileHierarchy fileHier = new JSFileHierarchy();
+                fileHier.folderName = folderName;
+                fileHier.fileName = fileName;
                 fileHier.constants.Add(constant);
 
                 this.jsFileHierarchyDict.Add(folderName + "|" + fileName, fileHier);
@@ -526,12 +430,268 @@ namespace SalesforceMetadata
             return newPos;
         }
 
-        private Int32 parseWireFunction(String folderName, String fileName, List<String> stringArray, Int32 characterPos)
+        private Int32 parseExport(String folderName, String fileName, List<String> stringArray, Int32 characterPos)
+        {
+            Int32 braceCount = 0;
+
+            Int32 newPos = characterPos;
+            String exports = "";
+
+            for (Int32 i = characterPos; i < stringArray.Count; i++)
+            {
+                if (stringArray[i] == "{")
+                {
+                    braceCount++;
+                }
+                else if (stringArray[i] == "}")
+                {
+                    braceCount--;
+
+                    JSFileHierarchy fileHier = new JSFileHierarchy();
+                    fileHier.folderName = folderName;
+                    fileHier.fileName = fileName;
+                    if (this.jsFileHierarchyDict.ContainsKey(folderName + "|" + fileName))
+                    {
+                        fileHier = this.jsFileHierarchyDict[folderName + "|" + fileName];
+                    }
+                    else
+                    {
+                        this.jsFileHierarchyDict.Add(folderName + "|" + fileName, fileHier);
+                    }
+
+                    if (exports != "")
+                    {
+                        String[] exportArray = exports.Split(',');
+                        foreach (String exp in exportArray)
+                        {
+                            fileHier.exports.Add(exp);
+                        }
+
+                        exports = "";
+                    }
+                }
+
+                if (braceCount == 1)
+                {
+                    exports = exports + stringArray[i];
+                }
+            }
+
+            return newPos;
+        }
+
+        private Int32 parseExportDefault(List<String> stringArray, Int32 characterPos)
+        {
+            Int32 newPos = characterPos;
+
+            for (Int32 i = characterPos; i < stringArray.Count; i++)
+            {
+                if (stringArray[i] == "{")
+                {
+                    newPos = i + 1;
+                    break;
+                }
+            }
+
+            return newPos;
+        }
+
+        private Int32 parseFunction(String folderName, String fileName, List<String> stringArray, Int32 characterPos, Boolean isExported)
+        {
+            JSFunction function = new JSFunction();
+            function.folderName = folderName;
+            function.fileName = fileName;
+            function.isExported = isExported;
+
+            Int32 braceCount = 0;
+            Int32 parenthCount = 0;
+
+            Int32 newPos = characterPos;
+            String functionParameter = "";
+            for (Int32 i = characterPos; i < stringArray.Count; i++)
+            {
+                if (stringArray[i].ToLower() == "@api")
+                {
+                    function.functionAnnotation = "@api";
+                }
+                else if (stringArray[i] == "{")
+                {
+                    braceCount++;
+                }
+                else if (stringArray[i] == "}")
+                {
+                    braceCount--;
+
+                    if (braceCount == 0)
+                    {
+                        newPos = i + 1;
+                        break;
+                    }
+                }
+                else if (stringArray[i] == "(")
+                {
+                    parenthCount++;
+                }
+                else if (stringArray[i] == ")")
+                {
+                    parenthCount--;
+                }
+                else if (stringArray[i].ToLower().StartsWith("this."))
+                {
+                    // Is Property or Function?
+                    Debug.WriteLine(stringArray[i]);
+
+                }
+            }
+
+            return newPos;
+
+        }
+
+        private Int32 parseImport(String folderName, String fileName, List<String> stringArray, Int32 characterPos)
+        {
+            JSImport import = new JSImport();
+            import.folderName = folderName;
+            import.fileName = fileName;
+
+            Int32 braceCount = 0;
+
+            Int32 newPos = characterPos;
+            String imports = "";
+            for (Int32 i = characterPos; i < stringArray.Count; i++)
+            {
+                if (stringArray[i] == ";")
+                {
+                    newPos = i + 1;
+                    break;
+                }
+                else if (stringArray[i].ToLower() == "import"
+                    && stringArray[i + 1] != "{")
+                {
+                    import.importItems.Add(stringArray[i + 1]);
+                }
+                else if (stringArray[i].ToLower() == "{")
+                {
+                    braceCount++;
+                }
+                else if (stringArray[i].ToLower() == "}")
+                {
+                    braceCount--;
+
+                    if (imports != "")
+                    {
+                        String[] importArray = imports.Split(',');
+                        foreach (String imp in importArray)
+                        {
+                            import.importItems.Add(imp);
+                        }
+
+                        imports = "";
+                    }
+                }
+                else if (braceCount == 1)
+                {
+                    imports = imports + stringArray[i];
+                }
+                else if (stringArray[i].ToLower() == "from")
+                {
+                    if (imports != "")
+                    {
+                        String[] importArray = imports.Split(',');
+                        foreach (String imp in importArray)
+                        {
+                            import.importItems.Add(imp);
+                        }
+
+                        imports = "";
+                    }
+
+                    import.importFrom = stringArray[i + 1];
+                }
+            }
+
+            if (this.jsFileHierarchyDict.ContainsKey(folderName + "|" + fileName))
+            {
+                this.jsFileHierarchyDict[folderName + "|" + fileName].imports.Add(import);
+            }
+            else
+            {
+                JSFileHierarchy fileHier = new JSFileHierarchy();
+                fileHier.folderName = folderName;
+                fileHier.fileName = fileName;
+                fileHier.imports.Add(import);
+
+                this.jsFileHierarchyDict.Add(folderName + "|" + fileName, fileHier);
+            }
+
+            return newPos;
+        }
+
+        private Int32 parseProperty(String folderName, String fileName, List<String> stringArray, Int32 characterPos, Boolean isExported)
+        {
+            JSProperty property = new JSProperty();
+            property.folderName = folderName;
+            property.fileName = fileName;
+            property.isExported = isExported;
+
+            Int32 newPos = characterPos;
+            String propertyName = "";
+            for (Int32 i = characterPos; i < stringArray.Count; i++)
+            {
+                if (stringArray[i].ToLower() == "@api")
+                {
+                    property.propertyAnnotation = "@api";
+                }
+                else if (stringArray[i].ToLower() == "@track")
+                {
+                    property.propertyAnnotation = "@track";
+                }
+                else if (stringArray[i] == "=")
+                {
+                    property.propertyName = stringArray[i - 1];
+                    property.propertyValue = stringArray[i + 1];
+
+                    newPos = i + 3;
+                    break;
+                }
+                else if (stringArray[i] == ";")
+                {
+                    property.propertyName = propertyName;
+                    propertyName = "";
+
+                    newPos = i + 1;
+                    break;
+                }
+                else
+                {
+                    propertyName = stringArray[i];
+                }
+            }
+
+            if (this.jsFileHierarchyDict.ContainsKey(folderName + "|" + fileName))
+            {
+                this.jsFileHierarchyDict[folderName + "|" + fileName].properties.Add(property);
+            }
+            else
+            {
+                JSFileHierarchy fileHier = new JSFileHierarchy();
+                fileHier.folderName = folderName;
+                fileHier.fileName = fileName;
+                fileHier.properties.Add(property);
+
+                this.jsFileHierarchyDict.Add(folderName + "|" + fileName, fileHier);
+            }
+
+            return newPos;
+        }
+
+        private Int32 parseWireFunction(String folderName, String fileName, List<String> stringArray, Int32 characterPos, Boolean isExported)
         {
             JSFunction function = new JSFunction();
             function.folderName = folderName;
             function.fileName = fileName;
             function.wireFunction = true;
+            function.isExported = isExported;
 
             Int32 braceCount = 0;
             Int32 parenthCount = 0;
@@ -551,8 +711,8 @@ namespace SalesforceMetadata
                         && braceCount == 0
                         && functionParameter != "")
                     {
-                            function.parameters.Add(functionParameter);
-                            functionParameter = "";
+                        function.parameters.Add(functionParameter);
+                        functionParameter = "";
                     }
                 }
                 else if (stringArray[i] == "(")
@@ -598,29 +758,14 @@ namespace SalesforceMetadata
             else
             {
                 JSFileHierarchy fileHier = new JSFileHierarchy();
+                fileHier.folderName = folderName;
+                fileHier.fileName = fileName;
                 fileHier.functions.Add(function);
 
                 this.jsFileHierarchyDict.Add(folderName + "|" + fileName, fileHier);
             }
 
             return newPos;
-        }
-
-
-        private Int32 parseFunction(String folderName, String fileName, List<String> stringArray, Int32 characterPos)
-        {
-            JSFunction function = new JSFunction();
-            function.folderName = folderName;
-            function.fileName = fileName;
-
-            Int32 newPos = characterPos;
-            String functionParameter = "";
-
-
-
-
-            return newPos;
-
         }
 
         private void writeFunctionsToFile(StreamWriter sw, 
@@ -924,6 +1069,7 @@ namespace SalesforceMetadata
             public String propertyAnnotation;
             public String propertyName;
             public String propertyValue;
+            public Boolean isExported;
 
             public JSProperty()
             {
@@ -932,6 +1078,7 @@ namespace SalesforceMetadata
                 propertyAnnotation = "";
                 propertyName = "";
                 propertyValue = "";
+                isExported = false;
             }
         }
         private class JSFunction 
@@ -946,6 +1093,7 @@ namespace SalesforceMetadata
             public Boolean wireFunction;
             public String importReference;
             public Boolean staticFunction;
+            public Boolean isExported;
             public List<String> parameters;
             public List<ChildFunction> childFunctions;
             public List<String> propertiesSet;
@@ -962,6 +1110,7 @@ namespace SalesforceMetadata
                 wireFunction = false;
                 importReference = "";
                 staticFunction = false;
+                isExported = false;
                 parameters = new List<string>();
                 childFunctions = new List<ChildFunction>();
                 propertiesSet = new List<string>();
@@ -989,22 +1138,6 @@ namespace SalesforceMetadata
             }
         }
 
-
-        //public class JSFunctionWithChildFunction
-        //{
-        //    public String folderName;
-        //    public String fileName;
-        //    public String importFrom;
-        //    public List<String> childFunctions;
-
-        //    public JSFunctionWithChildFunction()
-        //    {
-        //        folderName = "";
-        //        fileName = "";
-        //        importFrom = "";
-        //        childFunctions = new List<string>();
-        //    }
-        //}
     }
 
 }

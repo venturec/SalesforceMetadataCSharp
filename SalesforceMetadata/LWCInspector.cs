@@ -158,13 +158,15 @@ namespace SalesforceMetadata
             {
                 foreach (String fileName in jsFiles)
                 {
+                    importDictionary = new Dictionary<String, String>();
+
                     String[] filePathSplit = fileName.Split('\\');
                     String[] fileNameSplit = filePathSplit[filePathSplit.Length - 1].Split('.');
 
                     String folderName = filePathSplit[filePathSplit.Length - 2];
 
                     StreamReader sr = new StreamReader(fileName);
-                    
+
                     List<String> stringArray = new List<string>();
                     Boolean isComment = false;
                     Boolean isConsoleLog = false;
@@ -189,7 +191,6 @@ namespace SalesforceMetadata
                             }
                             else if (parsedLine[i].StartsWith("console.log"))
                             {
-                                //break;
                                 isConsoleLog = true;
                             }
                             else if (isConsoleLog == true
@@ -197,18 +198,8 @@ namespace SalesforceMetadata
                             {
                                 isConsoleLog = false;
                             }
-                            else if(isComment == false)
+                            else if (isComment == false)
                             {
-                                Debug.WriteLine("0 " + parsedLine[i]);
-                                //Debug.WriteLine("+1 " + parsedLine[i + 1]);
-                                //Debug.WriteLine("+2 " + parsedLine[i + 2]);
-                                //Debug.WriteLine("+3 " + parsedLine[i + 3]);
-                                //Debug.WriteLine("+4 " + parsedLine[i + 4]);
-                                //Debug.WriteLine("+5 " + parsedLine[i + 5]);
-                                //Debug.WriteLine("+6 " + parsedLine[i + 6]);
-                                //Debug.WriteLine("+7 " + parsedLine[i + 7]);
-                                Debug.WriteLine("");
-
                                 if (parsedLine[i] != "")
                                 {
                                     stringArray.Add(parsedLine[i]);
@@ -242,18 +233,16 @@ namespace SalesforceMetadata
                         {
                             if (stringArray[i].ToLower() == "@api")
                             {
-                                Debug.WriteLine("0 "  + stringArray[i]);
-                                Debug.WriteLine("+1 " + stringArray[i + 1]);
-                                Debug.WriteLine("+2 " + stringArray[i + 2]);
-                                Debug.WriteLine("+3 " + stringArray[i + 3]);
-                                Debug.WriteLine("+4 " + stringArray[i + 4]);
-                                Debug.WriteLine("+5 " + stringArray[i + 5]);
-                                Debug.WriteLine("+6 " + stringArray[i + 6]);
-                                Debug.WriteLine("+7 " + stringArray[i + 7]);
-                                Debug.WriteLine("");
-
                                 // Determine if the item is a variable or function
-                                if (stringArray[i + 2] == ";" || stringArray[i + 4] == ";")
+                                if (stringArray.Count > i + 2 && stringArray[i + 2] == ";")
+                                {
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                }
+                                else if (stringArray.Count > i + 4 && stringArray[i + 4] == ";")
+                                {
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                }
+                                else if (stringArray.Count > i + 7 && stringArray[i + 7] == ";")
                                 {
                                     arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
                                 }
@@ -288,14 +277,30 @@ namespace SalesforceMetadata
                             {
                                 arrayPos = parseImport(folderName, fileNameSplit[0], stringArray, i);
                             }
-
                             else if (stringArray[i].ToLower() == "static")
                             {
-
+                                if (stringArray.Count > i + 1 && stringArray[i + 1] == ";")
+                                {
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                }
+                                else if (stringArray.Count > i + 3 && stringArray[i + 3] == ";")
+                                {
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                }
+                                else if (stringArray.Count > i + 6 && stringArray[i + 6] == ";")
+                                {
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                }
+                                else
+                                {
+                                    arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                }
                             }
+
                             else if (stringArray[i].ToLower() == "@track")
                             {
-                                // I believe this is a variable
+                                // I believe this is a variable / property
+                                arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
                             }
                             else if (stringArray[i].ToLower() == "@wire")
                             {
@@ -303,17 +308,15 @@ namespace SalesforceMetadata
                             }
                             else
                             {
-                                Debug.WriteLine("0 "  + stringArray[i]);
-                                Debug.WriteLine("+1 " + stringArray[i + 1]);
-                                Debug.WriteLine("+2 " + stringArray[i + 2]);
-                                Debug.WriteLine("+3 " + stringArray[i + 3]);
-                                Debug.WriteLine("+4 " + stringArray[i + 4]);
-                                Debug.WriteLine("+5 " + stringArray[i + 5]);
-                                Debug.WriteLine("+6 " + stringArray[i + 6]);
-                                Debug.WriteLine("+7 " + stringArray[i + 7]);
-                                Debug.WriteLine("");
-
-                                if (stringArray[i + 1] == ";" || stringArray[i + 3] == ";" || stringArray[i + 6] == ";")
+                                if (stringArray.Count > i + 1 && stringArray[i + 1] == ";")
+                                {
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                }
+                                else if (stringArray.Count > i + 3 && stringArray[i + 3] == ";")
+                                {
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                }
+                                else if (stringArray.Count > i + 6 && stringArray[i + 6] == ";")
                                 {
                                     arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
                                 }
@@ -327,11 +330,12 @@ namespace SalesforceMetadata
                 }
             }
 
-            // Now loop through the jsFileHieararchyDict and associate the calling fumctions to the function itself with a hierarchical value;
 
+            // Now loop through the jsFileHieararchyDict and associate the calling fumctions to the function itself with a hierarchical value;
+            Boolean loopJSFileHieararchyDict = true;
 
             // Write the values for both functions and properties to the file
-
+            Boolean writeToFile = true;
 
 
         }
@@ -386,24 +390,24 @@ namespace SalesforceMetadata
 
                     if (arrayPos == i)
                     {
-                        if (isStringValue == false && rLineSplit[i] == "=" && rLineSplit[i + 1] == "=" && rLineSplit[i + 2] == "=")
+                        if (rLineSplit.Length > i + 2 &&  isStringValue == false && rLineSplit[i] == "=" && rLineSplit[i + 1] == "=" && rLineSplit[i + 2] == "=")
                         {
                             splitStringList.Add("===");
                             arrayPos = i + 3;
                         }
-                        else if (isStringValue == false && rLineSplit[i] == "=" && rLineSplit[i + 1] == "=")
-                        {
-                            splitStringList.Add("==");
-                            arrayPos = i + 2;
-                        }
-                        else if (isStringValue == false && rLineSplit[i] == "!" && rLineSplit[i + 1] == "=" && rLineSplit[i + 2] == "=")
+                        else if (rLineSplit.Length > i + 2 && isStringValue == false && rLineSplit[i] == "!" && rLineSplit[i + 1] == "=" && rLineSplit[i + 2] == "=")
                         {
                             splitStringList.Add("!==");
                             arrayPos = i + 3;
                         }
-                        else if (isStringValue == false && rLineSplit[i] == "!" && rLineSplit[i + 1] == "=")
+                        else if (rLineSplit.Length > i + 1 &&  isStringValue == false && rLineSplit[i] == "!" && rLineSplit[i + 1] == "=")
                         {
                             splitStringList.Add("!=");
+                            arrayPos = i + 2;
+                        }
+                        else if (rLineSplit.Length > i + 1 &&  isStringValue == false && rLineSplit[i] == "=" && rLineSplit[i + 1] == "=")
+                        {
+                            splitStringList.Add("==");
                             arrayPos = i + 2;
                         }
                         else if (isStringValue == false &&
@@ -593,112 +597,286 @@ namespace SalesforceMetadata
             Int32 parenthCount = 0;
 
             Int32 newPos = characterPos;
-            String functionParameter = "";
+            String functionParameters = "";
             Boolean skipToBrace = false;
             Boolean setParameters = false;
+
             for (Int32 i = characterPos; i < stringArray.Count; i++)
             {
-                Debug.WriteLine(stringArray[i]);
+                Debug.WriteLine(i.ToString() + " " + stringArray[i]);
 
-                if (stringArray[i].ToLower() == "@api")
-                {
-                    function.functionAnnotation = "@api";
-                }
-                else if (stringArray[i].ToLower() == "{")
-                {
-                    skipToBrace = false;
-                    braceCount++;
-                }
-                else if (stringArray[i].ToLower() == "}")
-                {
-                    braceCount--;
+                if (newPos < i) newPos = i;
 
-                    if (braceCount == 0)
+                if (newPos == i)
+                {
+                    if (stringArray[i].ToLower() == "@api")
                     {
-                        newPos = i + 1;
-                        break;
+                        function.functionAnnotation = "@api";
                     }
-                }
-                else if (stringArray[i].ToLower() == "(")
-                {
-                    parenthCount++;
-                }
-                else if (stringArray[i].ToLower() == ")")
-                {
-                    parenthCount--;
-                }
-                else if (stringArray[i].ToLower() == "if")
-                {
-                    skipToBrace = true;
-                }
-                else if (stringArray[i].ToLower() == "else")
-                {
-                    skipToBrace = true;
-                }
-                else if (stringArray[i].ToLower().StartsWith("this.")
-                    && skipToBrace == false)
-                {
-                    String[] splitPropertyOrFunction = stringArray[i].Split('.');
-
-                    // Is Property or Function?
-                    if (stringArray[i + 1] == "=")
+                    else if (stringArray[i].ToLower() == "get")
                     {
-                        function.propertiesSet.Add(splitPropertyOrFunction[1]);
+                        function.isGetter = true;
                     }
-                    else
+                    else if (stringArray[i].ToLower() == "return")
                     {
-                        ChildFunction cf = new ChildFunction();
-                        cf.folderName = folderName;
-                        cf.fileName = fileName;
-                        cf.localFunction = true;
-
-                        String[] functionName = stringArray[i].Split('.');
-                        cf.functionName = functionName[1];
-
-                        String parameters = "";
-                        setParameters = false;
-                        for (Int32 j = i; j < stringArray.Count; j++)
+                        Int32 j = 0;
+                        for (j = i + 1; j < stringArray.Count; j++)
                         {
                             if (stringArray[j] == ";")
                             {
-                                // Finish setting the rest of the child function properties
-                                String[] parameterArray = parameters.Split(',');
-                                foreach (String param in parameterArray)
-                                {
-                                    cf.functionParameters.Add(param);
-                                }
-
-                                newPos = j;
+                                newPos = j + 1;
                                 break;
                             }
-                            else if (stringArray[j] == "(")
+                            else
                             {
-                                setParameters = true;
-                            }
-                            else if (stringArray[j] == ")")
-                            {
-                                setParameters = false;
-                            }
-                            else if (setParameters == true)
-                            {
-                                String[] parameterArray = stringArray[j].Split('.');
-
-                                if (parameterArray.Length == 1)
-                                {
-                                    parameters = parameters + parameterArray[0];
-                                }
-                                else
-                                {
-                                    parameters = parameters + parameterArray[1];
-                                }
+                                function.returnValue = function.returnValue + stringArray[j];
                             }
                         }
                     }
+                    else if (stringArray[i].ToLower() == "{")
+                    {
+                        skipToBrace = false;
+                        braceCount++;
+                    }
+                    else if (stringArray[i].ToLower() == "}")
+                    {
+                        braceCount--;
+
+                        if (braceCount == 0)
+                        {
+                            newPos = i + 1;
+                            break;
+                        }
+                    }
+                    else if (stringArray[i].ToLower() == "(")
+                    {
+                        parenthCount++;
+                    }
+                    else if (stringArray[i].ToLower() == ")")
+                    {
+                        parenthCount--;
+                    }
+                    else if (stringArray[i].ToLower() == "if")
+                    {
+                        skipToBrace = true;
+                    }
+                    else if (stringArray[i].ToLower() == "else")
+                    {
+                        skipToBrace = true;
+                    }
+                    //else if (stringArray[i] == ";")
+                    //{
+                    //    returnStatement = false;
+                    //}
+                    else if (parenthCount == 0
+                        && braceCount == 0)
+                    {
+                        function.functionName = stringArray[i];
+
+                        if (functionParameters != "")
+                        {
+                            String[] parameterArray = functionParameters.Split(',');
+
+                            foreach (String param in parameterArray)
+                            {
+                                function.parameters.Add(param);
+                            }
+
+                            functionParameters = "";
+                        }
+                    }
+                    else if (parenthCount == 1
+                        && braceCount == 0)
+                    {
+                        functionParameters = functionParameters + stringArray[i];
+                    }
+                    else if (skipToBrace == false
+                        && stringArray[i].ToLower().StartsWith("this."))
+                    {
+                        String[] splitPropertyOrFunction = stringArray[i].Split('.');
+
+                        // Is Property or Function?
+                        if (stringArray[i + 1] == "=")
+                        {
+                            function.propertiesSet.Add(splitPropertyOrFunction[1]);
+                            newPos = i;
+                            for (Int32 j = newPos; j < stringArray.Count; j++)
+                            {
+                                if (stringArray[j] == ";")
+                                {
+                                    newPos = j + 1;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            ChildFunction cf = new ChildFunction();
+                            cf.folderName = folderName;
+                            cf.fileName = fileName;
+                            cf.localFunction = true;
+
+                            String[] functionName = stringArray[i].Split('.');
+                            cf.functionName = functionName[1];
+
+                            String parameters = "";
+                            setParameters = false;
+                            for (Int32 j = i; j < stringArray.Count; j++)
+                            {
+                                if (stringArray[j] == ";")
+                                {
+                                    newPos = j + 1;
+                                    break;
+                                }
+                                else if (stringArray[j] == "(")
+                                {
+                                    setParameters = true;
+                                }
+                                else if (stringArray[j] == ")")
+                                {
+                                    setParameters = false;
+
+                                    newPos = j + 1;
+                                    break;
+                                }
+                                else if (setParameters == true)
+                                {
+                                    String[] parameterSplit = stringArray[j].Split('.');
+
+                                    if (parameterSplit.Length == 1)
+                                    {
+                                        parameters = parameters + parameterSplit[0];
+                                    }
+                                    else
+                                    {
+                                        parameters = parameters + parameterSplit[1];
+                                    }
+                                }
+                            }
+
+                            // Finish setting the rest of the child function properties
+                            String[] parametersArray = parameters.Split(',');
+                            foreach (String param in parametersArray)
+                            {
+                                cf.functionParameters.Add(param);
+                            }
+
+                            function.childFunctions.Add(cf);
+                        }
+                    }
+                    else if (skipToBrace == false
+                        && stringArray[i].ToLower().StartsWith(".then"))
+                    {
+                        Int32 thenParenthCount = 0;
+                        for (Int32 j = i + 1; j < stringArray.Count; j++)
+                        {
+                            if (stringArray[j] == "(")
+                            {
+                                thenParenthCount++;
+                            }
+                            else if (stringArray[j] == ")")
+                            {
+                                thenParenthCount--;
+                            }
+
+                            if (thenParenthCount == 0
+                                && stringArray[j] == ";")
+                            {
+                                newPos = j + 1;
+                                break;
+                            }
+                        }
+                    }
+                    else if (skipToBrace == false)
+                    {
+                        if (stringArray.Count > i + 1 && stringArray[i + 1] == "(")
+                        {
+                            ChildFunction cf = new ChildFunction();
+                            cf.folderName = folderName;
+                            cf.fileName = fileName;
+                            cf.functionName = stringArray[i];
+
+                            if (importDictionary.ContainsKey(stringArray[i]))
+                            {
+                                cf.importFrom = importDictionary[stringArray[i]];
+                            }
+
+                            // Get the import-from since this is a function w without a this. designation
+                            String parameters = "";
+                            setParameters = false;
+                            for (Int32 j = i; j < stringArray.Count; j++)
+                            {
+                                if (stringArray[j] == ";")
+                                {
+                                    newPos = j + 1;
+                                    break;
+                                }
+                                else if (stringArray[j] == "(")
+                                {
+                                    setParameters = true;
+                                }
+                                else if (stringArray[j] == ")")
+                                {
+                                    setParameters = false;
+
+                                    newPos = j + 1;
+                                    break;
+                                }
+                                else if (setParameters == true)
+                                {
+                                    String[] parameterSplit = stringArray[j].Split('.');
+
+                                    if (parameterSplit.Length == 1)
+                                    {
+                                        parameters = parameters + parameterSplit[0];
+                                    }
+                                    else
+                                    {
+                                        parameters = parameters + parameterSplit[1];
+                                    }
+                                }
+                            }
+
+                            // Finish setting the rest of the child function properties
+                            String[] parametersArray = parameters.Split(',');
+                            foreach (String param in parametersArray)
+                            {
+                                cf.functionParameters.Add(param);
+                            }
+
+                            function.childFunctions.Add(cf);
+                        }
+                        else
+                        {
+                            Debug.WriteLine(folderName + "." + fileName + " : " + stringArray[i]);
+                        }
+
+                    }
                 }
-                else if (setParameters)
+            }
+
+            if (functionParameters != "")
+            {
+                String[] parametersArray = functionParameters.Split(',');
+                foreach (String param in parametersArray)
                 {
-                    
+                    function.parameters.Add(param);
                 }
+            }
+
+
+            if (this.jsFileHierarchyDict.ContainsKey(folderName + "|" + fileName))
+            {
+                this.jsFileHierarchyDict[folderName + "|" + fileName].functions.Add(function);
+            }
+            else
+            {
+                JSFileHierarchy fileHier = new JSFileHierarchy();
+                fileHier.folderName = folderName;
+                fileHier.fileName = fileName;
+                fileHier.functions.Add(function);
+
+                this.jsFileHierarchyDict.Add(folderName + "|" + fileName, fileHier);
             }
 
             return newPos;
@@ -757,6 +935,7 @@ namespace SalesforceMetadata
                         foreach (String imp in importArray)
                         {
                             import.importItems.Add(imp);
+                            this.importDictionary.Add(imp, stringArray[i + 1]);
                         }
 
                         imports = "";
@@ -791,47 +970,66 @@ namespace SalesforceMetadata
             property.isExported = isExported;
 
             Int32 newPos = characterPos;
+
+            Boolean setPropertyValue = false;
             String propertyName = "";
+            String propertyValue = "";
+
             for (Int32 i = characterPos; i < stringArray.Count; i++)
             {
-                if (stringArray[i].ToLower() == "@api")
-                {
-                    property.propertyAnnotation = "@api";
-                }
-                else if (stringArray[i].ToLower() == "@track")
-                {
-                    property.propertyAnnotation = "@track";
-                }
-                else if (stringArray[i] == "="
-                    || stringArray[i] == "=="
-                    || stringArray[i] == "===")
-                {
-                    property.propertyName = stringArray[i - 1];
-                    property.propertyValue = stringArray[i + 1];
+                if (newPos < i) newPos = i;
 
-                    newPos = i + 3;
-                    break;
-                }
-                else if (stringArray[i] == "!="
-                    || stringArray[i] == "!==")
+                if (newPos == i)
                 {
-                    property.propertyName = stringArray[i - 1];
-                    property.propertyValue = stringArray[i + 1];
+                    if (stringArray[i].ToLower() == "@api")
+                    {
+                        property.propertyAnnotation = "@api";
+                    }
+                    else if (stringArray[i].ToLower() == "@track")
+                    {
+                        property.propertyAnnotation = "@track";
+                    }
+                    else if (stringArray[i] == "="
+                        || stringArray[i] == "=="
+                        || stringArray[i] == "===")
+                    {
+                        propertyName = stringArray[i - 1];
+                        propertyValue = stringArray[i + 1];
 
-                    newPos = i + 3;
-                    break;
-                }
-                else if (stringArray[i] == ";")
-                {
-                    property.propertyName = propertyName;
-                    propertyName = "";
+                        setPropertyValue = true;
 
-                    newPos = i + 1;
-                    break;
-                }
-                else
-                {
-                    propertyName = stringArray[i];
+                        newPos = i + 2;
+                    }
+                    else if (stringArray[i] == "!="
+                        || stringArray[i] == "!==")
+                    {
+                        propertyName = stringArray[i - 1];
+                        propertyValue = stringArray[i + 1];
+
+                        setPropertyValue = true;
+
+                        newPos = i + 2;
+                    }
+                    else if (stringArray[i] == ";")
+                    {
+                        property.propertyName = propertyName;
+                        property.propertyValue = propertyValue;
+                        propertyName = "";
+                        propertyValue = "";
+
+                        setPropertyValue = false;
+
+                        newPos = i + 1;
+                        break;
+                    }
+                    else if (setPropertyValue)
+                    {
+                        propertyValue = propertyValue + stringArray[i];
+                    }
+                    else
+                    {
+                        propertyName = stringArray[i];
+                    }
                 }
             }
 
@@ -937,7 +1135,7 @@ namespace SalesforceMetadata
             return newPos;
         }
 
-        private void writeFunctionsToFile(StreamWriter sw, 
+        private void writeFunctionsToFile(StreamWriter sw,
             JSFunction parentFunction,
             Int32 tabCount)
         {
@@ -1005,13 +1203,13 @@ namespace SalesforceMetadata
                 {
                     if (childFunction.importFrom.StartsWith("@salesforce"))
                     {
-                            // Last resort. Review to clean up later?
-                            for (Int32 i = 0; i < tabCount; i++)
-                            {
-                                sw.Write("\t");
-                            }
+                        // Last resort. Review to clean up later?
+                        for (Int32 i = 0; i < tabCount; i++)
+                        {
+                            sw.Write("\t");
+                        }
 
-                            sw.WriteLine(childFunction.fileName + "." + childFunction.functionName + "\t\timport from: " + childFunction.importFrom);
+                        sw.WriteLine(childFunction.fileName + "." + childFunction.functionName + "\t\timport from: " + childFunction.importFrom);
                     }
                     // THIS - references a function in the same file
                     else if (childFunction.functionDesignation == "this")
@@ -1030,7 +1228,7 @@ namespace SalesforceMetadata
                             {
                                 oldTabCount += 2;
                             }
-                            
+
                             sw.WriteLine();
                             writeFunctionsToFile(sw,
                                                  jsFunction,
@@ -1217,6 +1415,7 @@ namespace SalesforceMetadata
                 importFrom = "";
             }
         }
+
         private class JSConstant
         {
             public String folderName;
@@ -1231,6 +1430,7 @@ namespace SalesforceMetadata
                 constantValue = "";
             }
         }
+
         private class JSProperty
         {
             public String folderName;
@@ -1250,7 +1450,8 @@ namespace SalesforceMetadata
                 isExported = false;
             }
         }
-        private class JSFunction 
+
+        private class JSFunction
         {
             public String folderName;
             public String fileName;
@@ -1260,10 +1461,12 @@ namespace SalesforceMetadata
             public String parameterSet;
             public String valueSet;
             public String functionWithWireAnnotated;
-            public Boolean wireFunction;
             public String importReference;
+            public String returnValue;
+            public Boolean wireFunction;
             public Boolean staticFunction;
             public Boolean isExported;
+            public Boolean isGetter;
             public List<String> parameters;
             public List<ChildFunction> childFunctions;
             public List<String> propertiesSet;
@@ -1278,15 +1481,18 @@ namespace SalesforceMetadata
                 parameterSet = "";
                 valueSet = "";
                 functionWithWireAnnotated = "";
-                wireFunction = false;
                 importReference = "";
+                returnValue = "";
+                wireFunction = false;
                 staticFunction = false;
                 isExported = false;
+                isGetter = false;
                 parameters = new List<string>();
                 childFunctions = new List<ChildFunction>();
                 propertiesSet = new List<string>();
             }
         }
+
         private class ChildFunction
         {
             public String folderName;
@@ -1310,7 +1516,6 @@ namespace SalesforceMetadata
                 localFunction = false;
             }
         }
-
     }
 
 }

@@ -16,15 +16,7 @@ namespace SalesforceMetadata
     {
         private Dictionary<String, JSFileHierarchy> jsFileHierarchyDict;
 
-        // Key = What file name the property or function is referenced in + the reference
-        // Value = the file the above translates too so you can get the actual file the function is housed in
-        // Ex: import { helper } from './jsfile'
-        // Current jsFile name = otherJSFile
-        // Key = otherJSFile|helper
-        // Value = jsFile
-        private Dictionary<String, JSFunction> jsFunctionsDict;
         private Dictionary<String, String> importDictionary;
-
 
         public LWCInspector()
         {
@@ -215,14 +207,8 @@ namespace SalesforceMetadata
                     // This is more of a catch all in case the parser misses an end of block character or, in the case of much of LWC components, the develoepr
                     // forgets to end their statement with a ";".
                     // There's really no other reason to have this variable.
-                    //Boolean isNewBlock = false; 
 
-                    Boolean isApiEnabled = false;
-                    Boolean isTrack = false;
                     Boolean isExported = false;
-                    Boolean isImport = false;
-
-                    Boolean isOther = false;
 
                     Int32 arrayPos = 0;
                     for (Int32 i = 0; i < stringArray.Count; i++)
@@ -332,11 +318,11 @@ namespace SalesforceMetadata
 
 
             // Now loop through the jsFileHieararchyDict and associate the calling fumctions to the function itself with a hierarchical value;
-            Boolean loopJSFileHieararchyDict = true;
+            //Boolean loopJSFileHieararchyDict = true;
 
             // Write the values for both functions and properties to the file
             Boolean writeToFile = true;
-
+            writeFunctionsToFile();
 
         }
 
@@ -603,7 +589,7 @@ namespace SalesforceMetadata
 
             for (Int32 i = characterPos; i < stringArray.Count; i++)
             {
-                Debug.WriteLine(i.ToString() + " " + stringArray[i]);
+                //Debug.WriteLine(i.ToString() + " " + stringArray[i]);
 
                 if (newPos < i) newPos = i;
 
@@ -711,10 +697,10 @@ namespace SalesforceMetadata
                         }
                         else
                         {
-                            ChildFunction cf = new ChildFunction();
+                            JSFunction cf = new JSFunction();
                             cf.folderName = folderName;
                             cf.fileName = fileName;
-                            cf.localFunction = true;
+                            cf.isLocalFunction = true;
 
                             String[] functionName = stringArray[i].Split('.');
                             cf.functionName = functionName[1];
@@ -758,7 +744,7 @@ namespace SalesforceMetadata
                             String[] parametersArray = parameters.Split(',');
                             foreach (String param in parametersArray)
                             {
-                                cf.functionParameters.Add(param);
+                                cf.parameters.Add(param);
                             }
 
                             function.childFunctions.Add(cf);
@@ -791,7 +777,7 @@ namespace SalesforceMetadata
                     {
                         if (stringArray.Count > i + 1 && stringArray[i + 1] == "(")
                         {
-                            ChildFunction cf = new ChildFunction();
+                            JSFunction cf = new JSFunction();
                             cf.folderName = folderName;
                             cf.fileName = fileName;
                             cf.functionName = stringArray[i];
@@ -841,7 +827,7 @@ namespace SalesforceMetadata
                             String[] parametersArray = parameters.Split(',');
                             foreach (String param in parametersArray)
                             {
-                                cf.functionParameters.Add(param);
+                                cf.parameters.Add(param);
                             }
 
                             function.childFunctions.Add(cf);
@@ -1055,7 +1041,7 @@ namespace SalesforceMetadata
             JSFunction function = new JSFunction();
             function.folderName = folderName;
             function.fileName = fileName;
-            function.wireFunction = true;
+            function.isWireFunction = true;
             function.isExported = isExported;
 
             Int32 braceCount = 0;
@@ -1135,248 +1121,75 @@ namespace SalesforceMetadata
             return newPos;
         }
 
-        private void writeFunctionsToFile(StreamWriter sw,
-            JSFunction parentFunction,
-            Int32 tabCount)
+        private void writeFunctionsToFile()
         {
-            //try
-            //{
+            StreamWriter sw = new StreamWriter(this.tbSaveResultsTo.Text + "\\LWCFunctionHierarchy.txt");
 
-            Console.WriteLine("Loop Call - " + tabCount + " - " + parentFunction.fileName + "." + parentFunction.functionName);
-
-            Boolean loopThroughChildReferences = true;
-
-            for (Int32 i = 0; i < tabCount; i++)
+            foreach (String compFile in this.jsFileHierarchyDict.Keys)
             {
-                sw.Write("\t");
-            }
+                // Key = import | Value = import from
+                Dictionary<String, String> importsDictionary = new Dictionary<String, String>();
 
-            String functionParameters = "";
-            if (parentFunction.parameters.Count > 0)
-            {
-                functionParameters = "(";
-
-                foreach (String param in parentFunction.parameters)
+                foreach (JSImport imp in this.jsFileHierarchyDict[compFile].imports)
                 {
-                    functionParameters = functionParameters + param + ",";
+                    foreach (String importItem in imp.importItems)
+                    {
+                        importsDictionary.Add(importItem, imp.importFrom);
+                    }
                 }
 
-                functionParameters = functionParameters.Substring(0, functionParameters.Length - 1);
-                functionParameters = functionParameters + ")";
-            }
-            else
-            {
-                functionParameters = "()";
-            }
+                // Key = JS function name => Value = wire call
+                Dictionary<String, String> jsFunctionToWireFunction = new Dictionary<String, String>();
 
-            String valueSet = "";
-            if (parentFunction.valueSet != "")
-            {
-                valueSet = parentFunction.valueSet + " = ";
-            }
-
-            if (parentFunction.importReference.StartsWith("@salesforce"))
-            {
-                sw.WriteLine(parentFunction.fileName + "." + parentFunction.functionName + "\t\timport from: " + parentFunction.importReference);
-            }
-            else if (parentFunction.functionAnnotation != ""
-                    && parentFunction.importReference != "")
-            {
-                sw.WriteLine(valueSet + parentFunction.functionAnnotation + " " + parentFunction.fileName + "." + parentFunction.functionName + "\t\timport from: " + parentFunction.importReference);
-            }
-            else if (parentFunction.functionAnnotation == ""
-                && parentFunction.functionAnnotation != "")
-            {
-                sw.WriteLine(valueSet + parentFunction.functionAnnotation + " " + parentFunction.fileName + "." + parentFunction.functionName + functionParameters);
-            }
-            else
-            {
-                sw.WriteLine(valueSet + parentFunction.fileName + "." + parentFunction.functionName + functionParameters);
-            }
-
-            // Reference to function within the same JS file
-            // We need to get the child functions from the child function in context, and call this same method again for each child function
-            if (loopThroughChildReferences == true
-                && parentFunction.childFunctions.Count > 0)
-            {
-                foreach (ChildFunction childFunction in parentFunction.childFunctions)
+                foreach (JSFunction func in this.jsFileHierarchyDict[compFile].functions)
                 {
-                    if (childFunction.importFrom.StartsWith("@salesforce"))
+                    if (func.isWireFunction == true)
                     {
-                        // Last resort. Review to clean up later?
-                        for (Int32 i = 0; i < tabCount; i++)
-                        {
-                            sw.Write("\t");
-                        }
-
-                        sw.WriteLine(childFunction.fileName + "." + childFunction.functionName + "\t\timport from: " + childFunction.importFrom);
-                    }
-                    // THIS - references a function in the same file
-                    else if (childFunction.functionDesignation == "this")
-                    {
-                        //Console.WriteLine("THIS - " + tabCount + " - " + childFunction.fileName + "  " + childFunction.functionName);
-
-                        String key = childFunction.fileName + "|" + childFunction.functionName;
-
-                        if (this.jsFunctionsDict.ContainsKey(key))
-                        {
-                            JSFunction jsFunction = this.jsFunctionsDict[key];
-                            jsFunction.valueSet = childFunction.valueSet;
-
-                            Int32 oldTabCount = tabCount;
-                            if (jsFunction.childFunctions.Count > 0)
-                            {
-                                oldTabCount += 2;
-                            }
-
-                            sw.WriteLine();
-                            writeFunctionsToFile(sw,
-                                                 jsFunction,
-                                                 oldTabCount);
-                        }
-                        else
-                        {
-                            JSFunction jsFunction = new JSFunction();
-                            jsFunction.fileName = childFunction.fileName;
-                            jsFunction.folderName = childFunction.folderName;
-                            jsFunction.functionDesignation = childFunction.functionDesignation;
-                            jsFunction.functionName = childFunction.functionName;
-                            jsFunction.importReference = childFunction.importFrom;
-                            jsFunction.valueSet = childFunction.valueSet;
-
-                            writeFunctionsToFile(sw,
-                                                 jsFunction,
-                                                 tabCount + 2);
-                        }
-                    }
-                    // If the function does not have a designation (ie an import reference), and there is no THIS before it
-                    else if (childFunction.functionDesignation == ""
-                        && this.jsFunctionsDict.ContainsKey(parentFunction.fileName + "|" + childFunction.functionName))
-                    {
-                        //Console.WriteLine("Second ELSE IF - " + tabCount + " - " + parentFunction.fileName + "  " + childFunction.functionName);
-
-                        JSFunction jsFunction = this.jsFunctionsDict[parentFunction.fileName + "|" + childFunction.functionName];
-                        jsFunction.valueSet = childFunction.valueSet;
-
-                        Int32 oldTabCount = tabCount;
-                        if (jsFunction.childFunctions.Count > 0)
-                        {
-                            oldTabCount += 2;
-                        }
-
-                        sw.WriteLine();
-                        writeFunctionsToFile(sw,
-                                             jsFunction,
-                                             oldTabCount);
-                    }
-                    else if (childFunction.functionDesignation == ""
-                        && !this.jsFunctionsDict.ContainsKey(parentFunction.fileName + "|" + childFunction.functionName))
-                    {
-                        //Console.WriteLine("THIRD ELSE IF - " + tabCount + " - " + parentFunction.fileName + "  " + childFunction.functionName);
-
-                        if (this.importDictionary.ContainsKey(childFunction.fileName + "|" + childFunction.functionName))
-                        {
-                            String key = this.importDictionary[childFunction.fileName + "|" + childFunction.functionName] + "|" + childFunction.functionName;
-                            if (this.jsFunctionsDict.ContainsKey(key))
-                            {
-                                JSFunction jsFunction = this.jsFunctionsDict[key];
-                                jsFunction.valueSet = childFunction.valueSet;
-
-                                Int32 oldTabCount = tabCount;
-                                if (jsFunction.childFunctions.Count > 0)
-                                {
-                                    oldTabCount += 2;
-                                }
-
-                                sw.WriteLine();
-                                writeFunctionsToFile(sw,
-                                                     jsFunction,
-                                                     oldTabCount);
-                            }
-                            else
-                            {
-                                JSFunction jsFunction = new JSFunction();
-                                jsFunction.fileName = childFunction.fileName;
-                                jsFunction.folderName = childFunction.folderName;
-                                jsFunction.functionDesignation = childFunction.functionDesignation;
-                                jsFunction.functionName = childFunction.functionName;
-                                jsFunction.importReference = childFunction.importFrom;
-                                jsFunction.valueSet = childFunction.valueSet;
-
-                                writeFunctionsToFile(sw,
-                                                     jsFunction,
-                                                     tabCount + 2);
-                            }
-                        }
-                        else
-                        {
-                            JSFunction jsFunction = new JSFunction();
-                            jsFunction.fileName = childFunction.fileName;
-                            jsFunction.folderName = childFunction.folderName;
-                            jsFunction.functionDesignation = childFunction.functionDesignation;
-                            jsFunction.functionName = childFunction.functionName;
-                            jsFunction.importReference = childFunction.importFrom;
-                            jsFunction.valueSet = childFunction.valueSet;
-
-                            writeFunctionsToFile(sw,
-                                                 jsFunction,
-                                                 tabCount + 2);
-                        }
-                    }
-                    else if (this.importDictionary.ContainsKey(childFunction.fileName + "|" + childFunction.functionDesignation))
-                    {
-                        //Console.WriteLine("FOURTH ELSE IF - " + tabCount + " - " + childFunction.fileName + "  " + childFunction.functionName);
-
-                        String componentName = this.importDictionary[childFunction.fileName + "|" + childFunction.functionDesignation];
-                        String key = componentName + "|" + childFunction.functionName;
-                        JSFunction jsFunction = this.jsFunctionsDict[key];
-                        jsFunction.valueSet = childFunction.valueSet;
-
-                        Int32 oldTabCount = tabCount;
-                        if (jsFunction.childFunctions.Count > 0)
-                        {
-                            oldTabCount += 2;
-                        }
-
-                        sw.WriteLine();
-                        writeFunctionsToFile(sw,
-                                             jsFunction,
-                                             oldTabCount);
-                    }
-                    else
-                    {
-                        //Console.WriteLine("LAST ELSE - " + tabCount + " - " + childFunction.fileName + "  " + childFunction.functionName);
-
-                        // Last resort. Review to clean up later?
-                        for (Int32 i = 0; i < tabCount + 2; i++)
-                        {
-                            sw.Write("\t");
-                        }
-
-                        valueSet = "";
-                        if (childFunction.valueSet != "")
-                        {
-                            valueSet = childFunction.valueSet + " = ";
-                        }
-
-                        if (childFunction.functionDesignation != "")
-                        {
-                            sw.WriteLine(valueSet + childFunction.fileName + "." + childFunction.functionDesignation + "." + childFunction.functionName + childFunction.functionParameters);
-                        }
-                        else
-                        {
-                            sw.WriteLine(valueSet + childFunction.fileName + "." + childFunction.functionName + childFunction.functionParameters);
-                        }
+                        jsFunctionToWireFunction.Add(func.functionWithWireAnnotated, func.functionName);
                     }
                 }
+
+                // Now write the function hierarchy to the file
+                foreach (JSFunction func in this.jsFileHierarchyDict[compFile].functions)
+                {
+                    // Write the function in this process as the parent function. 
+                    // If there are related function calls, then write those related functions incrementing the tab
+                    writeSubFunctions(importsDictionary, jsFunctionToWireFunction, func, 1, sw);
+                }
             }
-            //}
-            //catch (Exception e)
-            //{
-            //    sw.Close();
-            //    Console.WriteLine(tabCount + "  " + parentFunction.fileName + " " + parentFunction.functionDesignation + "  " + parentFunction.functionName + " " + parentFunction.importReference);
-            //}
+
+            sw.Close();
+
         }
+
+        private void writeSubFunctions(Dictionary<String, String> importsDictionary, 
+                                       Dictionary<String, String> jsFunctionToWireFunction,
+                                       JSFunction func,
+                                       Int32 tabCount,
+                                       StreamWriter sw)
+        {
+            for (Int32 t = 0; t < tabCount; t++)
+            {
+                sw.Write('\t');
+            }
+
+            sw.WriteLine(func.functionAnnotation + " - " + func.folderName + "." + func.fileName + "." + func.functionName);
+            
+            // If a wire function exists, then get the wire import and import from
+            if (jsFunctionToWireFunction.ContainsKey(func.functionName))
+            {
+
+            }
+
+            if (func.childFunctions.Count > 0)
+            {
+                foreach (JSFunction cf in func.childFunctions)
+                {
+                    writeSubFunctions(importsDictionary, jsFunctionToWireFunction, cf, tabCount + 1, sw);
+                }
+            }
+        }
+
 
         private class JSFileHierarchy
         {
@@ -1461,14 +1274,15 @@ namespace SalesforceMetadata
             public String parameterSet;
             public String valueSet;
             public String functionWithWireAnnotated;
-            public String importReference;
+            public String importFrom;
             public String returnValue;
-            public Boolean wireFunction;
-            public Boolean staticFunction;
+            public Boolean isWireFunction;
+            public Boolean isStaticFunction;
             public Boolean isExported;
             public Boolean isGetter;
+            public Boolean isLocalFunction;
             public List<String> parameters;
-            public List<ChildFunction> childFunctions;
+            public List<JSFunction> childFunctions;
             public List<String> propertiesSet;
 
             public JSFunction()
@@ -1481,41 +1295,42 @@ namespace SalesforceMetadata
                 parameterSet = "";
                 valueSet = "";
                 functionWithWireAnnotated = "";
-                importReference = "";
+                importFrom = "";
                 returnValue = "";
-                wireFunction = false;
-                staticFunction = false;
+                isWireFunction = false;
+                isStaticFunction = false;
                 isExported = false;
                 isGetter = false;
+                isLocalFunction = false;
                 parameters = new List<string>();
-                childFunctions = new List<ChildFunction>();
+                childFunctions = new List<JSFunction>();
                 propertiesSet = new List<string>();
             }
         }
 
-        private class ChildFunction
-        {
-            public String folderName;
-            public String fileName;
-            public String functionDesignation;
-            public String functionName;
-            public List<String> functionParameters;
-            public String valueSet;
-            public String importFrom;
-            public Boolean localFunction;
+        //private class ChildFunction
+        //{
+        //    public String folderName;
+        //    public String fileName;
+        //    public String functionDesignation;
+        //    public String functionName;
+        //    public List<String> functionParameters;
+        //    public String valueSet;
+        //    public String importFrom;
+        //    public Boolean localFunction;
 
-            public ChildFunction()
-            {
-                folderName = "";
-                fileName = "";
-                functionDesignation = "";
-                functionName = "";
-                functionParameters = new List<string>();
-                valueSet = "";
-                importFrom = "";
-                localFunction = false;
-            }
-        }
+        //    public ChildFunction()
+        //    {
+        //        folderName = "";
+        //        fileName = "";
+        //        functionDesignation = "";
+        //        functionName = "";
+        //        functionParameters = new List<string>();
+        //        valueSet = "";
+        //        importFrom = "";
+        //        localFunction = false;
+        //    }
+        //}
     }
 
 }

@@ -611,11 +611,14 @@ namespace SalesforceMetadata
             Int32 newPos = characterPos;
             String functionParameters = "";
             Boolean skipToBrace = false;
+            Boolean skipToSemiColon = false;
             Boolean setParameters = false;
 
             for (Int32 i = characterPos; i < stringArray.Count; i++)
             {
                 //Debug.WriteLine(i.ToString() + " " + stringArray[i]);
+
+                String iValue = stringArray[i];
 
                 if (newPos < i) newPos = i;
 
@@ -628,6 +631,34 @@ namespace SalesforceMetadata
                     else if (stringArray[i].ToLower() == "get")
                     {
                         function.isGetter = true;
+                    }
+                    else if (stringArray[i].ToLower() == "static")
+                    {
+                        function.isStaticFunction = true;
+                    }
+                    else if (stringArray[i].ToLower() == "function")
+                    {
+
+                    }
+                    else if (skipToBrace == false
+                    && stringArray[i].ToLower() == "const")
+                    {
+                        //Debug.WriteLine("const");
+                        skipToSemiColon = true;
+                    }
+                    else if (skipToBrace == false
+                        && stringArray[i].ToLower() == "let")
+                    {
+                        //Debug.WriteLine("let");
+                        skipToSemiColon = true;
+                    }
+                    else if (stringArray[i].ToLower() == "if")
+                    {
+                        skipToBrace = true;
+                    }
+                    else if (stringArray[i].ToLower() == "else")
+                    {
+                        skipToBrace = true;
                     }
                     else if (stringArray[i].ToLower() == "return")
                     {
@@ -645,13 +676,28 @@ namespace SalesforceMetadata
                             }
                         }
                     }
-                    else if (stringArray[i].ToLower() == "("
+                    else if (stringArray[i].ToLower().EndsWith(".foreach"))
+                    {
+                        skipToBrace = true;
+                    }
+                    else if (stringArray[i].ToLower() == ";")
+                    {
+                        skipToSemiColon = false;
+                    }
+                    else if (skipToBrace == false
+                             && stringArray[i].ToLower() == "("
                              && braceCount == 0)
                     {
                         parenthCount++;
                         setParameters = true;
                     }
-                    else if (stringArray[i].ToLower() == ")")
+                    else if (skipToBrace == false
+                             && stringArray[i].ToLower() == "(")
+                    {
+                        parenthCount++;
+                    }
+                    else if (skipToBrace == false
+                             && stringArray[i].ToLower() == ")")
                     {
                         parenthCount--;
                         setParameters = false;
@@ -681,14 +727,6 @@ namespace SalesforceMetadata
                             newPos = i + 1;
                             break;
                         }
-                    }
-                    else if (stringArray[i].ToLower() == "if")
-                    {
-                        skipToBrace = true;
-                    }
-                    else if (stringArray[i].ToLower() == "else")
-                    {
-                        skipToBrace = true;
                     }
                     else if (parenthCount == 0
                         && braceCount == 0)
@@ -810,7 +848,7 @@ namespace SalesforceMetadata
                         }
                     }
                     else if (skipToBrace == false
-                        && stringArray.Count > i + 1 
+                        && stringArray.Count > i + 1
                         && stringArray[i + 1] == "(")
                     {
                         JSFunction cf = new JSFunction();
@@ -872,7 +910,6 @@ namespace SalesforceMetadata
                     {
                         Debug.WriteLine(folderName + "." + fileName + " : " + stringArray[i]);
                     }
-
                 }
             }
 

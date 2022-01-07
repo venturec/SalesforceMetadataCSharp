@@ -383,6 +383,9 @@ namespace SalesforceMetadata
                 List<String> splitStringList = new List<string>();
 
                 Int32 arrayPos = 0;
+
+                // Allows for filtering if the string array value is part of a larger string between " and ' and will concatenate the 
+                // individual string values from the array into one string value
                 Boolean isStringValue = false;
                 String stringValue = "";
 
@@ -403,7 +406,7 @@ namespace SalesforceMetadata
 
                     if (arrayPos == i)
                     {
-                        if (rLineSplit.Length > i + 2 &&  isStringValue == false && rLineSplit[i] == "=" && rLineSplit[i + 1] == "=" && rLineSplit[i + 2] == "=")
+                        if (rLineSplit.Length > i + 2 && isStringValue == false && rLineSplit[i] == "=" && rLineSplit[i + 1] == "=" && rLineSplit[i + 2] == "=")
                         {
                             splitStringList.Add("===");
                             arrayPos = i + 3;
@@ -413,16 +416,26 @@ namespace SalesforceMetadata
                             splitStringList.Add("!==");
                             arrayPos = i + 3;
                         }
-                        else if (rLineSplit.Length > i + 1 &&  isStringValue == false && rLineSplit[i] == "!" && rLineSplit[i + 1] == "=")
+                        else if (rLineSplit.Length > i + 1 && isStringValue == false && rLineSplit[i] == "!" && rLineSplit[i + 1] == "=")
                         {
                             splitStringList.Add("!=");
                             arrayPos = i + 2;
                         }
-                        else if (rLineSplit.Length > i + 1 &&  isStringValue == false && rLineSplit[i] == "=" && rLineSplit[i + 1] == "=")
+                        else if (rLineSplit.Length > i + 1 && isStringValue == false && rLineSplit[i] == "=" && rLineSplit[i + 1] == "=")
                         {
                             splitStringList.Add("==");
                             arrayPos = i + 2;
                         }
+                        else if (rLineSplit.Length > i + 1 && isStringValue == false && rLineSplit[i] == "=" && rLineSplit[i + 1] == ">")
+                        {
+                            splitStringList.Add("=>");
+                            arrayPos = i + 2;
+                        }
+                        //else if (rLineSplit.Length > i + 1 && isStringValue == false && rLineSplit[i] == "|" && rLineSplit[i + 1] == "|")
+                        //{
+                        //    splitStringList.Add("||");
+                        //    arrayPos = i + 2;
+                        //}
                         else if (isStringValue == false &&
                             (rLineSplit[i] == "'" || rLineSplit[i] == "\""))
                         {
@@ -652,6 +665,11 @@ namespace SalesforceMetadata
                         //Debug.WriteLine("let");
                         skipToSemiColon = true;
                     }
+                    else if (skipToBrace == false
+                        && stringArray[i].ToLower() == "for")
+                    {
+                        skipToBrace = true;
+                    }
                     else if (stringArray[i].ToLower() == "if")
                     {
                         skipToBrace = true;
@@ -679,6 +697,15 @@ namespace SalesforceMetadata
                     else if (stringArray[i].ToLower().EndsWith(".foreach"))
                     {
                         skipToBrace = true;
+
+                        // Add + 1 since we are not going to count anything after the .foreach, but need to 
+                        // consider the closing ) at the end of the foreach block
+                        parenthCount++;
+
+                        // Parse out the variable being looped through
+
+
+
                     }
                     else if (stringArray[i].ToLower() == ";")
                     {

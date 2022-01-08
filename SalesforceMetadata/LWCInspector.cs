@@ -188,7 +188,7 @@ namespace SalesforceMetadata
                                 isConsoleLog = true;
                             }
                             else if (isConsoleLog == true
-                                && parsedLine[i] == ";")
+                                && parsedLine[i] == "<--nl-->")
                             {
                                 isConsoleLog = false;
                             }
@@ -220,34 +220,51 @@ namespace SalesforceMetadata
 
                         if (arrayPos == i)
                         {
-                            if (stringArray[i].ToLower() == "@api")
+                            if (stringArray[i].ToLower() == "<--nl-->")
+                            { 
+                                // Do nothing.
+                            }
+                            else if (stringArray[i].ToLower() == "@api")
                             {
-                                // Determine if the item is a variable or function
-                                if (stringArray.Count > i + 2 && stringArray[i + 2] == ";")
-                                {
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
-                                }
-                                else if (stringArray.Count > i + 2 && stringArray[i + 2] == "=")
-                                {
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
-                                }
-                                else if (stringArray.Count > i + 4 && stringArray[i + 4] == ";")
-                                {
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
-                                }
-                                else if (stringArray.Count > i + 7 && stringArray[i + 7] == ";")
-                                {
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
-                                }
-                                else
+                                // Check if is function first, then if all filters fail, assume it is a property
+                                if (stringArray[i + 2] == "(")
                                 {
                                     arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
                                 }
+                                else
+                                {
+                                    String closingChar = "";
+
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
+                                }
+
+                                //if (stringArray.Count > i + 2 && stringArray[i + 2] == ";")
+                                //{
+                                //    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                //}
+                                //else if (stringArray.Count > i + 2 && stringArray[i + 2] == "=")
+                                //{
+                                //    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                //}
+                                //else if (stringArray.Count > i + 4 && stringArray[i + 4] == ";")
+                                //{
+                                //    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                //}
+                                //else if (stringArray.Count > i + 7 && stringArray[i + 7] == ";")
+                                //{
+                                //    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                //}
+                                //else
+                                //{
+                                //    arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                //}
                             }
                             else if (stringArray[i].ToLower() == "@track")
                             {
+                                String closingChar = "";
+
                                 // I believe this is a variable / property
-                                arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
                             }
                             else if (stringArray[i].ToLower() == "@wire")
                             {
@@ -283,7 +300,9 @@ namespace SalesforceMetadata
                             }
                             else if (stringArray[i].ToLower() == "let")
                             {
-                                arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                String closingChar = "";
+
+                                arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
                             }
                             else if (stringArray[i].ToLower() == "import")
                             {
@@ -291,53 +310,77 @@ namespace SalesforceMetadata
                             }
                             else if (stringArray[i].ToLower() == "static")
                             {
-                                if (stringArray.Count > i + 1 && stringArray[i + 1] == ";")
-                                {
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
-                                }
-                                else if (stringArray.Count > i + 1 && stringArray[i + 1] == "=")
-                                {
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
-                                }
-                                else if (stringArray.Count > i + 3 && stringArray[i + 3] == ";")
-                                {
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
-                                }
-                                else if (stringArray.Count > i + 6 && stringArray[i + 6] == ";")
-                                {
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
-                                }
-                                else
+                                // Check if is function first, then if all filters fail, assume it is a property
+                                if (stringArray[i + 2] == "(")
                                 {
                                     arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
                                 }
+                                else
+                                {
+                                    String closingChar = "";
+
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
+                                }
+
+                                //if (stringArray.Count > i + 1 && stringArray[i + 1] == ";")
+                                //{
+                                //    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                //}
+                                //else if (stringArray.Count > i + 1 && stringArray[i + 1] == "=")
+                                //{
+                                //    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                //}
+                                //else if (stringArray.Count > i + 3 && stringArray[i + 3] == ";")
+                                //{
+                                //    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                //}
+                                //else if (stringArray.Count > i + 6 && stringArray[i + 6] == ";")
+                                //{
+                                //    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                //}
+                                //else
+                                //{
+                                //    arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                //}
                             }
                             else
                             {
-                                if (stringArray.Count > i + 1 && stringArray[i + 1] == ";")
-                                {
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
-                                }
-                                else if (stringArray.Count > i + 1 && stringArray[i + 1] == "=")
-                                {
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
-                                }
-                                else if (stringArray.Count > i + 3 && stringArray[i + 3] == ";")
-                                {
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
-                                }
-                                else if (stringArray.Count > i + 6 && stringArray[i + 6] == ";")
-                                {
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
-                                }
-                                else if (stringArray[i] == "}" && isExported == true)
-                                {
-                                    isExported = false;
-                                }
-                                else
+                                // Check if is function first, then if all filters fail, assume it is a property
+                                if (stringArray[i + 1] == "(")
                                 {
                                     arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
                                 }
+                                else
+                                {
+                                    String closingChar = "";
+
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
+                                }
+
+                                //if (stringArray.Count > i + 1 && stringArray[i + 1] == ";")
+                                //{
+                                //    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                //}
+                                //else if (stringArray.Count > i + 1 && stringArray[i + 1] == "=")
+                                //{
+                                //    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                //}
+                                //else if (stringArray.Count > i + 3 && stringArray[i + 3] == ";")
+                                //{
+                                //    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                //}
+                                //else if (stringArray.Count > i + 6 && stringArray[i + 6] == ";")
+                                //{
+                                //    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                //}
+                                //else if (stringArray[i] == "}" && isExported == true)
+                                //{
+                                //    isExported = false;
+                                //}
+                                //else
+                                //{
+                                //    arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                //}
                             }
                         }
                     }
@@ -461,8 +504,9 @@ namespace SalesforceMetadata
                     }
                 }
 
-                return splitStringList.ToArray();
+                splitStringList.Add("<--nl-->");
 
+                return splitStringList.ToArray();
             }
             else
             {
@@ -513,6 +557,25 @@ namespace SalesforceMetadata
                     }
 
                     newPos = i + 1;
+                    break;
+                }
+                else if (stringArray[i] == "]")
+                {
+                    if (constVal != "")
+                    {
+                        constant.constantValue = constVal + stringArray[i];
+                        constVal = "";
+                    }
+
+                    if (stringArray[i + 1] == ";")
+                    {
+                        newPos = i + 2;
+                    }
+                    else
+                    {
+                        newPos = i + 1;
+                    }
+
                     break;
                 }
                 else if (stringArray[i].ToLower() == "const")
@@ -1105,7 +1168,7 @@ namespace SalesforceMetadata
             return newPos;
         }
 
-        private Int32 parseProperty(String folderName, String fileName, List<String> stringArray, Int32 characterPos, Boolean isExported)
+        private Int32 parseProperty(String folderName, String fileName, List<String> stringArray, Int32 characterPos, Boolean isExported, String closingChar)
         {
             JSProperty property = new JSProperty();
             property.folderName = folderName;
@@ -1155,6 +1218,41 @@ namespace SalesforceMetadata
                     }
                     else if (stringArray[i] == "}")
                     {
+                        if (stringArray[i + 1] == "]" && stringArray[i + 2] == ";")
+                        {
+                            propertyValue = propertyValue + stringArray[i] + stringArray[i + 1];
+
+                            property.propertyName = propertyName;
+                            property.propertyValue = propertyValue;
+
+                            setPropertyValue = false;
+
+                            propertyName = "";
+                            propertyValue = "";
+
+                            newPos = i + 3;
+
+                            break;
+                        }
+                        else if (stringArray[i + 1] == ";")
+                        {
+                            propertyValue = propertyValue + stringArray[i];
+
+                            property.propertyName = propertyName;
+                            property.propertyValue = propertyValue;
+
+                            setPropertyValue = false;
+
+                            propertyName = "";
+                            propertyValue = "";
+
+                            newPos = i + 2;
+
+                            break;
+                        }
+                    }
+                    else if (stringArray[i] == "]")
+                    {
                         propertyValue = propertyValue + stringArray[i];
 
                         property.propertyName = propertyName;
@@ -1165,7 +1263,15 @@ namespace SalesforceMetadata
                         propertyName = "";
                         propertyValue = "";
 
-                        newPos = i + 1;
+                        if (stringArray[i + 1] == ";")
+                        {
+                            newPos = i + 2;
+                        }
+                        else
+                        {
+                            newPos = i + 1;
+                        }
+                        
                         break;
                     }
                     else if (stringArray[i] == ";")

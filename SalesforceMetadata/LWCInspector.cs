@@ -268,6 +268,7 @@ namespace SalesforceMetadata
                                 else if (stringArray[i].ToLower() == "export"
                                     && stringArray[i + 1].ToLower() == "class")
                                 {
+                                    isExported = true;
                                     arrayPos = parseExportDefault(stringArray, i);
                                 }
                                 else
@@ -627,6 +628,41 @@ namespace SalesforceMetadata
             Boolean skipToSemiColon = false;
             Boolean setParameters = false;
 
+            // Get the last brace location from the array. We cannot depend on the brace count to determine when the end of the function occurs
+            // We need to make sure the function parameters are accounted for as the first brace won't occur until after the ) designation
+            Boolean beginFuncParameterReached = false;
+            Boolean endFuncParameterReached = false;
+            Int32 lastBracePos = 0;
+            for (Int32 i = characterPos; i < stringArray.Count; i++)
+            {
+                if (stringArray[i] == "{")
+                {
+                    braceCount++;
+                }
+                else if (stringArray[i] == "}")
+                {
+                    braceCount--;
+
+                    if (braceCount == 0
+                        && beginFuncParameterReached == true
+                        && endFuncParameterReached == true)
+                    {
+                        lastBracePos = i;
+                        break;
+                    }
+                }
+                else if (stringArray[i] == "("
+                    && braceCount == 0)
+                {
+                    beginFuncParameterReached = true;
+                }
+                else if (stringArray[i] == ")"
+                    && beginFuncParameterReached == true)
+                {
+                    endFuncParameterReached = true;
+                }
+            }
+
             for (Int32 i = characterPos; i < stringArray.Count; i++)
             {
                 //Debug.WriteLine(i.ToString() + " " + stringArray[i]);
@@ -634,6 +670,12 @@ namespace SalesforceMetadata
                 String iValue = stringArray[i];
 
                 if (newPos < i) newPos = i;
+
+                if (i == lastBracePos)
+                {
+                    newPos = i + 1;
+                    break;
+                }
 
                 if (newPos == i)
                 {
@@ -678,22 +720,22 @@ namespace SalesforceMetadata
                     {
                         skipToBrace = true;
                     }
-                    else if (stringArray[i].ToLower() == "return")
-                    {
-                        Int32 j = 0;
-                        for (j = i + 1; j < stringArray.Count; j++)
-                        {
-                            if (stringArray[j] == ";")
-                            {
-                                newPos = j + 1;
-                                break;
-                            }
-                            else
-                            {
-                                function.returnValue = function.returnValue + stringArray[j];
-                            }
-                        }
-                    }
+                    //else if (stringArray[i].ToLower() == "return")
+                    //{
+                    //    Int32 j = 0;
+                    //    for (j = i + 1; j < stringArray.Count; j++)
+                    //    {
+                    //        if (stringArray[j] == ";")
+                    //        {
+                    //            newPos = j + 1;
+                    //            break;
+                    //        }
+                    //        else
+                    //        {
+                    //            function.returnValue = function.returnValue + stringArray[j];
+                    //        }
+                    //    }
+                    //}
                     else if (stringArray[i].ToLower().EndsWith(".foreach"))
                     {
                         skipToBrace = true;
@@ -702,9 +744,7 @@ namespace SalesforceMetadata
                         // consider the closing ) at the end of the foreach block
                         parenthCount++;
 
-                        // Parse out the variable being looped through
-
-
+                        // TODO: Parse out the variable being looped through
 
                     }
                     else if (stringArray[i].ToLower() == ";")
@@ -731,29 +771,32 @@ namespace SalesforceMetadata
                     }
                     else if (stringArray[i].ToLower() == "{")
                     {
+                        //Debug.WriteLine("{ - " + i.ToString());
                         skipToBrace = false;
                         braceCount++;
                     }
                     else if (stringArray[i].ToLower() == "}")
                     {
+                        //Debug.WriteLine("} - " + i.ToString());
+
                         braceCount--;
                         setParameters = false;
 
-                        if (stringArray.Count > i + 2
-                            && stringArray[i + 1] != ")"
-                            && stringArray[i + 2] != "{"
-                            && braceCount == 0)
-                        {
-                            newPos = i + 1;
-                            break;
-                        }
-                        else if (stringArray.Count > i + 1
-                            && stringArray[i + 1] != ")"
-                            && braceCount == 0)
-                        {
-                            newPos = i + 1;
-                            break;
-                        }
+                        //if (stringArray.Count > i + 2
+                        //    && stringArray[i + 1] != ")"
+                        //    && stringArray[i + 2] != "{"
+                        //    && braceCount == 0)
+                        //{
+                        //    newPos = i + 1;
+                        //    break;
+                        //}
+                        //else if (stringArray.Count > i + 1
+                        //    && stringArray[i + 1] != ")"
+                        //    && braceCount == 0)
+                        //{
+                        //    newPos = i + 1;
+                        //    break;
+                        //}
                     }
                     else if (parenthCount == 0
                         && braceCount == 0)
@@ -780,10 +823,25 @@ namespace SalesforceMetadata
                     else if (skipToBrace == false
                         && stringArray[i].ToLower().StartsWith("this."))
                     {
+                        // Potentially, this can be a push
                         String[] splitPropertyOrFunction = stringArray[i].Split('.');
 
                         // Is Property or Function?
                         if (stringArray[i + 1] == "=")
+                        {
+                            function.propertiesSet.Add(splitPropertyOrFunction[1]);
+                            newPos = i;
+                            for (Int32 j = newPos; j < stringArray.Count; j++)
+                            {
+                                if (stringArray[j] == ";")
+                                {
+                                    newPos = j + 1;
+                                    break;
+                                }
+                            }
+                        }
+                        else if (splitPropertyOrFunction.Length == 3
+                            && splitPropertyOrFunction[2] == "push")
                         {
                             function.propertiesSet.Add(splitPropertyOrFunction[1]);
                             newPos = i;
@@ -935,7 +993,7 @@ namespace SalesforceMetadata
                     }
                     else
                     {
-                        Debug.WriteLine(folderName + "." + fileName + " : " + stringArray[i]);
+                        //Debug.WriteLine(folderName + "." + fileName + " : " + stringArray[i]);
                     }
                 }
             }
@@ -963,7 +1021,8 @@ namespace SalesforceMetadata
                 this.jsFileHierarchyDict.Add(folderName + "|" + fileName, fileHier);
             }
 
-            return newPos;
+            //return newPos;
+            return lastBracePos + 1;
         }
 
         private Int32 parseImport(String folderName, String fileName, List<String> stringArray, Int32 characterPos)

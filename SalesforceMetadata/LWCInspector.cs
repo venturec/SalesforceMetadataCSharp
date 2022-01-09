@@ -161,8 +161,11 @@ namespace SalesforceMetadata
 
 
                     // Read the line and add to the stringArrayList to loop through as individual characters
+                    // At this point we are just reading the line and adding it to the stringArray
+                    // then read the next line and add those additional contents to the stringArray
                     List<String> stringArray = new List<string>();
-                    Boolean isComment = false;
+                    Boolean isMultiLineComment = false;
+                    //Boolean isInlineComment = false;
                     Boolean isConsoleLog = false;
                     while (!sr.EndOfStream)
                     {
@@ -171,28 +174,41 @@ namespace SalesforceMetadata
                         {
                             if (parsedLine[i].StartsWith("/*"))
                             {
-                                isComment = true;
+                                isMultiLineComment = true;
                             }
                             else if (parsedLine[i].EndsWith("*/"))
                             {
-                                isComment = false;
+                                isMultiLineComment = false;
                             }
-                            else if (isComment == false
+                            else if (isMultiLineComment == false
                                 && (parsedLine[i] == "//"
                                 || parsedLine[i].StartsWith("//")))
                             {
+                                //isInlineComment = true;
                                 break;
                             }
-                            else if (parsedLine[i].StartsWith("console.log"))
+                            else if (parsedLine[i].ToLower().StartsWith("console.log"))
                             {
                                 isConsoleLog = true;
                             }
                             else if (isConsoleLog == true
-                                && parsedLine[i] == "<--nl-->")
+                                && parsedLine[i] == ";")
                             {
                                 isConsoleLog = false;
+                                stringArray.Add(parsedLine[i]);
                             }
-                            else if (isComment == false
+                            //else if (isInlineComment == true
+                            //    && parsedLine[i] == "<--nl-->")
+                            //{
+                            //    isInlineComment = false;
+                            //    stringArray.Add(parsedLine[i]);
+                            //}
+                            else if (isMultiLineComment == false
+                                && parsedLine[i] == ";")
+                            {
+                                stringArray.Add(parsedLine[i]);
+                            }
+                            else if (isMultiLineComment == false
                                 && isConsoleLog == false)
                             {
                                 if (parsedLine[i] != "")
@@ -216,6 +232,8 @@ namespace SalesforceMetadata
                     Int32 arrayPos = 0;
                     for (Int32 i = 0; i < stringArray.Count; i++)
                     {
+                        String closingChar = "";
+
                         if (arrayPos < i) arrayPos = i;
 
                         if (arrayPos == i)
@@ -233,7 +251,18 @@ namespace SalesforceMetadata
                                 }
                                 else
                                 {
-                                    String closingChar = "";
+                                    if (stringArray[i + 3] == "[")
+                                    {
+                                        closingChar = "]";
+                                    }
+                                    else if (stringArray[i + 3] == "{")
+                                    {
+                                        closingChar = "}";
+                                    }
+                                    else
+                                    {
+                                        closingChar = ";";
+                                    }
 
                                     arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
                                 }
@@ -261,7 +290,18 @@ namespace SalesforceMetadata
                             }
                             else if (stringArray[i].ToLower() == "@track")
                             {
-                                String closingChar = "";
+                                if (stringArray[i + 3] == "[")
+                                {
+                                    closingChar = "]";
+                                }
+                                else if (stringArray[i + 3] == "{")
+                                {
+                                    closingChar = "}";
+                                }
+                                else
+                                {
+                                    closingChar = ";";
+                                }
 
                                 // I believe this is a variable / property
                                 arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
@@ -300,7 +340,18 @@ namespace SalesforceMetadata
                             }
                             else if (stringArray[i].ToLower() == "let")
                             {
-                                String closingChar = "";
+                                if (stringArray[i + 3] == "[")
+                                {
+                                    closingChar = "]";
+                                }
+                                else if (stringArray[i + 3] == "{")
+                                {
+                                    closingChar = "}";
+                                }
+                                else
+                                {
+                                    closingChar = ";";
+                                }
 
                                 arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
                             }
@@ -317,7 +368,18 @@ namespace SalesforceMetadata
                                 }
                                 else
                                 {
-                                    String closingChar = "";
+                                    if (stringArray[i + 3] == "[")
+                                    {
+                                        closingChar = "]";
+                                    }
+                                    else if (stringArray[i + 3] == "{")
+                                    {
+                                        closingChar = "}";
+                                    }
+                                    else
+                                    {
+                                        closingChar = ";";
+                                    }
 
                                     arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
                                 }
@@ -352,7 +414,18 @@ namespace SalesforceMetadata
                                 }
                                 else
                                 {
-                                    String closingChar = "";
+                                    if (stringArray[i + 2] == "[")
+                                    {
+                                        closingChar = "]";
+                                    }
+                                    else if (stringArray[i + 2] == "{")
+                                    {
+                                        closingChar = "}";
+                                    }
+                                    else
+                                    {
+                                        closingChar = ";";
+                                    }
 
                                     arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
                                 }
@@ -504,7 +577,7 @@ namespace SalesforceMetadata
                     }
                 }
 
-                splitStringList.Add("<--nl-->");
+                //splitStringList.Add("<--nl-->");
 
                 return splitStringList.ToArray();
             }
@@ -1216,42 +1289,7 @@ namespace SalesforceMetadata
 
                         newPos = i + 2;
                     }
-                    else if (stringArray[i] == "}")
-                    {
-                        if (stringArray[i + 1] == "]" && stringArray[i + 2] == ";")
-                        {
-                            propertyValue = propertyValue + stringArray[i] + stringArray[i + 1];
-
-                            property.propertyName = propertyName;
-                            property.propertyValue = propertyValue;
-
-                            setPropertyValue = false;
-
-                            propertyName = "";
-                            propertyValue = "";
-
-                            newPos = i + 3;
-
-                            break;
-                        }
-                        else if (stringArray[i + 1] == ";")
-                        {
-                            propertyValue = propertyValue + stringArray[i];
-
-                            property.propertyName = propertyName;
-                            property.propertyValue = propertyValue;
-
-                            setPropertyValue = false;
-
-                            propertyName = "";
-                            propertyValue = "";
-
-                            newPos = i + 2;
-
-                            break;
-                        }
-                    }
-                    else if (stringArray[i] == "]")
+                    else if (stringArray[i] == closingChar)
                     {
                         propertyValue = propertyValue + stringArray[i];
 
@@ -1271,19 +1309,7 @@ namespace SalesforceMetadata
                         {
                             newPos = i + 1;
                         }
-                        
-                        break;
-                    }
-                    else if (stringArray[i] == ";")
-                    {
-                        property.propertyName = propertyName;
-                        property.propertyValue = propertyValue;
-                        propertyName = "";
-                        propertyValue = "";
 
-                        setPropertyValue = false;
-
-                        newPos = i + 1;
                         break;
                     }
                     else if (setPropertyValue)

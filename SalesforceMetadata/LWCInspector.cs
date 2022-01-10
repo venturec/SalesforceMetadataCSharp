@@ -48,6 +48,8 @@ namespace SalesforceMetadata
             }
 
 
+            importDictionary = new Dictionary<String, String>();
+
             // Go through all JS Files first
             List<String> jsFiles = new List<string>();
 
@@ -152,8 +154,6 @@ namespace SalesforceMetadata
                 {
                     Debug.WriteLine("");
                     Debug.WriteLine("");
-
-                    importDictionary = new Dictionary<String, String>();
 
                     String[] filePathSplit = fileName.Split('\\');
                     String[] fileNameSplit = filePathSplit[filePathSplit.Length - 1].Split('.');
@@ -1112,9 +1112,9 @@ namespace SalesforceMetadata
                         cf.fileName = fileName;
                         cf.functionName = stringArray[i];
 
-                        if (importDictionary.ContainsKey(stringArray[i]))
+                        if (this.importDictionary.ContainsKey(stringArray[i]))
                         {
-                            cf.importFrom = importDictionary[stringArray[i]];
+                            cf.importFrom = this.importDictionary[stringArray[i]];
                         }
 
                         // Get the import-from since this is a function w without a this. designation
@@ -1252,7 +1252,6 @@ namespace SalesforceMetadata
                             foreach (String imp in importArray)
                             {
                                 import.importItems.Add(imp);
-                                this.importDictionary.Add(imp, stringArray[i + 1]);
                             }
 
                             imports = "";
@@ -1291,6 +1290,21 @@ namespace SalesforceMetadata
                 fileHier.imports.Add(import);
 
                 this.jsFileHierarchyDict.Add(folderName + "|" + fileName, fileHier);
+            }
+
+            // Add the imports to the importDictionary
+            foreach (JSFileHierarchy fileHier in this.jsFileHierarchyDict.Values)
+            {
+                foreach (JSImport imp in fileHier.imports)
+                {
+                    foreach (String impItem in imp.importItems)
+                    {
+                        if (!this.importDictionary.ContainsKey(impItem))
+                        {
+                            this.importDictionary.Add(impItem, imp.importFrom);
+                        }
+                    }
+                }
             }
 
             return newPos;

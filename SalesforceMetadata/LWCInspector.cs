@@ -1499,22 +1499,24 @@ namespace SalesforceMetadata
             StreamWriter sw = new StreamWriter(this.tbSaveResultsTo.Text + "\\LWCFunctionHierarchy.txt");
 
             // Build the dictionary of related function calls from the Imports and local functions (i.e. this.functionName)
-            Dictionary<String, String> importsDictionary = new Dictionary<String, String>();
+            //Dictionary<String, String> importsDictionary = new Dictionary<String, String>();
+
+            //foreach (String compFile in this.jsFileHierarchyDict.Keys)
+            //{
+            //    foreach (JSImport imp in this.jsFileHierarchyDict[compFile].imports)
+            //    {
+            //        foreach (String importItem in imp.importItems)
+            //        {
+            //            if (!importsDictionary.ContainsKey(importItem + "|" + imp.importFrom))
+            //            {
+            //                importsDictionary.Add(importItem + "|" + imp.importFrom, imp.importFrom);
+            //            }
+            //        }
+            //    }
+            //}
 
             foreach (String compFile in this.jsFileHierarchyDict.Keys)
             {
-                foreach (JSImport imp in this.jsFileHierarchyDict[compFile].imports)
-                {
-                    foreach (String importItem in imp.importItems)
-                    {
-                        if (importsDictionary.ContainsKey(importItem)
-                            && importsDictionary[importItem] != imp.importFrom)
-                        {
-                            importsDictionary.Add(importItem, imp.importFrom);
-                        }
-                    }
-                }
-
                 // Key = JS function name => Value = wire call
                 Dictionary<String, String> jsFunctionToWireFunction = new Dictionary<String, String>();
                 Dictionary<String, JSFunction> jsFunctionDictionary = new Dictionary<String, JSFunction>();
@@ -1538,7 +1540,7 @@ namespace SalesforceMetadata
                 {
                     // Write the function in this process as the parent function. 
                     // If there are related function calls, then write those related functions incrementing the tab
-                    writeSubFunctions(importsDictionary, jsFunctionToWireFunction, jsFunctionDictionary, func, 1, sw);
+                    writeSubFunctions(jsFunctionToWireFunction, jsFunctionDictionary, func, 1, sw);
                 }
 
                 //foreach (JSFunction func in this.jsFileHierarchyDict[compFile].functions)
@@ -1551,8 +1553,7 @@ namespace SalesforceMetadata
 
         }
 
-        private void writeSubFunctions(Dictionary<String, String> importsDictionary, 
-                                       Dictionary<String, String> jsFunctionToWireFunction,
+        private void writeSubFunctions(Dictionary<String, String> jsFunctionToWireFunction,
                                        Dictionary<String, JSFunction> jsFunctionDictionary,
                                        JSFunction func,
                                        Int32 tabCount,
@@ -1585,15 +1586,26 @@ namespace SalesforceMetadata
                     // Get the local function and pass in the function from main function
 
                     if (cf.importFrom != "")
-                        //&& jsFunctionDictionary.ContainsKey(cf.folderName + "." + cf.fileName + "." + cf.functionName))
                     {
-                        JSFunction childFunction = jsFunctionDictionary[cf.folderName + "." + cf.fileName + "." + cf.functionName];
-                        writeSubFunctions(importsDictionary, jsFunctionToWireFunction, jsFunctionDictionary, childFunction, tabCount + 1, sw);
+                        //String key = cf.functionName + "|" + cf.importFrom;
+
+                        String[] importFromSplit = cf.importFrom.Split('/');
+                        if (importFromSplit[0] == "@salesforce")
+                        {
+                        }
+                        else if (importFromSplit[0] == "")
+                        {
+                            
+                        }
+
+
+                        //JSFunction childFunction = jsFunctionDictionary[cf.folderName + "." + cf.fileName + "." + cf.functionName];
+                        //writeSubFunctions(importsDictionary, jsFunctionToWireFunction, jsFunctionDictionary, childFunction, tabCount + 1, sw);
                     }
                     else if (jsFunctionDictionary.ContainsKey(cf.folderName + "." + cf.fileName + "." + cf.functionName))
                     {
                         JSFunction childFunction = jsFunctionDictionary[cf.folderName + "." + cf.fileName + "." + cf.functionName];
-                        writeSubFunctions(importsDictionary, jsFunctionToWireFunction, jsFunctionDictionary, childFunction, tabCount + 1, sw);
+                        writeSubFunctions(jsFunctionToWireFunction, jsFunctionDictionary, childFunction, tabCount + 1, sw);
                     }
                 }
             }

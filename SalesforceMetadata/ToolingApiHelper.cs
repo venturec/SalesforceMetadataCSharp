@@ -4762,6 +4762,46 @@ namespace SalesforceMetadata
         }
 
 
+        public static void getApexClasses(String query, UtilityClass.REQUESTINGORG reqOrg, Dictionary<String, String> classIdToClassName)
+        {
+            // Make a call to the Tooling API to retrieve the ApexClassMember passing in the ApexClass IDs
+            SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
+            SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
+
+            if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
+            {
+                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+            }
+            else
+            {
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+            }
+
+            if (toolingQr.records == null) return;
+
+            Boolean done = false;
+
+            while (!done)
+            {
+                toolingRecords = toolingQr.records;
+
+                foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
+                {
+                    SalesforceMetadata.ToolingWSDL.ApexClass1 apexClass = (SalesforceMetadata.ToolingWSDL.ApexClass1)toolingRecord;
+                    classIdToClassName.Add(apexClass.Id, apexClass.Name);
+                }
+
+                if (toolingQr.done)
+                {
+                    done = true;
+                }
+                else
+                {
+                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                }
+            }
+        }
+
         public static void apexClassToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, String query, UtilityClass.REQUESTINGORG reqOrg, Dictionary<String, String> classIdToClassName)
         {
             // Make a call to the Tooling API to retrieve the ApexClassMember passing in the ApexClass IDs
@@ -4780,16 +4820,6 @@ namespace SalesforceMetadata
             }
 
             if (toolingQr.records == null) return;
-
-            toolingRecords = toolingQr.records;
-
-            foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
-            {
-                SalesforceMetadata.ToolingWSDL.ApexClass1 apexClass = (SalesforceMetadata.ToolingWSDL.ApexClass1)toolingRecord;
-                classIdToClassName.Add(apexClass.Id, apexClass.Name);
-                //apexClassNames.Add(apexClass.Name);
-            }
-
 
             Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
                                                                     (System.Reflection.Missing.Value,
@@ -4820,144 +4850,160 @@ namespace SalesforceMetadata
             xlWorksheet.Cells[1, 20].Value = "TestClasses";
             xlWorksheet.Cells[1, 21].Value = "TestClassesAndMethods";
 
+
             Int32 rowNumber = 2;
-            foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
+            Boolean done = false;
+
+            while (done == false)
             {
-                Boolean retrieveAggregateCoverage = true;
+                toolingRecords = toolingQr.records;
 
-                SalesforceMetadata.ToolingWSDL.ApexClass1 apexClass = (SalesforceMetadata.ToolingWSDL.ApexClass1)toolingRecord;
-
-                // Note the skip to accommodate the population of values in the skipped column numbers
-                xlWorksheet.Cells[rowNumber, 1].Value = apexClass.Id;
-                xlWorksheet.Cells[rowNumber, 2].Value = apexClass.Name;
-                xlWorksheet.Cells[rowNumber, 3].Value = apexClass.NamespacePrefix;
-                xlWorksheet.Cells[rowNumber, 4].Value = apexClass.ApiVersion;
-                xlWorksheet.Cells[rowNumber, 5].Value = apexClass.IsValid;
-                xlWorksheet.Cells[rowNumber, 6].Value = apexClass.Status;
-
-                xlWorksheet.Cells[rowNumber, 8].Value = apexClass.LengthWithoutComments;
-
-                xlWorksheet.Cells[rowNumber, 13].Value = apexClass.ManageableState;
-                xlWorksheet.Cells[rowNumber, 14].Value = apexClass.CreatedById;
-
-                if (apexClass.CreatedBy == null)
+                foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
                 {
-                    xlWorksheet.Cells[rowNumber, 15].Value = "";
-                }
-                else
-                {
-                    xlWorksheet.Cells[rowNumber, 15].Value = apexClass.CreatedBy.Name;
-                }
+                    Boolean retrieveAggregateCoverage = true;
 
-                xlWorksheet.Cells[rowNumber, 16].Value = apexClass.LastModifiedById;
+                    SalesforceMetadata.ToolingWSDL.ApexClass1 apexClass = (SalesforceMetadata.ToolingWSDL.ApexClass1)toolingRecord;
 
-                if (apexClass.LastModifiedBy == null)
-                {
-                    xlWorksheet.Cells[rowNumber, 17].Value = "";
-                }
-                else
-                {
-                    xlWorksheet.Cells[rowNumber, 17].Value = apexClass.LastModifiedBy.Name;
-                }
-                
-                xlWorksheet.Cells[rowNumber, 18].Value = apexClass.CreatedDate;
-                xlWorksheet.Cells[rowNumber, 19].Value = apexClass.LastModifiedDate;
+                    // Note the skip to accommodate the population of values in the skipped column numbers
+                    xlWorksheet.Cells[rowNumber, 1].Value = apexClass.Id;
+                    xlWorksheet.Cells[rowNumber, 2].Value = apexClass.Name;
+                    xlWorksheet.Cells[rowNumber, 3].Value = apexClass.NamespacePrefix;
+                    xlWorksheet.Cells[rowNumber, 4].Value = apexClass.ApiVersion;
+                    xlWorksheet.Cells[rowNumber, 5].Value = apexClass.IsValid;
+                    xlWorksheet.Cells[rowNumber, 6].Value = apexClass.Status;
 
-                SalesforceMetadata.ToolingWSDL.SymbolTable clsSymbols = new SalesforceMetadata.ToolingWSDL.SymbolTable();
+                    xlWorksheet.Cells[rowNumber, 8].Value = apexClass.LengthWithoutComments;
 
-                if (apexClass.SymbolTable != null)
-                {
-                    clsSymbols = (SalesforceMetadata.ToolingWSDL.SymbolTable)apexClass.SymbolTable;
-                }
+                    xlWorksheet.Cells[rowNumber, 13].Value = apexClass.ManageableState;
+                    xlWorksheet.Cells[rowNumber, 14].Value = apexClass.CreatedById;
 
-                // Determine if it is Test Class or not. We don't need to retrieve code coverage for test classes
-                if (clsSymbols.methods != null)
-                {
-                    foreach (SalesforceMetadata.ToolingWSDL.Method method in clsSymbols.methods)
+                    if (apexClass.CreatedBy == null)
                     {
-                        if (method.annotations == null)
+                        xlWorksheet.Cells[rowNumber, 15].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 15].Value = apexClass.CreatedBy.Name;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 16].Value = apexClass.LastModifiedById;
+
+                    if (apexClass.LastModifiedBy == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 17].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 17].Value = apexClass.LastModifiedBy.Name;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 18].Value = apexClass.CreatedDate;
+                    xlWorksheet.Cells[rowNumber, 19].Value = apexClass.LastModifiedDate;
+
+                    SalesforceMetadata.ToolingWSDL.SymbolTable clsSymbols = new SalesforceMetadata.ToolingWSDL.SymbolTable();
+
+                    if (apexClass.SymbolTable != null)
+                    {
+                        clsSymbols = (SalesforceMetadata.ToolingWSDL.SymbolTable)apexClass.SymbolTable;
+                    }
+
+                    // Determine if it is Test Class or not. We don't need to retrieve code coverage for test classes
+                    if (clsSymbols.methods != null)
+                    {
+                        foreach (SalesforceMetadata.ToolingWSDL.Method method in clsSymbols.methods)
                         {
-                            xlWorksheet.Cells[rowNumber, 7].Value = false;
-                        }
-                        else
-                        {
-                            foreach (SalesforceMetadata.ToolingWSDL.Annotation annot in method.annotations)
+                            if (method.annotations == null)
                             {
-                                if (annot.name == "IsTest")
+                                xlWorksheet.Cells[rowNumber, 7].Value = false;
+                            }
+                            else
+                            {
+                                foreach (SalesforceMetadata.ToolingWSDL.Annotation annot in method.annotations)
                                 {
-                                    retrieveAggregateCoverage = false;
-                                    xlWorksheet.Cells[rowNumber, 7].Value = true;
-                                }
-                                else
-                                {
-                                    xlWorksheet.Cells[rowNumber, 7].Value = false;
+                                    if (annot.name == "IsTest")
+                                    {
+                                        retrieveAggregateCoverage = false;
+                                        xlWorksheet.Cells[rowNumber, 7].Value = true;
+                                    }
+                                    else
+                                    {
+                                        xlWorksheet.Cells[rowNumber, 7].Value = false;
+                                    }
                                 }
                             }
                         }
                     }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 7].Value = false;
+                    }
+
+                    // Number of Lines, Number of Lines Covered, Uncovered, and Percentage Covered
+                    if (retrieveAggregateCoverage)
+                    {
+                        SalesforceMetadata.ToolingWSDL.QueryResult toolingAggregateCoverageQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
+                        toolingAggregateCoverageQr = SalesforceCredentials.fromOrgToolingSvc.query(ApexCodeCoverageAggregateQuery(apexClass.Id));
+
+                        // Skip Test Classes
+                        if (toolingAggregateCoverageQr.records != null)
+                        {
+                            SalesforceMetadata.ToolingWSDL.sObject[] toolingQrRecords = toolingAggregateCoverageQr.records;
+                            foreach (SalesforceMetadata.ToolingWSDL.sObject toolingSobj in toolingQrRecords)
+                            {
+                                ApexCodeCoverageAggregate accAggregate = (ApexCodeCoverageAggregate)toolingSobj;
+                                Double denominator = ((Double)accAggregate.NumLinesCovered + (Double)accAggregate.NumLinesUncovered);
+
+                                xlWorksheet.Cells[rowNumber, 9].Value = denominator;
+                                xlWorksheet.Cells[rowNumber, 10].Value = accAggregate.NumLinesCovered;
+                                xlWorksheet.Cells[rowNumber, 11].Value = accAggregate.NumLinesUncovered;
+
+                                if (denominator != 0)
+                                {
+                                    Double percentCovered = (Double)accAggregate.NumLinesCovered / ((Double)accAggregate.NumLinesCovered + (Double)accAggregate.NumLinesUncovered);
+                                    percentCovered = percentCovered * 100;
+                                    xlWorksheet.Cells[rowNumber, 12].Value = percentCovered;
+                                }
+                            }
+
+                            // Get Test Classes and Test Methods
+                            apexTestClassesAndMethods = new SalesforceMetadata.ToolingWSDL.QueryResult();
+                            apexTestClassesAndMethods = SalesforceCredentials.fromOrgToolingSvc.query(ApexCodeCoverageQuery(apexClass.Id));
+
+                            SalesforceMetadata.ToolingWSDL.sObject[] apexTestClassesAndMethodsRecords = apexTestClassesAndMethods.records;
+
+                            String testClasses = "";
+                            String apexTestClassAndMethod = "";
+
+                            if (apexTestClassesAndMethodsRecords != null)
+                            {
+                                foreach (SalesforceMetadata.ToolingWSDL.sObject toolingClass in apexTestClassesAndMethodsRecords)
+                                {
+                                    ApexCodeCoverage acm = (ApexCodeCoverage)toolingClass;
+
+                                    if (!testClasses.Contains(classIdToClassName[acm.ApexTestClassId]))
+                                    {
+                                        testClasses = testClasses + classIdToClassName[acm.ApexTestClassId] + "; ";
+                                    }
+
+                                    apexTestClassAndMethod = apexTestClassAndMethod + classIdToClassName[acm.ApexTestClassId] + " - " + acm.TestMethodName + "; ";
+                                }
+
+                                xlWorksheet.Cells[rowNumber, 20].Value = testClasses;
+                                xlWorksheet.Cells[rowNumber, 21].Value = apexTestClassAndMethod;
+                            }
+                        }
+                    }
+
+                    rowNumber++;
+                }
+                if (toolingQr.done)
+                {
+                    done = true;
                 }
                 else
                 {
-                    xlWorksheet.Cells[rowNumber, 7].Value = false;
+                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
-
-                // Number of Lines, Number of Lines Covered, Uncovered, and Percentage Covered
-                if (retrieveAggregateCoverage)
-                {
-                    SalesforceMetadata.ToolingWSDL.QueryResult toolingAggregateCoverageQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
-                    toolingAggregateCoverageQr = SalesforceCredentials.fromOrgToolingSvc.query(ApexCodeCoverageAggregateQuery(apexClass.Id));
-
-                    // Skip Test Classes
-                    if (toolingAggregateCoverageQr.records != null)
-                    {
-                        SalesforceMetadata.ToolingWSDL.sObject[] toolingQrRecords = toolingAggregateCoverageQr.records;
-                        foreach (SalesforceMetadata.ToolingWSDL.sObject toolingSobj in toolingQrRecords)
-                        {
-                            ApexCodeCoverageAggregate accAggregate = (ApexCodeCoverageAggregate)toolingSobj;
-                            Double denominator = ((Double)accAggregate.NumLinesCovered + (Double)accAggregate.NumLinesUncovered);
-
-                            xlWorksheet.Cells[rowNumber, 9].Value = denominator;
-                            xlWorksheet.Cells[rowNumber, 10].Value = accAggregate.NumLinesCovered;
-                            xlWorksheet.Cells[rowNumber, 11].Value = accAggregate.NumLinesUncovered;
-
-                            if (denominator != 0)
-                            {
-                                Double percentCovered = (Double)accAggregate.NumLinesCovered / ((Double)accAggregate.NumLinesCovered + (Double)accAggregate.NumLinesUncovered);
-                                percentCovered = percentCovered * 100;
-                                xlWorksheet.Cells[rowNumber, 12].Value = percentCovered;
-                            }
-                        }
-
-                        // Get Test Classes and Test Methods
-                        apexTestClassesAndMethods = new SalesforceMetadata.ToolingWSDL.QueryResult();
-                        apexTestClassesAndMethods = SalesforceCredentials.fromOrgToolingSvc.query(ApexCodeCoverageQuery(apexClass.Id));
-
-                        SalesforceMetadata.ToolingWSDL.sObject[] apexTestClassesAndMethodsRecords = apexTestClassesAndMethods.records;
-
-                        String testClasses = "";
-                        String apexTestClassAndMethod = "";
-
-                        if (apexTestClassesAndMethodsRecords != null)
-                        {
-                            foreach (SalesforceMetadata.ToolingWSDL.sObject toolingClass in apexTestClassesAndMethodsRecords)
-                            {
-                                ApexCodeCoverage acm = (ApexCodeCoverage)toolingClass;
-
-                                if (!testClasses.Contains(classIdToClassName[acm.ApexTestClassId]))
-                                {
-                                    testClasses = testClasses + classIdToClassName[acm.ApexTestClassId] + "; ";
-                                }
-
-                                apexTestClassAndMethod = apexTestClassAndMethod + classIdToClassName[acm.ApexTestClassId] + " - " + acm.TestMethodName + "; ";
-                            }
-
-                            xlWorksheet.Cells[rowNumber, 20].Value = testClasses;
-                            xlWorksheet.Cells[rowNumber, 21].Value = apexTestClassAndMethod;
-                        }
-                    }
-                }
-
-                rowNumber++;
             }
         }
 

@@ -66,7 +66,8 @@ namespace SalesforceMetadata
                 // Salesforce does not return custom object and custom field api names with the __c so we can't match easily to what is in the metadata
                 // Some orgs have duplicate Case Type fields: one of them is the standard one, and the other is a custom one, but the Tooling API returns
                 // both with the same DeveloperName - Type and the custom one does not have the __c
-                parseObjectFiles(objectFieldNameToLabel);
+                
+                //parseObjectFiles(objectFieldNameToLabel);
                 parseWorkflowRules(workflowRules, workflowFieldUpdatesByFullName, workflowFieldUpdatesByName);
 
                 Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
@@ -79,10 +80,11 @@ namespace SalesforceMetadata
                 query = ToolingApiHelper.CustomObjectQuery();
                 ToolingApiHelper.customObjectToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
 
-                query = ToolingApiHelper.CustomFieldQuery();
-                ToolingApiHelper.customFieldToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15, objectFieldNameToLabel);
+                //query = ToolingApiHelper.CustomFieldQuery();
+                //ToolingApiHelper.customFieldToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15, objectFieldNameToLabel);
 
                 query = ToolingApiHelper.ApexClassQuery("");
+                ToolingApiHelper.getApexClasses(query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
                 ToolingApiHelper.apexClassToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
 
                 query = ToolingApiHelper.ApexTriggerQuery("");
@@ -91,17 +93,17 @@ namespace SalesforceMetadata
                 query = ToolingApiHelper.FlowQuery();
                 ToolingApiHelper.flowToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
 
-                query = ToolingApiHelper.CompactLayoutQuery("");
-                ToolingApiHelper.compactLayoutToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+                //query = ToolingApiHelper.CompactLayoutQuery("");
+                //ToolingApiHelper.compactLayoutToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
 
-                query = ToolingApiHelper.FlexiPageQuery("");
-                ToolingApiHelper.flexiPageToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
+                //query = ToolingApiHelper.FlexiPageQuery("");
+                //ToolingApiHelper.flexiPageToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
 
-                query = ToolingApiHelper.LayoutQuery("");
-                ToolingApiHelper.layoutToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
+                //query = ToolingApiHelper.LayoutQuery("");
+                //ToolingApiHelper.layoutToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
 
-                query = ToolingApiHelper.EmailTemplateQuery();
-                ToolingApiHelper.emailTemplateToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+                //query = ToolingApiHelper.EmailTemplateQuery();
+                //ToolingApiHelper.emailTemplateToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
 
                 query = ToolingApiHelper.WorkflowAlertQuery();
                 ToolingApiHelper.workflowAlertToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, workflowRules);
@@ -526,7 +528,7 @@ namespace SalesforceMetadata
                                 }
                             }
 
-                            workflowRules.Add(wflRule.fullName, wflRule);
+                            workflowRules.Add(wflRule.objectName + "|" + wflRule.fullName, wflRule);
                         }
                     }
                 }

@@ -1033,6 +1033,11 @@ namespace SalesforceMetadata
                             cf.isLocalFunction = true;
 
                             String[] functionName = stringArray[i].Split('.');
+
+                            // TODO: if the functionName length == 3, then go through the constants to determine 
+                            // what the component reference is in relation to
+                            // then link the component to the function name
+
                             cf.functionName = functionName[1];
 
                             String parameters = "";
@@ -1498,23 +1503,6 @@ namespace SalesforceMetadata
         {
             StreamWriter sw = new StreamWriter(this.tbSaveResultsTo.Text + "\\LWCFunctionHierarchy.txt");
 
-            // Build the dictionary of related function calls from the Imports and local functions (i.e. this.functionName)
-            //Dictionary<String, String> importsDictionary = new Dictionary<String, String>();
-
-            //foreach (String compFile in this.jsFileHierarchyDict.Keys)
-            //{
-            //    foreach (JSImport imp in this.jsFileHierarchyDict[compFile].imports)
-            //    {
-            //        foreach (String importItem in imp.importItems)
-            //        {
-            //            if (!importsDictionary.ContainsKey(importItem + "|" + imp.importFrom))
-            //            {
-            //                importsDictionary.Add(importItem + "|" + imp.importFrom, imp.importFrom);
-            //            }
-            //        }
-            //    }
-            //}
-
             foreach (String compFile in this.jsFileHierarchyDict.Keys)
             {
                 // Key = JS function name => Value = wire call
@@ -1535,18 +1523,16 @@ namespace SalesforceMetadata
                     }
                 }
 
-                //// Now write the function hierarchy to the file
+                // Now write the function hierarchy to the file
                 foreach (JSFunction func in this.jsFileHierarchyDict[compFile].functions)
                 {
+                    sw.WriteLine("");
+                    sw.WriteLine("");
+
                     // Write the function in this process as the parent function. 
                     // If there are related function calls, then write those related functions incrementing the tab
                     writeSubFunctions(jsFunctionToWireFunction, jsFunctionDictionary, func, 1, sw);
                 }
-
-                //foreach (JSFunction func in this.jsFileHierarchyDict[compFile].functions)
-                //{
-                //    sw.WriteLine(func.folderName + '\t' + func.fileName + '\t' + func.functionName);
-                //}
             }
 
             sw.Close();
@@ -1564,20 +1550,47 @@ namespace SalesforceMetadata
                 sw.Write('\t');
             }
 
-            if (func.functionAnnotation != "")
+            if (func.functionAnnotation == "")
             {
-                sw.WriteLine(func.folderName + "." + func.fileName + "." + func.functionName);
+                sw.Write(func.folderName + "." + func.fileName + "." + func.functionName + "(");
+                String functParams = "";
+                if (func.parameters.Count > 0)
+                {
+                    foreach (String param in func.parameters)
+                    {
+                        functParams = functParams + param + ", ";
+                    }
+
+                    functParams = functParams.Substring(0, functParams.Length - 2);
+                }
+
+                sw.Write(functParams + ")");
+                sw.Write(Environment.NewLine);
             }
             else
             {
-                sw.WriteLine(func.functionAnnotation + " - " + func.folderName + "." + func.fileName + "." + func.functionName);
-            }
-            
-            // If a wire function exists, then get the wire import and import from
-            if (jsFunctionToWireFunction.ContainsKey(func.functionName))
-            {
+                sw.Write(func.functionAnnotation + " - " + func.folderName + "." + func.fileName + "." + func.functionName + "(");
 
+                String functParams = "";
+                if (func.parameters.Count > 0)
+                {
+                    foreach (String param in func.parameters)
+                    {
+                        functParams = functParams + param + ", ";
+                    }
+
+                    functParams = functParams.Substring(0, functParams.Length - 2);
+                }
+
+                sw.Write(functParams + ")");
+                sw.Write(Environment.NewLine);
             }
+
+            // If a wire function exists, then get the wire import and import from
+            //if (jsFunctionToWireFunction.ContainsKey(func.functionName))
+            //{
+
+            //}
 
             if (func.childFunctions.Count > 0)
             {
@@ -1587,20 +1600,76 @@ namespace SalesforceMetadata
 
                     if (cf.importFrom != "")
                     {
-                        //String key = cf.functionName + "|" + cf.importFrom;
-
                         String[] importFromSplit = cf.importFrom.Split('/');
-                        if (importFromSplit[0] == "@salesforce")
+                        if (importFromSplit[0] == "@salesforce"
+                            && importFromSplit.Length == 3)
                         {
+                            for (Int32 t = 0; t < tabCount + 1; t++)
+                            {
+                                sw.Write('\t');
+                            }
+
+                            sw.WriteLine(importFromSplit[1] + " - " + importFromSplit[2]);
                         }
-                        else if (importFromSplit[0] == "")
+                        else if (importFromSplit[0] == "@salesforce"
+                            && importFromSplit.Length == 2)
                         {
-                            
+                            for (Int32 t = 0; t < tabCount + 1; t++)
+                            {
+                                sw.Write('\t');
+                            }
+
+                            sw.WriteLine(importFromSplit[1] + " - " + cf.functionName);
                         }
+                        else if (importFromSplit[0] == "lightning")
+                        {
+                            for (Int32 t = 0; t < tabCount + 1; t++)
+                            {
+                                sw.Write('\t');
+                            }
 
+                            sw.WriteLine(cf.folderName + "." + cf.fileName + "." + cf.functionName);
+                        }
+                        else if (importFromSplit[0] == ".")
+                        {
+                            //Debug.WriteLine("");
 
-                        //JSFunction childFunction = jsFunctionDictionary[cf.folderName + "." + cf.fileName + "." + cf.functionName];
-                        //writeSubFunctions(importsDictionary, jsFunctionToWireFunction, jsFunctionDictionary, childFunction, tabCount + 1, sw);
+                            foreach (String fileHierKey in this.jsFileHierarchyDict.Keys)
+                            {
+                                if (fileHierKey == importFromSplit[1] + "|" + importFromSplit[1])
+                                {
+                                    foreach (JSFunction cfunc in jsFileHierarchyDict[fileHierKey].functions)
+                                    {
+                                        if (cfunc.functionName == cf.functionName)
+                                        {
+                                            writeSubFunctions(jsFunctionToWireFunction, jsFunctionDictionary, cfunc, tabCount + 1, sw);
+                                            break;
+                                        }
+                                    }
+
+                                    break;
+                                }
+                            }
+                        }
+                        else if (importFromSplit[0] == "c")
+                        {
+                            foreach (String fileHierKey in this.jsFileHierarchyDict.Keys)
+                            {
+                                if (fileHierKey == importFromSplit[1] + "|" + importFromSplit[1])
+                                {
+                                    foreach (JSFunction cfunc in jsFileHierarchyDict[fileHierKey].functions)
+                                    {
+                                        if (cfunc.functionName == cf.functionName)
+                                        {
+                                            writeSubFunctions(jsFunctionToWireFunction, jsFunctionDictionary, cfunc, tabCount + 1, sw);
+                                            break;
+                                        }
+                                    }
+
+                                    break;
+                                }
+                            }
+                        }
                     }
                     else if (jsFunctionDictionary.ContainsKey(cf.folderName + "." + cf.fileName + "." + cf.functionName))
                     {

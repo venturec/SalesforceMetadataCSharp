@@ -1030,15 +1030,22 @@ namespace SalesforceMetadata
                             JSFunction cf = new JSFunction();
                             cf.folderName = folderName;
                             cf.fileName = fileName;
-                            cf.isLocalFunction = true;
+                            cf.isLocal = true;
 
-                            String[] functionName = stringArray[i].Split('.');
+                            //String[] functionName = stringArray[i].Split('.');
 
                             // TODO: if the functionName length == 3, then go through the constants to determine 
                             // what the component reference is in relation to
                             // then link the component to the function name
-
-                            cf.functionName = functionName[1];
+                            if (splitPropertyOrFunction.Length == 3)
+                            {
+                                cf.componentReferenceVar = splitPropertyOrFunction[1];
+                                cf.functionName = splitPropertyOrFunction[2];
+                            }
+                            else
+                            {
+                                cf.functionName = splitPropertyOrFunction[1];
+                            }
 
                             String parameters = "";
                             setParameters = false;
@@ -1671,6 +1678,10 @@ namespace SalesforceMetadata
                             }
                         }
                     }
+                    else if (cf.componentReferenceVar != "")
+                    {
+                        
+                    }
                     else if (jsFunctionDictionary.ContainsKey(cf.folderName + "." + cf.fileName + "." + cf.functionName))
                     {
                         JSFunction childFunction = jsFunctionDictionary[cf.folderName + "." + cf.fileName + "." + cf.functionName];
@@ -1761,6 +1772,10 @@ namespace SalesforceMetadata
             public String functionAnnotation;
             public String functionDesignation;
             public String functionName;
+            // The component where the function is called from
+            // This can be set in a CONST, as a parameter, as a local variable
+            // If it is local, then the 
+            public String componentReferenceVar;
             public String parameterSet;
             public String valueSet;
             public String functionWithWireAnnotated;
@@ -1771,7 +1786,7 @@ namespace SalesforceMetadata
             public Boolean isExported;
             public Boolean isGetter;
             public Boolean isSetter;
-            public Boolean isLocalFunction;
+            public Boolean isLocal;
             public List<String> parameters;
             public List<JSFunction> childFunctions;
             public List<String> propertiesSet;
@@ -1783,6 +1798,7 @@ namespace SalesforceMetadata
                 functionAnnotation = "";
                 functionDesignation = "";
                 functionName = "";
+                componentReferenceVar = "";
                 parameterSet = "";
                 valueSet = "";
                 functionWithWireAnnotated = "";
@@ -1793,7 +1809,7 @@ namespace SalesforceMetadata
                 isExported = false;
                 isGetter = false;
                 isSetter = false;
-                isLocalFunction = false;
+                isLocal = false;
                 parameters = new List<string>();
                 childFunctions = new List<JSFunction>();
                 propertiesSet = new List<string>();

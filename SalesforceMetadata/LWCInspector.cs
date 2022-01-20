@@ -174,77 +174,80 @@ namespace SalesforceMetadata
 
                     String stringValue = "";
 
-                    while (!sr.EndOfStream)
+                    String[] parsedLine = readFileSplit(sr.ReadToEnd());
+                    sr.Close();
+
+                    for (Int32 i = 0; i < parsedLine.Length; i++)
                     {
-                        String[] parsedLine = readLineSplit(sr.ReadLine());
-                        for (Int32 i = 0; i < parsedLine.Length; i++)
+                        if (parsedLine[i] == "<nl>")
+                        { 
+                            // do nothing. Skip over.
+                        }
+                        else if (parsedLine[i].StartsWith("/*"))
                         {
-                            if (parsedLine[i].StartsWith("/*"))
-                            {
-                                isMultiLineComment = true;
-                            }
-                            else if (parsedLine[i].EndsWith("*/"))
-                            {
-                                isMultiLineComment = false;
-                            }
-                            else if (isMultiLineComment == false
-                                && isStringValue == false
-                                && (parsedLine[i] == "//"
-                                || parsedLine[i].StartsWith("//")))
-                            {
-                                //isInlineComment = true;
-                                break;
-                            }
-                            else if (isMultiLineComment == false
-                                && isStringValue == false
-                                && (parsedLine[i] == "\'" || parsedLine[i] == "\""))
-                            {
-                                isStringValue = true;
-                            }
-                            else if (isMultiLineComment == false
-                                && isStringValue == true 
-                                && (parsedLine[i] == "\'" || parsedLine[i] == "\""))
-                            {
-                                isStringValue = false;
-                                stringArray.Add(stringValue.Trim());
+                            isMultiLineComment = true;
+                        }
+                        else if (parsedLine[i].EndsWith("*/"))
+                        {
+                            isMultiLineComment = false;
+                        }
+                        else if (isMultiLineComment == false
+                            && isStringValue == false
+                            && (parsedLine[i] == "//"
+                            || parsedLine[i].StartsWith("//")))
+                        {
+                            //isInlineComment = true;
+                            break;
+                        }
+                        else if (isMultiLineComment == false
+                            && isStringValue == false
+                            && (parsedLine[i] == "\'" || parsedLine[i] == "\""))
+                        {
+                            isStringValue = true;
+                        }
+                        else if (isMultiLineComment == false
+                            && isStringValue == true 
+                            && (parsedLine[i] == "\'" || parsedLine[i] == "\""))
+                        {
+                            isStringValue = false;
+                            stringArray.Add(stringValue.Trim());
                             
-                                stringValue = "";
-                            }
-                            else if (parsedLine[i].ToLower().StartsWith("console.log"))
-                            {
-                                isConsoleLog = true;
-                            }
-                            else if (isConsoleLog == true
-                                && parsedLine[i] == ";")
-                            {
-                                isConsoleLog = false;
-                            }
-                            //else if (isInlineComment == true
-                            //    && parsedLine[i] == "<--nl-->")
-                            //{
-                            //    isInlineComment = false;
-                            //    stringArray.Add(parsedLine[i]);
-                            //}
-                            else if (isMultiLineComment == false
-                                && parsedLine[i] == ";")
+                            stringValue = "";
+                        }
+                        else if (parsedLine[i].ToLower().StartsWith("console.log"))
+                        {
+                            isConsoleLog = true;
+                        }
+                        else if (isConsoleLog == true
+                            && (parsedLine[i] == ";" || parsedLine[i] == "<nl>"))
+                        {
+                            isConsoleLog = false;
+                        }
+                        //else if (isInlineComment == true
+                        //    && parsedLine[i] == "<--nl-->")
+                        //{
+                        //    isInlineComment = false;
+                        //    stringArray.Add(parsedLine[i]);
+                        //}
+                        else if (isMultiLineComment == false
+                            && (parsedLine[i] == ";" || parsedLine[i] == "<nl>"))
+                        {
+                            stringArray.Add(parsedLine[i]);
+                        }
+                        else if (isMultiLineComment == false
+                            && isStringValue == true)
+                        {
+                            stringValue = stringValue + parsedLine[i] + " ";
+                        }
+                        else if (isMultiLineComment == false
+                            && isConsoleLog == false)
+                        {
+                            if (parsedLine[i] != "")
                             {
                                 stringArray.Add(parsedLine[i]);
                             }
-                            else if (isMultiLineComment == false
-                                && isStringValue == true)
-                            {
-                                stringValue = stringValue + parsedLine[i] + " ";
-                            }
-                            else if (isMultiLineComment == false
-                                && isConsoleLog == false)
-                            {
-                                if (parsedLine[i] != "")
-                                {
-                                    stringArray.Add(parsedLine[i]);
-                                }
-                            }
-
                         }
+
                     }
 
                     sr.Close();
@@ -270,7 +273,11 @@ namespace SalesforceMetadata
 
                         if (arrayPos == i)
                         {
-                            if (stringArray[i].ToLower() == "}"
+                            if (stringArray[i] == ";" || stringArray[i] == "<nl>")
+                            {
+                                // Do nothing
+                            }
+                            else if (stringArray[i].ToLower() == "}"
                                 && isExported == true)
                             {
                                 Debug.WriteLine("");
@@ -279,15 +286,11 @@ namespace SalesforceMetadata
 
                                 isExported = false;
                             }
-                            else if (stringArray[i].ToLower() == ";")
-                            {
-                                // Do nothing
-                            }
                             else if (stringArray[i].ToLower().EndsWith(".set"))
                             {
                                 for (Int32 j = i; j < stringArray.Count; j++)
                                 {
-                                    if (stringArray[j] == ";")
+                                    if (stringArray[j] == ";" || stringArray[j] == "<nl>")
                                     {
                                         arrayPos = j + 1;
                                         break;
@@ -516,36 +519,95 @@ namespace SalesforceMetadata
 
         }
 
-        private String[] readLineSplit(String line)
+        private String[] readFileSplit(String fileContents)
         {
-            if (line != null)
+            if (fileContents != null)
             {
-                String readLine = line.Trim();
-                readLine = readLine.Replace("(", " ( ");
-                readLine = readLine.Replace(")", " ) ");
-                readLine = readLine.Replace("{", " { ");
-                readLine = readLine.Replace("}", " } ");
-                readLine = readLine.Replace("[", " [ ");
-                readLine = readLine.Replace("]", " ] ");
-                readLine = readLine.Replace(",", " , ");
-                readLine = readLine.Replace("!==", " !== ");
-                readLine = readLine.Replace("!=", " != ");
-                readLine = readLine.Replace("===", " === ");
-                readLine = readLine.Replace("==", " == ");
-                readLine = readLine.Replace("=", " = ");
-                readLine = readLine.Replace(";", " ;");
-                readLine = readLine.Replace(":", " : ");
-                readLine = readLine.Replace("&&", " && ");
-                readLine = readLine.Replace("||", " || ");
-                readLine = readLine.Replace("'", " ' ");
-                readLine = readLine.Replace("\"", " \" ");
-                readLine = readLine.Replace("\t", " ");
-                readLine = readLine.Replace("/*", " /* ");
-                readLine = readLine.Replace("*/", " */ ");
-                readLine = readLine.Replace("//", " //");
-                //readLine = readLine.Replace(".", " . ");
+                String readFile = fileContents.Trim();
 
-                String[] rLineSplit = readLine.Split(' ');
+                // Try to eliminate as many unnecessary combinations of \n as we will be using these for the 
+                // the lines which do not have a \n such as properties or constants
+                // If a line is terminated with a ; then we are in good shape. Otherwise, need to rely on the new line character
+                readFile = readFile.Replace("\n\t", "\n");
+                readFile = readFile.Replace("\n\t", "\n");
+                readFile = readFile.Replace("\n\t", "\n");
+                readFile = readFile.Replace("\n\t", "\n");
+                readFile = readFile.Replace("\n\t", "\n");
+                readFile = readFile.Replace("\n\t", "\n");
+                readFile = readFile.Replace("\n\t", "\n");
+                readFile = readFile.Replace("\n\t", "\n");
+                readFile = readFile.Replace("\n\t", "\n");
+                readFile = readFile.Replace("\n\t", "\n");
+
+                readFile = readFile.Replace("\n ", "\n");
+                readFile = readFile.Replace("\n ", "\n");
+                readFile = readFile.Replace("\n ", "\n");
+                readFile = readFile.Replace("\n ", "\n");
+                readFile = readFile.Replace("\n ", "\n");
+                readFile = readFile.Replace("\n ", "\n");
+                readFile = readFile.Replace("\n ", "\n");
+                readFile = readFile.Replace("\n ", "\n");
+                readFile = readFile.Replace("\n ", "\n");
+                readFile = readFile.Replace("\n ", "\n");
+
+                readFile = readFile.Replace("\n\n\n\n\n\n\n\n\n\n", "\n");
+                readFile = readFile.Replace("\n\n\n\n\n\n\n\n\n", "\n");
+                readFile = readFile.Replace("\n\n\n\n\n\n\n\n", "\n");
+                readFile = readFile.Replace("\n\n\n\n\n\n\n", "\n");
+                readFile = readFile.Replace("\n\n\n\n\n\n", "\n");
+                readFile = readFile.Replace("\n\n\n\n\n", "\n");
+                readFile = readFile.Replace("\n\n\n\n", "\n");
+                readFile = readFile.Replace("\n\n\n", "\n");
+                readFile = readFile.Replace("\n\n", "\n");
+                
+                readFile = readFile.Replace(";\n", ";");
+
+                readFile = readFile.Replace("(", " ( ");
+                readFile = readFile.Replace(")", " ) ");
+                readFile = readFile.Replace("{", " { ");
+                readFile = readFile.Replace("}", " } ");
+                readFile = readFile.Replace("[", " [ ");
+                readFile = readFile.Replace("]", " ] ");
+                readFile = readFile.Replace(",", " , ");
+                readFile = readFile.Replace("!==", " !== ");
+                readFile = readFile.Replace("!=", " != ");
+                readFile = readFile.Replace("===", " === ");
+                readFile = readFile.Replace("==", " == ");
+                readFile = readFile.Replace("=", " = ");
+                readFile = readFile.Replace(":", " : ");
+                readFile = readFile.Replace("&&", " && ");
+                readFile = readFile.Replace("||", " || ");
+                readFile = readFile.Replace("'", " ' ");
+                readFile = readFile.Replace("\"", " \" ");
+                readFile = readFile.Replace("\t", " ");
+                readFile = readFile.Replace(";", " ; ");
+                readFile = readFile.Replace("\n", " <nl> ");
+                readFile = readFile.Replace("/*", " /* ");
+                readFile = readFile.Replace("*/", " */ ");
+                readFile = readFile.Replace("//", " //");
+                //readFile = readFile.Replace(".", " . ");
+
+                readFile = readFile.Replace("  ", " ");
+                readFile = readFile.Replace("  ", " ");
+                readFile = readFile.Replace("  ", " ");
+                readFile = readFile.Replace("  ", " ");
+                readFile = readFile.Replace("  ", " ");
+                readFile = readFile.Replace("  ", " ");
+                readFile = readFile.Replace("  ", " ");
+                readFile = readFile.Replace("  ", " ");
+                readFile = readFile.Replace("  ", " ");
+                readFile = readFile.Replace("  ", " ");
+
+                readFile = readFile.Replace("{ <nl>", "{ ");
+                readFile = readFile.Replace("} <nl>", "} ");
+                readFile = readFile.Replace("[ <nl>", "[ ");
+                readFile = readFile.Replace("] <nl>", "] ");
+
+                readFile = readFile.Replace("  ", " ");
+                readFile = readFile.Replace("  ", " ");
+                readFile = readFile.Replace("  ", " ");
+
+                String[] rLineSplit = readFile.Split(' ');
                 List<String> splitStringList = new List<string>();
 
                 Int32 arrayPos = 0;
@@ -653,7 +715,7 @@ namespace SalesforceMetadata
             String constVal = "";
             for (Int32 i = characterPos; i < stringArray.Count; i++)
             {
-                if (stringArray[i] == ";")
+                if (stringArray[i] == ";" || stringArray[i] == "<nl>")
                 {
                     if (constVal != "")
                     {
@@ -676,7 +738,7 @@ namespace SalesforceMetadata
                         constVal = "";
                     }
 
-                    if (stringArray[i + 1] == ";")
+                    if (stringArray[i + 1] == ";" || stringArray[i + 1] == "<nl>")
                     {
                         newPos = i + 2;
                     }
@@ -723,7 +785,11 @@ namespace SalesforceMetadata
 
             for (Int32 i = characterPos; i < stringArray.Count; i++)
             {
-                if (stringArray[i] == "{")
+                if (stringArray[i] == "<nl>")
+                { 
+                    // Do nothing. Skip.
+                }
+                else if (stringArray[i] == "{")
                 {
                     braceCount++;
                 }
@@ -808,7 +874,11 @@ namespace SalesforceMetadata
 
                 String iValue = stringArray[i];
 
-                if (stringArray[i] == "{")
+                if (stringArray[i] == "<nl>")
+                {
+                    // Do nothing. Skip.
+                }
+                else if (stringArray[i] == "{")
                 {
                     braceCount++;
                 }
@@ -921,7 +991,7 @@ namespace SalesforceMetadata
                         // TODO: Parse out the variable being looped through
 
                     }
-                    else if (stringArray[i].ToLower() == ";")
+                    else if (stringArray[i] == ";" || stringArray[i].ToLower() == "<nl>")
                     {
                         skipToSemiColon = false;
                     }
@@ -1008,15 +1078,26 @@ namespace SalesforceMetadata
 
                             newPos = i;
                             String setToValue = "";
+                            Boolean setValue = false;
                             for (Int32 j = newPos; j < stringArray.Count; j++)
                             {
-                                if (stringArray[j] == ";")
+                                if (stringArray[j] == "=")
                                 {
+                                    setValue = true;
+                                }
+                                else if (stringArray[j] == ";" || stringArray[j] == "<nl>")
+                                {
+                                    setValue = false;
                                     newPos = j + 1;
                                     break;
                                 }
+                                else if(setValue == true)
+                                {
+                                    setToValue = setToValue + stringArray[j];
+                                }
                             }
 
+                            prop.propertyValue = setToValue;
                             function.propertiesSet.Add(prop);
                         }
                         else if (splitPropertyOrFunction.Length == 3
@@ -1028,17 +1109,22 @@ namespace SalesforceMetadata
                             prop.propertyName = splitPropertyOrFunction[1];
                             prop.whereSet = function.functionName;
 
-                            newPos = i;
+                            newPos = i + 1;
                             String setToValue = "";
                             for (Int32 j = newPos; j < stringArray.Count; j++)
                             {
-                                if (stringArray[j] == ";")
+                                if (stringArray[j] == ";" || stringArray[j] == "<nl>")
                                 {
                                     newPos = j + 1;
                                     break;
                                 }
+                                else
+                                {
+                                    setToValue = setToValue + stringArray[j];
+                                }
                             }
 
+                            prop.propertyValue = setToValue;
                             function.propertiesSet.Add(prop);
                         }
                         else
@@ -1067,7 +1153,7 @@ namespace SalesforceMetadata
                             setParameters = false;
                             for (Int32 j = i; j < stringArray.Count; j++)
                             {
-                                if (stringArray[j] == ";")
+                                if (stringArray[j] == ";" || stringArray[j] == "<nl>")
                                 {
                                     newPos = j + 1;
                                     break;
@@ -1124,7 +1210,7 @@ namespace SalesforceMetadata
                             }
 
                             if (thenParenthCount == 0
-                                && stringArray[j] == ";")
+                                && (stringArray[j] == ";" || stringArray[j] == "<nl>"))
                             {
                                 newPos = j + 1;
                                 break;
@@ -1150,7 +1236,7 @@ namespace SalesforceMetadata
                         setParameters = false;
                         for (Int32 j = i; j < stringArray.Count; j++)
                         {
-                            if (stringArray[j] == ";")
+                            if (stringArray[j] == ";" || stringArray[j] == "<nl>")
                             {
                                 newPos = j + 1;
                                 break;
@@ -1239,7 +1325,7 @@ namespace SalesforceMetadata
             {
                 for (Int32 i = characterPos; i < stringArray.Count; i++)
                 {
-                    if (stringArray[i] == ";")
+                    if (stringArray[i] == ";" || stringArray[i] == "<nl>")
                     {
                         newPos = i + 1;
                         break;
@@ -1296,7 +1382,7 @@ namespace SalesforceMetadata
                 import.importItems.Add(stringArray[characterPos + 1]);
                 import.importFrom = stringArray[characterPos + 3];
 
-                if (stringArray[characterPos + 4] == ";")
+                if (stringArray[characterPos + 4] == ";" || stringArray[characterPos + 4] == "<nl>")
                 {
                     newPos = characterPos + 5;
                 }
@@ -1388,8 +1474,6 @@ namespace SalesforceMetadata
                     }
                     else if (stringArray[i] == closingChar)
                     {
-                        propertyValue = propertyValue + stringArray[i];
-
                         property.propertyName = propertyName;
                         property.propertyValue = propertyValue;
 
@@ -1398,7 +1482,7 @@ namespace SalesforceMetadata
                         propertyName = "";
                         propertyValue = "";
 
-                        if (stringArray[i + 1] == ";")
+                        if (stringArray[i + 1] == ";" || stringArray[i + 1] == "<nl>")
                         {
                             newPos = i + 2;
                         }
@@ -1823,7 +1907,6 @@ namespace SalesforceMetadata
             public String propertyValue;
             public Boolean isExported;
             public String whereSet;
-            public String setToValue;
 
             public JSProperty()
             {
@@ -1834,7 +1917,6 @@ namespace SalesforceMetadata
                 propertyValue = "";
                 isExported = false;
                 whereSet = "";
-                setToValue = "";
             }
         }
 

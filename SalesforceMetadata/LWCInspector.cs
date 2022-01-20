@@ -1000,8 +1000,14 @@ namespace SalesforceMetadata
                         // Is Property or Function?
                         if (stringArray[i + 1] == "=")
                         {
-                            function.propertiesSet.Add(splitPropertyOrFunction[1]);
+                            JSProperty prop = new JSProperty();
+                            prop.folderName = folderName;
+                            prop.fileName = fileName;
+                            prop.propertyName = splitPropertyOrFunction[1];
+                            prop.whereSet = function.functionName;
+
                             newPos = i;
+                            String setToValue = "";
                             for (Int32 j = newPos; j < stringArray.Count; j++)
                             {
                                 if (stringArray[j] == ";")
@@ -1010,12 +1016,20 @@ namespace SalesforceMetadata
                                     break;
                                 }
                             }
+
+                            function.propertiesSet.Add(prop);
                         }
                         else if (splitPropertyOrFunction.Length == 3
                             && splitPropertyOrFunction[2] == "push")
                         {
-                            function.propertiesSet.Add(splitPropertyOrFunction[1]);
+                            JSProperty prop = new JSProperty();
+                            prop.folderName = folderName;
+                            prop.fileName = fileName;
+                            prop.propertyName = splitPropertyOrFunction[1];
+                            prop.whereSet = function.functionName;
+
                             newPos = i;
+                            String setToValue = "";
                             for (Int32 j = newPos; j < stringArray.Count; j++)
                             {
                                 if (stringArray[j] == ";")
@@ -1024,6 +1038,8 @@ namespace SalesforceMetadata
                                     break;
                                 }
                             }
+
+                            function.propertiesSet.Add(prop);
                         }
                         else
                         {
@@ -1572,11 +1588,25 @@ namespace SalesforceMetadata
                 }
 
                 sw.Write(functParams + ")");
+
+                if (func.isExported) sw.Write('\t' + "-- Is Exported");
+                if (func.isStaticFunction) sw.Write('\t' + "-- Is Static");
+                if (func.isGetter) sw.Write('\t' + "-- Is Getter");
+                if (func.isSetter) sw.Write('\t' + "-- Is Setter");
+                if (func.isLocal)
+                {
+                    sw.Write('\t' + "-- Is Local Function");
+                }
+                else
+                {
+                    sw.Write('\t' + "-- Is Imported OR API Function");
+                }
+
                 sw.Write(Environment.NewLine);
             }
             else
             {
-                sw.Write(func.functionAnnotation + " - " + func.folderName + "." + func.fileName + "." + func.functionName + "(");
+                sw.Write(func.functionAnnotation + " -- " + func.folderName + "." + func.fileName + "." + func.functionName + "(");
 
                 String functParams = "";
                 if (func.parameters.Count > 0)
@@ -1590,6 +1620,20 @@ namespace SalesforceMetadata
                 }
 
                 sw.Write(functParams + ")");
+
+                if (func.isExported) sw.Write('\t' + "-- Is Exported");
+                if (func.isStaticFunction) sw.Write('\t' + "-- Is Static");
+                if (func.isGetter) sw.Write('\t' + "-- Is Getter");
+                if (func.isSetter) sw.Write('\t' + "-- Is Setter");
+                if (func.isLocal)
+                {
+                    sw.Write('\t' + "-- Is Local Function");
+                }
+                else
+                {
+                    sw.Write('\t' + "-- Is Imported OR API Function");
+                }
+
                 sw.Write(Environment.NewLine);
             }
 
@@ -1680,7 +1724,32 @@ namespace SalesforceMetadata
                     }
                     else if (cf.componentReferenceVar != "")
                     {
-                        
+                        Debug.WriteLine("");
+
+                        // Find out how the property or value is set
+                        // Get the Loop through the current jsFunction
+                        foreach (String fileHierKey in this.jsFileHierarchyDict.Keys)
+                        {
+                            if (fileHierKey == cf.folderName + "|" + cf.fileName)
+                            {
+                                foreach (JSProperty prop in jsFileHierarchyDict[fileHierKey].properties)
+                                {
+                                    if (prop.propertyName == cf.componentReferenceVar)
+                                    {
+                                        //writeSubFunctions(jsFunctionToWireFunction, jsFunctionDictionary, cfunc, tabCount + 1, sw);
+                                        break;
+                                    }
+                                }
+
+                                foreach (JSConstant cons in jsFileHierarchyDict[fileHierKey].constants)
+                                {
+                                    
+                                }
+
+
+                                break;
+                            }
+                        }
                     }
                     else if (jsFunctionDictionary.ContainsKey(cf.folderName + "." + cf.fileName + "." + cf.functionName))
                     {
@@ -1753,6 +1822,8 @@ namespace SalesforceMetadata
             public String propertyName;
             public String propertyValue;
             public Boolean isExported;
+            public String whereSet;
+            public String setToValue;
 
             public JSProperty()
             {
@@ -1762,6 +1833,8 @@ namespace SalesforceMetadata
                 propertyName = "";
                 propertyValue = "";
                 isExported = false;
+                whereSet = "";
+                setToValue = "";
             }
         }
 
@@ -1789,7 +1862,7 @@ namespace SalesforceMetadata
             public Boolean isLocal;
             public List<String> parameters;
             public List<JSFunction> childFunctions;
-            public List<String> propertiesSet;
+            public List<JSProperty> propertiesSet;
 
             public JSFunction()
             {
@@ -1812,7 +1885,7 @@ namespace SalesforceMetadata
                 isLocal = false;
                 parameters = new List<string>();
                 childFunctions = new List<JSFunction>();
-                propertiesSet = new List<string>();
+                propertiesSet = new List<JSProperty>();
             }
         }
     }

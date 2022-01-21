@@ -167,7 +167,7 @@ namespace SalesforceMetadata
                     // At this point we are just reading the line and adding it to the stringArray
                     // then read the next line and add those additional contents to the stringArray
                     List<String> stringArray = new List<string>();
-                    Boolean isMultiLineComment = false;
+                    //Boolean isMultiLineComment = false;
                     //Boolean isInlineComment = false;
                     Boolean isStringValue = false;
                     Boolean isConsoleLog = false;
@@ -179,143 +179,201 @@ namespace SalesforceMetadata
 
                     for (Int32 i = 0; i < parsedLine.Length; i++)
                     {
-                        if (parsedLine[i] == "<nl>")
-                        { 
-                            // do nothing. Skip over.
-                        }
-                        else if (parsedLine[i].StartsWith("/*"))
-                        {
-                            isMultiLineComment = true;
-                        }
-                        else if (parsedLine[i].EndsWith("*/"))
-                        {
-                            isMultiLineComment = false;
-                        }
-                        else if (isMultiLineComment == false
-                            && isStringValue == false
-                            && (parsedLine[i] == "//"
-                            || parsedLine[i].StartsWith("//")))
-                        {
-                            //isInlineComment = true;
-                            break;
-                        }
-                        else if (isMultiLineComment == false
-                            && isStringValue == false
+                        if (isStringValue == false
+                            && isConsoleLog == false
                             && (parsedLine[i] == "\'" || parsedLine[i] == "\""))
                         {
                             isStringValue = true;
                         }
-                        else if (isMultiLineComment == false
-                            && isStringValue == true 
+                        else if (isStringValue == true
                             && (parsedLine[i] == "\'" || parsedLine[i] == "\""))
                         {
                             isStringValue = false;
                             stringArray.Add(stringValue.Trim());
-                            
+
                             stringValue = "";
                         }
                         else if (parsedLine[i].ToLower().StartsWith("console.log"))
                         {
                             isConsoleLog = true;
                         }
-                        else if (isConsoleLog == true
-                            && (parsedLine[i] == ";" || parsedLine[i] == "<nl>"))
+                        else if (isConsoleLog == true && parsedLine[i] == ";")
                         {
                             isConsoleLog = false;
                         }
-                        //else if (isInlineComment == true
-                        //    && parsedLine[i] == "<--nl-->")
-                        //{
-                        //    isInlineComment = false;
-                        //    stringArray.Add(parsedLine[i]);
-                        //}
-                        else if (isMultiLineComment == false
-                            && (parsedLine[i] == ";" || parsedLine[i] == "<nl>"))
+                        else if (parsedLine[i] == ";")
                         {
                             stringArray.Add(parsedLine[i]);
                         }
-                        else if (isMultiLineComment == false
-                            && isStringValue == true)
+                        else if (isStringValue == true)
                         {
                             stringValue = stringValue + parsedLine[i] + " ";
                         }
-                        else if (isMultiLineComment == false
-                            && isConsoleLog == false)
+                        else if (isConsoleLog == false)
                         {
                             if (parsedLine[i] != "")
                             {
                                 stringArray.Add(parsedLine[i]);
                             }
                         }
-
                     }
 
-                    sr.Close();
 
                     // Now loop through the text array and determine the types, constructing them using the inner classes
-
-                    // This is more of a catch all in case the parser misses an end of block character or, in the case of much of LWC components, the develoepr
-                    // forgets to end their statement with a ";".
-                    // There's really no other reason to have this variable.
-
                     Boolean isExported = false;
-
                     Int32 arrayPos = 0;
-                    for (Int32 i = 0; i < stringArray.Count; i++)
+
+                    try
                     {
-                        Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
+                        Debug.WriteLine(fileName);
 
-                        String closingChar = "";
-
-                        if (arrayPos < i) arrayPos = i;
-
-                        if (arrayPos > stringArray.Count - 1) break;
-
-                        if (arrayPos == i)
+                        for (Int32 i = 0; i < stringArray.Count; i++)
                         {
-                            if (stringArray[i] == ";" || stringArray[i] == "<nl>")
-                            {
-                                // Do nothing
-                            }
-                            else if (stringArray[i].ToLower() == "}"
-                                && isExported == true)
-                            {
-                                Debug.WriteLine("");
-                                Debug.WriteLine("");
-                                Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
+                            Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
 
-                                isExported = false;
-                            }
-                            else if (stringArray[i].ToLower().EndsWith(".set"))
+                            String closingChar = "";
+
+                            if (arrayPos < i) arrayPos = i;
+
+                            if (arrayPos > stringArray.Count - 1) break;
+
+                            if (arrayPos == i)
                             {
-                                for (Int32 j = i; j < stringArray.Count; j++)
+                                if (stringArray[i] == ";")
                                 {
-                                    if (stringArray[j] == ";" || stringArray[j] == "<nl>")
+                                    // Do nothing
+                                }
+                                else if (stringArray[i].ToLower() == "}"
+                                    && isExported == true)
+                                {
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
+
+                                    isExported = false;
+                                }
+                                else if (stringArray[i].ToLower().EndsWith(".set"))
+                                {
+                                    for (Int32 j = i; j < stringArray.Count; j++)
                                     {
-                                        arrayPos = j + 1;
-                                        break;
+                                        if (stringArray[j] == ";")
+                                        {
+                                            arrayPos = j + 1;
+                                            break;
+                                        }
                                     }
                                 }
-                            }
-                            else if (stringArray[i].ToLower() == "@api")
-                            {
-                                Debug.WriteLine("");
-                                Debug.WriteLine("");
-                                Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
-                                // Check if is function first, then if all filters fail, assume it is a property
-
-                                // get / set
-                                if (stringArray[i + 3] == "(")
+                                else if (stringArray[i].ToLower() == "@api")
                                 {
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
+
+                                    // Check if is function first, then if all filters fail, assume it is a property
+
+                                    // get / set
+                                    if (stringArray[i + 3] == "(")
+                                    {
+                                        arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                    }
+                                    else if (stringArray[i + 2] == "(")
+                                    {
+                                        arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                    }
+                                    else
+                                    {
+                                        if (stringArray[i + 3] == "[")
+                                        {
+                                            closingChar = "]";
+                                        }
+                                        else if (stringArray[i + 3] == "{")
+                                        {
+                                            closingChar = "}";
+                                        }
+                                        else
+                                        {
+                                            closingChar = ";";
+                                        }
+
+                                        arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
+                                    }
+                                }
+                                else if (stringArray[i].ToLower() == "@track")
+                                {
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
+
+                                    if (stringArray[i + 3] == "[")
+                                    {
+                                        closingChar = "]";
+                                    }
+                                    else if (stringArray[i + 3] == "{")
+                                    {
+                                        closingChar = "}";
+                                    }
+                                    else
+                                    {
+                                        closingChar = ";";
+                                    }
+
+                                    // I believe this is a variable / property
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
+                                }
+                                else if (stringArray[i].ToLower() == "@wire")
+                                {
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
+
+                                    arrayPos = parseWireFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                }
+                                else if (stringArray[i].ToLower() == "const")
+                                {
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
+
+                                    arrayPos = parseConstant(folderName, fileNameSplit[0], stringArray, i);
+                                }
+                                else if (stringArray[i].ToLower() == "export")
+                                {
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
+
+                                    if (stringArray[i].ToLower() == "export"
+                                        && stringArray[i + 1].ToLower() == "default")
+                                    {
+                                        isExported = true;
+                                        arrayPos = parseExportDefault(stringArray, i);
+                                    }
+                                    else if (stringArray[i].ToLower() == "export"
+                                        && stringArray[i + 1].ToLower() == "class")
+                                    {
+                                        isExported = true;
+                                        arrayPos = parseExportDefault(stringArray, i);
+                                    }
+                                    else
+                                    {
+                                        // Call export function parser
+                                        arrayPos = parseExport(folderName, fileNameSplit[0], stringArray, i);
+                                    }
+                                }
+                                else if (stringArray[i].ToLower() == "function")
+                                {
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
+
                                     arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
                                 }
-                                else if (stringArray[i + 2] == "(")
+                                else if (stringArray[i].ToLower() == "let")
                                 {
-                                    arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
-                                }
-                                else
-                                {
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
+
                                     if (stringArray[i + 3] == "[")
                                     {
                                         closingChar = "]";
@@ -331,181 +389,94 @@ namespace SalesforceMetadata
 
                                     arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
                                 }
-                            }
-                            else if (stringArray[i].ToLower() == "@track")
-                            {
-                                Debug.WriteLine("");
-                                Debug.WriteLine("");
-                                Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
-                                if (stringArray[i + 3] == "[")
+                                else if (stringArray[i].ToLower() == "import")
                                 {
-                                    closingChar = "]";
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
+
+                                    arrayPos = parseImport(folderName, fileNameSplit[0], stringArray, i);
                                 }
-                                else if (stringArray[i + 3] == "{")
+                                else if (stringArray[i].ToLower() == "static")
                                 {
-                                    closingChar = "}";
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
+
+                                    // Check if is function first, then if all filters fail, assume it is a property
+                                    if (stringArray[i + 2] == "(")
+                                    {
+                                        arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                    }
+                                    else
+                                    {
+                                        if (stringArray[i + 3] == "[")
+                                        {
+                                            closingChar = "]";
+                                        }
+                                        else if (stringArray[i + 3] == "{")
+                                        {
+                                            closingChar = "}";
+                                        }
+                                        else
+                                        {
+                                            closingChar = ";";
+                                        }
+
+                                        arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
+                                    }
                                 }
-                                else
+                                else if (stringArray[i].ToLower() == "get")
                                 {
-                                    closingChar = ";";
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
+
+                                    arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
                                 }
-
-                                // I believe this is a variable / property
-                                arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
-                            }
-                            else if (stringArray[i].ToLower() == "@wire")
-                            {
-                                Debug.WriteLine("");
-                                Debug.WriteLine("");
-                                Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
-                                arrayPos = parseWireFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
-                            }
-                            else if (stringArray[i].ToLower() == "const")
-                            {
-                                Debug.WriteLine("");
-                                Debug.WriteLine("");
-                                Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
-                                arrayPos = parseConstant(folderName, fileNameSplit[0], stringArray, i);
-                            }
-                            else if (stringArray[i].ToLower() == "export")
-                            {
-                                Debug.WriteLine("");
-                                Debug.WriteLine("");
-                                Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
-                                if (stringArray[i].ToLower() == "export"
-                                    && stringArray[i + 1].ToLower() == "default")
+                                else if (stringArray[i].ToLower() == "set")
                                 {
-                                    isExported = true;
-                                    arrayPos = parseExportDefault(stringArray, i);
-                                }
-                                else if (stringArray[i].ToLower() == "export"
-                                    && stringArray[i + 1].ToLower() == "class")
-                                {
-                                    isExported = true;
-                                    arrayPos = parseExportDefault(stringArray, i);
-                                }
-                                else
-                                {
-                                    // Call export function parser
-                                    arrayPos = parseExport(folderName, fileNameSplit[0], stringArray, i);
-                                }
-                            }
-                            else if (stringArray[i].ToLower() == "function")
-                            {
-                                Debug.WriteLine("");
-                                Debug.WriteLine("");
-                                Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
 
-                                arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
-                            }
-                            else if (stringArray[i].ToLower() == "let")
-                            {
-                                Debug.WriteLine("");
-                                Debug.WriteLine("");
-                                Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
-                                if (stringArray[i + 3] == "[")
-                                {
-                                    closingChar = "]";
-                                }
-                                else if (stringArray[i + 3] == "{")
-                                {
-                                    closingChar = "}";
-                                }
-                                else
-                                {
-                                    closingChar = ";";
-                                }
-
-                                arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
-                            }
-                            else if (stringArray[i].ToLower() == "import")
-                            {
-                                Debug.WriteLine("");
-                                Debug.WriteLine("");
-                                Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
-                                arrayPos = parseImport(folderName, fileNameSplit[0], stringArray, i);
-                            }
-                            else if (stringArray[i].ToLower() == "static")
-                            {
-                                Debug.WriteLine("");
-                                Debug.WriteLine("");
-                                Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
-                                // Check if is function first, then if all filters fail, assume it is a property
-                                if (stringArray[i + 2] == "(")
-                                {
                                     arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
                                 }
                                 else
                                 {
-                                    if (stringArray[i + 3] == "[")
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine("");
+                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
+
+                                    // Check if is function first, then if all filters fail, assume it is a property
+                                    if (stringArray[i + 1] == "(")
                                     {
-                                        closingChar = "]";
-                                    }
-                                    else if (stringArray[i + 3] == "{")
-                                    {
-                                        closingChar = "}";
+                                        arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
                                     }
                                     else
                                     {
-                                        closingChar = ";";
+                                        if (stringArray[i + 2] == "[")
+                                        {
+                                            closingChar = "]";
+                                        }
+                                        else if (stringArray[i + 2] == "{")
+                                        {
+                                            closingChar = "}";
+                                        }
+                                        else
+                                        {
+                                            closingChar = ";";
+                                        }
+
+                                        arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
                                     }
-
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
-                                }
-                            }
-                            else if (stringArray[i].ToLower() == "get")
-                            {
-                                Debug.WriteLine("");
-                                Debug.WriteLine("");
-                                Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
-                                arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
-                            }
-                            else if (stringArray[i].ToLower() == "set")
-                            {
-                                Debug.WriteLine("");
-                                Debug.WriteLine("");
-                                Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
-                                arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
-                            }
-                            else
-                            {
-                                Debug.WriteLine("");
-                                Debug.WriteLine("");
-                                Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
-                                // Check if is function first, then if all filters fail, assume it is a property
-                                if (stringArray[i + 1] == "(")
-                                {
-                                    arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
-                                }
-                                else
-                                {
-                                    if (stringArray[i + 2] == "[")
-                                    {
-                                        closingChar = "]";
-                                    }
-                                    else if (stringArray[i + 2] == "{")
-                                    {
-                                        closingChar = "}";
-                                    }
-                                    else
-                                    {
-                                        closingChar = ";";
-                                    }
-
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
                                 }
                             }
                         }
+                    }
+                    catch (Exception parseError)
+                    {
+                        MessageBox.Show("Parsing Error in file " + fileName + ". Please check the syntax to make sure each constant, export and/or property has a closing ';'");
                     }
                 }
             }
@@ -525,109 +496,107 @@ namespace SalesforceMetadata
             {
                 String readFile = fileContents.Trim();
 
-                // Try to eliminate as many unnecessary combinations of \n as we will be using these for the 
-                // the lines which do not have a \n such as properties or constants
-                // If a line is terminated with a ; then we are in good shape. Otherwise, need to rely on the new line character
-                readFile = readFile.Replace("\n\t", "\n");
-                readFile = readFile.Replace("\n\t", "\n");
-                readFile = readFile.Replace("\n\t", "\n");
-                readFile = readFile.Replace("\n\t", "\n");
-                readFile = readFile.Replace("\n\t", "\n");
-                readFile = readFile.Replace("\n\t", "\n");
-                readFile = readFile.Replace("\n\t", "\n");
-                readFile = readFile.Replace("\n\t", "\n");
-                readFile = readFile.Replace("\n\t", "\n");
-                readFile = readFile.Replace("\n\t", "\n");
-
-                readFile = readFile.Replace("\n ", "\n");
-                readFile = readFile.Replace("\n ", "\n");
-                readFile = readFile.Replace("\n ", "\n");
-                readFile = readFile.Replace("\n ", "\n");
-                readFile = readFile.Replace("\n ", "\n");
-                readFile = readFile.Replace("\n ", "\n");
-                readFile = readFile.Replace("\n ", "\n");
-                readFile = readFile.Replace("\n ", "\n");
-                readFile = readFile.Replace("\n ", "\n");
-                readFile = readFile.Replace("\n ", "\n");
-
-                readFile = readFile.Replace("\n\n\n\n\n\n\n\n\n\n", "\n");
-                readFile = readFile.Replace("\n\n\n\n\n\n\n\n\n", "\n");
-                readFile = readFile.Replace("\n\n\n\n\n\n\n\n", "\n");
-                readFile = readFile.Replace("\n\n\n\n\n\n\n", "\n");
-                readFile = readFile.Replace("\n\n\n\n\n\n", "\n");
-                readFile = readFile.Replace("\n\n\n\n\n", "\n");
-                readFile = readFile.Replace("\n\n\n\n", "\n");
-                readFile = readFile.Replace("\n\n\n", "\n");
-                readFile = readFile.Replace("\n\n", "\n");
-                
-                readFile = readFile.Replace(";\n", ";");
-
-                readFile = readFile.Replace("(", " ( ");
-                readFile = readFile.Replace(")", " ) ");
-                readFile = readFile.Replace("{", " { ");
-                readFile = readFile.Replace("}", " } ");
-                readFile = readFile.Replace("[", " [ ");
-                readFile = readFile.Replace("]", " ] ");
-                readFile = readFile.Replace(",", " , ");
-                readFile = readFile.Replace("!==", " !== ");
-                readFile = readFile.Replace("!=", " != ");
-                readFile = readFile.Replace("===", " === ");
-                readFile = readFile.Replace("==", " == ");
-                readFile = readFile.Replace("=", " = ");
-                readFile = readFile.Replace(":", " : ");
-                readFile = readFile.Replace("&&", " && ");
-                readFile = readFile.Replace("||", " || ");
-                readFile = readFile.Replace("'", " ' ");
-                readFile = readFile.Replace("\"", " \" ");
+                // Maintain the new line character for this loop so that we can determine the end of the inline comments
+                readFile = readFile.Replace("\n", " \n ");
+                readFile = readFile.Replace("\r", " ");
                 readFile = readFile.Replace("\t", " ");
-                readFile = readFile.Replace(";", " ; ");
-                readFile = readFile.Replace("\n", " <nl> ");
-                readFile = readFile.Replace("/*", " /* ");
-                readFile = readFile.Replace("*/", " */ ");
-                readFile = readFile.Replace("//", " //");
-                //readFile = readFile.Replace(".", " . ");
 
-                readFile = readFile.Replace("  ", " ");
-                readFile = readFile.Replace("  ", " ");
-                readFile = readFile.Replace("  ", " ");
-                readFile = readFile.Replace("  ", " ");
-                readFile = readFile.Replace("  ", " ");
-                readFile = readFile.Replace("  ", " ");
-                readFile = readFile.Replace("  ", " ");
-                readFile = readFile.Replace("  ", " ");
-                readFile = readFile.Replace("  ", " ");
-                readFile = readFile.Replace("  ", " ");
-
-                readFile = readFile.Replace("{ <nl>", "{ ");
-                readFile = readFile.Replace("} <nl>", "} ");
-                readFile = readFile.Replace("[ <nl>", "[ ");
-                readFile = readFile.Replace("] <nl>", "] ");
-
-                readFile = readFile.Replace("  ", " ");
-                readFile = readFile.Replace("  ", " ");
-                readFile = readFile.Replace("  ", " ");
-
+                // Because we are using the <space> character as a way to break apart the text for easier manipulation
+                // we need to add these values to an array of strings where we can add the space character back later.
                 String[] rLineSplit = readFile.Split(' ');
                 List<String> splitStringList = new List<string>();
 
-                Int32 arrayPos = 0;
-
-                // Allows for filtering if the string array value is part of a larger string between " and ' and will concatenate the 
-                // individual string values from the array into one string value
+                // Remove inline comments first
                 Boolean isStringValue = false;
+                Boolean isMultilineComment = false;
+                Boolean isInlineComment = false;
                 String stringValue = "";
 
                 for (Int32 i = 0; i < rLineSplit.Length; i++)
                 {
-                    if (rLineSplit[i] != "")
+                    if (isInlineComment == false
+                        && rLineSplit[i].StartsWith("//"))
+                    {
+                        isInlineComment = true;
+                    }
+                    else if (isMultilineComment == false
+                        && rLineSplit[i].StartsWith("/*"))
+                    {
+                        isMultilineComment = true;
+                    }
+                    else if (isInlineComment == true
+                        && rLineSplit[i] == "\n")
+                    {
+                        isInlineComment = false;
+                    }
+                    else if (isMultilineComment == true
+                        && rLineSplit[i].EndsWith("*/"))
+                    {
+                        isMultilineComment = false;
+                    }
+                    else if (isMultilineComment == false && isInlineComment == false)
                     {
                         splitStringList.Add(rLineSplit[i]);
                     }
                 }
 
-                rLineSplit = splitStringList.ToArray();
-                splitStringList.Clear();
 
+                // Now go back through and add the characters from the list back to the stringValue to parsed further.
+                foreach (String lstChar in splitStringList)
+                {
+                    stringValue += lstChar + " ";
+                }
+
+
+                // Try to eliminate as many unnecessary combinations of \n as we will be using these for the 
+                // the lines which do not have a \n such as properties or constants
+                // If a line is terminated with a ; then we are in good shape.
+
+                stringValue = stringValue.Replace("\n", " ");
+                stringValue = stringValue.Replace("\r", " ");
+                stringValue = stringValue.Replace("\t", " ");
+                stringValue = stringValue.Replace("(", " ( ");
+                stringValue = stringValue.Replace(")", " ) ");
+                stringValue = stringValue.Replace("{", " { ");
+                stringValue = stringValue.Replace("}", " } ");
+                stringValue = stringValue.Replace("[", " [ ");
+                stringValue = stringValue.Replace("]", " ] ");
+                stringValue = stringValue.Replace(",", " , ");
+                stringValue = stringValue.Replace("!==", " !== ");
+                stringValue = stringValue.Replace("!=", " != ");
+                stringValue = stringValue.Replace("===", " === ");
+                stringValue = stringValue.Replace("==", " == ");
+                stringValue = stringValue.Replace("=", " = ");
+                stringValue = stringValue.Replace(":", " : ");
+                stringValue = stringValue.Replace("&&", " && ");
+                stringValue = stringValue.Replace("||", " || ");
+                stringValue = stringValue.Replace("'", " ' ");
+                stringValue = stringValue.Replace("\"", " \" ");
+                stringValue = stringValue.Replace("\t", " ");
+                stringValue = stringValue.Replace(";", " ; ");
+                stringValue = stringValue.Replace("/*", " /* ");
+                stringValue = stringValue.Replace("*/", " */ ");
+                stringValue = stringValue.Replace("//", " //");
+                //stringValue = stringValue.Replace(".", " . ");
+
+                stringValue = stringValue.Replace("  ", " ");
+                stringValue = stringValue.Replace("  ", " ");
+                stringValue = stringValue.Replace("  ", " ");
+                stringValue = stringValue.Replace("  ", " ");
+                stringValue = stringValue.Replace("  ", " ");
+                stringValue = stringValue.Replace("  ", " ");
+                stringValue = stringValue.Replace("  ", " ");
+                stringValue = stringValue.Replace("  ", " ");
+                stringValue = stringValue.Replace("  ", " ");
+                stringValue = stringValue.Replace("  ", " ");
+
+                rLineSplit = stringValue.Split(' ');
+                splitStringList = new List<string>();
+
+                Int32 arrayPos = 0;
+
+                // Allows for filtering if the string array value is part of a larger string between " and ' and will concatenate the 
+                // individual string values from the array into one string value
                 for (Int32 i = 0; i < rLineSplit.Length; i++)
                 {
                     if (arrayPos < i) arrayPos = i;
@@ -671,8 +640,6 @@ namespace SalesforceMetadata
                     }
                 }
 
-                //splitStringList.Add("<--nl-->");
-
                 return splitStringList.ToArray();
             }
             else
@@ -715,7 +682,7 @@ namespace SalesforceMetadata
             String constVal = "";
             for (Int32 i = characterPos; i < stringArray.Count; i++)
             {
-                if (stringArray[i] == ";" || stringArray[i] == "<nl>")
+                if (stringArray[i] == ";")
                 {
                     if (constVal != "")
                     {
@@ -738,7 +705,7 @@ namespace SalesforceMetadata
                         constVal = "";
                     }
 
-                    if (stringArray[i + 1] == ";" || stringArray[i + 1] == "<nl>")
+                    if (stringArray[i + 1] == ";")
                     {
                         newPos = i + 2;
                     }
@@ -785,11 +752,7 @@ namespace SalesforceMetadata
 
             for (Int32 i = characterPos; i < stringArray.Count; i++)
             {
-                if (stringArray[i] == "<nl>")
-                { 
-                    // Do nothing. Skip.
-                }
-                else if (stringArray[i] == "{")
+                if (stringArray[i] == "{")
                 {
                     braceCount++;
                 }
@@ -874,11 +837,7 @@ namespace SalesforceMetadata
 
                 String iValue = stringArray[i];
 
-                if (stringArray[i] == "<nl>")
-                {
-                    // Do nothing. Skip.
-                }
-                else if (stringArray[i] == "{")
+                if (stringArray[i] == "{")
                 {
                     braceCount++;
                 }
@@ -991,7 +950,7 @@ namespace SalesforceMetadata
                         // TODO: Parse out the variable being looped through
 
                     }
-                    else if (stringArray[i] == ";" || stringArray[i].ToLower() == "<nl>")
+                    else if (stringArray[i] == ";")
                     {
                         skipToSemiColon = false;
                     }
@@ -1085,7 +1044,7 @@ namespace SalesforceMetadata
                                 {
                                     setValue = true;
                                 }
-                                else if (stringArray[j] == ";" || stringArray[j] == "<nl>")
+                                else if (stringArray[j] == ";")
                                 {
                                     setValue = false;
                                     newPos = j + 1;
@@ -1113,7 +1072,7 @@ namespace SalesforceMetadata
                             String setToValue = "";
                             for (Int32 j = newPos; j < stringArray.Count; j++)
                             {
-                                if (stringArray[j] == ";" || stringArray[j] == "<nl>")
+                                if (stringArray[j] == ";")
                                 {
                                     newPos = j + 1;
                                     break;
@@ -1153,7 +1112,7 @@ namespace SalesforceMetadata
                             setParameters = false;
                             for (Int32 j = i; j < stringArray.Count; j++)
                             {
-                                if (stringArray[j] == ";" || stringArray[j] == "<nl>")
+                                if (stringArray[j] == ";")
                                 {
                                     newPos = j + 1;
                                     break;
@@ -1209,8 +1168,7 @@ namespace SalesforceMetadata
                                 thenParenthCount--;
                             }
 
-                            if (thenParenthCount == 0
-                                && (stringArray[j] == ";" || stringArray[j] == "<nl>"))
+                            if (thenParenthCount == 0 && stringArray[j] == ";")
                             {
                                 newPos = j + 1;
                                 break;
@@ -1236,7 +1194,7 @@ namespace SalesforceMetadata
                         setParameters = false;
                         for (Int32 j = i; j < stringArray.Count; j++)
                         {
-                            if (stringArray[j] == ";" || stringArray[j] == "<nl>")
+                            if (stringArray[j] == ";")
                             {
                                 newPos = j + 1;
                                 break;
@@ -1325,7 +1283,7 @@ namespace SalesforceMetadata
             {
                 for (Int32 i = characterPos; i < stringArray.Count; i++)
                 {
-                    if (stringArray[i] == ";" || stringArray[i] == "<nl>")
+                    if (stringArray[i] == ";")
                     {
                         newPos = i + 1;
                         break;
@@ -1382,7 +1340,7 @@ namespace SalesforceMetadata
                 import.importItems.Add(stringArray[characterPos + 1]);
                 import.importFrom = stringArray[characterPos + 3];
 
-                if (stringArray[characterPos + 4] == ";" || stringArray[characterPos + 4] == "<nl>")
+                if (stringArray[characterPos + 4] == ";")
                 {
                     newPos = characterPos + 5;
                 }
@@ -1482,7 +1440,7 @@ namespace SalesforceMetadata
                         propertyName = "";
                         propertyValue = "";
 
-                        if (stringArray[i + 1] == ";" || stringArray[i + 1] == "<nl>")
+                        if (stringArray[i + 1] == ";")
                         {
                             newPos = i + 2;
                         }

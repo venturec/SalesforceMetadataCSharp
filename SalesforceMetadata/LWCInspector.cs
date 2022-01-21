@@ -1769,29 +1769,58 @@ namespace SalesforceMetadata
                         Debug.WriteLine("");
 
                         // Find out how the property or value is set
-                        // Get the Loop through the current jsFunction
+                        // Loop through the current jsFunctions to find the properties set in those functions
+
+                        Boolean breakloop = false;
+                        String propertySetToValue = "";
+                        String propertyWhereSet = "";
+
                         foreach (String fileHierKey in this.jsFileHierarchyDict.Keys)
                         {
                             if (fileHierKey == cf.folderName + "|" + cf.fileName)
                             {
-                                foreach (JSProperty prop in jsFileHierarchyDict[fileHierKey].properties)
+                                // Find out where the value is set and how
+                                foreach (JSFunction innerFunction in jsFileHierarchyDict[fileHierKey].functions)
                                 {
-                                    if (prop.propertyName == cf.componentReferenceVar)
+                                    if (fileHierKey == innerFunction.folderName + "|" + innerFunction.fileName)
                                     {
-                                        //writeSubFunctions(jsFunctionToWireFunction, jsFunctionDictionary, cfunc, tabCount + 1, sw);
-                                        break;
+                                        foreach (JSProperty innerProperty in innerFunction.propertiesSet)
+                                        {
+                                            if (innerProperty.propertyName == cf.componentReferenceVar)
+                                            {
+                                                propertySetToValue = innerProperty.propertyValue;
+                                                propertyWhereSet = innerProperty.whereSet;
+                                                breakloop = true;
+                                            }
+
+                                            if (breakloop == true) break;
+                                        }
                                     }
+
+                                    if (breakloop == true) break;
                                 }
 
-                                foreach (JSConstant cons in jsFileHierarchyDict[fileHierKey].constants)
+                                //String[] splitValue = propertySetToValue.Split(
+
+                                //if(propertySetToValue
+
+                                //Debug.WriteLine("");
+                                if (propertyWhereSet != "" && propertySetToValue != "")
                                 {
-                                    
+                                    for (Int32 t = 0; t < tabCount + 1; t++)
+                                    {
+                                        sw.Write('\t');
+                                    }
+
+                                    sw.WriteLine(func.folderName + "." + func.fileName + "." + propertyWhereSet + " - " + propertySetToValue);
                                 }
-
-
-                                break;
                             }
+
+                            if (breakloop == true) break;
                         }
+
+
+
                     }
                     else if (jsFunctionDictionary.ContainsKey(cf.folderName + "." + cf.fileName + "." + cf.functionName))
                     {

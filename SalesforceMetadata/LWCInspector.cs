@@ -15,8 +15,12 @@ namespace SalesforceMetadata
     public partial class LWCInspector : Form
     {
         private Dictionary<String, JSFileHierarchy> jsFileHierarchyDict;
-
         private Dictionary<String, String> importDictionary;
+
+        // Key = Constant Value, Value = parsed component name
+        // Ex: const TIERING_MARGIN_ACTIVE_TIER_CALCS = 'c-tiering-margin-active-tier-calcs';
+        // TIERING_MARGIN_ACTIVE_TIER_CALCS, tieringMarginActiveTierCalcs
+        private Dictionary<String, String> constToComponent;
 
         public LWCInspector()
         {
@@ -47,8 +51,9 @@ namespace SalesforceMetadata
                 return;
             }
 
-
-            importDictionary = new Dictionary<String, String>();
+            this.jsFileHierarchyDict = new Dictionary<string, JSFileHierarchy>();
+            this.importDictionary = new Dictionary<String, String>();
+            this.constToComponent = new Dictionary<String, String>();
 
             // Go through all JS Files first
             List<String> jsFiles = new List<string>();
@@ -144,8 +149,6 @@ namespace SalesforceMetadata
             }
 
             // Now loop through the LWC JS files to get the call hiearchy
-            jsFileHierarchyDict = new Dictionary<string, JSFileHierarchy>();
-
             // get the text values into a List<string> and then add them to the 
             Dictionary<String, List<String>> fileToParsedContent = new Dictionary<String, List<String>>();
             if (jsFiles.Count > 0)
@@ -158,7 +161,7 @@ namespace SalesforceMetadata
                     String[] filePathSplit = fileName.Split('\\');
                     String[] fileNameSplit = filePathSplit[filePathSplit.Length - 1].Split('.');
 
-                    String folderName = filePathSplit[filePathSplit.Length - 2];
+                    String folderName = filePathSplit[filePathSplit.Length - 2].ToLower();
 
                     StreamReader sr = new StreamReader(fileName);
 
@@ -246,10 +249,6 @@ namespace SalesforceMetadata
                                 else if (stringArray[i].ToLower() == "}"
                                     && isExported == true)
                                 {
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
                                     isExported = false;
                                 }
                                 else if (stringArray[i].ToLower().EndsWith(".set"))
@@ -265,20 +264,16 @@ namespace SalesforceMetadata
                                 }
                                 else if (stringArray[i].ToLower() == "@api")
                                 {
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
                                     // Check if is function first, then if all filters fail, assume it is a property
 
                                     // get / set
                                     if (stringArray[i + 3] == "(")
                                     {
-                                        arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                        arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported);
                                     }
                                     else if (stringArray[i + 2] == "(")
                                     {
-                                        arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                        arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported);
                                     }
                                     else
                                     {
@@ -295,15 +290,11 @@ namespace SalesforceMetadata
                                             closingChar = ";";
                                         }
 
-                                        arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
+                                        arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, closingChar);
                                     }
                                 }
                                 else if (stringArray[i].ToLower() == "@track")
                                 {
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
                                     if (stringArray[i + 3] == "[")
                                     {
                                         closingChar = "]";
@@ -318,30 +309,18 @@ namespace SalesforceMetadata
                                     }
 
                                     // I believe this is a variable / property
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, closingChar);
                                 }
                                 else if (stringArray[i].ToLower() == "@wire")
                                 {
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
-                                    arrayPos = parseWireFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                    arrayPos = parseWireFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported);
                                 }
                                 else if (stringArray[i].ToLower() == "const")
                                 {
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
-                                    arrayPos = parseConstant(folderName, fileNameSplit[0], stringArray, i);
+                                    arrayPos = parseConstant(folderName, fileNameSplit[0].ToLower(), stringArray, i);
                                 }
                                 else if (stringArray[i].ToLower() == "export")
                                 {
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
                                     if (stringArray[i].ToLower() == "export"
                                         && stringArray[i + 1].ToLower() == "default")
                                     {
@@ -357,23 +336,15 @@ namespace SalesforceMetadata
                                     else
                                     {
                                         // Call export function parser
-                                        arrayPos = parseExport(folderName, fileNameSplit[0], stringArray, i);
+                                        arrayPos = parseExport(folderName, fileNameSplit[0].ToLower(), stringArray, i);
                                     }
                                 }
                                 else if (stringArray[i].ToLower() == "function")
                                 {
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
-                                    arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                    arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported);
                                 }
                                 else if (stringArray[i].ToLower() == "let")
                                 {
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
                                     if (stringArray[i + 3] == "[")
                                     {
                                         closingChar = "]";
@@ -387,26 +358,18 @@ namespace SalesforceMetadata
                                         closingChar = ";";
                                     }
 
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, closingChar);
                                 }
                                 else if (stringArray[i].ToLower() == "import")
                                 {
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
-                                    arrayPos = parseImport(folderName, fileNameSplit[0], stringArray, i);
+                                    arrayPos = parseImport(folderName, fileNameSplit[0].ToLower(), stringArray, i);
                                 }
                                 else if (stringArray[i].ToLower() == "static")
                                 {
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
                                     // Check if is function first, then if all filters fail, assume it is a property
                                     if (stringArray[i + 2] == "(")
                                     {
-                                        arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                        arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported);
                                     }
                                     else
                                     {
@@ -423,35 +386,23 @@ namespace SalesforceMetadata
                                             closingChar = ";";
                                         }
 
-                                        arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
+                                        arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, closingChar);
                                     }
                                 }
                                 else if (stringArray[i].ToLower() == "get")
                                 {
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
-                                    arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                    arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported);
                                 }
                                 else if (stringArray[i].ToLower() == "set")
                                 {
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
-                                    arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                    arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported);
                                 }
                                 else
                                 {
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine("");
-                                    Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
-
                                     // Check if is function first, then if all filters fail, assume it is a property
                                     if (stringArray[i + 1] == "(")
                                     {
-                                        arrayPos = parseFunction(folderName, fileNameSplit[0], stringArray, i, isExported);
+                                        arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported);
                                     }
                                     else
                                     {
@@ -468,7 +419,7 @@ namespace SalesforceMetadata
                                             closingChar = ";";
                                         }
 
-                                        arrayPos = parseProperty(folderName, fileNameSplit[0], stringArray, i, isExported, closingChar);
+                                        arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, closingChar);
                                     }
                                 }
                             }
@@ -738,6 +689,25 @@ namespace SalesforceMetadata
                 fileHier.constants.Add(constant);
 
                 this.jsFileHierarchyDict.Add(folderName + "|" + fileName, fileHier);
+            }
+
+
+            // Add the constant value to constToComponent if the value starts with a c-
+            // Example: const TIERING_MARGIN_ACTIVE_TIER_CALCS = 'c-tiering-margin-active-tier-calcs';
+            String[] constValueSplit = constant.constantValue.Split(new Char[] { '\'', '-' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (constValueSplit[0] == "c")
+            {
+                String componentName = "";
+                for (Int32 j = 1; j < constValueSplit.Length; j++)
+                {
+                    componentName = componentName + constValueSplit[j];
+                }
+
+                if (!this.constToComponent.ContainsKey(constant.folderName + "|" + constant.fileName + "|" + constant.constantName))
+                {
+                    this.constToComponent.Add(constant.folderName + "|" + constant.fileName + "|" + constant.constantName, componentName);
+                }
             }
 
             return newPos;
@@ -1799,27 +1769,61 @@ namespace SalesforceMetadata
 
                                     if (breakloop == true) break;
                                 }
-
-                                //String[] splitValue = propertySetToValue.Split(
-
-                                //if(propertySetToValue
-
-                                //Debug.WriteLine("");
-                                if (propertyWhereSet != "" && propertySetToValue != "")
-                                {
-                                    for (Int32 t = 0; t < tabCount + 1; t++)
-                                    {
-                                        sw.Write('\t');
-                                    }
-
-                                    sw.WriteLine(func.folderName + "." + func.fileName + "." + propertyWhereSet + " - " + propertySetToValue);
-                                }
                             }
 
                             if (breakloop == true) break;
                         }
 
+                        //Debug.WriteLine("");
+                        if (propertyWhereSet != "" && propertySetToValue != "")
+                        {
+                            String[] splitValue = propertySetToValue.Split(new Char[] { '.', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
 
+                            if (splitValue.Length == 1)
+                            {
+                                for (Int32 t = 0; t < tabCount + 1; t++)
+                                {
+                                    sw.Write('\t');
+                                }
+
+                                sw.WriteLine(func.folderName + "." + func.fileName + "." + propertyWhereSet + " - " + propertySetToValue);
+                            }
+                            else if (splitValue.Length > 1)
+                            {
+                                Debug.WriteLine("");
+
+                                // Try to find out if the first array item in splitValue is "this", a call to another function in a helper class based on imports
+                                // This will require multiple loops
+
+                                // Then confirm if the length is greater, find out if it is a Constant
+
+                                if (splitValue[0] == "this")
+                                {
+                                    // Find any reference to a local function
+                                    for (Int32 t = 0; t < tabCount + 1; t++)
+                                    {
+                                        sw.Write('\t');
+                                    }
+
+                                    sw.WriteLine(func.folderName + "." + func.fileName + "." + splitValue[1]);
+
+
+                                }
+                                //else
+                                //{
+                                //    for (Int32 t = 0; t < tabCount + 1; t++)
+                                //    {
+                                //        sw.Write('\t');
+                                //    }
+
+                                //    sw.WriteLine(func.folderName + "." + func.fileName + "." + propertyWhereSet + " - " + propertySetToValue);
+                                //}
+                            }
+                        }
+                        else
+                        {
+                            Debug.WriteLine("");
+                        }
 
                     }
                     else if (jsFunctionDictionary.ContainsKey(cf.folderName + "." + cf.fileName + "." + cf.functionName))
@@ -1876,12 +1880,16 @@ namespace SalesforceMetadata
             public String fileName;
             public String constantName;
             public String constantValue;
+            public String componentName;
+            public String variableName;
             public JSConstant()
             {
                 folderName = "";
                 fileName = "";
                 constantName = "";
                 constantValue = "";
+                componentName = "";
+                variableName = "";
             }
         }
 
@@ -1894,6 +1902,7 @@ namespace SalesforceMetadata
             public String propertyValue;
             public Boolean isExported;
             public String whereSet;
+            public String componentReference;
 
             public JSProperty()
             {
@@ -1904,6 +1913,7 @@ namespace SalesforceMetadata
                 propertyValue = "";
                 isExported = false;
                 whereSet = "";
+                componentReference = "";
             }
         }
 

@@ -951,22 +951,6 @@ namespace SalesforceMetadata
                     {
                         braceCount--;
                         setParameters = false;
-
-                        //if (stringArray.Count > i + 2
-                        //    && stringArray[i + 1] != ")"
-                        //    && stringArray[i + 2] != "{"
-                        //    && braceCount == 0)
-                        //{
-                        //    newPos = i + 1;
-                        //    break;
-                        //}
-                        //else if (stringArray.Count > i + 1
-                        //    && stringArray[i + 1] != ")"
-                        //    && braceCount == 0)
-                        //{
-                        //    newPos = i + 1;
-                        //    break;
-                        //}
                     }
                     else if (parenthCount == 0
                         && braceCount == 0)
@@ -1206,7 +1190,7 @@ namespace SalesforceMetadata
                     }
                     else
                     {
-                        //Debug.WriteLine(folderName + "." + fileName + " : " + stringArray[i]);
+                        Debug.WriteLine(i);
                     }
                 }
             }
@@ -1219,6 +1203,129 @@ namespace SalesforceMetadata
                     function.parameters.Add(param);
                 }
             }
+
+            // Loop through the function's properties and return value to determine if there are child function calls
+            // Set the properties to the constants if there is a value assigned to a property
+            foreach(JSProperty prop in function.propertiesSet)
+            {
+                String[] propertyValueSplit = prop.propertyValue.Split(new Char[] { '.', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
+
+                // If the propertyValueSplit appears to be a function, add it to the child function calls
+
+                // Determine if the value being passed in is a Constant, and then set the relationship between the variable and the constant for easier assessment later in the code.
+
+                if (propertyValueSplit.Length == 3)
+                {
+                    if (propertyValueSplit[0] == "this")
+                    {
+                        JSFunction cf = new JSFunction();
+                        cf.folderName = folderName;
+                        cf.fileName = fileName;
+                        cf.functionName = propertyValueSplit[1];
+                        cf.isLocal = true;
+
+                        cf.valueSet = prop.propertyName;
+
+                        String[] parameterSplit = propertyValueSplit[2].Split(',');
+
+                        foreach (String param in parameterSplit)
+                        {
+                            cf.parameters.Add(param);
+                        }
+
+                        function.childFunctions.Add(cf);
+                    }
+                    else
+                    {
+                        JSFunction cf = new JSFunction();
+                        cf.functionName = propertyValueSplit[0];
+
+                        // find the reference component from the imports
+                        String compRef = "";
+
+                        if (importDictionary.ContainsKey(propertyValueSplit[0]))
+                        {
+                            compRef = importDictionary[propertyValueSplit[0]];
+
+                            String[] compRefSplit = compRef.Split('/');
+
+                            // Another Component
+                            if (compRefSplit[0] == "c")
+                            {
+                                cf.folderName = compRefSplit[1];
+                                cf.fileName = compRefSplit[1];
+                            }
+                            // JS file in same component
+                            else if (compRefSplit[0] == ".")
+                            {
+                                cf.folderName = folderName;
+                                cf.fileName = compRefSplit[1];
+                            }
+
+                            cf.valueSet = prop.propertyName;
+
+                            String[] parameterSplit = propertyValueSplit[2].Split(',');
+
+                            foreach (String param in parameterSplit)
+                            {
+                                cf.parameters.Add(param);
+                            }
+
+                            function.childFunctions.Add(cf);
+                        }
+                    }
+                }
+                else if (propertyValueSplit.Length == 2
+                    && prop.propertyValue.Contains("(")
+                    && prop.propertyValue.Contains(")"))
+                {
+                    if (propertyValueSplit[0] == "this")
+                    {
+                        JSFunction cf = new JSFunction();
+                        cf.functionName = propertyValueSplit[1];
+                        cf.folderName = folderName;
+                        cf.fileName = fileName;
+                        cf.isLocal = true;
+
+                        cf.valueSet = prop.propertyName;
+
+                        function.childFunctions.Add(cf);
+                    }
+                    else
+                    {
+                        JSFunction cf = new JSFunction();
+                        cf.functionName = propertyValueSplit[1];
+
+                        // find the reference component from the imports
+                        String compRef = "";
+
+                        if (importDictionary.ContainsKey(propertyValueSplit[0]))
+                        {
+                            compRef = importDictionary[propertyValueSplit[0]];
+
+                            String[] compRefSplit = compRef.Split('/');
+
+                            // Another Component
+                            if (compRefSplit[0] == "c")
+                            {
+                                cf.folderName = compRefSplit[1];
+                                cf.fileName = compRefSplit[1];
+                            }
+                            // JS file in same component
+                            else if (compRefSplit[0] == ".")
+                            {
+                                cf.folderName = folderName;
+                                cf.fileName = compRefSplit[1];
+                            }
+
+                            cf.valueSet = prop.propertyName;
+
+                            function.childFunctions.Add(cf);
+                        }
+                    }
+                }
+            }
+
 
             if (this.jsFileHierarchyDict.ContainsKey(folderName + "|" + fileName))
             {
@@ -1234,7 +1341,7 @@ namespace SalesforceMetadata
                 this.jsFileHierarchyDict.Add(folderName + "|" + fileName, fileHier);
             }
 
-            //return newPos;
+
             return lastBracePos + 1;
         }
 
@@ -1734,98 +1841,98 @@ namespace SalesforceMetadata
                             }
                         }
                     }
-                    else if (cf.componentReferenceVar != "")
-                    {
-                        Debug.WriteLine("");
+                    //else if (cf.componentReferenceVar != "")
+                    //{
+                    //    Debug.WriteLine("");
 
-                        // Find out how the property or value is set
-                        // Loop through the current jsFunctions to find the properties set in those functions
+                    //    // Find out how the property or value is set
+                    //    // Loop through the current jsFunctions to find the properties set in those functions
 
-                        Boolean breakloop = false;
-                        String propertySetToValue = "";
-                        String propertyWhereSet = "";
+                    //    Boolean breakloop = false;
+                    //    String propertySetToValue = "";
+                    //    String propertyWhereSet = "";
 
-                        foreach (String fileHierKey in this.jsFileHierarchyDict.Keys)
-                        {
-                            if (fileHierKey == cf.folderName + "|" + cf.fileName)
-                            {
-                                // Find out where the value is set and how
-                                foreach (JSFunction innerFunction in jsFileHierarchyDict[fileHierKey].functions)
-                                {
-                                    if (fileHierKey == innerFunction.folderName + "|" + innerFunction.fileName)
-                                    {
-                                        foreach (JSProperty innerProperty in innerFunction.propertiesSet)
-                                        {
-                                            if (innerProperty.propertyName == cf.componentReferenceVar)
-                                            {
-                                                propertySetToValue = innerProperty.propertyValue;
-                                                propertyWhereSet = innerProperty.whereSet;
-                                                breakloop = true;
-                                            }
+                    //    foreach (String fileHierKey in this.jsFileHierarchyDict.Keys)
+                    //    {
+                    //        if (fileHierKey == cf.folderName + "|" + cf.fileName)
+                    //        {
+                    //            // Find out where the value is set and how
+                    //            foreach (JSFunction innerFunction in jsFileHierarchyDict[fileHierKey].functions)
+                    //            {
+                    //                if (fileHierKey == innerFunction.folderName + "|" + innerFunction.fileName)
+                    //                {
+                    //                    foreach (JSProperty innerProperty in innerFunction.propertiesSet)
+                    //                    {
+                    //                        if (innerProperty.propertyName == cf.componentReferenceVar)
+                    //                        {
+                    //                            propertySetToValue = innerProperty.propertyValue;
+                    //                            propertyWhereSet = innerProperty.whereSet;
+                    //                            breakloop = true;
+                    //                        }
 
-                                            if (breakloop == true) break;
-                                        }
-                                    }
+                    //                        if (breakloop == true) break;
+                    //                    }
+                    //                }
 
-                                    if (breakloop == true) break;
-                                }
-                            }
+                    //                if (breakloop == true) break;
+                    //            }
+                    //        }
 
-                            if (breakloop == true) break;
-                        }
+                    //        if (breakloop == true) break;
+                    //    }
 
-                        //Debug.WriteLine("");
-                        if (propertyWhereSet != "" && propertySetToValue != "")
-                        {
-                            String[] splitValue = propertySetToValue.Split(new Char[] { '.', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
+                    //    //Debug.WriteLine("");
+                    //    if (propertyWhereSet != "" && propertySetToValue != "")
+                    //    {
+                    //        String[] splitValue = propertySetToValue.Split(new Char[] { '.', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
 
-                            if (splitValue.Length == 1)
-                            {
-                                for (Int32 t = 0; t < tabCount + 1; t++)
-                                {
-                                    sw.Write('\t');
-                                }
+                    //        if (splitValue.Length == 1)
+                    //        {
+                    //            for (Int32 t = 0; t < tabCount + 1; t++)
+                    //            {
+                    //                sw.Write('\t');
+                    //            }
 
-                                sw.WriteLine(func.folderName + "." + func.fileName + "." + propertyWhereSet + " - " + propertySetToValue);
-                            }
-                            else if (splitValue.Length > 1)
-                            {
-                                Debug.WriteLine("");
+                    //            sw.WriteLine(func.folderName + "." + func.fileName + "." + propertyWhereSet + " - " + propertySetToValue);
+                    //        }
+                    //        else if (splitValue.Length > 1)
+                    //        {
+                    //            Debug.WriteLine("");
 
-                                // Try to find out if the first array item in splitValue is "this", a call to another function in a helper class based on imports
-                                // This will require multiple loops
+                    //            // Try to find out if the first array item in splitValue is "this", a call to another function in a helper class based on imports
+                    //            // This will require multiple loops
 
-                                // Then confirm if the length is greater, find out if it is a Constant
+                    //            // Then confirm if the length is greater, find out if it is a Constant
 
-                                if (splitValue[0] == "this")
-                                {
-                                    // Find any reference to a local function
-                                    for (Int32 t = 0; t < tabCount + 1; t++)
-                                    {
-                                        sw.Write('\t');
-                                    }
+                    //            if (splitValue[0] == "this")
+                    //            {
+                    //                // Find any reference to a local function
+                    //                for (Int32 t = 0; t < tabCount + 1; t++)
+                    //                {
+                    //                    sw.Write('\t');
+                    //                }
 
-                                    sw.WriteLine(func.folderName + "." + func.fileName + "." + splitValue[1]);
+                    //                sw.WriteLine(func.folderName + "." + func.fileName + "." + splitValue[1]);
 
 
-                                }
-                                //else
-                                //{
-                                //    for (Int32 t = 0; t < tabCount + 1; t++)
-                                //    {
-                                //        sw.Write('\t');
-                                //    }
+                    //            }
+                    //            //else
+                    //            //{
+                    //            //    for (Int32 t = 0; t < tabCount + 1; t++)
+                    //            //    {
+                    //            //        sw.Write('\t');
+                    //            //    }
 
-                                //    sw.WriteLine(func.folderName + "." + func.fileName + "." + propertyWhereSet + " - " + propertySetToValue);
-                                //}
-                            }
-                        }
-                        else
-                        {
-                            Debug.WriteLine("");
-                        }
+                    //            //    sw.WriteLine(func.folderName + "." + func.fileName + "." + propertyWhereSet + " - " + propertySetToValue);
+                    //            //}
+                    //        }
+                    //    }
+                    //    else
+                    //    {
+                    //        Debug.WriteLine("");
+                    //    }
 
-                    }
+                    //}
                     else if (jsFunctionDictionary.ContainsKey(cf.folderName + "." + cf.fileName + "." + cf.functionName))
                     {
                         JSFunction childFunction = jsFunctionDictionary[cf.folderName + "." + cf.fileName + "." + cf.functionName];

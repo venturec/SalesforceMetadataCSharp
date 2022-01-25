@@ -532,7 +532,6 @@ namespace SalesforceMetadata
                         }
                     }
                 }
-
             }
         }
     }

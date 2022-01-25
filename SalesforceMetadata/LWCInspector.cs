@@ -850,6 +850,8 @@ namespace SalesforceMetadata
 
                 if (newPos == i)
                 {
+                    Debug.WriteLine("853: " + stringArray[i]);
+
                     if (stringArray[i].ToLower() == "@api")
                     {
                         function.functionAnnotation = "@api";
@@ -868,7 +870,7 @@ namespace SalesforceMetadata
                     }
                     else if (stringArray[i].ToLower() == "function")
                     {
-
+                        //Debug.WriteLine("");
                     }
                     else if (skipToBrace == false
                     && stringArray[i].ToLower() == "const")
@@ -994,6 +996,8 @@ namespace SalesforceMetadata
                             Boolean setValue = false;
                             for (Int32 j = newPos; j < stringArray.Count; j++)
                             {
+                                Debug.WriteLine("999: " + stringArray[j]);
+
                                 if (stringArray[j] == "=")
                                 {
                                     setValue = true;
@@ -1004,7 +1008,7 @@ namespace SalesforceMetadata
                                     newPos = j + 1;
                                     break;
                                 }
-                                else if(setValue == true)
+                                else if (setValue == true)
                                 {
                                     setToValue = setToValue + stringArray[j];
                                 }
@@ -1026,6 +1030,8 @@ namespace SalesforceMetadata
                             String setToValue = "";
                             for (Int32 j = newPos; j < stringArray.Count; j++)
                             {
+                                Debug.WriteLine("1033: " + stringArray[j]);
+
                                 if (stringArray[j] == ";")
                                 {
                                     newPos = j + 1;
@@ -1066,6 +1072,8 @@ namespace SalesforceMetadata
                             setParameters = false;
                             for (Int32 j = i; j < stringArray.Count; j++)
                             {
+                                Debug.WriteLine("1075: " + stringArray[j]);
+
                                 if (stringArray[j] == ";")
                                 {
                                     newPos = j + 1;
@@ -1110,21 +1118,43 @@ namespace SalesforceMetadata
                     else if (skipToBrace == false
                         && stringArray[i].ToLower().StartsWith(".then"))
                     {
-                        Int32 thenParenthCount = 0;
                         for (Int32 j = i + 1; j < stringArray.Count; j++)
                         {
+                            Debug.WriteLine("1123: " + stringArray[j]);
+
                             if (stringArray[j] == "(")
                             {
-                                thenParenthCount++;
+                                parenthCount++;
                             }
                             else if (stringArray[j] == ")")
                             {
-                                thenParenthCount--;
+                                parenthCount--;
                             }
-
-                            if (thenParenthCount == 0 && stringArray[j] == ";")
+                            else if (stringArray[j] == "{")
                             {
-                                newPos = j + 1;
+                                braceCount++;
+                                break;
+                            }
+                        }
+                    }
+                    else if (skipToBrace == false
+                        && stringArray[i].ToLower().StartsWith(".catch"))
+                    {
+                        for (Int32 j = i + 1; j < stringArray.Count; j++)
+                        {
+                            Debug.WriteLine("1145: " + stringArray[j]);
+
+                            if (stringArray[j] == "(")
+                            {
+                                parenthCount++;
+                            }
+                            else if (stringArray[j] == ")")
+                            {
+                                parenthCount--;
+                            }
+                            else if (stringArray[j] == "{")
+                            {
+                                braceCount++;
                                 break;
                             }
                         }
@@ -1148,6 +1178,8 @@ namespace SalesforceMetadata
                         setParameters = false;
                         for (Int32 j = i; j < stringArray.Count; j++)
                         {
+                            Debug.WriteLine("1161: " + stringArray[j]);
+
                             if (stringArray[j] == ";")
                             {
                                 newPos = j + 1;
@@ -1190,7 +1222,7 @@ namespace SalesforceMetadata
                     }
                     else
                     {
-                        Debug.WriteLine(i);
+                        Debug.WriteLine("1205: " + i);
                     }
                 }
             }
@@ -1294,7 +1326,7 @@ namespace SalesforceMetadata
                     else
                     {
                         JSFunction cf = new JSFunction();
-                        cf.functionName = propertyValueSplit[1];
+                        cf.functionName = propertyValueSplit[0];
 
                         // find the reference component from the imports
                         String compRef = "";

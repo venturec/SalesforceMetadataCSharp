@@ -436,7 +436,7 @@ namespace SalesforceMetadata
             //Boolean loopJSFileHieararchyDict = true;
 
             // Write the values for both functions and properties to the file
-            Boolean writeToFile = true;
+            //Boolean writeToFile = true;
             writeFunctionsToFile();
 
         }

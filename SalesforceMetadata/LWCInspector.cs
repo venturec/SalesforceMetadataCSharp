@@ -84,7 +84,7 @@ namespace SalesforceMetadata
                 {
                     try
                     {
-                        Console.WriteLine(subDirectoryList[i]);
+                        //Console.WriteLine(subDirectoryList[i]);
 
                         // Get all files in the current directory
                         String[] files = Directory.GetFiles(subDirectoryList[i]);
@@ -151,12 +151,15 @@ namespace SalesforceMetadata
             // Now loop through the LWC JS files to get the call hiearchy
             // get the text values into a List<string> and then add them to the 
             Dictionary<String, List<String>> fileToParsedContent = new Dictionary<String, List<String>>();
+            Boolean writeToFile = true;
             if (jsFiles.Count > 0)
             {
+                StreamWriter swErrorLog = new StreamWriter(this.tbSaveResultsTo.Text + "\\LWCFunctionHierarchyErrors.txt");
+
                 foreach (String fileName in jsFiles)
                 {
-                    Debug.WriteLine("");
-                    Debug.WriteLine("");
+                    swErrorLog.WriteLine("");
+                    swErrorLog.WriteLine("");
 
                     String[] filePathSplit = fileName.Split('\\');
                     String[] fileNameSplit = filePathSplit[filePathSplit.Length - 1].Split('.');
@@ -228,11 +231,11 @@ namespace SalesforceMetadata
 
                     try
                     {
-                        Debug.WriteLine(fileName);
+                        swErrorLog.WriteLine(fileName);
 
                         for (Int32 i = 0; i < stringArray.Count; i++)
                         {
-                            Debug.WriteLine(i.ToString() + " - " + stringArray[i]);
+                            swErrorLog.WriteLine(i.ToString() + " - " + stringArray[i]);
 
                             String closingChar = "";
 
@@ -427,17 +430,21 @@ namespace SalesforceMetadata
                     }
                     catch (Exception parseError)
                     {
-                        MessageBox.Show("Parsing Error in file " + fileName + ". Please check the syntax to make sure each constant, export and/or property has a closing ';'");
+                        swErrorLog.WriteLine("Parsing Error in file " + fileName + ". Please check the syntax to make sure each constant, export and/or property has a closing ';'");
+                        swErrorLog.Close();
+                        writeToFile = false;
+                        break;
                     }
                 }
+
+                swErrorLog.Close();
             }
 
             // Now loop through the jsFileHieararchyDict and associate the calling fumctions to the function itself with a hierarchical value;
             //Boolean loopJSFileHieararchyDict = true;
 
             // Write the values for both functions and properties to the file
-            //Boolean writeToFile = true;
-            writeFunctionsToFile();
+            if(writeToFile == true) writeFunctionsToFile();
 
         }
 
@@ -694,19 +701,22 @@ namespace SalesforceMetadata
 
             // Add the constant value to constToComponent if the value starts with a c-
             // Example: const TIERING_MARGIN_ACTIVE_TIER_CALCS = 'c-tiering-margin-active-tier-calcs';
-            String[] constValueSplit = constant.constantValue.Split(new Char[] { '\'', '-' }, StringSplitOptions.RemoveEmptyEntries);
-
-            if (constValueSplit[0] == "c")
+            if (constant.constantValue != "")
             {
-                String componentName = "";
-                for (Int32 j = 1; j < constValueSplit.Length; j++)
-                {
-                    componentName = componentName + constValueSplit[j];
-                }
+                String[] constValueSplit = constant.constantValue.Split(new Char[] { '\'', '-' }, StringSplitOptions.RemoveEmptyEntries);
 
-                if (!this.constToComponent.ContainsKey(constant.folderName + "|" + constant.fileName + "|" + constant.constantName))
+                if (constValueSplit[0] == "c")
                 {
-                    this.constToComponent.Add(constant.folderName + "|" + constant.fileName + "|" + constant.constantName, componentName);
+                    String componentName = "";
+                    for (Int32 j = 1; j < constValueSplit.Length; j++)
+                    {
+                        componentName = componentName + constValueSplit[j];
+                    }
+
+                    if (!this.constToComponent.ContainsKey(constant.folderName + "|" + constant.fileName + "|" + constant.constantName))
+                    {
+                        this.constToComponent.Add(constant.folderName + "|" + constant.fileName + "|" + constant.constantName, componentName);
+                    }
                 }
             }
 
@@ -1834,8 +1844,6 @@ namespace SalesforceMetadata
                         }
                         else if (importFromSplit[0] == ".")
                         {
-                            //Debug.WriteLine("");
-
                             foreach (String fileHierKey in this.jsFileHierarchyDict.Keys)
                             {
                                 if (fileHierKey == importFromSplit[1] + "|" + importFromSplit[1])

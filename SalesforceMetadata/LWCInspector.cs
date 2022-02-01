@@ -229,8 +229,8 @@ namespace SalesforceMetadata
                     Boolean isExported = false;
                     Int32 arrayPos = 0;
 
-                    try
-                    {
+                    //try
+                    //{
                         swErrorLog.WriteLine(fileName);
 
                         for (Int32 i = 0; i < stringArray.Count; i++)
@@ -403,17 +403,20 @@ namespace SalesforceMetadata
                                 else
                                 {
                                     // Check if is function first, then if all filters fail, assume it is a property
-                                    if (stringArray[i + 1] == "(")
+                                    if (stringArray.Count - 1 >= i + 1
+                                    && stringArray[i + 1] == "(")
                                     {
                                         arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported);
                                     }
                                     else
                                     {
-                                        if (stringArray[i + 2] == "[")
+                                        if (stringArray.Count - 1 >= i + 2 
+                                        && stringArray[i + 2] == "[")
                                         {
                                             closingChar = "]";
                                         }
-                                        else if (stringArray[i + 2] == "{")
+                                        else if (stringArray.Count - 1 >= i + 2
+                                        && stringArray[i + 2] == "{")
                                         {
                                             closingChar = "}";
                                         }
@@ -427,14 +430,14 @@ namespace SalesforceMetadata
                                 }
                             }
                         }
-                    }
-                    catch (Exception parseError)
-                    {
-                        swErrorLog.WriteLine("Parsing Error in file " + fileName + ". Please check the syntax to make sure each constant, export and/or property has a closing ';'");
-                        swErrorLog.Close();
-                        writeToFile = false;
-                        break;
-                    }
+                    //}
+                    //catch (Exception parseError)
+                    //{
+                    //    swErrorLog.WriteLine("Parsing Error in file " + fileName + ". Please check the syntax to make sure each constant, export and/or property has a closing ';'");
+                    //    swErrorLog.Close();
+                    //    writeToFile = false;
+                    //    break;
+                    //}
                 }
 
                 swErrorLog.Close();
@@ -1055,6 +1058,58 @@ namespace SalesforceMetadata
 
                             prop.propertyValue = setToValue;
                             function.propertiesSet.Add(prop);
+                        }
+                        else if (splitPropertyOrFunction.Length == 3
+                            && splitPropertyOrFunction[2] == "querySelector")
+                        {
+                            JSFunction cf = new JSFunction();
+
+                            String parameters = "";
+                            setParameters = false;
+                            for (Int32 j = i; j < stringArray.Count; j++)
+                            {
+                                Debug.WriteLine("1075: " + stringArray[j]);
+
+                                if (stringArray[j] == ";")
+                                {
+                                    newPos = j + 1;
+                                    break;
+                                }
+                                else if (stringArray[j] == "(")
+                                {
+                                    setParameters = true;
+                                }
+                                else if (stringArray[j] == ")")
+                                {
+                                    setParameters = false;
+
+                                    newPos = j + 1;
+                                    break;
+                                }
+                                else if (setParameters == true)
+                                {
+                                    String[] parameterSplit = stringArray[j].Split('.');
+
+                                    if (parameterSplit.Length == 1)
+                                    {
+                                        parameters = parameters + parameterSplit[0];
+                                    }
+                                    else
+                                    {
+                                        parameters = parameters + parameterSplit[1];
+                                    }
+                                }
+                            }
+
+                            cf.functionName = "querySelector";
+
+                            String[] parametersArray = parameters.Split(',');
+                            foreach (String param in parametersArray)
+                            {
+                                cf.parameters.Add(param);
+                            }
+
+                            function.childFunctions.Add(cf);
                         }
                         else
                         {
@@ -1687,26 +1742,37 @@ namespace SalesforceMetadata
         {
             StreamWriter sw = new StreamWriter(this.tbSaveResultsTo.Text + "\\LWCFunctionHierarchy.txt");
 
+            // Key = JS function name => Value = wire call
+            Dictionary<String, String> jsFunctionToWireFunction = new Dictionary<String, String>();
+            Dictionary<String, JSFunction> jsLocalFunctionDictionary = new Dictionary<String, JSFunction>();
+            Dictionary<String, JSFunction> jsExternalFunctionDictionary = new Dictionary<String, JSFunction>();
+
             foreach (String compFile in this.jsFileHierarchyDict.Keys)
             {
-                // Key = JS function name => Value = wire call
-                Dictionary<String, String> jsFunctionToWireFunction = new Dictionary<String, String>();
-                Dictionary<String, JSFunction> jsFunctionDictionary = new Dictionary<String, JSFunction>();
                 foreach (JSFunction func in this.jsFileHierarchyDict[compFile].functions)
                 {
-                    if (func.isWireFunction == true)
+                    if (func.isWireFunction == true
+                        && !jsFunctionToWireFunction.ContainsKey(func.folderName + "." + func.fileName + "." + func.functionWithWireAnnotated))
                     {
-                        jsFunctionToWireFunction.Add(func.functionWithWireAnnotated, func.functionName);
+                        jsFunctionToWireFunction.Add(func.folderName + "." + func.fileName + "." + func.functionWithWireAnnotated, func.functionName);
                     }
-                    else
+                    else if (func.isLocal == true
+                        && !jsLocalFunctionDictionary.ContainsKey(func.folderName + "." + func.fileName + "." + func.functionName))
                     {
-                        if (!jsFunctionDictionary.ContainsKey(func.folderName + "." + func.fileName + "." + func.functionName))
-                        {
-                            jsFunctionDictionary.Add(func.folderName + "." + func.fileName + "." + func.functionName, func);
-                        }
+                        jsLocalFunctionDictionary.Add(func.folderName + "." + func.fileName + "." + func.functionName, func);
+                    }
+                    else if (func.isLocal == false
+                        && func.isGetter == false
+                        && func.isSetter == false
+                        && !jsExternalFunctionDictionary.ContainsKey(func.folderName + "." + func.fileName + "." + func.functionName))
+                    {
+                        jsExternalFunctionDictionary.Add(func.folderName + "." + func.fileName + "." + func.functionName, func);
                     }
                 }
+            }
 
+            foreach(String compFile in this.jsFileHierarchyDict.Keys)
+            {
                 // Now write the function hierarchy to the file
                 foreach (JSFunction func in this.jsFileHierarchyDict[compFile].functions)
                 {
@@ -1715,7 +1781,7 @@ namespace SalesforceMetadata
 
                     // Write the function in this process as the parent function. 
                     // If there are related function calls, then write those related functions incrementing the tab
-                    writeSubFunctions(jsFunctionToWireFunction, jsFunctionDictionary, func, 1, sw);
+                    writeSubFunctions(jsFunctionToWireFunction, jsLocalFunctionDictionary, jsExternalFunctionDictionary, func, 1, sw);
                 }
             }
 
@@ -1724,7 +1790,8 @@ namespace SalesforceMetadata
         }
 
         private void writeSubFunctions(Dictionary<String, String> jsFunctionToWireFunction,
-                                       Dictionary<String, JSFunction> jsFunctionDictionary,
+                                       Dictionary<String, JSFunction> jsLocalFunctionDictionary,
+                                       Dictionary<String, JSFunction> jsExternalFunctionDictionary,
                                        JSFunction func,
                                        Int32 tabCount,
                                        StreamWriter sw)
@@ -1844,15 +1911,22 @@ namespace SalesforceMetadata
                         }
                         else if (importFromSplit[0] == ".")
                         {
+                            String importKey = (importFromSplit[1] + "|" + importFromSplit[1]).ToLower();
+
                             foreach (String fileHierKey in this.jsFileHierarchyDict.Keys)
                             {
-                                if (fileHierKey == importFromSplit[1] + "|" + importFromSplit[1])
+                                if (fileHierKey == importKey)
                                 {
                                     foreach (JSFunction cfunc in jsFileHierarchyDict[fileHierKey].functions)
                                     {
                                         if (cfunc.functionName == cf.functionName)
                                         {
-                                            writeSubFunctions(jsFunctionToWireFunction, jsFunctionDictionary, cfunc, tabCount + 1, sw);
+                                            writeSubFunctions(jsFunctionToWireFunction,
+                                                              jsLocalFunctionDictionary,
+                                                              jsExternalFunctionDictionary,
+                                                              cfunc,
+                                                              tabCount + 1,
+                                                              sw);
                                             break;
                                         }
                                     }
@@ -1863,15 +1937,22 @@ namespace SalesforceMetadata
                         }
                         else if (importFromSplit[0] == "c")
                         {
+                            String importKey = (importFromSplit[1] + "|" + importFromSplit[1]).ToLower();
+
                             foreach (String fileHierKey in this.jsFileHierarchyDict.Keys)
                             {
-                                if (fileHierKey == importFromSplit[1] + "|" + importFromSplit[1])
+                                if (fileHierKey == importKey)
                                 {
                                     foreach (JSFunction cfunc in jsFileHierarchyDict[fileHierKey].functions)
                                     {
                                         if (cfunc.functionName == cf.functionName)
                                         {
-                                            writeSubFunctions(jsFunctionToWireFunction, jsFunctionDictionary, cfunc, tabCount + 1, sw);
+                                            writeSubFunctions(jsFunctionToWireFunction,
+                                                              jsLocalFunctionDictionary,
+                                                              jsExternalFunctionDictionary,
+                                                              cfunc,
+                                                              tabCount + 1,
+                                                              sw);
                                             break;
                                         }
                                     }
@@ -1881,102 +1962,56 @@ namespace SalesforceMetadata
                             }
                         }
                     }
-                    //else if (cf.componentReferenceVar != "")
-                    //{
-                    //    Debug.WriteLine("");
-
-                    //    // Find out how the property or value is set
-                    //    // Loop through the current jsFunctions to find the properties set in those functions
-
-                    //    Boolean breakloop = false;
-                    //    String propertySetToValue = "";
-                    //    String propertyWhereSet = "";
-
-                    //    foreach (String fileHierKey in this.jsFileHierarchyDict.Keys)
-                    //    {
-                    //        if (fileHierKey == cf.folderName + "|" + cf.fileName)
-                    //        {
-                    //            // Find out where the value is set and how
-                    //            foreach (JSFunction innerFunction in jsFileHierarchyDict[fileHierKey].functions)
-                    //            {
-                    //                if (fileHierKey == innerFunction.folderName + "|" + innerFunction.fileName)
-                    //                {
-                    //                    foreach (JSProperty innerProperty in innerFunction.propertiesSet)
-                    //                    {
-                    //                        if (innerProperty.propertyName == cf.componentReferenceVar)
-                    //                        {
-                    //                            propertySetToValue = innerProperty.propertyValue;
-                    //                            propertyWhereSet = innerProperty.whereSet;
-                    //                            breakloop = true;
-                    //                        }
-
-                    //                        if (breakloop == true) break;
-                    //                    }
-                    //                }
-
-                    //                if (breakloop == true) break;
-                    //            }
-                    //        }
-
-                    //        if (breakloop == true) break;
-                    //    }
-
-                    //    //Debug.WriteLine("");
-                    //    if (propertyWhereSet != "" && propertySetToValue != "")
-                    //    {
-                    //        String[] splitValue = propertySetToValue.Split(new Char[] { '.', '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
-
-                    //        if (splitValue.Length == 1)
-                    //        {
-                    //            for (Int32 t = 0; t < tabCount + 1; t++)
-                    //            {
-                    //                sw.Write('\t');
-                    //            }
-
-                    //            sw.WriteLine(func.folderName + "." + func.fileName + "." + propertyWhereSet + " - " + propertySetToValue);
-                    //        }
-                    //        else if (splitValue.Length > 1)
-                    //        {
-                    //            Debug.WriteLine("");
-
-                    //            // Try to find out if the first array item in splitValue is "this", a call to another function in a helper class based on imports
-                    //            // This will require multiple loops
-
-                    //            // Then confirm if the length is greater, find out if it is a Constant
-
-                    //            if (splitValue[0] == "this")
-                    //            {
-                    //                // Find any reference to a local function
-                    //                for (Int32 t = 0; t < tabCount + 1; t++)
-                    //                {
-                    //                    sw.Write('\t');
-                    //                }
-
-                    //                sw.WriteLine(func.folderName + "." + func.fileName + "." + splitValue[1]);
-
-
-                    //            }
-                    //            //else
-                    //            //{
-                    //            //    for (Int32 t = 0; t < tabCount + 1; t++)
-                    //            //    {
-                    //            //        sw.Write('\t');
-                    //            //    }
-
-                    //            //    sw.WriteLine(func.folderName + "." + func.fileName + "." + propertyWhereSet + " - " + propertySetToValue);
-                    //            //}
-                    //        }
-                    //    }
-                    //    else
-                    //    {
-                    //        Debug.WriteLine("");
-                    //    }
-
-                    //}
-                    else if (jsFunctionDictionary.ContainsKey(cf.folderName + "." + cf.fileName + "." + cf.functionName))
+                    else if (cf.componentReferenceVar != "")
                     {
-                        JSFunction childFunction = jsFunctionDictionary[cf.folderName + "." + cf.fileName + "." + cf.functionName];
-                        writeSubFunctions(jsFunctionToWireFunction, jsFunctionDictionary, childFunction, tabCount + 1, sw);
+                        sw.WriteLine(cf.folderName + "." + cf.fileName + "." + cf.functionName + " - " + cf.componentReferenceVar);
+
+                    }
+                    else if (cf.isLocal
+                             && jsLocalFunctionDictionary.ContainsKey(cf.folderName + "." + cf.fileName + "." + cf.functionName))
+                    {
+                        JSFunction childFunction = jsLocalFunctionDictionary[cf.folderName + "." + cf.fileName + "." + cf.functionName];
+                        writeSubFunctions(jsFunctionToWireFunction,
+                                          jsLocalFunctionDictionary,
+                                          jsExternalFunctionDictionary,
+                                          childFunction,
+                                          tabCount + 1,
+                                          sw);
+                    }
+                    else if (cf.isLocal == false
+                             && jsExternalFunctionDictionary.ContainsKey(cf.folderName + "." + cf.fileName + "." + cf.functionName))
+                    {
+                        //Debug.WriteLine("");
+                        JSFunction childFunction = jsExternalFunctionDictionary[cf.folderName + "." + cf.fileName + "." + cf.functionName];
+                        writeSubFunctions(jsFunctionToWireFunction,
+                                          jsLocalFunctionDictionary,
+                                          jsExternalFunctionDictionary,
+                                          childFunction,
+                                          tabCount + 1,
+                                          sw);
+                    }
+                    else
+                    {
+                        for (Int32 t = 0; t < tabCount + 1; t++)
+                        {
+                            sw.Write('\t');
+                        }
+
+                        sw.Write(cf.folderName + "." + cf.fileName + "." + cf.functionName + "(");
+                        String functParams = "";
+                        if (cf.parameters.Count > 0)
+                        {
+                            foreach (String param in cf.parameters)
+                            {
+                                functParams = functParams + param + ", ";
+                            }
+
+                            functParams = functParams.Substring(0, functParams.Length - 2);
+                        }
+
+                        sw.Write(functParams + ")");
+
+                        sw.Write(Environment.NewLine);
                     }
                 }
             }

@@ -145,8 +145,6 @@ namespace SalesforceMetadata
                 // TODO: Add some error handling here
             }
 
-            //}
-
             return data;
         }
 

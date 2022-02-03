@@ -49,25 +49,6 @@ namespace SalesforceMetadata
             }
         }
 
-        private void btnGetMetadataTypesToOrg_Click(object sender, EventArgs e)
-        {
-            this.lbToMetadataTypes.Items.Clear();
-            this.reqOrg = UtilityClass.REQUESTINGORG.TOORG;
-
-            if (this.cmbToOrgUsername.Text == "" || this.tbToOrgPassword.Text == "")
-            {
-                MessageBox.Show("Please enter your credentials before continuing");
-            }
-            else
-            {
-                SalesforceCredentials.toOrgUsername = this.cmbToOrgUsername.Text;
-                SalesforceCredentials.toOrgPassword = this.tbToOrgPassword.Text;
-                SalesforceCredentials.toOrgSecurityToken = this.tbToOrgSecurityToken.Text;
-                getMetadataTypes(this.cmbToOrgUsername.Text);
-            }
-        }
-
-
         private void getMetadataTypes(String userName)
         {
             Boolean loginSuccess = SalesforceCredentials.salesforceLogin(reqOrg);
@@ -113,20 +94,6 @@ namespace SalesforceMetadata
                     }
                 }
             }
-            else if (reqOrg == UtilityClass.REQUESTINGORG.TOORG)
-            {
-                foreach (String s in metadataObjectsList)
-                {
-                    if (defObjectList.Contains(s))
-                    {
-                        lbToMetadataTypes.Items.Add(s, true);
-                    }
-                    else
-                    {
-                        lbToMetadataTypes.Items.Add(s, false);
-                    }
-                }
-            }
 
             SalesforceCredentials.salesforceLogout();
             btnGetMetadataTypes.Enabled = false;
@@ -154,8 +121,6 @@ namespace SalesforceMetadata
             }
 
             this.btnGetMetadataTypes.Enabled = true;
-            this.cbSelectAll.Checked = false;
-            this.cbSelectNone.Checked = false;
             this.tbPassword.Text = "";
             this.lbMetadataTypes.Items.Clear();
         }
@@ -244,99 +209,6 @@ namespace SalesforceMetadata
                                 || ctrl.Name == "btnToOrgRetrieveMetadataWPkg")
                         {
                             ctrl.Enabled = false;
-                        }
-                    }
-
-                    sfMetadataStep2.Show();
-                    sfMetadataStep2.Location = this.Location;
-                }
-            }
-        }
-
-
-        private void btnRetrieveMetadataFromDeployTo_Click(object sender, EventArgs e)
-        {
-            if (this.cmbToOrgUsername.Text == "" || this.tbToOrgPassword.Text == "")
-            {
-                MessageBox.Show("Please enter the Deploy To credentials before continuing");
-            }
-            else
-            {
-                this.reqOrg = UtilityClass.REQUESTINGORG.TOORG;
-
-                SalesforceCredentials.toOrgUsername = this.cmbToOrgUsername.Text;
-                SalesforceCredentials.toOrgPassword = this.tbToOrgPassword.Text;
-                SalesforceCredentials.toOrgSecurityToken = this.tbToOrgSecurityToken.Text;
-
-                CheckedListBox.CheckedItemCollection selItems = this.lbToMetadataTypes.CheckedItems;
-
-                // Validate if the form is already opened and bring it to the front if it is.
-                Boolean isAlreadyOpen = false;
-                FormCollection fc = Application.OpenForms;
-                foreach (System.Windows.Forms.Form openFrm in fc)
-                {
-                    if (openFrm.Name == "SalesforceMetadataStep2")
-                    {
-                        SalesforceMetadataStep2 sfMetadataStep2 = (SalesforceMetadataStep2)Application.OpenForms["SalesforceMetadataStep2"];
-                        sfMetadataStep2.selectedItems.Clear();
-
-                        foreach (String si in selItems)
-                        {
-                            sfMetadataStep2.selectedItems.Add(si);
-                        }
-
-                        foreach (Control ctrl in openFrm.Controls)
-                        {
-                            if (ctrl.Name == "tbFromOrgSaveLocation"
-                                || ctrl.Name == "btnRetrieveMetadataFromSelected"
-                                || ctrl.Name == "tbExistingPackageXml"
-                                || ctrl.Name == "btnRetrieveMetadata")
-                            {
-                                ctrl.Enabled = false;
-                            }
-                            else if (ctrl.Name == "tbToOrgSaveLocation"
-                                    || ctrl.Name == "btnToOrgRetrieveMetadata"
-                                    || ctrl.Name == "tbToOrgExistingPackageXml"
-                                    || ctrl.Name == "btnToOrgRetrieveMetadataWPkg")
-                            {
-                                ctrl.Enabled = true;
-                            }
-                        }
-
-                        openFrm.Show();
-                        openFrm.Location = this.Location;
-                        openFrm.BringToFront();
-                        isAlreadyOpen = true;
-                    }
-                }
-
-                if (isAlreadyOpen == false)
-                {
-                    SalesforceMetadataStep2 sfMetadataStep2 = new SalesforceMetadataStep2();
-                    sfMetadataStep2.btnRetrieveMetadataFromSelected.Enabled = false;
-                    sfMetadataStep2.btnToOrgRetrieveMetadata.Enabled = false;
-                    sfMetadataStep2.selectedItems = new List<String>();
-
-                    foreach (String si in selItems)
-                    {
-                        sfMetadataStep2.selectedItems.Add(si);
-                    }
-
-                    foreach (Control ctrl in sfMetadataStep2.Controls)
-                    {
-                        if (ctrl.Name == "tbFromOrgSaveLocation"
-                            || ctrl.Name == "btnRetrieveMetadataFromSelected"
-                            || ctrl.Name == "tbExistingPackageXml"
-                            || ctrl.Name == "btnRetrieveMetadata")
-                        {
-                            ctrl.Enabled = false;
-                        }
-                        else if (ctrl.Name == "tbToOrgSaveLocation"
-                                || ctrl.Name == "btnToOrgRetrieveMetadata"
-                                || ctrl.Name == "tbToOrgExistingPackageXml"
-                                || ctrl.Name == "btnToOrgRetrieveMetadataWPkg")
-                        {
-                            ctrl.Enabled = true;
                         }
                     }
 
@@ -451,7 +323,6 @@ namespace SalesforceMetadata
             foreach (String un in SalesforceCredentials.usernameWsdlUrl.Keys)
             {
                 this.cmbUserName.Items.Add(un);
-                this.cmbToOrgUsername.Items.Add(un);
             }
         }
 
@@ -616,7 +487,7 @@ namespace SalesforceMetadata
 
         private void btnDeploy_Click(object sender, EventArgs e)
         {
-            if (this.cmbToOrgUsername.Text == "" || this.tbToOrgPassword.Text == "")
+            if (this.cmbUserName.Text == "" || this.cmbUserName.Text == "")
             {
                 MessageBox.Show("Please enter your credentials before continuing");
             }
@@ -625,9 +496,9 @@ namespace SalesforceMetadata
                 SalesforceCredentials.fromOrgUsername = null;
                 SalesforceCredentials.fromOrgPassword = null;
                 SalesforceCredentials.fromOrgSecurityToken = null;
-                SalesforceCredentials.toOrgUsername = this.cmbToOrgUsername.Text;
-                SalesforceCredentials.toOrgPassword = this.tbToOrgPassword.Text;
-                SalesforceCredentials.toOrgSecurityToken = this.tbToOrgSecurityToken.Text;
+                SalesforceCredentials.toOrgUsername = this.cmbUserName.Text;
+                SalesforceCredentials.toOrgPassword = this.tbPassword.Text;
+                SalesforceCredentials.toOrgSecurityToken = this.tbSecurityToken.Text;
 
                 // Validate if the form is already opened and bring it to the front if it is.
                 Boolean isAlreadyOpen = false;
@@ -646,7 +517,7 @@ namespace SalesforceMetadata
                 if (isAlreadyOpen == false)
                 {
                     DeployMetadata dm = new DeployMetadata();
-                    dm.isProduction = SalesforceCredentials.isProduction[this.cmbToOrgUsername.Text];
+                    dm.isProduction = SalesforceCredentials.isProduction[this.cmbUserName.Text];
                     dm.Show();
                     dm.Location = this.Location;
                 }
@@ -657,9 +528,7 @@ namespace SalesforceMetadata
         private void btnDevSBSeeding_Click(object sender, EventArgs e)
         {
             if (this.cmbUserName.Text == ""
-                || this.tbPassword.Text == ""
-                || this.cmbToOrgUsername.Text == ""
-                || this.tbToOrgPassword.Text == "")
+                || this.tbPassword.Text == "")
             {
                 MessageBox.Show("Please enter credentials in the From/To areas before continuing");
             }
@@ -691,89 +560,6 @@ namespace SalesforceMetadata
             }
         }
 
-        private void cbSelectAll_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox cb = (CheckBox)sender;
-
-            if (cb.Checked == true)
-            {
-                this.cbSelectNone.Checked = false;
-                lbMetadataTypes.Items.Clear();
-                foreach (String s in metadataObjectsList)
-                {
-                    if (s == "Report"
-                        || s == "ReportType"
-                        || s == "ContentAsset")
-                    {
-                        lbMetadataTypes.Items.Add(s, false);
-                    }
-                    else
-                    {
-                        lbMetadataTypes.Items.Add(s, true);
-                    }
-                }
-            }
-        }
-
-        private void cbSelectNone_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox cb = (CheckBox)sender;
-            if(cb.Checked == true)
-            {
-                this.cbSelectAll.Checked = false;
-                lbMetadataTypes.Items.Clear();
-                foreach (String s in metadataObjectsList)
-                {
-                    lbMetadataTypes.Items.Add(s, false);
-                }
-            }
-        }
-
-        private void cmbToOrgUsername_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.tbToOrgSecurityToken.Text = "";
-            if (this.usernameToSecurityToken.ContainsKey(this.cmbToOrgUsername.Text))
-            {
-                this.tbToOrgSecurityToken.Text = this.usernameToSecurityToken[cmbToOrgUsername.Text];
-            }
-
-            this.btnGetMetadataTypesToOrg.Enabled = true;
-            this.cbToSelectAll.Checked = false;
-            this.cbToSelectNone.Checked = false;
-            this.tbToOrgPassword.Text = "";
-            this.lbToMetadataTypes.Items.Clear();
-        }
-
-
-
-        private void cbToSelectAll_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox cb = (CheckBox)sender;
-
-            if (cb.Checked == true)
-            {
-                this.cbToSelectNone.Checked = false;
-                lbToMetadataTypes.Items.Clear();
-                foreach (String s in metadataObjectsList)
-                {
-                    lbToMetadataTypes.Items.Add(s, true);
-                }
-            }
-        }
-
-        private void cbToSelectNone_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox cb = (CheckBox)sender;
-            if (cb.Checked == true)
-            {
-                this.cbToSelectAll.Checked = false;
-                lbToMetadataTypes.Items.Clear();
-                foreach (String s in metadataObjectsList)
-                {
-                    lbToMetadataTypes.Items.Add(s, false);
-                }
-            }
-        }
 
         private void btnFromGenerateToolingChangeReport_Click(object sender, EventArgs e)
         {
@@ -799,6 +585,59 @@ namespace SalesforceMetadata
             ConfigurationWorkbook cw = new ConfigurationWorkbook();
 
             cw.Show();
+        }
+
+        private void btnSelectAll_Click(object sender, EventArgs e)
+        {
+            lbMetadataTypes.Items.Clear();
+            foreach (String s in metadataObjectsList)
+            {
+                if (s == "Report"
+                    || s == "ReportType"
+                    || s == "ContentAsset")
+                {
+                    lbMetadataTypes.Items.Add(s, false);
+                }
+                else
+                {
+                    lbMetadataTypes.Items.Add(s, true);
+                }
+            }
+        }
+
+        private void btnSelectNone_Click(object sender, EventArgs e)
+        {
+            lbMetadataTypes.Items.Clear();
+            foreach (String s in metadataObjectsList)
+            {
+                lbMetadataTypes.Items.Add(s, false);
+            }
+        }
+
+        private void btnSelectDefaults_Click(object sender, EventArgs e)
+        {
+            lbMetadataTypes.Items.Clear();
+
+            List<String> defObjectList = new List<String>();
+            if (SalesforceCredentials.defaultWsdlObjects.ContainsKey(this.cmbUserName.Text))
+            {
+                defObjectList = SalesforceCredentials.defaultWsdlObjects[this.cmbUserName.Text];
+            }
+
+            if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
+            {
+                foreach (String s in metadataObjectsList)
+                {
+                    if (defObjectList.Contains(s))
+                    {
+                        lbMetadataTypes.Items.Add(s, true);
+                    }
+                    else
+                    {
+                        lbMetadataTypes.Items.Add(s, false);
+                    }
+                }
+            }
         }
     }
 }

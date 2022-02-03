@@ -43,37 +43,27 @@
             this.btnDeleteDebugLogs = new System.Windows.Forms.Button();
             this.btnDeploy = new System.Windows.Forms.Button();
             this.fromOrgGroup = new System.Windows.Forms.GroupBox();
-            this.deployToGroup = new System.Windows.Forms.GroupBox();
-            this.lblToOrgSecurityToken = new System.Windows.Forms.Label();
-            this.lblToOrgPassword = new System.Windows.Forms.Label();
-            this.lblToOrgUsername = new System.Windows.Forms.Label();
-            this.tbToOrgSecurityToken = new System.Windows.Forms.TextBox();
-            this.tbToOrgPassword = new System.Windows.Forms.TextBox();
-            this.cmbToOrgUsername = new System.Windows.Forms.ComboBox();
-            this.SectionSplitter = new System.Windows.Forms.TextBox();
             this.btnDevSBSeeding = new System.Windows.Forms.Button();
-            this.btnRetrieveMetadataFromDeployTo = new System.Windows.Forms.Button();
             this.btnSobjectFieldInspector = new System.Windows.Forms.Button();
-            this.cbSelectAll = new System.Windows.Forms.CheckBox();
-            this.cbSelectNone = new System.Windows.Forms.CheckBox();
-            this.lbToMetadataTypes = new System.Windows.Forms.CheckedListBox();
-            this.btnGetMetadataTypesToOrg = new System.Windows.Forms.Button();
-            this.cbToSelectNone = new System.Windows.Forms.CheckBox();
-            this.cbToSelectAll = new System.Windows.Forms.CheckBox();
             this.btnFromGenerateToolingChangeReport = new System.Windows.Forms.Button();
             this.btnConfigurationWorkbook = new System.Windows.Forms.Button();
+            this.btnSelectAll = new System.Windows.Forms.Button();
+            this.lblSelectAll = new System.Windows.Forms.Label();
+            this.btnSelectNone = new System.Windows.Forms.Button();
+            this.lblSelectNone = new System.Windows.Forms.Label();
+            this.btnSelectDefaults = new System.Windows.Forms.Button();
+            this.lblSelectDefaults = new System.Windows.Forms.Label();
             this.fromOrgGroup.SuspendLayout();
-            this.deployToGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnGetMetadataTypes
             // 
             this.btnGetMetadataTypes.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.btnGetMetadataTypes.Location = new System.Drawing.Point(508, 214);
+            this.btnGetMetadataTypes.Location = new System.Drawing.Point(822, 214);
             this.btnGetMetadataTypes.Margin = new System.Windows.Forms.Padding(2);
             this.btnGetMetadataTypes.Name = "btnGetMetadataTypes";
             this.btnGetMetadataTypes.Size = new System.Drawing.Size(165, 25);
-            this.btnGetMetadataTypes.TabIndex = 6;
+            this.btnGetMetadataTypes.TabIndex = 10;
             this.btnGetMetadataTypes.Text = "Get Metadata Types";
             this.btnGetMetadataTypes.UseVisualStyleBackColor = false;
             this.btnGetMetadataTypes.Click += new System.EventHandler(this.btnGetMetadataTypes_Click);
@@ -97,8 +87,8 @@
             this.lbMetadataTypes.Location = new System.Drawing.Point(26, 214);
             this.lbMetadataTypes.Margin = new System.Windows.Forms.Padding(2);
             this.lbMetadataTypes.Name = "lbMetadataTypes";
-            this.lbMetadataTypes.Size = new System.Drawing.Size(451, 454);
-            this.lbMetadataTypes.TabIndex = 5;
+            this.lbMetadataTypes.Size = new System.Drawing.Size(725, 499);
+            this.lbMetadataTypes.TabIndex = 9;
             // 
             // tbPassword
             // 
@@ -173,11 +163,11 @@
             // btnRetrieveMetadata
             // 
             this.btnRetrieveMetadata.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.btnRetrieveMetadata.Location = new System.Drawing.Point(508, 248);
+            this.btnRetrieveMetadata.Location = new System.Drawing.Point(1012, 214);
             this.btnRetrieveMetadata.Margin = new System.Windows.Forms.Padding(2);
             this.btnRetrieveMetadata.Name = "btnRetrieveMetadata";
             this.btnRetrieveMetadata.Size = new System.Drawing.Size(165, 25);
-            this.btnRetrieveMetadata.TabIndex = 7;
+            this.btnRetrieveMetadata.TabIndex = 11;
             this.btnRetrieveMetadata.Text = "Retrieve Metadata Package";
             this.btnRetrieveMetadata.UseVisualStyleBackColor = false;
             this.btnRetrieveMetadata.Click += new System.EventHandler(this.btnRetrieveMetadata_Click);
@@ -185,7 +175,7 @@
             // btnDeleteDebugLogs
             // 
             this.btnDeleteDebugLogs.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.btnDeleteDebugLogs.Location = new System.Drawing.Point(508, 638);
+            this.btnDeleteDebugLogs.Location = new System.Drawing.Point(821, 685);
             this.btnDeleteDebugLogs.Margin = new System.Windows.Forms.Padding(2);
             this.btnDeleteDebugLogs.Name = "btnDeleteDebugLogs";
             this.btnDeleteDebugLogs.Size = new System.Drawing.Size(165, 28);
@@ -197,10 +187,10 @@
             // btnDeploy
             // 
             this.btnDeploy.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.btnDeploy.Location = new System.Drawing.Point(1221, 698);
+            this.btnDeploy.Location = new System.Drawing.Point(822, 374);
             this.btnDeploy.Name = "btnDeploy";
-            this.btnDeploy.Size = new System.Drawing.Size(164, 23);
-            this.btnDeploy.TabIndex = 20;
+            this.btnDeploy.Size = new System.Drawing.Size(165, 23);
+            this.btnDeploy.TabIndex = 15;
             this.btnDeploy.Text = "Deploy";
             this.btnDeploy.UseVisualStyleBackColor = false;
             this.btnDeploy.Click += new System.EventHandler(this.btnDeploy_Click);
@@ -222,233 +212,119 @@
             this.fromOrgGroup.TabStop = false;
             this.fromOrgGroup.Text = "From Org";
             // 
-            // deployToGroup
-            // 
-            this.deployToGroup.BackColor = System.Drawing.SystemColors.Control;
-            this.deployToGroup.Controls.Add(this.lblToOrgSecurityToken);
-            this.deployToGroup.Controls.Add(this.lblToOrgPassword);
-            this.deployToGroup.Controls.Add(this.lblToOrgUsername);
-            this.deployToGroup.Controls.Add(this.tbToOrgSecurityToken);
-            this.deployToGroup.Controls.Add(this.tbToOrgPassword);
-            this.deployToGroup.Controls.Add(this.cmbToOrgUsername);
-            this.deployToGroup.Location = new System.Drawing.Point(745, 45);
-            this.deployToGroup.Name = "deployToGroup";
-            this.deployToGroup.Size = new System.Drawing.Size(523, 115);
-            this.deployToGroup.TabIndex = 13;
-            this.deployToGroup.TabStop = false;
-            this.deployToGroup.Text = "Deploy To ";
-            // 
-            // lblToOrgSecurityToken
-            // 
-            this.lblToOrgSecurityToken.AutoSize = true;
-            this.lblToOrgSecurityToken.Location = new System.Drawing.Point(41, 83);
-            this.lblToOrgSecurityToken.Name = "lblToOrgSecurityToken";
-            this.lblToOrgSecurityToken.Size = new System.Drawing.Size(117, 13);
-            this.lblToOrgSecurityToken.TabIndex = 4;
-            this.lblToOrgSecurityToken.Text = "Security Token (to Org)";
-            // 
-            // lblToOrgPassword
-            // 
-            this.lblToOrgPassword.AutoSize = true;
-            this.lblToOrgPassword.Location = new System.Drawing.Point(67, 56);
-            this.lblToOrgPassword.Name = "lblToOrgPassword";
-            this.lblToOrgPassword.Size = new System.Drawing.Size(91, 13);
-            this.lblToOrgPassword.TabIndex = 2;
-            this.lblToOrgPassword.Text = "Password (to Org)";
-            // 
-            // lblToOrgUsername
-            // 
-            this.lblToOrgUsername.AutoSize = true;
-            this.lblToOrgUsername.Location = new System.Drawing.Point(67, 33);
-            this.lblToOrgUsername.Name = "lblToOrgUsername";
-            this.lblToOrgUsername.Size = new System.Drawing.Size(93, 13);
-            this.lblToOrgUsername.TabIndex = 0;
-            this.lblToOrgUsername.Text = "Username (to Org)";
-            this.lblToOrgUsername.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // tbToOrgSecurityToken
-            // 
-            this.tbToOrgSecurityToken.Location = new System.Drawing.Point(190, 80);
-            this.tbToOrgSecurityToken.Margin = new System.Windows.Forms.Padding(2);
-            this.tbToOrgSecurityToken.Name = "tbToOrgSecurityToken";
-            this.tbToOrgSecurityToken.Size = new System.Drawing.Size(215, 20);
-            this.tbToOrgSecurityToken.TabIndex = 5;
-            this.tbToOrgSecurityToken.UseSystemPasswordChar = true;
-            // 
-            // tbToOrgPassword
-            // 
-            this.tbToOrgPassword.Location = new System.Drawing.Point(190, 56);
-            this.tbToOrgPassword.Margin = new System.Windows.Forms.Padding(2);
-            this.tbToOrgPassword.Name = "tbToOrgPassword";
-            this.tbToOrgPassword.PasswordChar = '*';
-            this.tbToOrgPassword.Size = new System.Drawing.Size(215, 20);
-            this.tbToOrgPassword.TabIndex = 3;
-            // 
-            // cmbToOrgUsername
-            // 
-            this.cmbToOrgUsername.DropDownWidth = 325;
-            this.cmbToOrgUsername.FormattingEnabled = true;
-            this.cmbToOrgUsername.Location = new System.Drawing.Point(190, 30);
-            this.cmbToOrgUsername.Margin = new System.Windows.Forms.Padding(2);
-            this.cmbToOrgUsername.Name = "cmbToOrgUsername";
-            this.cmbToOrgUsername.Size = new System.Drawing.Size(300, 21);
-            this.cmbToOrgUsername.TabIndex = 1;
-            this.cmbToOrgUsername.SelectedIndexChanged += new System.EventHandler(this.cmbToOrgUsername_SelectedIndexChanged);
-            // 
-            // SectionSplitter
-            // 
-            this.SectionSplitter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.SectionSplitter.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.SectionSplitter.Enabled = false;
-            this.SectionSplitter.Location = new System.Drawing.Point(696, -4);
-            this.SectionSplitter.Multiline = true;
-            this.SectionSplitter.Name = "SectionSplitter";
-            this.SectionSplitter.Size = new System.Drawing.Size(22, 742);
-            this.SectionSplitter.TabIndex = 12;
-            // 
             // btnDevSBSeeding
             // 
             this.btnDevSBSeeding.BackColor = System.Drawing.SystemColors.Control;
-            this.btnDevSBSeeding.Location = new System.Drawing.Point(1222, 637);
+            this.btnDevSBSeeding.Location = new System.Drawing.Point(822, 318);
             this.btnDevSBSeeding.Margin = new System.Windows.Forms.Padding(2);
             this.btnDevSBSeeding.Name = "btnDevSBSeeding";
             this.btnDevSBSeeding.Size = new System.Drawing.Size(165, 28);
-            this.btnDevSBSeeding.TabIndex = 19;
+            this.btnDevSBSeeding.TabIndex = 14;
             this.btnDevSBSeeding.Text = "Open Dev Sandbox Seeding Form";
             this.btnDevSBSeeding.UseVisualStyleBackColor = false;
             this.btnDevSBSeeding.Click += new System.EventHandler(this.btnDevSBSeeding_Click);
             // 
-            // btnRetrieveMetadataFromDeployTo
-            // 
-            this.btnRetrieveMetadataFromDeployTo.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.btnRetrieveMetadataFromDeployTo.Location = new System.Drawing.Point(1220, 242);
-            this.btnRetrieveMetadataFromDeployTo.Margin = new System.Windows.Forms.Padding(2);
-            this.btnRetrieveMetadataFromDeployTo.Name = "btnRetrieveMetadataFromDeployTo";
-            this.btnRetrieveMetadataFromDeployTo.Size = new System.Drawing.Size(165, 24);
-            this.btnRetrieveMetadataFromDeployTo.TabIndex = 18;
-            this.btnRetrieveMetadataFromDeployTo.Text = "Retrieve Metadata Package";
-            this.btnRetrieveMetadataFromDeployTo.UseVisualStyleBackColor = false;
-            this.btnRetrieveMetadataFromDeployTo.Click += new System.EventHandler(this.btnRetrieveMetadataFromDeployTo_Click);
-            // 
             // btnSobjectFieldInspector
             // 
             this.btnSobjectFieldInspector.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.btnSobjectFieldInspector.Location = new System.Drawing.Point(508, 596);
+            this.btnSobjectFieldInspector.Location = new System.Drawing.Point(822, 425);
             this.btnSobjectFieldInspector.Name = "btnSobjectFieldInspector";
-            this.btnSobjectFieldInspector.Size = new System.Drawing.Size(164, 27);
-            this.btnSobjectFieldInspector.TabIndex = 10;
+            this.btnSobjectFieldInspector.Size = new System.Drawing.Size(165, 27);
+            this.btnSobjectFieldInspector.TabIndex = 16;
             this.btnSobjectFieldInspector.Text = "Sobject Field Inspector";
             this.btnSobjectFieldInspector.UseVisualStyleBackColor = false;
             this.btnSobjectFieldInspector.Click += new System.EventHandler(this.btnSobjectFieldInspector_Click);
             // 
-            // cbSelectAll
-            // 
-            this.cbSelectAll.AutoSize = true;
-            this.cbSelectAll.Location = new System.Drawing.Point(296, 188);
-            this.cbSelectAll.Name = "cbSelectAll";
-            this.cbSelectAll.Size = new System.Drawing.Size(70, 17);
-            this.cbSelectAll.TabIndex = 3;
-            this.cbSelectAll.Text = "Select All";
-            this.cbSelectAll.UseVisualStyleBackColor = true;
-            this.cbSelectAll.CheckedChanged += new System.EventHandler(this.cbSelectAll_CheckedChanged);
-            // 
-            // cbSelectNone
-            // 
-            this.cbSelectNone.AutoSize = true;
-            this.cbSelectNone.Location = new System.Drawing.Point(392, 188);
-            this.cbSelectNone.Name = "cbSelectNone";
-            this.cbSelectNone.Size = new System.Drawing.Size(85, 17);
-            this.cbSelectNone.TabIndex = 4;
-            this.cbSelectNone.Text = "Select None";
-            this.cbSelectNone.UseVisualStyleBackColor = true;
-            this.cbSelectNone.CheckedChanged += new System.EventHandler(this.cbSelectNone_CheckedChanged);
-            // 
-            // lbToMetadataTypes
-            // 
-            this.lbToMetadataTypes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.lbToMetadataTypes.FormattingEnabled = true;
-            this.lbToMetadataTypes.HorizontalScrollbar = true;
-            this.lbToMetadataTypes.Location = new System.Drawing.Point(745, 214);
-            this.lbToMetadataTypes.Margin = new System.Windows.Forms.Padding(2);
-            this.lbToMetadataTypes.Name = "lbToMetadataTypes";
-            this.lbToMetadataTypes.Size = new System.Drawing.Size(451, 454);
-            this.lbToMetadataTypes.TabIndex = 16;
-            // 
-            // btnGetMetadataTypesToOrg
-            // 
-            this.btnGetMetadataTypesToOrg.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.btnGetMetadataTypesToOrg.Location = new System.Drawing.Point(1220, 214);
-            this.btnGetMetadataTypesToOrg.Margin = new System.Windows.Forms.Padding(2);
-            this.btnGetMetadataTypesToOrg.Name = "btnGetMetadataTypesToOrg";
-            this.btnGetMetadataTypesToOrg.Size = new System.Drawing.Size(165, 24);
-            this.btnGetMetadataTypesToOrg.TabIndex = 17;
-            this.btnGetMetadataTypesToOrg.Text = "Get Metadata Types";
-            this.btnGetMetadataTypesToOrg.UseVisualStyleBackColor = false;
-            this.btnGetMetadataTypesToOrg.Click += new System.EventHandler(this.btnGetMetadataTypesToOrg_Click);
-            // 
-            // cbToSelectNone
-            // 
-            this.cbToSelectNone.AutoSize = true;
-            this.cbToSelectNone.Location = new System.Drawing.Point(1103, 192);
-            this.cbToSelectNone.Name = "cbToSelectNone";
-            this.cbToSelectNone.Size = new System.Drawing.Size(85, 17);
-            this.cbToSelectNone.TabIndex = 15;
-            this.cbToSelectNone.Text = "Select None";
-            this.cbToSelectNone.UseVisualStyleBackColor = true;
-            this.cbToSelectNone.CheckedChanged += new System.EventHandler(this.cbToSelectNone_CheckedChanged);
-            // 
-            // cbToSelectAll
-            // 
-            this.cbToSelectAll.AutoSize = true;
-            this.cbToSelectAll.Location = new System.Drawing.Point(1007, 192);
-            this.cbToSelectAll.Name = "cbToSelectAll";
-            this.cbToSelectAll.Size = new System.Drawing.Size(70, 17);
-            this.cbToSelectAll.TabIndex = 14;
-            this.cbToSelectAll.Text = "Select All";
-            this.cbToSelectAll.UseVisualStyleBackColor = true;
-            this.cbToSelectAll.CheckedChanged += new System.EventHandler(this.cbToSelectAll_CheckedChanged);
-            // 
             // btnFromGenerateToolingChangeReport
             // 
-            this.btnFromGenerateToolingChangeReport.Location = new System.Drawing.Point(507, 305);
+            this.btnFromGenerateToolingChangeReport.Location = new System.Drawing.Point(822, 266);
             this.btnFromGenerateToolingChangeReport.Name = "btnFromGenerateToolingChangeReport";
             this.btnFromGenerateToolingChangeReport.Size = new System.Drawing.Size(165, 25);
-            this.btnFromGenerateToolingChangeReport.TabIndex = 8;
+            this.btnFromGenerateToolingChangeReport.TabIndex = 12;
             this.btnFromGenerateToolingChangeReport.Text = "Generate Tooling Report";
             this.btnFromGenerateToolingChangeReport.UseVisualStyleBackColor = true;
             this.btnFromGenerateToolingChangeReport.Click += new System.EventHandler(this.btnFromGenerateToolingChangeReport_Click);
             // 
             // btnConfigurationWorkbook
             // 
-            this.btnConfigurationWorkbook.Location = new System.Drawing.Point(508, 336);
+            this.btnConfigurationWorkbook.Location = new System.Drawing.Point(1012, 266);
             this.btnConfigurationWorkbook.Name = "btnConfigurationWorkbook";
             this.btnConfigurationWorkbook.Size = new System.Drawing.Size(165, 25);
-            this.btnConfigurationWorkbook.TabIndex = 9;
+            this.btnConfigurationWorkbook.TabIndex = 13;
             this.btnConfigurationWorkbook.Text = "Configuration Workbook";
             this.btnConfigurationWorkbook.UseVisualStyleBackColor = true;
             this.btnConfigurationWorkbook.Click += new System.EventHandler(this.btnConfigurationWorkbook_Click);
+            // 
+            // btnSelectAll
+            // 
+            this.btnSelectAll.Location = new System.Drawing.Point(311, 188);
+            this.btnSelectAll.Name = "btnSelectAll";
+            this.btnSelectAll.Size = new System.Drawing.Size(18, 17);
+            this.btnSelectAll.TabIndex = 3;
+            this.btnSelectAll.UseVisualStyleBackColor = true;
+            this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
+            // 
+            // lblSelectAll
+            // 
+            this.lblSelectAll.AutoSize = true;
+            this.lblSelectAll.Location = new System.Drawing.Point(335, 192);
+            this.lblSelectAll.Name = "lblSelectAll";
+            this.lblSelectAll.Size = new System.Drawing.Size(51, 13);
+            this.lblSelectAll.TabIndex = 4;
+            this.lblSelectAll.Text = "Select All";
+            // 
+            // btnSelectNone
+            // 
+            this.btnSelectNone.Location = new System.Drawing.Point(428, 188);
+            this.btnSelectNone.Name = "btnSelectNone";
+            this.btnSelectNone.Size = new System.Drawing.Size(18, 17);
+            this.btnSelectNone.TabIndex = 5;
+            this.btnSelectNone.UseVisualStyleBackColor = true;
+            this.btnSelectNone.Click += new System.EventHandler(this.btnSelectNone_Click);
+            // 
+            // lblSelectNone
+            // 
+            this.lblSelectNone.AutoSize = true;
+            this.lblSelectNone.Location = new System.Drawing.Point(452, 192);
+            this.lblSelectNone.Name = "lblSelectNone";
+            this.lblSelectNone.Size = new System.Drawing.Size(66, 13);
+            this.lblSelectNone.TabIndex = 6;
+            this.lblSelectNone.Text = "Select None";
+            // 
+            // btnSelectDefaults
+            // 
+            this.btnSelectDefaults.Location = new System.Drawing.Point(565, 188);
+            this.btnSelectDefaults.Name = "btnSelectDefaults";
+            this.btnSelectDefaults.Size = new System.Drawing.Size(18, 17);
+            this.btnSelectDefaults.TabIndex = 7;
+            this.btnSelectDefaults.UseVisualStyleBackColor = true;
+            this.btnSelectDefaults.Click += new System.EventHandler(this.btnSelectDefaults_Click);
+            // 
+            // lblSelectDefaults
+            // 
+            this.lblSelectDefaults.AutoSize = true;
+            this.lblSelectDefaults.Location = new System.Drawing.Point(589, 192);
+            this.lblSelectDefaults.Name = "lblSelectDefaults";
+            this.lblSelectDefaults.Size = new System.Drawing.Size(79, 13);
+            this.lblSelectDefaults.TabIndex = 8;
+            this.lblSelectDefaults.Text = "Select Defaults";
             // 
             // SalesforceMetadataStep1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.ClientSize = new System.Drawing.Size(1397, 733);
+            this.ClientSize = new System.Drawing.Size(1221, 733);
+            this.Controls.Add(this.lblSelectDefaults);
+            this.Controls.Add(this.btnSelectDefaults);
+            this.Controls.Add(this.lblSelectNone);
+            this.Controls.Add(this.btnSelectNone);
+            this.Controls.Add(this.lblSelectAll);
+            this.Controls.Add(this.btnSelectAll);
             this.Controls.Add(this.btnConfigurationWorkbook);
             this.Controls.Add(this.btnFromGenerateToolingChangeReport);
-            this.Controls.Add(this.cbToSelectNone);
-            this.Controls.Add(this.cbToSelectAll);
-            this.Controls.Add(this.btnGetMetadataTypesToOrg);
-            this.Controls.Add(this.lbToMetadataTypes);
-            this.Controls.Add(this.cbSelectNone);
-            this.Controls.Add(this.cbSelectAll);
             this.Controls.Add(this.btnSobjectFieldInspector);
-            this.Controls.Add(this.btnRetrieveMetadataFromDeployTo);
             this.Controls.Add(this.btnDevSBSeeding);
-            this.Controls.Add(this.SectionSplitter);
-            this.Controls.Add(this.deployToGroup);
             this.Controls.Add(this.fromOrgGroup);
             this.Controls.Add(this.btnDeploy);
             this.Controls.Add(this.btnDeleteDebugLogs);
@@ -463,8 +339,6 @@
             this.Text = "Salesforce Metadata";
             this.fromOrgGroup.ResumeLayout(false);
             this.fromOrgGroup.PerformLayout();
-            this.deployToGroup.ResumeLayout(false);
-            this.deployToGroup.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -485,25 +359,16 @@
         private System.Windows.Forms.Button btnDeleteDebugLogs;
         private System.Windows.Forms.Button btnDeploy;
         private System.Windows.Forms.GroupBox fromOrgGroup;
-        private System.Windows.Forms.GroupBox deployToGroup;
-        private System.Windows.Forms.Label lblToOrgSecurityToken;
-        private System.Windows.Forms.Label lblToOrgPassword;
-        private System.Windows.Forms.Label lblToOrgUsername;
-        private System.Windows.Forms.TextBox tbToOrgSecurityToken;
-        private System.Windows.Forms.TextBox tbToOrgPassword;
-        private System.Windows.Forms.ComboBox cmbToOrgUsername;
-        private System.Windows.Forms.TextBox SectionSplitter;
         private System.Windows.Forms.Button btnDevSBSeeding;
-        private System.Windows.Forms.Button btnRetrieveMetadataFromDeployTo;
         private System.Windows.Forms.Button btnSobjectFieldInspector;
-        private System.Windows.Forms.CheckBox cbSelectAll;
-        private System.Windows.Forms.CheckBox cbSelectNone;
-        private System.Windows.Forms.CheckedListBox lbToMetadataTypes;
-        private System.Windows.Forms.Button btnGetMetadataTypesToOrg;
-        private System.Windows.Forms.CheckBox cbToSelectNone;
-        private System.Windows.Forms.CheckBox cbToSelectAll;
         private System.Windows.Forms.Button btnFromGenerateToolingChangeReport;
         private System.Windows.Forms.Button btnConfigurationWorkbook;
+        private System.Windows.Forms.Button btnSelectAll;
+        private System.Windows.Forms.Label lblSelectAll;
+        private System.Windows.Forms.Button btnSelectNone;
+        private System.Windows.Forms.Label lblSelectNone;
+        private System.Windows.Forms.Button btnSelectDefaults;
+        private System.Windows.Forms.Label lblSelectDefaults;
     }
 }
 

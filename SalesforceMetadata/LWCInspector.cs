@@ -228,8 +228,6 @@ namespace SalesforceMetadata
                     //{
                         for (Int32 i = 0; i < stringArray.Count; i++)
                         {
-                            String closingChar = "";
-
                             if (arrayPos < i) arrayPos = i;
 
                             if (arrayPos > stringArray.Count - 1) break;
@@ -271,39 +269,13 @@ namespace SalesforceMetadata
                                     }
                                     else
                                     {
-                                        if (stringArray[i + 3] == "[")
-                                        {
-                                            closingChar = "]";
-                                        }
-                                        else if (stringArray[i + 3] == "{")
-                                        {
-                                            closingChar = "}";
-                                        }
-                                        else
-                                        {
-                                            closingChar = ";";
-                                        }
-
-                                        arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, closingChar, swLog);
+                                        arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
                                     }
                                 }
                                 else if (stringArray[i].ToLower() == "@track")
                                 {
-                                    if (stringArray[i + 3] == "[")
-                                    {
-                                        closingChar = "]";
-                                    }
-                                    else if (stringArray[i + 3] == "{")
-                                    {
-                                        closingChar = "}";
-                                    }
-                                    else
-                                    {
-                                        closingChar = ";";
-                                    }
-
                                     // I believe this is a variable / property
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, closingChar, swLog);
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
                                 }
                                 else if (stringArray[i].ToLower() == "@wire")
                                 {
@@ -339,20 +311,7 @@ namespace SalesforceMetadata
                                 }
                                 else if (stringArray[i].ToLower() == "let")
                                 {
-                                    if (stringArray[i + 3] == "[")
-                                    {
-                                        closingChar = "]";
-                                    }
-                                    else if (stringArray[i + 3] == "{")
-                                    {
-                                        closingChar = "}";
-                                    }
-                                    else
-                                    {
-                                        closingChar = ";";
-                                    }
-
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, closingChar, swLog);
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
                                 }
                                 else if (stringArray[i].ToLower() == "import")
                                 {
@@ -367,20 +326,7 @@ namespace SalesforceMetadata
                                     }
                                     else
                                     {
-                                        if (stringArray[i + 3] == "[")
-                                        {
-                                            closingChar = "]";
-                                        }
-                                        else if (stringArray[i + 3] == "{")
-                                        {
-                                            closingChar = "}";
-                                        }
-                                        else
-                                        {
-                                            closingChar = ";";
-                                        }
-
-                                        arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, closingChar, swLog);
+                                        arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
                                     }
                                 }
                                 else if (stringArray[i].ToLower() == "get")
@@ -401,22 +347,7 @@ namespace SalesforceMetadata
                                     }
                                     else
                                     {
-                                        if (stringArray.Count - 1 >= i + 2 
-                                        && stringArray[i + 2] == "[")
-                                        {
-                                            closingChar = "]";
-                                        }
-                                        else if (stringArray.Count - 1 >= i + 2
-                                        && stringArray[i + 2] == "{")
-                                        {
-                                            closingChar = "}";
-                                        }
-                                        else
-                                        {
-                                            closingChar = ";";
-                                        }
-
-                                        arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, closingChar, swLog);
+                                        arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
                                     }
                                 }
                             }
@@ -626,11 +557,14 @@ namespace SalesforceMetadata
 
         private Int32 parseConstant(String folderName, String fileName, List<String> stringArray, Int32 characterPos, StreamWriter swLog)
         {
-            swLog.Write(folderName + "." + fileName + '\t');
+            swLog.Write(folderName + "." + fileName + '\t' + "Constant\t");
 
             JSConstant constant = new JSConstant();
             constant.folderName = folderName;
             constant.fileName = fileName;
+
+            Int32 braceCount = 0;
+            Int32 bracketCount = 0;
 
             Int32 newPos = characterPos;
             String constVal = "";
@@ -638,7 +572,9 @@ namespace SalesforceMetadata
             {
                 swLog.Write(stringArray[i] + " ");
 
-                if (stringArray[i] == ";")
+                if (stringArray[i] == ";"
+                    && braceCount == 0
+                    && bracketCount == 0)
                 {
                     if (constVal != "")
                     {
@@ -648,6 +584,22 @@ namespace SalesforceMetadata
 
                     newPos = i + 1;
                     break;
+                }
+                else if (stringArray[i] == "{")
+                {
+                    braceCount++;
+                }
+                else if (stringArray[i] == "}")
+                {
+                    braceCount--;
+                }
+                else if (stringArray[i] == "[")
+                {
+                    bracketCount++;
+                }
+                else if (stringArray[i] == "]")
+                {
+                    bracketCount--;
                 }
                 else if (stringArray[i].ToLower() == "const")
                 {
@@ -725,7 +677,7 @@ namespace SalesforceMetadata
 
         private Int32 parseExport(String folderName, String fileName, List<String> stringArray, Int32 characterPos, StreamWriter swLog)
         {
-            swLog.Write(folderName + "." + fileName + '\t');
+            swLog.Write(folderName + "." + fileName + '\t' + "Export\t");
 
             Int32 braceCount = 0;
 
@@ -798,7 +750,7 @@ namespace SalesforceMetadata
 
         private Int32 parseFunction(String folderName, String fileName, List<String> stringArray, Int32 characterPos, Boolean isExported, StreamWriter swLog)
         {
-            swLog.Write(folderName + "." + fileName + '\t');
+            swLog.Write(folderName + "." + fileName + '\t' + "Function\t");
 
             JSFunction function = new JSFunction();
             function.folderName = folderName;
@@ -945,29 +897,29 @@ namespace SalesforceMetadata
                         skipToSemiColon = false;
                     }
                     else if (skipToBrace == false
-                             && stringArray[i].ToLower() == "("
+                             && stringArray[i] == "("
                              && braceCount == 0)
                     {
                         parenthCount++;
                         setParameters = true;
                     }
                     else if (skipToBrace == false
-                             && stringArray[i].ToLower() == "(")
+                             && stringArray[i] == "(")
                     {
                         parenthCount++;
                     }
                     else if (skipToBrace == false
-                             && stringArray[i].ToLower() == ")")
+                             && stringArray[i] == ")")
                     {
                         parenthCount--;
                         setParameters = false;
                     }
-                    else if (stringArray[i].ToLower() == "{")
+                    else if (stringArray[i] == "{")
                     {
                         skipToBrace = false;
                         braceCount++;
                     }
-                    else if (stringArray[i].ToLower() == "}")
+                    else if (stringArray[i] == "}")
                     {
                         braceCount--;
                         setParameters = false;
@@ -1110,7 +1062,7 @@ namespace SalesforceMetadata
 
                             function.childFunctions.Add(cf);
                         }
-                        else
+                        else if (stringArray[i + 1] == "(")
                         {
                             JSFunction cf = new JSFunction();
                             cf.folderName = folderName;
@@ -1175,6 +1127,19 @@ namespace SalesforceMetadata
                             }
 
                             function.childFunctions.Add(cf);
+                        }
+                        else
+                        {
+                            // Do nothing.
+
+                            // It must ABSOLUTELY be a property or something else at this point after all of the checks above. Right????  I'm sure of it! I'm sure of it! :D
+                            // JSProperty prop = new JSProperty();
+                            // prop.folderName = folderName;
+                            // prop.fileName = fileName;
+                            // prop.propertyName = splitPropertyOrFunction[1];
+                            // prop.whereSet = function.functionName;
+
+                            // function.propertiesSet.Add(prop);
                         }
                     }
                     else if (skipToBrace == false
@@ -1440,7 +1405,7 @@ namespace SalesforceMetadata
 
         private Int32 parseImport(String folderName, String fileName, List<String> stringArray, Int32 characterPos, StreamWriter swLog)
         {
-            swLog.Write(folderName + "." + fileName + '\t');
+            swLog.Write(folderName + "." + fileName + '\t' + "Import\t");
 
             JSImport import = new JSImport();
             import.folderName = folderName;
@@ -1569,9 +1534,9 @@ namespace SalesforceMetadata
             return newPos;
         }
 
-        private Int32 parseProperty(String folderName, String fileName, List<String> stringArray, Int32 characterPos, Boolean isExported, String closingChar, StreamWriter swLog)
+        private Int32 parseProperty(String folderName, String fileName, List<String> stringArray, Int32 characterPos, Boolean isExported, StreamWriter swLog)
         {
-            swLog.Write(folderName + "." + fileName + '\t');
+            swLog.Write(folderName + "." + fileName + '\t' + "Property\t");
 
             JSProperty property = new JSProperty();
             property.folderName = folderName;
@@ -1579,6 +1544,8 @@ namespace SalesforceMetadata
             property.isExported = isExported;
 
             Int32 newPos = characterPos;
+            Int32 braceCount = 0;
+            Int32 bracketCount = 0;
 
             Boolean setPropertyValue = false;
             String propertyName = "";
@@ -1592,7 +1559,58 @@ namespace SalesforceMetadata
 
                 if (newPos == i)
                 {
-                    if (stringArray[i].ToLower() == "@api")
+                    if (stringArray[i] == ";"
+                        && braceCount == 0
+                        && bracketCount == 0)
+                    {
+                        property.propertyName = propertyName;
+                        property.propertyValue = propertyValue;
+
+                        setPropertyValue = false;
+
+                        propertyName = "";
+                        propertyValue = "";
+
+                        newPos = i + 1;
+                        break;
+                    }
+                    else if (stringArray[i] == "{")
+                    {
+                        braceCount++;
+                        propertyValue = propertyValue + stringArray[i] + " ";
+                    }
+                    else if (stringArray[i] == "}")
+                    {
+                        braceCount--;
+                        propertyValue = propertyValue + stringArray[i] + " ";
+
+                        if (braceCount == 0
+                            && bracketCount == 0)
+                        {
+                            property.propertyName = propertyName;
+                            property.propertyValue = propertyValue;
+
+                            setPropertyValue = false;
+
+                            propertyName = "";
+                            propertyValue = "";
+
+                            newPos = i + 1;
+                            break;
+                        }
+
+                    }
+                    else if (stringArray[i] == "[")
+                    {
+                        bracketCount++;
+                        propertyValue = propertyValue + stringArray[i] + " ";
+                    }
+                    else if (stringArray[i] == "]")
+                    {
+                        bracketCount--;
+                        propertyValue = propertyValue + stringArray[i] + " ";
+                    }
+                    else if (stringArray[i].ToLower() == "@api")
                     {
                         property.propertyAnnotation = "@api";
                     }
@@ -1604,47 +1622,30 @@ namespace SalesforceMetadata
                         || stringArray[i] == "=="
                         || stringArray[i] == "===")
                     {
-                        propertyName = stringArray[i - 1];
-                        propertyValue = stringArray[i + 1];
-
-                        setPropertyValue = true;
-
-                        newPos = i + 2;
+                        if (setPropertyValue == false)
+                        {
+                            setPropertyValue = true;
+                        }
+                        else
+                        {
+                            propertyValue = propertyValue + stringArray[i] + " ";
+                        }
                     }
                     else if (stringArray[i] == "!="
                         || stringArray[i] == "!==")
                     {
-                        propertyName = stringArray[i - 1];
-                        propertyValue = stringArray[i + 1];
-
-                        setPropertyValue = true;
-
-                        newPos = i + 2;
-                    }
-                    else if (stringArray[i] == closingChar)
-                    {
-                        property.propertyName = propertyName;
-                        property.propertyValue = propertyValue;
-
-                        setPropertyValue = false;
-
-                        propertyName = "";
-                        propertyValue = "";
-
-                        if (stringArray[i + 1] == ";")
+                        if (setPropertyValue == false)
                         {
-                            newPos = i + 2;
+                            setPropertyValue = true;
                         }
                         else
                         {
-                            newPos = i + 1;
+                            propertyValue = propertyValue + stringArray[i] + " ";
                         }
-
-                        break;
                     }
                     else if (setPropertyValue)
                     {
-                        propertyValue = propertyValue + stringArray[i];
+                        propertyValue = propertyValue + stringArray[i] + " ";
                     }
                     else
                     {
@@ -1674,7 +1675,7 @@ namespace SalesforceMetadata
 
         private Int32 parseWireFunction(String folderName, String fileName, List<String> stringArray, Int32 characterPos, Boolean isExported, StreamWriter swLog)
         {
-            swLog.Write(folderName + "." + fileName + '\t');
+            swLog.Write(folderName + "." + fileName + '\t' + "Wire\t");
 
             JSFunction function = new JSFunction();
             function.folderName = folderName;
@@ -1910,12 +1911,12 @@ namespace SalesforceMetadata
 
                     if (cf.importFrom != "")
                     {
-                        sw.Write((tabCount + 1).ToString());
-
                         String[] importFromSplit = cf.importFrom.Split('/');
                         if (importFromSplit[0] == "@salesforce"
                             && importFromSplit.Length == 3)
                         {
+                            sw.Write((tabCount + 1).ToString());
+
                             for (Int32 t = 0; t < tabCount + 1; t++)
                             {
                                 sw.Write('\t');
@@ -1926,6 +1927,8 @@ namespace SalesforceMetadata
                         else if (importFromSplit[0] == "@salesforce"
                             && importFromSplit.Length == 2)
                         {
+                            sw.Write((tabCount + 1).ToString());
+
                             for (Int32 t = 0; t < tabCount + 1; t++)
                             {
                                 sw.Write('\t');
@@ -1935,6 +1938,8 @@ namespace SalesforceMetadata
                         }
                         else if (importFromSplit[0] == "lightning")
                         {
+                            sw.Write((tabCount + 1).ToString());
+
                             for (Int32 t = 0; t < tabCount + 1; t++)
                             {
                                 sw.Write('\t');
@@ -1995,7 +2000,7 @@ namespace SalesforceMetadata
                     }
                     else if (cf.componentReferenceVar != "")
                     {
-                        sw.Write(tabCount.ToString());
+                        sw.Write((tabCount + 1).ToString() + '\t');
                         sw.WriteLine(cf.folderName + "." + cf.fileName + "." + cf.functionName + " - " + cf.componentReferenceVar);
                     }
                     else if (cf.isLocal

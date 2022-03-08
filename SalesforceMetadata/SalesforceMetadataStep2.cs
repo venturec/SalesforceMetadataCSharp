@@ -143,22 +143,40 @@ namespace SalesforceMetadata
                     mdqFolderQuery.type = "EmailFolder";
                     mdqFolderList.Add(mdqFolderQuery);
 
-                    List<FileProperties> sfFolderResults = new List<FileProperties>();
+                    List<FileProperties> sfEmailFolders = new List<FileProperties>();
+                    List<FileProperties> sfEmailFiles = new List<FileProperties>();
 
                     ms = SalesforceCredentials.getMetadataService(reqOrg);
                     FileProperties[] sfFolders = ms.listMetadata(mdqFolderList.ToArray(), Convert.ToDouble(Properties.Settings.Default.DefaultAPI));
 
                     foreach (FileProperties fp in sfFolders)
                     {
-                        sfFolderResults.Add(fp);
+                        sfEmailFolders.Add(fp);
                     }
 
-                    if (sfFolderResults.Count > 0)
+                    QueryResult qr = new QueryResult();
+                    qr = SalesforceCredentials.fromOrgSS.query("SELECT Folder.DeveloperName, DeveloperName FROM EmailTemplate");
+
+                    sObject[] sobjRecordsToProcess = qr.records;
+
+                    foreach (sObject s in sobjRecordsToProcess)
                     {
-                        foreach (FileProperties fp in sfFolderResults)
+                        if (s.Any == null) break;
+
+                        String emailFileName = "";
+
+                        if (s.Any[0].InnerText == "")
                         {
-                            packageXmlSB.Append("<members>" + fp.fileName + "</members>" + Environment.NewLine);
+                            emailFileName = "unfiled$public";
                         }
+                        else
+                        {
+                            emailFileName = s.Any[0].InnerText;
+                        }
+
+                        emailFileName = emailFileName + "/" + s.Any[1].InnerText;
+
+                        packageXmlSB.Append("<members>" + emailFileName + "</members>" + Environment.NewLine);
                     }
 
                     packageXmlSB.Append("<name>EmailTemplate</name>" + Environment.NewLine);
@@ -558,8 +576,8 @@ namespace SalesforceMetadata
 
         private FileProperties[] getFolderItems(List<ListMetadataQuery> mdqFolderList, MetadataService ms)
         {
-            FileProperties[] sfReports = ms.listMetadata(mdqFolderList.ToArray(), Convert.ToDouble(Properties.Settings.Default.DefaultAPI));
-            return sfReports;
+            FileProperties[] sfFolderItems = ms.listMetadata(mdqFolderList.ToArray(), Convert.ToDouble(Properties.Settings.Default.DefaultAPI));
+            return sfFolderItems;
         }
 
 

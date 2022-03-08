@@ -116,7 +116,7 @@
             this.tbDecryptedText.Multiline = true;
             this.tbDecryptedText.Name = "tbDecryptedText";
             this.tbDecryptedText.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbDecryptedText.Size = new System.Drawing.Size(790, 336);
+            this.tbDecryptedText.Size = new System.Drawing.Size(790, 327);
             this.tbDecryptedText.TabIndex = 10;
             this.tbDecryptedText.TextChanged += new System.EventHandler(this.tbDecryptedText_TextChanged);
             // 
@@ -155,7 +155,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(918, 735);
+            this.ClientSize = new System.Drawing.Size(918, 726);
             this.Controls.Add(this.btnDecryptText);
             this.Controls.Add(this.btnSaveEncryptedText);
             this.Controls.Add(this.lblDecryptedText);

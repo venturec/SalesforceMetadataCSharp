@@ -589,12 +589,12 @@ namespace SalesforceMetadata
 
         private void btnSelectAll_Click(object sender, EventArgs e)
         {
+            HashSet<String> bypassItems = new HashSet<string> { "Report", "ReportType", "ContentAsset", "Profile", "PermissionSet", "PermissionSetGroup" };
+
             lbMetadataTypes.Items.Clear();
             foreach (String s in metadataObjectsList)
             {
-                if (s == "Report"
-                    || s == "ReportType"
-                    || s == "ContentAsset")
+                if (bypassItems.Contains(s))
                 {
                     lbMetadataTypes.Items.Add(s, false);
                 }

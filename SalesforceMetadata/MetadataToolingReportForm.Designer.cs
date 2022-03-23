@@ -31,11 +31,12 @@
             this.tbMetadataFolderLocation = new System.Windows.Forms.TextBox();
             this.btnGenerateToolingReport = new System.Windows.Forms.Button();
             this.lblMetdataFolderSelection = new System.Windows.Forms.Label();
+            this.lbToolingTypes = new System.Windows.Forms.CheckedListBox();
             this.SuspendLayout();
             // 
             // tbMetadataFolderLocation
             // 
-            this.tbMetadataFolderLocation.Location = new System.Drawing.Point(12, 37);
+            this.tbMetadataFolderLocation.Location = new System.Drawing.Point(15, 37);
             this.tbMetadataFolderLocation.Name = "tbMetadataFolderLocation";
             this.tbMetadataFolderLocation.Size = new System.Drawing.Size(753, 20);
             this.tbMetadataFolderLocation.TabIndex = 1;
@@ -43,7 +44,7 @@
             // 
             // btnGenerateToolingReport
             // 
-            this.btnGenerateToolingReport.Location = new System.Drawing.Point(607, 81);
+            this.btnGenerateToolingReport.Location = new System.Drawing.Point(12, 380);
             this.btnGenerateToolingReport.Name = "btnGenerateToolingReport";
             this.btnGenerateToolingReport.Size = new System.Drawing.Size(158, 23);
             this.btnGenerateToolingReport.TabIndex = 2;
@@ -63,11 +64,53 @@
     "les from specific folders.";
             this.lblMetdataFolderSelection.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
+            // lbToolingTypes
+            // 
+            this.lbToolingTypes.FormattingEnabled = true;
+            this.lbToolingTypes.Items.AddRange(new object[] {
+            "ApexClass",
+            "ApexComponent",
+            "ApexEmailNotification",
+            "ApexPage",
+            "ApexTrigger",
+            "AssignmentRule",
+            "AuraDefinition",
+            "AuradefinitionBundle",
+            "AutoResponseRule",
+            "CompactLayout",
+            "CustomObject",
+            "CustomTab",
+            "EmailTemplate",
+            "FlexiPage",
+            "Flow",
+            "FlowDefinition",
+            "GlobalValueSet",
+            "Layout",
+            "LightningComponentBundle",
+            "LightningComponentResource",
+            "LookupFilter",
+            "PermissionSet",
+            "PermissionSetGroup",
+            "Profile",
+            "RecordType",
+            "ValidationRule",
+            "WorkflowAlert",
+            "WorkflowFieldUpdate",
+            "WorkflowOutboundMessage",
+            "WorkflowRule",
+            "WorkflowTask",
+            "WorkSkillRouting"});
+            this.lbToolingTypes.Location = new System.Drawing.Point(15, 84);
+            this.lbToolingTypes.Name = "lbToolingTypes";
+            this.lbToolingTypes.Size = new System.Drawing.Size(387, 259);
+            this.lbToolingTypes.TabIndex = 3;
+            // 
             // MetadataToolingReportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(848, 335);
+            this.ClientSize = new System.Drawing.Size(852, 426);
+            this.Controls.Add(this.lbToolingTypes);
             this.Controls.Add(this.lblMetdataFolderSelection);
             this.Controls.Add(this.btnGenerateToolingReport);
             this.Controls.Add(this.tbMetadataFolderLocation);
@@ -83,5 +126,6 @@
         private System.Windows.Forms.TextBox tbMetadataFolderLocation;
         private System.Windows.Forms.Button btnGenerateToolingReport;
         private System.Windows.Forms.Label lblMetdataFolderSelection;
+        private System.Windows.Forms.CheckedListBox lbToolingTypes;
     }
 }

@@ -76,6 +76,7 @@
             this.rtbResults.Size = new System.Drawing.Size(1096, 571);
             this.rtbResults.TabIndex = 13;
             this.rtbResults.Text = "";
+            this.rtbResults.WordWrap = false;
             // 
             // lblSearchText
             // 

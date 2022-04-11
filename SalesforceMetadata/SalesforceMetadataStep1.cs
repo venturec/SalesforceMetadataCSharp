@@ -186,7 +186,6 @@ namespace SalesforceMetadata
                 {
                     SalesforceMetadataStep2 sfMetadataStep2 = new SalesforceMetadataStep2();
                     sfMetadataStep2.btnRetrieveMetadataFromSelected.Enabled = false;
-                    sfMetadataStep2.btnToOrgRetrieveMetadata.Enabled = false;
                     sfMetadataStep2.selectedItems = new List<String>();
 
                     foreach (String si in selItems)
@@ -589,7 +588,18 @@ namespace SalesforceMetadata
 
         private void btnSelectAll_Click(object sender, EventArgs e)
         {
-            HashSet<String> bypassItems = new HashSet<string> { "Report", "ReportType", "ContentAsset", "Profile", "PermissionSet", "PermissionSetGroup" };
+            HashSet<String> bypassItems = new HashSet<string> { 
+                "AuthProvider", 
+                "ContentAsset", 
+                "InboundCertificate", 
+                "PermissionSet", 
+                "PermissionSetGroup",
+                "Profile",
+                "Report", 
+                "ReportType",
+                "Scontrol",
+                "StaticResource"
+             };
 
             lbMetadataTypes.Items.Clear();
             foreach (String s in metadataObjectsList)

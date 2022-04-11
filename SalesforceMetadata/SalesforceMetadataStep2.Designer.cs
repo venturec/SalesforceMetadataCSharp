@@ -39,14 +39,6 @@
             this.horizontalLine2 = new System.Windows.Forms.Label();
             this.btnRetrieveMetadata = new System.Windows.Forms.Button();
             this.lblRetrieveFromOrg = new System.Windows.Forms.Label();
-            this.lblToOrgProcessing = new System.Windows.Forms.Label();
-            this.btnToOrgRetrieveMetadataWPkg = new System.Windows.Forms.Button();
-            this.tbToOrgExistingPackageXml = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.horizontalLine3 = new System.Windows.Forms.Label();
-            this.lblToOrgSaveLocation = new System.Windows.Forms.Label();
-            this.tbToOrgSaveLocation = new System.Windows.Forms.TextBox();
-            this.btnToOrgRetrieveMetadata = new System.Windows.Forms.Button();
             this.horizontalLine4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.OpenMetadataComparison = new System.Windows.Forms.Button();
@@ -152,84 +144,6 @@
             this.lblRetrieveFromOrg.TabIndex = 0;
             this.lblRetrieveFromOrg.Text = "From-Org Processing";
             // 
-            // lblToOrgProcessing
-            // 
-            this.lblToOrgProcessing.AutoSize = true;
-            this.lblToOrgProcessing.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblToOrgProcessing.Location = new System.Drawing.Point(4, 208);
-            this.lblToOrgProcessing.Name = "lblToOrgProcessing";
-            this.lblToOrgProcessing.Size = new System.Drawing.Size(157, 20);
-            this.lblToOrgProcessing.TabIndex = 11;
-            this.lblToOrgProcessing.Text = "To-Org Processing";
-            // 
-            // btnToOrgRetrieveMetadataWPkg
-            // 
-            this.btnToOrgRetrieveMetadataWPkg.Location = new System.Drawing.Point(765, 332);
-            this.btnToOrgRetrieveMetadataWPkg.Name = "btnToOrgRetrieveMetadataWPkg";
-            this.btnToOrgRetrieveMetadataWPkg.Size = new System.Drawing.Size(193, 23);
-            this.btnToOrgRetrieveMetadataWPkg.TabIndex = 20;
-            this.btnToOrgRetrieveMetadataWPkg.Text = "Retrieve Metadata";
-            this.btnToOrgRetrieveMetadataWPkg.UseVisualStyleBackColor = true;
-            this.btnToOrgRetrieveMetadataWPkg.Click += new System.EventHandler(this.btnToOrgRetrieveMetadataWPkg_Click);
-            // 
-            // tbToOrgExistingPackageXml
-            // 
-            this.tbToOrgExistingPackageXml.Location = new System.Drawing.Point(238, 335);
-            this.tbToOrgExistingPackageXml.Name = "tbToOrgExistingPackageXml";
-            this.tbToOrgExistingPackageXml.Size = new System.Drawing.Size(497, 20);
-            this.tbToOrgExistingPackageXml.TabIndex = 19;
-            this.tbToOrgExistingPackageXml.DoubleClick += new System.EventHandler(this.TbToOrgExistingPackageXml_DoubleClick);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 337);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(228, 13);
-            this.label1.TabIndex = 18;
-            this.label1.Text = "Retrieve Zip File with Existing Package.xml File";
-            // 
-            // horizontalLine3
-            // 
-            this.horizontalLine3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.horizontalLine3.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.horizontalLine3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.horizontalLine3.Location = new System.Drawing.Point(-4, 300);
-            this.horizontalLine3.Name = "horizontalLine3";
-            this.horizontalLine3.Size = new System.Drawing.Size(971, 10);
-            this.horizontalLine3.TabIndex = 17;
-            // 
-            // lblToOrgSaveLocation
-            // 
-            this.lblToOrgSaveLocation.AutoSize = true;
-            this.lblToOrgSaveLocation.Location = new System.Drawing.Point(4, 254);
-            this.lblToOrgSaveLocation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblToOrgSaveLocation.Name = "lblToOrgSaveLocation";
-            this.lblToOrgSaveLocation.Size = new System.Drawing.Size(152, 13);
-            this.lblToOrgSaveLocation.TabIndex = 12;
-            this.lblToOrgSaveLocation.Text = "Retrieve and Save Zip File To:";
-            // 
-            // tbToOrgSaveLocation
-            // 
-            this.tbToOrgSaveLocation.Location = new System.Drawing.Point(233, 254);
-            this.tbToOrgSaveLocation.Margin = new System.Windows.Forms.Padding(2);
-            this.tbToOrgSaveLocation.Name = "tbToOrgSaveLocation";
-            this.tbToOrgSaveLocation.Size = new System.Drawing.Size(498, 20);
-            this.tbToOrgSaveLocation.TabIndex = 13;
-            this.tbToOrgSaveLocation.DoubleClick += new System.EventHandler(this.tbToOrgSaveLocation_DoubleClick);
-            // 
-            // btnToOrgRetrieveMetadata
-            // 
-            this.btnToOrgRetrieveMetadata.Location = new System.Drawing.Point(765, 254);
-            this.btnToOrgRetrieveMetadata.Margin = new System.Windows.Forms.Padding(2);
-            this.btnToOrgRetrieveMetadata.Name = "btnToOrgRetrieveMetadata";
-            this.btnToOrgRetrieveMetadata.Size = new System.Drawing.Size(193, 24);
-            this.btnToOrgRetrieveMetadata.TabIndex = 14;
-            this.btnToOrgRetrieveMetadata.Text = "Retrieve Metadata from Selected";
-            this.btnToOrgRetrieveMetadata.UseVisualStyleBackColor = true;
-            this.btnToOrgRetrieveMetadata.Click += new System.EventHandler(this.btnToOrgRetrieveMetadata_Click);
-            // 
             // horizontalLine4
             // 
             this.horizontalLine4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -260,7 +174,6 @@
             this.OpenMetadataComparison.TabIndex = 24;
             this.OpenMetadataComparison.Text = "Open Metadata Comparison Form";
             this.OpenMetadataComparison.UseVisualStyleBackColor = true;
-            this.OpenMetadataComparison.Click += new System.EventHandler(this.OpenMetadataComparison_Click);
             // 
             // SalesforceMetadataStep2
             // 
@@ -270,14 +183,6 @@
             this.Controls.Add(this.OpenMetadataComparison);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.horizontalLine4);
-            this.Controls.Add(this.btnToOrgRetrieveMetadataWPkg);
-            this.Controls.Add(this.tbToOrgExistingPackageXml);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.horizontalLine3);
-            this.Controls.Add(this.lblToOrgSaveLocation);
-            this.Controls.Add(this.tbToOrgSaveLocation);
-            this.Controls.Add(this.btnToOrgRetrieveMetadata);
-            this.Controls.Add(this.lblToOrgProcessing);
             this.Controls.Add(this.lblRetrieveFromOrg);
             this.Controls.Add(this.btnRetrieveMetadata);
             this.Controls.Add(this.horizontalLine2);
@@ -308,14 +213,6 @@
         private System.Windows.Forms.Label horizontalLine2;
         private System.Windows.Forms.Button btnRetrieveMetadata;
         private System.Windows.Forms.Label lblRetrieveFromOrg;
-        private System.Windows.Forms.Label lblToOrgProcessing;
-        private System.Windows.Forms.Button btnToOrgRetrieveMetadataWPkg;
-        private System.Windows.Forms.TextBox tbToOrgExistingPackageXml;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label horizontalLine3;
-        private System.Windows.Forms.Label lblToOrgSaveLocation;
-        private System.Windows.Forms.TextBox tbToOrgSaveLocation;
-        public System.Windows.Forms.Button btnToOrgRetrieveMetadata;
         private System.Windows.Forms.Label horizontalLine4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button OpenMetadataComparison;

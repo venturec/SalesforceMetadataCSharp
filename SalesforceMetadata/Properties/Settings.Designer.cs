@@ -35,26 +35,6 @@ namespace SalesforceMetadata.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://login.salesforce.com/services/Soap/u/52.0")]
-        public string SalesforceMetadata_PartnerWSDL_SforceService {
-            get {
-                return ((string)(this["SalesforceMetadata_PartnerWSDL_SforceService"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://login.salesforce.com/services/Soap/m/52.0")]
-        public string SalesforceMetadata_MetadataWSDL_MetadataService {
-            get {
-                return ((string)(this["SalesforceMetadata_MetadataWSDL_MetadataService"]));
-            }
-        }
-        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
@@ -76,16 +56,6 @@ namespace SalesforceMetadata.Properties {
             }
             set {
                 this["Salt"] = value;
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://login.salesforce.com/services/Soap/T/52.0")]
-        public string SalesforceMetadata_ToolingWSDL_SforceServiceService {
-            get {
-                return ((string)(this["SalesforceMetadata_ToolingWSDL_SforceServiceService"]));
             }
         }
         
@@ -115,18 +85,6 @@ namespace SalesforceMetadata.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("52.0")]
-        public string DefaultAPI {
-            get {
-                return ((string)(this["DefaultAPI"]));
-            }
-            set {
-                this["DefaultAPI"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string MetadataFolderPath {
             get {
@@ -146,6 +104,48 @@ namespace SalesforceMetadata.Properties {
             }
             set {
                 this["DeploymentPackageTreeNodeSaveLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("54.0")]
+        public string DefaultAPI {
+            get {
+                return ((string)(this["DefaultAPI"]));
+            }
+            set {
+                this["DefaultAPI"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://login.salesforce.com/services/Soap/u/54.0")]
+        public string SalesforceMetadata_PartnerWSDL_SforceService {
+            get {
+                return ((string)(this["SalesforceMetadata_PartnerWSDL_SforceService"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://login.salesforce.com/services/Soap/m/52.0")]
+        public string SalesforceMetadata_MetadataWSDL_MetadataService {
+            get {
+                return ((string)(this["SalesforceMetadata_MetadataWSDL_MetadataService"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://login.salesforce.com/services/Soap/T/52.0")]
+        public string SalesforceMetadata_ToolingWSDL_SforceServiceService {
+            get {
+                return ((string)(this["SalesforceMetadata_ToolingWSDL_SforceServiceService"]));
             }
         }
     }

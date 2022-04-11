@@ -604,41 +604,6 @@
     <Content Include="ColoredGears.ico" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="D:\marcus\OneDrive\References\MetadataWSDL.xml">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\MetadataWSDL\</RelPath>
-      <UpdateFromURL>D:\marcus\OneDrive\References\MetadataWSDL.xml</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>SalesforceMetadata_MetadataWSDL_MetadataService</CachedSettingsPropName>
-    </WebReferenceUrl>
-    <WebReferenceUrl Include="D:\marcus\OneDrive\References\PartnerWSDL.xml">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\PartnerWSDL\</RelPath>
-      <UpdateFromURL>D:\marcus\OneDrive\References\PartnerWSDL.xml</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>SalesforceMetadata_PartnerWSDL_SforceService</CachedSettingsPropName>
-    </WebReferenceUrl>
-    <WebReferenceUrl Include="D:\marcus\OneDrive\References\ToolingWSDL.xml">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\ToolingWSDL\</RelPath>
-      <UpdateFromURL>D:\marcus\OneDrive\References\ToolingWSDL.xml</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>SalesforceMetadata_ToolingWSDL_SforceServiceService</CachedSettingsPropName>
-    </WebReferenceUrl>
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">
       <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
       <VersionMajor>2</VersionMajor>
@@ -675,6 +640,41 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="C:\Users\marcu\OneDrive\References\MetadataWSDL.xml">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\MetadataWSDL\</RelPath>
+      <UpdateFromURL>C:\Users\marcu\OneDrive\References\MetadataWSDL.xml</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SalesforceMetadata_MetadataWSDL_MetadataService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="C:\Users\marcu\OneDrive\References\PartnerWSDL.xml">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\PartnerWSDL\</RelPath>
+      <UpdateFromURL>C:\Users\marcu\OneDrive\References\PartnerWSDL.xml</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SalesforceMetadata_PartnerWSDL_SforceService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="C:\Users\marcu\OneDrive\References\ToolingWSDL.xml">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\ToolingWSDL\</RelPath>
+      <UpdateFromURL>C:\Users\marcu\OneDrive\References\ToolingWSDL.xml</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SalesforceMetadata_ToolingWSDL_SforceServiceService</CachedSettingsPropName>
+    </WebReferenceUrl>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

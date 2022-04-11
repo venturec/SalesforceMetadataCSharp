@@ -367,10 +367,6 @@ namespace SalesforceMetadata
             {
                 packageXMLFile = this.tbFromOrgSaveLocation.Text + "\\package.xml";
             }
-            else if (reqOrg == UtilityClass.REQUESTINGORG.TOORG)
-            {
-                packageXMLFile = this.tbToOrgSaveLocation.Text + "\\package.xml";
-            }
             
             File.WriteAllText(@packageXMLFile, packageXmlSB.ToString());
 
@@ -396,10 +392,6 @@ namespace SalesforceMetadata
             {
                 zipFile = this.tbFromOrgSaveLocation.Text + "\\components_" + extractToFolder + "_" + timestamp + ".zip";
             }
-            else if (reqOrg == UtilityClass.REQUESTINGORG.TOORG)
-            {
-                zipFile = this.tbToOrgSaveLocation.Text + "\\components_" + extractToFolder + "_" + timestamp + ".zip";
-            }
 
             if (result.zipFile != null)
             {
@@ -415,21 +407,6 @@ namespace SalesforceMetadata
                         if (!Directory.Exists(target_dir))
                         {
                             DirectoryInfo di = Directory.CreateDirectory(target_dir);
-                        }
-                        else
-                        {
-                            Directory.Delete(target_dir, true);
-                        }
-
-                        ZipFile.ExtractToDirectory(zipFile, target_dir);
-                    }
-                    else if (reqOrg == UtilityClass.REQUESTINGORG.TOORG)
-                    {
-                        String target_dir = this.tbToOrgSaveLocation.Text + '\\' + extractToFolder;
-
-                        if (!Directory.Exists(target_dir))
-                        {
-                            Directory.CreateDirectory(target_dir);
                         }
                         else
                         {
@@ -602,17 +579,6 @@ namespace SalesforceMetadata
             if(dr == DialogResult.OK) this.tbExistingPackageXml.Text = ofd.FileName;
         }
 
-        private void TbToOrgExistingPackageXml_DoubleClick(object sender, EventArgs e)
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "xml files (package.xml)|package.xml|All Files (*.*)|*.*";
-            ofd.Title = "Please select a package.xml file";
-
-            DialogResult dr = ofd.ShowDialog();
-
-            if (dr == DialogResult.OK) this.tbToOrgExistingPackageXml.Text = ofd.FileName;
-        }
-
 
         private void btnRetrieveMetadata_Click(object sender, EventArgs e)
         {
@@ -666,20 +632,6 @@ namespace SalesforceMetadata
             }
         }
 
-        private void tbToOrgSaveLocation_DoubleClick(object sender, EventArgs e)
-        {
-            this.tbToOrgSaveLocation.Text = UtilityClass.folderBrowserSelectPath("Select Directory to Save the Metadata Results to", true, FolderEnum.SaveTo);
-            if (this.tbToOrgSaveLocation.Text != null && this.tbToOrgSaveLocation.Text != "")
-            {
-                this.btnToOrgRetrieveMetadata.Enabled = true;
-            }
-        }
-
-        private void btnToOrgRetrieveMetadataWPkg_Click(object sender, EventArgs e)
-        {
-
-        }
-
         //private class InstalledPackageVersion
         //{
         //    public String packageName;
@@ -687,14 +639,6 @@ namespace SalesforceMetadata
         //    public String minorVersion;
         //}
 
-        private void OpenMetadataComparison_Click(object sender, EventArgs e)
-        {
-            MetadataComparison mc = new MetadataComparison();
-            mc.tbFromFolder.Text = this.tbFromOrgSaveLocation.Text;
-            mc.tbToFolder.Text = this.tbToOrgSaveLocation.Text;
-
-            mc.Show();
-        }
     }
 
 }

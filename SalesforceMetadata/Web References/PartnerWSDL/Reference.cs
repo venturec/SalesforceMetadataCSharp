@@ -3275,7 +3275,31 @@ namespace SalesforceMetadata.PartnerWSDL {
         GMAIL_ROUTING_CREATION_NOT_ALLOWED,
         
         /// <remarks/>
+        GONE,
+        
+        /// <remarks/>
+        IAS_TIMEOUT_EXCEPTION,
+        
+        /// <remarks/>
+        IDEMPOTENCY_AUTHENTICATION_FAILED,
+        
+        /// <remarks/>
+        IDEMPOTENCY_BACKEND_CONNECTION_TIMEOUT,
+        
+        /// <remarks/>
+        IDEMPOTENCY_BACKEND_OPERATION_ERROR,
+        
+        /// <remarks/>
+        IDEMPOTENCY_CONCURRENT_REQUEST,
+        
+        /// <remarks/>
         IDEMPOTENCY_FEATURE_NOT_ENABLED,
+        
+        /// <remarks/>
+        IDEMPOTENCY_KEY_ALREADY_USED,
+        
+        /// <remarks/>
+        IDEMPOTENCY_KEY_USED_DIFFERENT_USER,
         
         /// <remarks/>
         IDEMPOTENCY_NOT_SUPPORTED,
@@ -3312,6 +3336,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         INTERNAL_CANVAS_ERROR,
+        
+        /// <remarks/>
+        INTERNAL_ERROR,
         
         /// <remarks/>
         INTERNAL_SERVER_ERROR,
@@ -3542,10 +3569,16 @@ namespace SalesforceMetadata.PartnerWSDL {
         PAYLOAD_ITEM_MAP_ERROR,
         
         /// <remarks/>
+        PENDING_COMMIT,
+        
+        /// <remarks/>
         PORTAL_NO_ACCESS,
         
         /// <remarks/>
         POST_BODY_PARSE_ERROR,
+        
+        /// <remarks/>
+        POST_TAX_PROCESSING_ERROR,
         
         /// <remarks/>
         PRODUCT_NOT_FOUND,
@@ -3606,6 +3639,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         STATE_TRANSITION_NOT_ALLOWED,
+        
+        /// <remarks/>
+        TAX_INTERNAL_ERROR,
         
         /// <remarks/>
         TOO_MANY_APEX_REQUESTS,
@@ -3958,6 +3994,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         COLLECTION_PROCESSOR_VARIABLE_NULL,
         
         /// <remarks/>
+        CONDITIONAL_SCREENFIELD_VISIBILITY_NOT_SUPPORTED_FOR_ENVIRONMENT,
+        
+        /// <remarks/>
         CONDITION_BUILDER_MISSING_FLOW_VARIABLE,
         
         /// <remarks/>
@@ -4088,6 +4127,18 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         ELEMENT_SUBTYPE_NOT_SUPPORTED_FOR_PROCESSTYPE,
+        
+        /// <remarks/>
+        ELEMENT_TYPE_NOT_SUPPORTED_FOR_ENVIRONMENT,
+        
+        /// <remarks/>
+        ENTRY_CONDITION_CONFLICTING_FILTERS,
+        
+        /// <remarks/>
+        ENVIRONMENTS_VALUE_CHANGED,
+        
+        /// <remarks/>
+        ENVIRONMENT_PERMISSION_REQUIRED,
         
         /// <remarks/>
         EXTERNAL_OBJECTS_NOT_SUPPORTED,
@@ -4246,6 +4297,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_INCLUDES_STEP,
         
         /// <remarks/>
+        FLOW_INPUTPARAM_MISMATCHED_APEX_CLASS,
+        
+        /// <remarks/>
         FLOW_INTERVIEW_BULK_EXECUTION,
         
         /// <remarks/>
@@ -4345,6 +4399,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_REFERENCES_APEX_CLASS_NOT_IN_SAME_PACKAGE,
         
         /// <remarks/>
+        FLOW_RESOURCE_NOT_SUPPORTED_FOR_ENVIRONMENT,
+        
+        /// <remarks/>
         FLOW_RULE_REQUIRE_RECORD_CHANGED_NEVER_CHECKED_FOR_RECORD_PRIOR,
         
         /// <remarks/>
@@ -4402,6 +4459,78 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_SYSTEM_VARIABLE_NOT_SUPPORTED_FOR_TRIGGERTYPE,
         
         /// <remarks/>
+        FLOW_TEST_API_NAME_DUPLICATED,
+        
+        /// <remarks/>
+        FLOW_TEST_ASSERTION_MISSING,
+        
+        /// <remarks/>
+        FLOW_TEST_ASSERTION_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_TEST_CONDITION_INCOMPATIBLE,
+        
+        /// <remarks/>
+        FLOW_TEST_CONDITION_INVALID_DATATYPE_MAPPING,
+        
+        /// <remarks/>
+        FLOW_TEST_CONDITION_LIMIT,
+        
+        /// <remarks/>
+        FLOW_TEST_CONDITION_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_TEST_DATATYPE_INVALID,
+        
+        /// <remarks/>
+        FLOW_TEST_FLOW_INVALID,
+        
+        /// <remarks/>
+        FLOW_TEST_IMMEDIATE_PATH_MISSING,
+        
+        /// <remarks/>
+        FLOW_TEST_MERGE_FIELD_INVALID,
+        
+        /// <remarks/>
+        FLOW_TEST_MERGE_FIELD_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_TEST_OPERATOR_INVALID,
+        
+        /// <remarks/>
+        FLOW_TEST_PARAMETER_DUPLICATED,
+        
+        /// <remarks/>
+        FLOW_TEST_PARAMETER_INCOMPATIBLE,
+        
+        /// <remarks/>
+        FLOW_TEST_PARAMETER_INVALID,
+        
+        /// <remarks/>
+        FLOW_TEST_PARAMETER_MISSING,
+        
+        /// <remarks/>
+        FLOW_TEST_PARAMETER_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_TEST_PARAMS_REQUIRED,
+        
+        /// <remarks/>
+        FLOW_TEST_POINTS_DUPLICATED,
+        
+        /// <remarks/>
+        FLOW_TEST_POINT_MISSING,
+        
+        /// <remarks/>
+        FLOW_TEST_POINT_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_TEST_PROCESSTYPE_INVALID,
+        
+        /// <remarks/>
+        FLOW_TEST_RIGHTVALUE_INVALID,
+        
+        /// <remarks/>
         FLOW_TRIGGER_DERIVED_FIELD_NOT_SUPPORTED,
         
         /// <remarks/>
@@ -4453,10 +4582,16 @@ namespace SalesforceMetadata.PartnerWSDL {
         INVALID_EMAIL_ADDRESS,
         
         /// <remarks/>
+        INVALID_ENVIRONMENTS_VALUE,
+        
+        /// <remarks/>
         INVALID_FLOW,
         
         /// <remarks/>
         INVALID_FLOW_INTERVIEW,
+        
+        /// <remarks/>
+        INVALID_PROCESSTYPE_ENVIRONMENT_COMBINATION,
         
         /// <remarks/>
         INVALID_REGEX_IN_SURVEY_QUESTIONS,
@@ -4466,6 +4601,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         INVALID_SURVEY_VARIABLE_NAME_OR_TYPE,
+        
+        /// <remarks/>
+        INVOCABLE_ACTION_TYPE_NOT_SUPPORTED_FOR_ENVIRONMENT,
         
         /// <remarks/>
         LOOP_ASSIGNNEXTVALUETO_MISMATCHED_APEXCLASSTYPE,
@@ -4496,6 +4634,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         LOOP_MISSING_COLLECTION,
+        
+        /// <remarks/>
+        MAX_CHILD_TYPES,
         
         /// <remarks/>
         MAX_EXTERNAL_REFERENCES_IN_QUERY,
@@ -4738,6 +4879,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         SCREENFIELD_OBJECTPROVIDED_CANNOT_HAVE_HELPTEXT,
         
         /// <remarks/>
+        SCREENFIELD_OBJECTPROVIDED_INVALID_DATATYPE,
+        
+        /// <remarks/>
         SCREENFIELD_OBJECTPROVIDED_ISREQUIRED_NOT_SUPPORTED,
         
         /// <remarks/>
@@ -4775,6 +4919,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         SCREENFIELD_TYPE_NOT_SUPPORTED_FOR_API_VERSION,
+        
+        /// <remarks/>
+        SCREENFIELD_TYPE_NOT_SUPPORTED_FOR_ENVIRONMENT,
         
         /// <remarks/>
         SCREENFIELD_USERINPUT_NOT_SUPPORTED_FOR_CHOICETYPE,
@@ -4831,6 +4978,18 @@ namespace SalesforceMetadata.PartnerWSDL {
         SCREEN_CONTAINS_REGION_CONTAINER_COMPONENT,
         
         /// <remarks/>
+        SCREEN_FIELD_REGION_CONTAINER_TYPE_INVALID_VALUE,
+        
+        /// <remarks/>
+        SCREEN_FIELD_REGION_CONTAINER_TYPE_MISSING,
+        
+        /// <remarks/>
+        SCREEN_FIELD_SECTION_HEADER_INVALID_VALUE,
+        
+        /// <remarks/>
+        SCREEN_FIELD_SECTION_HEADER_MISSING,
+        
+        /// <remarks/>
         SCREEN_MISSING_FOOTER_AND_LIGHTNING_COMPONENT,
         
         /// <remarks/>
@@ -4885,6 +5044,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         SPECIFIC_FIELD_VALUE_MAKES_OTHER_FIELD_REQUIRED,
         
         /// <remarks/>
+        SPECIFIC_FIELD_VALUE_MAKES_OTHER_FIELD_VALUE_REQUIRED,
+        
+        /// <remarks/>
         STAGE_NAME_NOT_FULLY_QUALIFIED,
         
         /// <remarks/>
@@ -4898,9 +5060,6 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         SUBFLOW_INPUT_ELEMENT_INCOMPATIBLE_DATATYPES,
-        
-        /// <remarks/>
-        SUBFLOW_INPUT_INVALID_VALUE,
         
         /// <remarks/>
         SUBFLOW_INPUT_MISMATCHED_APEX_CLASS,
@@ -5017,7 +5176,13 @@ namespace SalesforceMetadata.PartnerWSDL {
         SURVEY_INVALID_CMT_CONFIGURED,
         
         /// <remarks/>
+        SURVEY_INVALID_CUSTOM_THANK_YOU_CONFIGURATION,
+        
+        /// <remarks/>
         SURVEY_INVALID_LINK_TARGET_IN_QUESTION_LABEL,
+        
+        /// <remarks/>
+        SURVEY_INVALID_MATRIX_QUESTION_CONFIGURATION,
         
         /// <remarks/>
         SURVEY_INVALID_MERGE_FIELD_CONFIGURATION,
@@ -5675,6 +5840,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         ASSIGNEE_TYPE_REQUIRED,
         
         /// <remarks/>
+        ATTRIBUTE_DEFINITION_LIMIT_EXCEEDED,
+        
+        /// <remarks/>
         AURA_COMPILE_ERROR,
         
         /// <remarks/>
@@ -5786,6 +5954,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         CHECKOUT_NOT_FOUND,
         
         /// <remarks/>
+        CHECKOUT_UNAUTHORIZED,
+        
+        /// <remarks/>
         CHILD_SHARE_FAILS_PARENT,
         
         /// <remarks/>
@@ -5888,7 +6059,13 @@ namespace SalesforceMetadata.PartnerWSDL {
         DATA_MAPPING_NOT_FOUND,
         
         /// <remarks/>
+        DATA_MAPPING_SCHEMA_NOT_FOUND,
+        
+        /// <remarks/>
         DATA_TRANSFER_RECORD_LIMIT_EXCEEDED,
+        
+        /// <remarks/>
+        DATA_TYPE_NOT_SUPPORTED,
         
         /// <remarks/>
         DATE_OUT_OF_RANGE,
@@ -6047,6 +6224,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         FAILED_TO_RESOLVE_MAPPING,
         
         /// <remarks/>
+        FAILED_TO_RESOLVE_SCHEMA_INFORMATION,
+        
+        /// <remarks/>
         FIELD_CUSTOM_VALIDATION_EXCEPTION,
         
         /// <remarks/>
@@ -6132,6 +6312,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         INGESTION_JOB_RECORDS_LIMIT_EXCEEDED,
+        
+        /// <remarks/>
+        INGESTION_TOTAL_FILE_SIZE_LIMIT_EXCEEDED,
         
         /// <remarks/>
         INSERT_UPDATE_DELETE_NOT_ALLOWED_DURING_MAINTENANCE,
@@ -6251,6 +6434,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         INVALID_EXTENSION_ID,
         
         /// <remarks/>
+        INVALID_EXTERNAL_ID_FIELD_NAME,
+        
+        /// <remarks/>
         INVALID_FIELD,
         
         /// <remarks/>
@@ -6347,6 +6533,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         INVALID_READ_ONLY_USER_DML,
         
         /// <remarks/>
+        INVALID_RECEIVEDDOCUMENTID_ATTACHMENT,
+        
+        /// <remarks/>
         INVALID_RECORD_TYPE,
         
         /// <remarks/>
@@ -6396,6 +6585,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         INVALID_SUBDOMAIN,
+        
+        /// <remarks/>
+        INVALID_TARGET_OBJECT_NAME,
         
         /// <remarks/>
         INVALID_TEXT_REPRESENTATION,
@@ -6560,6 +6752,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         MISSING_ARGUMENT,
         
         /// <remarks/>
+        MISSING_RECEIVEDDOCUMENTID_ATTACHMENT,
+        
+        /// <remarks/>
         MISSING_RECORD,
         
         /// <remarks/>
@@ -6603,6 +6798,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         NO_SEARCH_ATTRIBUTES,
+        
+        /// <remarks/>
+        NO_SINGLE_MAIL_PERMISSION,
+        
+        /// <remarks/>
+        NO_SORT_PRICEBOOK_ASSOCIATED_ERROR,
         
         /// <remarks/>
         NO_SUCH_USER_EXISTS,
@@ -6710,6 +6911,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         PA_VISIBLE_ACTIONS_FILTER_ORDERING_EXCEPTION,
         
         /// <remarks/>
+        PENDING_COMMIT,
+        
+        /// <remarks/>
         PICKLIST_INACTIVE_VALUES_EXCEEDED,
         
         /// <remarks/>
@@ -6762,6 +6966,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         RECORD_IN_USE_BY_WORKFLOW,
+        
+        /// <remarks/>
+        RECORD_UPDATE_FAILED,
         
         /// <remarks/>
         RECOVERABLE_SEARCH_PROVIDER_ERROR,
@@ -6824,7 +7031,7 @@ namespace SalesforceMetadata.PartnerWSDL {
         SALESFORCE_INBOX_TRANSPORT_UNKNOWN_ERROR,
         
         /// <remarks/>
-        SEARCHABLE_ATTRIBUTE_LIMIT_EXCEEDED,
+        SCHEMA_OBJECT_NOT_FOUND,
         
         /// <remarks/>
         SEARCH_PROVIDER_REQUEST_RATE_EXCEEDED,
@@ -6969,6 +7176,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         UNSUPPORTED_APEX_TRIGGER_OPERATON,
+        
+        /// <remarks/>
+        UNSUPPORTED_PAYMENT_GATEWAY_TYPE,
+        
+        /// <remarks/>
+        UNSUPPORTED_PAYMENT_REQUEST_TYPE,
         
         /// <remarks/>
         UNSUPPORTED_SITE,

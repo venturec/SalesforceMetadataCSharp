@@ -116,7 +116,7 @@
             this.btnParseDebugLogs.Location = new System.Drawing.Point(508, 46);
             this.btnParseDebugLogs.Name = "btnParseDebugLogs";
             this.btnParseDebugLogs.Size = new System.Drawing.Size(190, 35);
-            this.btnParseDebugLogs.TabIndex = 9;
+            this.btnParseDebugLogs.TabIndex = 10;
             this.btnParseDebugLogs.Text = "Parse Debug Logs";
             this.btnParseDebugLogs.UseVisualStyleBackColor = true;
             this.btnParseDebugLogs.Click += new System.EventHandler(this.BtnParseDebugLogs_Click);
@@ -127,18 +127,18 @@
             this.btnRESTService.Margin = new System.Windows.Forms.Padding(2);
             this.btnRESTService.Name = "btnRESTService";
             this.btnRESTService.Size = new System.Drawing.Size(187, 32);
-            this.btnRESTService.TabIndex = 14;
+            this.btnRESTService.TabIndex = 15;
             this.btnRESTService.Text = "REST Service Form";
             this.btnRESTService.UseVisualStyleBackColor = true;
             this.btnRESTService.Click += new System.EventHandler(this.btnRetrieveRecords_Click);
             // 
             // btnGenerateConfigWorkbook
             // 
-            this.btnGenerateConfigWorkbook.Location = new System.Drawing.Point(253, 167);
+            this.btnGenerateConfigWorkbook.Location = new System.Drawing.Point(253, 127);
             this.btnGenerateConfigWorkbook.Margin = new System.Windows.Forms.Padding(2);
             this.btnGenerateConfigWorkbook.Name = "btnGenerateConfigWorkbook";
             this.btnGenerateConfigWorkbook.Size = new System.Drawing.Size(190, 35);
-            this.btnGenerateConfigWorkbook.TabIndex = 8;
+            this.btnGenerateConfigWorkbook.TabIndex = 7;
             this.btnGenerateConfigWorkbook.Text = "Generate Config Workbook";
             this.btnGenerateConfigWorkbook.UseVisualStyleBackColor = true;
             this.btnGenerateConfigWorkbook.Click += new System.EventHandler(this.btnGenerateConfigWorkbook_Click);
@@ -160,30 +160,30 @@
             this.btnOpenObjectModification.Margin = new System.Windows.Forms.Padding(2);
             this.btnOpenObjectModification.Name = "btnOpenObjectModification";
             this.btnOpenObjectModification.Size = new System.Drawing.Size(188, 32);
-            this.btnOpenObjectModification.TabIndex = 13;
+            this.btnOpenObjectModification.TabIndex = 14;
             this.btnOpenObjectModification.Text = "Object Modifications";
             this.btnOpenObjectModification.UseVisualStyleBackColor = true;
             this.btnOpenObjectModification.Click += new System.EventHandler(this.btnOpenObjectModification_Click);
             // 
             // btnExtractHTMLPages
             // 
-            this.btnExtractHTMLPages.Location = new System.Drawing.Point(508, 127);
+            this.btnExtractHTMLPages.Location = new System.Drawing.Point(506, 168);
             this.btnExtractHTMLPages.Margin = new System.Windows.Forms.Padding(2);
             this.btnExtractHTMLPages.Name = "btnExtractHTMLPages";
             this.btnExtractHTMLPages.Size = new System.Drawing.Size(190, 35);
-            this.btnExtractHTMLPages.TabIndex = 11;
+            this.btnExtractHTMLPages.TabIndex = 13;
             this.btnExtractHTMLPages.Text = "Extract HTML Pages";
             this.btnExtractHTMLPages.UseVisualStyleBackColor = true;
             this.btnExtractHTMLPages.Click += new System.EventHandler(this.btnExtractHTMLPages_Click);
             // 
             // btnExtractClassesMethods
             // 
-            this.btnExtractClassesMethods.Location = new System.Drawing.Point(12, 318);
+            this.btnExtractClassesMethods.Location = new System.Drawing.Point(253, 167);
             this.btnExtractClassesMethods.Name = "btnExtractClassesMethods";
             this.btnExtractClassesMethods.Size = new System.Drawing.Size(190, 35);
-            this.btnExtractClassesMethods.TabIndex = 12;
+            this.btnExtractClassesMethods.TabIndex = 8;
             this.btnExtractClassesMethods.Tag = "Includes Code Coverage";
-            this.btnExtractClassesMethods.Text = "Class Inspector";
+            this.btnExtractClassesMethods.Text = "Automation Reporter";
             this.btnExtractClassesMethods.UseVisualStyleBackColor = true;
             this.btnExtractClassesMethods.Click += new System.EventHandler(this.btnExtractClassesMethods_Click);
             // 
@@ -199,10 +199,10 @@
             // 
             // btnUpdateAPIVersion
             // 
-            this.btnUpdateAPIVersion.Location = new System.Drawing.Point(508, 86);
+            this.btnUpdateAPIVersion.Location = new System.Drawing.Point(508, 128);
             this.btnUpdateAPIVersion.Name = "btnUpdateAPIVersion";
             this.btnUpdateAPIVersion.Size = new System.Drawing.Size(190, 35);
-            this.btnUpdateAPIVersion.TabIndex = 10;
+            this.btnUpdateAPIVersion.TabIndex = 12;
             this.btnUpdateAPIVersion.Text = "Update API Versions";
             this.btnUpdateAPIVersion.UseVisualStyleBackColor = true;
             this.btnUpdateAPIVersion.Click += new System.EventHandler(this.btnUpdateAPIVersion_Click);
@@ -219,20 +219,20 @@
             // 
             // btnGenerateObjectFieldsFromXML
             // 
-            this.btnGenerateObjectFieldsFromXML.Location = new System.Drawing.Point(253, 127);
+            this.btnGenerateObjectFieldsFromXML.Location = new System.Drawing.Point(508, 87);
             this.btnGenerateObjectFieldsFromXML.Name = "btnGenerateObjectFieldsFromXML";
             this.btnGenerateObjectFieldsFromXML.Size = new System.Drawing.Size(190, 35);
-            this.btnGenerateObjectFieldsFromXML.TabIndex = 7;
+            this.btnGenerateObjectFieldsFromXML.TabIndex = 11;
             this.btnGenerateObjectFieldsFromXML.Text = "Generate Object Fields from XML";
             this.btnGenerateObjectFieldsFromXML.UseVisualStyleBackColor = true;
             this.btnGenerateObjectFieldsFromXML.Click += new System.EventHandler(this.btnGenerateObjectFieldsFromXML_Click);
             // 
             // btnParseLWC
             // 
-            this.btnParseLWC.Location = new System.Drawing.Point(508, 167);
+            this.btnParseLWC.Location = new System.Drawing.Point(253, 209);
             this.btnParseLWC.Name = "btnParseLWC";
-            this.btnParseLWC.Size = new System.Drawing.Size(187, 35);
-            this.btnParseLWC.TabIndex = 15;
+            this.btnParseLWC.Size = new System.Drawing.Size(190, 35);
+            this.btnParseLWC.TabIndex = 9;
             this.btnParseLWC.Text = "Parse LWC Files";
             this.btnParseLWC.UseVisualStyleBackColor = true;
             this.btnParseLWC.Click += new System.EventHandler(this.btnParseLWC_Click);

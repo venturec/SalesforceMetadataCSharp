@@ -1,6 +1,6 @@
 ﻿namespace SalesforceMetadata
 {
-    partial class ClassMethodExtractor
+    partial class AutomationReporter
     {
         /// <summary>
         /// Required designer variable.
@@ -204,7 +204,7 @@
             this.btnAddLoggingToMethod.UseVisualStyleBackColor = true;
             this.btnAddLoggingToMethod.Click += new System.EventHandler(this.btnAddLoggingToMethod_Click);
             // 
-            // ClassMethodExtractor
+            // AutomationReporter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -219,8 +219,8 @@
             this.Controls.Add(this.btnExtractNamespacesClasses);
             this.Controls.Add(this.SaveResultsTo);
             this.Controls.Add(this.ProjectFolder);
-            this.Name = "ClassMethodExtractor";
-            this.Text = "Class / Method Extractor";
+            this.Name = "AutomationReporter";
+            this.Text = "Automation Reporter";
             this.fromOrgGroup.ResumeLayout(false);
             this.fromOrgGroup.PerformLayout();
             this.ResumeLayout(false);

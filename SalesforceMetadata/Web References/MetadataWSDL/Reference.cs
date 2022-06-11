@@ -1031,10 +1031,16 @@ namespace SalesforceMetadata.MetadataWSDL {
         ACTIONCALL_NOT_SUPPORTED_FOR_PROCESSTYPE,
         
         /// <remarks/>
+        ACTIONCALL_NOT_SUPPORTED_FOR_TRIGGERTYPE,
+        
+        /// <remarks/>
         ACTIONCALL_TRANSACTION_MODEL_NOT_ALLOWED,
         
         /// <remarks/>
         ACTIONCALL_TRANSACTION_MODEL_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        ACTIONCALL_TRIGGERING_RECORD_MISMATCHED_OBJECTTYPE,
         
         /// <remarks/>
         ACTION_CALL_INVALID_CONFIGURATION,
@@ -1077,6 +1083,12 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         APEX_CLASS_VARIABLE_NOT_FOUND,
+        
+        /// <remarks/>
+        ASSIGNEE_AUTOPROC,
+        
+        /// <remarks/>
+        ASSIGNEE_USER_USERNAME,
         
         /// <remarks/>
         ASSIGNMENTITEM_ELEMENT_MISSING_DATATYPE,
@@ -1175,16 +1187,43 @@ namespace SalesforceMetadata.MetadataWSDL {
         CHOICE_DATATYPE_INCOMPATIBLE_WITH_CHOICEFIELD,
         
         /// <remarks/>
+        CHOICE_LOOKUP_COLLECTION_REFERENCE_NULL,
+        
+        /// <remarks/>
+        CHOICE_LOOKUP_INVALID_COLLECTION_REFERENCE,
+        
+        /// <remarks/>
         CHOICE_NOT_SUPPORTED_FOR_SCREENFIELDTYPE,
         
         /// <remarks/>
         CHOICE_USED_MULTIPLE_TIMES_IN_SAME_FIELD,
         
         /// <remarks/>
+        COLLECTION_PROCESSOR_DUPLICATE_MAPITEM,
+        
+        /// <remarks/>
         COLLECTION_PROCESSOR_INVALID_COLLECTION_REFERENCE,
         
         /// <remarks/>
+        COLLECTION_PROCESSOR_INVALID_CONFIGURATION,
+        
+        /// <remarks/>
+        COLLECTION_PROCESSOR_INVALID_OUTPUTSOBJECTTYPE,
+        
+        /// <remarks/>
         COLLECTION_PROCESSOR_MAX_SORT_FIELDS_LIMIT_EXCEEDED,
+        
+        /// <remarks/>
+        COLLECTION_PROCESSOR_MISMATCHED_OBJECTTYPE,
+        
+        /// <remarks/>
+        COLLECTION_PROCESSOR_MISSING_MAP,
+        
+        /// <remarks/>
+        COLLECTION_PROCESSOR_MISSING_OUTPUTSOBJECTTYPE,
+        
+        /// <remarks/>
+        COLLECTION_PROCESSOR_MISSING_PARAMETER,
         
         /// <remarks/>
         COLLECTION_PROCESSOR_MISSING_SORT,
@@ -1203,6 +1242,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         COLLECTION_PROCESSOR_VARIABLE_NULL,
+        
+        /// <remarks/>
+        CONDITIONAL_SCREENFIELD_VISIBILITY_NOT_SUPPORTED_FOR_ENVIRONMENT,
         
         /// <remarks/>
         CONDITION_BUILDER_MISSING_FLOW_VARIABLE,
@@ -1325,6 +1367,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         ELEMENT_NEVER_USED,
         
         /// <remarks/>
+        ELEMENT_NOT_SUPPORTED_IN_SUBFLOW_FOR_TRIGGER_TYPE,
+        
+        /// <remarks/>
         ELEMENT_SCALE_SMALLER_THAN_DEFAULTVALUE,
         
         /// <remarks/>
@@ -1334,6 +1379,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         ELEMENT_SUBTYPE_NOT_SUPPORTED_FOR_PROCESSTYPE,
         
         /// <remarks/>
+        ELEMENT_TYPE_NOT_SUPPORTED_FOR_ENVIRONMENT,
+        
+        /// <remarks/>
+        ENTRY_CONDITION_CONFLICTING_FILTERS,
+        
+        /// <remarks/>
+        ENVIRONMENTS_VALUE_CHANGED,
+        
+        /// <remarks/>
+        ENVIRONMENT_PERMISSION_REQUIRED,
+        
+        /// <remarks/>
         EXTERNAL_OBJECTS_NOT_SUPPORTED,
         
         /// <remarks/>
@@ -1341,6 +1398,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         EX_AUTOLAUNCHED_SUBFLOW_INCOMPATIBLE_FLOWTYPE,
+        
+        /// <remarks/>
+        FEATURE_DISABLED,
         
         /// <remarks/>
         FIELDASSIGNMENT_FIELD_INCOMPATIBLE_DATATYPE,
@@ -1412,6 +1472,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         FLEXIPAGE_COMPONENT_EVENT_INVALID_FORMFACTOR_EXCEPTION,
         
         /// <remarks/>
+        FLEXIPAGE_COMPONENT_EVENT_INVALID_SERVICE_EXCEPTION,
+        
+        /// <remarks/>
         FLEXIPAGE_COMPONENT_EVENT_SOURCE_EXCEPTION,
         
         /// <remarks/>
@@ -1451,6 +1514,24 @@ namespace SalesforceMetadata.MetadataWSDL {
         FLEXIPAGE_TEMPLATE_INVALID_SWITCH,
         
         /// <remarks/>
+        FLOW_ALREADY_OVERRIDDEN,
+        
+        /// <remarks/>
+        FLOW_COMPLEX_VALUE_COLLECTION_TYPE_EXPECTED,
+        
+        /// <remarks/>
+        FLOW_COMPLEX_VALUE_INVALID_JSON,
+        
+        /// <remarks/>
+        FLOW_COMPLEX_VALUE_INVALID_MERGE_FIELD,
+        
+        /// <remarks/>
+        FLOW_COMPLEX_VALUE_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_COMPLEX_VALUE_SCALAR_TYPE_EXPECTED,
+        
+        /// <remarks/>
         FLOW_CONTEXT_RECORD_ASSIGNMENT_VARIABLE_INVALID,
         
         /// <remarks/>
@@ -1464,6 +1545,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         FLOW_INCLUDES_STEP,
+        
+        /// <remarks/>
+        FLOW_INPUTPARAM_MISMATCHED_APEX_CLASS,
         
         /// <remarks/>
         FLOW_INTERVIEW_BULK_EXECUTION,
@@ -1526,6 +1610,27 @@ namespace SalesforceMetadata.MetadataWSDL {
         FLOW_NAME_USED_IN_OTHER_CLIENT,
         
         /// <remarks/>
+        FLOW_OVERRIDABLE_CANNOT_BE_OVERRIDE,
+        
+        /// <remarks/>
+        FLOW_OVERRIDABLE_CANNOT_BE_TEMPLATE,
+        
+        /// <remarks/>
+        FLOW_OVERRIDDEN_FLOW_INVALID_REFERENCE,
+        
+        /// <remarks/>
+        FLOW_OVERRIDE_EXTRA_VARIABLE,
+        
+        /// <remarks/>
+        FLOW_OVERRIDE_INCOMPATIBLE_PROCESS_TYPE,
+        
+        /// <remarks/>
+        FLOW_OVERRIDE_INCOMPATIBLE_TYPE,
+        
+        /// <remarks/>
+        FLOW_OVERRIDE_INCOMPATIBLE_VARIABLE,
+        
+        /// <remarks/>
         FLOW_RECORD_PRIOR_AUTOLAUNCH_UPDATE_ONLY,
         
         /// <remarks/>
@@ -1544,7 +1649,19 @@ namespace SalesforceMetadata.MetadataWSDL {
         FLOW_REFERENCES_APEX_CLASS_NOT_IN_SAME_PACKAGE,
         
         /// <remarks/>
+        FLOW_RESOURCE_NOT_SUPPORTED_FOR_ENVIRONMENT,
+        
+        /// <remarks/>
         FLOW_RULE_REQUIRE_RECORD_CHANGED_NEVER_CHECKED_FOR_RECORD_PRIOR,
+        
+        /// <remarks/>
+        FLOW_SCHEDULED_PATH_ALLOWED_ONE_ASYNCAFTERCOMMIT_PATH,
+        
+        /// <remarks/>
+        FLOW_SCHEDULED_PATH_ASYNCAFTERCOMMIT_REQUIRES_RECORD_CHANGED_OR_ISCHANGED,
+        
+        /// <remarks/>
+        FLOW_SCHEDULED_PATH_CANNOT_USE_IS_CHANGED,
         
         /// <remarks/>
         FLOW_SCHEDULED_PATH_INCOMPATIBLE_TIME_SOURCE,
@@ -1557,6 +1674,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         FLOW_SCHEDULED_PATH_INCOMPATIBLE_WITH_RECORD_PRIOR,
+        
+        /// <remarks/>
+        FLOW_SCHEDULED_PATH_INVALID_BATCH_SIZE,
         
         /// <remarks/>
         FLOW_SCHEDULED_PATH_INVALID_OFFSET,
@@ -1574,6 +1694,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         FLOW_SOBJECT_VARIABLE_NOT_PERSISTED,
         
         /// <remarks/>
+        FLOW_SOURCE_TEMPLATE_INVALID_REFERENCE,
+        
+        /// <remarks/>
         FLOW_STAGE_INCLUDES_REFERENCES,
         
         /// <remarks/>
@@ -1586,6 +1709,84 @@ namespace SalesforceMetadata.MetadataWSDL {
         FLOW_SYSTEM_VARIABLE_NOT_SUPPORTED_FOR_TRIGGERTYPE,
         
         /// <remarks/>
+        FLOW_TEST_API_NAME_DUPLICATED,
+        
+        /// <remarks/>
+        FLOW_TEST_ASSERTION_MISSING,
+        
+        /// <remarks/>
+        FLOW_TEST_ASSERTION_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_TEST_CONDITION_INCOMPATIBLE,
+        
+        /// <remarks/>
+        FLOW_TEST_CONDITION_INVALID_DATATYPE_MAPPING,
+        
+        /// <remarks/>
+        FLOW_TEST_CONDITION_LIMIT,
+        
+        /// <remarks/>
+        FLOW_TEST_CONDITION_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_TEST_DATATYPE_INVALID,
+        
+        /// <remarks/>
+        FLOW_TEST_FLOW_INVALID,
+        
+        /// <remarks/>
+        FLOW_TEST_IMMEDIATE_PATH_MISSING,
+        
+        /// <remarks/>
+        FLOW_TEST_MERGE_FIELD_INVALID,
+        
+        /// <remarks/>
+        FLOW_TEST_MERGE_FIELD_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_TEST_OPERATOR_INVALID,
+        
+        /// <remarks/>
+        FLOW_TEST_PARAMETER_DUPLICATED,
+        
+        /// <remarks/>
+        FLOW_TEST_PARAMETER_INCOMPATIBLE,
+        
+        /// <remarks/>
+        FLOW_TEST_PARAMETER_INVALID,
+        
+        /// <remarks/>
+        FLOW_TEST_PARAMETER_MISSING,
+        
+        /// <remarks/>
+        FLOW_TEST_PARAMETER_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_TEST_PARAMS_REQUIRED,
+        
+        /// <remarks/>
+        FLOW_TEST_POINTS_DUPLICATED,
+        
+        /// <remarks/>
+        FLOW_TEST_POINT_MISSING,
+        
+        /// <remarks/>
+        FLOW_TEST_POINT_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_TEST_PROCESSTYPE_INVALID,
+        
+        /// <remarks/>
+        FLOW_TEST_RIGHTVALUE_INVALID,
+        
+        /// <remarks/>
+        FLOW_TRIGGER_DERIVED_FIELD_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_TRIGGER_ORDER_OUT_OF_BOUNDS,
+        
+        /// <remarks/>
         FLOW_TRIGGER_TYPE_INCOMPATIBLE_WITH_RECORD_TRIGGER_TYPE,
         
         /// <remarks/>
@@ -1596,6 +1797,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         GLOBAL_VARIABLE_NOT_SUPPORTED_FOR_PROCESSTYPE,
+        
+        /// <remarks/>
+        HTTP_METHOD_NOT_SUPPORTED,
         
         /// <remarks/>
         INCONSISTENT_DYNAMIC_TYPE_MAPPING,
@@ -1622,13 +1826,22 @@ namespace SalesforceMetadata.MetadataWSDL {
         INPUTPARAM_MISMATCHED_OBJECTTYPE,
         
         /// <remarks/>
+        INVALID_ASSIGNEE,
+        
+        /// <remarks/>
         INVALID_EMAIL_ADDRESS,
+        
+        /// <remarks/>
+        INVALID_ENVIRONMENTS_VALUE,
         
         /// <remarks/>
         INVALID_FLOW,
         
         /// <remarks/>
         INVALID_FLOW_INTERVIEW,
+        
+        /// <remarks/>
+        INVALID_PROCESSTYPE_ENVIRONMENT_COMBINATION,
         
         /// <remarks/>
         INVALID_REGEX_IN_SURVEY_QUESTIONS,
@@ -1638,6 +1851,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         INVALID_SURVEY_VARIABLE_NAME_OR_TYPE,
+        
+        /// <remarks/>
+        INVOCABLE_ACTION_TYPE_NOT_SUPPORTED_FOR_ENVIRONMENT,
         
         /// <remarks/>
         LOOP_ASSIGNNEXTVALUETO_MISMATCHED_APEXCLASSTYPE,
@@ -1670,7 +1886,25 @@ namespace SalesforceMetadata.MetadataWSDL {
         LOOP_MISSING_COLLECTION,
         
         /// <remarks/>
+        MAX_CHILD_TYPES,
+        
+        /// <remarks/>
+        MAX_EXTERNAL_REFERENCES_IN_QUERY,
+        
+        /// <remarks/>
+        MAX_STATEMENT_SIZE,
+        
+        /// <remarks/>
+        MISSING_ASSIGNEE,
+        
+        /// <remarks/>
+        MISSING_ASSIGNEE_TYPE,
+        
+        /// <remarks/>
         MISSING_EMAIL_RECIPIENTS,
+        
+        /// <remarks/>
+        MULTIPLE_ASSIGNEES_NOT_ALLOWED,
         
         /// <remarks/>
         NON_EXPOSED_COMPONENT_IN_FLOW,
@@ -1706,6 +1940,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         OBJECT_TYPE_DOES_NOT_EXIST,
         
         /// <remarks/>
+        ORCHESTRATION_REQUIRESASYNCPROCESSING_NOT_SUPPORTED,
+        
+        /// <remarks/>
         ORG_WIDE_EMAIL_INVALID,
         
         /// <remarks/>
@@ -1739,6 +1976,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         PAST_SCHEDULE_FLOW_WILL_NOT_RUN,
         
         /// <remarks/>
+        PRICE_ADJUSTMENT_TIER_VALIDATION_ERROR,
+        
+        /// <remarks/>
         PROCESSMETADATAVALUES_NOT_SUPPORTED_FOR_PROCESSTYPE,
         
         /// <remarks/>
@@ -1752,6 +1992,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         PROCESSTYPE_ELEMENT_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        PROCESSTYPE_EVALUATIONFLOW_REQUIRED,
         
         /// <remarks/>
         PROCESSTYPE_NOT_SUPPORTED,
@@ -1811,10 +2054,16 @@ namespace SalesforceMetadata.MetadataWSDL {
         REQUIRED_VARIABLE_MISSING,
         
         /// <remarks/>
+        RESOURCE_NOT_SUPPORTED,
+        
+        /// <remarks/>
         RULE_MISSING_CONDITION,
         
         /// <remarks/>
         RULE_REQUIRE_RECORD_CHANGED_NEVER_CHECKED,
+        
+        /// <remarks/>
+        SCHEDULE_TRIGGERED_FLOW_REQUIRES_DEFAULT_WORKFLOW_USER,
         
         /// <remarks/>
         SCREENCOMPONENT_CONTAINS_VISIBILITY_RULE,
@@ -1880,6 +2129,15 @@ namespace SalesforceMetadata.MetadataWSDL {
         SCREENFIELD_OBJECTPROVIDED_CANNOT_HAVE_HELPTEXT,
         
         /// <remarks/>
+        SCREENFIELD_OBJECTPROVIDED_INVALID_DATATYPE,
+        
+        /// <remarks/>
+        SCREENFIELD_OBJECTPROVIDED_ISREQUIRED_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        SCREENFIELD_OBJECTPROVIDED_LIGHTNING_RUNTIME_DISABLED,
+        
+        /// <remarks/>
         SCREENFIELD_OBJECTPROVIDED_MISSING_OBJECTFIELDREFERENCE,
         
         /// <remarks/>
@@ -1913,10 +2171,16 @@ namespace SalesforceMetadata.MetadataWSDL {
         SCREENFIELD_TYPE_NOT_SUPPORTED_FOR_API_VERSION,
         
         /// <remarks/>
+        SCREENFIELD_TYPE_NOT_SUPPORTED_FOR_ENVIRONMENT,
+        
+        /// <remarks/>
         SCREENFIELD_USERINPUT_NOT_SUPPORTED_FOR_CHOICETYPE,
         
         /// <remarks/>
         SCREENFIELD_VALIDATIONRULE_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        SCREENFOOTER_MERGEFIELD_NOT_SUPPORTED,
         
         /// <remarks/>
         SCREENRULE_ACTION_INVALID_ATTRIBUTE,
@@ -1964,6 +2228,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         SCREEN_CONTAINS_REGION_CONTAINER_COMPONENT,
         
         /// <remarks/>
+        SCREEN_FIELD_REGION_CONTAINER_TYPE_INVALID_VALUE,
+        
+        /// <remarks/>
+        SCREEN_FIELD_REGION_CONTAINER_TYPE_MISSING,
+        
+        /// <remarks/>
+        SCREEN_FIELD_SECTION_HEADER_INVALID_VALUE,
+        
+        /// <remarks/>
+        SCREEN_FIELD_SECTION_HEADER_MISSING,
+        
+        /// <remarks/>
         SCREEN_MISSING_FOOTER_AND_LIGHTNING_COMPONENT,
         
         /// <remarks/>
@@ -1986,6 +2262,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         SETTING_FIELD_VALUE_MAKES_OTHER_FIELD_VALUE_UNSUPPORTED,
+        
+        /// <remarks/>
+        SLACK_API_EXCEPTION_EXTENSION,
         
         /// <remarks/>
         SOBJECT_ELEMENT_INCOMPATIBLE_DATATYPE,
@@ -2015,6 +2294,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         SPECIFIC_FIELD_VALUE_MAKES_OTHER_FIELD_REQUIRED,
         
         /// <remarks/>
+        SPECIFIC_FIELD_VALUE_MAKES_OTHER_FIELD_VALUE_REQUIRED,
+        
+        /// <remarks/>
         STAGE_NAME_NOT_FULLY_QUALIFIED,
         
         /// <remarks/>
@@ -2028,9 +2310,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         SUBFLOW_INPUT_ELEMENT_INCOMPATIBLE_DATATYPES,
-        
-        /// <remarks/>
-        SUBFLOW_INPUT_INVALID_VALUE,
         
         /// <remarks/>
         SUBFLOW_INPUT_MISMATCHED_APEX_CLASS,
@@ -2147,7 +2426,13 @@ namespace SalesforceMetadata.MetadataWSDL {
         SURVEY_INVALID_CMT_CONFIGURED,
         
         /// <remarks/>
+        SURVEY_INVALID_CUSTOM_THANK_YOU_CONFIGURATION,
+        
+        /// <remarks/>
         SURVEY_INVALID_LINK_TARGET_IN_QUESTION_LABEL,
+        
+        /// <remarks/>
+        SURVEY_INVALID_MATRIX_QUESTION_CONFIGURATION,
         
         /// <remarks/>
         SURVEY_INVALID_MERGE_FIELD_CONFIGURATION,
@@ -2190,6 +2475,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         TRIGGERING_RECORD_UPDATE_REQUIRES_INPUTASSIGNMENTS,
+        
+        /// <remarks/>
+        TRIGGER_ORDER_NOT_SUPPORTED,
         
         /// <remarks/>
         TRIGGER_TYPE_CONTEXT_OBJECT_NOT_SUPPORTED,
@@ -2345,6 +2633,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         WORKFLOW_RECURSIVECOUNTVARIABLE_DOESNT_SUPPORT_INPUT,
         
         /// <remarks/>
+        WORKFLOW_RULE_NOT_DEACTIVATED,
+        
+        /// <remarks/>
         WORKFLOW_TRIGGERTYPE_INVALID_VALUE,
     }
     
@@ -2355,25 +2646,13 @@ namespace SalesforceMetadata.MetadataWSDL {
     public enum StatusCode {
         
         /// <remarks/>
-        ACCESSLIMITED,
-        
-        /// <remarks/>
-        ACCOUNT_INACTIVE,
-        
-        /// <remarks/>
         ALL_OR_NONE_OPERATION_ROLLED_BACK,
         
         /// <remarks/>
-        ALREADY_ARCHIVED,
+        ALREADY_APPLIED,
         
         /// <remarks/>
         ALREADY_IN_PROCESS,
-        
-        /// <remarks/>
-        ALREADY_IN_TEAM,
-        
-        /// <remarks/>
-        ALREADY_IN_TEAM_INVITED_USER,
         
         /// <remarks/>
         ALREADY_REDEEMED_VOUCHER,
@@ -2388,7 +2667,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         ASSIGNEE_TYPE_REQUIRED,
         
         /// <remarks/>
-        AS_USER_NOT_SUPPORTED,
+        ATTRIBUTE_DEFINITION_LIMIT_EXCEEDED,
         
         /// <remarks/>
         AURA_COMPILE_ERROR,
@@ -2407,6 +2686,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         BCC_NOT_ALLOWED_IF_BCC_COMPLIANCE_ENABLED,
+        
+        /// <remarks/>
+        BLOCKED_EXCLUSIVE,
         
         /// <remarks/>
         CANNOT_CASCADE_PRODUCT_ACTIVE,
@@ -2475,19 +2757,31 @@ namespace SalesforceMetadata.MetadataWSDL {
         CANNOT_UPDATE_CONVERTED_LEAD,
         
         /// <remarks/>
-        CANT_ARCHIVE_GENERAL,
-        
-        /// <remarks/>
         CANT_DISABLE_CORP_CURRENCY,
         
         /// <remarks/>
         CANT_UNSET_CORP_CURRENCY,
         
         /// <remarks/>
-        CHANNEL_NOT_FOUND,
+        CART_NOT_FOUND,
         
         /// <remarks/>
-        CHANNEL_TYPE_NOT_SUPPORTED,
+        CHECKOUT_CONFLICT,
+        
+        /// <remarks/>
+        CHECKOUT_EXPIRED,
+        
+        /// <remarks/>
+        CHECKOUT_INVALIDATED,
+        
+        /// <remarks/>
+        CHECKOUT_LOCKED,
+        
+        /// <remarks/>
+        CHECKOUT_NOT_FOUND,
+        
+        /// <remarks/>
+        CHECKOUT_UNAUTHORIZED,
         
         /// <remarks/>
         CHILD_SHARE_FAILS_PARENT,
@@ -2511,6 +2805,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         COLLISION_DETECTED,
         
         /// <remarks/>
+        COMMERCE_SEARCH_INDEXING_SYSTEM_ERROR,
+        
+        /// <remarks/>
+        COMMERCE_SEARCH_MQ_ERROR,
+        
+        /// <remarks/>
+        COMMERCE_SEARCH_PROVIDER_LIMIT_EXCEEDED,
+        
+        /// <remarks/>
+        COMMERCE_SEARCH_RESOURCE_NOT_FOUND,
+        
+        /// <remarks/>
         COMMERCIAL_CONTROL_ERROR,
         
         /// <remarks/>
@@ -2530,12 +2836,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         CONTENT_TYPE_NOT_FOUND,
-        
-        /// <remarks/>
-        COULD_NOT_ARCHIVE_CHANNEL,
-        
-        /// <remarks/>
-        COULD_NOT_CREATE_CHANNEL,
         
         /// <remarks/>
         CUSTOM_APEX_ERROR,
@@ -2583,10 +2883,19 @@ namespace SalesforceMetadata.MetadataWSDL {
         DATACLOUDADDRESS_SERVER_ERROR,
         
         /// <remarks/>
-        DATE_OUT_OF_RANGE,
+        DATA_MAPPING_NOT_FOUND,
         
         /// <remarks/>
-        DEFAULT_ORG_WIDE_CHANNEL,
+        DATA_MAPPING_SCHEMA_NOT_FOUND,
+        
+        /// <remarks/>
+        DATA_TRANSFER_RECORD_LIMIT_EXCEEDED,
+        
+        /// <remarks/>
+        DATA_TYPE_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        DATE_OUT_OF_RANGE,
         
         /// <remarks/>
         DELETE_FAILED,
@@ -2604,16 +2913,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         DEPENDENCY_EXISTS,
         
         /// <remarks/>
-        DEPRECATED_ENDPOINT,
-        
-        /// <remarks/>
         DUPLICATES_DETECTED,
         
         /// <remarks/>
         DUPLICATE_CASE_SOLUTION,
-        
-        /// <remarks/>
-        DUPLICATE_CHANNEL_NOT_FOUND,
         
         /// <remarks/>
         DUPLICATE_COMM_NICKNAME,
@@ -2634,9 +2937,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         DUPLICATE_MASTER_LABEL,
         
         /// <remarks/>
-        DUPLICATE_MESSAGE_NOT_FOUND,
-        
-        /// <remarks/>
         DUPLICATE_SENDER_DISPLAY_NAME,
         
         /// <remarks/>
@@ -2644,9 +2944,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         DUPLICATE_VALUE,
-        
-        /// <remarks/>
-        EKM_ACCESS_DENIED,
         
         /// <remarks/>
         EMAIL_ADDRESS_BOUNCED,
@@ -2691,13 +2988,13 @@ namespace SalesforceMetadata.MetadataWSDL {
         EMAIL_TEMPLATE_PROCESSING_ERROR,
         
         /// <remarks/>
+        EMPTY_INGESTION_JOB,
+        
+        /// <remarks/>
         EMPTY_SCONTROL_FILE_NAME,
         
         /// <remarks/>
         ENHANCED_EMAIL_TEMPLATE_COMPILATION_ERROR,
-        
-        /// <remarks/>
-        ENTERPRISE_IS_RESTRICTED,
         
         /// <remarks/>
         ENTITY_FAILED_IFLASTMODIFIED_ON_UPDATE,
@@ -2751,37 +3048,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         FAILED_DUE_TO_OTHER_INPUTS,
         
         /// <remarks/>
-        FAILED_FOR_SOME_USERS,
+        FAILED_TO_RESOLVE_MAPPING,
         
         /// <remarks/>
-        FAILED_LOOKING_UP_USER,
-        
-        /// <remarks/>
-        FAILED_TO_SEND_INVITE,
-        
-        /// <remarks/>
-        FAILED_TO_VALIDATE_CALLER,
-        
-        /// <remarks/>
-        FAILED_TO_VALIDATE_CHANNELS,
-        
-        /// <remarks/>
-        FAILED_TO_VALIDATE_CUSTOM_MESSAGE,
-        
-        /// <remarks/>
-        FAILED_TO_VALIDATE_EXPIRATION,
-        
-        /// <remarks/>
-        FAILED_TO_VALIDATE_TEAM,
-        
-        /// <remarks/>
-        FATAL_ERROR,
-        
-        /// <remarks/>
-        FEATURE_NOT_ENABLED,
-        
-        /// <remarks/>
-        FETCH_MEMBERS_FAILED,
+        FAILED_TO_RESOLVE_SCHEMA_INFORMATION,
         
         /// <remarks/>
         FIELD_CUSTOM_VALIDATION_EXCEPTION,
@@ -2823,6 +3093,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         FUNCTIONALITY_NOT_ENABLED,
         
         /// <remarks/>
+        GET_EINSTEIN_TENANT_ERROR,
+        
+        /// <remarks/>
         HAS_PUBLIC_REFERENCES,
         
         /// <remarks/>
@@ -2847,6 +3120,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         IAS_TENANT_NOT_PROVISIONED,
         
         /// <remarks/>
+        IAS_UNCOMMITTED_WORK,
+        
+        /// <remarks/>
         IMAGE_TOO_LARGE,
         
         /// <remarks/>
@@ -2854,6 +3130,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         INACTIVE_RULE_ERROR,
+        
+        /// <remarks/>
+        INDEX_ITEM_LIMIT_EXCEEDED,
+        
+        /// <remarks/>
+        INDEX_PAYLOAD_NOT_FOUND,
+        
+        /// <remarks/>
+        INGESTION_JOB_RECORDS_LIMIT_EXCEEDED,
+        
+        /// <remarks/>
+        INGESTION_TOTAL_FILE_SIZE_LIMIT_EXCEEDED,
         
         /// <remarks/>
         INSERT_UPDATE_DELETE_NOT_ALLOWED_DURING_MAINTENANCE,
@@ -2886,19 +3174,13 @@ namespace SalesforceMetadata.MetadataWSDL {
         INVALID_ACCESS_TOKEN,
         
         /// <remarks/>
+        INVALID_ACCOUNT,
+        
+        /// <remarks/>
         INVALID_API_INPUT,
         
         /// <remarks/>
-        INVALID_ARGUMENTS,
-        
-        /// <remarks/>
         INVALID_ARGUMENT_TYPE,
-        
-        /// <remarks/>
-        INVALID_ARG_NAME,
-        
-        /// <remarks/>
-        INVALID_ARRAY_ARG,
         
         /// <remarks/>
         INVALID_ASSIGNEE_TYPE,
@@ -2907,16 +3189,16 @@ namespace SalesforceMetadata.MetadataWSDL {
         INVALID_ASSIGNMENT_RULE,
         
         /// <remarks/>
-        INVALID_AUTH,
-        
-        /// <remarks/>
         INVALID_AUTH_HEADER,
         
         /// <remarks/>
         INVALID_BATCH_OPERATION,
         
         /// <remarks/>
-        INVALID_CHARSET,
+        INVALID_CHECKOUT_INPUT,
+        
+        /// <remarks/>
+        INVALID_CONTACT,
         
         /// <remarks/>
         INVALID_CONTENT_TYPE,
@@ -2940,9 +3222,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         INVALID_CURRENCY_ISO,
         
         /// <remarks/>
-        INVALID_CURSOR,
-        
-        /// <remarks/>
         INVALID_DATASET_REFERENCE_INPUT,
         
         /// <remarks/>
@@ -2950,9 +3229,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         INVALID_DATA_URI,
-        
-        /// <remarks/>
-        INVALID_EMAIL,
         
         /// <remarks/>
         INVALID_EMAIL_ADDRESS,
@@ -2985,6 +3261,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         INVALID_EXTENSION_ID,
         
         /// <remarks/>
+        INVALID_EXTERNAL_ID_FIELD_NAME,
+        
+        /// <remarks/>
         INVALID_FIELD,
         
         /// <remarks/>
@@ -2995,9 +3274,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         INVALID_FILTER_ACTION,
-        
-        /// <remarks/>
-        INVALID_FORM_DATA,
         
         /// <remarks/>
         INVALID_GOOGLE_DOCS_URL,
@@ -3018,9 +3294,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         INVALID_KEY_FIELD_INPUT,
         
         /// <remarks/>
-        INVALID_LIMIT,
-        
-        /// <remarks/>
         INVALID_LINEITEM_CLONE_STATE,
         
         /// <remarks/>
@@ -3031,9 +3304,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         INVALID_MESSAGE_ID_REFERENCE,
-        
-        /// <remarks/>
-        INVALID_NAME,
         
         /// <remarks/>
         INVALID_NAMESPACE_PREFIX,
@@ -3069,7 +3339,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         INVALID_PERSON_ACCOUNT_OPERATION,
         
         /// <remarks/>
-        INVALID_POST_TYPE,
+        INVALID_PROFILE,
+        
+        /// <remarks/>
+        INVALID_PROMOTION,
         
         /// <remarks/>
         INVALID_PROVIDER_TYPE,
@@ -3087,6 +3360,12 @@ namespace SalesforceMetadata.MetadataWSDL {
         INVALID_READ_ONLY_USER_DML,
         
         /// <remarks/>
+        INVALID_RECEIVEDDOCUMENTID_ATTACHMENT,
+        
+        /// <remarks/>
+        INVALID_RECORD_TYPE,
+        
+        /// <remarks/>
         INVALID_REFRESH_TOKEN,
         
         /// <remarks/>
@@ -3100,6 +3379,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         INVALID_SCS_INBOUND_USER,
+        
+        /// <remarks/>
+        INVALID_SEARCH_PROVIDER_REQUEST,
         
         /// <remarks/>
         INVALID_SESSION_ID,
@@ -3132,7 +3414,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         INVALID_SUBDOMAIN,
         
         /// <remarks/>
-        INVALID_TEAM,
+        INVALID_TARGET_OBJECT_NAME,
         
         /// <remarks/>
         INVALID_TEXT_REPRESENTATION,
@@ -3150,13 +3432,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         INVALID_USERID,
         
         /// <remarks/>
+        INVALID_USER_OBJECT,
+        
+        /// <remarks/>
         IP_RANGE_LIMIT_EXCEEDED,
-        
-        /// <remarks/>
-        IS_ARCHIVED,
-        
-        /// <remarks/>
-        IS_BOT,
         
         /// <remarks/>
         ITEM_NOT_FOUND,
@@ -3297,46 +3576,25 @@ namespace SalesforceMetadata.MetadataWSDL {
         METADATA_FIELD_UPDATE_ERROR,
         
         /// <remarks/>
-        METHOD_DEPRECATED,
-        
-        /// <remarks/>
-        METHOD_NOT_SUPPORTED_FOR_CHANNEL_TYPE,
-        
-        /// <remarks/>
         MISSING_ARGUMENT,
         
         /// <remarks/>
-        MISSING_POST_TYPE,
+        MISSING_RECEIVEDDOCUMENTID_ATTACHMENT,
         
         /// <remarks/>
         MISSING_RECORD,
         
         /// <remarks/>
-        MISSING_SCOPE,
-        
-        /// <remarks/>
         MIXED_DML_OPERATION,
-        
-        /// <remarks/>
-        MSG_TOO_LONG,
         
         /// <remarks/>
         MULTIPLE_VOUCHERS,
         
         /// <remarks/>
-        NAME_TAKEN,
-        
-        /// <remarks/>
         NONUNIQUE_SHIPPING_ADDRESS,
         
         /// <remarks/>
-        NOT_ALLOWED_TOKEN_TYPE,
-        
-        /// <remarks/>
-        NOT_AUTHED,
-        
-        /// <remarks/>
-        NOT_IN_CHANNEL,
+        NOT_RECOVERABLE_SEARCH_PROVIDER_ERROR,
         
         /// <remarks/>
         NO_ACCESS_TOKEN,
@@ -3357,25 +3615,25 @@ namespace SalesforceMetadata.MetadataWSDL {
         NO_INACTIVE_DIVISION_MEMBERS,
         
         /// <remarks/>
-        NO_LOCAL_USER_ON_TEAM,
-        
-        /// <remarks/>
         NO_MASS_MAIL_PERMISSION,
         
         /// <remarks/>
         NO_PARTNER_PERMISSION,
         
         /// <remarks/>
-        NO_PERMISSION,
-        
-        /// <remarks/>
         NO_REFRESH_TOKEN,
         
         /// <remarks/>
-        NO_SUCH_USER_EXISTS,
+        NO_SEARCH_ATTRIBUTES,
         
         /// <remarks/>
-        NO_TEXT,
+        NO_SINGLE_MAIL_PERMISSION,
+        
+        /// <remarks/>
+        NO_SORT_PRICEBOOK_ASSOCIATED_ERROR,
+        
+        /// <remarks/>
+        NO_SUCH_USER_EXISTS,
         
         /// <remarks/>
         NO_TOKEN_ENDPOINT,
@@ -3385,6 +3643,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         NUM_HISTORY_FIELDS_BY_SOBJECT_EXCEEDED,
+        
+        /// <remarks/>
+        OCR_INVALID_REQUEST,
         
         /// <remarks/>
         OPERATION_ENQUEUED,
@@ -3409,9 +3670,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         ORDER_MANAGEMENT_RECORD_NOT_FOUND,
-        
-        /// <remarks/>
-        ORG_LOGIN_REQUIRED,
         
         /// <remarks/>
         PACKAGE_DISABLED,
@@ -3450,6 +3708,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         PAL_INVALID_PARAMETERS,
         
         /// <remarks/>
+        PARAMETER_TOO_LARGE,
+        
+        /// <remarks/>
         PARTICIPANT_RELATIONSHIP_EXISTS,
         
         /// <remarks/>
@@ -3475,6 +3736,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         PA_VISIBLE_ACTIONS_FILTER_ORDERING_EXCEPTION,
+        
+        /// <remarks/>
+        PENDING_COMMIT,
         
         /// <remarks/>
         PICKLIST_INACTIVE_VALUES_EXCEEDED,
@@ -3513,6 +3777,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         QA_INVALID_SUCCESS_MESSAGE,
         
         /// <remarks/>
+        QUERY_REFINEMENT_VALUE_LIMIT_EXCEEDED,
+        
+        /// <remarks/>
         QUERY_TIMEOUT,
         
         /// <remarks/>
@@ -3522,16 +3789,16 @@ namespace SalesforceMetadata.MetadataWSDL {
         QUICK_ACTION_LIST_NOT_ALLOWED,
         
         /// <remarks/>
-        RATELIMITED,
-        
-        /// <remarks/>
-        RATE_LIMITED,
-        
-        /// <remarks/>
         RECORD_CREATION_FAILED,
         
         /// <remarks/>
         RECORD_IN_USE_BY_WORKFLOW,
+        
+        /// <remarks/>
+        RECORD_UPDATE_FAILED,
+        
+        /// <remarks/>
+        RECOVERABLE_SEARCH_PROVIDER_ERROR,
         
         /// <remarks/>
         RELATED_ENTITY_FILTER_VALIDATION_EXCEPTION,
@@ -3544,9 +3811,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         REQUEST_RUNNING_TOO_LONG,
-        
-        /// <remarks/>
-        REQUEST_TIMEOUT,
         
         /// <remarks/>
         REQUIRED_FEATURE_MISSING,
@@ -3562,18 +3826,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         REQUIRE_RUNAS_USER,
-        
-        /// <remarks/>
-        RESTRICTED_ACTION,
-        
-        /// <remarks/>
-        RESTRICTED_ACTION_NON_THREADABLE_CHANNEL,
-        
-        /// <remarks/>
-        RESTRICTED_ACTION_READ_ONLY_CHANNEL,
-        
-        /// <remarks/>
-        RESTRICTED_ACTION_THREAD_ONLY_CHANNEL,
         
         /// <remarks/>
         RETRIEVE_EXCHANGE_ATTACHMENT_FAILED,
@@ -3606,6 +3858,12 @@ namespace SalesforceMetadata.MetadataWSDL {
         SALESFORCE_INBOX_TRANSPORT_UNKNOWN_ERROR,
         
         /// <remarks/>
+        SCHEMA_OBJECT_NOT_FOUND,
+        
+        /// <remarks/>
+        SEARCH_PROVIDER_REQUEST_RATE_EXCEEDED,
+        
+        /// <remarks/>
         SELF_REFERENCE_FROM_FLOW,
         
         /// <remarks/>
@@ -3627,10 +3885,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         SINGLE_EMAIL_LIMIT_EXCEEDED,
         
         /// <remarks/>
-        SLACK_CONNECT_FILE_LINK_SHARING_BLOCKED,
-        
-        /// <remarks/>
-        SLACK_INTERNAL_ERROR,
+        SLACK_API_ERROR,
         
         /// <remarks/>
         SOCIAL_ACCOUNT_NOT_FOUND,
@@ -3666,18 +3921,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         TABSET_LIMIT_EXCEEDED,
         
         /// <remarks/>
-        TEAM_ACCESS_NOT_GRANTED,
-        
-        /// <remarks/>
-        TEAM_ADDED_TO_ORG,
-        
-        /// <remarks/>
-        TEAM_ID_OR_ORG_REQUIRED,
-        
-        /// <remarks/>
-        TEAM_NOT_FOUND,
-        
-        /// <remarks/>
         TEMPLATE_NOT_ACTIVE,
         
         /// <remarks/>
@@ -3696,13 +3939,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         TEXT_TO_PICKLIST_VALUES_EXCEEDED,
         
         /// <remarks/>
-        TOKEN_REVOKED,
-        
-        /// <remarks/>
         TOO_MANY_APEX_REQUESTS,
-        
-        /// <remarks/>
-        TOO_MANY_ATTACHMENTS,
         
         /// <remarks/>
         TOO_MANY_ENUM_VALUE,
@@ -3717,10 +3954,25 @@ namespace SalesforceMetadata.MetadataWSDL {
         TRANSFER_REQUIRES_READ,
         
         /// <remarks/>
-        TWO_FACTOR_SETUP_REQUIRED,
+        UISF_ENTITY_QUERY_FAILED,
+        
+        /// <remarks/>
+        UISF_NO_MAPPINGS_FOUND,
+        
+        /// <remarks/>
+        UISF_TOKEN_NOT_FOUND,
+        
+        /// <remarks/>
+        UISF_UNKNOWN_EXCEPTION,
+        
+        /// <remarks/>
+        UISF_USER_MAPPING_FAILED,
         
         /// <remarks/>
         UNABLE_TO_LOCK_ROW,
+        
+        /// <remarks/>
+        UNAUTHORIZED_SEARCH_PROVIDER_REQUEST,
         
         /// <remarks/>
         UNAVAILABLE_RECORDTYPE_EXCEPTION,
@@ -3741,6 +3993,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         UNKNOWN_TOKEN_ERROR,
         
         /// <remarks/>
+        UNQUALIFIED_CART,
+        
+        /// <remarks/>
         UNSAFE_HTML_CONTENT,
         
         /// <remarks/>
@@ -3748,6 +4003,12 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         UNSUPPORTED_APEX_TRIGGER_OPERATON,
+        
+        /// <remarks/>
+        UNSUPPORTED_PAYMENT_GATEWAY_TYPE,
+        
+        /// <remarks/>
+        UNSUPPORTED_PAYMENT_REQUEST_TYPE,
         
         /// <remarks/>
         UNSUPPORTED_SITE,
@@ -3765,19 +4026,16 @@ namespace SalesforceMetadata.MetadataWSDL {
         UPDATE_GOOGLE_EMAIL_LABEL_FAILED,
         
         /// <remarks/>
-        USER_DISABLED,
-        
-        /// <remarks/>
-        USER_IS_ULTRA_RESTRICTED,
-        
-        /// <remarks/>
-        USER_MUST_BE_ADMIN,
-        
-        /// <remarks/>
         USER_OWNS_PORTAL_ACCOUNT_EXCEPTION,
         
         /// <remarks/>
+        USER_WITHOUT_WEM_PERMISSION,
+        
+        /// <remarks/>
         USER_WITH_APEX_SHARES_EXCEPTION,
+        
+        /// <remarks/>
+        VARIANT_NOT_FOUND,
         
         /// <remarks/>
         VF_COMPILE_ERROR,
@@ -3787,6 +4045,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         WEBLINK_URL_INVALID,
+        
+        /// <remarks/>
+        WEM_USER_NOT_ORG_ADMIN,
         
         /// <remarks/>
         WORKSPACE_NOT_FOUND,
@@ -4272,8 +4533,10 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(WaveTemplateBundle))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(WaveDataset))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(WaveApplication))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(WarrantyLifecycleMgmtSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(VoiceSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(UserProvisioningConfig))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(UserProfileSearchScope))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(UserManagementSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(UserInterfaceSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(UserEngagementSettings))]
@@ -4284,6 +4547,7 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransactionSecurityPolicy))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TrailheadSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TopicsForObjects))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TimelineObjectDefinition))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TimeSheetTemplate))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Territory2Type))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Territory2Settings))]
@@ -4292,7 +4556,11 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Territory2))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(SystemNotificationSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(SynonymDictionary))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SvcCatalogItemDef))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SvcCatalogFulfillmentFlow))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SvcCatalogCategory))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(SurveySettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SubscriptionManagementSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(StandardValueSetTranslation))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(StandardValueSet))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(SocialProfileSettings))]
@@ -4326,8 +4594,10 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ReportType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Report))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RemoteSiteSetting))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(RelationshipGraphDefinition))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RedirectWhitelistUrl))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RecordPageSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(RecordAlertCategory))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RecordActionDeployment))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RecommendationStrategy))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RecommendationBuilderSettings))]
@@ -4342,6 +4612,7 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ProfilePasswordPolicy))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Profile))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ProductSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ProductAttributeSet))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(PrivacySettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(PresenceUserConfig))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(PresenceDeclineReason))]
@@ -4354,6 +4625,7 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(PlatformEncryptionSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(PlatformCachePartition))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(PicklistSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(PermissionSetLicenseDefinition))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(PermissionSetGroup))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(PermissionSet))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(MutingPermissionSet))]
@@ -4405,21 +4677,25 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(EmailTemplate))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(EclairGeoData))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Document))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DiscoveryStory))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(DiscoveryAIModel))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DataMapping))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ContentAsset))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Certificate))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ApexTrigger))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ApexPage))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ApexComponent))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ApexClass))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(AccessControlPolicy))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(MessagingChannel))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(MeetingsSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(MatchingRules))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(MatchingRule))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ManagedTopics))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ManagedTopic))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ManagedContentTypeBundle))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ManagedContentType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(MacroSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(MLRecommendationDefinition))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(MLPredictionDefinition))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(MLDataDefinition))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(LiveMessageSettings))]
@@ -4442,15 +4718,19 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(LanguageSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(KnowledgeSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(KeywordList))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(IsvHammerSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(IoTSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(InvocableActionSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(InventorySettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(InstalledPackage))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(IndustriesSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(IndustriesManufacturingSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(IndustriesAutomotiveSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(IncidentMgmtSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(InboundNetworkConnection))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(IframeWhiteListUrlSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(IdentityVerificationProcFld))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(IdentityVerificationProcDtl))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(IdentityVerificationProcDef))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(IdeasSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(IPAddressRange))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(HomePageLayout))]
@@ -4462,15 +4742,20 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(GlobalValueSet))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(GatewayProviderPaymentMethodType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FormulaSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ForecastingTypeSource))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ForecastingType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ForecastingSourceDefinition))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ForecastingSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ForecastingObjectListSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ForecastingFilterCondition))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ForecastingFilter))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Folder))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ReportFolder))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(EmailTemplateFolder))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(EmailFolder))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(DocumentFolder))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(DashboardFolder))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowTest))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowDefinition))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowCategory))]
@@ -4480,12 +4765,16 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FileUploadAndDownloadSecuritySettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FieldServiceSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FieldRestrictionRule))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(FederationDataMappingUsage))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ExternalServicesSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ExternalServiceRegistration))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ExternalDataSrcDescriptor))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ExternalDataSource))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ExternalCredential))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ExperienceBundleSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ExperienceBundle))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(EventSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(EventRelayConfig))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(EssentialsSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(EscalationRules))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(EscalationRule))]
@@ -4506,6 +4795,8 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(EmailServicesFunction))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(EmailIntegrationSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(EmailAdministrationSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(EinsteinDocumentCaptureSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(EinsteinDealInsightsSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(EinsteinAssistantSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(EinsteinAgentSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(EACSettings))]
@@ -4516,23 +4807,43 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(DiscoveryGoal))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(DeploymentSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(DelegateGroup))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(OnlineSalesSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(MapsAndLocationSettings))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DevHubSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(InterestTaggingSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AppAnalyticsSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(PaymentsManagementEnabledSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(IndustriesLoyaltySettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(BranchManagementSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(MediaAdSalesSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(InvLatePymntRiskCalcSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DevHubSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(OrgSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(SourceTrackingSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(MailMergeSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(WorkforceEngagementSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DataImportManagementSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(AssociationEngineSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(PlatformSlackSettings))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(BranchManagementSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RelatedRecordAssocCriteria))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(SchedulingRule))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ForecastingTypeSource))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ForecastingSourceDefinition))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DynamicTrigger))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(CareLimitType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CareSystemFieldMapping))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CareProviderSearchConfig))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(MobSecurityCertPinConfig))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ConnectedSystem))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(RegisteredExternalService))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(EmployeeDataSyncProfile))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(AppExplorationDataConsent))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(RecordAlertDataSource))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(MobileSecurityPolicy))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(MobileSecurityAssignment))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(MobileSecurityPolicySet))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(VirtualVisitConfig))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SchedulingObjective))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(PlatformEventSubscriberConfig))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DataMappingSchema))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DataMappingObjectDefinition))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DataMappingFieldDefinition))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(DataDotComSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(DataCategoryGroup))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Dashboard))]
@@ -4563,6 +4874,7 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CustomFeedFilter))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CustomApplicationComponent))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CustomApplication))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(CustomAddressFieldSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CurrencySettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CspTrustedSite))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CorsWhitelistOrigin))]
@@ -4590,9 +4902,11 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CaseSubjectParticle))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CaseSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CareRequestConfiguration))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(CareBenefitVerifySettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CanvasMetadata))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CampaignSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CampaignInfluenceModel))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(CallCtrAgentFavTrfrDest))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CallCoachingMediaProvider))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CallCenterRoutingMap))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CallCenter))]
@@ -4604,6 +4918,7 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BusinessHoursEntry))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BriefcaseDefinition))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BrandingSet))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(BotTemplate))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BotSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BotVersion))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bot))]
@@ -4615,11 +4930,13 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AuthProvider))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AuraDefinitionBundle))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Audience))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(AttributeDefinition2))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AssignmentRules))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AssignmentRule))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ArchiveSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ApprovalProcess))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AppointmentSchedulingPolicy))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(AppointmentAssignmentPolicy))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AppMenu))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AppExperienceSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ApexTestSuite))]
@@ -4627,6 +4944,7 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ApexEmailNotifications))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AnimationRule))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AnalyticsSettings))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(AnalyticsDataServicesSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AnalyticSnapshot))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AddressSettings))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ActivitiesSettings))]
@@ -4678,6 +4996,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         private FilterItem[] criteriaItemsField;
         
         private string descriptionField;
+        
+        private string failedMigrationToolVersionField;
         
         private string formulaField;
         
@@ -4742,6 +5062,17 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string failedMigrationToolVersion {
+            get {
+                return this.failedMigrationToolVersionField;
+            }
+            set {
+                this.failedMigrationToolVersionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public string formula {
             get {
                 return this.formulaField;
@@ -4752,7 +5083,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public WorkflowTriggerTypes triggerType {
             get {
                 return this.triggerTypeField;
@@ -4763,7 +5094,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("workflowTimeTriggers", Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute("workflowTimeTriggers", Order=8)]
         public WorkflowTimeTrigger[] workflowTimeTriggers {
             get {
                 return this.workflowTimeTriggersField;
@@ -6645,6 +6976,10 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class WebToXSettings : Metadata {
         
+        private bool shouldHideRecordInfoInEmailField;
+        
+        private bool shouldHideRecordInfoInEmailFieldSpecified;
+        
         private bool webToCaseSpamFilterField;
         
         private bool webToCaseSpamFilterFieldSpecified;
@@ -6655,6 +6990,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool shouldHideRecordInfoInEmail {
+            get {
+                return this.shouldHideRecordInfoInEmailField;
+            }
+            set {
+                this.shouldHideRecordInfoInEmailField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool shouldHideRecordInfoInEmailSpecified {
+            get {
+                return this.shouldHideRecordInfoInEmailFieldSpecified;
+            }
+            set {
+                this.shouldHideRecordInfoInEmailFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
         public bool webToCaseSpamFilter {
             get {
                 return this.webToCaseSpamFilterField;
@@ -6676,7 +7033,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
         public bool webToLeadSpamFilter {
             get {
                 return this.webToLeadSpamFilterField;
@@ -6706,6 +7063,10 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class WebStoreTemplate : Metadata {
         
+        private bool autoFacetingEnabledField;
+        
+        private bool autoFacetingEnabledFieldSpecified;
+        
         private int checkoutTimeToLiveField;
         
         private bool checkoutTimeToLiveFieldSpecified;
@@ -6714,11 +7075,25 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool checkoutValidAfterDateFieldSpecified;
         
+        private bool commerceEinsteinActivitiesTrackedField;
+        
+        private bool commerceEinsteinActivitiesTrackedFieldSpecified;
+        
+        private bool commerceEinsteinDeployedField;
+        
+        private bool commerceEinsteinDeployedFieldSpecified;
+        
         private string defaultCurrencyField;
         
         private string defaultLanguageField;
         
+        private TaxLocaleType defaultTaxLocaleTypeField;
+        
         private string descriptionField;
+        
+        private bool guestBrowsingEnabledField;
+        
+        private bool guestBrowsingEnabledFieldSpecified;
         
         private int guestCartTimeToLiveField;
         
@@ -6730,6 +7105,12 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool maxValuesPerFacetFieldSpecified;
         
+        private string orderActivationStatusField;
+        
+        private OrderLifeCycleType orderLifeCycleTypeField;
+        
+        private bool orderLifeCycleTypeFieldSpecified;
+        
         private int paginationSizeField;
         
         private bool paginationSizeFieldSpecified;
@@ -6740,6 +7121,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool productGroupingFieldSpecified;
         
+        private bool skipAdditionalEntitlementCheckForSearchField;
+        
+        private bool skipAdditionalEntitlementCheckForSearchFieldSpecified;
+        
         private string supportedCurrenciesField;
         
         private string supportedLanguagesField;
@@ -6748,6 +7133,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool autoFacetingEnabled {
+            get {
+                return this.autoFacetingEnabledField;
+            }
+            set {
+                this.autoFacetingEnabledField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool autoFacetingEnabledSpecified {
+            get {
+                return this.autoFacetingEnabledFieldSpecified;
+            }
+            set {
+                this.autoFacetingEnabledFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
         public int checkoutTimeToLive {
             get {
                 return this.checkoutTimeToLiveField;
@@ -6769,7 +7176,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
         public System.DateTime checkoutValidAfterDate {
             get {
                 return this.checkoutValidAfterDateField;
@@ -6791,7 +7198,51 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool commerceEinsteinActivitiesTracked {
+            get {
+                return this.commerceEinsteinActivitiesTrackedField;
+            }
+            set {
+                this.commerceEinsteinActivitiesTrackedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool commerceEinsteinActivitiesTrackedSpecified {
+            get {
+                return this.commerceEinsteinActivitiesTrackedFieldSpecified;
+            }
+            set {
+                this.commerceEinsteinActivitiesTrackedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public bool commerceEinsteinDeployed {
+            get {
+                return this.commerceEinsteinDeployedField;
+            }
+            set {
+                this.commerceEinsteinDeployedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool commerceEinsteinDeployedSpecified {
+            get {
+                return this.commerceEinsteinDeployedFieldSpecified;
+            }
+            set {
+                this.commerceEinsteinDeployedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public string defaultCurrency {
             get {
                 return this.defaultCurrencyField;
@@ -6802,7 +7253,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public string defaultLanguage {
             get {
                 return this.defaultLanguageField;
@@ -6813,7 +7264,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public TaxLocaleType defaultTaxLocaleType {
+            get {
+                return this.defaultTaxLocaleTypeField;
+            }
+            set {
+                this.defaultTaxLocaleTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public string description {
             get {
                 return this.descriptionField;
@@ -6824,7 +7286,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        public bool guestBrowsingEnabled {
+            get {
+                return this.guestBrowsingEnabledField;
+            }
+            set {
+                this.guestBrowsingEnabledField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool guestBrowsingEnabledSpecified {
+            get {
+                return this.guestBrowsingEnabledFieldSpecified;
+            }
+            set {
+                this.guestBrowsingEnabledFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
         public int guestCartTimeToLive {
             get {
                 return this.guestCartTimeToLiveField;
@@ -6846,7 +7330,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
         public string masterLabel {
             get {
                 return this.masterLabelField;
@@ -6857,7 +7341,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
         public int maxValuesPerFacet {
             get {
                 return this.maxValuesPerFacetField;
@@ -6879,7 +7363,40 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        public string orderActivationStatus {
+            get {
+                return this.orderActivationStatusField;
+            }
+            set {
+                this.orderActivationStatusField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        public OrderLifeCycleType orderLifeCycleType {
+            get {
+                return this.orderLifeCycleTypeField;
+            }
+            set {
+                this.orderLifeCycleTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool orderLifeCycleTypeSpecified {
+            get {
+                return this.orderLifeCycleTypeFieldSpecified;
+            }
+            set {
+                this.orderLifeCycleTypeFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
         public int paginationSize {
             get {
                 return this.paginationSizeField;
@@ -6901,7 +7418,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
         public PricingStrategy pricingStrategy {
             get {
                 return this.pricingStrategyField;
@@ -6912,7 +7429,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
         public ProductGrouping productGrouping {
             get {
                 return this.productGroupingField;
@@ -6934,7 +7451,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
+        public bool skipAdditionalEntitlementCheckForSearch {
+            get {
+                return this.skipAdditionalEntitlementCheckForSearchField;
+            }
+            set {
+                this.skipAdditionalEntitlementCheckForSearchField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool skipAdditionalEntitlementCheckForSearchSpecified {
+            get {
+                return this.skipAdditionalEntitlementCheckForSearchFieldSpecified;
+            }
+            set {
+                this.skipAdditionalEntitlementCheckForSearchFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
         public string supportedCurrencies {
             get {
                 return this.supportedCurrenciesField;
@@ -6945,7 +7484,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
         public string supportedLanguages {
             get {
                 return this.supportedLanguagesField;
@@ -6956,7 +7495,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
         public WebStoreType type {
             get {
                 return this.typeField;
@@ -6965,6 +7504,32 @@ namespace SalesforceMetadata.MetadataWSDL {
                 this.typeField = value;
             }
         }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum TaxLocaleType {
+        
+        /// <remarks/>
+        Net,
+        
+        /// <remarks/>
+        Gross,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum OrderLifeCycleType {
+        
+        /// <remarks/>
+        MANAGED,
+        
+        /// <remarks/>
+        UNMANAGED,
     }
     
     /// <remarks/>
@@ -7004,9 +7569,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         B2C,
-        
-        /// <remarks/>
-        OMS,
         
         /// <remarks/>
         B2CE,
@@ -9099,6 +9661,41 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class WarrantyLifecycleMgmtSettings : Metadata {
+        
+        private bool enableWarrantyLCMgmtField;
+        
+        private bool enableWarrantyLCMgmtFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableWarrantyLCMgmt {
+            get {
+                return this.enableWarrantyLCMgmtField;
+            }
+            set {
+                this.enableWarrantyLCMgmtField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableWarrantyLCMgmtSpecified {
+            get {
+                return this.enableWarrantyLCMgmtFieldSpecified;
+            }
+            set {
+                this.enableWarrantyLCMgmtFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class VoiceSettings : Metadata {
         
         private bool enableCallDispositionField;
@@ -9108,6 +9705,14 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool enableConsentReminderField;
         
         private bool enableConsentReminderFieldSpecified;
+        
+        private bool enableDefaultRecordingField;
+        
+        private bool enableDefaultRecordingFieldSpecified;
+        
+        private bool enableVendorQueueManagementField;
+        
+        private bool enableVendorQueueManagementFieldSpecified;
         
         private bool enableVoiceCallListField;
         
@@ -9183,6 +9788,50 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool enableDefaultRecording {
+            get {
+                return this.enableDefaultRecordingField;
+            }
+            set {
+                this.enableDefaultRecordingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableDefaultRecordingSpecified {
+            get {
+                return this.enableDefaultRecordingFieldSpecified;
+            }
+            set {
+                this.enableDefaultRecordingFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool enableVendorQueueManagement {
+            get {
+                return this.enableVendorQueueManagementField;
+            }
+            set {
+                this.enableVendorQueueManagementField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableVendorQueueManagementSpecified {
+            get {
+                return this.enableVendorQueueManagementFieldSpecified;
+            }
+            set {
+                this.enableVendorQueueManagementFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
         public bool enableVoiceCallList {
             get {
                 return this.enableVoiceCallListField;
@@ -9204,7 +9853,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public bool enableVoiceCallRecording {
             get {
                 return this.enableVoiceCallRecordingField;
@@ -9226,7 +9875,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public bool enableVoiceCoaching {
             get {
                 return this.enableVoiceCoachingField;
@@ -9248,7 +9897,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public bool enableVoiceConferencing {
             get {
                 return this.enableVoiceConferencingField;
@@ -9270,7 +9919,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public bool enableVoiceLocalPresence {
             get {
                 return this.enableVoiceLocalPresenceField;
@@ -9292,7 +9941,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public bool enableVoiceMail {
             get {
                 return this.enableVoiceMailField;
@@ -9314,7 +9963,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
         public bool enableVoiceMailDrop {
             get {
                 return this.enableVoiceMailDropField;
@@ -9507,6 +10156,41 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class UserProfileSearchScope : Metadata {
+        
+        private string[] entityApiNamesField;
+        
+        private string profileField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("entityApiNames", Order=0)]
+        public string[] entityApiNames {
+            get {
+                return this.entityApiNamesField;
+            }
+            set {
+                this.entityApiNamesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string profile {
+            get {
+                return this.profileField;
+            }
+            set {
+                this.profileField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class UserManagementSettings : Metadata {
         
         private bool enableCanAnswerContainUsernameField;
@@ -9520,6 +10204,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool enableContactlessExternalIdentityUsersField;
         
         private bool enableContactlessExternalIdentityUsersFieldSpecified;
+        
+        private bool enableEnhancedConcealPersonalInfoField;
+        
+        private bool enableEnhancedConcealPersonalInfoFieldSpecified;
         
         private bool enableEnhancedPermsetMgmtField;
         
@@ -9536,6 +10224,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool enableProfileFilteringField;
         
         private bool enableProfileFilteringFieldSpecified;
+        
+        private bool enableRestrictEmailDomainsField;
+        
+        private bool enableRestrictEmailDomainsFieldSpecified;
         
         private bool enableScrambleUserDataField;
         
@@ -9621,6 +10313,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool enableEnhancedConcealPersonalInfo {
+            get {
+                return this.enableEnhancedConcealPersonalInfoField;
+            }
+            set {
+                this.enableEnhancedConcealPersonalInfoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableEnhancedConcealPersonalInfoSpecified {
+            get {
+                return this.enableEnhancedConcealPersonalInfoFieldSpecified;
+            }
+            set {
+                this.enableEnhancedConcealPersonalInfoFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
         public bool enableEnhancedPermsetMgmt {
             get {
                 return this.enableEnhancedPermsetMgmtField;
@@ -9642,7 +10356,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public bool enableEnhancedProfileMgmt {
             get {
                 return this.enableEnhancedProfileMgmtField;
@@ -9664,7 +10378,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public bool enableNewProfileUI {
             get {
                 return this.enableNewProfileUIField;
@@ -9686,7 +10400,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public bool enableProfileFiltering {
             get {
                 return this.enableProfileFilteringField;
@@ -9708,7 +10422,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public bool enableRestrictEmailDomains {
+            get {
+                return this.enableRestrictEmailDomainsField;
+            }
+            set {
+                this.enableRestrictEmailDomainsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableRestrictEmailDomainsSpecified {
+            get {
+                return this.enableRestrictEmailDomainsFieldSpecified;
+            }
+            set {
+                this.enableRestrictEmailDomainsFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public bool enableScrambleUserData {
             get {
                 return this.enableScrambleUserDataField;
@@ -9730,7 +10466,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
         public bool enableUserSelfDeactivate {
             get {
                 return this.enableUserSelfDeactivateField;
@@ -9752,7 +10488,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
         public bool psaExpirationUIEnabled {
             get {
                 return this.psaExpirationUIEnabledField;
@@ -9774,7 +10510,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
         public bool restrictedProfileCloning {
             get {
                 return this.restrictedProfileCloningField;
@@ -11476,6 +12212,8 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class Translations : Metadata {
         
+        private BotTranslation[] botsField;
+        
         private CustomApplicationTranslation[] customApplicationsField;
         
         private CustomLabelTranslation[] customLabelsField;
@@ -11486,6 +12224,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private FlowDefinitionTranslation[] flowDefinitionsField;
         
+        private IdentityVerificationFieldTranslation[] identityVerificationCustomFieldLabelsField;
+        
+        private PipelineInspMetricConfigTranslation[] pipelineInspMetricConfigsField;
+        
         private PromptTranslation[] promptsField;
         
         private GlobalQuickActionTranslation[] quickActionsField;
@@ -11495,7 +12237,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         private ScontrolTranslation[] scontrolsField;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("customApplications", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute("bots", Order=0)]
+        public BotTranslation[] bots {
+            get {
+                return this.botsField;
+            }
+            set {
+                this.botsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("customApplications", Order=1)]
         public CustomApplicationTranslation[] customApplications {
             get {
                 return this.customApplicationsField;
@@ -11506,7 +12259,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("customLabels", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute("customLabels", Order=2)]
         public CustomLabelTranslation[] customLabels {
             get {
                 return this.customLabelsField;
@@ -11517,7 +12270,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("customPageWebLinks", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute("customPageWebLinks", Order=3)]
         public CustomPageWebLinkTranslation[] customPageWebLinks {
             get {
                 return this.customPageWebLinksField;
@@ -11528,7 +12281,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("customTabs", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute("customTabs", Order=4)]
         public CustomTabTranslation[] customTabs {
             get {
                 return this.customTabsField;
@@ -11539,7 +12292,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("flowDefinitions", Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute("flowDefinitions", Order=5)]
         public FlowDefinitionTranslation[] flowDefinitions {
             get {
                 return this.flowDefinitionsField;
@@ -11550,7 +12303,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("prompts", Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute("identityVerificationCustomFieldLabels", Order=6)]
+        public IdentityVerificationFieldTranslation[] identityVerificationCustomFieldLabels {
+            get {
+                return this.identityVerificationCustomFieldLabelsField;
+            }
+            set {
+                this.identityVerificationCustomFieldLabelsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("pipelineInspMetricConfigs", Order=7)]
+        public PipelineInspMetricConfigTranslation[] pipelineInspMetricConfigs {
+            get {
+                return this.pipelineInspMetricConfigsField;
+            }
+            set {
+                this.pipelineInspMetricConfigsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("prompts", Order=8)]
         public PromptTranslation[] prompts {
             get {
                 return this.promptsField;
@@ -11561,7 +12336,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("quickActions", Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute("quickActions", Order=9)]
         public GlobalQuickActionTranslation[] quickActions {
             get {
                 return this.quickActionsField;
@@ -11572,7 +12347,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("reportTypes", Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute("reportTypes", Order=10)]
         public ReportTypeTranslation[] reportTypes {
             get {
                 return this.reportTypesField;
@@ -11583,7 +12358,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("scontrols", Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute("scontrols", Order=11)]
         public ScontrolTranslation[] scontrols {
             get {
                 return this.scontrolsField;
@@ -11592,6 +12367,394 @@ namespace SalesforceMetadata.MetadataWSDL {
                 this.scontrolsField = value;
             }
         }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class BotTranslation {
+        
+        private BotVersionTranslation[] botVersionsField;
+        
+        private string fullNameField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("botVersions")]
+        public BotVersionTranslation[] botVersions {
+            get {
+                return this.botVersionsField;
+            }
+            set {
+                this.botVersionsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string fullName {
+            get {
+                return this.fullNameField;
+            }
+            set {
+                this.fullNameField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class BotVersionTranslation {
+        
+        private BotDialogTranslation[] botDialogsField;
+        
+        private string fullNameField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("botDialogs")]
+        public BotDialogTranslation[] botDialogs {
+            get {
+                return this.botDialogsField;
+            }
+            set {
+                this.botDialogsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string fullName {
+            get {
+                return this.fullNameField;
+            }
+            set {
+                this.fullNameField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class BotDialogTranslation {
+        
+        private BotStepTranslation[] botStepsField;
+        
+        private string developerNameField;
+        
+        private string labelField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("botSteps")]
+        public BotStepTranslation[] botSteps {
+            get {
+                return this.botStepsField;
+            }
+            set {
+                this.botStepsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string developerName {
+            get {
+                return this.developerNameField;
+            }
+            set {
+                this.developerNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string label {
+            get {
+                return this.labelField;
+            }
+            set {
+                this.labelField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class BotStepTranslation {
+        
+        private BotMessageTranslation[] botMessagesField;
+        
+        private BotStepTranslation[] botStepsField;
+        
+        private BotVariableOperationTranslation botVariableOperationField;
+        
+        private string stepIdentifierField;
+        
+        private BotStepType typeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("botMessages")]
+        public BotMessageTranslation[] botMessages {
+            get {
+                return this.botMessagesField;
+            }
+            set {
+                this.botMessagesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("botSteps")]
+        public BotStepTranslation[] botSteps {
+            get {
+                return this.botStepsField;
+            }
+            set {
+                this.botStepsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public BotVariableOperationTranslation botVariableOperation {
+            get {
+                return this.botVariableOperationField;
+            }
+            set {
+                this.botVariableOperationField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string stepIdentifier {
+            get {
+                return this.stepIdentifierField;
+            }
+            set {
+                this.stepIdentifierField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public BotStepType type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class BotMessageTranslation {
+        
+        private string messageField;
+        
+        private string messageIdentifierField;
+        
+        /// <remarks/>
+        public string message {
+            get {
+                return this.messageField;
+            }
+            set {
+                this.messageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string messageIdentifier {
+            get {
+                return this.messageIdentifierField;
+            }
+            set {
+                this.messageIdentifierField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class BotVariableOperationTranslation {
+        
+        private BotMessageTranslation[] botMessagesField;
+        
+        private BotQuickReplyOptionTranslation[] botQuickReplyOptionsField;
+        
+        private string quickReplyOptionTemplateField;
+        
+        private BotMessageTranslation[] retryMessagesField;
+        
+        private BotVariableOperationType typeField;
+        
+        private string variableOperationIdentifierField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("botMessages")]
+        public BotMessageTranslation[] botMessages {
+            get {
+                return this.botMessagesField;
+            }
+            set {
+                this.botMessagesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("botQuickReplyOptions")]
+        public BotQuickReplyOptionTranslation[] botQuickReplyOptions {
+            get {
+                return this.botQuickReplyOptionsField;
+            }
+            set {
+                this.botQuickReplyOptionsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string quickReplyOptionTemplate {
+            get {
+                return this.quickReplyOptionTemplateField;
+            }
+            set {
+                this.quickReplyOptionTemplateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("retryMessages")]
+        public BotMessageTranslation[] retryMessages {
+            get {
+                return this.retryMessagesField;
+            }
+            set {
+                this.retryMessagesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public BotVariableOperationType type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string variableOperationIdentifier {
+            get {
+                return this.variableOperationIdentifierField;
+            }
+            set {
+                this.variableOperationIdentifierField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class BotQuickReplyOptionTranslation {
+        
+        private string literalValueField;
+        
+        private string quickReplyOptionIdentifierField;
+        
+        /// <remarks/>
+        public string literalValue {
+            get {
+                return this.literalValueField;
+            }
+            set {
+                this.literalValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string quickReplyOptionIdentifier {
+            get {
+                return this.quickReplyOptionIdentifierField;
+            }
+            set {
+                this.quickReplyOptionIdentifierField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum BotVariableOperationType {
+        
+        /// <remarks/>
+        Set,
+        
+        /// <remarks/>
+        Unset,
+        
+        /// <remarks/>
+        Collect,
+        
+        /// <remarks/>
+        SetConversationLanguage,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum BotStepType {
+        
+        /// <remarks/>
+        Navigation,
+        
+        /// <remarks/>
+        Invocation,
+        
+        /// <remarks/>
+        VariableOperation,
+        
+        /// <remarks/>
+        Message,
+        
+        /// <remarks/>
+        Wait,
+        
+        /// <remarks/>
+        Group,
+        
+        /// <remarks/>
+        SystemMessage,
+        
+        /// <remarks/>
+        RecordLookup,
+        
+        /// <remarks/>
+        RichMessage,
     }
     
     /// <remarks/>
@@ -11964,13 +13127,29 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class FlowScreenTranslation {
         
+        private string backButtonLabelField;
+        
         private FlowScreenFieldTranslation[] fieldsField;
         
         private string helpTextField;
         
         private string nameField;
         
+        private string nextOrFinishButtonLabelField;
+        
+        private string pauseButtonLabelField;
+        
         private string pausedTextField;
+        
+        /// <remarks/>
+        public string backButtonLabel {
+            get {
+                return this.backButtonLabelField;
+            }
+            set {
+                this.backButtonLabelField = value;
+            }
+        }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("fields")]
@@ -12004,6 +13183,26 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
+        public string nextOrFinishButtonLabel {
+            get {
+                return this.nextOrFinishButtonLabelField;
+            }
+            set {
+                this.nextOrFinishButtonLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string pauseButtonLabel {
+            get {
+                return this.pauseButtonLabelField;
+            }
+            set {
+                this.pauseButtonLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
         public string pausedText {
             get {
                 return this.pausedTextField;
@@ -12025,6 +13224,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         private string fieldTextField;
         
         private string helpTextField;
+        
+        private FlowInputParameterTranslation[] inputParametersField;
         
         private string nameField;
         
@@ -12051,6 +13252,17 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("inputParameters")]
+        public FlowInputParameterTranslation[] inputParameters {
+            get {
+                return this.inputParametersField;
+            }
+            set {
+                this.inputParametersField = value;
+            }
+        }
+        
+        /// <remarks/>
         public string name {
             get {
                 return this.nameField;
@@ -12067,6 +13279,106 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.validationRuleField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class FlowInputParameterTranslation {
+        
+        private string nameField;
+        
+        private FlowFerovTranslation valueField;
+        
+        /// <remarks/>
+        public string name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public FlowFerovTranslation value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class FlowFerovTranslation {
+        
+        private FlowComplexLiteralTranslation[] complexValuesField;
+        
+        private string stringValueField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("complexValues")]
+        public FlowComplexLiteralTranslation[] complexValues {
+            get {
+                return this.complexValuesField;
+            }
+            set {
+                this.complexValuesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string stringValue {
+            get {
+                return this.stringValueField;
+            }
+            set {
+                this.stringValueField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class FlowComplexLiteralTranslation {
+        
+        private string customAspectKeyField;
+        
+        private string valueField;
+        
+        /// <remarks/>
+        public string customAspectKey {
+            get {
+                return this.customAspectKeyField;
+            }
+            set {
+                this.customAspectKeyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
             }
         }
     }
@@ -12133,6 +13445,96 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.textField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class IdentityVerificationFieldTranslation {
+        
+        private string customFieldLabelField;
+        
+        private string descriptionField;
+        
+        private string labelField;
+        
+        private string nameField;
+        
+        /// <remarks/>
+        public string customFieldLabel {
+            get {
+                return this.customFieldLabelField;
+            }
+            set {
+                this.customFieldLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string label {
+            get {
+                return this.labelField;
+            }
+            set {
+                this.labelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class PipelineInspMetricConfigTranslation {
+        
+        private string labelField;
+        
+        private string nameField;
+        
+        /// <remarks/>
+        public string label {
+            get {
+                return this.labelField;
+            }
+            set {
+                this.labelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
             }
         }
     }
@@ -12217,6 +13619,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string imageAltTextField;
         
+        private string imageLinkField;
+        
         private string labelField;
         
         private string nameField;
@@ -12296,6 +13700,16 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.imageAltTextField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string imageLink {
+            get {
+                return this.imageLinkField;
+            }
+            set {
+                this.imageLinkField = value;
             }
         }
         
@@ -12592,6 +14006,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string blockMessageField;
         
+        private string customEmailContentField;
+        
         private string descriptionField;
         
         private string developerNameField;
@@ -12662,6 +14078,17 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string customEmailContent {
+            get {
+                return this.customEmailContentField;
+            }
+            set {
+                this.customEmailContentField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public string description {
             get {
                 return this.descriptionField;
@@ -12672,7 +14099,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public string developerName {
             get {
                 return this.developerNameField;
@@ -12683,7 +14110,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public TransactionSecurityEventName eventName {
             get {
                 return this.eventNameField;
@@ -12705,7 +14132,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public MonitoredEvents eventType {
             get {
                 return this.eventTypeField;
@@ -12727,7 +14154,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public string executionUser {
             get {
                 return this.executionUserField;
@@ -12738,7 +14165,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
         public string flow {
             get {
                 return this.flowField;
@@ -12749,7 +14176,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
         public string masterLabel {
             get {
                 return this.masterLabelField;
@@ -12760,7 +14187,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
         public string resourceName {
             get {
                 return this.resourceNameField;
@@ -12771,7 +14198,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
         public TxnSecurityPolicyType type {
             get {
                 return this.typeField;
@@ -12991,12 +14418,42 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class TrailheadSettings : Metadata {
         
+        private bool enableConfettiEffectField;
+        
+        private bool enableConfettiEffectFieldSpecified;
+        
         private bool enableMyTrailheadPrefField;
         
         private bool enableMyTrailheadPrefFieldSpecified;
         
+        private bool enableTrailheadInLexTermsField;
+        
+        private bool enableTrailheadInLexTermsFieldSpecified;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableConfettiEffect {
+            get {
+                return this.enableConfettiEffectField;
+            }
+            set {
+                this.enableConfettiEffectField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableConfettiEffectSpecified {
+            get {
+                return this.enableConfettiEffectFieldSpecified;
+            }
+            set {
+                this.enableConfettiEffectFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
         public bool enableMyTrailheadPref {
             get {
                 return this.enableMyTrailheadPrefField;
@@ -13014,6 +14471,28 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.enableMyTrailheadPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool enableTrailheadInLexTerms {
+            get {
+                return this.enableTrailheadInLexTermsField;
+            }
+            set {
+                this.enableTrailheadInLexTermsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableTrailheadInLexTermsSpecified {
+            get {
+                return this.enableTrailheadInLexTermsFieldSpecified;
+            }
+            set {
+                this.enableTrailheadInLexTermsFieldSpecified = value;
             }
         }
     }
@@ -13049,6 +14528,80 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.entityApiNameField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class TimelineObjectDefinition : Metadata {
+        
+        private string baseObjectField;
+        
+        private string definitionField;
+        
+        private bool isActiveField;
+        
+        private bool isActiveFieldSpecified;
+        
+        private string masterLabelField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string baseObject {
+            get {
+                return this.baseObjectField;
+            }
+            set {
+                this.baseObjectField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string definition {
+            get {
+                return this.definitionField;
+            }
+            set {
+                this.definitionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool isActive {
+            get {
+                return this.isActiveField;
+            }
+            set {
+                this.isActiveField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isActiveSpecified {
+            get {
+                return this.isActiveFieldSpecified;
+            }
+            set {
+                this.isActiveFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
             }
         }
     }
@@ -13313,6 +14866,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string t2ForecastAccessLevelField;
         
+        private bool tm2BypassRealignAccInsertField;
+        
+        private bool tm2BypassRealignAccInsertFieldSpecified;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
         public string defaultAccountAccessLevel {
@@ -13420,6 +14977,28 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.t2ForecastAccessLevelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public bool tm2BypassRealignAccInsert {
+            get {
+                return this.tm2BypassRealignAccInsertField;
+            }
+            set {
+                this.tm2BypassRealignAccInsertField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool tm2BypassRealignAccInsertSpecified {
+            get {
+                return this.tm2BypassRealignAccInsertFieldSpecified;
+            }
+            set {
+                this.tm2BypassRealignAccInsertFieldSpecified = value;
             }
         }
     }
@@ -14385,6 +15964,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         gu,
         
         /// <remarks/>
+        pa,
+        
+        /// <remarks/>
         en_NZ,
         
         /// <remarks/>
@@ -14442,10 +16024,997 @@ namespace SalesforceMetadata.MetadataWSDL {
         ru_UA,
         
         /// <remarks/>
+        en_AE,
+        
+        /// <remarks/>
+        en_BE,
+        
+        /// <remarks/>
+        en_CY,
+        
+        /// <remarks/>
+        en_DE,
+        
+        /// <remarks/>
+        en_IL,
+        
+        /// <remarks/>
+        en_NL,
+        
+        /// <remarks/>
+        en_MT,
+        
+        /// <remarks/>
+        el_CY,
+        
+        /// <remarks/>
+        fr_MA,
+        
+        /// <remarks/>
+        kl,
+        
+        /// <remarks/>
+        ji,
+        
+        /// <remarks/>
+        hmn,
+        
+        /// <remarks/>
         eo,
         
         /// <remarks/>
         iw_EO,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class SvcCatalogItemDef : Metadata {
+        
+        private SvcCatalogCategoryItem[] categoriesField;
+        
+        private string descriptionField;
+        
+        private string flowField;
+        
+        private string imageField;
+        
+        private string internalNotesField;
+        
+        private bool isFeaturedField;
+        
+        private bool isFeaturedFieldSpecified;
+        
+        private bool isProtectedField;
+        
+        private bool isProtectedFieldSpecified;
+        
+        private string masterLabelField;
+        
+        private SharedTo sharedToField;
+        
+        private PublishStatusType statusField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("categories", Order=0)]
+        public SvcCatalogCategoryItem[] categories {
+            get {
+                return this.categoriesField;
+            }
+            set {
+                this.categoriesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string flow {
+            get {
+                return this.flowField;
+            }
+            set {
+                this.flowField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string image {
+            get {
+                return this.imageField;
+            }
+            set {
+                this.imageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string internalNotes {
+            get {
+                return this.internalNotesField;
+            }
+            set {
+                this.internalNotesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public bool isFeatured {
+            get {
+                return this.isFeaturedField;
+            }
+            set {
+                this.isFeaturedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isFeaturedSpecified {
+            get {
+                return this.isFeaturedFieldSpecified;
+            }
+            set {
+                this.isFeaturedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public bool isProtected {
+            get {
+                return this.isProtectedField;
+            }
+            set {
+                this.isProtectedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProtectedSpecified {
+            get {
+                return this.isProtectedFieldSpecified;
+            }
+            set {
+                this.isProtectedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public SharedTo sharedTo {
+            get {
+                return this.sharedToField;
+            }
+            set {
+                this.sharedToField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        public PublishStatusType status {
+            get {
+                return this.statusField;
+            }
+            set {
+                this.statusField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class SvcCatalogCategoryItem {
+        
+        private bool isPrimaryCategoryField;
+        
+        private bool isPrimaryCategoryFieldSpecified;
+        
+        private int sortOrderField;
+        
+        private bool sortOrderFieldSpecified;
+        
+        private string svcCatalogCategoryField;
+        
+        /// <remarks/>
+        public bool isPrimaryCategory {
+            get {
+                return this.isPrimaryCategoryField;
+            }
+            set {
+                this.isPrimaryCategoryField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isPrimaryCategorySpecified {
+            get {
+                return this.isPrimaryCategoryFieldSpecified;
+            }
+            set {
+                this.isPrimaryCategoryFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int sortOrder {
+            get {
+                return this.sortOrderField;
+            }
+            set {
+                this.sortOrderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool sortOrderSpecified {
+            get {
+                return this.sortOrderFieldSpecified;
+            }
+            set {
+                this.sortOrderFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string svcCatalogCategory {
+            get {
+                return this.svcCatalogCategoryField;
+            }
+            set {
+                this.svcCatalogCategoryField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class SharedTo {
+        
+        private string allCustomerPortalUsersField;
+        
+        private string allInternalUsersField;
+        
+        private string allPartnerUsersField;
+        
+        private string[] channelProgramGroupField;
+        
+        private string[] channelProgramGroupsField;
+        
+        private string[] groupField;
+        
+        private string[] groupsField;
+        
+        private string[] guestUserField;
+        
+        private string[] managerSubordinatesField;
+        
+        private string[] managersField;
+        
+        private string[] portalRoleField;
+        
+        private string[] portalRoleAndSubordinatesField;
+        
+        private string[] queueField;
+        
+        private string[] roleField;
+        
+        private string[] roleAndSubordinatesField;
+        
+        private string[] roleAndSubordinatesInternalField;
+        
+        private string[] rolesField;
+        
+        private string[] rolesAndSubordinatesField;
+        
+        private string[] territoriesField;
+        
+        private string[] territoriesAndSubordinatesField;
+        
+        private string[] territoryField;
+        
+        private string[] territoryAndSubordinatesField;
+        
+        /// <remarks/>
+        public string allCustomerPortalUsers {
+            get {
+                return this.allCustomerPortalUsersField;
+            }
+            set {
+                this.allCustomerPortalUsersField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string allInternalUsers {
+            get {
+                return this.allInternalUsersField;
+            }
+            set {
+                this.allInternalUsersField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string allPartnerUsers {
+            get {
+                return this.allPartnerUsersField;
+            }
+            set {
+                this.allPartnerUsersField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("channelProgramGroup")]
+        public string[] channelProgramGroup {
+            get {
+                return this.channelProgramGroupField;
+            }
+            set {
+                this.channelProgramGroupField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("channelProgramGroups")]
+        public string[] channelProgramGroups {
+            get {
+                return this.channelProgramGroupsField;
+            }
+            set {
+                this.channelProgramGroupsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("group")]
+        public string[] group {
+            get {
+                return this.groupField;
+            }
+            set {
+                this.groupField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("groups")]
+        public string[] groups {
+            get {
+                return this.groupsField;
+            }
+            set {
+                this.groupsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("guestUser")]
+        public string[] guestUser {
+            get {
+                return this.guestUserField;
+            }
+            set {
+                this.guestUserField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("managerSubordinates")]
+        public string[] managerSubordinates {
+            get {
+                return this.managerSubordinatesField;
+            }
+            set {
+                this.managerSubordinatesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("managers")]
+        public string[] managers {
+            get {
+                return this.managersField;
+            }
+            set {
+                this.managersField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("portalRole")]
+        public string[] portalRole {
+            get {
+                return this.portalRoleField;
+            }
+            set {
+                this.portalRoleField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("portalRoleAndSubordinates")]
+        public string[] portalRoleAndSubordinates {
+            get {
+                return this.portalRoleAndSubordinatesField;
+            }
+            set {
+                this.portalRoleAndSubordinatesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("queue")]
+        public string[] queue {
+            get {
+                return this.queueField;
+            }
+            set {
+                this.queueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("role")]
+        public string[] role {
+            get {
+                return this.roleField;
+            }
+            set {
+                this.roleField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("roleAndSubordinates")]
+        public string[] roleAndSubordinates {
+            get {
+                return this.roleAndSubordinatesField;
+            }
+            set {
+                this.roleAndSubordinatesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("roleAndSubordinatesInternal")]
+        public string[] roleAndSubordinatesInternal {
+            get {
+                return this.roleAndSubordinatesInternalField;
+            }
+            set {
+                this.roleAndSubordinatesInternalField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("roles")]
+        public string[] roles {
+            get {
+                return this.rolesField;
+            }
+            set {
+                this.rolesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("rolesAndSubordinates")]
+        public string[] rolesAndSubordinates {
+            get {
+                return this.rolesAndSubordinatesField;
+            }
+            set {
+                this.rolesAndSubordinatesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("territories")]
+        public string[] territories {
+            get {
+                return this.territoriesField;
+            }
+            set {
+                this.territoriesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("territoriesAndSubordinates")]
+        public string[] territoriesAndSubordinates {
+            get {
+                return this.territoriesAndSubordinatesField;
+            }
+            set {
+                this.territoriesAndSubordinatesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("territory")]
+        public string[] territory {
+            get {
+                return this.territoryField;
+            }
+            set {
+                this.territoryField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("territoryAndSubordinates")]
+        public string[] territoryAndSubordinates {
+            get {
+                return this.territoryAndSubordinatesField;
+            }
+            set {
+                this.territoryAndSubordinatesField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum PublishStatusType {
+        
+        /// <remarks/>
+        Draft,
+        
+        /// <remarks/>
+        Published,
+        
+        /// <remarks/>
+        PendingChanges,
+        
+        /// <remarks/>
+        Deprecated,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class SvcCatalogFulfillmentFlow : Metadata {
+        
+        private string descriptionField;
+        
+        private string flowField;
+        
+        private string iconField;
+        
+        private bool isProtectedField;
+        
+        private bool isProtectedFieldSpecified;
+        
+        private SvcCatalogFulfillFlowItem[] itemsField;
+        
+        private string masterLabelField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string flow {
+            get {
+                return this.flowField;
+            }
+            set {
+                this.flowField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string icon {
+            get {
+                return this.iconField;
+            }
+            set {
+                this.iconField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool isProtected {
+            get {
+                return this.isProtectedField;
+            }
+            set {
+                this.isProtectedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProtectedSpecified {
+            get {
+                return this.isProtectedFieldSpecified;
+            }
+            set {
+                this.isProtectedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("items", Order=4)]
+        public SvcCatalogFulfillFlowItem[] items {
+            get {
+                return this.itemsField;
+            }
+            set {
+                this.itemsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class SvcCatalogFulfillFlowItem {
+        
+        private string catalogInputVariableField;
+        
+        private PropertyDisplayType displayTypeField;
+        
+        private bool displayTypeFieldSpecified;
+        
+        private string fieldDefinitionField;
+        
+        private string fieldLookupDomainField;
+        
+        private bool isAdditionalQuestionsInputVariableField;
+        
+        private bool isAdditionalQuestionsInputVariableFieldSpecified;
+        
+        private bool isRequiredField;
+        
+        private bool isRequiredFieldSpecified;
+        
+        private string lookupDomainFieldTypeField;
+        
+        private string masterLabelField;
+        
+        private string objectLookupDomainField;
+        
+        /// <remarks/>
+        public string catalogInputVariable {
+            get {
+                return this.catalogInputVariableField;
+            }
+            set {
+                this.catalogInputVariableField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public PropertyDisplayType displayType {
+            get {
+                return this.displayTypeField;
+            }
+            set {
+                this.displayTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool displayTypeSpecified {
+            get {
+                return this.displayTypeFieldSpecified;
+            }
+            set {
+                this.displayTypeFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string fieldDefinition {
+            get {
+                return this.fieldDefinitionField;
+            }
+            set {
+                this.fieldDefinitionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string fieldLookupDomain {
+            get {
+                return this.fieldLookupDomainField;
+            }
+            set {
+                this.fieldLookupDomainField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool isAdditionalQuestionsInputVariable {
+            get {
+                return this.isAdditionalQuestionsInputVariableField;
+            }
+            set {
+                this.isAdditionalQuestionsInputVariableField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isAdditionalQuestionsInputVariableSpecified {
+            get {
+                return this.isAdditionalQuestionsInputVariableFieldSpecified;
+            }
+            set {
+                this.isAdditionalQuestionsInputVariableFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool isRequired {
+            get {
+                return this.isRequiredField;
+            }
+            set {
+                this.isRequiredField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isRequiredSpecified {
+            get {
+                return this.isRequiredFieldSpecified;
+            }
+            set {
+                this.isRequiredFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string lookupDomainFieldType {
+            get {
+                return this.lookupDomainFieldTypeField;
+            }
+            set {
+                this.lookupDomainFieldTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string objectLookupDomain {
+            get {
+                return this.objectLookupDomainField;
+            }
+            set {
+                this.objectLookupDomainField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum PropertyDisplayType {
+        
+        /// <remarks/>
+        Lookup,
+        
+        /// <remarks/>
+        Picklist,
+        
+        /// <remarks/>
+        Text,
+        
+        /// <remarks/>
+        Checkbox,
+        
+        /// <remarks/>
+        Number,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class SvcCatalogCategory : Metadata {
+        
+        private string imageField;
+        
+        private bool isActiveField;
+        
+        private bool isActiveFieldSpecified;
+        
+        private bool isProtectedField;
+        
+        private bool isProtectedFieldSpecified;
+        
+        private string masterLabelField;
+        
+        private string parentCategoryField;
+        
+        private int sortOrderField;
+        
+        private bool sortOrderFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string image {
+            get {
+                return this.imageField;
+            }
+            set {
+                this.imageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public bool isActive {
+            get {
+                return this.isActiveField;
+            }
+            set {
+                this.isActiveField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isActiveSpecified {
+            get {
+                return this.isActiveFieldSpecified;
+            }
+            set {
+                this.isActiveFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool isProtected {
+            get {
+                return this.isProtectedField;
+            }
+            set {
+                this.isProtectedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProtectedSpecified {
+            get {
+                return this.isProtectedFieldSpecified;
+            }
+            set {
+                this.isProtectedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string parentCategory {
+            get {
+                return this.parentCategoryField;
+            }
+            set {
+                this.parentCategoryField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public int sortOrder {
+            get {
+                return this.sortOrderField;
+            }
+            set {
+                this.sortOrderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool sortOrderSpecified {
+            get {
+                return this.sortOrderFieldSpecified;
+            }
+            set {
+                this.sortOrderFieldSpecified = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -14531,6 +17100,41 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.enableSurveyOwnerCanManageResponseFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class SubscriptionManagementSettings : Metadata {
+        
+        private bool enableSubscriptionManagementField;
+        
+        private bool enableSubscriptionManagementFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableSubscriptionManagement {
+            get {
+                return this.enableSubscriptionManagementField;
+            }
+            set {
+                this.enableSubscriptionManagementField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableSubscriptionManagementSpecified {
+            get {
+                return this.enableSubscriptionManagementFieldSpecified;
+            }
+            set {
+                this.enableSubscriptionManagementFieldSpecified = value;
             }
         }
     }
@@ -14923,6 +17527,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         BestCase,
         
         /// <remarks/>
+        MostLikely,
+        
+        /// <remarks/>
         Forecast,
         
         /// <remarks/>
@@ -15166,6 +17773,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private CaseSubjectOption caseSubjectOptionField;
         
+        private bool enableInboundProcessingConcurrencyField;
+        
+        private bool enableInboundProcessingConcurrencyFieldSpecified;
+        
         private bool enableSocialApprovalsField;
         
         private bool enableSocialApprovalsFieldSpecified;
@@ -15203,6 +17814,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public bool enableInboundProcessingConcurrency {
+            get {
+                return this.enableInboundProcessingConcurrencyField;
+            }
+            set {
+                this.enableInboundProcessingConcurrencyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableInboundProcessingConcurrencySpecified {
+            get {
+                return this.enableInboundProcessingConcurrencyFieldSpecified;
+            }
+            set {
+                this.enableInboundProcessingConcurrencyFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
         public bool enableSocialApprovals {
             get {
                 return this.enableSocialApprovalsField;
@@ -15224,7 +17857,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
         public bool enableSocialCaseAssignmentRules {
             get {
                 return this.enableSocialCaseAssignmentRulesField;
@@ -15246,7 +17879,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
         public bool enableSocialCustomerService {
             get {
                 return this.enableSocialCustomerServiceField;
@@ -15268,7 +17901,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public bool enableSocialPersonaHistoryTracking {
             get {
                 return this.enableSocialPersonaHistoryTrackingField;
@@ -15290,7 +17923,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public bool enableSocialPostHistoryTracking {
             get {
                 return this.enableSocialPostHistoryTrackingField;
@@ -15312,7 +17945,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public bool enableSocialReceiveParentPost {
             get {
                 return this.enableSocialReceiveParentPostField;
@@ -16188,6 +18821,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private FilterItem[] criteriaItemsField;
         
+        private bool includeRecordsOwnedByAllField;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
         public string booleanFilter {
@@ -16207,6 +18842,17 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.criteriaItemsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool includeRecordsOwnedByAll {
+            get {
+                return this.includeRecordsOwnedByAllField;
+            }
+            set {
+                this.includeRecordsOwnedByAllField = value;
             }
         }
     }
@@ -16330,298 +18976,6 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.opportunityAccessLevelField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public partial class SharedTo {
-        
-        private string allCustomerPortalUsersField;
-        
-        private string allInternalUsersField;
-        
-        private string allPartnerUsersField;
-        
-        private string[] channelProgramGroupField;
-        
-        private string[] channelProgramGroupsField;
-        
-        private string[] groupField;
-        
-        private string[] groupsField;
-        
-        private string[] guestUserField;
-        
-        private string[] managerSubordinatesField;
-        
-        private string[] managersField;
-        
-        private string[] portalRoleField;
-        
-        private string[] portalRoleAndSubordinatesField;
-        
-        private string[] queueField;
-        
-        private string[] roleField;
-        
-        private string[] roleAndSubordinatesField;
-        
-        private string[] roleAndSubordinatesInternalField;
-        
-        private string[] rolesField;
-        
-        private string[] rolesAndSubordinatesField;
-        
-        private string[] territoriesField;
-        
-        private string[] territoriesAndSubordinatesField;
-        
-        private string[] territoryField;
-        
-        private string[] territoryAndSubordinatesField;
-        
-        /// <remarks/>
-        public string allCustomerPortalUsers {
-            get {
-                return this.allCustomerPortalUsersField;
-            }
-            set {
-                this.allCustomerPortalUsersField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string allInternalUsers {
-            get {
-                return this.allInternalUsersField;
-            }
-            set {
-                this.allInternalUsersField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string allPartnerUsers {
-            get {
-                return this.allPartnerUsersField;
-            }
-            set {
-                this.allPartnerUsersField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("channelProgramGroup")]
-        public string[] channelProgramGroup {
-            get {
-                return this.channelProgramGroupField;
-            }
-            set {
-                this.channelProgramGroupField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("channelProgramGroups")]
-        public string[] channelProgramGroups {
-            get {
-                return this.channelProgramGroupsField;
-            }
-            set {
-                this.channelProgramGroupsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("group")]
-        public string[] group {
-            get {
-                return this.groupField;
-            }
-            set {
-                this.groupField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("groups")]
-        public string[] groups {
-            get {
-                return this.groupsField;
-            }
-            set {
-                this.groupsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("guestUser")]
-        public string[] guestUser {
-            get {
-                return this.guestUserField;
-            }
-            set {
-                this.guestUserField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("managerSubordinates")]
-        public string[] managerSubordinates {
-            get {
-                return this.managerSubordinatesField;
-            }
-            set {
-                this.managerSubordinatesField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("managers")]
-        public string[] managers {
-            get {
-                return this.managersField;
-            }
-            set {
-                this.managersField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("portalRole")]
-        public string[] portalRole {
-            get {
-                return this.portalRoleField;
-            }
-            set {
-                this.portalRoleField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("portalRoleAndSubordinates")]
-        public string[] portalRoleAndSubordinates {
-            get {
-                return this.portalRoleAndSubordinatesField;
-            }
-            set {
-                this.portalRoleAndSubordinatesField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("queue")]
-        public string[] queue {
-            get {
-                return this.queueField;
-            }
-            set {
-                this.queueField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("role")]
-        public string[] role {
-            get {
-                return this.roleField;
-            }
-            set {
-                this.roleField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("roleAndSubordinates")]
-        public string[] roleAndSubordinates {
-            get {
-                return this.roleAndSubordinatesField;
-            }
-            set {
-                this.roleAndSubordinatesField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("roleAndSubordinatesInternal")]
-        public string[] roleAndSubordinatesInternal {
-            get {
-                return this.roleAndSubordinatesInternalField;
-            }
-            set {
-                this.roleAndSubordinatesInternalField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("roles")]
-        public string[] roles {
-            get {
-                return this.rolesField;
-            }
-            set {
-                this.rolesField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("rolesAndSubordinates")]
-        public string[] rolesAndSubordinates {
-            get {
-                return this.rolesAndSubordinatesField;
-            }
-            set {
-                this.rolesAndSubordinatesField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("territories")]
-        public string[] territories {
-            get {
-                return this.territoriesField;
-            }
-            set {
-                this.territoriesField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("territoriesAndSubordinates")]
-        public string[] territoriesAndSubordinates {
-            get {
-                return this.territoriesAndSubordinatesField;
-            }
-            set {
-                this.territoriesAndSubordinatesField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("territory")]
-        public string[] territory {
-            get {
-                return this.territoryField;
-            }
-            set {
-                this.territoryField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("territoryAndSubordinates")]
-        public string[] territoryAndSubordinates {
-            get {
-                return this.territoryAndSubordinatesField;
-            }
-            set {
-                this.territoryAndSubordinatesField = value;
             }
         }
     }
@@ -16785,6 +19139,18 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class ServiceCloudVoiceSettings : Metadata {
         
+        private bool enableDefaultChannelForSCVField;
+        
+        private bool enableDefaultChannelForSCVFieldSpecified;
+        
+        private bool enableEndUserForSCVField;
+        
+        private bool enableEndUserForSCVFieldSpecified;
+        
+        private bool enableOmniCapacityForSCVField;
+        
+        private bool enableOmniCapacityForSCVFieldSpecified;
+        
         private bool enableSCVBYOTField;
         
         private bool enableSCVBYOTFieldSpecified;
@@ -16803,6 +19169,72 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableDefaultChannelForSCV {
+            get {
+                return this.enableDefaultChannelForSCVField;
+            }
+            set {
+                this.enableDefaultChannelForSCVField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableDefaultChannelForSCVSpecified {
+            get {
+                return this.enableDefaultChannelForSCVFieldSpecified;
+            }
+            set {
+                this.enableDefaultChannelForSCVFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public bool enableEndUserForSCV {
+            get {
+                return this.enableEndUserForSCVField;
+            }
+            set {
+                this.enableEndUserForSCVField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableEndUserForSCVSpecified {
+            get {
+                return this.enableEndUserForSCVFieldSpecified;
+            }
+            set {
+                this.enableEndUserForSCVFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool enableOmniCapacityForSCV {
+            get {
+                return this.enableOmniCapacityForSCVField;
+            }
+            set {
+                this.enableOmniCapacityForSCVField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableOmniCapacityForSCVSpecified {
+            get {
+                return this.enableOmniCapacityForSCVFieldSpecified;
+            }
+            set {
+                this.enableOmniCapacityForSCVFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
         public bool enableSCVBYOT {
             get {
                 return this.enableSCVBYOTField;
@@ -16824,7 +19256,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
         public bool enableSCVExternalTelephony {
             get {
                 return this.enableSCVExternalTelephonyField;
@@ -16846,7 +19278,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public bool enableServiceCloudVoice {
             get {
                 return this.enableServiceCloudVoiceField;
@@ -16868,7 +19300,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public bool enableVoiceInGovCloudOptIn {
             get {
                 return this.enableVoiceInGovCloudOptInField;
@@ -16901,6 +19333,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool doesMinimizeWidgetOnAcceptField;
         
         private bool doesMinimizeWidgetOnAcceptFieldSpecified;
+        
+        private bool hasAutoAcceptEnabledField;
+        
+        private bool hasAutoAcceptEnabledFieldSpecified;
         
         private string interactionComponentField;
         
@@ -16936,6 +19372,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public bool hasAutoAcceptEnabled {
+            get {
+                return this.hasAutoAcceptEnabledField;
+            }
+            set {
+                this.hasAutoAcceptEnabledField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool hasAutoAcceptEnabledSpecified {
+            get {
+                return this.hasAutoAcceptEnabledFieldSpecified;
+            }
+            set {
+                this.hasAutoAcceptEnabledFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
         public string interactionComponent {
             get {
                 return this.interactionComponentField;
@@ -16946,7 +19404,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
         public string label {
             get {
                 return this.labelField;
@@ -16957,7 +19415,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
         public string relatedEntityType {
             get {
                 return this.relatedEntityTypeField;
@@ -16968,7 +19426,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public string secondaryRoutingPriorityField {
             get {
                 return this.secondaryRoutingPriorityFieldField;
@@ -16979,7 +19437,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("serviceChannelFieldPriorities", Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute("serviceChannelFieldPriorities", Order=6)]
         public ServiceChannelFieldPriority[] serviceChannelFieldPriorities {
             get {
                 return this.serviceChannelFieldPrioritiesField;
@@ -17216,6 +19674,15 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         FAQ,
+        
+        /// <remarks/>
+        EAR_FOR_CONVERSATION,
+        
+        /// <remarks/>
+        USE_CASE_EXPLORER,
+        
+        /// <remarks/>
+        EAR_FOR_VOICE,
     }
     
     /// <remarks/>
@@ -17269,6 +19736,14 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool enableAuraSecureEvalPrefField;
         
         private bool enableAuraSecureEvalPrefFieldSpecified;
+        
+        private bool enableCoepHeaderField;
+        
+        private bool enableCoepHeaderFieldSpecified;
+        
+        private bool enableCoopHeaderField;
+        
+        private bool enableCoopHeaderFieldSpecified;
         
         private bool enableRequireHttpsConnectionField;
         
@@ -17372,6 +19847,50 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public bool enableCoepHeader {
+            get {
+                return this.enableCoepHeaderField;
+            }
+            set {
+                this.enableCoepHeaderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableCoepHeaderSpecified {
+            get {
+                return this.enableCoepHeaderFieldSpecified;
+            }
+            set {
+                this.enableCoepHeaderFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public bool enableCoopHeader {
+            get {
+                return this.enableCoopHeaderField;
+            }
+            set {
+                this.enableCoopHeaderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableCoopHeaderSpecified {
+            get {
+                return this.enableCoopHeaderFieldSpecified;
+            }
+            set {
+                this.enableCoopHeaderFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public bool enableRequireHttpsConnection {
             get {
                 return this.enableRequireHttpsConnectionField;
@@ -17393,7 +19912,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=5)]
+        [System.Xml.Serialization.XmlArrayAttribute(Order=7)]
         [System.Xml.Serialization.XmlArrayItemAttribute("ipRanges", IsNullable=false)]
         public IpRange[] networkAccess {
             get {
@@ -17405,7 +19924,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public PasswordPolicies passwordPolicies {
             get {
                 return this.passwordPoliciesField;
@@ -17416,7 +19935,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public SessionSettings sessionSettings {
             get {
                 return this.sessionSettingsField;
@@ -17427,7 +19946,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
         public SingleSignOnSettings singleSignOnSettings {
             get {
                 return this.singleSignOnSettingsField;
@@ -17852,6 +20371,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool disableTimeoutWarningFieldSpecified;
         
+        private bool enableBuiltInAuthenticatorField;
+        
+        private bool enableBuiltInAuthenticatorFieldSpecified;
+        
         private bool enableCSPOnEmailField;
         
         private bool enableCSPOnEmailFieldSpecified;
@@ -17884,9 +20407,17 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableClickjackSetupFieldSpecified;
         
+        private bool enableCoepHeaderField;
+        
+        private bool enableCoepHeaderFieldSpecified;
+        
         private bool enableContentSniffingProtectionField;
         
         private bool enableContentSniffingProtectionFieldSpecified;
+        
+        private bool enableCoopHeaderField;
+        
+        private bool enableCoopHeaderFieldSpecified;
         
         private bool enableLightningLoginField;
         
@@ -17895,6 +20426,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool enableLightningLoginOnlyWithUserPermField;
         
         private bool enableLightningLoginOnlyWithUserPermFieldSpecified;
+        
+        private bool enableMFADirectUILoginOptInField;
+        
+        private bool enableMFADirectUILoginOptInFieldSpecified;
         
         private bool enableOauthCorsPolicyField;
         
@@ -17970,6 +20505,14 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool lockerServiceCSPFieldSpecified;
         
+        private bool lockerServiceNextField;
+        
+        private bool lockerServiceNextFieldSpecified;
+        
+        private bool lockerServiceNextControlField;
+        
+        private bool lockerServiceNextControlFieldSpecified;
+        
         private string logoutURLField;
         
         private bool redirectionWarningField;
@@ -17991,6 +20534,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private SessionTimeout sessionTimeoutField;
         
         private bool sessionTimeoutFieldSpecified;
+        
+        private bool sidToken3rdPartyAuraAppField;
+        
+        private bool sidToken3rdPartyAuraAppFieldSpecified;
         
         private bool useLocalStorageForLogoutUrlField;
         
@@ -18077,6 +20624,27 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.disableTimeoutWarningFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool enableBuiltInAuthenticator {
+            get {
+                return this.enableBuiltInAuthenticatorField;
+            }
+            set {
+                this.enableBuiltInAuthenticatorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableBuiltInAuthenticatorSpecified {
+            get {
+                return this.enableBuiltInAuthenticatorFieldSpecified;
+            }
+            set {
+                this.enableBuiltInAuthenticatorFieldSpecified = value;
             }
         }
         
@@ -18249,6 +20817,27 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
+        public bool enableCoepHeader {
+            get {
+                return this.enableCoepHeaderField;
+            }
+            set {
+                this.enableCoepHeaderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableCoepHeaderSpecified {
+            get {
+                return this.enableCoepHeaderFieldSpecified;
+            }
+            set {
+                this.enableCoepHeaderFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
         public bool enableContentSniffingProtection {
             get {
                 return this.enableContentSniffingProtectionField;
@@ -18266,6 +20855,27 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.enableContentSniffingProtectionFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool enableCoopHeader {
+            get {
+                return this.enableCoopHeaderField;
+            }
+            set {
+                this.enableCoopHeaderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableCoopHeaderSpecified {
+            get {
+                return this.enableCoopHeaderFieldSpecified;
+            }
+            set {
+                this.enableCoopHeaderFieldSpecified = value;
             }
         }
         
@@ -18308,6 +20918,27 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.enableLightningLoginOnlyWithUserPermFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool enableMFADirectUILoginOptIn {
+            get {
+                return this.enableMFADirectUILoginOptInField;
+            }
+            set {
+                this.enableMFADirectUILoginOptInField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableMFADirectUILoginOptInSpecified {
+            get {
+                return this.enableMFADirectUILoginOptInFieldSpecified;
+            }
+            set {
+                this.enableMFADirectUILoginOptInFieldSpecified = value;
             }
         }
         
@@ -18700,6 +21331,48 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
+        public bool lockerServiceNext {
+            get {
+                return this.lockerServiceNextField;
+            }
+            set {
+                this.lockerServiceNextField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool lockerServiceNextSpecified {
+            get {
+                return this.lockerServiceNextFieldSpecified;
+            }
+            set {
+                this.lockerServiceNextFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool lockerServiceNextControl {
+            get {
+                return this.lockerServiceNextControlField;
+            }
+            set {
+                this.lockerServiceNextControlField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool lockerServiceNextControlSpecified {
+            get {
+                return this.lockerServiceNextControlFieldSpecified;
+            }
+            set {
+                this.lockerServiceNextControlFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
         public string logoutURL {
             get {
                 return this.logoutURLField;
@@ -18811,6 +21484,27 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.sessionTimeoutFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool sidToken3rdPartyAuraApp {
+            get {
+                return this.sidToken3rdPartyAuraAppField;
+            }
+            set {
+                this.sidToken3rdPartyAuraAppField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool sidToken3rdPartyAuraAppSpecified {
+            get {
+                return this.sidToken3rdPartyAuraAppFieldSpecified;
+            }
+            set {
+                this.sidToken3rdPartyAuraAppFieldSpecified = value;
             }
         }
         
@@ -19044,6 +21738,14 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableEinsteinSearchAssistantDialogFieldSpecified;
         
+        private bool enableEinsteinSearchEs4kPilotField;
+        
+        private bool enableEinsteinSearchEs4kPilotFieldSpecified;
+        
+        private bool enableEinsteinSearchNLSFiltersField;
+        
+        private bool enableEinsteinSearchNLSFiltersFieldSpecified;
+        
         private bool enableEinsteinSearchNaturalLanguageField;
         
         private bool enableEinsteinSearchNaturalLanguageFieldSpecified;
@@ -19157,6 +21859,50 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool enableEinsteinSearchEs4kPilot {
+            get {
+                return this.enableEinsteinSearchEs4kPilotField;
+            }
+            set {
+                this.enableEinsteinSearchEs4kPilotField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableEinsteinSearchEs4kPilotSpecified {
+            get {
+                return this.enableEinsteinSearchEs4kPilotFieldSpecified;
+            }
+            set {
+                this.enableEinsteinSearchEs4kPilotFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public bool enableEinsteinSearchNLSFilters {
+            get {
+                return this.enableEinsteinSearchNLSFiltersField;
+            }
+            set {
+                this.enableEinsteinSearchNLSFiltersField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableEinsteinSearchNLSFiltersSpecified {
+            get {
+                return this.enableEinsteinSearchNLSFiltersFieldSpecified;
+            }
+            set {
+                this.enableEinsteinSearchNLSFiltersFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public bool enableEinsteinSearchNaturalLanguage {
             get {
                 return this.enableEinsteinSearchNaturalLanguageField;
@@ -19178,7 +21924,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public bool enableEinsteinSearchPersonalization {
             get {
                 return this.enableEinsteinSearchPersonalizationField;
@@ -19200,7 +21946,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public bool enablePersonalTagging {
             get {
                 return this.enablePersonalTaggingField;
@@ -19222,7 +21968,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public bool enablePublicTagging {
             get {
                 return this.enablePublicTaggingField;
@@ -19244,7 +21990,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public bool enableQuerySuggestionPigOn {
             get {
                 return this.enableQuerySuggestionPigOnField;
@@ -19266,7 +22012,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
         public bool enableSalesforceGeneratedSynonyms {
             get {
                 return this.enableSalesforceGeneratedSynonymsField;
@@ -19288,7 +22034,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
         public bool enableSearchTermHistory {
             get {
                 return this.enableSearchTermHistoryField;
@@ -19310,7 +22056,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
         public bool enableSetupSearch {
             get {
                 return this.enableSetupSearchField;
@@ -19332,7 +22078,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
         public bool enableSuggestArticlesLinksOnly {
             get {
                 return this.enableSuggestArticlesLinksOnlyField;
@@ -19354,7 +22100,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
         public bool enableUseDefaultSearchEntity {
             get {
                 return this.enableUseDefaultSearchEntityField;
@@ -19376,7 +22122,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
         public bool optimizeSearchForCJKEnabled {
             get {
                 return this.optimizeSearchForCJKEnabledField;
@@ -19387,7 +22133,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
         public bool recentlyViewedUsersForBlankLookupEnabled {
             get {
                 return this.recentlyViewedUsersForBlankLookupEnabledField;
@@ -19398,7 +22144,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=15)]
+        [System.Xml.Serialization.XmlArrayAttribute(Order=17)]
         [System.Xml.Serialization.XmlArrayItemAttribute("searchSettingsByObject", IsNullable=false)]
         public ObjectSearchSetting[] searchSettingsByObject {
             get {
@@ -19410,7 +22156,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
         public bool sidebarAutoCompleteEnabled {
             get {
                 return this.sidebarAutoCompleteEnabledField;
@@ -19421,7 +22167,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
         public bool sidebarDropDownListEnabled {
             get {
                 return this.sidebarDropDownListEnabledField;
@@ -19432,7 +22178,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
         public bool sidebarLimitToItemsIOwnCheckboxEnabled {
             get {
                 return this.sidebarLimitToItemsIOwnCheckboxEnabledField;
@@ -19443,7 +22189,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
         public bool singleSearchResultShortcutEnabled {
             get {
                 return this.singleSearchResultShortcutEnabledField;
@@ -19454,7 +22200,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
         public bool spellCorrectKnowledgeSearchEnabled {
             get {
                 return this.spellCorrectKnowledgeSearchEnabledField;
@@ -19692,6 +22438,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool useConfigRequestMethodField;
         
         private bool useConfigRequestMethodFieldSpecified;
+        
+        private bool useSameDigestAlgoForSigningField;
+        
+        private bool useSameDigestAlgoForSigningFieldSpecified;
         
         private bool userProvisioningField;
         
@@ -19976,6 +22726,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=22)]
+        public bool useSameDigestAlgoForSigning {
+            get {
+                return this.useSameDigestAlgoForSigningField;
+            }
+            set {
+                this.useSameDigestAlgoForSigningField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool useSameDigestAlgoForSigningSpecified {
+            get {
+                return this.useSameDigestAlgoForSigningFieldSpecified;
+            }
+            set {
+                this.useSameDigestAlgoForSigningFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
         public bool userProvisioning {
             get {
                 return this.userProvisioningField;
@@ -19997,7 +22769,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
         public string validationCert {
             get {
                 return this.validationCertField;
@@ -20286,6 +23058,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableRetailExecutionFieldSpecified;
         
+        private bool enableVisitSharingField;
+        
+        private bool enableVisitSharingFieldSpecified;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
         public bool enableProductHierarchy {
@@ -20327,6 +23103,28 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.enableRetailExecutionFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool enableVisitSharing {
+            get {
+                return this.enableVisitSharingField;
+            }
+            set {
+                this.enableVisitSharingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableVisitSharingSpecified {
+            get {
+                return this.enableVisitSharingFieldSpecified;
+            }
+            set {
+                this.enableVisitSharingFieldSpecified = value;
             }
         }
     }
@@ -22476,6 +25274,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         Unique,
         
         /// <remarks/>
+        Median,
+        
+        /// <remarks/>
         None,
     }
     
@@ -24158,6 +26959,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         RowCount,
+        
+        /// <remarks/>
+        Median,
     }
     
     /// <remarks/>
@@ -24616,6 +27420,100 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class RelationshipGraphDefinition : Metadata {
+        
+        private bool isActiveField;
+        
+        private bool isTemplateField;
+        
+        private string masterLabelField;
+        
+        private RelationshipGraphDefVersion[] relationshipGraphDefVersionsField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool isActive {
+            get {
+                return this.isActiveField;
+            }
+            set {
+                this.isActiveField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public bool isTemplate {
+            get {
+                return this.isTemplateField;
+            }
+            set {
+                this.isTemplateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("relationshipGraphDefVersions", Order=3)]
+        public RelationshipGraphDefVersion[] relationshipGraphDefVersions {
+            get {
+                return this.relationshipGraphDefVersionsField;
+            }
+            set {
+                this.relationshipGraphDefVersionsField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class RelationshipGraphDefVersion {
+        
+        private string graphDefinitionField;
+        
+        private string graphTypeField;
+        
+        /// <remarks/>
+        public string graphDefinition {
+            get {
+                return this.graphDefinitionField;
+            }
+            set {
+                this.graphDefinitionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string graphType {
+            get {
+                return this.graphTypeField;
+            }
+            set {
+                this.graphTypeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class RedirectWhitelistUrl : Metadata {
         
         private string urlField;
@@ -24689,6 +27587,54 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.enableFullRecordViewFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class RecordAlertCategory : Metadata {
+        
+        private string descriptionField;
+        
+        private string masterLabelField;
+        
+        private string severityField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string severity {
+            get {
+                return this.severityField;
+            }
+            set {
+                this.severityField = value;
             }
         }
     }
@@ -25615,7 +28561,13 @@ namespace SalesforceMetadata.MetadataWSDL {
         addSkillRequirements,
         
         /// <remarks/>
+        addScreenPop,
+        
+        /// <remarks/>
         routeWork,
+        
+        /// <remarks/>
+        checkAvailabilityForRouting,
         
         /// <remarks/>
         createCustomField,
@@ -25642,6 +28594,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         modifyCadenceTrackerAttributes,
         
         /// <remarks/>
+        invocableApplyLeadAssignmentRules,
+        
+        /// <remarks/>
         pauseSalesCadenceTracker,
         
         /// <remarks/>
@@ -25652,6 +28607,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         sendSalesCadenceEvent,
+        
+        /// <remarks/>
+        selectTemplateForSalesCadenceStepTracker,
         
         /// <remarks/>
         assignKnowledgeArticles,
@@ -25676,6 +28634,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         saveAppointment,
+        
+        /// <remarks/>
+        saveAppointmentInvitationDetails,
         
         /// <remarks/>
         deleteKnowledgeArticles,
@@ -25721,6 +28682,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         calculateAdvancedAccountForecast,
+        
+        /// <remarks/>
+        processAccountForecasts,
         
         /// <remarks/>
         managedContentReleasePublish,
@@ -25795,6 +28759,15 @@ namespace SalesforceMetadata.MetadataWSDL {
         cancelCartAsyncOperation,
         
         /// <remarks/>
+        createCart,
+        
+        /// <remarks/>
+        addCartItem,
+        
+        /// <remarks/>
+        deleteCart,
+        
+        /// <remarks/>
         cancelFulfillmentOrderItem,
         
         /// <remarks/>
@@ -25843,6 +28816,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         adjustOrderItemSummariesSubmit,
         
         /// <remarks/>
+        addOrderItemSummarySubmit,
+        
+        /// <remarks/>
         createOrderFromQuote,
         
         /// <remarks/>
@@ -25853,6 +28829,15 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         changeFinancePeriodStatus,
+        
+        /// <remarks/>
+        applyPayment,
+        
+        /// <remarks/>
+        paymentSale,
+        
+        /// <remarks/>
+        createInvoiceFromOrder,
         
         /// <remarks/>
         ociTransferReservation,
@@ -25874,6 +28859,21 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         orderRoutingFindRoutesWithFewestSplits,
+        
+        /// <remarks/>
+        orderRoutingFindRoutesWithFewestSplitsUsingOCI,
+        
+        /// <remarks/>
+        holdFulfillmentOrderCapacity,
+        
+        /// <remarks/>
+        releaseHeldFulfillmentOrderCapacity,
+        
+        /// <remarks/>
+        confirmHeldFulfillmentOrderCapacity,
+        
+        /// <remarks/>
+        getFulfillmentOrderCapacityValues,
         
         /// <remarks/>
         print,
@@ -25903,9 +28903,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         publishPardotContent,
         
         /// <remarks/>
-        sendAlert,
-        
-        /// <remarks/>
         storeReplyRecommendationsFeedback,
         
         /// <remarks/>
@@ -25922,6 +28919,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         decisionTableAction,
+        
+        /// <remarks/>
+        runDecisionMatrix,
         
         /// <remarks/>
         createFinancialRecords,
@@ -25975,19 +28975,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         adjustPointsAction,
         
         /// <remarks/>
-        chat,
-        
-        /// <remarks/>
-        addMessageToChat,
-        
-        /// <remarks/>
-        addUsersToChat,
-        
-        /// <remarks/>
         cancelRedemption,
-        
-        /// <remarks/>
-        printServiceDocument,
         
         /// <remarks/>
         cancelAccrual,
@@ -25997,6 +28985,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         saveRecommendationDecision,
+        
+        /// <remarks/>
+        outboundMessage,
         
         /// <remarks/>
         internalTestAction,
@@ -26032,7 +29023,13 @@ namespace SalesforceMetadata.MetadataWSDL {
         refreshDecisionTable,
         
         /// <remarks/>
-        createWorkItem,
+        evaluationFlow,
+        
+        /// <remarks/>
+        stepInteractive,
+        
+        /// <remarks/>
+        stepBackground,
         
         /// <remarks/>
         managedContentVersionPublish,
@@ -26042,9 +29039,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         generateKnowledgeLogData,
-        
-        /// <remarks/>
-        screenPop,
         
         /// <remarks/>
         submitFailedRecordsBatchJob,
@@ -26059,22 +29053,124 @@ namespace SalesforceMetadata.MetadataWSDL {
         slackPostMessage,
         
         /// <remarks/>
+        slackUpdateMessage,
+        
+        /// <remarks/>
+        slackPinMessage,
+        
+        /// <remarks/>
         slackCreateChannel,
         
         /// <remarks/>
         slackInviteUsersToChannel,
         
         /// <remarks/>
-        slackUserInChannel,
-        
-        /// <remarks/>
-        slackUserInWorkspace,
+        slackCheckUsersAreConnectedToSlack,
         
         /// <remarks/>
         slackArchiveChannel,
         
         /// <remarks/>
-        slackInviteUserToWorkspace,
+        slackGetConversationInfo,
+        
+        /// <remarks/>
+        getLoyaltyPromotionBasedOnSalesforceCDP,
+        
+        /// <remarks/>
+        transferMemberPointsToGroups,
+        
+        /// <remarks/>
+        getLoyaltyPromotion,
+        
+        /// <remarks/>
+        createServiceDocument,
+        
+        /// <remarks/>
+        createArticleRecommendations,
+        
+        /// <remarks/>
+        discoveryPredict,
+        
+        /// <remarks/>
+        processProgramRebateTypeProducts,
+        
+        /// <remarks/>
+        fetchCaseClassificationRecommendations,
+        
+        /// <remarks/>
+        applyCaseClassificationRecommendations,
+        
+        /// <remarks/>
+        updateProgressForCumulativePromotionUsage,
+        
+        /// <remarks/>
+        updateAdvancedAccountForecastSetPartner,
+        
+        /// <remarks/>
+        swarmingCollaborationToolSettings,
+        
+        /// <remarks/>
+        getArticleSmartLinkUrl,
+        
+        /// <remarks/>
+        performSurveySentimentAnalysis,
+        
+        /// <remarks/>
+        pardotSlackCompletionActionNotification,
+        
+        /// <remarks/>
+        calculateProjectedRebateAmount,
+        
+        /// <remarks/>
+        runProgramProcessForTransactionJournal,
+        
+        /// <remarks/>
+        goalAchievedAction,
+        
+        /// <remarks/>
+        buildIdentityVerification,
+        
+        /// <remarks/>
+        getVerificationData,
+        
+        /// <remarks/>
+        createEinsteinDocReaderLogic,
+        
+        /// <remarks/>
+        sendNotification,
+        
+        /// <remarks/>
+        uploadBlockchainData,
+        
+        /// <remarks/>
+        saveMemberVerificationSteps,
+        
+        /// <remarks/>
+        limitRepetitions,
+        
+        /// <remarks/>
+        slackSendMessageToLaunchFlow,
+        
+        /// <remarks/>
+        manageRecurringSchedules,
+        
+        /// <remarks/>
+        importRecordsFromCsvFile,
+        
+        /// <remarks/>
+        authorizePayment,
+        
+        /// <remarks/>
+        getMemberActiveSegments,
+        
+        /// <remarks/>
+        managedContentVariantSetReadyStatus,
+        
+        /// <remarks/>
+        getAvailableSwarmObject,
+        
+        /// <remarks/>
+        runExpressionSet,
     }
     
     /// <remarks/>
@@ -28358,6 +31454,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string imageAltTextField;
         
+        private string imageLinkField;
+        
         private PromptImageLocation imageLocationField;
         
         private bool imageLocationFieldSpecified;
@@ -28406,7 +31504,11 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string targetPageKey3Field;
         
+        private string targetPageKey4Field;
+        
         private string targetPageTypeField;
+        
+        private string targetRecordTypeField;
         
         private PromptThemeColor themeColorField;
         
@@ -28618,6 +31720,16 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.imageAltTextField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string imageLink {
+            get {
+                return this.imageLinkField;
+            }
+            set {
+                this.imageLinkField = value;
             }
         }
         
@@ -28871,12 +31983,32 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
+        public string targetPageKey4 {
+            get {
+                return this.targetPageKey4Field;
+            }
+            set {
+                this.targetPageKey4Field = value;
+            }
+        }
+        
+        /// <remarks/>
         public string targetPageType {
             get {
                 return this.targetPageTypeField;
             }
             set {
                 this.targetPageTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string targetRecordType {
+            get {
+                return this.targetRecordTypeField;
+            }
+            set {
+                this.targetRecordTypeField = value;
             }
         }
         
@@ -31003,10 +34135,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableRevenueScheduleFieldSpecified;
         
-        private bool enableSecureGuestUserRecordAccessField;
-        
-        private bool enableSecureGuestUserRecordAccessFieldSpecified;
-        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
         public bool enableCascadeActivateToRelatedPrices {
@@ -31094,26 +34222,98 @@ namespace SalesforceMetadata.MetadataWSDL {
                 this.enableRevenueScheduleFieldSpecified = value;
             }
         }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class ProductAttributeSet : Metadata {
+        
+        private string descriptionField;
+        
+        private string developerNameField;
+        
+        private string masterLabelField;
+        
+        private ProductAttributeSetItem[] productAttributeSetItemsField;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
-        public bool enableSecureGuestUserRecordAccess {
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string description {
             get {
-                return this.enableSecureGuestUserRecordAccessField;
+                return this.descriptionField;
             }
             set {
-                this.enableSecureGuestUserRecordAccessField = value;
+                this.descriptionField = value;
             }
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool enableSecureGuestUserRecordAccessSpecified {
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string developerName {
             get {
-                return this.enableSecureGuestUserRecordAccessFieldSpecified;
+                return this.developerNameField;
             }
             set {
-                this.enableSecureGuestUserRecordAccessFieldSpecified = value;
+                this.developerNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("productAttributeSetItems", Order=3)]
+        public ProductAttributeSetItem[] productAttributeSetItems {
+            get {
+                return this.productAttributeSetItemsField;
+            }
+            set {
+                this.productAttributeSetItemsField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class ProductAttributeSetItem {
+        
+        private string fieldField;
+        
+        private int sequenceField;
+        
+        /// <remarks/>
+        public string field {
+            get {
+                return this.fieldField;
+            }
+            set {
+                this.fieldField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int sequence {
+            get {
+                return this.sequenceField;
+            }
+            set {
+                this.sequenceField = value;
             }
         }
     }
@@ -32290,6 +35490,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string eventChannelField;
         
+        private string filterExpressionField;
+        
         private string selectedEntityField;
         
         /// <remarks/>
@@ -32316,6 +35518,17 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string filterExpression {
+            get {
+                return this.filterExpressionField;
+            }
+            set {
+                this.filterExpressionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
         public string selectedEntity {
             get {
                 return this.selectedEntityField;
@@ -32770,9 +35983,134 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class PermissionSetLicenseDefinition : Metadata {
+        
+        private PermissionSetLicenseDefinitionCustomPermission[] customPermissionsField;
+        
+        private bool isSupplementLicenseField;
+        
+        private bool isSupplementLicenseFieldSpecified;
+        
+        private string labelField;
+        
+        private LicenseExpirationPolicy licenseExpirationPolicyField;
+        
+        private string userLicenseRestrictionsField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("customPermissions", Order=0)]
+        public PermissionSetLicenseDefinitionCustomPermission[] customPermissions {
+            get {
+                return this.customPermissionsField;
+            }
+            set {
+                this.customPermissionsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public bool isSupplementLicense {
+            get {
+                return this.isSupplementLicenseField;
+            }
+            set {
+                this.isSupplementLicenseField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isSupplementLicenseSpecified {
+            get {
+                return this.isSupplementLicenseFieldSpecified;
+            }
+            set {
+                this.isSupplementLicenseFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string label {
+            get {
+                return this.labelField;
+            }
+            set {
+                this.labelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public LicenseExpirationPolicy licenseExpirationPolicy {
+            get {
+                return this.licenseExpirationPolicyField;
+            }
+            set {
+                this.licenseExpirationPolicyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string userLicenseRestrictions {
+            get {
+                return this.userLicenseRestrictionsField;
+            }
+            set {
+                this.userLicenseRestrictionsField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class PermissionSetLicenseDefinitionCustomPermission {
+        
+        private string nameField;
+        
+        /// <remarks/>
+        public string name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum LicenseExpirationPolicy {
+        
+        /// <remarks/>
+        AllowNamespaceAccess,
+        
+        /// <remarks/>
+        BlockNamespaceAccess,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class PermissionSetGroup : Metadata {
         
         private string descriptionField;
+        
+        private bool hasActivationRequiredField;
+        
+        private bool hasActivationRequiredFieldSpecified;
         
         private string labelField;
         
@@ -32795,6 +36133,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public bool hasActivationRequired {
+            get {
+                return this.hasActivationRequiredField;
+            }
+            set {
+                this.hasActivationRequiredField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool hasActivationRequiredSpecified {
+            get {
+                return this.hasActivationRequiredFieldSpecified;
+            }
+            set {
+                this.hasActivationRequiredFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
         public string label {
             get {
                 return this.labelField;
@@ -32805,7 +36165,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("mutingPermissionSets", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute("mutingPermissionSets", Order=3)]
         public string[] mutingPermissionSets {
             get {
                 return this.mutingPermissionSetsField;
@@ -32816,7 +36176,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("permissionSets", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute("permissionSets", Order=4)]
         public string[] permissionSets {
             get {
                 return this.permissionSetsField;
@@ -32827,7 +36187,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public string status {
             get {
                 return this.statusField;
@@ -34087,6 +37447,10 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class PardotSettings : Metadata {
         
+        private bool enableAIEinsteinEngageFreqField;
+        
+        private bool enableAIEinsteinEngageFreqFieldSpecified;
+        
         private bool enableAIOptimizedSendTimeField;
         
         private bool enableAIOptimizedSendTimeFieldSpecified;
@@ -34121,6 +37485,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableAIEinsteinEngageFreq {
+            get {
+                return this.enableAIEinsteinEngageFreqField;
+            }
+            set {
+                this.enableAIEinsteinEngageFreqField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableAIEinsteinEngageFreqSpecified {
+            get {
+                return this.enableAIEinsteinEngageFreqFieldSpecified;
+            }
+            set {
+                this.enableAIEinsteinEngageFreqFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
         public bool enableAIOptimizedSendTime {
             get {
                 return this.enableAIOptimizedSendTimeField;
@@ -34142,7 +37528,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
         public bool enableB2bmaAppEnabled {
             get {
                 return this.enableB2bmaAppEnabledField;
@@ -34164,7 +37550,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
         public bool enableEngagementHistoryDashboards {
             get {
                 return this.enableEngagementHistoryDashboardsField;
@@ -34186,7 +37572,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
         public bool enableEnhancedProspectCustomFieldsSync {
             get {
                 return this.enableEnhancedProspectCustomFieldsSyncField;
@@ -34208,7 +37594,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public bool enablePardotAppV1Enabled {
             get {
                 return this.enablePardotAppV1EnabledField;
@@ -34230,7 +37616,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public bool enablePardotEnabled {
             get {
                 return this.enablePardotEnabledField;
@@ -34252,7 +37638,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public bool enablePardotObjectSync {
             get {
                 return this.enablePardotObjectSyncField;
@@ -34274,7 +37660,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public bool enableProspectActivityDataset {
             get {
                 return this.enableProspectActivityDatasetField;
@@ -34728,6 +38114,14 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableB2CSelfServiceFieldSpecified;
         
+        private bool enableDuplicateManagementField;
+        
+        private bool enableDuplicateManagementFieldSpecified;
+        
+        private bool enableIndividualOrderItemTaxAdjustmentsField;
+        
+        private bool enableIndividualOrderItemTaxAdjustmentsFieldSpecified;
+        
         private bool enableOMAutomationField;
         
         private bool enableOMAutomationFieldSpecified;
@@ -34790,6 +38184,50 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool enableDuplicateManagement {
+            get {
+                return this.enableDuplicateManagementField;
+            }
+            set {
+                this.enableDuplicateManagementField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableDuplicateManagementSpecified {
+            get {
+                return this.enableDuplicateManagementFieldSpecified;
+            }
+            set {
+                this.enableDuplicateManagementFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool enableIndividualOrderItemTaxAdjustments {
+            get {
+                return this.enableIndividualOrderItemTaxAdjustmentsField;
+            }
+            set {
+                this.enableIndividualOrderItemTaxAdjustmentsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableIndividualOrderItemTaxAdjustmentsSpecified {
+            get {
+                return this.enableIndividualOrderItemTaxAdjustmentsFieldSpecified;
+            }
+            set {
+                this.enableIndividualOrderItemTaxAdjustmentsFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
         public bool enableOMAutomation {
             get {
                 return this.enableOMAutomationField;
@@ -34811,7 +38249,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public bool enableOrderManagement {
             get {
                 return this.enableOrderManagementField;
@@ -34833,7 +38271,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public bool enablePersonAccountsForShoppers {
             get {
                 return this.enablePersonAccountsForShoppersField;
@@ -34855,7 +38293,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public bool initOMAutomation {
             get {
                 return this.initOMAutomationField;
@@ -35137,6 +38575,22 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enablePipelineInspectionFieldSpecified;
         
+        private bool enablePipelineInspectionFlowField;
+        
+        private bool enablePipelineInspectionFlowFieldSpecified;
+        
+        private bool enablePipelineInspectionSingleCategoryRollupField;
+        
+        private bool enablePipelineInspectionSingleCategoryRollupFieldSpecified;
+        
+        private bool enableRevenueInsightsField;
+        
+        private bool enableRevenueInsightsFieldSpecified;
+        
+        private bool enableServiceCaseInsightsField;
+        
+        private bool enableServiceCaseInsightsFieldSpecified;
+        
         private bool enableUpdateRemindersField;
         
         private bool enableUpdateRemindersFieldSpecified;
@@ -35154,6 +38608,14 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool promptToAddProductsField;
         
         private bool promptToAddProductsFieldSpecified;
+        
+        private bool simpleOppCreateFromContactField;
+        
+        private bool simpleOppCreateFromContactFieldSpecified;
+        
+        private bool simpleOppCreateFromEventField;
+        
+        private bool simpleOppCreateFromEventFieldSpecified;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
@@ -35355,6 +38817,94 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        public bool enablePipelineInspectionFlow {
+            get {
+                return this.enablePipelineInspectionFlowField;
+            }
+            set {
+                this.enablePipelineInspectionFlowField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enablePipelineInspectionFlowSpecified {
+            get {
+                return this.enablePipelineInspectionFlowFieldSpecified;
+            }
+            set {
+                this.enablePipelineInspectionFlowFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        public bool enablePipelineInspectionSingleCategoryRollup {
+            get {
+                return this.enablePipelineInspectionSingleCategoryRollupField;
+            }
+            set {
+                this.enablePipelineInspectionSingleCategoryRollupField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enablePipelineInspectionSingleCategoryRollupSpecified {
+            get {
+                return this.enablePipelineInspectionSingleCategoryRollupFieldSpecified;
+            }
+            set {
+                this.enablePipelineInspectionSingleCategoryRollupFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        public bool enableRevenueInsights {
+            get {
+                return this.enableRevenueInsightsField;
+            }
+            set {
+                this.enableRevenueInsightsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableRevenueInsightsSpecified {
+            get {
+                return this.enableRevenueInsightsFieldSpecified;
+            }
+            set {
+                this.enableRevenueInsightsFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        public bool enableServiceCaseInsights {
+            get {
+                return this.enableServiceCaseInsightsField;
+            }
+            set {
+                this.enableServiceCaseInsightsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableServiceCaseInsightsSpecified {
+            get {
+                return this.enableServiceCaseInsightsFieldSpecified;
+            }
+            set {
+                this.enableServiceCaseInsightsFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
         public bool enableUpdateReminders {
             get {
                 return this.enableUpdateRemindersField;
@@ -35376,7 +38926,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
         public FindSimilarOppFilter findSimilarOppFilter {
             get {
                 return this.findSimilarOppFilterField;
@@ -35387,7 +38937,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
         public bool oppAmountDealMotionEnabled {
             get {
                 return this.oppAmountDealMotionEnabledField;
@@ -35409,7 +38959,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
         public bool oppCloseDateDealMotionEnabled {
             get {
                 return this.oppCloseDateDealMotionEnabledField;
@@ -35431,7 +38981,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
         public bool promptToAddProducts {
             get {
                 return this.promptToAddProductsField;
@@ -35449,6 +38999,50 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.promptToAddProductsFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
+        public bool simpleOppCreateFromContact {
+            get {
+                return this.simpleOppCreateFromContactField;
+            }
+            set {
+                this.simpleOppCreateFromContactField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool simpleOppCreateFromContactSpecified {
+            get {
+                return this.simpleOppCreateFromContactFieldSpecified;
+            }
+            set {
+                this.simpleOppCreateFromContactFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
+        public bool simpleOppCreateFromEvent {
+            get {
+                return this.simpleOppCreateFromEventField;
+            }
+            set {
+                this.simpleOppCreateFromEventField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool simpleOppCreateFromEventSpecified {
+            get {
+                return this.simpleOppCreateFromEventFieldSpecified;
+            }
+            set {
+                this.simpleOppCreateFromEventFieldSpecified = value;
             }
         }
     }
@@ -36057,6 +39651,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool mobileEnabledFieldSpecified;
         
+        private bool slackEnabledField;
+        
+        private bool slackEnabledFieldSpecified;
+        
         /// <remarks/>
         public bool desktopEnabled {
             get {
@@ -36098,6 +39696,27 @@ namespace SalesforceMetadata.MetadataWSDL {
                 this.mobileEnabledFieldSpecified = value;
             }
         }
+        
+        /// <remarks/>
+        public bool slackEnabled {
+            get {
+                return this.slackEnabledField;
+            }
+            set {
+                this.slackEnabledField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool slackEnabledSpecified {
+            get {
+                return this.slackEnabledFieldSpecified;
+            }
+            set {
+                this.slackEnabledFieldSpecified = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -36129,6 +39748,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         private CommunityRoles communityRolesField;
         
         private string descriptionField;
+        
+        private string deviceActEmailTemplateField;
         
         private bool disableReputationRecordConversationsField;
         
@@ -36248,6 +39869,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private ReputationPointsRule[] reputationPointsRulesField;
         
+        private string selfRegMicroBatchSubErrorEmailTemplateField;
+        
         private string selfRegProfileField;
         
         private bool selfRegistrationField;
@@ -36259,6 +39882,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool sendWelcomeEmailFieldSpecified;
         
         private string siteField;
+        
+        private SitesArchiveStatus siteArchiveStatusField;
+        
+        private bool siteArchiveStatusFieldSpecified;
         
         private NetworkStatus statusField;
         
@@ -36393,6 +40020,17 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        public string deviceActEmailTemplate {
+            get {
+                return this.deviceActEmailTemplateField;
+            }
+            set {
+                this.deviceActEmailTemplateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
         public bool disableReputationRecordConversations {
             get {
                 return this.disableReputationRecordConversationsField;
@@ -36414,7 +40052,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
         public string emailFooterLogo {
             get {
                 return this.emailFooterLogoField;
@@ -36425,7 +40063,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
         public string emailFooterText {
             get {
                 return this.emailFooterTextField;
@@ -36436,7 +40074,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
         public string emailSenderAddress {
             get {
                 return this.emailSenderAddressField;
@@ -36447,7 +40085,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
         public string emailSenderName {
             get {
                 return this.emailSenderNameField;
@@ -36458,7 +40096,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
         public bool enableCustomVFErrorPageOverrides {
             get {
                 return this.enableCustomVFErrorPageOverridesField;
@@ -36480,7 +40118,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
         public bool enableDirectMessages {
             get {
                 return this.enableDirectMessagesField;
@@ -36502,7 +40140,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
         public bool enableExperienceBundleBasedSnaOverrideEnabled {
             get {
                 return this.enableExperienceBundleBasedSnaOverrideEnabledField;
@@ -36524,7 +40162,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
         public bool enableGuestChatter {
             get {
                 return this.enableGuestChatterField;
@@ -36546,7 +40184,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
         public bool enableGuestFileAccess {
             get {
                 return this.enableGuestFileAccessField;
@@ -36568,7 +40206,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
         public bool enableGuestMemberVisibility {
             get {
                 return this.enableGuestMemberVisibilityField;
@@ -36590,7 +40228,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
         public bool enableInvitation {
             get {
                 return this.enableInvitationField;
@@ -36612,7 +40250,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
         public bool enableKnowledgeable {
             get {
                 return this.enableKnowledgeableField;
@@ -36634,7 +40272,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
         public bool enableMemberVisibility {
             get {
                 return this.enableMemberVisibilityField;
@@ -36656,7 +40294,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
         public bool enableNicknameDisplay {
             get {
                 return this.enableNicknameDisplayField;
@@ -36678,7 +40316,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=25)]
         public bool enablePrivateMessages {
             get {
                 return this.enablePrivateMessagesField;
@@ -36700,7 +40338,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=25)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=26)]
         public bool enableReputation {
             get {
                 return this.enableReputationField;
@@ -36722,7 +40360,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=26)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=27)]
         public bool enableShowAllNetworkSettings {
             get {
                 return this.enableShowAllNetworkSettingsField;
@@ -36744,7 +40382,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=27)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=28)]
         public bool enableSiteAsContainer {
             get {
                 return this.enableSiteAsContainerField;
@@ -36766,7 +40404,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=28)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=29)]
         public bool enableTalkingAboutStats {
             get {
                 return this.enableTalkingAboutStatsField;
@@ -36788,7 +40426,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=29)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=30)]
         public bool enableTopicAssignmentRules {
             get {
                 return this.enableTopicAssignmentRulesField;
@@ -36810,7 +40448,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=30)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=31)]
         public bool enableTopicSuggestions {
             get {
                 return this.enableTopicSuggestionsField;
@@ -36832,7 +40470,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=31)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=32)]
         public bool enableUpDownVote {
             get {
                 return this.enableUpDownVoteField;
@@ -36854,7 +40492,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=32)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=33)]
         public string feedChannel {
             get {
                 return this.feedChannelField;
@@ -36865,7 +40503,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=33)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=34)]
         public string forgotPasswordTemplate {
             get {
                 return this.forgotPasswordTemplateField;
@@ -36876,7 +40514,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=34)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=35)]
         public bool gatherCustomerSentimentData {
             get {
                 return this.gatherCustomerSentimentDataField;
@@ -36898,7 +40536,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=35)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=36)]
         public string lockoutTemplate {
             get {
                 return this.lockoutTemplateField;
@@ -36909,7 +40547,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=36)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=37)]
         public string logoutUrl {
             get {
                 return this.logoutUrlField;
@@ -36920,7 +40558,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=37)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=38)]
         public int maxFileSizeKb {
             get {
                 return this.maxFileSizeKbField;
@@ -36942,7 +40580,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=38)]
+        [System.Xml.Serialization.XmlArrayAttribute(Order=39)]
         [System.Xml.Serialization.XmlArrayItemAttribute("navigationMenuItem", IsNullable=false)]
         public NavigationMenuItem[] navigationLinkSet {
             get {
@@ -36954,7 +40592,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=39)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=40)]
         public NetworkMemberGroup networkMemberGroups {
             get {
                 return this.networkMemberGroupsField;
@@ -36965,7 +40603,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=40)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=41)]
         public NetworkPageOverride networkPageOverrides {
             get {
                 return this.networkPageOverridesField;
@@ -36976,7 +40614,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=41)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=42)]
         public string newSenderAddress {
             get {
                 return this.newSenderAddressField;
@@ -36987,7 +40625,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=42)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=43)]
         public string picassoSite {
             get {
                 return this.picassoSiteField;
@@ -36998,7 +40636,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=43)]
+        [System.Xml.Serialization.XmlArrayAttribute(Order=44)]
         [System.Xml.Serialization.XmlArrayItemAttribute("recommendationAudienceDetails", IsNullable=false)]
         public RecommendationAudienceDetail[] recommendationAudience {
             get {
@@ -37010,7 +40648,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=44)]
+        [System.Xml.Serialization.XmlArrayAttribute(Order=45)]
         [System.Xml.Serialization.XmlArrayItemAttribute("recommendationDefinitionDetails", IsNullable=false)]
         public RecommendationDefinitionDetail[] recommendationDefinition {
             get {
@@ -37022,7 +40660,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=45)]
+        [System.Xml.Serialization.XmlArrayAttribute(Order=46)]
         [System.Xml.Serialization.XmlArrayItemAttribute("level", IsNullable=false)]
         public ReputationLevel[] reputationLevels {
             get {
@@ -37034,7 +40672,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=46)]
+        [System.Xml.Serialization.XmlArrayAttribute(Order=47)]
         [System.Xml.Serialization.XmlArrayItemAttribute("pointsRule", IsNullable=false)]
         public ReputationPointsRule[] reputationPointsRules {
             get {
@@ -37046,7 +40684,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=47)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=48)]
+        public string selfRegMicroBatchSubErrorEmailTemplate {
+            get {
+                return this.selfRegMicroBatchSubErrorEmailTemplateField;
+            }
+            set {
+                this.selfRegMicroBatchSubErrorEmailTemplateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=49)]
         public string selfRegProfile {
             get {
                 return this.selfRegProfileField;
@@ -37057,7 +40706,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=48)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=50)]
         public bool selfRegistration {
             get {
                 return this.selfRegistrationField;
@@ -37079,7 +40728,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=49)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=51)]
         public bool sendWelcomeEmail {
             get {
                 return this.sendWelcomeEmailField;
@@ -37101,7 +40750,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=50)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=52)]
         public string site {
             get {
                 return this.siteField;
@@ -37112,7 +40761,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=51)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=53)]
+        public SitesArchiveStatus siteArchiveStatus {
+            get {
+                return this.siteArchiveStatusField;
+            }
+            set {
+                this.siteArchiveStatusField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool siteArchiveStatusSpecified {
+            get {
+                return this.siteArchiveStatusFieldSpecified;
+            }
+            set {
+                this.siteArchiveStatusFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=54)]
         public NetworkStatus status {
             get {
                 return this.statusField;
@@ -37123,7 +40794,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=52)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=55)]
         public NetworkTabSet tabs {
             get {
                 return this.tabsField;
@@ -37134,7 +40805,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=53)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=56)]
         public string urlPathPrefix {
             get {
                 return this.urlPathPrefixField;
@@ -37145,7 +40816,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=54)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=57)]
         public string verificationTemplate {
             get {
                 return this.verificationTemplateField;
@@ -37156,7 +40827,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=55)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=58)]
         public string welcomeTemplate {
             get {
                 return this.welcomeTemplateField;
@@ -37929,6 +41600,19 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum SitesArchiveStatus {
+        
+        /// <remarks/>
+        TemporarilyArchived,
+        
+        /// <remarks/>
+        NotArchived,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public enum NetworkStatus {
         
         /// <remarks/>
@@ -38101,6 +41785,12 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string labelField;
         
+        private NamedCredentialParameter[] namedCredentialParametersField;
+        
+        private NamedCredentialType namedCredentialTypeField;
+        
+        private bool namedCredentialTypeFieldSpecified;
+        
         private string oauthRefreshTokenField;
         
         private string oauthScopeField;
@@ -38113,7 +41803,11 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private ExternalPrincipalType principalTypeField;
         
+        private bool principalTypeFieldSpecified;
+        
         private AuthenticationProtocol protocolField;
+        
+        private bool protocolFieldSpecified;
         
         private string usernameField;
         
@@ -38360,7 +42054,40 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
+        [System.Xml.Serialization.XmlElementAttribute("namedCredentialParameters", Order=18)]
+        public NamedCredentialParameter[] namedCredentialParameters {
+            get {
+                return this.namedCredentialParametersField;
+            }
+            set {
+                this.namedCredentialParametersField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
+        public NamedCredentialType namedCredentialType {
+            get {
+                return this.namedCredentialTypeField;
+            }
+            set {
+                this.namedCredentialTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool namedCredentialTypeSpecified {
+            get {
+                return this.namedCredentialTypeFieldSpecified;
+            }
+            set {
+                this.namedCredentialTypeFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
         public string oauthRefreshToken {
             get {
                 return this.oauthRefreshTokenField;
@@ -38371,7 +42098,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
         public string oauthScope {
             get {
                 return this.oauthScopeField;
@@ -38382,7 +42109,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
         public string oauthToken {
             get {
                 return this.oauthTokenField;
@@ -38393,7 +42120,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
         public string outboundNetworkConnection {
             get {
                 return this.outboundNetworkConnectionField;
@@ -38404,7 +42131,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
         public string password {
             get {
                 return this.passwordField;
@@ -38415,7 +42142,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=25)]
         public ExternalPrincipalType principalType {
             get {
                 return this.principalTypeField;
@@ -38426,7 +42153,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool principalTypeSpecified {
+            get {
+                return this.principalTypeFieldSpecified;
+            }
+            set {
+                this.principalTypeFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=26)]
         public AuthenticationProtocol protocol {
             get {
                 return this.protocolField;
@@ -38437,7 +42175,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=25)]
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool protocolSpecified {
+            get {
+                return this.protocolFieldSpecified;
+            }
+            set {
+                this.protocolFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=27)]
         public string username {
             get {
                 return this.usernameField;
@@ -38446,6 +42195,156 @@ namespace SalesforceMetadata.MetadataWSDL {
                 this.usernameField = value;
             }
         }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class NamedCredentialParameter {
+        
+        private string certificateField;
+        
+        private string descriptionField;
+        
+        private string externalCredentialField;
+        
+        private string outboundNetworkConnectionField;
+        
+        private string parameterNameField;
+        
+        private NamedCredentialParamType parameterTypeField;
+        
+        private string parameterValueField;
+        
+        private int sequenceNumberField;
+        
+        private bool sequenceNumberFieldSpecified;
+        
+        /// <remarks/>
+        public string certificate {
+            get {
+                return this.certificateField;
+            }
+            set {
+                this.certificateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string externalCredential {
+            get {
+                return this.externalCredentialField;
+            }
+            set {
+                this.externalCredentialField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string outboundNetworkConnection {
+            get {
+                return this.outboundNetworkConnectionField;
+            }
+            set {
+                this.outboundNetworkConnectionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string parameterName {
+            get {
+                return this.parameterNameField;
+            }
+            set {
+                this.parameterNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public NamedCredentialParamType parameterType {
+            get {
+                return this.parameterTypeField;
+            }
+            set {
+                this.parameterTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string parameterValue {
+            get {
+                return this.parameterValueField;
+            }
+            set {
+                this.parameterValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int sequenceNumber {
+            get {
+                return this.sequenceNumberField;
+            }
+            set {
+                this.sequenceNumberField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool sequenceNumberSpecified {
+            get {
+                return this.sequenceNumberFieldSpecified;
+            }
+            set {
+                this.sequenceNumberFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum NamedCredentialParamType {
+        
+        /// <remarks/>
+        Url,
+        
+        /// <remarks/>
+        HttpHeader,
+        
+        /// <remarks/>
+        ClientCertificate,
+        
+        /// <remarks/>
+        Authentication,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum NamedCredentialType {
+        
+        /// <remarks/>
+        Legacy,
+        
+        /// <remarks/>
+        SecuredEndpoint,
     }
     
     /// <remarks/>
@@ -38592,6 +42491,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool doesApiLoginRequireOrgDomainFieldSpecified;
         
+        private OrgDomainShard domainPartitionField;
+        
+        private bool domainPartitionFieldSpecified;
+        
         private bool enableNativeBrowserForAuthOnAndroidField;
         
         private bool enableNativeBrowserForAuthOnAndroidFieldSpecified;
@@ -38606,6 +42509,14 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool myDomainSuffixFieldSpecified;
         
+        private bool redirectForceComSiteUrlsField;
+        
+        private bool redirectForceComSiteUrlsFieldSpecified;
+        
+        private bool redirectPriorMyDomainField;
+        
+        private bool redirectPriorMyDomainFieldSpecified;
+        
         private bool use3rdPartyCookieBlockingCompatibleHostnamesField;
         
         private bool use3rdPartyCookieBlockingCompatibleHostnamesFieldSpecified;
@@ -38613,6 +42524,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool useEdgeField;
         
         private bool useEdgeFieldSpecified;
+        
+        private bool useEnhancedDomainsInSandboxField;
+        
+        private bool useEnhancedDomainsInSandboxFieldSpecified;
         
         private bool useStabilizedMyDomainHostnamesField;
         
@@ -38668,6 +42583,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public OrgDomainShard domainPartition {
+            get {
+                return this.domainPartitionField;
+            }
+            set {
+                this.domainPartitionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool domainPartitionSpecified {
+            get {
+                return this.domainPartitionFieldSpecified;
+            }
+            set {
+                this.domainPartitionFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
         public bool enableNativeBrowserForAuthOnAndroid {
             get {
                 return this.enableNativeBrowserForAuthOnAndroidField;
@@ -38689,7 +42626,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
         public bool enableNativeBrowserForAuthOnIos {
             get {
                 return this.enableNativeBrowserForAuthOnIosField;
@@ -38711,7 +42648,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public string myDomainName {
             get {
                 return this.myDomainNameField;
@@ -38722,7 +42659,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public OrgDomainProdSuffix myDomainSuffix {
             get {
                 return this.myDomainSuffixField;
@@ -38744,7 +42681,51 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public bool redirectForceComSiteUrls {
+            get {
+                return this.redirectForceComSiteUrlsField;
+            }
+            set {
+                this.redirectForceComSiteUrlsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool redirectForceComSiteUrlsSpecified {
+            get {
+                return this.redirectForceComSiteUrlsFieldSpecified;
+            }
+            set {
+                this.redirectForceComSiteUrlsFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public bool redirectPriorMyDomain {
+            get {
+                return this.redirectPriorMyDomainField;
+            }
+            set {
+                this.redirectPriorMyDomainField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool redirectPriorMyDomainSpecified {
+            get {
+                return this.redirectPriorMyDomainFieldSpecified;
+            }
+            set {
+                this.redirectPriorMyDomainFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public bool use3rdPartyCookieBlockingCompatibleHostnames {
             get {
                 return this.use3rdPartyCookieBlockingCompatibleHostnamesField;
@@ -38766,7 +42747,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
         public bool useEdge {
             get {
                 return this.useEdgeField;
@@ -38788,7 +42769,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        public bool useEnhancedDomainsInSandbox {
+            get {
+                return this.useEnhancedDomainsInSandboxField;
+            }
+            set {
+                this.useEnhancedDomainsInSandboxField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool useEnhancedDomainsInSandboxSpecified {
+            get {
+                return this.useEnhancedDomainsInSandboxFieldSpecified;
+            }
+            set {
+                this.useEnhancedDomainsInSandboxFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
         public bool useStabilizedMyDomainHostnames {
             get {
                 return this.useStabilizedMyDomainHostnamesField;
@@ -38810,7 +42813,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
         public bool useStabilizedSandboxMyDomainHostnames {
             get {
                 return this.useStabilizedSandboxMyDomainHostnamesField;
@@ -38830,6 +42833,40 @@ namespace SalesforceMetadata.MetadataWSDL {
                 this.useStabilizedSandboxMyDomainHostnamesFieldSpecified = value;
             }
         }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum OrgDomainShard {
+        
+        /// <remarks/>
+        none,
+        
+        /// <remarks/>
+        sandbox,
+        
+        /// <remarks/>
+        develop,
+        
+        /// <remarks/>
+        patch,
+        
+        /// <remarks/>
+        trailblaze,
+        
+        /// <remarks/>
+        scratch,
+        
+        /// <remarks/>
+        demo,
+        
+        /// <remarks/>
+        free,
+        
+        /// <remarks/>
+        sfdctest,
     }
     
     /// <remarks/>
@@ -39998,6 +44035,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private SynonymGroup synonymGroupField;
         
+        private SynonymGroup[] synonymGroupsField;
+        
         private string valueField;
         
         /// <remarks/>
@@ -40007,6 +44046,17 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.synonymGroupField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("synonymGroups")]
+        public SynonymGroup[] synonymGroups {
+            get {
+                return this.synonymGroupsField;
+            }
+            set {
+                this.synonymGroupsField = value;
             }
         }
         
@@ -40103,14 +44153,15 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(EmailTemplate))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(EclairGeoData))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Document))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DiscoveryStory))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(DiscoveryAIModel))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(DataMapping))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ContentAsset))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Certificate))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ApexTrigger))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ApexPage))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ApexComponent))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ApexClass))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(AccessControlPolicy))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -42004,6 +46055,213 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class DiscoveryStory : MetadataWithContent {
+        
+        private string applicationField;
+        
+        private string autopilotField;
+        
+        private double classificationThresholdField;
+        
+        private bool classificationThresholdFieldSpecified;
+        
+        private string labelField;
+        
+        private DiscoveryStoryOutcome outcomeField;
+        
+        private string sourceContainerField;
+        
+        private string sourceTypeField;
+        
+        private string validationContainerField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string application {
+            get {
+                return this.applicationField;
+            }
+            set {
+                this.applicationField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string autopilot {
+            get {
+                return this.autopilotField;
+            }
+            set {
+                this.autopilotField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public double classificationThreshold {
+            get {
+                return this.classificationThresholdField;
+            }
+            set {
+                this.classificationThresholdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool classificationThresholdSpecified {
+            get {
+                return this.classificationThresholdFieldSpecified;
+            }
+            set {
+                this.classificationThresholdFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string label {
+            get {
+                return this.labelField;
+            }
+            set {
+                this.labelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public DiscoveryStoryOutcome outcome {
+            get {
+                return this.outcomeField;
+            }
+            set {
+                this.outcomeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string sourceContainer {
+            get {
+                return this.sourceContainerField;
+            }
+            set {
+                this.sourceContainerField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public string sourceType {
+            get {
+                return this.sourceTypeField;
+            }
+            set {
+                this.sourceTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public string validationContainer {
+            get {
+                return this.validationContainerField;
+            }
+            set {
+                this.validationContainerField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class DiscoveryStoryOutcome {
+        
+        private string failureValueField;
+        
+        private string fieldField;
+        
+        private string goalField;
+        
+        private string labelField;
+        
+        private string successValueField;
+        
+        private string typeField;
+        
+        /// <remarks/>
+        public string failureValue {
+            get {
+                return this.failureValueField;
+            }
+            set {
+                this.failureValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string field {
+            get {
+                return this.fieldField;
+            }
+            set {
+                this.fieldField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string goal {
+            get {
+                return this.goalField;
+            }
+            set {
+                this.goalField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string label {
+            get {
+                return this.labelField;
+            }
+            set {
+                this.labelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string successValue {
+            get {
+                return this.successValueField;
+            }
+            set {
+                this.successValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class DiscoveryAIModel : MetadataWithContent {
         
         private DiscoveryAlgorithmType algorithmTypeField;
@@ -42029,6 +46287,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         private DiscoveryAIModelStatus statusField;
         
         private string trainingMetricsField;
+        
+        private DiscoveryModelTransform[] transformationsField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
@@ -42161,6 +46421,17 @@ namespace SalesforceMetadata.MetadataWSDL {
                 this.trainingMetricsField = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("transformations", Order=11)]
+        public DiscoveryModelTransform[] transformations {
+            get {
+                return this.transformationsField;
+            }
+            set {
+                this.transformationsField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -42180,6 +46451,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         Drf,
+        
+        /// <remarks/>
+        Best,
     }
     
     /// <remarks/>
@@ -42190,15 +46464,61 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class DiscoveryModelField {
         
+        private bool isDisparateImpactField;
+        
+        private bool isDisparateImpactFieldSpecified;
+        
+        private bool isSensitiveField;
+        
+        private bool isSensitiveFieldSpecified;
+        
         private string labelField;
         
         private string nameField;
         
-        private string transformationConfigField;
-        
-        private string transformationTypeField;
-        
         private DiscoveryModelFieldType typeField;
+        
+        /// <remarks/>
+        public bool isDisparateImpact {
+            get {
+                return this.isDisparateImpactField;
+            }
+            set {
+                this.isDisparateImpactField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isDisparateImpactSpecified {
+            get {
+                return this.isDisparateImpactFieldSpecified;
+            }
+            set {
+                this.isDisparateImpactFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool isSensitive {
+            get {
+                return this.isSensitiveField;
+            }
+            set {
+                this.isSensitiveField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isSensitiveSpecified {
+            get {
+                return this.isSensitiveFieldSpecified;
+            }
+            set {
+                this.isSensitiveFieldSpecified = value;
+            }
+        }
         
         /// <remarks/>
         public string label {
@@ -42217,26 +46537,6 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.nameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string transformationConfig {
-            get {
-                return this.transformationConfigField;
-            }
-            set {
-                this.transformationConfigField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string transformationType {
-            get {
-                return this.transformationTypeField;
-            }
-            set {
-                this.transformationTypeField = value;
             }
         }
         
@@ -42323,6 +46623,152 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         Enabled,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class DiscoveryModelTransform {
+        
+        private string configField;
+        
+        private string[] sourceFieldNamesField;
+        
+        private string[] targetFieldNamesField;
+        
+        private string typeField;
+        
+        /// <remarks/>
+        public string config {
+            get {
+                return this.configField;
+            }
+            set {
+                this.configField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("sourceFieldNames")]
+        public string[] sourceFieldNames {
+            get {
+                return this.sourceFieldNamesField;
+            }
+            set {
+                this.sourceFieldNamesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("targetFieldNames")]
+        public string[] targetFieldNames {
+            get {
+                return this.targetFieldNamesField;
+            }
+            set {
+                this.targetFieldNamesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class DataMapping : MetadataWithContent {
+        
+        private string descriptionField;
+        
+        private string masterLabelField;
+        
+        private string sourceObjectNameField;
+        
+        private string sourceSchemaField;
+        
+        private string targetObjectNameField;
+        
+        private string targetSchemaField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string sourceObjectName {
+            get {
+                return this.sourceObjectNameField;
+            }
+            set {
+                this.sourceObjectNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string sourceSchema {
+            get {
+                return this.sourceSchemaField;
+            }
+            set {
+                this.sourceSchemaField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string targetObjectName {
+            get {
+                return this.targetObjectNameField;
+            }
+            set {
+                this.targetObjectNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string targetSchema {
+            get {
+                return this.targetSchemaField;
+            }
+            set {
+                this.targetSchemaField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -43101,39 +47547,45 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public partial class AccessControlPolicy : MetadataWithContent {
+    public partial class MessagingChannel : Metadata {
         
-        private bool activeField;
+        private MessagingAutoResponse[] automatedResponsesField;
         
-        private ACPStatus deploymentStatusField;
+        private MessagingChannelCustomParameter[] customParametersField;
         
         private string descriptionField;
         
         private string masterLabelField;
         
-        private string targetEntityField;
+        private MessagingChannelType messagingChannelTypeField;
         
-        private int versionField;
+        private string sessionHandlerFlowField;
+        
+        private string sessionHandlerQueueField;
+        
+        private MessagingSessionHandlerType sessionHandlerTypeField;
+        
+        private MessagingChannelStandardParameter[] standardParametersField;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public bool active {
+        [System.Xml.Serialization.XmlElementAttribute("automatedResponses", Order=0)]
+        public MessagingAutoResponse[] automatedResponses {
             get {
-                return this.activeField;
+                return this.automatedResponsesField;
             }
             set {
-                this.activeField = value;
+                this.automatedResponsesField = value;
             }
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public ACPStatus deploymentStatus {
+        [System.Xml.Serialization.XmlElementAttribute("customParameters", Order=1)]
+        public MessagingChannelCustomParameter[] customParameters {
             get {
-                return this.deploymentStatusField;
+                return this.customParametersField;
             }
             set {
-                this.deploymentStatusField = value;
+                this.customParametersField = value;
             }
         }
         
@@ -43161,23 +47613,89 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=4)]
-        public string targetEntity {
+        public MessagingChannelType messagingChannelType {
             get {
-                return this.targetEntityField;
+                return this.messagingChannelTypeField;
             }
             set {
-                this.targetEntityField = value;
+                this.messagingChannelTypeField = value;
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=5)]
-        public int version {
+        public string sessionHandlerFlow {
             get {
-                return this.versionField;
+                return this.sessionHandlerFlowField;
             }
             set {
-                this.versionField = value;
+                this.sessionHandlerFlowField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public string sessionHandlerQueue {
+            get {
+                return this.sessionHandlerQueueField;
+            }
+            set {
+                this.sessionHandlerQueueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public MessagingSessionHandlerType sessionHandlerType {
+            get {
+                return this.sessionHandlerTypeField;
+            }
+            set {
+                this.sessionHandlerTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("standardParameters", Order=8)]
+        public MessagingChannelStandardParameter[] standardParameters {
+            get {
+                return this.standardParametersField;
+            }
+            set {
+                this.standardParametersField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class MessagingAutoResponse {
+        
+        private string responseField;
+        
+        private MessagingAutoResponseType typeField;
+        
+        /// <remarks/>
+        public string response {
+            get {
+                return this.responseField;
+            }
+            set {
+                this.responseField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public MessagingAutoResponseType type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
             }
         }
     }
@@ -43186,16 +47704,245 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public enum ACPStatus {
+    public enum MessagingAutoResponseType {
         
         /// <remarks/>
-        New,
+        InitialResponse,
         
         /// <remarks/>
-        Pending,
+        AgentEngagedResponse,
         
         /// <remarks/>
-        Deployed,
+        AgentEndEngagementResponse,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class MessagingChannelCustomParameter {
+        
+        private MessagingChannelActionParameterMapping[] actionParameterMappingsField;
+        
+        private string externalParameterNameField;
+        
+        private string masterLabelField;
+        
+        private int maxLengthField;
+        
+        private bool maxLengthFieldSpecified;
+        
+        private string nameField;
+        
+        private FlowDataType parameterDataTypeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("actionParameterMappings")]
+        public MessagingChannelActionParameterMapping[] actionParameterMappings {
+            get {
+                return this.actionParameterMappingsField;
+            }
+            set {
+                this.actionParameterMappingsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string externalParameterName {
+            get {
+                return this.externalParameterNameField;
+            }
+            set {
+                this.externalParameterNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int maxLength {
+            get {
+                return this.maxLengthField;
+            }
+            set {
+                this.maxLengthField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool maxLengthSpecified {
+            get {
+                return this.maxLengthFieldSpecified;
+            }
+            set {
+                this.maxLengthFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public FlowDataType parameterDataType {
+            get {
+                return this.parameterDataTypeField;
+            }
+            set {
+                this.parameterDataTypeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class MessagingChannelActionParameterMapping {
+        
+        private string actionParameterNameField;
+        
+        /// <remarks/>
+        public string actionParameterName {
+            get {
+                return this.actionParameterNameField;
+            }
+            set {
+                this.actionParameterNameField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum FlowDataType {
+        
+        /// <remarks/>
+        Currency,
+        
+        /// <remarks/>
+        Date,
+        
+        /// <remarks/>
+        Number,
+        
+        /// <remarks/>
+        String,
+        
+        /// <remarks/>
+        Boolean,
+        
+        /// <remarks/>
+        SObject,
+        
+        /// <remarks/>
+        DateTime,
+        
+        /// <remarks/>
+        Picklist,
+        
+        /// <remarks/>
+        Multipicklist,
+        
+        /// <remarks/>
+        Apex,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum MessagingChannelType {
+        
+        /// <remarks/>
+        EmbeddedMessaging,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum MessagingSessionHandlerType {
+        
+        /// <remarks/>
+        Queue,
+        
+        /// <remarks/>
+        Flow,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class MessagingChannelStandardParameter {
+        
+        private MessagingChannelActionParameterMapping[] actionParameterMappingsField;
+        
+        private MessagingChannelStandardParameterType parameterTypeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("actionParameterMappings")]
+        public MessagingChannelActionParameterMapping[] actionParameterMappings {
+            get {
+                return this.actionParameterMappingsField;
+            }
+            set {
+                this.actionParameterMappingsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public MessagingChannelStandardParameterType parameterType {
+            get {
+                return this.parameterTypeField;
+            }
+            set {
+                this.parameterTypeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum MessagingChannelStandardParameterType {
+        
+        /// <remarks/>
+        FirstName,
+        
+        /// <remarks/>
+        LastName,
+        
+        /// <remarks/>
+        Email,
+        
+        /// <remarks/>
+        Subject,
     }
     
     /// <remarks/>
@@ -43613,6 +48360,67 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class ManagedContentTypeBundle : Metadata {
+        
+        private string descriptionField;
+        
+        private string developerNameField;
+        
+        private string masterLabelField;
+        
+        private byte[] schemaBodyField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string developerName {
+            get {
+                return this.developerNameField;
+            }
+            set {
+                this.developerNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary", Order=3)]
+        public byte[] schemaBody {
+            get {
+                return this.schemaBodyField;
+            }
+            set {
+                this.schemaBodyField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class ManagedContentType : Metadata {
         
         private string descriptionField;
@@ -43911,7 +48719,7 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public partial class MLPredictionDefinition : Metadata {
+    public partial class MLRecommendationDefinition : Metadata {
         
         private string aiApplicationDeveloperNameField;
         
@@ -43919,23 +48727,17 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string developerNameField;
         
+        private string externalIdField;
+        
+        private string interactionDateTimeFieldField;
+        
         private string masterLabelField;
         
         private MLFilter negativeExpressionField;
         
         private MLFilter positiveExpressionField;
         
-        private string predictionFieldField;
-        
-        private System.Nullable<int> priorityField;
-        
-        private bool priorityFieldSpecified;
-        
-        private string pushbackFieldField;
-        
-        private MLPredictionDefinitionStatus statusField;
-        
-        private AIPredictionType typeField;
+        private MLRecommendationDefinitionStatus statusField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
@@ -43972,6 +48774,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string externalId {
+            get {
+                return this.externalIdField;
+            }
+            set {
+                this.externalIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string interactionDateTimeField {
+            get {
+                return this.interactionDateTimeFieldField;
+            }
+            set {
+                this.interactionDateTimeFieldField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public string masterLabel {
             get {
                 return this.masterLabelField;
@@ -43982,7 +48806,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public MLFilter negativeExpression {
             get {
                 return this.negativeExpressionField;
@@ -43993,7 +48817,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public MLFilter positiveExpression {
             get {
                 return this.positiveExpressionField;
@@ -44004,68 +48828,13 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
-        public string predictionField {
-            get {
-                return this.predictionFieldField;
-            }
-            set {
-                this.predictionFieldField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
-        public System.Nullable<int> priority {
-            get {
-                return this.priorityField;
-            }
-            set {
-                this.priorityField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool prioritySpecified {
-            get {
-                return this.priorityFieldSpecified;
-            }
-            set {
-                this.priorityFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=8)]
-        public string pushbackField {
-            get {
-                return this.pushbackFieldField;
-            }
-            set {
-                this.pushbackFieldField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
-        public MLPredictionDefinitionStatus status {
+        public MLRecommendationDefinitionStatus status {
             get {
                 return this.statusField;
             }
             set {
                 this.statusField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
-        public AIPredictionType type {
-            get {
-                return this.typeField;
-            }
-            set {
-                this.typeField = value;
             }
         }
     }
@@ -44442,6 +49211,187 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum MLRecommendationDefinitionStatus {
+        
+        /// <remarks/>
+        Enabled,
+        
+        /// <remarks/>
+        Disabled,
+        
+        /// <remarks/>
+        Draft,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class MLPredictionDefinition : Metadata {
+        
+        private string aiApplicationDeveloperNameField;
+        
+        private string descriptionField;
+        
+        private string developerNameField;
+        
+        private string masterLabelField;
+        
+        private MLFilter negativeExpressionField;
+        
+        private MLFilter positiveExpressionField;
+        
+        private string predictionFieldField;
+        
+        private System.Nullable<int> priorityField;
+        
+        private bool priorityFieldSpecified;
+        
+        private string pushbackFieldField;
+        
+        private MLPredictionDefinitionStatus statusField;
+        
+        private AIPredictionType typeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string aiApplicationDeveloperName {
+            get {
+                return this.aiApplicationDeveloperNameField;
+            }
+            set {
+                this.aiApplicationDeveloperNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string developerName {
+            get {
+                return this.developerNameField;
+            }
+            set {
+                this.developerNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public MLFilter negativeExpression {
+            get {
+                return this.negativeExpressionField;
+            }
+            set {
+                this.negativeExpressionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public MLFilter positiveExpression {
+            get {
+                return this.positiveExpressionField;
+            }
+            set {
+                this.positiveExpressionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public string predictionField {
+            get {
+                return this.predictionFieldField;
+            }
+            set {
+                this.predictionFieldField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=7)]
+        public System.Nullable<int> priority {
+            get {
+                return this.priorityField;
+            }
+            set {
+                this.priorityField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool prioritySpecified {
+            get {
+                return this.priorityFieldSpecified;
+            }
+            set {
+                this.priorityFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public string pushbackField {
+            get {
+                return this.pushbackFieldField;
+            }
+            set {
+                this.pushbackFieldField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        public MLPredictionDefinitionStatus status {
+            get {
+                return this.statusField;
+            }
+            set {
+                this.statusField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        public AIPredictionType type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public enum MLPredictionDefinitionStatus {
         
         /// <remarks/>
@@ -44769,6 +49719,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         NegativeExpression,
+        
+        /// <remarks/>
+        SourceDate,
     }
     
     /// <remarks/>
@@ -46067,6 +51020,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string customAgentNameField;
         
+        private bool disableTransferConferenceGreetingField;
+        
+        private bool disableTransferConferenceGreetingFieldSpecified;
+        
         private bool enableAgentFileTransferField;
         
         private bool enableAgentFileTransferFieldSpecified;
@@ -46226,6 +51183,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public bool disableTransferConferenceGreeting {
+            get {
+                return this.disableTransferConferenceGreetingField;
+            }
+            set {
+                this.disableTransferConferenceGreetingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool disableTransferConferenceGreetingSpecified {
+            get {
+                return this.disableTransferConferenceGreetingFieldSpecified;
+            }
+            set {
+                this.disableTransferConferenceGreetingFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public bool enableAgentFileTransfer {
             get {
                 return this.enableAgentFileTransferField;
@@ -46247,7 +51226,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public bool enableAgentSneakPeek {
             get {
                 return this.enableAgentSneakPeekField;
@@ -46269,7 +51248,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public bool enableAssistanceFlag {
             get {
                 return this.enableAssistanceFlagField;
@@ -46291,7 +51270,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public bool enableAutoAwayOnDecline {
             get {
                 return this.enableAutoAwayOnDeclineField;
@@ -46313,7 +51292,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
         public bool enableAutoAwayOnPushTimeout {
             get {
                 return this.enableAutoAwayOnPushTimeoutField;
@@ -46335,7 +51314,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
         public bool enableChatConferencing {
             get {
                 return this.enableChatConferencingField;
@@ -46357,7 +51336,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
         public bool enableChatMonitoring {
             get {
                 return this.enableChatMonitoringField;
@@ -46379,7 +51358,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
         public bool enableChatTransferToAgent {
             get {
                 return this.enableChatTransferToAgentField;
@@ -46401,7 +51380,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
         public bool enableChatTransferToButton {
             get {
                 return this.enableChatTransferToButtonField;
@@ -46423,7 +51402,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
         public bool enableChatTransferToSkill {
             get {
                 return this.enableChatTransferToSkillField;
@@ -46445,7 +51424,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
         public bool enableLogoutSound {
             get {
                 return this.enableLogoutSoundField;
@@ -46467,7 +51446,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
         public bool enableNotifications {
             get {
                 return this.enableNotificationsField;
@@ -46489,7 +51468,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
         public bool enableRequestSound {
             get {
                 return this.enableRequestSoundField;
@@ -46511,7 +51490,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
         public bool enableSneakPeek {
             get {
                 return this.enableSneakPeekField;
@@ -46533,7 +51512,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
         public bool enableVisitorBlocking {
             get {
                 return this.enableVisitorBlockingField;
@@ -46555,7 +51534,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
         public bool enableWhisperMessage {
             get {
                 return this.enableWhisperMessageField;
@@ -46577,7 +51556,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
         public string label {
             get {
                 return this.labelField;
@@ -46588,7 +51567,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
         public SupervisorAgentStatusFilter supervisorDefaultAgentStatusFilter {
             get {
                 return this.supervisorDefaultAgentStatusFilterField;
@@ -46610,7 +51589,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
         public string supervisorDefaultButtonFilter {
             get {
                 return this.supervisorDefaultButtonFilterField;
@@ -46621,7 +51600,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=25)]
         public string supervisorDefaultSkillFilter {
             get {
                 return this.supervisorDefaultSkillFilterField;
@@ -46632,7 +51611,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=25)]
+        [System.Xml.Serialization.XmlArrayAttribute(Order=26)]
         [System.Xml.Serialization.XmlArrayItemAttribute("skill", IsNullable=false)]
         public string[] supervisorSkills {
             get {
@@ -46644,7 +51623,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=26)]
+        [System.Xml.Serialization.XmlArrayAttribute(Order=27)]
         [System.Xml.Serialization.XmlArrayItemAttribute("button", IsNullable=false)]
         public string[] transferableButtons {
             get {
@@ -46656,7 +51635,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=27)]
+        [System.Xml.Serialization.XmlArrayAttribute(Order=28)]
         [System.Xml.Serialization.XmlArrayItemAttribute("skill", IsNullable=false)]
         public string[] transferableSkills {
             get {
@@ -46727,6 +51706,10 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class LiveAgentSettings : Metadata {
         
+        private bool enableChatFindOrCreateEnableField;
+        
+        private bool enableChatFindOrCreateEnableFieldSpecified;
+        
         private bool enableLiveAgentField;
         
         private bool enableLiveAgentFieldSpecified;
@@ -46737,6 +51720,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableChatFindOrCreateEnable {
+            get {
+                return this.enableChatFindOrCreateEnableField;
+            }
+            set {
+                this.enableChatFindOrCreateEnableField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableChatFindOrCreateEnableSpecified {
+            get {
+                return this.enableChatFindOrCreateEnableFieldSpecified;
+            }
+            set {
+                this.enableChatFindOrCreateEnableFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
         public bool enableLiveAgent {
             get {
                 return this.enableLiveAgentField;
@@ -46758,7 +51763,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
         public bool enableQuickTextEnabled {
             get {
                 return this.enableQuickTextEnabledField;
@@ -47095,6 +52100,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableGoogleSheetsForSfdcEnabledFieldSpecified;
         
+        private bool enableHideOpenInQuipField;
+        
+        private bool enableHideOpenInQuipFieldSpecified;
+        
         private bool enableIE11DeprecationMsgHiddenField;
         
         private bool enableIE11DeprecationMsgHiddenFieldSpecified;
@@ -47102,6 +52111,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool enableIE11LEXCrucPrefField;
         
         private bool enableIE11LEXCrucPrefFieldSpecified;
+        
+        private bool enableInAppLearningField;
+        
+        private bool enableInAppLearningFieldSpecified;
         
         private bool enableInAppTooltipsField;
         
@@ -47139,13 +52152,13 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableLEXOnIpadEnabledFieldSpecified;
         
+        private bool enableLWCDynamicComponentsField;
+        
+        private bool enableLWCDynamicComponentsFieldSpecified;
+        
         private bool enableLexEndUsersNoSwitchingField;
         
         private bool enableLexEndUsersNoSwitchingFieldSpecified;
-        
-        private bool enableLightningPrintableViewField;
-        
-        private bool enableLightningPrintableViewFieldSpecified;
         
         private bool enableNavPersonalizationOptOutField;
         
@@ -47182,6 +52195,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool enableSalesforceNextField;
         
         private bool enableSalesforceNextFieldSpecified;
+        
+        private bool enableSidToken3rdPartyAuraAppField;
+        
+        private bool enableSidToken3rdPartyAuraAppFieldSpecified;
         
         private bool enableSkypeChatEnabledField;
         
@@ -47376,6 +52393,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public bool enableHideOpenInQuip {
+            get {
+                return this.enableHideOpenInQuipField;
+            }
+            set {
+                this.enableHideOpenInQuipField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableHideOpenInQuipSpecified {
+            get {
+                return this.enableHideOpenInQuipFieldSpecified;
+            }
+            set {
+                this.enableHideOpenInQuipFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public bool enableIE11DeprecationMsgHidden {
             get {
                 return this.enableIE11DeprecationMsgHiddenField;
@@ -47397,7 +52436,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public bool enableIE11LEXCrucPref {
             get {
                 return this.enableIE11LEXCrucPrefField;
@@ -47419,7 +52458,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        public bool enableInAppLearning {
+            get {
+                return this.enableInAppLearningField;
+            }
+            set {
+                this.enableInAppLearningField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableInAppLearningSpecified {
+            get {
+                return this.enableInAppLearningFieldSpecified;
+            }
+            set {
+                this.enableInAppLearningFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
         public bool enableInAppTooltips {
             get {
                 return this.enableInAppTooltipsField;
@@ -47441,7 +52502,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
         public bool enableLEXExtensionComponentCustomization {
             get {
                 return this.enableLEXExtensionComponentCustomizationField;
@@ -47463,7 +52524,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
         public bool enableLEXExtensionDarkMode {
             get {
                 return this.enableLEXExtensionDarkModeField;
@@ -47485,7 +52546,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
         public bool enableLEXExtensionInlineEditModifier {
             get {
                 return this.enableLEXExtensionInlineEditModifierField;
@@ -47507,7 +52568,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
         public bool enableLEXExtensionLinkGrabber {
             get {
                 return this.enableLEXExtensionLinkGrabberField;
@@ -47529,7 +52590,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
         public bool enableLEXExtensionRelatedLists {
             get {
                 return this.enableLEXExtensionRelatedListsField;
@@ -47551,7 +52612,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
         public bool enableLEXExtensionRequiredFields {
             get {
                 return this.enableLEXExtensionRequiredFieldsField;
@@ -47573,7 +52634,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
         public bool enableLEXExtensionTrailhead {
             get {
                 return this.enableLEXExtensionTrailheadField;
@@ -47595,7 +52656,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
         public bool enableLEXOnIpadEnabled {
             get {
                 return this.enableLEXOnIpadEnabledField;
@@ -47617,7 +52678,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
+        public bool enableLWCDynamicComponents {
+            get {
+                return this.enableLWCDynamicComponentsField;
+            }
+            set {
+                this.enableLWCDynamicComponentsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableLWCDynamicComponentsSpecified {
+            get {
+                return this.enableLWCDynamicComponentsFieldSpecified;
+            }
+            set {
+                this.enableLWCDynamicComponentsFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
         public bool enableLexEndUsersNoSwitching {
             get {
                 return this.enableLexEndUsersNoSwitchingField;
@@ -47639,29 +52722,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
-        public bool enableLightningPrintableView {
-            get {
-                return this.enableLightningPrintableViewField;
-            }
-            set {
-                this.enableLightningPrintableViewField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool enableLightningPrintableViewSpecified {
-            get {
-                return this.enableLightningPrintableViewFieldSpecified;
-            }
-            set {
-                this.enableLightningPrintableViewFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
         public bool enableNavPersonalizationOptOut {
             get {
                 return this.enableNavPersonalizationOptOutField;
@@ -47683,7 +52744,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
         public bool enableNoBackgroundNavigations {
             get {
                 return this.enableNoBackgroundNavigationsField;
@@ -47705,7 +52766,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
         public bool enableQuip {
             get {
                 return this.enableQuipField;
@@ -47727,7 +52788,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=25)]
         public bool enableRemoveThemeBrandBanner {
             get {
                 return this.enableRemoveThemeBrandBannerField;
@@ -47749,7 +52810,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=26)]
         public bool enableS1BannerPref {
             get {
                 return this.enableS1BannerPrefField;
@@ -47771,7 +52832,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=25)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=27)]
         public bool enableS1BrowserEnabled {
             get {
                 return this.enableS1BrowserEnabledField;
@@ -47793,7 +52854,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=26)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=28)]
         public bool enableS1DesktopEnabled {
             get {
                 return this.enableS1DesktopEnabledField;
@@ -47815,7 +52876,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=27)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=29)]
         public bool enableS1UiLoggingEnabled {
             get {
                 return this.enableS1UiLoggingEnabledField;
@@ -47837,7 +52898,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=28)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=30)]
         public bool enableSalesforceNext {
             get {
                 return this.enableSalesforceNextField;
@@ -47859,7 +52920,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=29)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=31)]
+        public bool enableSidToken3rdPartyAuraApp {
+            get {
+                return this.enableSidToken3rdPartyAuraAppField;
+            }
+            set {
+                this.enableSidToken3rdPartyAuraAppField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableSidToken3rdPartyAuraAppSpecified {
+            get {
+                return this.enableSidToken3rdPartyAuraAppFieldSpecified;
+            }
+            set {
+                this.enableSidToken3rdPartyAuraAppFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=32)]
         public bool enableSkypeChatEnabled {
             get {
                 return this.enableSkypeChatEnabledField;
@@ -47881,7 +52964,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=30)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=33)]
         public bool enableSparkAllUsers {
             get {
                 return this.enableSparkAllUsersField;
@@ -47903,7 +52986,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=31)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=34)]
         public bool enableSparkConversationEnabled {
             get {
                 return this.enableSparkConversationEnabledField;
@@ -47925,7 +53008,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=32)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=35)]
         public bool enableTryLightningOptOut {
             get {
                 return this.enableTryLightningOptOutField;
@@ -47947,7 +53030,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=33)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=36)]
         public bool enableUseS1AlohaDesktop {
             get {
                 return this.enableUseS1AlohaDesktopField;
@@ -47969,7 +53052,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=34)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=37)]
         public bool enableUsersAreLightningOnly {
             get {
                 return this.enableUsersAreLightningOnlyField;
@@ -47991,7 +53074,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=35)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=38)]
         public bool enableWebExEnabled {
             get {
                 return this.enableWebExEnabledField;
@@ -48013,7 +53096,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=36)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=39)]
         public bool enableWebexAllUsers {
             get {
                 return this.enableWebexAllUsersField;
@@ -48035,7 +53118,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=37)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=40)]
         public bool isLEXExtensionComponentCustomizationOff {
             get {
                 return this.isLEXExtensionComponentCustomizationOffField;
@@ -48057,7 +53140,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=38)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=41)]
         public bool isLEXExtensionDarkModeOff {
             get {
                 return this.isLEXExtensionDarkModeOffField;
@@ -48079,7 +53162,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=39)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=42)]
         public bool isLEXExtensionLinkGrabberOff {
             get {
                 return this.isLEXExtensionLinkGrabberOffField;
@@ -48101,7 +53184,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=40)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=43)]
         public bool isLEXExtensionOff {
             get {
                 return this.isLEXExtensionOffField;
@@ -49310,6 +54393,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool shouldLeadConvertRequireValidationFieldSpecified;
         
+        private bool shouldSendNotificationEmailWhenLeadOwnerUpdatesViaApexInLEXField;
+        
+        private bool shouldSendNotificationEmailWhenLeadOwnerUpdatesViaApexInLEXFieldSpecified;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
         public bool doesEnableLeadConvertDefaultSubjectBlankTaskCreation {
@@ -49483,6 +54570,28 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.shouldLeadConvertRequireValidationFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public bool shouldSendNotificationEmailWhenLeadOwnerUpdatesViaApexInLEX {
+            get {
+                return this.shouldSendNotificationEmailWhenLeadOwnerUpdatesViaApexInLEXField;
+            }
+            set {
+                this.shouldSendNotificationEmailWhenLeadOwnerUpdatesViaApexInLEXField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool shouldSendNotificationEmailWhenLeadOwnerUpdatesViaApexInLEXSpecified {
+            get {
+                return this.shouldSendNotificationEmailWhenLeadOwnerUpdatesViaApexInLEXFieldSpecified;
+            }
+            set {
+                this.shouldSendNotificationEmailWhenLeadOwnerUpdatesViaApexInLEXFieldSpecified = value;
             }
         }
     }
@@ -53574,41 +58683,6 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public partial class IsvHammerSettings : Metadata {
-        
-        private bool enableIsvHammerSubIsOptedOutField;
-        
-        private bool enableIsvHammerSubIsOptedOutFieldSpecified;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public bool enableIsvHammerSubIsOptedOut {
-            get {
-                return this.enableIsvHammerSubIsOptedOutField;
-            }
-            set {
-                this.enableIsvHammerSubIsOptedOutField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool enableIsvHammerSubIsOptedOutSpecified {
-            get {
-                return this.enableIsvHammerSubIsOptedOutFieldSpecified;
-            }
-            set {
-                this.enableIsvHammerSubIsOptedOutFieldSpecified = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class IoTSettings : Metadata {
         
         private bool enableIoTField;
@@ -53846,6 +58920,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool allowMultipleProducersToWorkOnSamePolicyFieldSpecified;
         
+        private bool appointmentDistributionOrgPrefField;
+        
+        private bool appointmentDistributionOrgPrefFieldSpecified;
+        
         private bool captureResourceUtilizationOrgPrefField;
         
         private bool captureResourceUtilizationOrgPrefFieldSpecified;
@@ -53886,6 +58964,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool createFinancialAccountsFromLAPropertyFieldSpecified;
         
+        private bool enableAIAcceleratorField;
+        
+        private bool enableAIAcceleratorFieldSpecified;
+        
         private bool enableAccessToMasterListOfCoverageTypesField;
         
         private bool enableAccessToMasterListOfCoverageTypesFieldSpecified;
@@ -53893,6 +58975,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool enableAccountScoreEnabledField;
         
         private bool enableAccountScoreEnabledFieldSpecified;
+        
+        private bool enableAppInviteOrgPrefField;
+        
+        private bool enableAppInviteOrgPrefFieldSpecified;
         
         private bool enableBlockResourceAvailabilityOrgPrefField;
         
@@ -53906,6 +58992,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableCalculationUsingParentPolicyOnlyFieldSpecified;
         
+        private bool enableCallReportAdminContextPrefField;
+        
+        private bool enableCallReportAdminContextPrefFieldSpecified;
+        
+        private bool enableCareMgmtSlackAccessField;
+        
+        private bool enableCareMgmtSlackAccessFieldSpecified;
+        
+        private bool enableChurnPredictionRTField;
+        
+        private bool enableChurnPredictionRTFieldSpecified;
+        
         private bool enableClaimMgmtField;
         
         private bool enableClaimMgmtFieldSpecified;
@@ -53917,6 +59015,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool enableCompliantDataSharingForAccountField;
         
         private bool enableCompliantDataSharingForAccountFieldSpecified;
+        
+        private bool enableCompliantDataSharingForCustomObjectsField;
+        
+        private bool enableCompliantDataSharingForCustomObjectsFieldSpecified;
         
         private bool enableCompliantDataSharingForFinancialDealField;
         
@@ -53934,9 +59036,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableCompliantDataSharingForOpportunityFieldSpecified;
         
+        private bool enableComprehendMedicalField;
+        
+        private bool enableComprehendMedicalFieldSpecified;
+        
+        private bool enableCreateMultiAttendeeEventOrgPrefField;
+        
+        private bool enableCreateMultiAttendeeEventOrgPrefFieldSpecified;
+        
+        private bool enableCustomFlowsOnCycleCountField;
+        
+        private bool enableCustomFlowsOnCycleCountFieldSpecified;
+        
+        private bool enableCustomFlowsOnExpiryPageField;
+        
+        private bool enableCustomFlowsOnExpiryPageFieldSpecified;
+        
         private bool enableDealManagementField;
         
         private bool enableDealManagementFieldSpecified;
+        
+        private bool enableDiscoveryFrameworkMetadataField;
+        
+        private bool enableDiscoveryFrameworkMetadataFieldSpecified;
         
         private bool enableEinsteinDocReaderField;
         
@@ -53946,9 +59068,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableEinsteinVisitsFieldSpecified;
         
-        private bool enableEinsteinVisitsEDField;
+        private bool enableEnhancedQuestionCreationField;
         
-        private bool enableEinsteinVisitsEDFieldSpecified;
+        private bool enableEnhancedQuestionCreationFieldSpecified;
         
         private bool enableEventManagementOrgPrefField;
         
@@ -53958,9 +59080,21 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableEventWriteOrgPrefFieldSpecified;
         
+        private bool enableExistingHealthCloudOrgField;
+        
+        private bool enableExistingHealthCloudOrgFieldSpecified;
+        
         private bool enableFSCInsuranceReportField;
         
         private bool enableFSCInsuranceReportFieldSpecified;
+        
+        private bool enableFinancialDealCallReportCmpPrefField;
+        
+        private bool enableFinancialDealCallReportCmpPrefFieldSpecified;
+        
+        private bool enableFinancialDealCallReportPrefField;
+        
+        private bool enableFinancialDealCallReportPrefFieldSpecified;
         
         private bool enableFinancialDealRoleHierarchyField;
         
@@ -53969,6 +59103,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool enableHCReferralScoringField;
         
         private bool enableHCReferralScoringFieldSpecified;
+        
+        private bool enableIESentimentAnalysisField;
+        
+        private bool enableIESentimentAnalysisFieldSpecified;
         
         private bool enableIndustriesAssessmentField;
         
@@ -53994,9 +59132,17 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableManyToManyRelationshipsFieldSpecified;
         
+        private bool enableMedRecSettingField;
+        
+        private bool enableMedRecSettingFieldSpecified;
+        
         private bool enableMedicalDeviceEnabledField;
         
         private bool enableMedicalDeviceEnabledFieldSpecified;
+        
+        private bool enableMedicationManagementEnabledField;
+        
+        private bool enableMedicationManagementEnabledFieldSpecified;
         
         private bool enableMortgageRlaTotalsOrgPrefField;
         
@@ -54042,17 +59188,81 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableReferralScoringFieldSpecified;
         
+        private bool enableSCAssignFootprintField;
+        
+        private bool enableSCAssignFootprintFieldSpecified;
+        
+        private bool enableSCBEIEnabledField;
+        
+        private bool enableSCBEIEnabledFieldSpecified;
+        
+        private bool enableSCCarbonAccountingField;
+        
+        private bool enableSCCarbonAccountingFieldSpecified;
+        
+        private bool enableSCCreateFootprintField;
+        
+        private bool enableSCCreateFootprintFieldSpecified;
+        
+        private bool enableSCDGFField;
+        
+        private bool enableSCDGFFieldSpecified;
+        
+        private bool enableSCEmssnsForecastingField;
+        
+        private bool enableSCEmssnsForecastingFieldSpecified;
+        
+        private bool enableSCExternalEngMgmtField;
+        
+        private bool enableSCExternalEngMgmtFieldSpecified;
+        
+        private bool enableSCGenrateCnsmpRcdField;
+        
+        private bool enableSCGenrateCnsmpRcdFieldSpecified;
+        
+        private bool enableSCScope3HubEnabledField;
+        
+        private bool enableSCScope3HubEnabledFieldSpecified;
+        
+        private bool enableSCSplitCnsmpRcdField;
+        
+        private bool enableSCSplitCnsmpRcdFieldSpecified;
+        
+        private bool enableSCTargetSettingField;
+        
+        private bool enableSCTargetSettingFieldSpecified;
+        
+        private bool enableSCWasteManagementField;
+        
+        private bool enableSCWasteManagementFieldSpecified;
+        
         private bool enableSentimentAnalysisField;
         
         private bool enableSentimentAnalysisFieldSpecified;
+        
+        private bool enableShareSaWithArOrgPrefField;
+        
+        private bool enableShareSaWithArOrgPrefFieldSpecified;
+        
+        private bool enableSlackForCibField;
+        
+        private bool enableSlackForCibFieldSpecified;
         
         private bool enableSmartTagsField;
         
         private bool enableSmartTagsFieldSpecified;
         
+        private bool enableSustainabilityCloudField;
+        
+        private bool enableSustainabilityCloudFieldSpecified;
+        
         private bool enableTextExtractField;
         
         private bool enableTextExtractFieldSpecified;
+        
+        private bool enableTimelinePrefField;
+        
+        private bool enableTimelinePrefFieldSpecified;
         
         private bool enableTopicOrTemplateField;
         
@@ -54061,6 +59271,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool enableTopicTimeSlotField;
         
         private bool enableTopicTimeSlotFieldSpecified;
+        
+        private bool enableVideoVisitsOrgPrefField;
+        
+        private bool enableVideoVisitsOrgPrefFieldSpecified;
         
         private bool enableVisitCalendarSyncField;
         
@@ -54078,9 +59292,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool loanApplicantAutoCreationFieldSpecified;
         
-        private bool policyBasedSchedulingOrgPrefField;
+        private bool rlaEditIfAccHasEditField;
         
-        private bool policyBasedSchedulingOrgPrefFieldSpecified;
+        private bool rlaEditIfAccHasEditFieldSpecified;
         
         private bool transformRBLtoDPEField;
         
@@ -54110,6 +59324,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public bool appointmentDistributionOrgPref {
+            get {
+                return this.appointmentDistributionOrgPrefField;
+            }
+            set {
+                this.appointmentDistributionOrgPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool appointmentDistributionOrgPrefSpecified {
+            get {
+                return this.appointmentDistributionOrgPrefFieldSpecified;
+            }
+            set {
+                this.appointmentDistributionOrgPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
         public bool captureResourceUtilizationOrgPref {
             get {
                 return this.captureResourceUtilizationOrgPrefField;
@@ -54131,7 +59367,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
         public bool createCustomerPropertyFromLAProperty {
             get {
                 return this.createCustomerPropertyFromLAPropertyField;
@@ -54153,7 +59389,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
         public bool createFSCAssetFromLAAsset {
             get {
                 return this.createFSCAssetFromLAAssetField;
@@ -54175,7 +59411,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public bool createFSCAssetFromLAProperty {
             get {
                 return this.createFSCAssetFromLAPropertyField;
@@ -54197,7 +59433,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public bool createFSCLiabilityFromLAFinancial {
             get {
                 return this.createFSCLiabilityFromLAFinancialField;
@@ -54219,7 +59455,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public bool createFSCLiabilityFromLALiability {
             get {
                 return this.createFSCLiabilityFromLALiabilityField;
@@ -54241,7 +59477,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public bool createFinancialAccountFromLAAsset {
             get {
                 return this.createFinancialAccountFromLAAssetField;
@@ -54263,7 +59499,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public bool createFinancialAccountFromLALiability {
             get {
                 return this.createFinancialAccountFromLALiabilityField;
@@ -54285,7 +59521,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
         public bool createFinancialAccountsFromLAFinancials {
             get {
                 return this.createFinancialAccountsFromLAFinancialsField;
@@ -54307,7 +59543,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
         public bool createFinancialAccountsFromLAProperty {
             get {
                 return this.createFinancialAccountsFromLAPropertyField;
@@ -54329,7 +59565,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        public bool enableAIAccelerator {
+            get {
+                return this.enableAIAcceleratorField;
+            }
+            set {
+                this.enableAIAcceleratorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableAIAcceleratorSpecified {
+            get {
+                return this.enableAIAcceleratorFieldSpecified;
+            }
+            set {
+                this.enableAIAcceleratorFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
         public bool enableAccessToMasterListOfCoverageTypes {
             get {
                 return this.enableAccessToMasterListOfCoverageTypesField;
@@ -54351,7 +59609,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
         public bool enableAccountScoreEnabled {
             get {
                 return this.enableAccountScoreEnabledField;
@@ -54373,7 +59631,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
+        public bool enableAppInviteOrgPref {
+            get {
+                return this.enableAppInviteOrgPrefField;
+            }
+            set {
+                this.enableAppInviteOrgPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableAppInviteOrgPrefSpecified {
+            get {
+                return this.enableAppInviteOrgPrefFieldSpecified;
+            }
+            set {
+                this.enableAppInviteOrgPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
         public bool enableBlockResourceAvailabilityOrgPref {
             get {
                 return this.enableBlockResourceAvailabilityOrgPrefField;
@@ -54395,7 +59675,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
         public bool enableBusinessMessenger {
             get {
                 return this.enableBusinessMessengerField;
@@ -54417,7 +59697,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
         public bool enableCalculationUsingParentPolicyOnly {
             get {
                 return this.enableCalculationUsingParentPolicyOnlyField;
@@ -54439,7 +59719,73 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
+        public bool enableCallReportAdminContextPref {
+            get {
+                return this.enableCallReportAdminContextPrefField;
+            }
+            set {
+                this.enableCallReportAdminContextPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableCallReportAdminContextPrefSpecified {
+            get {
+                return this.enableCallReportAdminContextPrefFieldSpecified;
+            }
+            set {
+                this.enableCallReportAdminContextPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
+        public bool enableCareMgmtSlackAccess {
+            get {
+                return this.enableCareMgmtSlackAccessField;
+            }
+            set {
+                this.enableCareMgmtSlackAccessField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableCareMgmtSlackAccessSpecified {
+            get {
+                return this.enableCareMgmtSlackAccessFieldSpecified;
+            }
+            set {
+                this.enableCareMgmtSlackAccessFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
+        public bool enableChurnPredictionRT {
+            get {
+                return this.enableChurnPredictionRTField;
+            }
+            set {
+                this.enableChurnPredictionRTField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableChurnPredictionRTSpecified {
+            get {
+                return this.enableChurnPredictionRTFieldSpecified;
+            }
+            set {
+                this.enableChurnPredictionRTFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
         public bool enableClaimMgmt {
             get {
                 return this.enableClaimMgmtField;
@@ -54461,7 +59807,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
         public bool enableClinicalDataModel {
             get {
                 return this.enableClinicalDataModelField;
@@ -54483,7 +59829,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
         public bool enableCompliantDataSharingForAccount {
             get {
                 return this.enableCompliantDataSharingForAccountField;
@@ -54505,7 +59851,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=25)]
+        public bool enableCompliantDataSharingForCustomObjects {
+            get {
+                return this.enableCompliantDataSharingForCustomObjectsField;
+            }
+            set {
+                this.enableCompliantDataSharingForCustomObjectsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableCompliantDataSharingForCustomObjectsSpecified {
+            get {
+                return this.enableCompliantDataSharingForCustomObjectsFieldSpecified;
+            }
+            set {
+                this.enableCompliantDataSharingForCustomObjectsFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=26)]
         public bool enableCompliantDataSharingForFinancialDeal {
             get {
                 return this.enableCompliantDataSharingForFinancialDealField;
@@ -54527,7 +59895,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=27)]
         public bool enableCompliantDataSharingForInteraction {
             get {
                 return this.enableCompliantDataSharingForInteractionField;
@@ -54549,7 +59917,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=28)]
         public bool enableCompliantDataSharingForInteractionSummary {
             get {
                 return this.enableCompliantDataSharingForInteractionSummaryField;
@@ -54571,7 +59939,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=29)]
         public bool enableCompliantDataSharingForOpportunity {
             get {
                 return this.enableCompliantDataSharingForOpportunityField;
@@ -54593,7 +59961,95 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=30)]
+        public bool enableComprehendMedical {
+            get {
+                return this.enableComprehendMedicalField;
+            }
+            set {
+                this.enableComprehendMedicalField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableComprehendMedicalSpecified {
+            get {
+                return this.enableComprehendMedicalFieldSpecified;
+            }
+            set {
+                this.enableComprehendMedicalFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=31)]
+        public bool enableCreateMultiAttendeeEventOrgPref {
+            get {
+                return this.enableCreateMultiAttendeeEventOrgPrefField;
+            }
+            set {
+                this.enableCreateMultiAttendeeEventOrgPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableCreateMultiAttendeeEventOrgPrefSpecified {
+            get {
+                return this.enableCreateMultiAttendeeEventOrgPrefFieldSpecified;
+            }
+            set {
+                this.enableCreateMultiAttendeeEventOrgPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=32)]
+        public bool enableCustomFlowsOnCycleCount {
+            get {
+                return this.enableCustomFlowsOnCycleCountField;
+            }
+            set {
+                this.enableCustomFlowsOnCycleCountField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableCustomFlowsOnCycleCountSpecified {
+            get {
+                return this.enableCustomFlowsOnCycleCountFieldSpecified;
+            }
+            set {
+                this.enableCustomFlowsOnCycleCountFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=33)]
+        public bool enableCustomFlowsOnExpiryPage {
+            get {
+                return this.enableCustomFlowsOnExpiryPageField;
+            }
+            set {
+                this.enableCustomFlowsOnExpiryPageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableCustomFlowsOnExpiryPageSpecified {
+            get {
+                return this.enableCustomFlowsOnExpiryPageFieldSpecified;
+            }
+            set {
+                this.enableCustomFlowsOnExpiryPageFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=34)]
         public bool enableDealManagement {
             get {
                 return this.enableDealManagementField;
@@ -54615,7 +60071,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=35)]
+        public bool enableDiscoveryFrameworkMetadata {
+            get {
+                return this.enableDiscoveryFrameworkMetadataField;
+            }
+            set {
+                this.enableDiscoveryFrameworkMetadataField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableDiscoveryFrameworkMetadataSpecified {
+            get {
+                return this.enableDiscoveryFrameworkMetadataFieldSpecified;
+            }
+            set {
+                this.enableDiscoveryFrameworkMetadataFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=36)]
         public bool enableEinsteinDocReader {
             get {
                 return this.enableEinsteinDocReaderField;
@@ -54637,7 +60115,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=25)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=37)]
         public bool enableEinsteinVisits {
             get {
                 return this.enableEinsteinVisitsField;
@@ -54659,29 +60137,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=26)]
-        public bool enableEinsteinVisitsED {
+        [System.Xml.Serialization.XmlElementAttribute(Order=38)]
+        public bool enableEnhancedQuestionCreation {
             get {
-                return this.enableEinsteinVisitsEDField;
+                return this.enableEnhancedQuestionCreationField;
             }
             set {
-                this.enableEinsteinVisitsEDField = value;
+                this.enableEnhancedQuestionCreationField = value;
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool enableEinsteinVisitsEDSpecified {
+        public bool enableEnhancedQuestionCreationSpecified {
             get {
-                return this.enableEinsteinVisitsEDFieldSpecified;
+                return this.enableEnhancedQuestionCreationFieldSpecified;
             }
             set {
-                this.enableEinsteinVisitsEDFieldSpecified = value;
+                this.enableEnhancedQuestionCreationFieldSpecified = value;
             }
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=27)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=39)]
         public bool enableEventManagementOrgPref {
             get {
                 return this.enableEventManagementOrgPrefField;
@@ -54703,7 +60181,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=28)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=40)]
         public bool enableEventWriteOrgPref {
             get {
                 return this.enableEventWriteOrgPrefField;
@@ -54725,7 +60203,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=29)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=41)]
+        public bool enableExistingHealthCloudOrg {
+            get {
+                return this.enableExistingHealthCloudOrgField;
+            }
+            set {
+                this.enableExistingHealthCloudOrgField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableExistingHealthCloudOrgSpecified {
+            get {
+                return this.enableExistingHealthCloudOrgFieldSpecified;
+            }
+            set {
+                this.enableExistingHealthCloudOrgFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=42)]
         public bool enableFSCInsuranceReport {
             get {
                 return this.enableFSCInsuranceReportField;
@@ -54747,7 +60247,51 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=30)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=43)]
+        public bool enableFinancialDealCallReportCmpPref {
+            get {
+                return this.enableFinancialDealCallReportCmpPrefField;
+            }
+            set {
+                this.enableFinancialDealCallReportCmpPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableFinancialDealCallReportCmpPrefSpecified {
+            get {
+                return this.enableFinancialDealCallReportCmpPrefFieldSpecified;
+            }
+            set {
+                this.enableFinancialDealCallReportCmpPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=44)]
+        public bool enableFinancialDealCallReportPref {
+            get {
+                return this.enableFinancialDealCallReportPrefField;
+            }
+            set {
+                this.enableFinancialDealCallReportPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableFinancialDealCallReportPrefSpecified {
+            get {
+                return this.enableFinancialDealCallReportPrefFieldSpecified;
+            }
+            set {
+                this.enableFinancialDealCallReportPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=45)]
         public bool enableFinancialDealRoleHierarchy {
             get {
                 return this.enableFinancialDealRoleHierarchyField;
@@ -54769,7 +60313,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=31)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=46)]
         public bool enableHCReferralScoring {
             get {
                 return this.enableHCReferralScoringField;
@@ -54791,7 +60335,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=32)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=47)]
+        public bool enableIESentimentAnalysis {
+            get {
+                return this.enableIESentimentAnalysisField;
+            }
+            set {
+                this.enableIESentimentAnalysisField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableIESentimentAnalysisSpecified {
+            get {
+                return this.enableIESentimentAnalysisFieldSpecified;
+            }
+            set {
+                this.enableIESentimentAnalysisFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=48)]
         public bool enableIndustriesAssessment {
             get {
                 return this.enableIndustriesAssessmentField;
@@ -54813,7 +60379,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=33)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=49)]
         public bool enableIndustriesRebates {
             get {
                 return this.enableIndustriesRebatesField;
@@ -54835,7 +60401,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=34)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=50)]
         public bool enableInteractionRoleHierarchy {
             get {
                 return this.enableInteractionRoleHierarchyField;
@@ -54857,7 +60423,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=35)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=51)]
         public bool enableInteractionSummaryPref {
             get {
                 return this.enableInteractionSummaryPrefField;
@@ -54879,7 +60445,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=36)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=52)]
         public bool enableInteractionSummaryRoleHierarchy {
             get {
                 return this.enableInteractionSummaryRoleHierarchyField;
@@ -54901,7 +60467,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=37)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=53)]
         public bool enableManyToManyRelationships {
             get {
                 return this.enableManyToManyRelationshipsField;
@@ -54923,7 +60489,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=38)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=54)]
+        public bool enableMedRecSetting {
+            get {
+                return this.enableMedRecSettingField;
+            }
+            set {
+                this.enableMedRecSettingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableMedRecSettingSpecified {
+            get {
+                return this.enableMedRecSettingFieldSpecified;
+            }
+            set {
+                this.enableMedRecSettingFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=55)]
         public bool enableMedicalDeviceEnabled {
             get {
                 return this.enableMedicalDeviceEnabledField;
@@ -54945,7 +60533,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=39)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=56)]
+        public bool enableMedicationManagementEnabled {
+            get {
+                return this.enableMedicationManagementEnabledField;
+            }
+            set {
+                this.enableMedicationManagementEnabledField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableMedicationManagementEnabledSpecified {
+            get {
+                return this.enableMedicationManagementEnabledFieldSpecified;
+            }
+            set {
+                this.enableMedicationManagementEnabledFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=57)]
         public bool enableMortgageRlaTotalsOrgPref {
             get {
                 return this.enableMortgageRlaTotalsOrgPrefField;
@@ -54967,7 +60577,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=40)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=58)]
         public bool enableMultiResourceOrgPref {
             get {
                 return this.enableMultiResourceOrgPrefField;
@@ -54989,7 +60599,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=41)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=59)]
         public bool enableMultipleCareProgramEnrolleeOrgPref {
             get {
                 return this.enableMultipleCareProgramEnrolleeOrgPrefField;
@@ -55011,7 +60621,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=42)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=60)]
         public bool enableObjectDetection {
             get {
                 return this.enableObjectDetectionField;
@@ -55033,7 +60643,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=43)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=61)]
         public bool enableOverbookingOrgPref {
             get {
                 return this.enableOverbookingOrgPrefField;
@@ -55055,7 +60665,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=44)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=62)]
         public bool enablePatientAppointmentSchedulingOrgPref {
             get {
                 return this.enablePatientAppointmentSchedulingOrgPrefField;
@@ -55077,7 +60687,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=45)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=63)]
         public bool enablePolicyAdministration {
             get {
                 return this.enablePolicyAdministrationField;
@@ -55099,7 +60709,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=46)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=64)]
         public bool enableProviderSearchSyncOrgPref {
             get {
                 return this.enableProviderSearchSyncOrgPrefField;
@@ -55121,7 +60731,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=47)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=65)]
         public bool enableRBLUsingCalcService {
             get {
                 return this.enableRBLUsingCalcServiceField;
@@ -55143,7 +60753,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=48)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=66)]
         public bool enableRecordRollup {
             get {
                 return this.enableRecordRollupField;
@@ -55165,7 +60775,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=49)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=67)]
         public bool enableReferralScoring {
             get {
                 return this.enableReferralScoringField;
@@ -55187,7 +60797,271 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=50)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=68)]
+        public bool enableSCAssignFootprint {
+            get {
+                return this.enableSCAssignFootprintField;
+            }
+            set {
+                this.enableSCAssignFootprintField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableSCAssignFootprintSpecified {
+            get {
+                return this.enableSCAssignFootprintFieldSpecified;
+            }
+            set {
+                this.enableSCAssignFootprintFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=69)]
+        public bool enableSCBEIEnabled {
+            get {
+                return this.enableSCBEIEnabledField;
+            }
+            set {
+                this.enableSCBEIEnabledField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableSCBEIEnabledSpecified {
+            get {
+                return this.enableSCBEIEnabledFieldSpecified;
+            }
+            set {
+                this.enableSCBEIEnabledFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=70)]
+        public bool enableSCCarbonAccounting {
+            get {
+                return this.enableSCCarbonAccountingField;
+            }
+            set {
+                this.enableSCCarbonAccountingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableSCCarbonAccountingSpecified {
+            get {
+                return this.enableSCCarbonAccountingFieldSpecified;
+            }
+            set {
+                this.enableSCCarbonAccountingFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=71)]
+        public bool enableSCCreateFootprint {
+            get {
+                return this.enableSCCreateFootprintField;
+            }
+            set {
+                this.enableSCCreateFootprintField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableSCCreateFootprintSpecified {
+            get {
+                return this.enableSCCreateFootprintFieldSpecified;
+            }
+            set {
+                this.enableSCCreateFootprintFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=72)]
+        public bool enableSCDGF {
+            get {
+                return this.enableSCDGFField;
+            }
+            set {
+                this.enableSCDGFField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableSCDGFSpecified {
+            get {
+                return this.enableSCDGFFieldSpecified;
+            }
+            set {
+                this.enableSCDGFFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=73)]
+        public bool enableSCEmssnsForecasting {
+            get {
+                return this.enableSCEmssnsForecastingField;
+            }
+            set {
+                this.enableSCEmssnsForecastingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableSCEmssnsForecastingSpecified {
+            get {
+                return this.enableSCEmssnsForecastingFieldSpecified;
+            }
+            set {
+                this.enableSCEmssnsForecastingFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=74)]
+        public bool enableSCExternalEngMgmt {
+            get {
+                return this.enableSCExternalEngMgmtField;
+            }
+            set {
+                this.enableSCExternalEngMgmtField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableSCExternalEngMgmtSpecified {
+            get {
+                return this.enableSCExternalEngMgmtFieldSpecified;
+            }
+            set {
+                this.enableSCExternalEngMgmtFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=75)]
+        public bool enableSCGenrateCnsmpRcd {
+            get {
+                return this.enableSCGenrateCnsmpRcdField;
+            }
+            set {
+                this.enableSCGenrateCnsmpRcdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableSCGenrateCnsmpRcdSpecified {
+            get {
+                return this.enableSCGenrateCnsmpRcdFieldSpecified;
+            }
+            set {
+                this.enableSCGenrateCnsmpRcdFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=76)]
+        public bool enableSCScope3HubEnabled {
+            get {
+                return this.enableSCScope3HubEnabledField;
+            }
+            set {
+                this.enableSCScope3HubEnabledField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableSCScope3HubEnabledSpecified {
+            get {
+                return this.enableSCScope3HubEnabledFieldSpecified;
+            }
+            set {
+                this.enableSCScope3HubEnabledFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=77)]
+        public bool enableSCSplitCnsmpRcd {
+            get {
+                return this.enableSCSplitCnsmpRcdField;
+            }
+            set {
+                this.enableSCSplitCnsmpRcdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableSCSplitCnsmpRcdSpecified {
+            get {
+                return this.enableSCSplitCnsmpRcdFieldSpecified;
+            }
+            set {
+                this.enableSCSplitCnsmpRcdFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=78)]
+        public bool enableSCTargetSetting {
+            get {
+                return this.enableSCTargetSettingField;
+            }
+            set {
+                this.enableSCTargetSettingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableSCTargetSettingSpecified {
+            get {
+                return this.enableSCTargetSettingFieldSpecified;
+            }
+            set {
+                this.enableSCTargetSettingFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=79)]
+        public bool enableSCWasteManagement {
+            get {
+                return this.enableSCWasteManagementField;
+            }
+            set {
+                this.enableSCWasteManagementField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableSCWasteManagementSpecified {
+            get {
+                return this.enableSCWasteManagementFieldSpecified;
+            }
+            set {
+                this.enableSCWasteManagementFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=80)]
         public bool enableSentimentAnalysis {
             get {
                 return this.enableSentimentAnalysisField;
@@ -55209,7 +61083,51 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=51)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=81)]
+        public bool enableShareSaWithArOrgPref {
+            get {
+                return this.enableShareSaWithArOrgPrefField;
+            }
+            set {
+                this.enableShareSaWithArOrgPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableShareSaWithArOrgPrefSpecified {
+            get {
+                return this.enableShareSaWithArOrgPrefFieldSpecified;
+            }
+            set {
+                this.enableShareSaWithArOrgPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=82)]
+        public bool enableSlackForCib {
+            get {
+                return this.enableSlackForCibField;
+            }
+            set {
+                this.enableSlackForCibField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableSlackForCibSpecified {
+            get {
+                return this.enableSlackForCibFieldSpecified;
+            }
+            set {
+                this.enableSlackForCibFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=83)]
         public bool enableSmartTags {
             get {
                 return this.enableSmartTagsField;
@@ -55231,7 +61149,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=52)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=84)]
+        public bool enableSustainabilityCloud {
+            get {
+                return this.enableSustainabilityCloudField;
+            }
+            set {
+                this.enableSustainabilityCloudField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableSustainabilityCloudSpecified {
+            get {
+                return this.enableSustainabilityCloudFieldSpecified;
+            }
+            set {
+                this.enableSustainabilityCloudFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=85)]
         public bool enableTextExtract {
             get {
                 return this.enableTextExtractField;
@@ -55253,7 +61193,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=53)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=86)]
+        public bool enableTimelinePref {
+            get {
+                return this.enableTimelinePrefField;
+            }
+            set {
+                this.enableTimelinePrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableTimelinePrefSpecified {
+            get {
+                return this.enableTimelinePrefFieldSpecified;
+            }
+            set {
+                this.enableTimelinePrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=87)]
         public bool enableTopicOrTemplate {
             get {
                 return this.enableTopicOrTemplateField;
@@ -55275,7 +61237,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=54)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=88)]
         public bool enableTopicTimeSlot {
             get {
                 return this.enableTopicTimeSlotField;
@@ -55297,7 +61259,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=55)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=89)]
+        public bool enableVideoVisitsOrgPref {
+            get {
+                return this.enableVideoVisitsOrgPrefField;
+            }
+            set {
+                this.enableVideoVisitsOrgPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableVideoVisitsOrgPrefSpecified {
+            get {
+                return this.enableVideoVisitsOrgPrefFieldSpecified;
+            }
+            set {
+                this.enableVideoVisitsOrgPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=90)]
         public bool enableVisitCalendarSync {
             get {
                 return this.enableVisitCalendarSyncField;
@@ -55319,7 +61303,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=56)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=91)]
         public bool enableVisitInventoryEnabled {
             get {
                 return this.enableVisitInventoryEnabledField;
@@ -55341,7 +61325,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=57)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=92)]
         public bool loanApplicantAddressAutoCreation {
             get {
                 return this.loanApplicantAddressAutoCreationField;
@@ -55363,7 +61347,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=58)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=93)]
         public bool loanApplicantAutoCreation {
             get {
                 return this.loanApplicantAutoCreationField;
@@ -55385,29 +61369,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=59)]
-        public bool policyBasedSchedulingOrgPref {
+        [System.Xml.Serialization.XmlElementAttribute(Order=94)]
+        public bool rlaEditIfAccHasEdit {
             get {
-                return this.policyBasedSchedulingOrgPrefField;
+                return this.rlaEditIfAccHasEditField;
             }
             set {
-                this.policyBasedSchedulingOrgPrefField = value;
+                this.rlaEditIfAccHasEditField = value;
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool policyBasedSchedulingOrgPrefSpecified {
+        public bool rlaEditIfAccHasEditSpecified {
             get {
-                return this.policyBasedSchedulingOrgPrefFieldSpecified;
+                return this.rlaEditIfAccHasEditFieldSpecified;
             }
             set {
-                this.policyBasedSchedulingOrgPrefFieldSpecified = value;
+                this.rlaEditIfAccHasEditFieldSpecified = value;
             }
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=60)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=95)]
         public bool transformRBLtoDPE {
             get {
                 return this.transformRBLtoDPEField;
@@ -55452,6 +61436,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool enableIndustriesMfgIASField;
         
         private bool enableIndustriesMfgIASFieldSpecified;
+        
+        private bool enableIndustriesMfgProgramField;
+        
+        private bool enableIndustriesMfgProgramFieldSpecified;
         
         private bool enableIndustriesMfgTargetsField;
         
@@ -55547,6 +61535,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public bool enableIndustriesMfgProgram {
+            get {
+                return this.enableIndustriesMfgProgramField;
+            }
+            set {
+                this.enableIndustriesMfgProgramField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableIndustriesMfgProgramSpecified {
+            get {
+                return this.enableIndustriesMfgProgramFieldSpecified;
+            }
+            set {
+                this.enableIndustriesMfgProgramFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public bool enableIndustriesMfgTargets {
             get {
                 return this.enableIndustriesMfgTargetsField;
@@ -55564,6 +61574,76 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.enableIndustriesMfgTargetsFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class IndustriesAutomotiveSettings : Metadata {
+        
+        private bool enableIndustriesAutomotiveField;
+        
+        private bool enableIndustriesAutomotiveFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableIndustriesAutomotive {
+            get {
+                return this.enableIndustriesAutomotiveField;
+            }
+            set {
+                this.enableIndustriesAutomotiveField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableIndustriesAutomotiveSpecified {
+            get {
+                return this.enableIndustriesAutomotiveFieldSpecified;
+            }
+            set {
+                this.enableIndustriesAutomotiveFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class IncidentMgmtSettings : Metadata {
+        
+        private bool enableIncidentMgmtField;
+        
+        private bool enableIncidentMgmtFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableIncidentMgmt {
+            get {
+                return this.enableIncidentMgmtField;
+            }
+            set {
+                this.enableIncidentMgmtField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableIncidentMgmtSpecified {
+            get {
+                return this.enableIncidentMgmtFieldSpecified;
+            }
+            set {
+                this.enableIncidentMgmtFieldSpecified = value;
             }
         }
     }
@@ -55773,6 +61853,486 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         EmbeddedService,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class IdentityVerificationProcFld : Metadata {
+        
+        private string customFieldLabelField;
+        
+        private IdentityVerificationProcFldDataSourceType dataSourceTypeField;
+        
+        private string developerNameField;
+        
+        private string fieldNameField;
+        
+        private IdentityVerificationProcFldFieldType fieldTypeField;
+        
+        private string fieldValueFormulaField;
+        
+        private bool isActiveField;
+        
+        private bool isActiveFieldSpecified;
+        
+        private string masterLabelField;
+        
+        private int sequenceNumberField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string customFieldLabel {
+            get {
+                return this.customFieldLabelField;
+            }
+            set {
+                this.customFieldLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public IdentityVerificationProcFldDataSourceType dataSourceType {
+            get {
+                return this.dataSourceTypeField;
+            }
+            set {
+                this.dataSourceTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string developerName {
+            get {
+                return this.developerNameField;
+            }
+            set {
+                this.developerNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string fieldName {
+            get {
+                return this.fieldNameField;
+            }
+            set {
+                this.fieldNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public IdentityVerificationProcFldFieldType fieldType {
+            get {
+                return this.fieldTypeField;
+            }
+            set {
+                this.fieldTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string fieldValueFormula {
+            get {
+                return this.fieldValueFormulaField;
+            }
+            set {
+                this.fieldValueFormulaField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public bool isActive {
+            get {
+                return this.isActiveField;
+            }
+            set {
+                this.isActiveField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isActiveSpecified {
+            get {
+                return this.isActiveFieldSpecified;
+            }
+            set {
+                this.isActiveFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public int sequenceNumber {
+            get {
+                return this.sequenceNumberField;
+            }
+            set {
+                this.sequenceNumberField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum IdentityVerificationProcFldDataSourceType {
+        
+        /// <remarks/>
+        Salesforce,
+        
+        /// <remarks/>
+        External,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum IdentityVerificationProcFldFieldType {
+        
+        /// <remarks/>
+        requiredVerifier,
+        
+        /// <remarks/>
+        optionalVerifier,
+        
+        /// <remarks/>
+        searchField,
+        
+        /// <remarks/>
+        resultField,
+        
+        /// <remarks/>
+        additionalResultField,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class IdentityVerificationProcDtl : Metadata {
+        
+        private string apexClassField;
+        
+        private IdentityVerificationDataSourceType dataSourceTypeField;
+        
+        private string developerNameField;
+        
+        private IdentityVerificationProcFld[] identityVerificationProcFldsField;
+        
+        private bool isActiveField;
+        
+        private bool isActiveFieldSpecified;
+        
+        private string linkedIdVerfProcessDetField;
+        
+        private string masterLabelField;
+        
+        private string objectNameField;
+        
+        private int optionalVerifiersMinVerfCountField;
+        
+        private bool optionalVerifiersMinVerfCountFieldSpecified;
+        
+        private string searchFilterField;
+        
+        private string searchRecordUniqueIdFieldField;
+        
+        private string searchResultSortByField;
+        
+        private int searchSequenceNumberField;
+        
+        private IdentityVerificationSearchType searchTypeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string apexClass {
+            get {
+                return this.apexClassField;
+            }
+            set {
+                this.apexClassField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public IdentityVerificationDataSourceType dataSourceType {
+            get {
+                return this.dataSourceTypeField;
+            }
+            set {
+                this.dataSourceTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string developerName {
+            get {
+                return this.developerNameField;
+            }
+            set {
+                this.developerNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("identityVerificationProcFlds", Order=3)]
+        public IdentityVerificationProcFld[] identityVerificationProcFlds {
+            get {
+                return this.identityVerificationProcFldsField;
+            }
+            set {
+                this.identityVerificationProcFldsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public bool isActive {
+            get {
+                return this.isActiveField;
+            }
+            set {
+                this.isActiveField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isActiveSpecified {
+            get {
+                return this.isActiveFieldSpecified;
+            }
+            set {
+                this.isActiveFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string linkedIdVerfProcessDet {
+            get {
+                return this.linkedIdVerfProcessDetField;
+            }
+            set {
+                this.linkedIdVerfProcessDetField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public string objectName {
+            get {
+                return this.objectNameField;
+            }
+            set {
+                this.objectNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public int optionalVerifiersMinVerfCount {
+            get {
+                return this.optionalVerifiersMinVerfCountField;
+            }
+            set {
+                this.optionalVerifiersMinVerfCountField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool optionalVerifiersMinVerfCountSpecified {
+            get {
+                return this.optionalVerifiersMinVerfCountFieldSpecified;
+            }
+            set {
+                this.optionalVerifiersMinVerfCountFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        public string searchFilter {
+            get {
+                return this.searchFilterField;
+            }
+            set {
+                this.searchFilterField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        public string searchRecordUniqueIdField {
+            get {
+                return this.searchRecordUniqueIdFieldField;
+            }
+            set {
+                this.searchRecordUniqueIdFieldField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        public string searchResultSortBy {
+            get {
+                return this.searchResultSortByField;
+            }
+            set {
+                this.searchResultSortByField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        public int searchSequenceNumber {
+            get {
+                return this.searchSequenceNumberField;
+            }
+            set {
+                this.searchSequenceNumberField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        public IdentityVerificationSearchType searchType {
+            get {
+                return this.searchTypeField;
+            }
+            set {
+                this.searchTypeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum IdentityVerificationDataSourceType {
+        
+        /// <remarks/>
+        Salesforce,
+        
+        /// <remarks/>
+        External,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum IdentityVerificationSearchType {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("Text-Based")]
+        TextBased,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("Object-Based")]
+        ObjectBased,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class IdentityVerificationProcDef : Metadata {
+        
+        private IdentityVerificationProcDtl[] identityVerificationProcDtlsField;
+        
+        private string masterLabelField;
+        
+        private IdentityVerificationSearchLayoutType searchLayoutTypeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("identityVerificationProcDtls", Order=0)]
+        public IdentityVerificationProcDtl[] identityVerificationProcDtls {
+            get {
+                return this.identityVerificationProcDtlsField;
+            }
+            set {
+                this.identityVerificationProcDtlsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public IdentityVerificationSearchLayoutType searchLayoutType {
+            get {
+                return this.searchLayoutTypeField;
+            }
+            set {
+                this.searchLayoutTypeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum IdentityVerificationSearchLayoutType {
+        
+        /// <remarks/>
+        Tab,
+        
+        /// <remarks/>
+        Stack,
     }
     
     /// <remarks/>
@@ -56393,6 +62953,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableACSkipWeekendsFieldSpecified;
         
+        private bool enableCadenceVariantTestingPrefField;
+        
+        private bool enableCadenceVariantTestingPrefFieldSpecified;
+        
         private bool enableChgTgtAssigneeUsrPermPrefField;
         
         private bool enableChgTgtAssigneeUsrPermPrefFieldSpecified;
@@ -56412,6 +62976,14 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool enableHighVelocitySalesSetupField;
         
         private bool enableHighVelocitySalesSetupFieldSpecified;
+        
+        private bool enableLogACallForCTIPrefField;
+        
+        private bool enableLogACallForCTIPrefFieldSpecified;
+        
+        private bool enableLogTasksForLinkedInPrefField;
+        
+        private bool enableLogTasksForLinkedInPrefFieldSpecified;
         
         private bool enableOpportunityAttributionPermPrefField;
         
@@ -56485,6 +63057,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool enableCadenceVariantTestingPref {
+            get {
+                return this.enableCadenceVariantTestingPrefField;
+            }
+            set {
+                this.enableCadenceVariantTestingPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableCadenceVariantTestingPrefSpecified {
+            get {
+                return this.enableCadenceVariantTestingPrefFieldSpecified;
+            }
+            set {
+                this.enableCadenceVariantTestingPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
         public bool enableChgTgtAssigneeUsrPermPref {
             get {
                 return this.enableChgTgtAssigneeUsrPermPrefField;
@@ -56506,7 +63100,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public bool enableDispositionCategory {
             get {
                 return this.enableDispositionCategoryField;
@@ -56528,7 +63122,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public bool enableEngagementWaveAnalyticsPref {
             get {
                 return this.enableEngagementWaveAnalyticsPrefField;
@@ -56550,7 +63144,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public bool enableHighVelocitySales {
             get {
                 return this.enableHighVelocitySalesField;
@@ -56572,7 +63166,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public bool enableHighVelocitySalesSetup {
             get {
                 return this.enableHighVelocitySalesSetupField;
@@ -56594,7 +63188,51 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        public bool enableLogACallForCTIPref {
+            get {
+                return this.enableLogACallForCTIPrefField;
+            }
+            set {
+                this.enableLogACallForCTIPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableLogACallForCTIPrefSpecified {
+            get {
+                return this.enableLogACallForCTIPrefFieldSpecified;
+            }
+            set {
+                this.enableLogACallForCTIPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        public bool enableLogTasksForLinkedInPref {
+            get {
+                return this.enableLogTasksForLinkedInPrefField;
+            }
+            set {
+                this.enableLogTasksForLinkedInPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableLogTasksForLinkedInPrefSpecified {
+            get {
+                return this.enableLogTasksForLinkedInPrefFieldSpecified;
+            }
+            set {
+                this.enableLogTasksForLinkedInPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
         public bool enableOpportunityAttributionPermPref {
             get {
                 return this.enableOpportunityAttributionPermPrefField;
@@ -57105,6 +63743,119 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class ForecastingTypeSource : Metadata {
+        
+        private string forecastingSourceDefinitionField;
+        
+        private string forecastingTypeField;
+        
+        private bool isProtectedField;
+        
+        private bool isProtectedFieldSpecified;
+        
+        private string masterLabelField;
+        
+        private string parentSourceDefinitionField;
+        
+        private string relationFieldField;
+        
+        private int sourceGroupField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string forecastingSourceDefinition {
+            get {
+                return this.forecastingSourceDefinitionField;
+            }
+            set {
+                this.forecastingSourceDefinitionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string forecastingType {
+            get {
+                return this.forecastingTypeField;
+            }
+            set {
+                this.forecastingTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool isProtected {
+            get {
+                return this.isProtectedField;
+            }
+            set {
+                this.isProtectedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProtectedSpecified {
+            get {
+                return this.isProtectedFieldSpecified;
+            }
+            set {
+                this.isProtectedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string parentSourceDefinition {
+            get {
+                return this.parentSourceDefinitionField;
+            }
+            set {
+                this.parentSourceDefinitionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string relationField {
+            get {
+                return this.relationFieldField;
+            }
+            set {
+                this.relationFieldField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public int sourceGroup {
+            get {
+                return this.sourceGroupField;
+            }
+            set {
+                this.sourceGroupField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class ForecastingType : Metadata {
         
         private bool activeField;
@@ -57244,6 +63995,145 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class ForecastingSourceDefinition : Metadata {
+        
+        private string categoryFieldField;
+        
+        private string dateFieldField;
+        
+        private string familyFieldField;
+        
+        private bool isProtectedField;
+        
+        private bool isProtectedFieldSpecified;
+        
+        private string masterLabelField;
+        
+        private string measureFieldField;
+        
+        private string sourceObjectField;
+        
+        private string territory2FieldField;
+        
+        private string userFieldField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string categoryField {
+            get {
+                return this.categoryFieldField;
+            }
+            set {
+                this.categoryFieldField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string dateField {
+            get {
+                return this.dateFieldField;
+            }
+            set {
+                this.dateFieldField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string familyField {
+            get {
+                return this.familyFieldField;
+            }
+            set {
+                this.familyFieldField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool isProtected {
+            get {
+                return this.isProtectedField;
+            }
+            set {
+                this.isProtectedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProtectedSpecified {
+            get {
+                return this.isProtectedFieldSpecified;
+            }
+            set {
+                this.isProtectedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string measureField {
+            get {
+                return this.measureFieldField;
+            }
+            set {
+                this.measureFieldField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public string sourceObject {
+            get {
+                return this.sourceObjectField;
+            }
+            set {
+                this.sourceObjectField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public string territory2Field {
+            get {
+                return this.territory2FieldField;
+            }
+            set {
+                this.territory2FieldField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public string userField {
+            get {
+                return this.userFieldField;
+            }
+            set {
+                this.userFieldField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class ForecastingSettings : Metadata {
         
         private bool defaultToPersonalCurrencyField;
@@ -57259,6 +64149,12 @@ namespace SalesforceMetadata.MetadataWSDL {
         private ForecastingDisplayedFamilySettings[] forecastingDisplayedFamilySettingsField;
         
         private ForecastingTypeSettings[] forecastingTypeSettingsField;
+        
+        private AdjustmentsSettings globalAdjustmentsSettingsField;
+        
+        private ForecastRangeSettings globalForecastRangeSettingsField;
+        
+        private QuotasSettings globalQuotasSettingsField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
@@ -57334,6 +64230,39 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.forecastingTypeSettingsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public AdjustmentsSettings globalAdjustmentsSettings {
+            get {
+                return this.globalAdjustmentsSettingsField;
+            }
+            set {
+                this.globalAdjustmentsSettingsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public ForecastRangeSettings globalForecastRangeSettings {
+            get {
+                return this.globalForecastRangeSettingsField;
+            }
+            set {
+                this.globalForecastRangeSettingsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public QuotasSettings globalQuotasSettings {
+            get {
+                return this.globalQuotasSettingsField;
+            }
+            set {
+                this.globalQuotasSettingsField = value;
             }
         }
     }
@@ -57436,11 +64365,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool activeField;
         
-        private AdjustmentsSettings adjustmentsSettingsField;
-        
         private string[] displayedCategoryApiNamesField;
-        
-        private ForecastRangeSettings forecastRangeSettingsField;
         
         private string[] forecastedCategoryApiNamesField;
         
@@ -57470,8 +64395,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string[] ownerAdjustableCategoryApiNamesField;
         
-        private QuotasSettings quotasSettingsField;
-        
         private string territory2ModelNameField;
         
         /// <remarks/>
@@ -57485,16 +64408,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        public AdjustmentsSettings adjustmentsSettings {
-            get {
-                return this.adjustmentsSettingsField;
-            }
-            set {
-                this.adjustmentsSettingsField = value;
-            }
-        }
-        
-        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("displayedCategoryApiNames")]
         public string[] displayedCategoryApiNames {
             get {
@@ -57502,16 +64415,6 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.displayedCategoryApiNamesField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public ForecastRangeSettings forecastRangeSettings {
-            get {
-                return this.forecastRangeSettingsField;
-            }
-            set {
-                this.forecastRangeSettingsField = value;
             }
         }
         
@@ -57662,22 +64565,70 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        public QuotasSettings quotasSettings {
-            get {
-                return this.quotasSettingsField;
-            }
-            set {
-                this.quotasSettingsField = value;
-            }
-        }
-        
-        /// <remarks/>
         public string territory2ModelName {
             get {
                 return this.territory2ModelNameField;
             }
             set {
                 this.territory2ModelNameField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum ForecastingDateType {
+        
+        /// <remarks/>
+        OpportunityCloseDate,
+        
+        /// <remarks/>
+        ProductDate,
+        
+        /// <remarks/>
+        ScheduleDate,
+        
+        /// <remarks/>
+        OLIMeasureCloseDateOnly,
+        
+        /// <remarks/>
+        ProductDateOnly,
+        
+        /// <remarks/>
+        ScheduleDateOnly,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class OpportunityListFieldsLabelMapping {
+        
+        private string fieldField;
+        
+        private string labelField;
+        
+        /// <remarks/>
+        public string field {
+            get {
+                return this.fieldField;
+            }
+            set {
+                this.fieldField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string label {
+            get {
+                return this.labelField;
+            }
+            set {
+                this.labelField = value;
             }
         }
     }
@@ -57777,64 +64728,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         Year,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public enum ForecastingDateType {
-        
-        /// <remarks/>
-        OpportunityCloseDate,
-        
-        /// <remarks/>
-        ProductDate,
-        
-        /// <remarks/>
-        ScheduleDate,
-        
-        /// <remarks/>
-        OLIMeasureCloseDateOnly,
-        
-        /// <remarks/>
-        ProductDateOnly,
-        
-        /// <remarks/>
-        ScheduleDateOnly,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public partial class OpportunityListFieldsLabelMapping {
-        
-        private string fieldField;
-        
-        private string labelField;
-        
-        /// <remarks/>
-        public string field {
-            get {
-                return this.fieldField;
-            }
-            set {
-                this.fieldField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string label {
-            get {
-                return this.labelField;
-            }
-            set {
-                this.labelField = value;
-            }
-        }
     }
     
     /// <remarks/>
@@ -57969,6 +64862,232 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.labelField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class ForecastingFilterCondition : Metadata {
+        
+        private string colNameField;
+        
+        private string fieldNameField;
+        
+        private string forecastingFilterField;
+        
+        private string forecastingSourceDefinitionField;
+        
+        private bool isProtectedField;
+        
+        private bool isProtectedFieldSpecified;
+        
+        private string masterLabelField;
+        
+        private FilterOperation operationField;
+        
+        private int sortOrderField;
+        
+        private string valueField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string colName {
+            get {
+                return this.colNameField;
+            }
+            set {
+                this.colNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string fieldName {
+            get {
+                return this.fieldNameField;
+            }
+            set {
+                this.fieldNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string forecastingFilter {
+            get {
+                return this.forecastingFilterField;
+            }
+            set {
+                this.forecastingFilterField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string forecastingSourceDefinition {
+            get {
+                return this.forecastingSourceDefinitionField;
+            }
+            set {
+                this.forecastingSourceDefinitionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public bool isProtected {
+            get {
+                return this.isProtectedField;
+            }
+            set {
+                this.isProtectedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProtectedSpecified {
+            get {
+                return this.isProtectedFieldSpecified;
+            }
+            set {
+                this.isProtectedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public FilterOperation operation {
+            get {
+                return this.operationField;
+            }
+            set {
+                this.operationField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public int sortOrder {
+            get {
+                return this.sortOrderField;
+            }
+            set {
+                this.sortOrderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public string value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class ForecastingFilter : Metadata {
+        
+        private string filterLogicField;
+        
+        private string forecastingTypeField;
+        
+        private string forecastingTypeSourceField;
+        
+        private bool isProtectedField;
+        
+        private bool isProtectedFieldSpecified;
+        
+        private string masterLabelField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string filterLogic {
+            get {
+                return this.filterLogicField;
+            }
+            set {
+                this.filterLogicField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string forecastingType {
+            get {
+                return this.forecastingTypeField;
+            }
+            set {
+                this.forecastingTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string forecastingTypeSource {
+            get {
+                return this.forecastingTypeSourceField;
+            }
+            set {
+                this.forecastingTypeSourceField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool isProtected {
+            get {
+                return this.isProtectedField;
+            }
+            set {
+                this.isProtectedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProtectedSpecified {
+            get {
+                return this.isProtectedFieldSpecified;
+            }
+            set {
+                this.isProtectedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
             }
         }
     }
@@ -58161,6 +65280,437 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class FlowTest : Metadata {
+        
+        private string descriptionField;
+        
+        private string flowApiNameField;
+        
+        private string labelField;
+        
+        private FlowTestPoint[] testPointsField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string flowApiName {
+            get {
+                return this.flowApiNameField;
+            }
+            set {
+                this.flowApiNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string label {
+            get {
+                return this.labelField;
+            }
+            set {
+                this.labelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("testPoints", Order=3)]
+        public FlowTestPoint[] testPoints {
+            get {
+                return this.testPointsField;
+            }
+            set {
+                this.testPointsField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class FlowTestPoint {
+        
+        private FlowTestAssertion[] assertionsField;
+        
+        private string elementApiNameField;
+        
+        private FlowTestParameter[] parametersField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("assertions")]
+        public FlowTestAssertion[] assertions {
+            get {
+                return this.assertionsField;
+            }
+            set {
+                this.assertionsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string elementApiName {
+            get {
+                return this.elementApiNameField;
+            }
+            set {
+                this.elementApiNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("parameters")]
+        public FlowTestParameter[] parameters {
+            get {
+                return this.parametersField;
+            }
+            set {
+                this.parametersField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class FlowTestAssertion {
+        
+        private FlowTestCondition[] conditionsField;
+        
+        private string errorMessageField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("conditions")]
+        public FlowTestCondition[] conditions {
+            get {
+                return this.conditionsField;
+            }
+            set {
+                this.conditionsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string errorMessage {
+            get {
+                return this.errorMessageField;
+            }
+            set {
+                this.errorMessageField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class FlowTestCondition {
+        
+        private string leftValueReferenceField;
+        
+        private FlowComparisonOperator operatorField;
+        
+        private FlowTestReferenceOrValue rightValueField;
+        
+        /// <remarks/>
+        public string leftValueReference {
+            get {
+                return this.leftValueReferenceField;
+            }
+            set {
+                this.leftValueReferenceField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public FlowComparisonOperator @operator {
+            get {
+                return this.operatorField;
+            }
+            set {
+                this.operatorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public FlowTestReferenceOrValue rightValue {
+            get {
+                return this.rightValueField;
+            }
+            set {
+                this.rightValueField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum FlowComparisonOperator {
+        
+        /// <remarks/>
+        EqualTo,
+        
+        /// <remarks/>
+        NotEqualTo,
+        
+        /// <remarks/>
+        GreaterThan,
+        
+        /// <remarks/>
+        LessThan,
+        
+        /// <remarks/>
+        GreaterThanOrEqualTo,
+        
+        /// <remarks/>
+        LessThanOrEqualTo,
+        
+        /// <remarks/>
+        StartsWith,
+        
+        /// <remarks/>
+        EndsWith,
+        
+        /// <remarks/>
+        Contains,
+        
+        /// <remarks/>
+        IsNull,
+        
+        /// <remarks/>
+        IsChanged,
+        
+        /// <remarks/>
+        WasSet,
+        
+        /// <remarks/>
+        WasSelected,
+        
+        /// <remarks/>
+        WasVisited,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class FlowTestReferenceOrValue {
+        
+        private System.Nullable<bool> booleanValueField;
+        
+        private bool booleanValueFieldSpecified;
+        
+        private System.DateTime dateTimeValueField;
+        
+        private bool dateTimeValueFieldSpecified;
+        
+        private System.DateTime dateValueField;
+        
+        private bool dateValueFieldSpecified;
+        
+        private System.Nullable<double> numberValueField;
+        
+        private bool numberValueFieldSpecified;
+        
+        private string sobjectValueField;
+        
+        private string stringValueField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<bool> booleanValue {
+            get {
+                return this.booleanValueField;
+            }
+            set {
+                this.booleanValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool booleanValueSpecified {
+            get {
+                return this.booleanValueFieldSpecified;
+            }
+            set {
+                this.booleanValueFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime dateTimeValue {
+            get {
+                return this.dateTimeValueField;
+            }
+            set {
+                this.dateTimeValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool dateTimeValueSpecified {
+            get {
+                return this.dateTimeValueFieldSpecified;
+            }
+            set {
+                this.dateTimeValueFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="date")]
+        public System.DateTime dateValue {
+            get {
+                return this.dateValueField;
+            }
+            set {
+                this.dateValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool dateValueSpecified {
+            get {
+                return this.dateValueFieldSpecified;
+            }
+            set {
+                this.dateValueFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<double> numberValue {
+            get {
+                return this.numberValueField;
+            }
+            set {
+                this.numberValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool numberValueSpecified {
+            get {
+                return this.numberValueFieldSpecified;
+            }
+            set {
+                this.numberValueFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string sobjectValue {
+            get {
+                return this.sobjectValueField;
+            }
+            set {
+                this.sobjectValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string stringValue {
+            get {
+                return this.stringValueField;
+            }
+            set {
+                this.stringValueField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class FlowTestParameter {
+        
+        private string leftValueReferenceField;
+        
+        private FlowTestParameterType typeField;
+        
+        private FlowTestReferenceOrValue valueField;
+        
+        /// <remarks/>
+        public string leftValueReference {
+            get {
+                return this.leftValueReferenceField;
+            }
+            set {
+                this.leftValueReferenceField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public FlowTestParameterType type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public FlowTestReferenceOrValue value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum FlowTestParameterType {
+        
+        /// <remarks/>
+        InputTriggeringRecordInitial,
+        
+        /// <remarks/>
+        InputTriggeringRecordUpdated,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class FlowSettings : Metadata {
         
         private bool canDebugFlowAsAnotherUserField;
@@ -58214,6 +65764,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool enableFlowUseApexExceptionEmailField;
         
         private bool enableFlowUseApexExceptionEmailFieldSpecified;
+        
+        private bool enableFlowViaRestUsesUserCtxtField;
+        
+        private bool enableFlowViaRestUsesUserCtxtFieldSpecified;
         
         private bool enableLightningRuntimeEnabledField;
         
@@ -58531,6 +66085,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        public bool enableFlowViaRestUsesUserCtxt {
+            get {
+                return this.enableFlowViaRestUsesUserCtxtField;
+            }
+            set {
+                this.enableFlowViaRestUsesUserCtxtField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableFlowViaRestUsesUserCtxtSpecified {
+            get {
+                return this.enableFlowViaRestUsesUserCtxtFieldSpecified;
+            }
+            set {
+                this.enableFlowViaRestUsesUserCtxtFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
         public bool enableLightningRuntimeEnabled {
             get {
                 return this.enableLightningRuntimeEnabledField;
@@ -58552,7 +66128,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
         public bool isAccessToInvokedApexRequired {
             get {
                 return this.isAccessToInvokedApexRequiredField;
@@ -58574,7 +66150,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
         public bool isApexPluginAccessModifierRespected {
             get {
                 return this.isApexPluginAccessModifierRespectedField;
@@ -58596,7 +66172,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
         public bool isEnhancedFlowListViewVisible {
             get {
                 return this.isEnhancedFlowListViewVisibleField;
@@ -58618,7 +66194,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
         public bool isFlowApexContextRetired {
             get {
                 return this.isFlowApexContextRetiredField;
@@ -58640,7 +66216,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
         public bool isManageFlowRequiredForAutomationCharts {
             get {
                 return this.isManageFlowRequiredForAutomationChartsField;
@@ -58662,7 +66238,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
         public bool isTimeResumedInSameRunContext {
             get {
                 return this.isTimeResumedInSameRunContextField;
@@ -58844,6 +66420,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private FlowDynamicChoiceSet[] dynamicChoiceSetsField;
         
+        private FlowEnvironment[] environmentsField;
+        
         private FlowFormula[] formulasField;
         
         private string interviewLabelField;
@@ -58851,6 +66429,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool isAdditionalPermissionRequiredToRunField;
         
         private bool isAdditionalPermissionRequiredToRunFieldSpecified;
+        
+        private bool isOverridableField;
+        
+        private bool isOverridableFieldSpecified;
         
         private bool isTemplateField;
         
@@ -58860,7 +66442,11 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private FlowLoop[] loopsField;
         
+        private string migratedFromWorkflowRuleNameField;
+        
         private FlowOrchestratedStage[] orchestratedStagesField;
+        
+        private string overriddenFlowField;
         
         private FlowMetadataValue[] processMetadataValuesField;
         
@@ -58874,6 +66460,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private FlowRecordLookup[] recordLookupsField;
         
+        private FlowRecordRollback[] recordRollbacksField;
+        
         private FlowRecordUpdate[] recordUpdatesField;
         
         private FlowRunInMode runInModeField;
@@ -58881,6 +66469,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool runInModeFieldSpecified;
         
         private FlowScreen[] screensField;
+        
+        private string sourceTemplateField;
         
         private FlowStage[] stagesField;
         
@@ -58897,6 +66487,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private FlowSubflow[] subflowsField;
         
         private FlowTextTemplate[] textTemplatesField;
+        
+        private System.Nullable<int> triggerOrderField;
+        
+        private bool triggerOrderFieldSpecified;
         
         private FlowVariable[] variablesField;
         
@@ -59024,7 +66618,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("formulas", Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute("environments", Order=10)]
+        public FlowEnvironment[] environments {
+            get {
+                return this.environmentsField;
+            }
+            set {
+                this.environmentsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("formulas", Order=11)]
         public FlowFormula[] formulas {
             get {
                 return this.formulasField;
@@ -59035,7 +66640,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
         public string interviewLabel {
             get {
                 return this.interviewLabelField;
@@ -59046,7 +66651,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
         public bool isAdditionalPermissionRequiredToRun {
             get {
                 return this.isAdditionalPermissionRequiredToRunField;
@@ -59068,7 +66673,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        public bool isOverridable {
+            get {
+                return this.isOverridableField;
+            }
+            set {
+                this.isOverridableField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isOverridableSpecified {
+            get {
+                return this.isOverridableFieldSpecified;
+            }
+            set {
+                this.isOverridableFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
         public bool isTemplate {
             get {
                 return this.isTemplateField;
@@ -59090,7 +66717,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
         public string label {
             get {
                 return this.labelField;
@@ -59101,7 +66728,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("loops", Order=15)]
+        [System.Xml.Serialization.XmlElementAttribute("loops", Order=17)]
         public FlowLoop[] loops {
             get {
                 return this.loopsField;
@@ -59112,7 +66739,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("orchestratedStages", Order=16)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
+        public string migratedFromWorkflowRuleName {
+            get {
+                return this.migratedFromWorkflowRuleNameField;
+            }
+            set {
+                this.migratedFromWorkflowRuleNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("orchestratedStages", Order=19)]
         public FlowOrchestratedStage[] orchestratedStages {
             get {
                 return this.orchestratedStagesField;
@@ -59123,7 +66761,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("processMetadataValues", Order=17)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
+        public string overriddenFlow {
+            get {
+                return this.overriddenFlowField;
+            }
+            set {
+                this.overriddenFlowField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("processMetadataValues", Order=21)]
         public FlowMetadataValue[] processMetadataValues {
             get {
                 return this.processMetadataValuesField;
@@ -59134,7 +66783,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
         public FlowProcessType processType {
             get {
                 return this.processTypeField;
@@ -59156,7 +66805,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("recordCreates", Order=19)]
+        [System.Xml.Serialization.XmlElementAttribute("recordCreates", Order=23)]
         public FlowRecordCreate[] recordCreates {
             get {
                 return this.recordCreatesField;
@@ -59167,7 +66816,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("recordDeletes", Order=20)]
+        [System.Xml.Serialization.XmlElementAttribute("recordDeletes", Order=24)]
         public FlowRecordDelete[] recordDeletes {
             get {
                 return this.recordDeletesField;
@@ -59178,7 +66827,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("recordLookups", Order=21)]
+        [System.Xml.Serialization.XmlElementAttribute("recordLookups", Order=25)]
         public FlowRecordLookup[] recordLookups {
             get {
                 return this.recordLookupsField;
@@ -59189,7 +66838,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("recordUpdates", Order=22)]
+        [System.Xml.Serialization.XmlElementAttribute("recordRollbacks", Order=26)]
+        public FlowRecordRollback[] recordRollbacks {
+            get {
+                return this.recordRollbacksField;
+            }
+            set {
+                this.recordRollbacksField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("recordUpdates", Order=27)]
         public FlowRecordUpdate[] recordUpdates {
             get {
                 return this.recordUpdatesField;
@@ -59200,7 +66860,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=28)]
         public FlowRunInMode runInMode {
             get {
                 return this.runInModeField;
@@ -59222,7 +66882,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("screens", Order=24)]
+        [System.Xml.Serialization.XmlElementAttribute("screens", Order=29)]
         public FlowScreen[] screens {
             get {
                 return this.screensField;
@@ -59233,7 +66893,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("stages", Order=25)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=30)]
+        public string sourceTemplate {
+            get {
+                return this.sourceTemplateField;
+            }
+            set {
+                this.sourceTemplateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("stages", Order=31)]
         public FlowStage[] stages {
             get {
                 return this.stagesField;
@@ -59244,7 +66915,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=26)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=32)]
         public FlowStart start {
             get {
                 return this.startField;
@@ -59255,7 +66926,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=27)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=33)]
         public string startElementReference {
             get {
                 return this.startElementReferenceField;
@@ -59266,7 +66937,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=28)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=34)]
         public FlowVersionStatus status {
             get {
                 return this.statusField;
@@ -59288,7 +66959,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("steps", Order=29)]
+        [System.Xml.Serialization.XmlElementAttribute("steps", Order=35)]
         public FlowStep[] steps {
             get {
                 return this.stepsField;
@@ -59299,7 +66970,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("subflows", Order=30)]
+        [System.Xml.Serialization.XmlElementAttribute("subflows", Order=36)]
         public FlowSubflow[] subflows {
             get {
                 return this.subflowsField;
@@ -59310,7 +66981,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("textTemplates", Order=31)]
+        [System.Xml.Serialization.XmlElementAttribute("textTemplates", Order=37)]
         public FlowTextTemplate[] textTemplates {
             get {
                 return this.textTemplatesField;
@@ -59321,7 +66992,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("variables", Order=32)]
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=38)]
+        public System.Nullable<int> triggerOrder {
+            get {
+                return this.triggerOrderField;
+            }
+            set {
+                this.triggerOrderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool triggerOrderSpecified {
+            get {
+                return this.triggerOrderFieldSpecified;
+            }
+            set {
+                this.triggerOrderFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("variables", Order=39)]
         public FlowVariable[] variables {
             get {
                 return this.variablesField;
@@ -59332,7 +67025,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("waits", Order=33)]
+        [System.Xml.Serialization.XmlElementAttribute("waits", Order=40)]
         public FlowWait[] waits {
             get {
                 return this.waitsField;
@@ -59497,7 +67190,32 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class FlowConnector : FlowBaseElement {
         
+        private bool isGoToField;
+        
+        private bool isGoToFieldSpecified;
+        
         private string targetReferenceField;
+        
+        /// <remarks/>
+        public bool isGoTo {
+            get {
+                return this.isGoToField;
+            }
+            set {
+                this.isGoToField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isGoToSpecified {
+            get {
+                return this.isGoToFieldSpecified;
+            }
+            set {
+                this.isGoToFieldSpecified = value;
+            }
+        }
         
         /// <remarks/>
         public string targetReference {
@@ -59531,8 +67249,9 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowStageStepAssignee))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowStageStepExitActionOutputParameter))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowStageStepExitActionInputParameter))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowCondition))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowCollectionSortOption))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowCollectionMapItem))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowCondition))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowAssignmentItem))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowApexPluginCallOutputParameter))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowApexPluginCallInputParameter))]
@@ -59560,6 +67279,7 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowStart))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowScreen))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowRecordUpdate))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowRecordRollback))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowRecordLookup))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowRecordDelete))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowRecordCreate))]
@@ -59632,6 +67352,8 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class FlowElementReferenceOrValue {
         
+        private string apexValueField;
+        
         private System.Nullable<bool> booleanValueField;
         
         private bool booleanValueFieldSpecified;
@@ -59650,7 +67372,20 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool numberValueFieldSpecified;
         
+        private string sobjectValueField;
+        
         private string stringValueField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string apexValue {
+            get {
+                return this.apexValueField;
+            }
+            set {
+                this.apexValueField = value;
+            }
+        }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
@@ -59746,6 +67481,17 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.numberValueFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string sobjectValue {
+            get {
+                return this.sobjectValueField;
+            }
+            set {
+                this.sobjectValueField = value;
             }
         }
         
@@ -60130,55 +67876,6 @@ namespace SalesforceMetadata.MetadataWSDL {
                 this.rightValueField = value;
             }
         }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public enum FlowComparisonOperator {
-        
-        /// <remarks/>
-        EqualTo,
-        
-        /// <remarks/>
-        NotEqualTo,
-        
-        /// <remarks/>
-        GreaterThan,
-        
-        /// <remarks/>
-        LessThan,
-        
-        /// <remarks/>
-        GreaterThanOrEqualTo,
-        
-        /// <remarks/>
-        LessThanOrEqualTo,
-        
-        /// <remarks/>
-        StartsWith,
-        
-        /// <remarks/>
-        EndsWith,
-        
-        /// <remarks/>
-        Contains,
-        
-        /// <remarks/>
-        IsNull,
-        
-        /// <remarks/>
-        IsChanged,
-        
-        /// <remarks/>
-        WasSet,
-        
-        /// <remarks/>
-        WasSelected,
-        
-        /// <remarks/>
-        WasVisited,
     }
     
     /// <remarks/>
@@ -60605,6 +68302,12 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         User,
+        
+        /// <remarks/>
+        Group,
+        
+        /// <remarks/>
+        Queue,
     }
     
     /// <remarks/>
@@ -60724,21 +68427,21 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public partial class FlowAssignmentItem : FlowBaseElement {
+    public partial class FlowCollectionMapItem : FlowBaseElement {
         
-        private string assignToReferenceField;
+        private string assignToFieldReferenceField;
         
         private FlowAssignmentOperator operatorField;
         
         private FlowElementReferenceOrValue valueField;
         
         /// <remarks/>
-        public string assignToReference {
+        public string assignToFieldReference {
             get {
-                return this.assignToReferenceField;
+                return this.assignToFieldReferenceField;
             }
             set {
-                this.assignToReferenceField = value;
+                this.assignToFieldReferenceField = value;
             }
         }
         
@@ -60804,6 +68507,51 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         RemovePosition,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class FlowAssignmentItem : FlowBaseElement {
+        
+        private string assignToReferenceField;
+        
+        private FlowAssignmentOperator operatorField;
+        
+        private FlowElementReferenceOrValue valueField;
+        
+        /// <remarks/>
+        public string assignToReference {
+            get {
+                return this.assignToReferenceField;
+            }
+            set {
+                this.assignToReferenceField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public FlowAssignmentOperator @operator {
+            get {
+                return this.operatorField;
+            }
+            set {
+                this.operatorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public FlowElementReferenceOrValue value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -60991,6 +68739,7 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowStart))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowScreen))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowRecordUpdate))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowRecordRollback))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowRecordLookup))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowRecordDelete))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowRecordCreate))]
@@ -61193,43 +68942,6 @@ namespace SalesforceMetadata.MetadataWSDL {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public enum FlowDataType {
-        
-        /// <remarks/>
-        Currency,
-        
-        /// <remarks/>
-        Date,
-        
-        /// <remarks/>
-        Number,
-        
-        /// <remarks/>
-        String,
-        
-        /// <remarks/>
-        Boolean,
-        
-        /// <remarks/>
-        SObject,
-        
-        /// <remarks/>
-        DateTime,
-        
-        /// <remarks/>
-        Picklist,
-        
-        /// <remarks/>
-        Multipicklist,
-        
-        /// <remarks/>
-        Apex,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
@@ -61397,6 +69109,8 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class FlowDynamicChoiceSet : FlowElement {
         
+        private string collectionReferenceField;
+        
         private FlowDataType dataTypeField;
         
         private string displayFieldField;
@@ -61424,6 +69138,16 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool sortOrderFieldSpecified;
         
         private string valueFieldField;
+        
+        /// <remarks/>
+        public string collectionReference {
+            get {
+                return this.collectionReferenceField;
+            }
+            set {
+                this.collectionReferenceField = value;
+            }
+        }
         
         /// <remarks/>
         public FlowDataType dataType {
@@ -61769,13 +69493,27 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string labelField;
         
+        private int maxBatchSizeField;
+        
+        private bool maxBatchSizeFieldSpecified;
+        
         private int offsetNumberField;
         
+        private bool offsetNumberFieldSpecified;
+        
         private FlowScheduledPathOffsetUnit offsetUnitField;
+        
+        private bool offsetUnitFieldSpecified;
+        
+        private FlowScheduledPathType pathTypeField;
+        
+        private bool pathTypeFieldSpecified;
         
         private string recordFieldField;
         
         private FlowScheduledPathTimeSource timeSourceField;
+        
+        private bool timeSourceFieldSpecified;
         
         /// <remarks/>
         public FlowConnector connector {
@@ -61798,6 +69536,27 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
+        public int maxBatchSize {
+            get {
+                return this.maxBatchSizeField;
+            }
+            set {
+                this.maxBatchSizeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool maxBatchSizeSpecified {
+            get {
+                return this.maxBatchSizeFieldSpecified;
+            }
+            set {
+                this.maxBatchSizeFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
         public int offsetNumber {
             get {
                 return this.offsetNumberField;
@@ -61808,12 +69567,55 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool offsetNumberSpecified {
+            get {
+                return this.offsetNumberFieldSpecified;
+            }
+            set {
+                this.offsetNumberFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
         public FlowScheduledPathOffsetUnit offsetUnit {
             get {
                 return this.offsetUnitField;
             }
             set {
                 this.offsetUnitField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool offsetUnitSpecified {
+            get {
+                return this.offsetUnitFieldSpecified;
+            }
+            set {
+                this.offsetUnitFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        public FlowScheduledPathType pathType {
+            get {
+                return this.pathTypeField;
+            }
+            set {
+                this.pathTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool pathTypeSpecified {
+            get {
+                return this.pathTypeFieldSpecified;
+            }
+            set {
+                this.pathTypeFieldSpecified = value;
             }
         }
         
@@ -61836,6 +69638,17 @@ namespace SalesforceMetadata.MetadataWSDL {
                 this.timeSourceField = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool timeSourceSpecified {
+            get {
+                return this.timeSourceFieldSpecified;
+            }
+            set {
+                this.timeSourceFieldSpecified = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -61849,6 +69662,19 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         Days,
+        
+        /// <remarks/>
+        Minutes,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum FlowScheduledPathType {
+        
+        /// <remarks/>
+        AsyncAfterCommit,
     }
     
     /// <remarks/>
@@ -61911,6 +69737,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private string objectFieldReferenceField;
         
         private FlowScreenFieldOutputParameter[] outputParametersField;
+        
+        private FlowRegionContainerType regionContainerTypeField;
+        
+        private bool regionContainerTypeFieldSpecified;
         
         private int scaleField;
         
@@ -62135,6 +69965,27 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
+        public FlowRegionContainerType regionContainerType {
+            get {
+                return this.regionContainerTypeField;
+            }
+            set {
+                this.regionContainerTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool regionContainerTypeSpecified {
+            get {
+                return this.regionContainerTypeFieldSpecified;
+            }
+            set {
+                this.regionContainerTypeFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
         public int scale {
             get {
                 return this.scaleField;
@@ -62268,6 +70119,19 @@ namespace SalesforceMetadata.MetadataWSDL {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
     [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum FlowRegionContainerType {
+        
+        /// <remarks/>
+        SectionWithHeader,
+        
+        /// <remarks/>
+        SectionWithoutHeader,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
@@ -62308,6 +70172,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private string labelField;
         
         private FlowStageStepOutputParameter[] outputParametersField;
+        
+        private bool requiresAsyncProcessingField;
+        
+        private bool requiresAsyncProcessingFieldSpecified;
         
         /// <remarks/>
         public string actionName {
@@ -62498,6 +70366,27 @@ namespace SalesforceMetadata.MetadataWSDL {
                 this.outputParametersField = value;
             }
         }
+        
+        /// <remarks/>
+        public bool requiresAsyncProcessing {
+            get {
+                return this.requiresAsyncProcessingField;
+            }
+            set {
+                this.requiresAsyncProcessingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool requiresAsyncProcessingSpecified {
+            get {
+                return this.requiresAsyncProcessingFieldSpecified;
+            }
+            set {
+                this.requiresAsyncProcessingFieldSpecified = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -62590,6 +70479,7 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowStart))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowScreen))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowRecordUpdate))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowRecordRollback))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowRecordLookup))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowRecordDelete))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlowRecordCreate))]
@@ -62677,6 +70567,12 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         SortCollectionProcessor,
+        
+        /// <remarks/>
+        RecommendationMapCollectionProcessor,
+        
+        /// <remarks/>
+        FilterCollectionProcessor,
     }
     
     /// <remarks/>
@@ -62857,6 +70753,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool doesRequireRecordChangedToMeetCriteriaFieldSpecified;
         
+        private string filterFormulaField;
+        
         private string filterLogicField;
         
         private FlowRecordFilter[] filtersField;
@@ -62905,6 +70803,16 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.doesRequireRecordChangedToMeetCriteriaFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string filterFormula {
+            get {
+                return this.filterFormulaField;
+            }
+            set {
+                this.filterFormulaField = value;
             }
         }
         
@@ -63030,6 +70938,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         Delete,
+        
+        /// <remarks/>
+        None,
     }
     
     /// <remarks/>
@@ -63144,6 +71055,9 @@ namespace SalesforceMetadata.MetadataWSDL {
     public enum FlowTriggerType {
         
         /// <remarks/>
+        None,
+        
+        /// <remarks/>
         Scheduled,
         
         /// <remarks/>
@@ -63182,11 +71096,17 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool allowPauseFieldSpecified;
         
+        private string backButtonLabelField;
+        
         private FlowConnector connectorField;
         
         private FlowScreenField[] fieldsField;
         
         private string helpTextField;
+        
+        private string nextOrFinishButtonLabelField;
+        
+        private string pauseButtonLabelField;
         
         private string pausedTextField;
         
@@ -63264,6 +71184,16 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
+        public string backButtonLabel {
+            get {
+                return this.backButtonLabelField;
+            }
+            set {
+                this.backButtonLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
         public FlowConnector connector {
             get {
                 return this.connectorField;
@@ -63291,6 +71221,26 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.helpTextField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string nextOrFinishButtonLabel {
+            get {
+                return this.nextOrFinishButtonLabelField;
+            }
+            set {
+                this.nextOrFinishButtonLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string pauseButtonLabel {
+            get {
+                return this.pauseButtonLabelField;
+            }
+            set {
+                this.pauseButtonLabelField = value;
             }
         }
         
@@ -63449,6 +71399,27 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.objectField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class FlowRecordRollback : FlowNode {
+        
+        private FlowConnector connectorField;
+        
+        /// <remarks/>
+        public FlowConnector connector {
+            get {
+                return this.connectorField;
+            }
+            set {
+                this.connectorField = value;
             }
         }
     }
@@ -63886,6 +71857,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private FlowCondition[] exitConditionsField;
         
+        private FlowConnector faultConnectorField;
+        
         private FlowStageStep[] stageStepsField;
         
         /// <remarks/>
@@ -63969,6 +71942,16 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.exitConditionsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public FlowConnector faultConnector {
+            get {
+                return this.faultConnectorField;
+            }
+            set {
+                this.faultConnectorField = value;
             }
         }
         
@@ -64133,17 +72116,39 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class FlowCollectionProcessor : FlowNode {
         
+        private string assignNextValueToReferenceField;
+        
         private FlowCollectionProcessorType collectionProcessorTypeField;
         
         private string collectionReferenceField;
         
+        private string conditionLogicField;
+        
+        private FlowCondition[] conditionsField;
+        
         private FlowConnector connectorField;
+        
+        private string formulaField;
         
         private System.Nullable<int> limitField;
         
         private bool limitFieldSpecified;
         
+        private FlowCollectionMapItem[] mapItemsField;
+        
+        private string outputSObjectTypeField;
+        
         private FlowCollectionSortOption[] sortOptionsField;
+        
+        /// <remarks/>
+        public string assignNextValueToReference {
+            get {
+                return this.assignNextValueToReferenceField;
+            }
+            set {
+                this.assignNextValueToReferenceField = value;
+            }
+        }
         
         /// <remarks/>
         public FlowCollectionProcessorType collectionProcessorType {
@@ -64166,12 +72171,43 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
+        public string conditionLogic {
+            get {
+                return this.conditionLogicField;
+            }
+            set {
+                this.conditionLogicField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("conditions")]
+        public FlowCondition[] conditions {
+            get {
+                return this.conditionsField;
+            }
+            set {
+                this.conditionsField = value;
+            }
+        }
+        
+        /// <remarks/>
         public FlowConnector connector {
             get {
                 return this.connectorField;
             }
             set {
                 this.connectorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string formula {
+            get {
+                return this.formulaField;
+            }
+            set {
+                this.formulaField = value;
             }
         }
         
@@ -64198,6 +72234,27 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("mapItems")]
+        public FlowCollectionMapItem[] mapItems {
+            get {
+                return this.mapItemsField;
+            }
+            set {
+                this.mapItemsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string outputSObjectType {
+            get {
+                return this.outputSObjectTypeField;
+            }
+            set {
+                this.outputSObjectTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("sortOptions")]
         public FlowCollectionSortOption[] sortOptions {
             get {
@@ -64217,6 +72274,12 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         SortCollectionProcessor,
+        
+        /// <remarks/>
+        RecommendationMapCollectionProcessor,
+        
+        /// <remarks/>
+        FilterCollectionProcessor,
     }
     
     /// <remarks/>
@@ -64344,6 +72407,19 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum FlowEnvironment {
+        
+        /// <remarks/>
+        Default,
+        
+        /// <remarks/>
+        Slack,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public enum FlowProcessType {
         
         /// <remarks/>
@@ -64416,9 +72492,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         CartAsyncFlow,
         
         /// <remarks/>
-        SalesEntryExperienceFlow,
-        
-        /// <remarks/>
         CustomerLifecycle,
         
         /// <remarks/>
@@ -64432,6 +72505,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         RoutingFlow,
+        
+        /// <remarks/>
+        ServiceCatalogItemFlow,
+        
+        /// <remarks/>
+        EvaluationFlow,
+        
+        /// <remarks/>
+        LoyaltyManagementFlow,
+        
+        /// <remarks/>
+        CMSOrchestrator,
     }
     
     /// <remarks/>
@@ -64479,6 +72564,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string descriptionField;
         
+        private FlexiPageEvent[] eventsField;
+        
         private FlexiPageRegion[] flexiPageRegionsField;
         
         private string masterLabelField;
@@ -64507,7 +72594,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("flexiPageRegions", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute("events", Order=1)]
+        public FlexiPageEvent[] events {
+            get {
+                return this.eventsField;
+            }
+            set {
+                this.eventsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("flexiPageRegions", Order=2)]
         public FlexiPageRegion[] flexiPageRegions {
             get {
                 return this.flexiPageRegionsField;
@@ -64518,7 +72616,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
         public string masterLabel {
             get {
                 return this.masterLabelField;
@@ -64529,7 +72627,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
         public string parentFlexiPage {
             get {
                 return this.parentFlexiPageField;
@@ -64540,7 +72638,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public PlatformActionList platformActionlist {
             get {
                 return this.platformActionlistField;
@@ -64551,7 +72649,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=5)]
+        [System.Xml.Serialization.XmlArrayAttribute(Order=6)]
         [System.Xml.Serialization.XmlArrayItemAttribute("quickActionListItems", IsNullable=false)]
         public QuickActionListItem[] quickActionList {
             get {
@@ -64563,7 +72661,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public string sobjectType {
             get {
                 return this.sobjectTypeField;
@@ -64574,7 +72672,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public FlexiPageTemplateInstance template {
             get {
                 return this.templateField;
@@ -64585,7 +72683,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public FlexiPageType type {
             get {
                 return this.typeField;
@@ -64594,6 +72692,270 @@ namespace SalesforceMetadata.MetadataWSDL {
                 this.typeField = value;
             }
         }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class FlexiPageEvent {
+        
+        private string sourceNameField;
+        
+        private FlexiPageEventSourceProperty[] sourcePropertiesField;
+        
+        private FlexipageEventSourceTypeEnum sourceTypeField;
+        
+        private FlexiPageEventTarget[] targetsField;
+        
+        /// <remarks/>
+        public string sourceName {
+            get {
+                return this.sourceNameField;
+            }
+            set {
+                this.sourceNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("sourceProperties")]
+        public FlexiPageEventSourceProperty[] sourceProperties {
+            get {
+                return this.sourcePropertiesField;
+            }
+            set {
+                this.sourcePropertiesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public FlexipageEventSourceTypeEnum sourceType {
+            get {
+                return this.sourceTypeField;
+            }
+            set {
+                this.sourceTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("targets")]
+        public FlexiPageEventTarget[] targets {
+            get {
+                return this.targetsField;
+            }
+            set {
+                this.targetsField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class FlexiPageEventSourceProperty {
+        
+        private string nameField;
+        
+        private string valueField;
+        
+        /// <remarks/>
+        public string name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum FlexipageEventSourceTypeEnum {
+        
+        /// <remarks/>
+        Component,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class FlexiPageEventTarget {
+        
+        private FlexiPageEventPropertyMapping[] mappingsField;
+        
+        private string methodField;
+        
+        private string nameField;
+        
+        private FlexiPageEventTargetProperty[] propertiesField;
+        
+        private FlexipageEventTargetTypeEnum typeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("mappings")]
+        public FlexiPageEventPropertyMapping[] mappings {
+            get {
+                return this.mappingsField;
+            }
+            set {
+                this.mappingsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string method {
+            get {
+                return this.methodField;
+            }
+            set {
+                this.methodField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("properties")]
+        public FlexiPageEventTargetProperty[] properties {
+            get {
+                return this.propertiesField;
+            }
+            set {
+                this.propertiesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public FlexipageEventTargetTypeEnum type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class FlexiPageEventPropertyMapping {
+        
+        private string nameField;
+        
+        private string valueField;
+        
+        /// <remarks/>
+        public string name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class FlexiPageEventTargetProperty {
+        
+        private string nameField;
+        
+        private string valueField;
+        
+        /// <remarks/>
+        public string name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum FlexipageEventTargetTypeEnum {
+        
+        /// <remarks/>
+        FlexipageServices,
+        
+        /// <remarks/>
+        LwcServices,
+        
+        /// <remarks/>
+        InvocableApexServices,
+        
+        /// <remarks/>
+        InvocableExternalServices,
+        
+        /// <remarks/>
+        ActionServices,
+        
+        /// <remarks/>
+        ViewServices,
     }
     
     /// <remarks/>
@@ -65091,9 +73453,21 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class FlexiPageTemplateInstance {
         
+        private string identifierField;
+        
         private string nameField;
         
         private ComponentInstanceProperty[] propertiesField;
+        
+        /// <remarks/>
+        public string identifier {
+            get {
+                return this.identifierField;
+            }
+            set {
+                this.identifierField = value;
+            }
+        }
         
         /// <remarks/>
         public string name {
@@ -65206,6 +73580,21 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         LandingPage,
+        
+        /// <remarks/>
+        CdpRecordPage,
+        
+        /// <remarks/>
+        SlackAppHome,
+        
+        /// <remarks/>
+        SlackMessage,
+        
+        /// <remarks/>
+        SlackModal,
+        
+        /// <remarks/>
+        SlackNotification,
     }
     
     /// <remarks/>
@@ -65785,6 +74174,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string apptAssistantStatusField;
         
+        private string deepLinkPublicSecurityKeyField;
+        
         private bool doesAllowEditSaForCrewField;
         
         private bool doesAllowEditSaForCrewFieldSpecified;
@@ -65805,6 +74196,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableWorkPlansAutoGenerationFieldSpecified;
         
+        private bool enableWorkStepManualStatusUpdateField;
+        
+        private bool enableWorkStepManualStatusUpdateFieldSpecified;
+        
         private bool fieldServiceNotificationsOrgPrefField;
         
         private bool fieldServiceNotificationsOrgPrefFieldSpecified;
@@ -65820,6 +74215,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool isLocationHistoryEnabledField;
         
         private bool isLocationHistoryEnabledFieldSpecified;
+        
+        private string mobileFeedbackEmailsField;
         
         private bool o2EngineEnabledField;
         
@@ -65933,6 +74330,17 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string deepLinkPublicSecurityKey {
+            get {
+                return this.deepLinkPublicSecurityKeyField;
+            }
+            set {
+                this.deepLinkPublicSecurityKeyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public bool doesAllowEditSaForCrew {
             get {
                 return this.doesAllowEditSaForCrewField;
@@ -65954,7 +74362,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public bool doesShareSaParentWoWithAr {
             get {
                 return this.doesShareSaParentWoWithArField;
@@ -65976,7 +74384,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public bool doesShareSaWithAr {
             get {
                 return this.doesShareSaWithArField;
@@ -65998,7 +74406,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public bool enableWorkOrders {
             get {
                 return this.enableWorkOrdersField;
@@ -66020,7 +74428,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
         public bool enableWorkPlansAutoGeneration {
             get {
                 return this.enableWorkPlansAutoGenerationField;
@@ -66042,7 +74450,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        public bool enableWorkStepManualStatusUpdate {
+            get {
+                return this.enableWorkStepManualStatusUpdateField;
+            }
+            set {
+                this.enableWorkStepManualStatusUpdateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableWorkStepManualStatusUpdateSpecified {
+            get {
+                return this.enableWorkStepManualStatusUpdateFieldSpecified;
+            }
+            set {
+                this.enableWorkStepManualStatusUpdateFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
         public bool fieldServiceNotificationsOrgPref {
             get {
                 return this.fieldServiceNotificationsOrgPrefField;
@@ -66064,7 +74494,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
         public bool fieldServiceOrgPref {
             get {
                 return this.fieldServiceOrgPrefField;
@@ -66086,7 +74516,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
         public bool isGeoCodeSyncEnabled {
             get {
                 return this.isGeoCodeSyncEnabledField;
@@ -66108,7 +74538,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
         public bool isLocationHistoryEnabled {
             get {
                 return this.isLocationHistoryEnabledField;
@@ -66130,7 +74560,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
+        public string mobileFeedbackEmails {
+            get {
+                return this.mobileFeedbackEmailsField;
+            }
+            set {
+                this.mobileFeedbackEmailsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
         public bool o2EngineEnabled {
             get {
                 return this.o2EngineEnabledField;
@@ -66152,7 +74593,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("objectMappingItem", Order=15)]
+        [System.Xml.Serialization.XmlElementAttribute("objectMappingItem", Order=18)]
         public ObjectMappingItem[] objectMappingItem {
             get {
                 return this.objectMappingItemField;
@@ -66163,7 +74604,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
         public bool optimizationServiceAccess {
             get {
                 return this.optimizationServiceAccessField;
@@ -66185,7 +74626,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
         public int serviceAppointmentsDueDateOffsetOrgValue {
             get {
                 return this.serviceAppointmentsDueDateOffsetOrgValueField;
@@ -66207,7 +74648,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
         public WorkOrderDurationSource workOrderDurationSource {
             get {
                 return this.workOrderDurationSourceField;
@@ -66229,7 +74670,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("workOrderLineItemSearchFields", Order=19)]
+        [System.Xml.Serialization.XmlElementAttribute("workOrderLineItemSearchFields", Order=22)]
         public string[] workOrderLineItemSearchFields {
             get {
                 return this.workOrderLineItemSearchFieldsField;
@@ -66240,7 +74681,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("workOrderSearchFields", Order=20)]
+        [System.Xml.Serialization.XmlElementAttribute("workOrderSearchFields", Order=23)]
         public string[] workOrderSearchFields {
             get {
                 return this.workOrderSearchFieldsField;
@@ -66331,6 +74772,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string[] classificationField;
         
+        private ClassificationType classificationTypeField;
+        
+        private bool classificationTypeFieldSpecified;
+        
         private string descriptionField;
         
         private EnforcementType enforcementTypeField;
@@ -66369,6 +74814,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public ClassificationType classificationType {
+            get {
+                return this.classificationTypeField;
+            }
+            set {
+                this.classificationTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool classificationTypeSpecified {
+            get {
+                return this.classificationTypeFieldSpecified;
+            }
+            set {
+                this.classificationTypeFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
         public string description {
             get {
                 return this.descriptionField;
@@ -66379,7 +74846,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
         public EnforcementType enforcementType {
             get {
                 return this.enforcementTypeField;
@@ -66390,7 +74857,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public string masterLabel {
             get {
                 return this.masterLabelField;
@@ -66401,7 +74868,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public string recordFilter {
             get {
                 return this.recordFilterField;
@@ -66412,7 +74879,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public string targetEntity {
             get {
                 return this.targetEntityField;
@@ -66423,7 +74890,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public string userCriteria {
             get {
                 return this.userCriteriaField;
@@ -66434,13 +74901,139 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public int version {
             get {
                 return this.versionField;
             }
             set {
                 this.versionField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum ClassificationType {
+        
+        /// <remarks/>
+        ComplianceCategory,
+        
+        /// <remarks/>
+        FieldSet,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class FederationDataMappingUsage : Metadata {
+        
+        private string createMappingField;
+        
+        private string deleteMappingField;
+        
+        private string readMappingField;
+        
+        private string remoteObjectNameField;
+        
+        private string remoteSchemaField;
+        
+        private string updateMappingField;
+        
+        private string viewObjectNameField;
+        
+        private string viewSchemaField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=0)]
+        public string createMapping {
+            get {
+                return this.createMappingField;
+            }
+            set {
+                this.createMappingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public string deleteMapping {
+            get {
+                return this.deleteMappingField;
+            }
+            set {
+                this.deleteMappingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string readMapping {
+            get {
+                return this.readMappingField;
+            }
+            set {
+                this.readMappingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string remoteObjectName {
+            get {
+                return this.remoteObjectNameField;
+            }
+            set {
+                this.remoteObjectNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string remoteSchema {
+            get {
+                return this.remoteSchemaField;
+            }
+            set {
+                this.remoteSchemaField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=5)]
+        public string updateMapping {
+            get {
+                return this.updateMappingField;
+            }
+            set {
+                this.updateMappingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public string viewObjectName {
+            get {
+                return this.viewObjectNameField;
+            }
+            set {
+                this.viewObjectNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public string viewSchema {
+            get {
+                return this.viewSchemaField;
+            }
+            set {
+                this.viewSchemaField = value;
             }
         }
     }
@@ -66506,7 +75099,13 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string schemaUrlField;
         
+        private string serviceBindingField;
+        
         private string statusField;
+        
+        private int systemVersionField;
+        
+        private bool systemVersionFieldSpecified;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
@@ -66609,12 +75208,45 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public string serviceBinding {
+            get {
+                return this.serviceBindingField;
+            }
+            set {
+                this.serviceBindingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public string status {
             get {
                 return this.statusField;
             }
             set {
                 this.statusField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        public int systemVersion {
+            get {
+                return this.systemVersionField;
+            }
+            set {
+                this.systemVersionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool systemVersionSpecified {
+            get {
+                return this.systemVersionFieldSpecified;
+            }
+            set {
+                this.systemVersionFieldSpecified = value;
             }
         }
     }
@@ -66671,6 +75303,142 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class ExternalDataSrcDescriptor : Metadata {
+        
+        private string customObjectField;
+        
+        private string descriptorField;
+        
+        private string descriptorVersionField;
+        
+        private string developerNameField;
+        
+        private string externalDataSourceField;
+        
+        private ExternalDataSrcDescSubtype subtypeField;
+        
+        private int systemVersionField;
+        
+        private ExternalDataSrcDescType typeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string customObject {
+            get {
+                return this.customObjectField;
+            }
+            set {
+                this.customObjectField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string descriptor {
+            get {
+                return this.descriptorField;
+            }
+            set {
+                this.descriptorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string descriptorVersion {
+            get {
+                return this.descriptorVersionField;
+            }
+            set {
+                this.descriptorVersionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string developerName {
+            get {
+                return this.developerNameField;
+            }
+            set {
+                this.developerNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string externalDataSource {
+            get {
+                return this.externalDataSourceField;
+            }
+            set {
+                this.externalDataSourceField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public ExternalDataSrcDescSubtype subtype {
+            get {
+                return this.subtypeField;
+            }
+            set {
+                this.subtypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public int systemVersion {
+            get {
+                return this.systemVersionField;
+            }
+            set {
+                this.systemVersionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public ExternalDataSrcDescType type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum ExternalDataSrcDescSubtype {
+        
+        /// <remarks/>
+        SchemaTableQualifiers,
+        
+        /// <remarks/>
+        SchemaTableMetadata,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum ExternalDataSrcDescType {
+        
+        /// <remarks/>
+        Schema,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class ExternalDataSource : Metadata {
         
         private string authProviderField;
@@ -66683,11 +75451,15 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string endpointField;
         
+        private ExternalDataSrcDescriptor[] externalDataSrcDescriptorsField;
+        
         private bool isWritableField;
         
         private bool isWritableFieldSpecified;
         
         private string labelField;
+        
+        private string namedCredentialField;
         
         private string oauthRefreshTokenField;
         
@@ -66765,7 +75537,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute("externalDataSrcDescriptors", Order=5)]
+        public ExternalDataSrcDescriptor[] externalDataSrcDescriptors {
+            get {
+                return this.externalDataSrcDescriptorsField;
+            }
+            set {
+                this.externalDataSrcDescriptorsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public bool isWritable {
             get {
                 return this.isWritableField;
@@ -66787,7 +75570,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public string label {
             get {
                 return this.labelField;
@@ -66798,7 +75581,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public string namedCredential {
+            get {
+                return this.namedCredentialField;
+            }
+            set {
+                this.namedCredentialField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public string oauthRefreshToken {
             get {
                 return this.oauthRefreshTokenField;
@@ -66809,7 +75603,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
         public string oauthScope {
             get {
                 return this.oauthScopeField;
@@ -66820,7 +75614,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
         public string oauthToken {
             get {
                 return this.oauthTokenField;
@@ -66831,7 +75625,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
         public string password {
             get {
                 return this.passwordField;
@@ -66842,7 +75636,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
         public ExternalPrincipalType principalType {
             get {
                 return this.principalTypeField;
@@ -66853,7 +75647,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
         public AuthenticationProtocol protocol {
             get {
                 return this.protocolField;
@@ -66864,7 +75658,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
         public string repository {
             get {
                 return this.repositoryField;
@@ -66875,7 +75669,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
         public ExternalDataSourceType type {
             get {
                 return this.typeField;
@@ -66886,7 +75680,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
         public string username {
             get {
                 return this.usernameField;
@@ -66897,7 +75691,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
         public string version {
             get {
                 return this.versionField;
@@ -66985,16 +75779,16 @@ namespace SalesforceMetadata.MetadataWSDL {
     public enum ExternalDataSourceType {
         
         /// <remarks/>
-        Alert,
+        AmazonDynamoDb,
         
         /// <remarks/>
         contentHubItem,
         
         /// <remarks/>
-        Datajourney,
+        Datacloud,
         
         /// <remarks/>
-        Engagement,
+        Datajourney,
         
         /// <remarks/>
         OpenSearch,
@@ -67009,16 +75803,226 @@ namespace SalesforceMetadata.MetadataWSDL {
         outgoingemail,
         
         /// <remarks/>
+        SfdcOrg,
+        
+        /// <remarks/>
+        OData,
+        
+        /// <remarks/>
         Trailhead,
+        
+        /// <remarks/>
+        TrailheadEditWithId,
+        
+        /// <remarks/>
+        OData4,
         
         /// <remarks/>
         SciApi,
         
         /// <remarks/>
+        SimpleURL,
+        
+        /// <remarks/>
         usermobileconfig,
         
         /// <remarks/>
+        usrconnectionstatus,
+        
+        /// <remarks/>
         Wrapper,
+        
+        /// <remarks/>
+        Zero,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class ExternalCredential : Metadata {
+        
+        private AuthenticationProtocol authenticationProtocolField;
+        
+        private string descriptionField;
+        
+        private ExternalCredentialParameter[] externalCredentialParametersField;
+        
+        private string masterLabelField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public AuthenticationProtocol authenticationProtocol {
+            get {
+                return this.authenticationProtocolField;
+            }
+            set {
+                this.authenticationProtocolField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("externalCredentialParameters", Order=2)]
+        public ExternalCredentialParameter[] externalCredentialParameters {
+            get {
+                return this.externalCredentialParametersField;
+            }
+            set {
+                this.externalCredentialParametersField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class ExternalCredentialParameter {
+        
+        private string authProviderField;
+        
+        private string descriptionField;
+        
+        private string parameterNameField;
+        
+        private ExternalCredentialParamType parameterTypeField;
+        
+        private string parameterValueField;
+        
+        private string principalField;
+        
+        private int sequenceNumberField;
+        
+        private bool sequenceNumberFieldSpecified;
+        
+        /// <remarks/>
+        public string authProvider {
+            get {
+                return this.authProviderField;
+            }
+            set {
+                this.authProviderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string parameterName {
+            get {
+                return this.parameterNameField;
+            }
+            set {
+                this.parameterNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public ExternalCredentialParamType parameterType {
+            get {
+                return this.parameterTypeField;
+            }
+            set {
+                this.parameterTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string parameterValue {
+            get {
+                return this.parameterValueField;
+            }
+            set {
+                this.parameterValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string principal {
+            get {
+                return this.principalField;
+            }
+            set {
+                this.principalField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int sequenceNumber {
+            get {
+                return this.sequenceNumberField;
+            }
+            set {
+                this.sequenceNumberField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool sequenceNumberSpecified {
+            get {
+                return this.sequenceNumberFieldSpecified;
+            }
+            set {
+                this.sequenceNumberFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum ExternalCredentialParamType {
+        
+        /// <remarks/>
+        AuthProvider,
+        
+        /// <remarks/>
+        AuthParameter,
+        
+        /// <remarks/>
+        NamedPrincipal,
+        
+        /// <remarks/>
+        PerUserPrincipal,
+        
+        /// <remarks/>
+        AuthHeader,
     }
     
     /// <remarks/>
@@ -67184,6 +76188,10 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class EventSettings : Metadata {
         
+        private bool bypassMeteringBlockField;
+        
+        private bool bypassMeteringBlockFieldSpecified;
+        
         private bool enableApexLimitEventsField;
         
         private bool enableApexLimitEventsFieldSpecified;
@@ -67218,6 +76226,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool bypassMeteringBlock {
+            get {
+                return this.bypassMeteringBlockField;
+            }
+            set {
+                this.bypassMeteringBlockField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool bypassMeteringBlockSpecified {
+            get {
+                return this.bypassMeteringBlockFieldSpecified;
+            }
+            set {
+                this.bypassMeteringBlockFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
         public bool enableApexLimitEvents {
             get {
                 return this.enableApexLimitEventsField;
@@ -67239,7 +76269,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
         public bool enableDeleteMonitoringData {
             get {
                 return this.enableDeleteMonitoringDataField;
@@ -67261,7 +76291,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
         public bool enableDynamicStreamingChannel {
             get {
                 return this.enableDynamicStreamingChannelField;
@@ -67283,7 +76313,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
         public bool enableEventLogWaveIntegration {
             get {
                 return this.enableEventLogWaveIntegrationField;
@@ -67305,7 +76335,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public bool enableLoginForensics {
             get {
                 return this.enableLoginForensicsField;
@@ -67327,7 +76357,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public bool enableStreamingApi {
             get {
                 return this.enableStreamingApiField;
@@ -67349,7 +76379,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public bool enableTerminateOldestSession {
             get {
                 return this.enableTerminateOldestSessionField;
@@ -67371,7 +76401,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public bool enableTransactionSecurityPolicies {
             get {
                 return this.enableTransactionSecurityPoliciesField;
@@ -67389,6 +76419,80 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.enableTransactionSecurityPoliciesFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class EventRelayConfig : Metadata {
+        
+        private string destinationResourceNameField;
+        
+        private string eventChannelField;
+        
+        private bool isProtectedField;
+        
+        private bool isProtectedFieldSpecified;
+        
+        private string masterLabelField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string destinationResourceName {
+            get {
+                return this.destinationResourceNameField;
+            }
+            set {
+                this.destinationResourceNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string eventChannel {
+            get {
+                return this.eventChannelField;
+            }
+            set {
+                this.eventChannelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool isProtected {
+            get {
+                return this.isProtectedField;
+            }
+            set {
+                this.isProtectedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProtectedSpecified {
+            get {
+                return this.isProtectedFieldSpecified;
+            }
+            set {
+                this.isProtectedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
             }
         }
     }
@@ -67993,6 +77097,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool isDefaultFieldSpecified;
         
+        private bool isFullyMappedField;
+        
+        private bool isFullyMappedFieldSpecified;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("fieldImplements", Order=0)]
         public FieldImplements[] fieldImplements {
@@ -68023,6 +77131,28 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.isDefaultFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool isFullyMapped {
+            get {
+                return this.isFullyMappedField;
+            }
+            set {
+                this.isFullyMappedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isFullyMappedSpecified {
+            get {
+                return this.isFullyMappedFieldSpecified;
+            }
+            set {
+                this.isFullyMappedFieldSpecified = value;
             }
         }
     }
@@ -70220,6 +79350,132 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         EM_Container_Base_ExpiredJWT,
+        
+        /// <remarks/>
+        EM_Chat_FileTransfer_SelectNewFileText,
+        
+        /// <remarks/>
+        EM_PreChat_Base_PrechatCustomFieldLabel,
+        
+        /// <remarks/>
+        EM_Chat_FileTransfer_FileSendingText,
+        
+        /// <remarks/>
+        EM_Chat_FileTransfer_DownloadFileButtonTitle,
+        
+        /// <remarks/>
+        EM_Chat_FileTransfer_SelectFileAttachmentButtonTitle,
+        
+        /// <remarks/>
+        EM_Chat_FileTransfer_CancelFileAttachmentButtonTitle,
+        
+        /// <remarks/>
+        EM_Chat_FileTransfer_DownloadFileButtonAssistiveText,
+        
+        /// <remarks/>
+        EM_Chat_FileTransfer_SelectFileAttachmentButtonAssistiveText,
+        
+        /// <remarks/>
+        EM_Chat_FileTransfer_CancelFileAttachmentButtonAssistiveText,
+        
+        /// <remarks/>
+        EM_Chat_ChatBody_Sent,
+        
+        /// <remarks/>
+        EM_Chat_ChatBody_Delivered,
+        
+        /// <remarks/>
+        EM_Chat_ChatBody_Read,
+        
+        /// <remarks/>
+        EM_Chat_ChoicesMessage_MenuAssistiveText,
+        
+        /// <remarks/>
+        EM_Chat_ChoicesSelectionResponse_PlaceholderText,
+        
+        /// <remarks/>
+        EM_Chat_ChoicesMessage_ButtonsAssistiveText,
+        
+        /// <remarks/>
+        EM_Container_Base_HeaderAnnouncementTransferRequestSuccess,
+        
+        /// <remarks/>
+        EM_Container_Base_HeaderAnnouncementTransferRequestFailure,
+        
+        /// <remarks/>
+        EM_Container_Base_SystemMessageTransferRequestSuccess,
+        
+        /// <remarks/>
+        EM_Container_Base_SystemMessageTransferRequestFailure,
+        
+        /// <remarks/>
+        EM_Container_Base_SystemMessageTransferRequestTryAgain,
+        
+        /// <remarks/>
+        EM_Chat_ChatBody_AgentTypingIndicatorAssistiveText,
+        
+        /// <remarks/>
+        EM_Chat_ChatBody_ChatbotTypingIndicatorAssistiveText,
+        
+        /// <remarks/>
+        EM_Container_Base_InputFooterTextAreaPlaceholderOnlyParticipant,
+        
+        /// <remarks/>
+        EM_Container_Base_AgentJoinAnnouncement,
+        
+        /// <remarks/>
+        EM_Container_Base_AgentLeaveAnnouncement,
+        
+        /// <remarks/>
+        EM_Container_Base_JWTExpiredAnnouncement,
+        
+        /// <remarks/>
+        EM_Container_Base_ParticipantJoinedText,
+        
+        /// <remarks/>
+        EM_Container_Base_ParticipantLeftText,
+        
+        /// <remarks/>
+        EM_Container_Base_NewMessageText,
+        
+        /// <remarks/>
+        EM_Container_Base_MultipleNewMessagesText,
+        
+        /// <remarks/>
+        EM_Container_Base_JwtExpiredText,
+        
+        /// <remarks/>
+        EM_Container_Base_TransferInitiatedText,
+        
+        /// <remarks/>
+        EM_Container_Base_TransferFailedText,
+        
+        /// <remarks/>
+        EM_Chat_ChatBody_NotSent,
+        
+        /// <remarks/>
+        EM_Chat_ChatBody_SpinnerDefaultAssistiveText,
+        
+        /// <remarks/>
+        EM_Chat_ChatBody_FetchMoreEntriesSpinnerAssistiveText,
+        
+        /// <remarks/>
+        EM_Container_Base_MinimizeButtonAssistiveText,
+        
+        /// <remarks/>
+        EM_Container_Base_CloseButtonAssistiveText,
+        
+        /// <remarks/>
+        EM_Container_Base_ConfirmationDialogMenuItemAssistiveText,
+        
+        /// <remarks/>
+        EM_Container_Base_MinimizedNotificationAssistiveText,
+        
+        /// <remarks/>
+        EM_Container_Base_MinimizedStateAssistiveText,
+        
+        /// <remarks/>
+        EM_Chat_ChatBody_NotRoutedToAgentRoutingResult,
     }
     
     /// <remarks/>
@@ -73282,6 +82538,76 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class EinsteinDocumentCaptureSettings : Metadata {
+        
+        private bool enableEinsteinDocumentReaderField;
+        
+        private bool enableEinsteinDocumentReaderFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableEinsteinDocumentReader {
+            get {
+                return this.enableEinsteinDocumentReaderField;
+            }
+            set {
+                this.enableEinsteinDocumentReaderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableEinsteinDocumentReaderSpecified {
+            get {
+                return this.enableEinsteinDocumentReaderFieldSpecified;
+            }
+            set {
+                this.enableEinsteinDocumentReaderFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class EinsteinDealInsightsSettings : Metadata {
+        
+        private bool enableUnlikelyToCloseThisMonthField;
+        
+        private bool enableUnlikelyToCloseThisMonthFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableUnlikelyToCloseThisMonth {
+            get {
+                return this.enableUnlikelyToCloseThisMonthField;
+            }
+            set {
+                this.enableUnlikelyToCloseThisMonthField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableUnlikelyToCloseThisMonthSpecified {
+            get {
+                return this.enableUnlikelyToCloseThisMonthFieldSpecified;
+            }
+            set {
+                this.enableUnlikelyToCloseThisMonthFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class EinsteinAssistantSettings : Metadata {
         
         private bool enableEinsteinAssistantDataExtractionEnabledField;
@@ -73458,9 +82784,21 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class EACSettings : Metadata {
         
+        private bool addRcCompToFlexiPagesField;
+        
+        private bool addRcCompToFlexiPagesFieldSpecified;
+        
         private bool autoPopulateGoogleMeetLinksField;
         
         private bool autoPopulateGoogleMeetLinksFieldSpecified;
+        
+        private bool automatedEmailFilterField;
+        
+        private bool automatedEmailFilterFieldSpecified;
+        
+        private bool enableActivityAnalyticsPrefField;
+        
+        private bool enableActivityAnalyticsPrefFieldSpecified;
         
         private bool enableActivityCaptureField;
         
@@ -73498,12 +82836,42 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool provisionProductivityFeaturesFieldSpecified;
         
+        private bool salesforceEventsOnlyPrefField;
+        
+        private bool salesforceEventsOnlyPrefFieldSpecified;
+        
+        private bool sensitiveEmailFilterField;
+        
+        private bool sensitiveEmailFilterFieldSpecified;
+        
         private bool syncInternalEventsField;
         
         private bool syncInternalEventsFieldSpecified;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool addRcCompToFlexiPages {
+            get {
+                return this.addRcCompToFlexiPagesField;
+            }
+            set {
+                this.addRcCompToFlexiPagesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool addRcCompToFlexiPagesSpecified {
+            get {
+                return this.addRcCompToFlexiPagesFieldSpecified;
+            }
+            set {
+                this.addRcCompToFlexiPagesFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
         public bool autoPopulateGoogleMeetLinks {
             get {
                 return this.autoPopulateGoogleMeetLinksField;
@@ -73525,7 +82893,51 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool automatedEmailFilter {
+            get {
+                return this.automatedEmailFilterField;
+            }
+            set {
+                this.automatedEmailFilterField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool automatedEmailFilterSpecified {
+            get {
+                return this.automatedEmailFilterFieldSpecified;
+            }
+            set {
+                this.automatedEmailFilterFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool enableActivityAnalyticsPref {
+            get {
+                return this.enableActivityAnalyticsPrefField;
+            }
+            set {
+                this.enableActivityAnalyticsPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableActivityAnalyticsPrefSpecified {
+            get {
+                return this.enableActivityAnalyticsPrefFieldSpecified;
+            }
+            set {
+                this.enableActivityAnalyticsPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
         public bool enableActivityCapture {
             get {
                 return this.enableActivityCaptureField;
@@ -73547,7 +82959,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public bool enableActivityMetrics {
             get {
                 return this.enableActivityMetricsField;
@@ -73569,7 +82981,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public bool enableActivitySyncEngine {
             get {
                 return this.enableActivitySyncEngineField;
@@ -73591,7 +83003,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public bool enableEACForEveryonePref {
             get {
                 return this.enableEACForEveryonePrefField;
@@ -73613,7 +83025,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public bool enableEnforceEacSharingPref {
             get {
                 return this.enableEnforceEacSharingPrefField;
@@ -73635,7 +83047,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public bool enableInboxActivitySharing {
             get {
                 return this.enableInboxActivitySharingField;
@@ -73657,7 +83069,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
         public bool enableInsightsInTimeline {
             get {
                 return this.enableInsightsInTimelineField;
@@ -73679,7 +83091,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
         public bool enableInsightsInTimelineEacStd {
             get {
                 return this.enableInsightsInTimelineEacStdField;
@@ -73701,7 +83113,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
         public bool provisionProductivityFeatures {
             get {
                 return this.provisionProductivityFeaturesField;
@@ -73723,7 +83135,51 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        public bool salesforceEventsOnlyPref {
+            get {
+                return this.salesforceEventsOnlyPrefField;
+            }
+            set {
+                this.salesforceEventsOnlyPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool salesforceEventsOnlyPrefSpecified {
+            get {
+                return this.salesforceEventsOnlyPrefFieldSpecified;
+            }
+            set {
+                this.salesforceEventsOnlyPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        public bool sensitiveEmailFilter {
+            get {
+                return this.sensitiveEmailFilterField;
+            }
+            set {
+                this.sensitiveEmailFilterField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool sensitiveEmailFilterSpecified {
+            get {
+                return this.sensitiveEmailFilterFieldSpecified;
+            }
+            set {
+                this.sensitiveEmailFilterFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
         public bool syncInternalEvents {
             get {
                 return this.syncInternalEventsField;
@@ -75097,6 +84553,41 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class OnlineSalesSettings : Metadata {
+        
+        private bool enableSubscriptionAppEnrolledField;
+        
+        private bool enableSubscriptionAppEnrolledFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableSubscriptionAppEnrolled {
+            get {
+                return this.enableSubscriptionAppEnrolledField;
+            }
+            set {
+                this.enableSubscriptionAppEnrolledField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableSubscriptionAppEnrolledSpecified {
+            get {
+                return this.enableSubscriptionAppEnrolledFieldSpecified;
+            }
+            set {
+                this.enableSubscriptionAppEnrolledFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class MapsAndLocationSettings : Metadata {
         
         private bool enableAddressAutoCompleteField;
@@ -75158,109 +84649,31 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public partial class DevHubSettings : Metadata {
+    public partial class InterestTaggingSettings : Metadata {
         
-        private bool enableDevOpsCenterField;
+        private bool enableInterestTaggingField;
         
-        private bool enableDevOpsCenterFieldSpecified;
-        
-        private bool enablePackaging2Field;
-        
-        private bool enablePackaging2FieldSpecified;
-        
-        private bool enableScratchOrgManagementPrefField;
-        
-        private bool enableScratchOrgManagementPrefFieldSpecified;
-        
-        private bool enableShapeExportPrefField;
-        
-        private bool enableShapeExportPrefFieldSpecified;
+        private bool enableInterestTaggingFieldSpecified;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public bool enableDevOpsCenter {
+        public bool enableInterestTagging {
             get {
-                return this.enableDevOpsCenterField;
+                return this.enableInterestTaggingField;
             }
             set {
-                this.enableDevOpsCenterField = value;
+                this.enableInterestTaggingField = value;
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool enableDevOpsCenterSpecified {
+        public bool enableInterestTaggingSpecified {
             get {
-                return this.enableDevOpsCenterFieldSpecified;
+                return this.enableInterestTaggingFieldSpecified;
             }
             set {
-                this.enableDevOpsCenterFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public bool enablePackaging2 {
-            get {
-                return this.enablePackaging2Field;
-            }
-            set {
-                this.enablePackaging2Field = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool enablePackaging2Specified {
-            get {
-                return this.enablePackaging2FieldSpecified;
-            }
-            set {
-                this.enablePackaging2FieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
-        public bool enableScratchOrgManagementPref {
-            get {
-                return this.enableScratchOrgManagementPrefField;
-            }
-            set {
-                this.enableScratchOrgManagementPrefField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool enableScratchOrgManagementPrefSpecified {
-            get {
-                return this.enableScratchOrgManagementPrefFieldSpecified;
-            }
-            set {
-                this.enableScratchOrgManagementPrefFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
-        public bool enableShapeExportPref {
-            get {
-                return this.enableShapeExportPrefField;
-            }
-            set {
-                this.enableShapeExportPrefField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool enableShapeExportPrefSpecified {
-            get {
-                return this.enableShapeExportPrefFieldSpecified;
-            }
-            set {
-                this.enableShapeExportPrefFieldSpecified = value;
+                this.enableInterestTaggingFieldSpecified = value;
             }
         }
     }
@@ -75296,6 +84709,424 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.enableSimulationModeFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class PaymentsManagementEnabledSettings : Metadata {
+        
+        private bool paymentsManagementEnabledField;
+        
+        private bool paymentsManagementEnabledFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool paymentsManagementEnabled {
+            get {
+                return this.paymentsManagementEnabledField;
+            }
+            set {
+                this.paymentsManagementEnabledField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool paymentsManagementEnabledSpecified {
+            get {
+                return this.paymentsManagementEnabledFieldSpecified;
+            }
+            set {
+                this.paymentsManagementEnabledFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class IndustriesLoyaltySettings : Metadata {
+        
+        private bool enableFixedTypeNQPAggregationField;
+        
+        private bool enableFixedTypeNQPAggregationFieldSpecified;
+        
+        private bool enableLoyaltyRedeemedPointsExpirationInfoPrefField;
+        
+        private bool enableLoyaltyRedeemedPointsExpirationInfoPrefFieldSpecified;
+        
+        private bool enableLoyaltyRulesVerifyCdpMemberSegmentField;
+        
+        private bool enableLoyaltyRulesVerifyCdpMemberSegmentFieldSpecified;
+        
+        private bool enableNQPRealTimePointBalanceField;
+        
+        private bool enableNQPRealTimePointBalanceFieldSpecified;
+        
+        private bool enableQPRealTimePointBalanceField;
+        
+        private bool enableQPRealTimePointBalanceFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableFixedTypeNQPAggregation {
+            get {
+                return this.enableFixedTypeNQPAggregationField;
+            }
+            set {
+                this.enableFixedTypeNQPAggregationField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableFixedTypeNQPAggregationSpecified {
+            get {
+                return this.enableFixedTypeNQPAggregationFieldSpecified;
+            }
+            set {
+                this.enableFixedTypeNQPAggregationFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public bool enableLoyaltyRedeemedPointsExpirationInfoPref {
+            get {
+                return this.enableLoyaltyRedeemedPointsExpirationInfoPrefField;
+            }
+            set {
+                this.enableLoyaltyRedeemedPointsExpirationInfoPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableLoyaltyRedeemedPointsExpirationInfoPrefSpecified {
+            get {
+                return this.enableLoyaltyRedeemedPointsExpirationInfoPrefFieldSpecified;
+            }
+            set {
+                this.enableLoyaltyRedeemedPointsExpirationInfoPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool enableLoyaltyRulesVerifyCdpMemberSegment {
+            get {
+                return this.enableLoyaltyRulesVerifyCdpMemberSegmentField;
+            }
+            set {
+                this.enableLoyaltyRulesVerifyCdpMemberSegmentField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableLoyaltyRulesVerifyCdpMemberSegmentSpecified {
+            get {
+                return this.enableLoyaltyRulesVerifyCdpMemberSegmentFieldSpecified;
+            }
+            set {
+                this.enableLoyaltyRulesVerifyCdpMemberSegmentFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool enableNQPRealTimePointBalance {
+            get {
+                return this.enableNQPRealTimePointBalanceField;
+            }
+            set {
+                this.enableNQPRealTimePointBalanceField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableNQPRealTimePointBalanceSpecified {
+            get {
+                return this.enableNQPRealTimePointBalanceFieldSpecified;
+            }
+            set {
+                this.enableNQPRealTimePointBalanceFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public bool enableQPRealTimePointBalance {
+            get {
+                return this.enableQPRealTimePointBalanceField;
+            }
+            set {
+                this.enableQPRealTimePointBalanceField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableQPRealTimePointBalanceSpecified {
+            get {
+                return this.enableQPRealTimePointBalanceFieldSpecified;
+            }
+            set {
+                this.enableQPRealTimePointBalanceFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class BranchManagementSettings : Metadata {
+        
+        private bool associateAccountWithBranchField;
+        
+        private bool associateAccountWithBranchFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool associateAccountWithBranch {
+            get {
+                return this.associateAccountWithBranchField;
+            }
+            set {
+                this.associateAccountWithBranchField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool associateAccountWithBranchSpecified {
+            get {
+                return this.associateAccountWithBranchFieldSpecified;
+            }
+            set {
+                this.associateAccountWithBranchFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class MediaAdSalesSettings : Metadata {
+        
+        private bool enableMediaAdSalesField;
+        
+        private bool enableMediaAdSalesFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableMediaAdSales {
+            get {
+                return this.enableMediaAdSalesField;
+            }
+            set {
+                this.enableMediaAdSalesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableMediaAdSalesSpecified {
+            get {
+                return this.enableMediaAdSalesFieldSpecified;
+            }
+            set {
+                this.enableMediaAdSalesFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class InvLatePymntRiskCalcSettings : Metadata {
+        
+        private bool enableInvLatePymntRiskCalcField;
+        
+        private bool enableInvLatePymntRiskCalcFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableInvLatePymntRiskCalc {
+            get {
+                return this.enableInvLatePymntRiskCalcField;
+            }
+            set {
+                this.enableInvLatePymntRiskCalcField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableInvLatePymntRiskCalcSpecified {
+            get {
+                return this.enableInvLatePymntRiskCalcFieldSpecified;
+            }
+            set {
+                this.enableInvLatePymntRiskCalcFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class DevHubSettings : Metadata {
+        
+        private bool devOpsCenterBetaMsaField;
+        
+        private bool devOpsCenterBetaMsaFieldSpecified;
+        
+        private bool enableDevOpsCenterField;
+        
+        private bool enableDevOpsCenterFieldSpecified;
+        
+        private bool enablePackaging2Field;
+        
+        private bool enablePackaging2FieldSpecified;
+        
+        private bool enableScratchOrgManagementPrefField;
+        
+        private bool enableScratchOrgManagementPrefFieldSpecified;
+        
+        private bool enableShapeExportPrefField;
+        
+        private bool enableShapeExportPrefFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool devOpsCenterBetaMsa {
+            get {
+                return this.devOpsCenterBetaMsaField;
+            }
+            set {
+                this.devOpsCenterBetaMsaField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool devOpsCenterBetaMsaSpecified {
+            get {
+                return this.devOpsCenterBetaMsaFieldSpecified;
+            }
+            set {
+                this.devOpsCenterBetaMsaFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public bool enableDevOpsCenter {
+            get {
+                return this.enableDevOpsCenterField;
+            }
+            set {
+                this.enableDevOpsCenterField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableDevOpsCenterSpecified {
+            get {
+                return this.enableDevOpsCenterFieldSpecified;
+            }
+            set {
+                this.enableDevOpsCenterFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool enablePackaging2 {
+            get {
+                return this.enablePackaging2Field;
+            }
+            set {
+                this.enablePackaging2Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enablePackaging2Specified {
+            get {
+                return this.enablePackaging2FieldSpecified;
+            }
+            set {
+                this.enablePackaging2FieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool enableScratchOrgManagementPref {
+            get {
+                return this.enableScratchOrgManagementPrefField;
+            }
+            set {
+                this.enableScratchOrgManagementPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableScratchOrgManagementPrefSpecified {
+            get {
+                return this.enableScratchOrgManagementPrefFieldSpecified;
+            }
+            set {
+                this.enableScratchOrgManagementPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public bool enableShapeExportPref {
+            get {
+                return this.enableShapeExportPrefField;
+            }
+            set {
+                this.enableShapeExportPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableShapeExportPrefSpecified {
+            get {
+                return this.enableShapeExportPrefFieldSpecified;
+            }
+            set {
+                this.enableShapeExportPrefFieldSpecified = value;
             }
         }
     }
@@ -75595,16 +85426,102 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class WorkforceEngagementSettings : Metadata {
         
+        private bool enableHistoricalAdherenceField;
+        
+        private bool enableHistoricalAdherenceFieldSpecified;
+        
+        private bool enableIndividualAdherenceField;
+        
+        private bool enableIndividualAdherenceFieldSpecified;
+        
+        private bool enableIntradayManagementField;
+        
+        private bool enableIntradayManagementFieldSpecified;
+        
         private bool enableMachineLearningForecastingField;
         
         private bool enableMachineLearningForecastingFieldSpecified;
+        
+        private bool enableRealTimeAdherenceField;
+        
+        private bool enableRealTimeAdherenceFieldSpecified;
         
         private bool enableWorkforceEngagementField;
         
         private bool enableWorkforceEngagementFieldSpecified;
         
+        private bool enableWorkforceEngagementConfigurationField;
+        
+        private bool enableWorkforceEngagementConfigurationFieldSpecified;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableHistoricalAdherence {
+            get {
+                return this.enableHistoricalAdherenceField;
+            }
+            set {
+                this.enableHistoricalAdherenceField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableHistoricalAdherenceSpecified {
+            get {
+                return this.enableHistoricalAdherenceFieldSpecified;
+            }
+            set {
+                this.enableHistoricalAdherenceFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public bool enableIndividualAdherence {
+            get {
+                return this.enableIndividualAdherenceField;
+            }
+            set {
+                this.enableIndividualAdherenceField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableIndividualAdherenceSpecified {
+            get {
+                return this.enableIndividualAdherenceFieldSpecified;
+            }
+            set {
+                this.enableIndividualAdherenceFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool enableIntradayManagement {
+            get {
+                return this.enableIntradayManagementField;
+            }
+            set {
+                this.enableIntradayManagementField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableIntradayManagementSpecified {
+            get {
+                return this.enableIntradayManagementFieldSpecified;
+            }
+            set {
+                this.enableIntradayManagementFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
         public bool enableMachineLearningForecasting {
             get {
                 return this.enableMachineLearningForecastingField;
@@ -75626,7 +85543,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public bool enableRealTimeAdherence {
+            get {
+                return this.enableRealTimeAdherenceField;
+            }
+            set {
+                this.enableRealTimeAdherenceField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableRealTimeAdherenceSpecified {
+            get {
+                return this.enableRealTimeAdherenceFieldSpecified;
+            }
+            set {
+                this.enableRealTimeAdherenceFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public bool enableWorkforceEngagement {
             get {
                 return this.enableWorkforceEngagementField;
@@ -75646,6 +85585,98 @@ namespace SalesforceMetadata.MetadataWSDL {
                 this.enableWorkforceEngagementFieldSpecified = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public bool enableWorkforceEngagementConfiguration {
+            get {
+                return this.enableWorkforceEngagementConfigurationField;
+            }
+            set {
+                this.enableWorkforceEngagementConfigurationField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableWorkforceEngagementConfigurationSpecified {
+            get {
+                return this.enableWorkforceEngagementConfigurationFieldSpecified;
+            }
+            set {
+                this.enableWorkforceEngagementConfigurationFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class DataImportManagementSettings : Metadata {
+        
+        private bool enableDataConnectorHubspotField;
+        
+        private bool enableDataConnectorHubspotFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableDataConnectorHubspot {
+            get {
+                return this.enableDataConnectorHubspotField;
+            }
+            set {
+                this.enableDataConnectorHubspotField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableDataConnectorHubspotSpecified {
+            get {
+                return this.enableDataConnectorHubspotFieldSpecified;
+            }
+            set {
+                this.enableDataConnectorHubspotFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class AssociationEngineSettings : Metadata {
+        
+        private bool enableAssociationEngineField;
+        
+        private bool enableAssociationEngineFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableAssociationEngine {
+            get {
+                return this.enableAssociationEngineField;
+            }
+            set {
+                this.enableAssociationEngineField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableAssociationEngineSpecified {
+            get {
+                return this.enableAssociationEngineFieldSpecified;
+            }
+            set {
+                this.enableAssociationEngineFieldSpecified = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -75656,12 +85687,64 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class PlatformSlackSettings : Metadata {
         
+        private bool enableSlackServiceField;
+        
+        private bool enableSlackServiceFieldSpecified;
+        
+        private bool enableSlackServiceAlertsField;
+        
+        private bool enableSlackServiceAlertsFieldSpecified;
+        
         private bool slackCapabilitiesEnabledField;
         
         private bool slackCapabilitiesEnabledFieldSpecified;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableSlackService {
+            get {
+                return this.enableSlackServiceField;
+            }
+            set {
+                this.enableSlackServiceField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableSlackServiceSpecified {
+            get {
+                return this.enableSlackServiceFieldSpecified;
+            }
+            set {
+                this.enableSlackServiceFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public bool enableSlackServiceAlerts {
+            get {
+                return this.enableSlackServiceAlertsField;
+            }
+            set {
+                this.enableSlackServiceAlertsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableSlackServiceAlertsSpecified {
+            get {
+                return this.enableSlackServiceAlertsFieldSpecified;
+            }
+            set {
+                this.enableSlackServiceAlertsFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
         public bool slackCapabilitiesEnabled {
             get {
                 return this.slackCapabilitiesEnabledField;
@@ -75689,44 +85772,9 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public partial class BranchManagementSettings : Metadata {
-        
-        private bool enableBranchAssociationField;
-        
-        private bool enableBranchAssociationFieldSpecified;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public bool enableBranchAssociation {
-            get {
-                return this.enableBranchAssociationField;
-            }
-            set {
-                this.enableBranchAssociationField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool enableBranchAssociationSpecified {
-            get {
-                return this.enableBranchAssociationFieldSpecified;
-            }
-            set {
-                this.enableBranchAssociationFieldSpecified = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class RelatedRecordAssocCriteria : Metadata {
         
-        private string actionExpressionField;
+        private string associationHandlerApexClassField;
         
         private AssociationType associationTypeField;
         
@@ -75744,16 +85792,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string referenceObjectField;
         
+        private string selectedOwnerFieldField;
+        
         private AssociationStatusType statusField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string actionExpression {
+        public string associationHandlerApexClass {
             get {
-                return this.actionExpressionField;
+                return this.associationHandlerApexClassField;
             }
             set {
-                this.actionExpressionField = value;
+                this.associationHandlerApexClassField = value;
             }
         }
         
@@ -75847,6 +85897,17 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public string selectedOwnerField {
+            get {
+                return this.selectedOwnerFieldField;
+            }
+            set {
+                this.selectedOwnerFieldField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public AssociationStatusType status {
             get {
                 return this.statusField;
@@ -75878,9 +85939,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         Update,
-        
-        /// <remarks/>
-        Delete,
     }
     
     /// <remarks/>
@@ -76076,7 +86134,13 @@ namespace SalesforceMetadata.MetadataWSDL {
         R,
         
         /// <remarks/>
+        Q,
+        
+        /// <remarks/>
         C,
+        
+        /// <remarks/>
+        LimitNonstandardShifts,
     }
     
     /// <remarks/>
@@ -76085,48 +86149,22 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public partial class ForecastingTypeSource : Metadata {
-        
-        private string forecastingSourceDefinitionField;
-        
-        private string forecastingTypeField;
+    public partial class CareLimitType : Metadata {
         
         private bool isProtectedField;
         
         private bool isProtectedFieldSpecified;
         
+        private string limitTypeField;
+        
         private string masterLabelField;
         
-        private string parentSourceDefinitionField;
+        private CareLimitTypeMetricType metricTypeField;
         
-        private string relationFieldField;
-        
-        private int sourceGroupField;
+        private bool metricTypeFieldSpecified;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string forecastingSourceDefinition {
-            get {
-                return this.forecastingSourceDefinitionField;
-            }
-            set {
-                this.forecastingSourceDefinitionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public string forecastingType {
-            get {
-                return this.forecastingTypeField;
-            }
-            set {
-                this.forecastingTypeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
         public bool isProtected {
             get {
                 return this.isProtectedField;
@@ -76148,7 +86186,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string limitType {
+            get {
+                return this.limitTypeField;
+            }
+            set {
+                this.limitTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
         public string masterLabel {
             get {
                 return this.masterLabelField;
@@ -76159,35 +86208,24 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
-        public string parentSourceDefinition {
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public CareLimitTypeMetricType metricType {
             get {
-                return this.parentSourceDefinitionField;
+                return this.metricTypeField;
             }
             set {
-                this.parentSourceDefinitionField = value;
+                this.metricTypeField = value;
             }
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
-        public string relationField {
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool metricTypeSpecified {
             get {
-                return this.relationFieldField;
+                return this.metricTypeFieldSpecified;
             }
             set {
-                this.relationFieldField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
-        public int sourceGroup {
-            get {
-                return this.sourceGroupField;
-            }
-            set {
-                this.sourceGroupField = value;
+                this.metricTypeFieldSpecified = value;
             }
         }
     }
@@ -76195,344 +86233,20 @@ namespace SalesforceMetadata.MetadataWSDL {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
     [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public partial class ForecastingSourceDefinition : Metadata {
-        
-        private string categoryFieldField;
-        
-        private string dateFieldField;
-        
-        private string familyFieldField;
-        
-        private bool isProtectedField;
-        
-        private bool isProtectedFieldSpecified;
-        
-        private string masterLabelField;
-        
-        private string measureFieldField;
-        
-        private string sourceObjectField;
-        
-        private string territory2FieldField;
-        
-        private string userFieldField;
+    public enum CareLimitTypeMetricType {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string categoryField {
-            get {
-                return this.categoryFieldField;
-            }
-            set {
-                this.categoryFieldField = value;
-            }
-        }
+        Money,
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public string dateField {
-            get {
-                return this.dateFieldField;
-            }
-            set {
-                this.dateFieldField = value;
-            }
-        }
+        Percentage,
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
-        public string familyField {
-            get {
-                return this.familyFieldField;
-            }
-            set {
-                this.familyFieldField = value;
-            }
-        }
+        Amount,
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
-        public bool isProtected {
-            get {
-                return this.isProtectedField;
-            }
-            set {
-                this.isProtectedField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool isProtectedSpecified {
-            get {
-                return this.isProtectedFieldSpecified;
-            }
-            set {
-                this.isProtectedFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
-        public string masterLabel {
-            get {
-                return this.masterLabelField;
-            }
-            set {
-                this.masterLabelField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
-        public string measureField {
-            get {
-                return this.measureFieldField;
-            }
-            set {
-                this.measureFieldField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
-        public string sourceObject {
-            get {
-                return this.sourceObjectField;
-            }
-            set {
-                this.sourceObjectField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
-        public string territory2Field {
-            get {
-                return this.territory2FieldField;
-            }
-            set {
-                this.territory2FieldField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
-        public string userField {
-            get {
-                return this.userFieldField;
-            }
-            set {
-                this.userFieldField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public partial class DynamicTrigger : Metadata {
-        
-        private string apexClassField;
-        
-        private string customFieldDefinitionField;
-        
-        private bool firesOnTriggerEventsAfterInsertField;
-        
-        private bool firesOnTriggerEventsAfterInsertFieldSpecified;
-        
-        private bool firesOnTriggerEventsAfterUpdateField;
-        
-        private bool firesOnTriggerEventsAfterUpdateFieldSpecified;
-        
-        private bool firesOnTriggerEventsBeforeInsertField;
-        
-        private bool firesOnTriggerEventsBeforeInsertFieldSpecified;
-        
-        private bool firesOnTriggerEventsBeforeUpdateField;
-        
-        private bool firesOnTriggerEventsBeforeUpdateFieldSpecified;
-        
-        private bool isActiveField;
-        
-        private bool isActiveFieldSpecified;
-        
-        private bool isProtectedField;
-        
-        private bool isProtectedFieldSpecified;
-        
-        private string masterLabelField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public string apexClass {
-            get {
-                return this.apexClassField;
-            }
-            set {
-                this.apexClassField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public string customFieldDefinition {
-            get {
-                return this.customFieldDefinitionField;
-            }
-            set {
-                this.customFieldDefinitionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
-        public bool firesOnTriggerEventsAfterInsert {
-            get {
-                return this.firesOnTriggerEventsAfterInsertField;
-            }
-            set {
-                this.firesOnTriggerEventsAfterInsertField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool firesOnTriggerEventsAfterInsertSpecified {
-            get {
-                return this.firesOnTriggerEventsAfterInsertFieldSpecified;
-            }
-            set {
-                this.firesOnTriggerEventsAfterInsertFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
-        public bool firesOnTriggerEventsAfterUpdate {
-            get {
-                return this.firesOnTriggerEventsAfterUpdateField;
-            }
-            set {
-                this.firesOnTriggerEventsAfterUpdateField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool firesOnTriggerEventsAfterUpdateSpecified {
-            get {
-                return this.firesOnTriggerEventsAfterUpdateFieldSpecified;
-            }
-            set {
-                this.firesOnTriggerEventsAfterUpdateFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
-        public bool firesOnTriggerEventsBeforeInsert {
-            get {
-                return this.firesOnTriggerEventsBeforeInsertField;
-            }
-            set {
-                this.firesOnTriggerEventsBeforeInsertField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool firesOnTriggerEventsBeforeInsertSpecified {
-            get {
-                return this.firesOnTriggerEventsBeforeInsertFieldSpecified;
-            }
-            set {
-                this.firesOnTriggerEventsBeforeInsertFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
-        public bool firesOnTriggerEventsBeforeUpdate {
-            get {
-                return this.firesOnTriggerEventsBeforeUpdateField;
-            }
-            set {
-                this.firesOnTriggerEventsBeforeUpdateField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool firesOnTriggerEventsBeforeUpdateSpecified {
-            get {
-                return this.firesOnTriggerEventsBeforeUpdateFieldSpecified;
-            }
-            set {
-                this.firesOnTriggerEventsBeforeUpdateFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
-        public bool isActive {
-            get {
-                return this.isActiveField;
-            }
-            set {
-                this.isActiveField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool isActiveSpecified {
-            get {
-                return this.isActiveFieldSpecified;
-            }
-            set {
-                this.isActiveFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
-        public bool isProtected {
-            get {
-                return this.isProtectedField;
-            }
-            set {
-                this.isProtectedField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool isProtectedSpecified {
-            get {
-                return this.isProtectedFieldSpecified;
-            }
-            set {
-                this.isProtectedFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
-        public string masterLabel {
-            get {
-                return this.masterLabelField;
-            }
-            set {
-                this.masterLabelField = value;
-            }
-        }
+        Text,
     }
     
     /// <remarks/>
@@ -76815,6 +86529,1707 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class MobSecurityCertPinConfig : Metadata {
+        
+        private string certificateHashField;
+        
+        private string domainNameField;
+        
+        private bool isEnabledField;
+        
+        private bool isProtectedField;
+        
+        private bool isProtectedFieldSpecified;
+        
+        private bool isSubdomainIncludedField;
+        
+        private string masterLabelField;
+        
+        private MobileSecurityMobilePlatform mobilePlatformField;
+        
+        private bool mobilePlatformFieldSpecified;
+        
+        private string mobileSecurityAssignmentField;
+        
+        private MobileSecurityPolicySeverityLevel severityLevelField;
+        
+        private MobileSecurityCertPinType typeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string certificateHash {
+            get {
+                return this.certificateHashField;
+            }
+            set {
+                this.certificateHashField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string domainName {
+            get {
+                return this.domainNameField;
+            }
+            set {
+                this.domainNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool isEnabled {
+            get {
+                return this.isEnabledField;
+            }
+            set {
+                this.isEnabledField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool isProtected {
+            get {
+                return this.isProtectedField;
+            }
+            set {
+                this.isProtectedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProtectedSpecified {
+            get {
+                return this.isProtectedFieldSpecified;
+            }
+            set {
+                this.isProtectedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public bool isSubdomainIncluded {
+            get {
+                return this.isSubdomainIncludedField;
+            }
+            set {
+                this.isSubdomainIncludedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public MobileSecurityMobilePlatform mobilePlatform {
+            get {
+                return this.mobilePlatformField;
+            }
+            set {
+                this.mobilePlatformField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool mobilePlatformSpecified {
+            get {
+                return this.mobilePlatformFieldSpecified;
+            }
+            set {
+                this.mobilePlatformFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public string mobileSecurityAssignment {
+            get {
+                return this.mobileSecurityAssignmentField;
+            }
+            set {
+                this.mobileSecurityAssignmentField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public MobileSecurityPolicySeverityLevel severityLevel {
+            get {
+                return this.severityLevelField;
+            }
+            set {
+                this.severityLevelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        public MobileSecurityCertPinType type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum MobileSecurityMobilePlatform {
+        
+        /// <remarks/>
+        Android,
+        
+        /// <remarks/>
+        iOS,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum MobileSecurityPolicySeverityLevel {
+        
+        /// <remarks/>
+        Warn,
+        
+        /// <remarks/>
+        Error,
+        
+        /// <remarks/>
+        Critical,
+        
+        /// <remarks/>
+        Info,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum MobileSecurityCertPinType {
+        
+        /// <remarks/>
+        AuthServer,
+        
+        /// <remarks/>
+        Resource,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class ConnectedSystem : Metadata {
+        
+        private string descriptionField;
+        
+        private bool isProtectedField;
+        
+        private bool isProtectedFieldSpecified;
+        
+        private string masterLabelField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public bool isProtected {
+            get {
+                return this.isProtectedField;
+            }
+            set {
+                this.isProtectedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProtectedSpecified {
+            get {
+                return this.isProtectedFieldSpecified;
+            }
+            set {
+                this.isProtectedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class RegisteredExternalService : Metadata {
+        
+        private string configUrlField;
+        
+        private string documentationUrlField;
+        
+        private ExtensionPointName extensionPointNameField;
+        
+        private bool extensionPointNameFieldSpecified;
+        
+        private string externalServiceProviderField;
+        
+        private RegistryProviderType externalServiceProviderTypeField;
+        
+        private bool isProtectedField;
+        
+        private bool isProtectedFieldSpecified;
+        
+        private string masterLabelField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string configUrl {
+            get {
+                return this.configUrlField;
+            }
+            set {
+                this.configUrlField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string documentationUrl {
+            get {
+                return this.documentationUrlField;
+            }
+            set {
+                this.documentationUrlField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public ExtensionPointName extensionPointName {
+            get {
+                return this.extensionPointNameField;
+            }
+            set {
+                this.extensionPointNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool extensionPointNameSpecified {
+            get {
+                return this.extensionPointNameFieldSpecified;
+            }
+            set {
+                this.extensionPointNameFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string externalServiceProvider {
+            get {
+                return this.externalServiceProviderField;
+            }
+            set {
+                this.externalServiceProviderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public RegistryProviderType externalServiceProviderType {
+            get {
+                return this.externalServiceProviderTypeField;
+            }
+            set {
+                this.externalServiceProviderTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public bool isProtected {
+            get {
+                return this.isProtectedField;
+            }
+            set {
+                this.isProtectedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProtectedSpecified {
+            get {
+                return this.isProtectedFieldSpecified;
+            }
+            set {
+                this.isProtectedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum ExtensionPointName {
+        
+        /// <remarks/>
+        Product_Inventory_CheckInventory,
+        
+        /// <remarks/>
+        Cart_Prices_Extension,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum RegistryProviderType {
+        
+        /// <remarks/>
+        Price,
+        
+        /// <remarks/>
+        Promotions,
+        
+        /// <remarks/>
+        Inventory,
+        
+        /// <remarks/>
+        Shipment,
+        
+        /// <remarks/>
+        Tax,
+        
+        /// <remarks/>
+        Extension,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class EmployeeDataSyncProfile : Metadata {
+        
+        private string descriptionField;
+        
+        private EmployeeDataSyncField[] employeeDataSyncFieldField;
+        
+        private bool isActiveField;
+        
+        private bool isProtectedField;
+        
+        private bool isProtectedFieldSpecified;
+        
+        private string masterLabelField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("employeeDataSyncField", Order=1)]
+        public EmployeeDataSyncField[] employeeDataSyncField {
+            get {
+                return this.employeeDataSyncFieldField;
+            }
+            set {
+                this.employeeDataSyncFieldField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool isActive {
+            get {
+                return this.isActiveField;
+            }
+            set {
+                this.isActiveField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool isProtected {
+            get {
+                return this.isProtectedField;
+            }
+            set {
+                this.isProtectedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProtectedSpecified {
+            get {
+                return this.isProtectedFieldSpecified;
+            }
+            set {
+                this.isProtectedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class EmployeeDataSyncField {
+        
+        private string descriptionField;
+        
+        private bool isActiveField;
+        
+        private bool isDefaultField;
+        
+        private bool isRequiredField;
+        
+        private string sourceFieldField;
+        
+        private string targetFieldField;
+        
+        /// <remarks/>
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool isActive {
+            get {
+                return this.isActiveField;
+            }
+            set {
+                this.isActiveField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool isDefault {
+            get {
+                return this.isDefaultField;
+            }
+            set {
+                this.isDefaultField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool isRequired {
+            get {
+                return this.isRequiredField;
+            }
+            set {
+                this.isRequiredField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string sourceField {
+            get {
+                return this.sourceFieldField;
+            }
+            set {
+                this.sourceFieldField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string targetField {
+            get {
+                return this.targetFieldField;
+            }
+            set {
+                this.targetFieldField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class AppExplorationDataConsent : Metadata {
+        
+        private string applicationNameField;
+        
+        private string availableObjectsField;
+        
+        private string enabledObjectsField;
+        
+        private bool isProjectAccessEnabledField;
+        
+        private bool isProjectAccessEnabledFieldSpecified;
+        
+        private bool isProtectedField;
+        
+        private bool isProtectedFieldSpecified;
+        
+        private string masterLabelField;
+        
+        private string projectNameField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string applicationName {
+            get {
+                return this.applicationNameField;
+            }
+            set {
+                this.applicationNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string availableObjects {
+            get {
+                return this.availableObjectsField;
+            }
+            set {
+                this.availableObjectsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string enabledObjects {
+            get {
+                return this.enabledObjectsField;
+            }
+            set {
+                this.enabledObjectsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool isProjectAccessEnabled {
+            get {
+                return this.isProjectAccessEnabledField;
+            }
+            set {
+                this.isProjectAccessEnabledField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProjectAccessEnabledSpecified {
+            get {
+                return this.isProjectAccessEnabledFieldSpecified;
+            }
+            set {
+                this.isProjectAccessEnabledFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public bool isProtected {
+            get {
+                return this.isProtectedField;
+            }
+            set {
+                this.isProtectedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProtectedSpecified {
+            get {
+                return this.isProtectedFieldSpecified;
+            }
+            set {
+                this.isProtectedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public string projectName {
+            get {
+                return this.projectNameField;
+            }
+            set {
+                this.projectNameField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class RecordAlertDataSource : Metadata {
+        
+        private string apexClassField;
+        
+        private bool isActiveField;
+        
+        private bool isActiveFieldSpecified;
+        
+        private bool isProtectedField;
+        
+        private bool isProtectedFieldSpecified;
+        
+        private string masterLabelField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string apexClass {
+            get {
+                return this.apexClassField;
+            }
+            set {
+                this.apexClassField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public bool isActive {
+            get {
+                return this.isActiveField;
+            }
+            set {
+                this.isActiveField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isActiveSpecified {
+            get {
+                return this.isActiveFieldSpecified;
+            }
+            set {
+                this.isActiveFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool isProtected {
+            get {
+                return this.isProtectedField;
+            }
+            set {
+                this.isProtectedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProtectedSpecified {
+            get {
+                return this.isProtectedFieldSpecified;
+            }
+            set {
+                this.isProtectedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class MobileSecurityPolicy : Metadata {
+        
+        private System.DateTime effectiveDateField;
+        
+        private bool effectiveDateFieldSpecified;
+        
+        private bool isEnabledField;
+        
+        private bool isProtectedField;
+        
+        private bool isProtectedFieldSpecified;
+        
+        private string masterLabelField;
+        
+        private MobileSecurityMobilePlatform mobilePlatformField;
+        
+        private bool mobilePlatformFieldSpecified;
+        
+        private string mobileSecurityAssignmentField;
+        
+        private string ruleValueField;
+        
+        private MobileSecurityPolicyRuleValueType ruleValueTypeField;
+        
+        private MobileSecurityPolicySeverityLevel severityLevelField;
+        
+        private MobileSecurityPolicyType typeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public System.DateTime effectiveDate {
+            get {
+                return this.effectiveDateField;
+            }
+            set {
+                this.effectiveDateField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool effectiveDateSpecified {
+            get {
+                return this.effectiveDateFieldSpecified;
+            }
+            set {
+                this.effectiveDateFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public bool isEnabled {
+            get {
+                return this.isEnabledField;
+            }
+            set {
+                this.isEnabledField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool isProtected {
+            get {
+                return this.isProtectedField;
+            }
+            set {
+                this.isProtectedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProtectedSpecified {
+            get {
+                return this.isProtectedFieldSpecified;
+            }
+            set {
+                this.isProtectedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public MobileSecurityMobilePlatform mobilePlatform {
+            get {
+                return this.mobilePlatformField;
+            }
+            set {
+                this.mobilePlatformField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool mobilePlatformSpecified {
+            get {
+                return this.mobilePlatformFieldSpecified;
+            }
+            set {
+                this.mobilePlatformFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string mobileSecurityAssignment {
+            get {
+                return this.mobileSecurityAssignmentField;
+            }
+            set {
+                this.mobileSecurityAssignmentField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public string ruleValue {
+            get {
+                return this.ruleValueField;
+            }
+            set {
+                this.ruleValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public MobileSecurityPolicyRuleValueType ruleValueType {
+            get {
+                return this.ruleValueTypeField;
+            }
+            set {
+                this.ruleValueTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public MobileSecurityPolicySeverityLevel severityLevel {
+            get {
+                return this.severityLevelField;
+            }
+            set {
+                this.severityLevelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        public MobileSecurityPolicyType type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum MobileSecurityPolicyRuleValueType {
+        
+        /// <remarks/>
+        Boolean,
+        
+        /// <remarks/>
+        Text,
+        
+        /// <remarks/>
+        TextList,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum MobileSecurityPolicyType {
+        
+        /// <remarks/>
+        JailbrokenDevice,
+        
+        /// <remarks/>
+        MinimumOsVersion,
+        
+        /// <remarks/>
+        MaximumOsVersion,
+        
+        /// <remarks/>
+        MinimumSecurityPatchVersion,
+        
+        /// <remarks/>
+        ManInMiddle,
+        
+        /// <remarks/>
+        MinimumAppVersion,
+        
+        /// <remarks/>
+        MininumAppVersion,
+        
+        /// <remarks/>
+        MaximumAppVersion,
+        
+        /// <remarks/>
+        DevicePasscode,
+        
+        /// <remarks/>
+        BlockedDeviceList,
+        
+        /// <remarks/>
+        BlockCustomKeyboard,
+        
+        /// <remarks/>
+        BlockFileBackup,
+        
+        /// <remarks/>
+        Block3dTouch,
+        
+        /// <remarks/>
+        Screenshot,
+        
+        /// <remarks/>
+        LogScreenshot,
+        
+        /// <remarks/>
+        LogEmail,
+        
+        /// <remarks/>
+        LogPhonecall,
+        
+        /// <remarks/>
+        LogTextmessage,
+        
+        /// <remarks/>
+        LogPolicyResult,
+        
+        /// <remarks/>
+        BlockMicrophone,
+        
+        /// <remarks/>
+        BlockCamera,
+        
+        /// <remarks/>
+        MalwareDetection,
+        
+        /// <remarks/>
+        DisableUrlCaching,
+        
+        /// <remarks/>
+        MaxOffline,
+        
+        /// <remarks/>
+        LogoutAfterRestart,
+        
+        /// <remarks/>
+        LogoutOnBiometricChange,
+        
+        /// <remarks/>
+        BlockOsSharing,
+        
+        /// <remarks/>
+        BrowserUriScheme,
+        
+        /// <remarks/>
+        CheckBiometric,
+        
+        /// <remarks/>
+        BlockContacts,
+        
+        /// <remarks/>
+        BlockCalendar,
+        
+        /// <remarks/>
+        PhonecallUriScheme,
+        
+        /// <remarks/>
+        AllowedDeviceList,
+        
+        /// <remarks/>
+        LogCertPin,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class MobileSecurityAssignment : Metadata {
+        
+        private string connectedApplicationField;
+        
+        private bool isProtectedField;
+        
+        private bool isProtectedFieldSpecified;
+        
+        private string masterLabelField;
+        
+        private string profileField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string connectedApplication {
+            get {
+                return this.connectedApplicationField;
+            }
+            set {
+                this.connectedApplicationField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public bool isProtected {
+            get {
+                return this.isProtectedField;
+            }
+            set {
+                this.isProtectedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProtectedSpecified {
+            get {
+                return this.isProtectedFieldSpecified;
+            }
+            set {
+                this.isProtectedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string profile {
+            get {
+                return this.profileField;
+            }
+            set {
+                this.profileField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class MobileSecurityPolicySet : Metadata {
+        
+        private string descriptionField;
+        
+        private bool isProtectedField;
+        
+        private bool isProtectedFieldSpecified;
+        
+        private string masterLabelField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public bool isProtected {
+            get {
+                return this.isProtectedField;
+            }
+            set {
+                this.isProtectedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProtectedSpecified {
+            get {
+                return this.isProtectedFieldSpecified;
+            }
+            set {
+                this.isProtectedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class VirtualVisitConfig : Metadata {
+        
+        private VirtualVisitComprehendServiceType comprehendServiceTypeField;
+        
+        private bool comprehendServiceTypeFieldSpecified;
+        
+        private string experienceCloudSiteUrlField;
+        
+        private bool isProtectedField;
+        
+        private bool isProtectedFieldSpecified;
+        
+        private string masterLabelField;
+        
+        private string namedCredentialField;
+        
+        private string storageBucketNameField;
+        
+        private VirtualVisitUsageType usageTypeField;
+        
+        private bool usageTypeFieldSpecified;
+        
+        private string videoCallApptTypeValueField;
+        
+        private VirtualVisitVisitRegion visitRegionField;
+        
+        private bool visitRegionFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public VirtualVisitComprehendServiceType comprehendServiceType {
+            get {
+                return this.comprehendServiceTypeField;
+            }
+            set {
+                this.comprehendServiceTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool comprehendServiceTypeSpecified {
+            get {
+                return this.comprehendServiceTypeFieldSpecified;
+            }
+            set {
+                this.comprehendServiceTypeFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string experienceCloudSiteUrl {
+            get {
+                return this.experienceCloudSiteUrlField;
+            }
+            set {
+                this.experienceCloudSiteUrlField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool isProtected {
+            get {
+                return this.isProtectedField;
+            }
+            set {
+                this.isProtectedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProtectedSpecified {
+            get {
+                return this.isProtectedFieldSpecified;
+            }
+            set {
+                this.isProtectedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string namedCredential {
+            get {
+                return this.namedCredentialField;
+            }
+            set {
+                this.namedCredentialField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string storageBucketName {
+            get {
+                return this.storageBucketNameField;
+            }
+            set {
+                this.storageBucketNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public VirtualVisitUsageType usageType {
+            get {
+                return this.usageTypeField;
+            }
+            set {
+                this.usageTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool usageTypeSpecified {
+            get {
+                return this.usageTypeFieldSpecified;
+            }
+            set {
+                this.usageTypeFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public string videoCallApptTypeValue {
+            get {
+                return this.videoCallApptTypeValueField;
+            }
+            set {
+                this.videoCallApptTypeValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public VirtualVisitVisitRegion visitRegion {
+            get {
+                return this.visitRegionField;
+            }
+            set {
+                this.visitRegionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool visitRegionSpecified {
+            get {
+                return this.visitRegionFieldSpecified;
+            }
+            set {
+                this.visitRegionFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum VirtualVisitComprehendServiceType {
+        
+        /// <remarks/>
+        ComprehendService,
+        
+        /// <remarks/>
+        ComprehendMedicalService,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum VirtualVisitUsageType {
+        
+        /// <remarks/>
+        CHIME,
+        
+        /// <remarks/>
+        INTELLIGENT_FORM_READER,
+        
+        /// <remarks/>
+        SENTIMENT_ANALYSIS,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum VirtualVisitVisitRegion {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("us-east-1")]
+        useast1,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("us-east-2")]
+        useast2,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("us-west-1")]
+        uswest1,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("us-west-2")]
+        uswest2,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("af-south-1")]
+        afsouth1,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("ap-east-1")]
+        apeast1,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("ap-south-1")]
+        apsouth1,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("ap-northeast-1")]
+        apnortheast1,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("ap-northeast-2")]
+        apnortheast2,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("ap-northeast-3")]
+        apnortheast3,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("ap-southeast-1")]
+        apsoutheast1,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("ap-southeast-2")]
+        apsoutheast2,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("ca-central-1")]
+        cacentral1,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("eu-central-1")]
+        eucentral1,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("eu-west-1")]
+        euwest1,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("eu-west-2")]
+        euwest2,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("eu-west-3")]
+        euwest3,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("eu-south-1")]
+        eusouth1,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("eu-north-1")]
+        eunorth1,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("me-south-1")]
+        mesouth1,
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlEnumAttribute("sa-east-1")]
+        saeast1,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class SchedulingObjective : Metadata {
+        
+        private bool isProtectedField;
+        
+        private bool isProtectedFieldSpecified;
+        
+        private string masterLabelField;
+        
+        private SchedulingCategory schedulingCategoryField;
+        
+        private SchedulingObjectiveParameter[] schedulingObjectiveParametersField;
+        
+        private SchedulingObjectiveType schedulingObjectiveTypeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool isProtected {
+            get {
+                return this.isProtectedField;
+            }
+            set {
+                this.isProtectedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isProtectedSpecified {
+            get {
+                return this.isProtectedFieldSpecified;
+            }
+            set {
+                this.isProtectedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public SchedulingCategory schedulingCategory {
+            get {
+                return this.schedulingCategoryField;
+            }
+            set {
+                this.schedulingCategoryField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("schedulingObjectiveParameters", Order=3)]
+        public SchedulingObjectiveParameter[] schedulingObjectiveParameters {
+            get {
+                return this.schedulingObjectiveParametersField;
+            }
+            set {
+                this.schedulingObjectiveParametersField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public SchedulingObjectiveType schedulingObjectiveType {
+            get {
+                return this.schedulingObjectiveTypeField;
+            }
+            set {
+                this.schedulingObjectiveTypeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class SchedulingObjectiveParameter {
+        
+        private ObjectiveParameterKey parameterKeyField;
+        
+        private string valueField;
+        
+        /// <remarks/>
+        public ObjectiveParameterKey parameterKey {
+            get {
+                return this.parameterKeyField;
+            }
+            set {
+                this.parameterKeyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum ObjectiveParameterKey {
+        
+        /// <remarks/>
+        DaysBack,
+        
+        /// <remarks/>
+        DaysAhead,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum SchedulingObjectiveType {
+        
+        /// <remarks/>
+        AgentPreference,
+        
+        /// <remarks/>
+        BalanceShifts,
+        
+        /// <remarks/>
+        BalanceNonStandardShifts,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class PlatformEventSubscriberConfig : Metadata {
         
         private int batchSizeField;
@@ -76907,6 +88322,266 @@ namespace SalesforceMetadata.MetadataWSDL {
                 this.userField = value;
             }
         }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class DataMappingSchema : Metadata {
+        
+        private string schemaRetrieverField;
+        
+        private string schemaTypeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string schemaRetriever {
+            get {
+                return this.schemaRetrieverField;
+            }
+            set {
+                this.schemaRetrieverField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string schemaType {
+            get {
+                return this.schemaTypeField;
+            }
+            set {
+                this.schemaTypeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class DataMappingObjectDefinition : Metadata {
+        
+        private string descriptionField;
+        
+        private DataMappingFieldDefinition[] fieldDefinitionsField;
+        
+        private string masterLabelField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("fieldDefinitions", Order=1)]
+        public DataMappingFieldDefinition[] fieldDefinitions {
+            get {
+                return this.fieldDefinitionsField;
+            }
+            set {
+                this.fieldDefinitionsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class DataMappingFieldDefinition : Metadata {
+        
+        private string descriptionField;
+        
+        private string domainField;
+        
+        private string masterLabelField;
+        
+        private string picklistValuesField;
+        
+        private string relationshipLabelField;
+        
+        private string relationshipNameField;
+        
+        private bool requiredField;
+        
+        private FieldDefinitionType typeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=1)]
+        public string domain {
+            get {
+                return this.domainField;
+            }
+            set {
+                this.domainField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=3)]
+        public string picklistValues {
+            get {
+                return this.picklistValuesField;
+            }
+            set {
+                this.picklistValuesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=4)]
+        public string relationshipLabel {
+            get {
+                return this.relationshipLabelField;
+            }
+            set {
+                this.relationshipLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true, Order=5)]
+        public string relationshipName {
+            get {
+                return this.relationshipNameField;
+            }
+            set {
+                this.relationshipNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public bool required {
+            get {
+                return this.requiredField;
+            }
+            set {
+                this.requiredField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public FieldDefinitionType type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum FieldDefinitionType {
+        
+        /// <remarks/>
+        Address,
+        
+        /// <remarks/>
+        Checkbox,
+        
+        /// <remarks/>
+        Currency,
+        
+        /// <remarks/>
+        Date,
+        
+        /// <remarks/>
+        DateTime,
+        
+        /// <remarks/>
+        Email,
+        
+        /// <remarks/>
+        Id,
+        
+        /// <remarks/>
+        LongTextArea,
+        
+        /// <remarks/>
+        Lookup,
+        
+        /// <remarks/>
+        ExternalLookup,
+        
+        /// <remarks/>
+        MultiselectPicklist,
+        
+        /// <remarks/>
+        Number,
+        
+        /// <remarks/>
+        Percent,
+        
+        /// <remarks/>
+        Phone,
+        
+        /// <remarks/>
+        Picklist,
+        
+        /// <remarks/>
+        Text,
+        
+        /// <remarks/>
+        TextArea,
+        
+        /// <remarks/>
+        Time,
+        
+        /// <remarks/>
+        Url,
     }
     
     /// <remarks/>
@@ -78040,6 +89715,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private DashboardComponentType componentTypeField;
         
+        private DashboardDynamicValue[] dashboardDynamicValuesField;
+        
         private DashboardFilterColumn[] dashboardFilterColumnsField;
         
         private DashboardTableColumn[] dashboardTableColumnField;
@@ -78283,6 +89960,17 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.componentTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("dashboardDynamicValues")]
+        public DashboardDynamicValue[] dashboardDynamicValues {
+            get {
+                return this.dashboardDynamicValuesField;
+            }
+            set {
+                this.dashboardDynamicValuesField = value;
             }
         }
         
@@ -78999,6 +90687,64 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         FlexTable,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class DashboardDynamicValue {
+        
+        private string additionalInfoField;
+        
+        private string fieldNameField;
+        
+        private bool isDynamicUserField;
+        
+        private bool isDynamicUserFieldSpecified;
+        
+        /// <remarks/>
+        public string additionalInfo {
+            get {
+                return this.additionalInfoField;
+            }
+            set {
+                this.additionalInfoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string fieldName {
+            get {
+                return this.fieldNameField;
+            }
+            set {
+                this.fieldNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool isDynamicUser {
+            get {
+                return this.isDynamicUserField;
+            }
+            set {
+                this.isDynamicUserField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isDynamicUserSpecified {
+            get {
+                return this.isDynamicUserFieldSpecified;
+            }
+            set {
+                this.isDynamicUserFieldSpecified = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -83895,6 +95641,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         MineAndMyGroups,
+        
+        /// <remarks/>
+        ScopingRule,
     }
     
     /// <remarks/>
@@ -86915,9 +98664,17 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool isRecordModifiedFieldSpecified;
         
+        private string keyQualifierNameField;
+        
+        private string mktDatalakeSrcKeyQualifierField;
+        
         private int primaryIndexOrderField;
         
         private bool primaryIndexOrderFieldSpecified;
+        
+        private UsageTag usageTagField;
+        
+        private bool usageTagFieldSpecified;
         
         /// <remarks/>
         public string dateFormat {
@@ -87024,6 +98781,26 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
+        public string keyQualifierName {
+            get {
+                return this.keyQualifierNameField;
+            }
+            set {
+                this.keyQualifierNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string mktDatalakeSrcKeyQualifier {
+            get {
+                return this.mktDatalakeSrcKeyQualifierField;
+            }
+            set {
+                this.mktDatalakeSrcKeyQualifierField = value;
+            }
+        }
+        
+        /// <remarks/>
         public int primaryIndexOrder {
             get {
                 return this.primaryIndexOrderField;
@@ -87041,6 +98818,27 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.primaryIndexOrderFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        public UsageTag usageTag {
+            get {
+                return this.usageTagField;
+            }
+            set {
+                this.usageTagField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool usageTagSpecified {
+            get {
+                return this.usageTagFieldSpecified;
+            }
+            set {
+                this.usageTagFieldSpecified = value;
             }
         }
     }
@@ -87068,6 +98866,22 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         Curated,
+        
+        /// <remarks/>
+        Segment_Membership,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum UsageTag {
+        
+        /// <remarks/>
+        NONE,
+        
+        /// <remarks/>
+        KEY_QUALIFIER,
     }
     
     /// <remarks/>
@@ -87090,11 +98904,17 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool isDynamicLookupFieldSpecified;
         
+        private string keyQualifierNameField;
+        
         private int primaryIndexOrderField;
         
         private bool primaryIndexOrderFieldSpecified;
         
         private string refAttrDeveloperNameField;
+        
+        private MktDataModelFieldUsageTag usageTagField;
+        
+        private bool usageTagFieldSpecified;
         
         /// <remarks/>
         public DefinitionCreationType definitionCreationType {
@@ -87160,6 +98980,16 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
+        public string keyQualifierName {
+            get {
+                return this.keyQualifierNameField;
+            }
+            set {
+                this.keyQualifierNameField = value;
+            }
+        }
+        
+        /// <remarks/>
         public int primaryIndexOrder {
             get {
                 return this.primaryIndexOrderField;
@@ -87189,6 +99019,27 @@ namespace SalesforceMetadata.MetadataWSDL {
                 this.refAttrDeveloperNameField = value;
             }
         }
+        
+        /// <remarks/>
+        public MktDataModelFieldUsageTag usageTag {
+            get {
+                return this.usageTagField;
+            }
+            set {
+                this.usageTagField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool usageTagSpecified {
+            get {
+                return this.usageTagFieldSpecified;
+            }
+            set {
+                this.usageTagFieldSpecified = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -87205,6 +99056,19 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         Override,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum MktDataModelFieldUsageTag {
+        
+        /// <remarks/>
+        None,
+        
+        /// <remarks/>
+        KeyQualifier,
     }
     
     /// <remarks/>
@@ -87315,6 +99179,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         Time,
+        
+        /// <remarks/>
+        Address,
     }
     
     /// <remarks/>
@@ -87525,8 +99392,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool creationTypeFieldSpecified;
         
-        private string dataSourceField;
-        
         private bool isEnabledField;
         
         private bool isEnabledFieldSpecified;
@@ -87551,16 +99416,6 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.creationTypeFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string dataSource {
-            get {
-                return this.dataSourceField;
-            }
-            set {
-                this.dataSourceField = value;
             }
         }
         
@@ -87610,6 +99465,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string dataModelTaxonomyField;
         
+        private string descriptionField;
+        
         private bool isEnabledField;
         
         private bool isEnabledFieldSpecified;
@@ -87617,6 +99474,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool isSegmentableField;
         
         private bool isSegmentableFieldSpecified;
+        
+        private bool isUsedForMetricsField;
+        
+        private bool isUsedForMetricsFieldSpecified;
         
         private string objectCategoryField;
         
@@ -87654,6 +99515,16 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.dataModelTaxonomyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
             }
         }
         
@@ -87696,6 +99567,27 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.isSegmentableFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool isUsedForMetrics {
+            get {
+                return this.isUsedForMetricsField;
+            }
+            set {
+                this.isUsedForMetricsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isUsedForMetricsSpecified {
+            get {
+                return this.isUsedForMetricsFieldSpecified;
+            }
+            set {
+                this.isUsedForMetricsFieldSpecified = value;
             }
         }
         
@@ -87981,6 +99873,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool mobileField;
         
+        private bool slackField;
+        
+        private bool slackFieldSpecified;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
         public string customNotifTypeName {
@@ -88033,6 +99929,28 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.mobileField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public bool slack {
+            get {
+                return this.slackField;
+            }
+            set {
+                this.slackField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool slackSpecified {
+            get {
+                return this.slackFieldSpecified;
+            }
+            set {
+                this.slackFieldSpecified = value;
             }
         }
     }
@@ -88681,6 +100599,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool isNavPersonalizationDisabledFieldSpecified;
         
+        private bool isNavTabPersistenceDisabledField;
+        
+        private bool isNavTabPersistenceDisabledFieldSpecified;
+        
         private bool isServiceCloudConsoleField;
         
         private bool isServiceCloudConsoleFieldSpecified;
@@ -88823,6 +100745,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public bool isNavTabPersistenceDisabled {
+            get {
+                return this.isNavTabPersistenceDisabledField;
+            }
+            set {
+                this.isNavTabPersistenceDisabledField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isNavTabPersistenceDisabledSpecified {
+            get {
+                return this.isNavTabPersistenceDisabledFieldSpecified;
+            }
+            set {
+                this.isNavTabPersistenceDisabledFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public bool isServiceCloudConsole {
             get {
                 return this.isServiceCloudConsoleField;
@@ -88844,7 +100788,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
         public string label {
             get {
                 return this.labelField;
@@ -88855,7 +100799,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
         public string logo {
             get {
                 return this.logoField;
@@ -88866,7 +100810,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
         public NavType navType {
             get {
                 return this.navTypeField;
@@ -88888,7 +100832,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
         public AppPreferences preferences {
             get {
                 return this.preferencesField;
@@ -88899,7 +100843,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("profileActionOverrides", Order=13)]
+        [System.Xml.Serialization.XmlElementAttribute("profileActionOverrides", Order=14)]
         public AppProfileActionOverride[] profileActionOverrides {
             get {
                 return this.profileActionOverridesField;
@@ -88910,7 +100854,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
         public string setupExperience {
             get {
                 return this.setupExperienceField;
@@ -88921,7 +100865,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("subscriberTabs", Order=15)]
+        [System.Xml.Serialization.XmlElementAttribute("subscriberTabs", Order=16)]
         public string[] subscriberTabs {
             get {
                 return this.subscriberTabsField;
@@ -88932,7 +100876,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("tabs", Order=16)]
+        [System.Xml.Serialization.XmlElementAttribute("tabs", Order=17)]
         public string[] tabs {
             get {
                 return this.tabsField;
@@ -88943,7 +100887,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
         public UiType uiType {
             get {
                 return this.uiTypeField;
@@ -88965,7 +100909,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
         public string utilityBar {
             get {
                 return this.utilityBarField;
@@ -88976,7 +100920,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=19)]
+        [System.Xml.Serialization.XmlArrayAttribute(Order=20)]
         [System.Xml.Serialization.XmlArrayItemAttribute("mappings", IsNullable=false)]
         public WorkspaceMapping[] workspaceConfig {
             get {
@@ -89915,6 +101859,41 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class CustomAddressFieldSettings : Metadata {
+        
+        private bool enableCustomAddressFieldField;
+        
+        private bool enableCustomAddressFieldFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableCustomAddressField {
+            get {
+                return this.enableCustomAddressFieldField;
+            }
+            set {
+                this.enableCustomAddressFieldField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableCustomAddressFieldSpecified {
+            get {
+                return this.enableCustomAddressFieldFieldSpecified;
+            }
+            set {
+                this.enableCustomAddressFieldFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class CurrencySettings : Metadata {
         
         private bool enableCurrencyEffectiveDatesField;
@@ -90308,6 +102287,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         FieldServiceMobileExtension,
+        
+        /// <remarks/>
+        VisualForce,
     }
     
     /// <remarks/>
@@ -90347,6 +102329,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool enableCallCoachingZoomField;
         
         private bool enableCallCoachingZoomFieldSpecified;
+        
+        private bool enableOpptyMatchingField;
+        
+        private bool enableOpptyMatchingFieldSpecified;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
@@ -90391,6 +102377,28 @@ namespace SalesforceMetadata.MetadataWSDL {
                 this.enableCallCoachingZoomFieldSpecified = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool enableOpptyMatching {
+            get {
+                return this.enableOpptyMatchingField;
+            }
+            set {
+                this.enableOpptyMatchingField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableOpptyMatchingSpecified {
+            get {
+                return this.enableOpptyMatchingFieldSpecified;
+            }
+            set {
+                this.enableOpptyMatchingFieldSpecified = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -90401,24 +102409,154 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class ConversationVendorInfo : Metadata {
         
+        private bool agentSSOSupportedField;
+        
+        private bool agentSSOSupportedFieldSpecified;
+        
+        private string awsAccountKeyField;
+        
+        private string awsRootEmailField;
+        
+        private double awsTenantVersionField;
+        
+        private bool awsTenantVersionFieldSpecified;
+        
         private string bridgeComponentField;
         
         private ClientAuthMode clientAuthModeField;
         
+        private bool clientAuthModeFieldSpecified;
+        
         private string connectorUrlField;
+        
+        private string customConfigField;
         
         private string customLoginUrlField;
         
         private string developerNameField;
         
+        private bool einsteinConversationInsightsSupportedField;
+        
+        private bool einsteinConversationInsightsSupportedFieldSpecified;
+        
+        private string integrationClassField;
+        
         private string integrationClassNameField;
+        
+        private bool isTaxCompliantField;
+        
+        private bool isTaxCompliantFieldSpecified;
+        
+        private bool keyProvisioningSupportedField;
+        
+        private bool keyProvisioningSupportedFieldSpecified;
         
         private string masterLabelField;
         
+        private string namedCredentialField;
+        
+        private bool namedCredentialSupportedField;
+        
+        private bool namedCredentialSupportedFieldSpecified;
+        
+        private bool partnerContactCenterListSupportedField;
+        
+        private bool partnerContactCenterListSupportedFieldSpecified;
+        
+        private bool partnerPhoneNumbersSupportedField;
+        
+        private bool partnerPhoneNumbersSupportedFieldSpecified;
+        
+        private bool partnerTransferDestinationsSupportedField;
+        
+        private bool partnerTransferDestinationsSupportedFieldSpecified;
+        
         private ServerAuthMode serverAuthModeField;
+        
+        private bool serverAuthModeFieldSpecified;
+        
+        private string telephonySettingsComponentField;
+        
+        private bool universalCallRecordingAccessSupportedField;
+        
+        private bool universalCallRecordingAccessSupportedFieldSpecified;
+        
+        private bool userSyncingSupportedField;
+        
+        private bool userSyncingSupportedFieldSpecified;
+        
+        private ConversationVendorType vendorTypeField;
+        
+        private bool vendorTypeFieldSpecified;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool agentSSOSupported {
+            get {
+                return this.agentSSOSupportedField;
+            }
+            set {
+                this.agentSSOSupportedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool agentSSOSupportedSpecified {
+            get {
+                return this.agentSSOSupportedFieldSpecified;
+            }
+            set {
+                this.agentSSOSupportedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string awsAccountKey {
+            get {
+                return this.awsAccountKeyField;
+            }
+            set {
+                this.awsAccountKeyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string awsRootEmail {
+            get {
+                return this.awsRootEmailField;
+            }
+            set {
+                this.awsRootEmailField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public double awsTenantVersion {
+            get {
+                return this.awsTenantVersionField;
+            }
+            set {
+                this.awsTenantVersionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool awsTenantVersionSpecified {
+            get {
+                return this.awsTenantVersionFieldSpecified;
+            }
+            set {
+                this.awsTenantVersionFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
         public string bridgeComponent {
             get {
                 return this.bridgeComponentField;
@@ -90429,7 +102567,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public ClientAuthMode clientAuthMode {
             get {
                 return this.clientAuthModeField;
@@ -90440,7 +102578,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool clientAuthModeSpecified {
+            get {
+                return this.clientAuthModeFieldSpecified;
+            }
+            set {
+                this.clientAuthModeFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public string connectorUrl {
             get {
                 return this.connectorUrlField;
@@ -90451,7 +102600,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public string customConfig {
+            get {
+                return this.customConfigField;
+            }
+            set {
+                this.customConfigField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public string customLoginUrl {
             get {
                 return this.customLoginUrlField;
@@ -90462,7 +102622,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public string developerName {
             get {
                 return this.developerNameField;
@@ -90473,7 +102633,40 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        public bool einsteinConversationInsightsSupported {
+            get {
+                return this.einsteinConversationInsightsSupportedField;
+            }
+            set {
+                this.einsteinConversationInsightsSupportedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool einsteinConversationInsightsSupportedSpecified {
+            get {
+                return this.einsteinConversationInsightsSupportedFieldSpecified;
+            }
+            set {
+                this.einsteinConversationInsightsSupportedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        public string integrationClass {
+            get {
+                return this.integrationClassField;
+            }
+            set {
+                this.integrationClassField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
         public string integrationClassName {
             get {
                 return this.integrationClassNameField;
@@ -90484,7 +102677,51 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        public bool isTaxCompliant {
+            get {
+                return this.isTaxCompliantField;
+            }
+            set {
+                this.isTaxCompliantField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isTaxCompliantSpecified {
+            get {
+                return this.isTaxCompliantFieldSpecified;
+            }
+            set {
+                this.isTaxCompliantFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        public bool keyProvisioningSupported {
+            get {
+                return this.keyProvisioningSupportedField;
+            }
+            set {
+                this.keyProvisioningSupportedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool keyProvisioningSupportedSpecified {
+            get {
+                return this.keyProvisioningSupportedFieldSpecified;
+            }
+            set {
+                this.keyProvisioningSupportedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
         public string masterLabel {
             get {
                 return this.masterLabelField;
@@ -90495,13 +102732,200 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
+        public string namedCredential {
+            get {
+                return this.namedCredentialField;
+            }
+            set {
+                this.namedCredentialField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
+        public bool namedCredentialSupported {
+            get {
+                return this.namedCredentialSupportedField;
+            }
+            set {
+                this.namedCredentialSupportedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool namedCredentialSupportedSpecified {
+            get {
+                return this.namedCredentialSupportedFieldSpecified;
+            }
+            set {
+                this.namedCredentialSupportedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
+        public bool partnerContactCenterListSupported {
+            get {
+                return this.partnerContactCenterListSupportedField;
+            }
+            set {
+                this.partnerContactCenterListSupportedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool partnerContactCenterListSupportedSpecified {
+            get {
+                return this.partnerContactCenterListSupportedFieldSpecified;
+            }
+            set {
+                this.partnerContactCenterListSupportedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
+        public bool partnerPhoneNumbersSupported {
+            get {
+                return this.partnerPhoneNumbersSupportedField;
+            }
+            set {
+                this.partnerPhoneNumbersSupportedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool partnerPhoneNumbersSupportedSpecified {
+            get {
+                return this.partnerPhoneNumbersSupportedFieldSpecified;
+            }
+            set {
+                this.partnerPhoneNumbersSupportedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
+        public bool partnerTransferDestinationsSupported {
+            get {
+                return this.partnerTransferDestinationsSupportedField;
+            }
+            set {
+                this.partnerTransferDestinationsSupportedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool partnerTransferDestinationsSupportedSpecified {
+            get {
+                return this.partnerTransferDestinationsSupportedFieldSpecified;
+            }
+            set {
+                this.partnerTransferDestinationsSupportedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
         public ServerAuthMode serverAuthMode {
             get {
                 return this.serverAuthModeField;
             }
             set {
                 this.serverAuthModeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool serverAuthModeSpecified {
+            get {
+                return this.serverAuthModeFieldSpecified;
+            }
+            set {
+                this.serverAuthModeFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
+        public string telephonySettingsComponent {
+            get {
+                return this.telephonySettingsComponentField;
+            }
+            set {
+                this.telephonySettingsComponentField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
+        public bool universalCallRecordingAccessSupported {
+            get {
+                return this.universalCallRecordingAccessSupportedField;
+            }
+            set {
+                this.universalCallRecordingAccessSupportedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool universalCallRecordingAccessSupportedSpecified {
+            get {
+                return this.universalCallRecordingAccessSupportedFieldSpecified;
+            }
+            set {
+                this.universalCallRecordingAccessSupportedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
+        public bool userSyncingSupported {
+            get {
+                return this.userSyncingSupportedField;
+            }
+            set {
+                this.userSyncingSupportedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool userSyncingSupportedSpecified {
+            get {
+                return this.userSyncingSupportedFieldSpecified;
+            }
+            set {
+                this.userSyncingSupportedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=25)]
+        public ConversationVendorType vendorType {
+            get {
+                return this.vendorTypeField;
+            }
+            set {
+                this.vendorTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool vendorTypeSpecified {
+            get {
+                return this.vendorTypeFieldSpecified;
+            }
+            set {
+                this.vendorTypeFieldSpecified = value;
             }
         }
     }
@@ -90533,6 +102957,19 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         None,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum ConversationVendorType {
+        
+        /// <remarks/>
+        ServiceCloudVoicePartner,
+        
+        /// <remarks/>
+        Amazon_Connect,
     }
     
     /// <remarks/>
@@ -92630,6 +105067,15 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         CDPIngest,
+        
+        /// <remarks/>
+        CDPProfile,
+        
+        /// <remarks/>
+        CDPQuery,
+        
+        /// <remarks/>
+        Chatbot,
     }
     
     /// <remarks/>
@@ -94174,6 +106620,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableInviteChatterGuestEnabledFieldSpecified;
         
+        private bool enableNameFieldsUserPIIEnabledField;
+        
+        private bool enableNameFieldsUserPIIEnabledFieldSpecified;
+        
         private bool enableNetPortalUserReportOptsField;
         
         private bool enableNetPortalUserReportOptsFieldSpecified;
@@ -94542,6 +106992,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=15)]
+        public bool enableNameFieldsUserPIIEnabled {
+            get {
+                return this.enableNameFieldsUserPIIEnabledField;
+            }
+            set {
+                this.enableNameFieldsUserPIIEnabledField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableNameFieldsUserPIIEnabledSpecified {
+            get {
+                return this.enableNameFieldsUserPIIEnabledFieldSpecified;
+            }
+            set {
+                this.enableNameFieldsUserPIIEnabledFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
         public bool enableNetPortalUserReportOpts {
             get {
                 return this.enableNetPortalUserReportOptsField;
@@ -94563,7 +107035,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
         public bool enableNetworksEnabled {
             get {
                 return this.enableNetworksEnabledField;
@@ -94585,7 +107057,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
         public bool enableOotbProfExtUserOpsEnable {
             get {
                 return this.enableOotbProfExtUserOpsEnableField;
@@ -94607,7 +107079,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
         public bool enablePRMAccRelPref {
             get {
                 return this.enablePRMAccRelPrefField;
@@ -94629,7 +107101,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
         public bool enablePowerCustomerCaseStatus {
             get {
                 return this.enablePowerCustomerCaseStatusField;
@@ -94651,7 +107123,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
         public bool enablePreventBadgeGuestAccess {
             get {
                 return this.enablePreventBadgeGuestAccessField;
@@ -94673,7 +107145,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
         public bool enableRelaxPartnerAccountFieldPref {
             get {
                 return this.enableRelaxPartnerAccountFieldPrefField;
@@ -94695,7 +107167,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
         public bool enableUnsupportedBrowserModalPref {
             get {
                 return this.enableUnsupportedBrowserModalPrefField;
@@ -94717,7 +107189,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
         public bool enableUsernameUniqForOrgPref {
             get {
                 return this.enableUsernameUniqForOrgPrefField;
@@ -98939,6 +111411,158 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class CareBenefitVerifySettings : Metadata {
+        
+        private string codeSetTypeField;
+        
+        private string defaultNpiField;
+        
+        private string generalPlanServiceTypeCodeField;
+        
+        private bool isDefaultField;
+        
+        private bool isDefaultFieldSpecified;
+        
+        private string masterLabelField;
+        
+        private string organizationNameField;
+        
+        private string serviceApexClassField;
+        
+        private string serviceNamedCredentialField;
+        
+        private string serviceTypeSourceSystemField;
+        
+        private string uriPathField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string codeSetType {
+            get {
+                return this.codeSetTypeField;
+            }
+            set {
+                this.codeSetTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string defaultNpi {
+            get {
+                return this.defaultNpiField;
+            }
+            set {
+                this.defaultNpiField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string generalPlanServiceTypeCode {
+            get {
+                return this.generalPlanServiceTypeCodeField;
+            }
+            set {
+                this.generalPlanServiceTypeCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool isDefault {
+            get {
+                return this.isDefaultField;
+            }
+            set {
+                this.isDefaultField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isDefaultSpecified {
+            get {
+                return this.isDefaultFieldSpecified;
+            }
+            set {
+                this.isDefaultFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string organizationName {
+            get {
+                return this.organizationNameField;
+            }
+            set {
+                this.organizationNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public string serviceApexClass {
+            get {
+                return this.serviceApexClassField;
+            }
+            set {
+                this.serviceApexClassField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public string serviceNamedCredential {
+            get {
+                return this.serviceNamedCredentialField;
+            }
+            set {
+                this.serviceNamedCredentialField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public string serviceTypeSourceSystem {
+            get {
+                return this.serviceTypeSourceSystemField;
+            }
+            set {
+                this.serviceTypeSourceSystemField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        public string uriPath {
+            get {
+                return this.uriPathField;
+            }
+            set {
+                this.uriPathField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class CampaignSettings : Metadata {
         
         private int aiAttributionTimeframeField;
@@ -99308,6 +111932,67 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class CallCtrAgentFavTrfrDest : Metadata {
+        
+        private string agentField;
+        
+        private string callCenterField;
+        
+        private string nameField;
+        
+        private string transferDestinationField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string agent {
+            get {
+                return this.agentField;
+            }
+            set {
+                this.agentField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string callCenter {
+            get {
+                return this.callCenterField;
+            }
+            set {
+                this.callCenterField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string transferDestination {
+            get {
+                return this.transferDestinationField;
+            }
+            set {
+                this.transferDestinationField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class CallCoachingMediaProvider : Metadata {
         
         private bool isActiveField;
@@ -99366,6 +112051,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string masterLabelField;
         
+        private string quickConnectField;
+        
         private string referenceRecordField;
         
         /// <remarks/>
@@ -99414,6 +112101,17 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string quickConnect {
+            get {
+                return this.quickConnectField;
+            }
+            set {
+                this.quickConnectField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public string referenceRecord {
             get {
                 return this.referenceRecordField;
@@ -99434,6 +112132,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string adapterUrlField;
         
+        private ContactCenterChannel[] contactCenterChannelsField;
+        
         private string customSettingsField;
         
         private string displayNameField;
@@ -99443,6 +112143,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         private string internalNameLabelField;
         
         private CallCenterSection[] sectionsField;
+        
+        private VendorCallCenterStatusMap[] vendorCallCenterStatusMapsField;
         
         private string versionField;
         
@@ -99458,7 +112160,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute("contactCenterChannels", Order=1)]
+        public ContactCenterChannel[] contactCenterChannels {
+            get {
+                return this.contactCenterChannelsField;
+            }
+            set {
+                this.contactCenterChannelsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
         public string customSettings {
             get {
                 return this.customSettingsField;
@@ -99469,7 +112182,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
         public string displayName {
             get {
                 return this.displayNameField;
@@ -99480,7 +112193,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
         public string displayNameLabel {
             get {
                 return this.displayNameLabelField;
@@ -99491,7 +112204,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public string internalNameLabel {
             get {
                 return this.internalNameLabelField;
@@ -99502,7 +112215,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("sections", Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute("sections", Order=6)]
         public CallCenterSection[] sections {
             get {
                 return this.sectionsField;
@@ -99513,13 +112226,45 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute("vendorCallCenterStatusMaps", Order=7)]
+        public VendorCallCenterStatusMap[] vendorCallCenterStatusMaps {
+            get {
+                return this.vendorCallCenterStatusMapsField;
+            }
+            set {
+                this.vendorCallCenterStatusMapsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public string version {
             get {
                 return this.versionField;
             }
             set {
                 this.versionField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class ContactCenterChannel {
+        
+        private string channelField;
+        
+        /// <remarks/>
+        public string channel {
+            get {
+                return this.channelField;
+            }
+            set {
+                this.channelField = value;
             }
         }
     }
@@ -99611,6 +112356,39 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.valueField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class VendorCallCenterStatusMap {
+        
+        private string externalStatusField;
+        
+        private string servicePresenceStatusField;
+        
+        /// <remarks/>
+        public string externalStatus {
+            get {
+                return this.externalStatusField;
+            }
+            set {
+                this.externalStatusField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string servicePresenceStatus {
+            get {
+                return this.servicePresenceStatusField;
+            }
+            set {
+                this.servicePresenceStatusField = value;
             }
         }
     }
@@ -100408,6 +113186,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         Attachment,
+        
+        /// <remarks/>
+        Matrix,
     }
     
     /// <remarks/>
@@ -101224,6 +114005,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string masterLabelField;
         
+        private BriefcaseType typeField;
+        
+        private bool typeFieldSpecified;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("briefcaseRules", Order=0)]
         public BriefcaseRule[] briefcaseRules {
@@ -101267,6 +114052,28 @@ namespace SalesforceMetadata.MetadataWSDL {
                 this.masterLabelField = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public BriefcaseType type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool typeSpecified {
+            get {
+                return this.typeFieldSpecified;
+            }
+            set {
+                this.typeFieldSpecified = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -101294,6 +114101,14 @@ namespace SalesforceMetadata.MetadataWSDL {
         private int recordLimitField;
         
         private bool recordLimitFieldSpecified;
+        
+        private BriefcaseRule[] relatedRulesField;
+        
+        private string relationshipFieldField;
+        
+        private BriefcaseRuleRelationshipType relationshipTypeField;
+        
+        private bool relationshipTypeFieldSpecified;
         
         private string targetEntityField;
         
@@ -101392,6 +114207,48 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("relatedRules")]
+        public BriefcaseRule[] relatedRules {
+            get {
+                return this.relatedRulesField;
+            }
+            set {
+                this.relatedRulesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string relationshipField {
+            get {
+                return this.relationshipFieldField;
+            }
+            set {
+                this.relationshipFieldField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public BriefcaseRuleRelationshipType relationshipType {
+            get {
+                return this.relationshipTypeField;
+            }
+            set {
+                this.relationshipTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool relationshipTypeSpecified {
+            get {
+                return this.relationshipTypeFieldSpecified;
+            }
+            set {
+                this.relationshipTypeFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
         public string targetEntity {
             get {
                 return this.targetEntityField;
@@ -101469,6 +114326,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         e,
         
         /// <remarks/>
+        n,
+        
+        /// <remarks/>
         l,
         
         /// <remarks/>
@@ -101485,6 +114345,32 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         d,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum BriefcaseRuleRelationshipType {
+        
+        /// <remarks/>
+        ParentToChild,
+        
+        /// <remarks/>
+        ChildToParent,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum BriefcaseType {
+        
+        /// <remarks/>
+        Standard,
+        
+        /// <remarks/>
+        HighVolume,
     }
     
     /// <remarks/>
@@ -101587,60 +114473,35 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public partial class BotSettings : Metadata {
-        
-        private bool enableBotsField;
-        
-        private bool enableBotsFieldSpecified;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
-        public bool enableBots {
-            get {
-                return this.enableBotsField;
-            }
-            set {
-                this.enableBotsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool enableBotsSpecified {
-            get {
-                return this.enableBotsFieldSpecified;
-            }
-            set {
-                this.enableBotsFieldSpecified = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public partial class BotVersion : Metadata {
+    public partial class BotTemplate : Metadata {
         
         private BotDialogGroup[] botDialogGroupsField;
         
         private BotDialog[] botDialogsField;
         
+        private ConversationContextVariable[] contextVariablesField;
+        
+        private string conversationLanguagesField;
+        
         private ConversationSystemDialog[] conversationSystemDialogsField;
         
         private ConversationVariable[] conversationVariablesField;
         
+        private string descriptionField;
+        
         private string entryDialogField;
+        
+        private string iconField;
         
         private string mainMenuDialogField;
         
-        private ConversationDefinitionNlpProvider[] nlpProvidersField;
+        private string masterLabelField;
         
-        private int responseDelayMillisecondsField;
+        private LocalMlDomain mlDomainField;
         
-        private bool responseDelayMillisecondsFieldSpecified;
+        private bool richContentEnabledField;
+        
+        private bool richContentEnabledFieldSpecified;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("botDialogGroups", Order=0)]
@@ -101665,7 +114526,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("conversationSystemDialogs", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute("contextVariables", Order=2)]
+        public ConversationContextVariable[] contextVariables {
+            get {
+                return this.contextVariablesField;
+            }
+            set {
+                this.contextVariablesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string conversationLanguages {
+            get {
+                return this.conversationLanguagesField;
+            }
+            set {
+                this.conversationLanguagesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("conversationSystemDialogs", Order=4)]
         public ConversationSystemDialog[] conversationSystemDialogs {
             get {
                 return this.conversationSystemDialogsField;
@@ -101676,7 +114559,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("conversationVariables", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute("conversationVariables", Order=5)]
         public ConversationVariable[] conversationVariables {
             get {
                 return this.conversationVariablesField;
@@ -101687,7 +114570,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public string entryDialog {
             get {
                 return this.entryDialogField;
@@ -101698,7 +114592,18 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public string icon {
+            get {
+                return this.iconField;
+            }
+            set {
+                this.iconField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public string mainMenuDialog {
             get {
                 return this.mainMenuDialogField;
@@ -101709,35 +114614,46 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("nlpProviders", Order=6)]
-        public ConversationDefinitionNlpProvider[] nlpProviders {
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        public string masterLabel {
             get {
-                return this.nlpProvidersField;
+                return this.masterLabelField;
             }
             set {
-                this.nlpProvidersField = value;
+                this.masterLabelField = value;
             }
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
-        public int responseDelayMilliseconds {
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        public LocalMlDomain mlDomain {
             get {
-                return this.responseDelayMillisecondsField;
+                return this.mlDomainField;
             }
             set {
-                this.responseDelayMillisecondsField = value;
+                this.mlDomainField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        public bool richContentEnabled {
+            get {
+                return this.richContentEnabledField;
+            }
+            set {
+                this.richContentEnabledField = value;
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool responseDelayMillisecondsSpecified {
+        public bool richContentEnabledSpecified {
             get {
-                return this.responseDelayMillisecondsFieldSpecified;
+                return this.richContentEnabledFieldSpecified;
             }
             set {
-                this.responseDelayMillisecondsFieldSpecified = value;
+                this.richContentEnabledFieldSpecified = value;
             }
         }
     }
@@ -101945,6 +114861,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private ConversationSystemMessage conversationSystemMessageField;
         
+        private ConversationDefinitionRichMessage messageDefinitionField;
+        
+        private string stepIdentifierField;
+        
         private BotStepType typeField;
         
         /// <remarks/>
@@ -102041,6 +114961,26 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
+        public ConversationDefinitionRichMessage messageDefinition {
+            get {
+                return this.messageDefinitionField;
+            }
+            set {
+                this.messageDefinitionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string stepIdentifier {
+            get {
+                return this.stepIdentifierField;
+            }
+            set {
+                this.stepIdentifierField = value;
+            }
+        }
+        
+        /// <remarks/>
         public BotStepType type {
             get {
                 return this.typeField;
@@ -102127,6 +115067,12 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         logFeedback,
+        
+        /// <remarks/>
+        externalService,
+        
+        /// <remarks/>
+        logGoalAchieved,
     }
     
     /// <remarks/>
@@ -102138,6 +115084,8 @@ namespace SalesforceMetadata.MetadataWSDL {
     public partial class BotInvocationMapping {
         
         private string parameterNameField;
+        
+        private string recordNameField;
         
         private BotInvocationMappingType typeField;
         
@@ -102156,6 +115104,16 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.parameterNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string recordName {
+            get {
+                return this.recordNameField;
+            }
+            set {
+                this.recordNameField = value;
             }
         }
         
@@ -102247,6 +115205,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string messageField;
         
+        private string messageIdentifierField;
+        
         /// <remarks/>
         public string message {
             get {
@@ -102254,6 +115214,16 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.messageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string messageIdentifier {
+            get {
+                return this.messageIdentifierField;
+            }
+            set {
+                this.messageIdentifierField = value;
             }
         }
     }
@@ -102479,6 +115449,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private BotVariableOperationType typeField;
         
+        private string variableOperationIdentifierField;
+        
         /// <remarks/>
         public bool askCollectIfSet {
             get {
@@ -102698,6 +115670,16 @@ namespace SalesforceMetadata.MetadataWSDL {
                 this.typeField = value;
             }
         }
+        
+        /// <remarks/>
+        public string variableOperationIdentifier {
+            get {
+                return this.variableOperationIdentifierField;
+            }
+            set {
+                this.variableOperationIdentifierField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -102710,6 +115692,8 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string literalValueField;
         
+        private string quickReplyOptionIdentifierField;
+        
         /// <remarks/>
         public string literalValue {
             get {
@@ -102717,6 +115701,16 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.literalValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string quickReplyOptionIdentifier {
+            get {
+                return this.quickReplyOptionIdentifierField;
+            }
+            set {
+                this.quickReplyOptionIdentifierField = value;
             }
         }
     }
@@ -102886,22 +115880,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         Buttons,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public enum BotVariableOperationType {
-        
-        /// <remarks/>
-        Set,
-        
-        /// <remarks/>
-        Unset,
-        
-        /// <remarks/>
-        Collect,
     }
     
     /// <remarks/>
@@ -103294,32 +116272,227 @@ namespace SalesforceMetadata.MetadataWSDL {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
     [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public enum BotStepType {
+    public partial class ConversationDefinitionRichMessage {
+        
+        private BotInvocationMapping[] messageDefinitionMappingsField;
+        
+        private string messageDefinitionNameField;
         
         /// <remarks/>
-        Navigation,
+        [System.Xml.Serialization.XmlElementAttribute("messageDefinitionMappings")]
+        public BotInvocationMapping[] messageDefinitionMappings {
+            get {
+                return this.messageDefinitionMappingsField;
+            }
+            set {
+                this.messageDefinitionMappingsField = value;
+            }
+        }
         
         /// <remarks/>
-        Invocation,
+        public string messageDefinitionName {
+            get {
+                return this.messageDefinitionNameField;
+            }
+            set {
+                this.messageDefinitionNameField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class ConversationContextVariable {
+        
+        private string sObjectTypeField;
+        
+        private ConversationContextVariableMapping[] contextVariableMappingsField;
+        
+        private ConversationDataType dataTypeField;
+        
+        private string developerNameField;
+        
+        private string labelField;
         
         /// <remarks/>
-        VariableOperation,
+        public string SObjectType {
+            get {
+                return this.sObjectTypeField;
+            }
+            set {
+                this.sObjectTypeField = value;
+            }
+        }
         
         /// <remarks/>
-        Message,
+        [System.Xml.Serialization.XmlElementAttribute("contextVariableMappings")]
+        public ConversationContextVariableMapping[] contextVariableMappings {
+            get {
+                return this.contextVariableMappingsField;
+            }
+            set {
+                this.contextVariableMappingsField = value;
+            }
+        }
         
         /// <remarks/>
-        Wait,
+        public ConversationDataType dataType {
+            get {
+                return this.dataTypeField;
+            }
+            set {
+                this.dataTypeField = value;
+            }
+        }
         
         /// <remarks/>
-        Group,
+        public string developerName {
+            get {
+                return this.developerNameField;
+            }
+            set {
+                this.developerNameField = value;
+            }
+        }
         
         /// <remarks/>
-        SystemMessage,
+        public string label {
+            get {
+                return this.labelField;
+            }
+            set {
+                this.labelField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class ConversationContextVariableMapping {
+        
+        private string sObjectTypeField;
+        
+        private string fieldNameField;
+        
+        private MessageType messageTypeField;
         
         /// <remarks/>
-        RecordLookup,
+        public string SObjectType {
+            get {
+                return this.sObjectTypeField;
+            }
+            set {
+                this.sObjectTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string fieldName {
+            get {
+                return this.fieldNameField;
+            }
+            set {
+                this.fieldNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public MessageType messageType {
+            get {
+                return this.messageTypeField;
+            }
+            set {
+                this.messageTypeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum MessageType {
+        
+        /// <remarks/>
+        Text,
+        
+        /// <remarks/>
+        Facebook,
+        
+        /// <remarks/>
+        Line,
+        
+        /// <remarks/>
+        GoogleHome,
+        
+        /// <remarks/>
+        Alexa,
+        
+        /// <remarks/>
+        Omega,
+        
+        /// <remarks/>
+        AppleBusinessChat,
+        
+        /// <remarks/>
+        WeChat,
+        
+        /// <remarks/>
+        WebChat,
+        
+        /// <remarks/>
+        WhatsApp,
+        
+        /// <remarks/>
+        Phone,
+        
+        /// <remarks/>
+        EmbeddedMessaging,
+        
+        /// <remarks/>
+        Voice,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum ConversationDataType {
+        
+        /// <remarks/>
+        Text,
+        
+        /// <remarks/>
+        Number,
+        
+        /// <remarks/>
+        Boolean,
+        
+        /// <remarks/>
+        Object,
+        
+        /// <remarks/>
+        Date,
+        
+        /// <remarks/>
+        DateTime,
+        
+        /// <remarks/>
+        Currency,
+        
+        /// <remarks/>
+        Id,
     }
     
     /// <remarks/>
@@ -103466,32 +116639,221 @@ namespace SalesforceMetadata.MetadataWSDL {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
     [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public enum ConversationDataType {
+    public partial class LocalMlDomain {
+        
+        private string labelField;
+        
+        private MlIntent[] mlIntentsField;
+        
+        private MlSlotClass[] mlSlotClassesField;
+        
+        private string nameField;
         
         /// <remarks/>
-        Text,
+        public string label {
+            get {
+                return this.labelField;
+            }
+            set {
+                this.labelField = value;
+            }
+        }
         
         /// <remarks/>
-        Number,
+        [System.Xml.Serialization.XmlElementAttribute("mlIntents")]
+        public MlIntent[] mlIntents {
+            get {
+                return this.mlIntentsField;
+            }
+            set {
+                this.mlIntentsField = value;
+            }
+        }
         
         /// <remarks/>
-        Boolean,
+        [System.Xml.Serialization.XmlElementAttribute("mlSlotClasses")]
+        public MlSlotClass[] mlSlotClasses {
+            get {
+                return this.mlSlotClassesField;
+            }
+            set {
+                this.mlSlotClassesField = value;
+            }
+        }
         
         /// <remarks/>
-        Object,
+        public string name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class BotSettings : Metadata {
+        
+        private bool enableBotsField;
+        
+        private bool enableBotsFieldSpecified;
         
         /// <remarks/>
-        Date,
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableBots {
+            get {
+                return this.enableBotsField;
+            }
+            set {
+                this.enableBotsField = value;
+            }
+        }
         
         /// <remarks/>
-        DateTime,
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableBotsSpecified {
+            get {
+                return this.enableBotsFieldSpecified;
+            }
+            set {
+                this.enableBotsFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class BotVersion : Metadata {
+        
+        private BotDialogGroup[] botDialogGroupsField;
+        
+        private BotDialog[] botDialogsField;
+        
+        private ConversationSystemDialog[] conversationSystemDialogsField;
+        
+        private ConversationVariable[] conversationVariablesField;
+        
+        private string entryDialogField;
+        
+        private string mainMenuDialogField;
+        
+        private ConversationDefinitionNlpProvider[] nlpProvidersField;
+        
+        private int responseDelayMillisecondsField;
+        
+        private bool responseDelayMillisecondsFieldSpecified;
         
         /// <remarks/>
-        Currency,
+        [System.Xml.Serialization.XmlElementAttribute("botDialogGroups", Order=0)]
+        public BotDialogGroup[] botDialogGroups {
+            get {
+                return this.botDialogGroupsField;
+            }
+            set {
+                this.botDialogGroupsField = value;
+            }
+        }
         
         /// <remarks/>
-        Id,
+        [System.Xml.Serialization.XmlElementAttribute("botDialogs", Order=1)]
+        public BotDialog[] botDialogs {
+            get {
+                return this.botDialogsField;
+            }
+            set {
+                this.botDialogsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("conversationSystemDialogs", Order=2)]
+        public ConversationSystemDialog[] conversationSystemDialogs {
+            get {
+                return this.conversationSystemDialogsField;
+            }
+            set {
+                this.conversationSystemDialogsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("conversationVariables", Order=3)]
+        public ConversationVariable[] conversationVariables {
+            get {
+                return this.conversationVariablesField;
+            }
+            set {
+                this.conversationVariablesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string entryDialog {
+            get {
+                return this.entryDialogField;
+            }
+            set {
+                this.entryDialogField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string mainMenuDialog {
+            get {
+                return this.mainMenuDialogField;
+            }
+            set {
+                this.mainMenuDialogField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("nlpProviders", Order=6)]
+        public ConversationDefinitionNlpProvider[] nlpProviders {
+            get {
+                return this.nlpProvidersField;
+            }
+            set {
+                this.nlpProvidersField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public int responseDelayMilliseconds {
+            get {
+                return this.responseDelayMillisecondsField;
+            }
+            set {
+                this.responseDelayMillisecondsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool responseDelayMillisecondsSpecified {
+            get {
+                return this.responseDelayMillisecondsFieldSpecified;
+            }
+            set {
+                this.responseDelayMillisecondsFieldSpecified = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -103723,226 +117085,6 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public partial class LocalMlDomain {
-        
-        private string labelField;
-        
-        private MlIntent[] mlIntentsField;
-        
-        private MlSlotClass[] mlSlotClassesField;
-        
-        private string nameField;
-        
-        /// <remarks/>
-        public string label {
-            get {
-                return this.labelField;
-            }
-            set {
-                this.labelField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("mlIntents")]
-        public MlIntent[] mlIntents {
-            get {
-                return this.mlIntentsField;
-            }
-            set {
-                this.mlIntentsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("mlSlotClasses")]
-        public MlSlotClass[] mlSlotClasses {
-            get {
-                return this.mlSlotClassesField;
-            }
-            set {
-                this.mlSlotClassesField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string name {
-            get {
-                return this.nameField;
-            }
-            set {
-                this.nameField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public partial class ConversationContextVariable {
-        
-        private string sObjectTypeField;
-        
-        private ConversationContextVariableMapping[] contextVariableMappingsField;
-        
-        private ConversationDataType dataTypeField;
-        
-        private string developerNameField;
-        
-        private string labelField;
-        
-        /// <remarks/>
-        public string SObjectType {
-            get {
-                return this.sObjectTypeField;
-            }
-            set {
-                this.sObjectTypeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("contextVariableMappings")]
-        public ConversationContextVariableMapping[] contextVariableMappings {
-            get {
-                return this.contextVariableMappingsField;
-            }
-            set {
-                this.contextVariableMappingsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public ConversationDataType dataType {
-            get {
-                return this.dataTypeField;
-            }
-            set {
-                this.dataTypeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string developerName {
-            get {
-                return this.developerNameField;
-            }
-            set {
-                this.developerNameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string label {
-            get {
-                return this.labelField;
-            }
-            set {
-                this.labelField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public partial class ConversationContextVariableMapping {
-        
-        private string sObjectTypeField;
-        
-        private string fieldNameField;
-        
-        private MessageType messageTypeField;
-        
-        /// <remarks/>
-        public string SObjectType {
-            get {
-                return this.sObjectTypeField;
-            }
-            set {
-                this.sObjectTypeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string fieldName {
-            get {
-                return this.fieldNameField;
-            }
-            set {
-                this.fieldNameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public MessageType messageType {
-            get {
-                return this.messageTypeField;
-            }
-            set {
-                this.messageTypeField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
-    public enum MessageType {
-        
-        /// <remarks/>
-        Text,
-        
-        /// <remarks/>
-        Facebook,
-        
-        /// <remarks/>
-        Line,
-        
-        /// <remarks/>
-        GoogleHome,
-        
-        /// <remarks/>
-        Alexa,
-        
-        /// <remarks/>
-        Omega,
-        
-        /// <remarks/>
-        AppleBusinessChat,
-        
-        /// <remarks/>
-        WeChat,
-        
-        /// <remarks/>
-        WebChat,
-        
-        /// <remarks/>
-        WhatsApp,
-        
-        /// <remarks/>
-        Phone,
-        
-        /// <remarks/>
-        EmbeddedMessaging,
-        
-        /// <remarks/>
-        Voice,
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class ConversationDefinitionChannelProvider {
         
         private bool agentRequiredField;
@@ -103995,9 +117137,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableBcpFieldSpecified;
         
-        private bool enableBcpCoinField;
+        private bool enableEtpNftField;
         
-        private bool enableBcpCoinFieldSpecified;
+        private bool enableEtpNftFieldSpecified;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
@@ -104023,23 +117165,23 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=1)]
-        public bool enableBcpCoin {
+        public bool enableEtpNft {
             get {
-                return this.enableBcpCoinField;
+                return this.enableEtpNftField;
             }
             set {
-                this.enableBcpCoinField = value;
+                this.enableEtpNftField = value;
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool enableBcpCoinSpecified {
+        public bool enableEtpNftSpecified {
             get {
-                return this.enableBcpCoinFieldSpecified;
+                return this.enableEtpNftFieldSpecified;
             }
             set {
-                this.enableBcpCoinFieldSpecified = value;
+                this.enableEtpNftFieldSpecified = value;
             }
         }
     }
@@ -104728,6 +117870,15 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         Evergreen,
+        
+        /// <remarks/>
+        Slack,
+        
+        /// <remarks/>
+        HubSpot,
+        
+        /// <remarks/>
+        Microsoft,
     }
     
     /// <remarks/>
@@ -105249,6 +118400,8 @@ namespace SalesforceMetadata.MetadataWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
     public partial class AudienceCriteriaValue {
         
+        private string audienceDeveloperNameField;
+        
         private string cityField;
         
         private string countryField;
@@ -105270,6 +118423,16 @@ namespace SalesforceMetadata.MetadataWSDL {
         private string profileField;
         
         private string subdivisionField;
+        
+        /// <remarks/>
+        public string audienceDeveloperName {
+            get {
+                return this.audienceDeveloperNameField;
+            }
+            set {
+                this.audienceDeveloperNameField = value;
+            }
+        }
         
         /// <remarks/>
         public string city {
@@ -105531,6 +118694,154 @@ namespace SalesforceMetadata.MetadataWSDL {
                 this.targetValueField = value;
             }
         }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class AttributeDefinition2 : Metadata {
+        
+        private AttributeDefnDataType dataTypeField;
+        
+        private string defaultValueField;
+        
+        private string descriptionField;
+        
+        private bool isActiveField;
+        
+        private bool isActiveFieldSpecified;
+        
+        private bool isRequiredField;
+        
+        private bool isRequiredFieldSpecified;
+        
+        private string masterLabelField;
+        
+        private string sourceSystemIdentifierField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public AttributeDefnDataType dataType {
+            get {
+                return this.dataTypeField;
+            }
+            set {
+                this.dataTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string defaultValue {
+            get {
+                return this.defaultValueField;
+            }
+            set {
+                this.defaultValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool isActive {
+            get {
+                return this.isActiveField;
+            }
+            set {
+                this.isActiveField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isActiveSpecified {
+            get {
+                return this.isActiveFieldSpecified;
+            }
+            set {
+                this.isActiveFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public bool isRequired {
+            get {
+                return this.isRequiredField;
+            }
+            set {
+                this.isRequiredField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isRequiredSpecified {
+            get {
+                return this.isRequiredFieldSpecified;
+            }
+            set {
+                this.isRequiredFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public string sourceSystemIdentifier {
+            get {
+                return this.sourceSystemIdentifierField;
+            }
+            set {
+                this.sourceSystemIdentifierField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum AttributeDefnDataType {
+        
+        /// <remarks/>
+        Checkbox,
+        
+        /// <remarks/>
+        Date,
+        
+        /// <remarks/>
+        Datetime,
+        
+        /// <remarks/>
+        Number,
+        
+        /// <remarks/>
+        Text,
     }
     
     /// <remarks/>
@@ -106520,6 +119831,14 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private string extCalEventHandlerField;
         
+        private bool isSvcTerrOpHoursWithShiftsUsedField;
+        
+        private bool isSvcTerrOpHoursWithShiftsUsedFieldSpecified;
+        
+        private bool isSvcTerritoryMemberShiftUsedField;
+        
+        private bool isSvcTerritoryMemberShiftUsedFieldSpecified;
+        
         private string masterLabelField;
         
         private bool shouldCheckExternalCalendarField;
@@ -106575,6 +119894,50 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool isSvcTerrOpHoursWithShiftsUsed {
+            get {
+                return this.isSvcTerrOpHoursWithShiftsUsedField;
+            }
+            set {
+                this.isSvcTerrOpHoursWithShiftsUsedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isSvcTerrOpHoursWithShiftsUsedSpecified {
+            get {
+                return this.isSvcTerrOpHoursWithShiftsUsedFieldSpecified;
+            }
+            set {
+                this.isSvcTerrOpHoursWithShiftsUsedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public bool isSvcTerritoryMemberShiftUsed {
+            get {
+                return this.isSvcTerritoryMemberShiftUsedField;
+            }
+            set {
+                this.isSvcTerritoryMemberShiftUsedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isSvcTerritoryMemberShiftUsedSpecified {
+            get {
+                return this.isSvcTerritoryMemberShiftUsedFieldSpecified;
+            }
+            set {
+                this.isSvcTerritoryMemberShiftUsedFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
         public string masterLabel {
             get {
                 return this.masterLabelField;
@@ -106585,7 +119948,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public bool shouldCheckExternalCalendar {
             get {
                 return this.shouldCheckExternalCalendarField;
@@ -106596,7 +119959,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public bool shouldConsiderCalendarEvents {
             get {
                 return this.shouldConsiderCalendarEventsField;
@@ -106607,7 +119970,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public bool shouldEnforceExcludedResource {
             get {
                 return this.shouldEnforceExcludedResourceField;
@@ -106618,7 +119981,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public bool shouldEnforceRequiredResource {
             get {
                 return this.shouldEnforceRequiredResourceField;
@@ -106629,7 +119992,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
         public bool shouldMatchSkill {
             get {
                 return this.shouldMatchSkillField;
@@ -106640,7 +120003,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
         public bool shouldMatchSkillLevel {
             get {
                 return this.shouldMatchSkillLevelField;
@@ -106651,7 +120014,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
         public bool shouldRespectVisitingHours {
             get {
                 return this.shouldRespectVisitingHoursField;
@@ -106662,7 +120025,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
         public bool shouldUsePrimaryMembers {
             get {
                 return this.shouldUsePrimaryMembersField;
@@ -106673,7 +120036,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
         public bool shouldUseSecondaryMembers {
             get {
                 return this.shouldUseSecondaryMembersField;
@@ -106682,6 +120045,106 @@ namespace SalesforceMetadata.MetadataWSDL {
                 this.shouldUseSecondaryMembersField = value;
             }
         }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class AppointmentAssignmentPolicy : Metadata {
+        
+        private string masterLabelField;
+        
+        private PolicyApplicableDuration policyApplicableDurationField;
+        
+        private AssignmentPolicyType policyTypeField;
+        
+        private UtilizationFactor utilizationFactorField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string masterLabel {
+            get {
+                return this.masterLabelField;
+            }
+            set {
+                this.masterLabelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public PolicyApplicableDuration policyApplicableDuration {
+            get {
+                return this.policyApplicableDurationField;
+            }
+            set {
+                this.policyApplicableDurationField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public AssignmentPolicyType policyType {
+            get {
+                return this.policyTypeField;
+            }
+            set {
+                this.policyTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public UtilizationFactor utilizationFactor {
+            get {
+                return this.utilizationFactorField;
+            }
+            set {
+                this.utilizationFactorField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum PolicyApplicableDuration {
+        
+        /// <remarks/>
+        ParameterBased,
+        
+        /// <remarks/>
+        Monthly,
+        
+        /// <remarks/>
+        Weekly,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum AssignmentPolicyType {
+        
+        /// <remarks/>
+        loadBalancing,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public enum UtilizationFactor {
+        
+        /// <remarks/>
+        TotalAppointmentDuration,
+        
+        /// <remarks/>
+        NumberOfAppointments,
     }
     
     /// <remarks/>
@@ -106855,10 +120318,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool enableNonCertifiedApexMdCrudField;
         
         private bool enableNonCertifiedApexMdCrudFieldSpecified;
-        
-        private bool enableRunDynamicTriggersField;
-        
-        private bool enableRunDynamicTriggersFieldSpecified;
         
         private bool enableSecureNoArgConstructorPrefField;
         
@@ -107152,28 +120611,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=13)]
-        public bool enableRunDynamicTriggers {
-            get {
-                return this.enableRunDynamicTriggersField;
-            }
-            set {
-                this.enableRunDynamicTriggersField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool enableRunDynamicTriggersSpecified {
-            get {
-                return this.enableRunDynamicTriggersFieldSpecified;
-            }
-            set {
-                this.enableRunDynamicTriggersFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
         public bool enableSecureNoArgConstructorPref {
             get {
                 return this.enableSecureNoArgConstructorPrefField;
@@ -107392,6 +120829,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool analyticsAdoptionMetadataFieldSpecified;
         
+        private bool autoInstallAppsField;
+        
+        private bool autoInstallAppsFieldSpecified;
+        
         private bool canAccessAnalyticsViaAPIField;
         
         private bool canAccessAnalyticsViaAPIFieldSpecified;
@@ -107399,6 +120840,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool canAnnotateDashboardsField;
         
         private bool canAnnotateDashboardsFieldSpecified;
+        
+        private bool canEnableBYOMZeroDayScoringField;
+        
+        private bool canEnableBYOMZeroDayScoringFieldSpecified;
         
         private bool canEnableSavedViewField;
         
@@ -107428,9 +120873,21 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableAutoCompleteComboFieldSpecified;
         
+        private bool enableAutonomousExperienceField;
+        
+        private bool enableAutonomousExperienceFieldSpecified;
+        
+        private bool enableAzureDLGen2OutputConnectorField;
+        
+        private bool enableAzureDLGen2OutputConnectorFieldSpecified;
+        
         private bool enableC360GlobalProfileDataField;
         
         private bool enableC360GlobalProfileDataFieldSpecified;
+        
+        private bool enableCreateLegacyDataflowsField;
+        
+        private bool enableCreateLegacyDataflowsFieldSpecified;
         
         private bool enableDashboardComponentSnapshotField;
         
@@ -107479,6 +120936,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         private bool enableNullDimensionField;
         
         private bool enableNullDimensionFieldSpecified;
+        
+        private bool enableOrgCanViewTableauField;
+        
+        private bool enableOrgCanViewTableauFieldSpecified;
         
         private bool enableOrgHasMobileOfflineEnabledField;
         
@@ -107540,14 +121001,6 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableSnowflakeOutputConnectorFieldSpecified;
         
-        private bool enableSqlDatasetField;
-        
-        private bool enableSqlDatasetFieldSpecified;
-        
-        private bool enableSqlLiveDatasetField;
-        
-        private bool enableSqlLiveDatasetFieldSpecified;
-        
         private bool enableTableauHyperOutputConnectorField;
         
         private bool enableTableauHyperOutputConnectorFieldSpecified;
@@ -107572,6 +121025,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableWaveIndexMVDimV2FieldSpecified;
         
+        private bool enableWaveLwcDashboardsField;
+        
+        private bool enableWaveLwcDashboardsFieldSpecified;
+        
         private bool enableWaveRecordNavigationField;
         
         private bool enableWaveRecordNavigationFieldSpecified;
@@ -107584,21 +121041,45 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableWaveSharingInheritanceFieldSpecified;
         
-        private bool enableWaveSqlInQueryApiField;
+        private bool enableWaveSqlCFIndexingField;
         
-        private bool enableWaveSqlInQueryApiFieldSpecified;
+        private bool enableWaveSqlCFIndexingFieldSpecified;
         
         private bool enableWaveTrendedDatasetCleanupField;
         
         private bool enableWaveTrendedDatasetCleanupFieldSpecified;
         
+        private bool etlOrchestrationPrefField;
+        
+        private bool etlOrchestrationPrefFieldSpecified;
+        
+        private bool isHighVolumePushbackEnabledField;
+        
+        private bool isHighVolumePushbackEnabledFieldSpecified;
+        
         private int maxHoursAppInProgressField;
         
         private bool maxHoursAppInProgressFieldSpecified;
         
+        private bool mulesoftDataPathEnabledField;
+        
+        private bool mulesoftDataPathEnabledFieldSpecified;
+        
+        private bool recipeDirectDataPrefField;
+        
+        private bool recipeDirectDataPrefFieldSpecified;
+        
+        private bool recipeFiscalPrefField;
+        
+        private bool recipeFiscalPrefFieldSpecified;
+        
         private bool recipePreCachingOptOutField;
         
         private bool recipePreCachingOptOutFieldSpecified;
+        
+        private bool recipeStagedDataPrefField;
+        
+        private bool recipeStagedDataPrefFieldSpecified;
         
         private bool replaceBlankMeasuresWithNullsField;
         
@@ -107662,6 +121143,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public bool autoInstallApps {
+            get {
+                return this.autoInstallAppsField;
+            }
+            set {
+                this.autoInstallAppsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool autoInstallAppsSpecified {
+            get {
+                return this.autoInstallAppsFieldSpecified;
+            }
+            set {
+                this.autoInstallAppsFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
         public bool canAccessAnalyticsViaAPI {
             get {
                 return this.canAccessAnalyticsViaAPIField;
@@ -107683,7 +121186,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
         public bool canAnnotateDashboards {
             get {
                 return this.canAnnotateDashboardsField;
@@ -107705,7 +121208,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public bool canEnableBYOMZeroDayScoring {
+            get {
+                return this.canEnableBYOMZeroDayScoringField;
+            }
+            set {
+                this.canEnableBYOMZeroDayScoringField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool canEnableBYOMZeroDayScoringSpecified {
+            get {
+                return this.canEnableBYOMZeroDayScoringFieldSpecified;
+            }
+            set {
+                this.canEnableBYOMZeroDayScoringFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
         public bool canEnableSavedView {
             get {
                 return this.canEnableSavedViewField;
@@ -107727,7 +121252,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
         public bool canExploreDataConversationally {
             get {
                 return this.canExploreDataConversationallyField;
@@ -107749,7 +121274,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
         public bool canShareAppsWithCommunities {
             get {
                 return this.canShareAppsWithCommunitiesField;
@@ -107771,7 +121296,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
         public bool canViewThumbnailAssets {
             get {
                 return this.canViewThumbnailAssetsField;
@@ -107793,7 +121318,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
         public bool enableAnalyticsEncryption {
             get {
                 return this.enableAnalyticsEncryptionField;
@@ -107815,7 +121340,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
         public bool enableAnalyticsSharingEnable {
             get {
                 return this.enableAnalyticsSharingEnableField;
@@ -107837,7 +121362,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
         public bool enableAutoCompleteCombo {
             get {
                 return this.enableAutoCompleteComboField;
@@ -107859,7 +121384,51 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        public bool enableAutonomousExperience {
+            get {
+                return this.enableAutonomousExperienceField;
+            }
+            set {
+                this.enableAutonomousExperienceField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableAutonomousExperienceSpecified {
+            get {
+                return this.enableAutonomousExperienceFieldSpecified;
+            }
+            set {
+                this.enableAutonomousExperienceFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        public bool enableAzureDLGen2OutputConnector {
+            get {
+                return this.enableAzureDLGen2OutputConnectorField;
+            }
+            set {
+                this.enableAzureDLGen2OutputConnectorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableAzureDLGen2OutputConnectorSpecified {
+            get {
+                return this.enableAzureDLGen2OutputConnectorFieldSpecified;
+            }
+            set {
+                this.enableAzureDLGen2OutputConnectorFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
         public bool enableC360GlobalProfileData {
             get {
                 return this.enableC360GlobalProfileDataField;
@@ -107881,7 +121450,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
+        public bool enableCreateLegacyDataflows {
+            get {
+                return this.enableCreateLegacyDataflowsField;
+            }
+            set {
+                this.enableCreateLegacyDataflowsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableCreateLegacyDataflowsSpecified {
+            get {
+                return this.enableCreateLegacyDataflowsFieldSpecified;
+            }
+            set {
+                this.enableCreateLegacyDataflowsFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
         public bool enableDashboardComponentSnapshot {
             get {
                 return this.enableDashboardComponentSnapshotField;
@@ -107903,7 +121494,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
         public bool enableDashboardFlexiTable {
             get {
                 return this.enableDashboardFlexiTableField;
@@ -107925,7 +121516,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
         public bool enableDashboardToPDFEnable {
             get {
                 return this.enableDashboardToPDFEnableField;
@@ -107947,7 +121538,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
         public bool enableEmailReportsToPortalUsers {
             get {
                 return this.enableEmailReportsToPortalUsersField;
@@ -107969,7 +121560,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
         public bool enableFirebirdEditor {
             get {
                 return this.enableFirebirdEditorField;
@@ -107991,7 +121582,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
         public bool enableFloatingReportHeaders {
             get {
                 return this.enableFloatingReportHeadersField;
@@ -108013,7 +121604,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
         public bool enableInsights {
             get {
                 return this.enableInsightsField;
@@ -108035,7 +121626,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
         public bool enableLightningReportBuilder {
             get {
                 return this.enableLightningReportBuilderField;
@@ -108057,7 +121648,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=25)]
         public bool enableLotusNotesImages {
             get {
                 return this.enableLotusNotesImagesField;
@@ -108079,7 +121670,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=26)]
         public bool enableMassEnableReportBuilder {
             get {
                 return this.enableMassEnableReportBuilderField;
@@ -108101,7 +121692,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=27)]
         public bool enableNewChartsEngine {
             get {
                 return this.enableNewChartsEngineField;
@@ -108123,7 +121714,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=28)]
         public bool enableNullDimension {
             get {
                 return this.enableNullDimensionField;
@@ -108145,7 +121736,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=29)]
+        public bool enableOrgCanViewTableau {
+            get {
+                return this.enableOrgCanViewTableauField;
+            }
+            set {
+                this.enableOrgCanViewTableauField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableOrgCanViewTableauSpecified {
+            get {
+                return this.enableOrgCanViewTableauFieldSpecified;
+            }
+            set {
+                this.enableOrgCanViewTableauFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=30)]
         public bool enableOrgHasMobileOfflineEnabled {
             get {
                 return this.enableOrgHasMobileOfflineEnabledField;
@@ -108167,7 +121780,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=25)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=31)]
         public bool enableOrgHasWatchlistEnabled {
             get {
                 return this.enableOrgHasWatchlistEnabledField;
@@ -108189,7 +121802,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=26)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=32)]
         public bool enableQueryLiveConnectors {
             get {
                 return this.enableQueryLiveConnectorsField;
@@ -108211,7 +121824,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=27)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=33)]
         public bool enableRemoveFooterForRepDisplay {
             get {
                 return this.enableRemoveFooterForRepDisplayField;
@@ -108233,7 +121846,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=28)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=34)]
         public bool enableRemoveFooterFromRepExp {
             get {
                 return this.enableRemoveFooterFromRepExpField;
@@ -108255,7 +121868,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=29)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=35)]
         public bool enableReportHideXlsExportPref {
             get {
                 return this.enableReportHideXlsExportPrefField;
@@ -108277,7 +121890,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=30)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=36)]
         public bool enableReportInlineEditPref {
             get {
                 return this.enableReportInlineEditPrefField;
@@ -108299,7 +121912,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=31)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=37)]
         public bool enableReportNotificationsEnable {
             get {
                 return this.enableReportNotificationsEnableField;
@@ -108321,7 +121934,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=32)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=38)]
         public bool enableRequestPrioritySchdl {
             get {
                 return this.enableRequestPrioritySchdlField;
@@ -108343,7 +121956,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=33)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=39)]
         public bool enableS1AnalyticsEclairEnable {
             get {
                 return this.enableS1AnalyticsEclairEnableField;
@@ -108365,7 +121978,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=34)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=40)]
         public bool enableS3OutputConnector {
             get {
                 return this.enableS3OutputConnectorField;
@@ -108387,7 +122000,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=35)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=41)]
         public bool enableSFXJoinedReportsEnable {
             get {
                 return this.enableSFXJoinedReportsEnableField;
@@ -108409,7 +122022,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=36)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=42)]
         public bool enableSalesforceOutputConnector {
             get {
                 return this.enableSalesforceOutputConnectorField;
@@ -108431,7 +122044,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=37)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=43)]
         public bool enableSecureImageSharing {
             get {
                 return this.enableSecureImageSharingField;
@@ -108453,7 +122066,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=38)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=44)]
         public bool enableSnowflakeOutputConnector {
             get {
                 return this.enableSnowflakeOutputConnectorField;
@@ -108475,51 +122088,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=39)]
-        public bool enableSqlDataset {
-            get {
-                return this.enableSqlDatasetField;
-            }
-            set {
-                this.enableSqlDatasetField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool enableSqlDatasetSpecified {
-            get {
-                return this.enableSqlDatasetFieldSpecified;
-            }
-            set {
-                this.enableSqlDatasetFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=40)]
-        public bool enableSqlLiveDataset {
-            get {
-                return this.enableSqlLiveDatasetField;
-            }
-            set {
-                this.enableSqlLiveDatasetField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool enableSqlLiveDatasetSpecified {
-            get {
-                return this.enableSqlLiveDatasetFieldSpecified;
-            }
-            set {
-                this.enableSqlLiveDatasetFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=41)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=45)]
         public bool enableTableauHyperOutputConnector {
             get {
                 return this.enableTableauHyperOutputConnectorField;
@@ -108541,7 +122110,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=42)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=46)]
         public bool enableUseOldChartsLookAndFeel {
             get {
                 return this.enableUseOldChartsLookAndFeelField;
@@ -108563,7 +122132,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=43)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=47)]
         public bool enableWaveAssetsNewDateVersion {
             get {
                 return this.enableWaveAssetsNewDateVersionField;
@@ -108585,7 +122154,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=44)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=48)]
         public bool enableWaveCustomFiscal {
             get {
                 return this.enableWaveCustomFiscalField;
@@ -108607,7 +122176,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=45)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=49)]
         public bool enableWaveIndexMVDim {
             get {
                 return this.enableWaveIndexMVDimField;
@@ -108629,7 +122198,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=46)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=50)]
         public bool enableWaveIndexMVDimV2 {
             get {
                 return this.enableWaveIndexMVDimV2Field;
@@ -108651,7 +122220,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=47)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=51)]
+        public bool enableWaveLwcDashboards {
+            get {
+                return this.enableWaveLwcDashboardsField;
+            }
+            set {
+                this.enableWaveLwcDashboardsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableWaveLwcDashboardsSpecified {
+            get {
+                return this.enableWaveLwcDashboardsFieldSpecified;
+            }
+            set {
+                this.enableWaveLwcDashboardsFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=52)]
         public bool enableWaveRecordNavigation {
             get {
                 return this.enableWaveRecordNavigationField;
@@ -108673,7 +122264,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=48)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=53)]
         public bool enableWaveReplication {
             get {
                 return this.enableWaveReplicationField;
@@ -108695,7 +122286,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=49)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=54)]
         public bool enableWaveSharingInheritance {
             get {
                 return this.enableWaveSharingInheritanceField;
@@ -108717,29 +122308,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=50)]
-        public bool enableWaveSqlInQueryApi {
+        [System.Xml.Serialization.XmlElementAttribute(Order=55)]
+        public bool enableWaveSqlCFIndexing {
             get {
-                return this.enableWaveSqlInQueryApiField;
+                return this.enableWaveSqlCFIndexingField;
             }
             set {
-                this.enableWaveSqlInQueryApiField = value;
+                this.enableWaveSqlCFIndexingField = value;
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool enableWaveSqlInQueryApiSpecified {
+        public bool enableWaveSqlCFIndexingSpecified {
             get {
-                return this.enableWaveSqlInQueryApiFieldSpecified;
+                return this.enableWaveSqlCFIndexingFieldSpecified;
             }
             set {
-                this.enableWaveSqlInQueryApiFieldSpecified = value;
+                this.enableWaveSqlCFIndexingFieldSpecified = value;
             }
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=51)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=56)]
         public bool enableWaveTrendedDatasetCleanup {
             get {
                 return this.enableWaveTrendedDatasetCleanupField;
@@ -108761,7 +122352,51 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=52)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=57)]
+        public bool etlOrchestrationPref {
+            get {
+                return this.etlOrchestrationPrefField;
+            }
+            set {
+                this.etlOrchestrationPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool etlOrchestrationPrefSpecified {
+            get {
+                return this.etlOrchestrationPrefFieldSpecified;
+            }
+            set {
+                this.etlOrchestrationPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=58)]
+        public bool isHighVolumePushbackEnabled {
+            get {
+                return this.isHighVolumePushbackEnabledField;
+            }
+            set {
+                this.isHighVolumePushbackEnabledField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool isHighVolumePushbackEnabledSpecified {
+            get {
+                return this.isHighVolumePushbackEnabledFieldSpecified;
+            }
+            set {
+                this.isHighVolumePushbackEnabledFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=59)]
         public int maxHoursAppInProgress {
             get {
                 return this.maxHoursAppInProgressField;
@@ -108783,7 +122418,73 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=53)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=60)]
+        public bool mulesoftDataPathEnabled {
+            get {
+                return this.mulesoftDataPathEnabledField;
+            }
+            set {
+                this.mulesoftDataPathEnabledField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool mulesoftDataPathEnabledSpecified {
+            get {
+                return this.mulesoftDataPathEnabledFieldSpecified;
+            }
+            set {
+                this.mulesoftDataPathEnabledFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=61)]
+        public bool recipeDirectDataPref {
+            get {
+                return this.recipeDirectDataPrefField;
+            }
+            set {
+                this.recipeDirectDataPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool recipeDirectDataPrefSpecified {
+            get {
+                return this.recipeDirectDataPrefFieldSpecified;
+            }
+            set {
+                this.recipeDirectDataPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=62)]
+        public bool recipeFiscalPref {
+            get {
+                return this.recipeFiscalPrefField;
+            }
+            set {
+                this.recipeFiscalPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool recipeFiscalPrefSpecified {
+            get {
+                return this.recipeFiscalPrefFieldSpecified;
+            }
+            set {
+                this.recipeFiscalPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=63)]
         public bool recipePreCachingOptOut {
             get {
                 return this.recipePreCachingOptOutField;
@@ -108805,7 +122506,29 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=54)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=64)]
+        public bool recipeStagedDataPref {
+            get {
+                return this.recipeStagedDataPrefField;
+            }
+            set {
+                this.recipeStagedDataPrefField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool recipeStagedDataPrefSpecified {
+            get {
+                return this.recipeStagedDataPrefFieldSpecified;
+            }
+            set {
+                this.recipeStagedDataPrefFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=65)]
         public bool replaceBlankMeasuresWithNulls {
             get {
                 return this.replaceBlankMeasuresWithNullsField;
@@ -108827,7 +122550,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=55)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=66)]
         public bool setWaveIsYearEndFiscalYear {
             get {
                 return this.setWaveIsYearEndFiscalYearField;
@@ -108849,7 +122572,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=56)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=67)]
         public bool sonicEnabled {
             get {
                 return this.sonicEnabledField;
@@ -108871,7 +122594,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=57)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=68)]
         public bool turnOnTimeZones {
             get {
                 return this.turnOnTimeZonesField;
@@ -108889,6 +122612,41 @@ namespace SalesforceMetadata.MetadataWSDL {
             }
             set {
                 this.turnOnTimeZonesFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://soap.sforce.com/2006/04/metadata")]
+    public partial class AnalyticsDataServicesSettings : Metadata {
+        
+        private bool enableAnalyticsDataServiceEnabledField;
+        
+        private bool enableAnalyticsDataServiceEnabledFieldSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool enableAnalyticsDataServiceEnabled {
+            get {
+                return this.enableAnalyticsDataServiceEnabledField;
+            }
+            set {
+                this.enableAnalyticsDataServiceEnabledField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableAnalyticsDataServiceEnabledSpecified {
+            get {
+                return this.enableAnalyticsDataServiceEnabledFieldSpecified;
+            }
+            set {
+                this.enableAnalyticsDataServiceEnabledFieldSpecified = value;
             }
         }
     }
@@ -109369,6 +123127,10 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         private bool enableSimpleTaskCreateUIFieldSpecified;
         
+        private bool enableTimelineCompDateSortField;
+        
+        private bool enableTimelineCompDateSortFieldSpecified;
+        
         private bool enableUNSTaskDelegatedToNotificationsField;
         
         private bool enableUNSTaskDelegatedToNotificationsFieldSpecified;
@@ -109793,6 +123555,28 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=18)]
+        public bool enableTimelineCompDateSort {
+            get {
+                return this.enableTimelineCompDateSortField;
+            }
+            set {
+                this.enableTimelineCompDateSortField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool enableTimelineCompDateSortSpecified {
+            get {
+                return this.enableTimelineCompDateSortFieldSpecified;
+            }
+            set {
+                this.enableTimelineCompDateSortFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
         public bool enableUNSTaskDelegatedToNotifications {
             get {
                 return this.enableUNSTaskDelegatedToNotificationsField;
@@ -109814,7 +123598,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
         public bool enableUserListViewCalendars {
             get {
                 return this.enableUserListViewCalendarsField;
@@ -109836,7 +123620,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
         public string meetingRequestsLogo {
             get {
                 return this.meetingRequestsLogoField;
@@ -109847,7 +123631,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
         public bool showCustomLogoMeetingRequests {
             get {
                 return this.showCustomLogoMeetingRequestsField;
@@ -109869,7 +123653,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
         public bool showEventDetailsMultiUserCalendar {
             get {
                 return this.showEventDetailsMultiUserCalendarField;
@@ -109891,7 +123675,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
         public bool showHomePageHoverLinksForEvents {
             get {
                 return this.showHomePageHoverLinksForEventsField;
@@ -109913,7 +123697,7 @@ namespace SalesforceMetadata.MetadataWSDL {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
+        [System.Xml.Serialization.XmlElementAttribute(Order=25)]
         public bool showMyTasksHoverLinks {
             get {
                 return this.showMyTasksHoverLinksField;
@@ -111412,6 +125196,9 @@ namespace SalesforceMetadata.MetadataWSDL {
         
         /// <remarks/>
         PredictionBuilder,
+        
+        /// <remarks/>
+        RecommendationBuilder,
     }
     
     /// <remarks/>

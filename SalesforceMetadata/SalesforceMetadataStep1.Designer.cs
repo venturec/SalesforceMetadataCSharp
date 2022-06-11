@@ -53,6 +53,7 @@
             this.lblSelectNone = new System.Windows.Forms.Label();
             this.btnSelectDefaults = new System.Windows.Forms.Button();
             this.lblSelectDefaults = new System.Windows.Forms.Label();
+            this.cbAllDebugLogs = new System.Windows.Forms.CheckBox();
             this.fromOrgGroup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -309,12 +310,23 @@
             this.lblSelectDefaults.TabIndex = 8;
             this.lblSelectDefaults.Text = "Select Defaults";
             // 
+            // cbAllDebugLogs
+            // 
+            this.cbAllDebugLogs.AutoSize = true;
+            this.cbAllDebugLogs.Location = new System.Drawing.Point(1012, 692);
+            this.cbAllDebugLogs.Name = "cbAllDebugLogs";
+            this.cbAllDebugLogs.Size = new System.Drawing.Size(132, 17);
+            this.cbAllDebugLogs.TabIndex = 17;
+            this.cbAllDebugLogs.Text = "Delete All Debug Logs";
+            this.cbAllDebugLogs.UseVisualStyleBackColor = true;
+            // 
             // SalesforceMetadataStep1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.ClientSize = new System.Drawing.Size(1221, 733);
+            this.Controls.Add(this.cbAllDebugLogs);
             this.Controls.Add(this.lblSelectDefaults);
             this.Controls.Add(this.btnSelectDefaults);
             this.Controls.Add(this.lblSelectNone);
@@ -369,6 +381,7 @@
         private System.Windows.Forms.Label lblSelectNone;
         private System.Windows.Forms.Button btnSelectDefaults;
         private System.Windows.Forms.Label lblSelectDefaults;
+        private System.Windows.Forms.CheckBox cbAllDebugLogs;
     }
 }
 

@@ -159,7 +159,11 @@ namespace SalesforceMetadata
                     String[] filePathSplit = fileName.Split('\\');
                     String[] fileNameSplit = filePathSplit[filePathSplit.Length - 1].Split('.');
 
-                    String folderName = filePathSplit[filePathSplit.Length - 2].ToLower();
+                    String folderName = ".//";
+                    for (Int32 i = 1; i < filePathSplit.Length - 1; i++)
+                    {
+                        folderName = folderName + filePathSplit[i].ToLower() + "//";
+                    }
 
                     StreamReader sr = new StreamReader(fileName);
 
@@ -196,7 +200,7 @@ namespace SalesforceMetadata
                         }
                         else if (parsedLine[i].ToLower().StartsWith("console.log"))
                         {
-                            isConsoleLog = true;
+                            //isConsoleLog = true;
                         }
                         else if (isConsoleLog == true && parsedLine[i] == ";")
                         {
@@ -224,142 +228,149 @@ namespace SalesforceMetadata
                     Boolean isExported = false;
                     Int32 arrayPos = 0;
 
-                    //try
-                    //{
-                        for (Int32 i = 0; i < stringArray.Count; i++)
+                    for (Int32 i = 0; i < stringArray.Count; i++)
+                    {
+                        if (arrayPos < i) arrayPos = i;
+
+                        if (arrayPos > stringArray.Count - 1) break;
+
+                        if (arrayPos == i)
                         {
-                            if (arrayPos < i) arrayPos = i;
-
-                            if (arrayPos > stringArray.Count - 1) break;
-
-                            if (arrayPos == i)
+                            if (stringArray[i] == ";")
                             {
-                                if (stringArray[i] == ";")
+                                // Do nothing
+                            }
+                            else if (stringArray[i].ToLower() == "}"
+                                && isExported == true)
+                            {
+                                isExported = false;
+                            }
+                            else if (stringArray[i].ToLower().EndsWith(".set"))
+                            {
+                                for (Int32 j = i; j < stringArray.Count; j++)
                                 {
-                                    // Do nothing
-                                }
-                                else if (stringArray[i].ToLower() == "}"
-                                    && isExported == true)
-                                {
-                                    isExported = false;
-                                }
-                                else if (stringArray[i].ToLower().EndsWith(".set"))
-                                {
-                                    for (Int32 j = i; j < stringArray.Count; j++)
+                                    if (stringArray[j] == ";")
                                     {
-                                        if (stringArray[j] == ";")
-                                        {
-                                            arrayPos = j + 1;
-                                            break;
-                                        }
+                                        arrayPos = j + 1;
+                                        break;
                                     }
                                 }
-                                else if (stringArray[i].ToLower() == "@api")
-                                {
-                                    // Check if is function first, then if all filters fail, assume it is a property
+                            }
+                            else if (stringArray[i].ToLower() == "@api")
+                            {
+                                // Check if is function first, then if all filters fail, assume it is a property
 
-                                    // get / set
-                                    if (stringArray[i + 3] == "(")
-                                    {
-                                        arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
-                                    }
-                                    else if (stringArray[i + 2] == "(")
-                                    {
-                                        arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
-                                    }
-                                    else
-                                    {
-                                        arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
-                                    }
-                                }
-                                else if (stringArray[i].ToLower() == "@track")
-                                {
-                                    // I believe this is a variable / property
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
-                                }
-                                else if (stringArray[i].ToLower() == "@wire")
-                                {
-                                    arrayPos = parseWireFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
-                                }
-                                else if (stringArray[i].ToLower() == "const")
-                                {
-                                    arrayPos = parseConstant(folderName, fileNameSplit[0].ToLower(), stringArray, i, swLog);
-                                }
-                                else if (stringArray[i].ToLower() == "export")
-                                {
-                                    if (stringArray[i].ToLower() == "export"
-                                        && stringArray[i + 1].ToLower() == "default")
-                                    {
-                                        isExported = true;
-                                        arrayPos = parseExportDefault(stringArray, i, swLog);
-                                    }
-                                    else if (stringArray[i].ToLower() == "export"
-                                        && stringArray[i + 1].ToLower() == "class")
-                                    {
-                                        isExported = true;
-                                        arrayPos = parseExportDefault(stringArray, i, swLog);
-                                    }
-                                    else
-                                    {
-                                        // Call export function parser
-                                        arrayPos = parseExport(folderName, fileNameSplit[0].ToLower(), stringArray, i, swLog);
-                                    }
-                                }
-                                else if (stringArray[i].ToLower() == "function")
+                                // get / set
+                                if (stringArray[i + 3] == "(")
                                 {
                                     arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
                                 }
-                                else if (stringArray[i].ToLower() == "let")
-                                {
-                                    arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
-                                }
-                                else if (stringArray[i].ToLower() == "import")
-                                {
-                                    arrayPos = parseImport(folderName, fileNameSplit[0].ToLower(), stringArray, i, swLog);
-                                }
-                                else if (stringArray[i].ToLower() == "static")
-                                {
-                                    // Check if is function first, then if all filters fail, assume it is a property
-                                    if (stringArray[i + 2] == "(")
-                                    {
-                                        arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
-                                    }
-                                    else
-                                    {
-                                        arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
-                                    }
-                                }
-                                else if (stringArray[i].ToLower() == "get")
-                                {
-                                    arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
-                                }
-                                else if (stringArray[i].ToLower() == "set")
+                                else if (stringArray[i + 2] == "(")
                                 {
                                     arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
                                 }
                                 else
                                 {
-                                    // Check if is function first, then if all filters fail, assume it is a property
-                                    if (stringArray.Count - 1 >= i + 1
-                                    && stringArray[i + 1] == "(")
-                                    {
-                                        arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
-                                    }
-                                    else
-                                    {
-                                        arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
-                                    }
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
+                                }
+                            }
+                            else if (stringArray[i].ToLower() == "@track")
+                            {
+                                // I believe this is a variable / property
+                                arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
+                            }
+                            else if (stringArray[i].ToLower() == "@wire")
+                            {
+                                arrayPos = parseWireFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
+                            }
+                            else if (stringArray[i].ToLower() == "const")
+                            {
+                                arrayPos = parseConstant(folderName, fileNameSplit[0].ToLower(), stringArray, i, swLog);
+                            }
+                            else if (stringArray[i].ToLower() == "export")
+                            {
+                                if (stringArray[i].ToLower() == "export"
+                                    && stringArray[i + 1].ToLower() == "default")
+                                {
+                                    isExported = true;
+                                    arrayPos = parseExportDefault(stringArray, i, swLog);
+                                }
+                                else if (stringArray[i].ToLower() == "export"
+                                    && stringArray[i + 1].ToLower() == "class")
+                                {
+                                    isExported = true;
+                                    arrayPos = parseExportDefault(stringArray, i, swLog);
+                                }
+                                else if (stringArray[i].ToLower() == "export"
+                                    && stringArray[i + 1].ToLower() == "const")
+                                {
+                                    isExported = true;
+                                    //arrayPos = parseConstant(folderName, fileNameSplit[0].ToLower(), stringArray, i, swLog);
+                                }
+                                else if (stringArray[i].ToLower() == "export"
+                                    && stringArray[i + 1].ToLower() == "function")
+                                {
+                                    isExported = true;
+                                    arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
+                                }
+                                else
+                                {
+                                    // Call export function parser
+                                    arrayPos = parseExport(folderName, fileNameSplit[0].ToLower(), stringArray, i, swLog);
+                                }
+                            }
+                            else if (stringArray[i].ToLower() == "("
+                                    && stringArray[i + 1].ToLower() == "function")
+                            {
+                                arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
+                            }
+                            else if (stringArray[i].ToLower() == "function")
+                            {
+                                arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
+                            }
+                            else if (stringArray[i].ToLower() == "let")
+                            {
+                                arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
+                            }
+                            else if (stringArray[i].ToLower() == "import")
+                            {
+                                arrayPos = parseImport(folderName, fileNameSplit[0].ToLower(), stringArray, i, swLog);
+                            }
+                            else if (stringArray[i].ToLower() == "static")
+                            {
+                                // Check if is function first, then if all filters fail, assume it is a property
+                                if (stringArray[i + 2] == "(")
+                                {
+                                    arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
+                                }
+                                else
+                                {
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
+                                }
+                            }
+                            else if (stringArray[i].ToLower() == "get")
+                            {
+                                arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
+                            }
+                            else if (stringArray[i].ToLower() == "set")
+                            {
+                                arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
+                            }
+                            else
+                            {
+                                // Check if is function first, then if all filters fail, assume it is a property
+                                if (stringArray.Count - 1 >= i + 1
+                                && stringArray[i + 1] == "(")
+                                {
+                                    arrayPos = parseFunction(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
+                                }
+                                else
+                                {
+                                    arrayPos = parseProperty(folderName, fileNameSplit[0].ToLower(), stringArray, i, isExported, swLog);
                                 }
                             }
                         }
-                    //}
-                    //catch (Exception parseError)
-                    //{
-                    //    swErrorLog.WriteLine("Parsing Error in file " + fileName + ". Please check the syntax to make sure each constant, export and/or property has a closing ';'");
-                    //    swErrorLog.Close();
-                    //    writeToFile = false;
-                    //    break;
-                    //}
+                    }
                 }
 
                 swLog.Close();
@@ -460,8 +471,10 @@ namespace SalesforceMetadata
                 stringValue = stringValue.Replace("/*", " /* ");
                 stringValue = stringValue.Replace("*/", " */ ");
                 stringValue = stringValue.Replace("//", " //");
-                //stringValue = stringValue.Replace(".", " . ");
+                stringValue = stringValue.Replace("`", " ` ");
 
+                stringValue = stringValue.Replace("  ", " ");
+                stringValue = stringValue.Replace("  ", " ");
                 stringValue = stringValue.Replace("  ", " ");
                 stringValue = stringValue.Replace("  ", " ");
                 stringValue = stringValue.Replace("  ", " ");
@@ -557,24 +570,30 @@ namespace SalesforceMetadata
 
         private Int32 parseConstant(String folderName, String fileName, List<String> stringArray, Int32 characterPos, StreamWriter swLog)
         {
-            swLog.Write(folderName + "." + fileName + '\t' + "Constant\t");
+            swLog.Write(folderName + fileName + '\t' + "Constant\t");
 
             JSConstant constant = new JSConstant();
             constant.folderName = folderName;
             constant.fileName = fileName;
 
+            Int32 characterCount = stringArray.Count - 1;
+
             Int32 braceCount = 0;
             Int32 bracketCount = 0;
+            Int32 parenthCount = 0;
+            Int32 tickCount = 0;
 
             Int32 newPos = characterPos;
             String constVal = "";
-            for (Int32 i = characterPos; i < stringArray.Count; i++)
+            for (Int32 i = characterPos; i < characterCount; i++)
             {
                 swLog.Write(stringArray[i] + " ");
 
                 if (stringArray[i] == ";"
                     && braceCount == 0
-                    && bracketCount == 0)
+                    && bracketCount == 0
+                    && parenthCount == 0
+                    && tickCount == 0)
                 {
                     if (constVal != "")
                     {
@@ -585,6 +604,32 @@ namespace SalesforceMetadata
                     newPos = i + 1;
                     break;
                 }
+                else if (stringArray[i] == "`"
+                    && tickCount == 0)
+                {
+                    tickCount++;
+                }
+                else if (stringArray[i] == "`"
+                    && tickCount == 1)
+                {
+                    tickCount--;
+
+                    if (characterCount >= i + 1)
+                    {
+                        if(stringArray[i + 1] == ";")
+                        {
+                            swLog.Write(stringArray[i + 1]);
+
+                            newPos = i + 2;
+                            break;
+                        }
+                        else if (stringArray[i + 1] != ";")
+                        {
+                            newPos = i + 1;
+                            break;
+                        }
+                    }
+                }
                 else if (stringArray[i] == "{")
                 {
                     braceCount++;
@@ -592,6 +637,9 @@ namespace SalesforceMetadata
                 else if (stringArray[i] == "}")
                 {
                     braceCount--;
+
+
+
                 }
                 else if (stringArray[i] == "[")
                 {
@@ -600,6 +648,27 @@ namespace SalesforceMetadata
                 else if (stringArray[i] == "]")
                 {
                     bracketCount--;
+                }
+                else if (stringArray[i] == "(")
+                {
+                    parenthCount++;
+                }
+                else if (stringArray[i] == ")")
+                {
+                    parenthCount--;
+
+                    if (characterCount >= i + 2)
+                    {
+                        if (stringArray[i + 1] == "`"
+                            && stringArray[i + 2] == "`")
+                        {
+                            swLog.Write(stringArray[i + 1]);
+                            swLog.Write(stringArray[i + 2]);
+
+                            newPos = i + 3;
+                            break;
+                        }
+                    }
                 }
                 else if (stringArray[i].ToLower() == "const")
                 {
@@ -677,14 +746,16 @@ namespace SalesforceMetadata
 
         private Int32 parseExport(String folderName, String fileName, List<String> stringArray, Int32 characterPos, StreamWriter swLog)
         {
-            swLog.Write(folderName + "." + fileName + '\t' + "Export\t");
+            swLog.Write(folderName + fileName + '\t' + "Export\t");
+
+            Int32 characterCount = stringArray.Count - 1;
 
             Int32 braceCount = 0;
 
             Int32 newPos = characterPos;
             String exports = "";
 
-            for (Int32 i = characterPos; i < stringArray.Count; i++)
+            for (Int32 i = characterPos; i < characterCount; i++)
             {
                 swLog.Write(stringArray[i] + " ");
 
@@ -719,7 +790,23 @@ namespace SalesforceMetadata
                         exports = "";
                     }
 
-                    newPos = i + 1;
+                    if (braceCount == 0 && stringArray[i + 1] == ";")
+                    {
+                        swLog.Write(stringArray[i + 1] + " ");
+                        newPos = i + 2;
+                        break;
+                    }
+                    else if (braceCount == 0 && stringArray[i] == ";")
+                    {
+                        newPos = i + 1;
+                        break;
+                    }
+                    //else if (braceCount == 0)
+                    //{
+                    //    newPos = i + 1;
+                    //    break;
+                    //}
+
                 }
                 else if (braceCount == 1)
                 {
@@ -750,7 +837,7 @@ namespace SalesforceMetadata
 
         private Int32 parseFunction(String folderName, String fileName, List<String> stringArray, Int32 characterPos, Boolean isExported, StreamWriter swLog)
         {
-            swLog.Write(folderName + "." + fileName + '\t' + "Function\t");
+            swLog.Write(folderName + fileName + '\t' + "Function\t");
 
             JSFunction function = new JSFunction();
             function.folderName = folderName;
@@ -772,6 +859,14 @@ namespace SalesforceMetadata
             Boolean beginFuncParameterReached = false;
             Boolean endFuncParameterReached = false;
             Int32 lastBracePos = 0;
+
+            if (stringArray[characterPos] == "(")
+            {
+                swLog.Write(stringArray[characterPos] + " ");
+                parenthCount++;
+                characterPos++;
+            }
+
             for (Int32 i = characterPos; i < stringArray.Count; i++)
             {
                 swLog.Write(stringArray[i] + " ");
@@ -790,6 +885,7 @@ namespace SalesforceMetadata
                     //Debug.WriteLine("braceCount--" + i.ToString() + " " + braceCount.ToString());
 
                     if (braceCount == 0
+                        && parenthCount == 0
                         && beginFuncParameterReached == true
                         && endFuncParameterReached == true)
                     {
@@ -801,11 +897,39 @@ namespace SalesforceMetadata
                     && braceCount == 0)
                 {
                     beginFuncParameterReached = true;
+                    parenthCount++;
                 }
                 else if (stringArray[i] == ")"
                     && beginFuncParameterReached == true)
                 {
                     endFuncParameterReached = true;
+                    parenthCount--;
+
+                    if (braceCount == 0
+                        && parenthCount == 0
+                        && beginFuncParameterReached == true
+                        && endFuncParameterReached == true)
+                    {
+                        lastBracePos = i;
+                        break;
+                    }
+                }
+                else if (stringArray[i] == "(")
+                {
+                    parenthCount++;
+                }
+                else if (stringArray[i] == ")")
+                {
+                    parenthCount--;
+
+                    if (braceCount == 0
+                        && parenthCount == 0
+                        && beginFuncParameterReached == true
+                        && endFuncParameterReached == true)
+                    {
+                        lastBracePos = i;
+                        break;
+                    }
                 }
             }
 
@@ -1405,7 +1529,7 @@ namespace SalesforceMetadata
 
         private Int32 parseImport(String folderName, String fileName, List<String> stringArray, Int32 characterPos, StreamWriter swLog)
         {
-            swLog.Write(folderName + "." + fileName + '\t' + "Import\t");
+            swLog.Write(folderName + fileName + '\t' + "Import\t");
 
             JSImport import = new JSImport();
             import.folderName = folderName;
@@ -1418,87 +1542,58 @@ namespace SalesforceMetadata
 
             for (Int32 i = characterPos; i < stringArray.Count; i++)
             {
+                swLog.Write(stringArray[i] + " ");
+
                 if (stringArray[i] == ";")
                 {
-                    swLog.Write(stringArray[i] + " ");
+                    newPos = i + 1;
                     break;
                 }
-                else
+                else if (stringArray[i].ToLower() == "import"
+                    && stringArray[i + 1] != "{")
                 {
-                    swLog.Write(stringArray[i] + " ");
+                    import.importItems.Add(stringArray[i + 1]);
                 }
-            }
-
-            if (stringArray[characterPos + 1] == "{")
-            {
-                for (Int32 i = characterPos; i < stringArray.Count; i++)
+                else if (stringArray[i].ToLower() == "{")
                 {
-                    if (stringArray[i] == ";")
-                    {
-                        newPos = i + 1;
-                        break;
-                    }
-                    else if (stringArray[i].ToLower() == "import"
-                        && stringArray[i + 1] != "{")
-                    {
-                        import.importItems.Add(stringArray[i + 1]);
-                    }
-                    else if (stringArray[i].ToLower() == "{")
-                    {
-                        braceCount++;
-                    }
-                    else if (stringArray[i].ToLower() == "}")
-                    {
-                        braceCount--;
+                    braceCount++;
+                }
+                else if (stringArray[i].ToLower() == "}")
+                {
+                    braceCount--;
 
-                        if (imports != "")
+                    if (imports != "")
+                    {
+                        String[] importArray = imports.Split(',');
+                        foreach (String imp in importArray)
                         {
-                            String[] importArray = imports.Split(',');
-                            foreach (String imp in importArray)
-                            {
-                                import.importItems.Add(imp);
-                            }
-
-                            imports = "";
-                        }
-                    }
-                    else if (braceCount == 1)
-                    {
-                        imports = imports + stringArray[i];
-                    }
-                    else if (stringArray[i].ToLower() == "from")
-                    {
-                        if (imports != "")
-                        {
-                            String[] importArray = imports.Split(',');
-                            foreach (String imp in importArray)
-                            {
-                                import.importItems.Add(imp);
-                            }
-
-                            imports = "";
+                            import.importItems.Add(imp);
                         }
 
-                        import.importFrom = stringArray[i + 1];
+                        imports = "";
                     }
                 }
-            }
-            else
-            {
-                import.folderName = folderName;
-                import.fileName = fileName;
-                import.importItems.Add(stringArray[characterPos + 1]);
-                import.importFrom = stringArray[characterPos + 3];
+                else if (braceCount == 1)
+                {
+                    imports = imports + stringArray[i];
+                }
+                else if (stringArray[i].ToLower() == "from")
+                {
+                    if (imports != "")
+                    {
+                        String[] importArray = imports.Split(',');
+                        foreach (String imp in importArray)
+                        {
+                            import.importItems.Add(imp);
+                        }
 
-                if (stringArray[characterPos + 4] == ";")
-                {
-                    newPos = characterPos + 5;
-                }
-                else
-                {
-                    newPos = characterPos + 4;
+                        imports = "";
+                    }
+
+                    import.importFrom = stringArray[i + 1];
                 }
             }
+
 
             if (this.jsFileHierarchyDict.ContainsKey(folderName + "|" + fileName))
             {
@@ -1536,7 +1631,7 @@ namespace SalesforceMetadata
 
         private Int32 parseProperty(String folderName, String fileName, List<String> stringArray, Int32 characterPos, Boolean isExported, StreamWriter swLog)
         {
-            swLog.Write(folderName + "." + fileName + '\t' + "Property\t");
+            swLog.Write(folderName + fileName + '\t' + "Property\t");
 
             JSProperty property = new JSProperty();
             property.folderName = folderName;
@@ -1675,7 +1770,7 @@ namespace SalesforceMetadata
 
         private Int32 parseWireFunction(String folderName, String fileName, List<String> stringArray, Int32 characterPos, Boolean isExported, StreamWriter swLog)
         {
-            swLog.Write(folderName + "." + fileName + '\t' + "Wire\t");
+            swLog.Write(folderName + fileName + '\t' + "Wire\t");
 
             JSFunction function = new JSFunction();
             function.folderName = folderName;
@@ -1832,7 +1927,7 @@ namespace SalesforceMetadata
 
             if (func.functionAnnotation == "")
             {
-                sw.Write(func.folderName + "." + func.fileName + "." + func.functionName + "(");
+                sw.Write(func.folderName + func.fileName + "." + func.functionName + "(");
                 String functParams = "";
 
                 if (func.parameters.Count > 0)
@@ -1864,7 +1959,7 @@ namespace SalesforceMetadata
             }
             else
             {
-                sw.Write(func.folderName + "." + func.fileName + "." + func.functionName + "(");
+                sw.Write(func.folderName + func.fileName + "." + func.functionName + "(");
 
                 String functParams = "";
                 if (func.parameters.Count > 0)
@@ -1945,7 +2040,7 @@ namespace SalesforceMetadata
                                 sw.Write('\t');
                             }
 
-                            sw.WriteLine(cf.folderName + "." + cf.fileName + "." + cf.functionName);
+                            sw.WriteLine(cf.folderName + cf.fileName + "." + cf.functionName);
                         }
                         else if (importFromSplit[0] == ".")
                         {
@@ -2001,14 +2096,14 @@ namespace SalesforceMetadata
                     else if (cf.componentReferenceVar != "")
                     {
                         sw.Write((tabCount + 1).ToString() + '\t');
-                        sw.WriteLine(cf.folderName + "." + cf.fileName + "." + cf.functionName + " - " + cf.componentReferenceVar);
+                        sw.WriteLine(cf.folderName + cf.fileName + "." + cf.functionName + " - " + cf.componentReferenceVar);
                     }
                     else if (cf.isLocal
                              && cf.isGetter == false
                              && cf.isSetter == false
-                             && jsLocalFunctionDictionary.ContainsKey(cf.folderName + "." + cf.fileName + "." + cf.functionName))
+                             && jsLocalFunctionDictionary.ContainsKey(cf.folderName + cf.fileName + "." + cf.functionName))
                     {
-                        JSFunction childFunction = jsLocalFunctionDictionary[cf.folderName + "." + cf.fileName + "." + cf.functionName];
+                        JSFunction childFunction = jsLocalFunctionDictionary[cf.folderName + cf.fileName + "." + cf.functionName];
 
                         if (childFunction.functionName != func.functionName)
                         {
@@ -2026,9 +2121,9 @@ namespace SalesforceMetadata
                     }
                     else if (cf.isLocal == false)
                     {
-                        if (jsLocalFunctionDictionary.ContainsKey(cf.folderName + "." + cf.fileName + "." + cf.functionName))
+                        if (jsLocalFunctionDictionary.ContainsKey(cf.folderName + cf.fileName + "." + cf.functionName))
                         {
-                            JSFunction childFunction = jsLocalFunctionDictionary[cf.folderName + "." + cf.fileName + "." + cf.functionName];
+                            JSFunction childFunction = jsLocalFunctionDictionary[cf.folderName + cf.fileName + "." + cf.functionName];
 
                             if (childFunction.functionName != func.functionName)
                             {
@@ -2045,7 +2140,7 @@ namespace SalesforceMetadata
                                 writeFunctionToFile(sw, tabCount + 1, cf);
                             }
                         }
-                        else if (jsFunctionToWireFunction.ContainsKey(cf.folderName + "." + cf.fileName + "." + cf.functionName))
+                        else if (jsFunctionToWireFunction.ContainsKey(cf.folderName + cf.fileName + "." + cf.functionName))
                         {
                             Debug.WriteLine("");
                         }
@@ -2074,7 +2169,7 @@ namespace SalesforceMetadata
                 sw.Write('\t');
             }
 
-            sw.Write(function.folderName + "." + function.fileName + "." + function.functionName + "(");
+            sw.Write(function.folderName + function.fileName + "." + function.functionName + "(");
             String functParams = "";
             if (function.parameters.Count > 0)
             {

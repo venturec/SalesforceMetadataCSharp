@@ -84,11 +84,11 @@
       <DependentUpon>ExtractFieldsFromMetadata.cs</DependentUpon>
     </Compile>
     <Compile Include="FolderEnum.cs" />
-    <Compile Include="ClassMethodExtractor.cs">
+    <Compile Include="AutomationReporter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ClassMethodExtractor.Designer.cs">
-      <DependentUpon>ClassMethodExtractor.cs</DependentUpon>
+    <Compile Include="AutomationReporter.Designer.cs">
+      <DependentUpon>AutomationReporter.cs</DependentUpon>
     </Compile>
     <Compile Include="Crypto.cs" />
     <Compile Include="DebugEventTags.cs" />
@@ -223,8 +223,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ClassMethodExtractor.resx">
-      <DependentUpon>ClassMethodExtractor.cs</DependentUpon>
+    <EmbeddedResource Include="AutomationReporter.resx">
+      <DependentUpon>AutomationReporter.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="DeployMetadata.resx">

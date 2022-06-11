@@ -19,7 +19,7 @@ using SalesforceMetadata.ToolingWSDL;
 
 namespace SalesforceMetadata
 {
-    public partial class ClassMethodExtractor : Form
+    public partial class AutomationReporter : Form
     {
         //private Dictionary<String, String> metadataXmlNameToFolder;
         private Dictionary<String, String> usernameToSecurityToken;
@@ -30,7 +30,7 @@ namespace SalesforceMetadata
 
         public Dictionary<String, String> classIdToClassName;
 
-        public ClassMethodExtractor()
+        public AutomationReporter()
         {
             InitializeComponent();
             populateCredentials();
@@ -52,7 +52,8 @@ namespace SalesforceMetadata
                 return;
             }
 
-            SalesforceCredentials.usernameWsdlUrl = new Dictionary<String, String>();
+            SalesforceCredentials.usernamePartnerUrl = new Dictionary<String, String>();
+            SalesforceCredentials.usernameMetadataUrl = new Dictionary<String, String>();
             SalesforceCredentials.usernameToolingWsdlUrl = new Dictionary<String, String>();
             SalesforceCredentials.isProduction = new Dictionary<String, Boolean>();
             SalesforceCredentials.defaultWsdlObjects = new Dictionary<String, List<String>>();
@@ -79,6 +80,7 @@ namespace SalesforceMetadata
                 String username = "";
                 //String enterpriseWsdlUrl = "";
                 String partnerWsdlUrl = "";
+                String metadataWdldUrl = "";
                 String toolingWsdlUrl = "";
                 Boolean isProd = false;
                 List<String> defaultWsdlObjectList = new List<String>();
@@ -104,6 +106,11 @@ namespace SalesforceMetadata
                         partnerWsdlUrl = childNode.InnerText;
                     }
 
+                    if (childNode.Name == "metadatawsdlurl")
+                    {
+                        metadataWdldUrl = childNode.InnerText;
+                    }
+
                     if (childNode.Name == "toolingwsdlurl")
                     {
                         toolingWsdlUrl = childNode.InnerText;
@@ -119,7 +126,8 @@ namespace SalesforceMetadata
                     }
                 }
 
-                SalesforceCredentials.usernameWsdlUrl.Add(username, partnerWsdlUrl);
+                SalesforceCredentials.usernamePartnerUrl.Add(username, partnerWsdlUrl);
+                SalesforceCredentials.usernameMetadataUrl.Add(username, metadataWdldUrl);
                 SalesforceCredentials.isProduction.Add(username, isProd);
 
                 if (defaultWsdlObjectList.Count > 0)
@@ -139,7 +147,7 @@ namespace SalesforceMetadata
 
         private void populateUserNames()
         {
-            foreach (String un in SalesforceCredentials.usernameWsdlUrl.Keys)
+            foreach (String un in SalesforceCredentials.usernamePartnerUrl.Keys)
             {
                 this.cmbUserName.Items.Add(un);
             }

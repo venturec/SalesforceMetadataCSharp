@@ -109,7 +109,7 @@ namespace SalesforceMetadata
 
         private void btnExtractClassesMethods_Click(object sender, EventArgs e)
         {
-            ClassMethodExtractor cme = new ClassMethodExtractor();
+            AutomationReporter cme = new AutomationReporter();
             cme.Show();
         }
 

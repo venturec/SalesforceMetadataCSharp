@@ -13,7 +13,8 @@ namespace SalesforceMetadata
 {
     class SalesforceCredentials
     {
-        public static Dictionary<String, String> usernameWsdlUrl;
+        public static Dictionary<String, String> usernamePartnerUrl;
+        public static Dictionary<String, String> usernameMetadataUrl;
         public static Dictionary<String, String> usernameToolingWsdlUrl;
         public static Dictionary<String, List<String>> defaultWsdlObjects;
         public static Dictionary<String, Boolean> isProduction;
@@ -80,11 +81,9 @@ namespace SalesforceMetadata
 
                 try
                 {
-                    fromOrgLR.metadataServerUrl = usernameWsdlUrl[fromOrgUsername];
-
                     if (isProduction[fromOrgUsername] == false)
                     {
-                        fromOrgSS.Url = usernameWsdlUrl[fromOrgUsername];
+                        fromOrgSS.Url = usernamePartnerUrl[fromOrgUsername];
                         fromOrgLR.sandbox = true;
                     }
 
@@ -112,92 +111,68 @@ namespace SalesforceMetadata
 
                     // Set up the Metadata Service connection including the All Or None Header
                     fromOrgMS.Url = fromOrgLR.metadataServerUrl;
+                    //fromOrgMS.Url = usernameMetadataUrl[fromOrgUsername];
                     fromOrgMS.SessionHeaderValue = new MetadataWSDL.SessionHeader();
                     fromOrgMS.SessionHeaderValue.sessionId = fromOrgLR.sessionId;
                 }
                 catch (Exception loginFromExc1)
                 {
+
                 }
             }
 
 
-            /* TOORG Login Credentials */
-            if (reqOrg == UtilityClass.REQUESTINGORG.TOORG
-               && toOrgUsername != null
-               && toOrgUsername != "")
-            {
-                toOrgSS = new SforceService();
-                toOrgLR = new SalesforceMetadata.PartnerWSDL.LoginResult();
-                toOrgMS = new MetadataService();
+            ///* TOORG Login Credentials */
+            //if (reqOrg == UtilityClass.REQUESTINGORG.TOORG
+            //   && toOrgUsername != null
+            //   && toOrgUsername != "")
+            //{
+            //    toOrgSS = new SforceService();
+            //    toOrgLR = new SalesforceMetadata.PartnerWSDL.LoginResult();
+            //    toOrgMS = new MetadataService();
 
-                try
-                {
-                    toOrgLR.metadataServerUrl = usernameWsdlUrl[toOrgUsername];
+            //    try
+            //    {
+            //        toOrgLR.metadataServerUrl = usernameWsdlUrl[toOrgUsername];
 
-                    if (isProduction[toOrgUsername] == false)
-                    {
-                        toOrgSS.Url = usernameWsdlUrl[toOrgUsername];
-                        toOrgLR.sandbox = true;
-                    }
+            //        if (isProduction[toOrgUsername] == false)
+            //        {
+            //            toOrgSS.Url = usernameWsdlUrl[toOrgUsername];
+            //            toOrgLR.sandbox = true;
+            //        }
 
-                    if (toOrgSecurityToken != null && toOrgSecurityToken != "")
-                    {
-                        toOrgLR = toOrgSS.login(toOrgUsername, toOrgPassword + toOrgSecurityToken);
-                        if (toOrgLR.sessionId != null && toOrgLR.passwordExpired == false)
-                        {
-                            loginSuccess = true;
-                        }
-                    }
-                    else
-                    {
-                        toOrgLR = toOrgSS.login(toOrgUsername, toOrgPassword);
-                        if (toOrgLR.sessionId != null && toOrgLR.passwordExpired == false)
-                        {
-                            loginSuccess = true;
-                        }
-                    }
+            //        if (toOrgSecurityToken != null && toOrgSecurityToken != "")
+            //        {
+            //            toOrgLR = toOrgSS.login(toOrgUsername, toOrgPassword + toOrgSecurityToken);
+            //            if (toOrgLR.sessionId != null && toOrgLR.passwordExpired == false)
+            //            {
+            //                loginSuccess = true;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            toOrgLR = toOrgSS.login(toOrgUsername, toOrgPassword);
+            //            if (toOrgLR.sessionId != null && toOrgLR.passwordExpired == false)
+            //            {
+            //                loginSuccess = true;
+            //            }
+            //        }
 
-                    // Get the login result and update the Salesforce Service object
-                    toOrgSS.Url = toOrgLR.serverUrl;
-                    toOrgSS.SessionHeaderValue = new PartnerWSDL.SessionHeader();
-                    toOrgSS.SessionHeaderValue.sessionId = toOrgLR.sessionId;
+            //        // Get the login result and update the Salesforce Service object
+            //        toOrgSS.Url = toOrgLR.serverUrl;
+            //        toOrgSS.SessionHeaderValue = new PartnerWSDL.SessionHeader();
+            //        toOrgSS.SessionHeaderValue.sessionId = toOrgLR.sessionId;
 
-                    // Set up the Metadata Service connection including the All Or None Header
-                    toOrgMS.Url = toOrgLR.metadataServerUrl;
-                    toOrgMS.SessionHeaderValue = new MetadataWSDL.SessionHeader();
-                    toOrgMS.SessionHeaderValue.sessionId = toOrgLR.sessionId;
-                }
-                catch (Exception loginFromExc2)
-                {
-                }
-            }
-
-            return loginSuccess;
-        }
-
-        public static Boolean salesforceLogin(String username, String password, Boolean isProduction)
-        {
-            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-
-            Boolean loginSuccess = false;
-
-            fromOrgSS = new SforceService();
-            fromOrgLR = new SalesforceMetadata.PartnerWSDL.LoginResult();
-            fromOrgMS = new MetadataService();
-
-            if (isProduction == false)
-            {
-                fromOrgSS.Url = "https://test.salesforce.com/services/Soap/u/47.0";
-                fromOrgLR.sandbox = true;
-            }
-
-            fromOrgLR = fromOrgSS.login(username, password);
-            loginSuccess = fromOrgLR.sessionId != null ? true : false;
-
-            fromOrgSS.Url = fromOrgLR.serverUrl;
-            fromOrgSS.SessionHeaderValue = new PartnerWSDL.SessionHeader();
-            fromOrgSS.SessionHeaderValue.sessionId = fromOrgLR.sessionId;
-
+            //        // Set up the Metadata Service connection including the All Or None Header
+            //        toOrgMS.Url = toOrgLR.metadataServerUrl;
+            //        toOrgMS.SessionHeaderValue = new MetadataWSDL.SessionHeader();
+            //        toOrgMS.SessionHeaderValue.sessionId = toOrgLR.sessionId;
+            //    }
+            //    catch (Exception loginFromExc2)
+            //    {
+            //    }
+            //}
+            
             return loginSuccess;
         }
 

@@ -30,7 +30,7 @@
         {
             this.ProjectFolder = new System.Windows.Forms.Label();
             this.SaveResultsTo = new System.Windows.Forms.Label();
-            this.btnExtractNamespacesClasses = new System.Windows.Forms.Button();
+            this.btnRunAutomationOptimizationReport = new System.Windows.Forms.Button();
             this.tbProjectFolder = new System.Windows.Forms.TextBox();
             this.tbFileSaveTo = new System.Windows.Forms.TextBox();
             this.cmbFileExtensions = new System.Windows.Forms.ComboBox();
@@ -65,15 +65,15 @@
             this.SaveResultsTo.TabIndex = 3;
             this.SaveResultsTo.Text = "Save Results To";
             // 
-            // btnExtractNamespacesClasses
+            // btnRunAutomationOptimizationReport
             // 
-            this.btnExtractNamespacesClasses.Location = new System.Drawing.Point(16, 316);
-            this.btnExtractNamespacesClasses.Name = "btnExtractNamespacesClasses";
-            this.btnExtractNamespacesClasses.Size = new System.Drawing.Size(199, 23);
-            this.btnExtractNamespacesClasses.TabIndex = 7;
-            this.btnExtractNamespacesClasses.Text = "Class Symbol Extractor ";
-            this.btnExtractNamespacesClasses.UseVisualStyleBackColor = true;
-            this.btnExtractNamespacesClasses.Click += new System.EventHandler(this.btnExtractNamespacesClasses_Click);
+            this.btnRunAutomationOptimizationReport.Location = new System.Drawing.Point(16, 316);
+            this.btnRunAutomationOptimizationReport.Name = "btnRunAutomationOptimizationReport";
+            this.btnRunAutomationOptimizationReport.Size = new System.Drawing.Size(199, 23);
+            this.btnRunAutomationOptimizationReport.TabIndex = 7;
+            this.btnRunAutomationOptimizationReport.Text = "Class Symbol Extractor ";
+            this.btnRunAutomationOptimizationReport.UseVisualStyleBackColor = true;
+            this.btnRunAutomationOptimizationReport.Click += new System.EventHandler(this.btnRunAutomationOptimizationReport_Click);
             // 
             // tbProjectFolder
             // 
@@ -216,7 +216,7 @@
             this.Controls.Add(this.cmbFileExtensions);
             this.Controls.Add(this.tbFileSaveTo);
             this.Controls.Add(this.tbProjectFolder);
-            this.Controls.Add(this.btnExtractNamespacesClasses);
+            this.Controls.Add(this.btnRunAutomationOptimizationReport);
             this.Controls.Add(this.SaveResultsTo);
             this.Controls.Add(this.ProjectFolder);
             this.Name = "AutomationReporter";
@@ -232,7 +232,7 @@
 
         private System.Windows.Forms.Label ProjectFolder;
         private System.Windows.Forms.Label SaveResultsTo;
-        private System.Windows.Forms.Button btnExtractNamespacesClasses;
+        private System.Windows.Forms.Button btnRunAutomationOptimizationReport;
         private System.Windows.Forms.TextBox tbProjectFolder;
         private System.Windows.Forms.TextBox tbFileSaveTo;
         private System.Windows.Forms.ComboBox cmbFileExtensions;

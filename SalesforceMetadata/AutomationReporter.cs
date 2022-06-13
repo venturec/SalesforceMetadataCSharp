@@ -175,19 +175,320 @@ namespace SalesforceMetadata
             }
         }
 
-        private void btnExtractNamespacesClasses_Click(object sender, EventArgs e)
+        private void btnRunAutomationOptimizationReport_Click(object sender, EventArgs e)
         {
-            SalesforceCredentials.fromOrgUsername = this.cmbUserName.Text;
-            SalesforceCredentials.fromOrgPassword = this.tbPassword.Text;
-            SalesforceCredentials.fromOrgSecurityToken = this.tbSecurityToken.Text;
-            Boolean loginSuccess = SalesforceCredentials.salesforceToolingLogin();
+            //SalesforceCredentials.fromOrgUsername = this.cmbUserName.Text;
+            //SalesforceCredentials.fromOrgPassword = this.tbPassword.Text;
+            //SalesforceCredentials.fromOrgSecurityToken = this.tbSecurityToken.Text;
+            //Boolean loginSuccess = SalesforceCredentials.salesforceToolingLogin();
 
+            Boolean loginSuccess = true;
             if (loginSuccess == false)
             {
                 MessageBox.Show("Please check username, password and/or security token");
                 return;
             }
+            else
+            {
+                //runApexTriggerToolingReport();
+                //runApexClassToolingReport();
+                runFlowProcessAutomationReport();
+                runWorkflowAutomationReport();
+            }
 
+            MessageBox.Show("Class Extraction Complete");
+        }
+
+        private void btnFindWhereClassUsed_Click(object sender, EventArgs e)
+        {
+            Boolean excelIsInstalled = UtilityClass.microsoftExcelInstalledCheck();
+
+            Dictionary<String, Dictionary<String, List<String>>> searchResultsDict = new Dictionary<String, Dictionary<String, List<String>>>();
+
+            if (this.tbProjectFolder.Text != "")
+            {
+                String[] directoryPathParse = this.tbProjectFolder.Text.Split('\\');
+
+                // See if the Project Folder contains a subfolder called classes
+                String[] subdirectoriesList = Directory.GetDirectories(this.tbProjectFolder.Text);
+
+                if (subdirectoriesList.Length > 0)
+                {
+                    foreach (String sd in subdirectoriesList)
+                    {
+                        String[] subDirectoryPathParse = sd.Split('\\');
+
+                        if (subDirectoryPathParse[subDirectoryPathParse.Length - 1] == "classes")
+                        {
+                            searchResultsDict.Add("Classes", new Dictionary<String, List<String>>());
+                            String[] classFiles = Directory.GetFiles(sd);
+
+                            // Loop through the files and find the class names which end in cls
+                            foreach (String classFileName in classFiles)
+                            {
+                                if (classFileName.EndsWith("cls"))
+                                {
+                                    // Get the class name then search for where it is used avoiding the current folder, profiles and permission sets
+                                    String[] classNamePath = classFileName.Split('\\');
+                                    String[] className = classNamePath[classNamePath.Length - 1].Split('.');
+
+                                    // Search for the values in the subfolders
+                                    List<String> searchResults = SearchUtilityClass.searchForObjectName(this.tbProjectFolder.Text, sd, classNamePath[classNamePath.Length - 1]);
+                                    if (searchResults.Count > 0)
+                                    {
+                                        searchResultsDict["Classes"].Add(className[0], searchResults);
+                                    }
+                                    else
+                                    {
+                                        searchResultsDict["Classes"].Add(className[0], new List<string>());
+                                    }
+                                }
+                            }
+                        }
+                        else if (subDirectoryPathParse[subDirectoryPathParse.Length - 1] == "flows")
+                        {
+                            searchResultsDict.Add("Flows", new Dictionary<String, List<String>>());
+                            String[] flowFiles = Directory.GetFiles(sd);
+
+                            // Loop through the files and find the class names which end in cls
+                            foreach (String flowFileName in flowFiles)
+                            {
+                                // Get the class name then search for where it is used avoiding the current folder, profiles and permission sets
+                                String[] flowNamePath = flowFileName.Split('\\');
+                                String[] flowName = flowNamePath[flowNamePath.Length - 1].Split('.');
+
+                                // Search for the values in the subfolders
+                                List<String> searchResults = SearchUtilityClass.searchForObjectName(this.tbProjectFolder.Text, sd, flowNamePath[flowNamePath.Length - 1]);
+                                if (searchResults.Count > 0)
+                                {
+                                    searchResultsDict["Flows"].Add(flowName[0], searchResults);
+                                }
+                                else
+                                {
+                                    searchResultsDict["Flows"].Add(flowName[0], new List<string>());
+                                }
+                            }
+                        }
+                        else if (subDirectoryPathParse[subDirectoryPathParse.Length - 1] == "lwc")
+                        {
+                            searchResultsDict.Add("LWCs", new Dictionary<String, List<String>>());
+                            String[] lwcFolders = Directory.GetDirectories(sd);
+
+                            // Loop through the files and find the class names which end in cls
+                            foreach (String lwcFolderPath in lwcFolders)
+                            {
+                                // Get the class name then search for where it is used avoiding the current folder, profiles and permission sets
+                                String[] lwcNamePath = lwcFolderPath.Split('\\');
+                                String lwcFolderName = lwcNamePath[lwcNamePath.Length - 1];
+
+                                // Search for the values in the subfolders
+                                List<String> searchResults = SearchUtilityClass.searchForObjectName(this.tbProjectFolder.Text, sd, lwcNamePath[lwcNamePath.Length - 1]);
+                                if (searchResults.Count > 0)
+                                {
+                                    searchResultsDict["LWCs"].Add(lwcFolderName, searchResults);
+                                }
+                                else
+                                {
+                                    searchResultsDict["LWCs"].Add(lwcFolderName, new List<string>());
+                                }
+                            }
+                        }
+                        else if (subDirectoryPathParse[subDirectoryPathParse.Length - 1] == "pages")
+                        {
+                            searchResultsDict.Add("Pages", new Dictionary<String, List<String>>());
+                            String[] vfPageFiles = Directory.GetFiles(sd);
+
+                            // Loop through the files and find the class names which end in cls
+                            foreach (String vfPageFileName in vfPageFiles)
+                            {
+                                if (vfPageFileName.EndsWith("page"))
+                                {
+                                    // Get the class name then search for where it is used avoiding the current folder, profiles and permission sets
+                                    String[] vfPageNamePath = vfPageFileName.Split('\\');
+                                    String[] vfPageName = vfPageNamePath[vfPageNamePath.Length - 1].Split('.');
+
+                                    // Search for the values in the subfolders
+                                    List<String> searchResults = SearchUtilityClass.searchForObjectName(this.tbProjectFolder.Text, sd, vfPageNamePath[vfPageNamePath.Length - 1]);
+                                    if (searchResults.Count > 0)
+                                    {
+                                        searchResultsDict["Pages"].Add(vfPageName[0], searchResults);
+                                    }
+                                    else
+                                    {
+                                        searchResultsDict["Pages"].Add(vfPageName[0], new List<string>());
+                                    }
+                                }
+                            }
+                        }
+                        //else if (subDirectoryPathParse[subDirectoryPathParse.Length - 1] == "triggers")
+                        //{
+                        //    searchResultsDict.Add("triggers", new Dictionary<String, List<String>>());
+                        //    String[] triggerFiles = Directory.GetDirectories(sd);
+
+                        //    // Loop through the files and find the class names which end in cls
+                        //    foreach (String triggerFileName in triggerFiles)
+                        //    {
+                        //        // Get the class name then search for where it is used avoiding the current folder, profiles and permission sets
+                        //        String[] triggerNamePath = triggerFileName.Split('\\');
+                        //        String[] triggerName = triggerNamePath[triggerNamePath.Length - 1].Split('.');
+
+                        //        // Search for the values in the subfolders
+                        //        List<String> searchResults = SearchUtilityClass.searchForObjectName(this.tbProjectFolder.Text, sd, triggerNamePath[triggerNamePath.Length - 1]);
+                        //        if (searchResults.Count > 0)
+                        //        {
+                        //            searchResultsDict["triggers"].Add(triggerName[0], searchResults);
+                        //        }
+                        //        else
+                        //        {
+                        //            searchResultsDict["triggers"].Add(triggerName[0], new List<string>());
+                        //        }
+                        //    }
+                        //}
+                    }
+                }
+            }
+
+            // Write contents to Excel
+            if (searchResultsDict.Count > 0)
+            {
+                Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
+                xlapp.Visible = false;
+
+                Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlapp.Workbooks.Add();
+
+                foreach (String folderName in searchResultsDict.Keys)
+                {
+                    Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
+                                                                                (System.Reflection.Missing.Value,
+                                                                                 xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
+                                                                                 System.Reflection.Missing.Value,
+                                                                                 System.Reflection.Missing.Value);
+
+                    xlWorksheet.Name = folderName;
+
+                    //Int32 rowStart = 2;
+                    Int32 rowEnd = 2;
+                    //Int32 colStart = 2;
+                    Int32 colEnd = 2;
+                    //Int32 lastRowNumber = 2;
+
+                    foreach (String objName in searchResultsDict[folderName].Keys)
+                    {
+                        writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, objName);
+                        writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd + 1, searchResultsDict[folderName][objName].Count.ToString());
+
+                        formatExcelRange(xlWorksheet,
+                                            rowEnd,
+                                            rowEnd,
+                                            colEnd,
+                                            colEnd + 1,
+                                            14,
+                                            255,
+                                            255,
+                                            255,
+                                            63,
+                                            98,
+                                            174,
+                                            true,
+                                            false,
+                                            "");
+
+                        rowEnd++;
+
+                        if (searchResultsDict[folderName][objName].Count > 0)
+                        {
+                            foreach (String relatedName in searchResultsDict[folderName][objName])
+                            {
+                                writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd + 2, relatedName);
+                                rowEnd++;
+                            }
+                        }
+
+                        rowEnd++;
+                    }
+                }
+
+                xlapp.Visible = true;
+            }
+        }
+
+
+        private void runApexTriggerToolingReport()
+        {
+            Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
+            xlapp.Visible = true;
+
+            Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlapp.Workbooks.Add();
+
+            Int32 apexTriggerRowId = 1;
+
+            Microsoft.Office.Interop.Excel.Worksheet xlApexTriggerWrksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
+                                                                           (System.Reflection.Missing.Value,
+                                                                           xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
+                                                                           System.Reflection.Missing.Value,
+                                                                           System.Reflection.Missing.Value);
+            xlApexTriggerWrksheet.Name = "ApexTriggers";
+
+            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 1].Value = "ApexTriggerId";
+            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 2].Value = "ApexTriggerName";
+            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 3].Value = "ApiVersion";
+            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 4].Value = "Status";
+            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 5].Value = "NamespacePrefix";
+            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 6].Value = "TableEnumOrId";
+            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 7].Value = "EntityDefinitionId";
+            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 8].Value = "LengthWithoutComments";
+            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 9].Value = "ManageableState";
+
+            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 10].Value = "UsageBeforeInsert";
+            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 11].Value = "UsageBeforeUpdate";
+            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 12].Value = "UsageBeforeDelete";
+            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 13].Value = "UsageAfterInsert";
+            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 14].Value = "UsageAfterUpdate";
+            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 15].Value = "UsageAfterDelete";
+            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 16].Value = "UsageAfterUndelete";
+            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 17].Value = "UsageIsBulk";
+
+            apexTriggerRowId++;
+
+            String query = ToolingApiHelper.ApexTriggerQuery("");
+            SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
+            SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
+
+            toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+
+            if (toolingQr.records == null) return;
+
+            toolingRecords = toolingQr.records;
+
+            foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
+            {
+                ApexTrigger1 at = new ApexTrigger1();
+                at = (ApexTrigger1)toolingRecord;
+
+                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 1].Value = at.Id;
+                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 2].Value = at.Name;
+                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 3].Value = at.ApiVersion;
+                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 4].Value = at.Status;
+                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 5].Value = at.NamespacePrefix;
+                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 6].Value = at.TableEnumOrId;
+                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 7].Value = at.EntityDefinitionId;
+                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 8].Value = at.LengthWithoutComments;
+                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 9].Value = at.ManageableState;
+                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 10].Value = at.UsageBeforeInsert;
+                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 11].Value = at.UsageBeforeUpdate;
+                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 12].Value = at.UsageBeforeDelete;
+                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 13].Value = at.UsageAfterInsert;
+                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 14].Value = at.UsageAfterUpdate;
+                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 15].Value = at.UsageAfterDelete;
+                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 16].Value = at.UsageAfterUndelete;
+                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 17].Value = at.UsageIsBulk;
+
+                apexTriggerRowId++;
+            }
+        }
+
+        private void runApexClassToolingReport()
+        {
             classIdToClassName = new Dictionary<String, String>();
 
             Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
@@ -727,220 +1028,62 @@ namespace SalesforceMetadata
             }
 
             xlapp.Visible = true;
-
-            MessageBox.Show("Class Extraction Complete");
         }
 
-        private void btnFindWhereClassUsed_Click(object sender, EventArgs e)
+        private void runFlowProcessAutomationReport()
         {
-            Boolean excelIsInstalled = UtilityClass.microsoftExcelInstalledCheck();
-
-            Dictionary<String, Dictionary<String, List<String>>> searchResultsDict = new Dictionary<String, Dictionary<String, List<String>>>();
-
             if (this.tbProjectFolder.Text != "")
             {
-                String[] directoryPathParse = this.tbProjectFolder.Text.Split('\\');
+                
+            }
+            else
+            {
+                MessageBox.Show("");
+            }
+        }
 
-                // See if the Project Folder contains a subfolder called classes
-                String[] subdirectoriesList = Directory.GetDirectories(this.tbProjectFolder.Text);
-
-                if (subdirectoriesList.Length > 0)
+        private void runWorkflowAutomationReport()
+        {
+            if (this.tbProjectFolder.Text != "")
+            {
+                if (Directory.Exists(this.tbProjectFolder.Text + "\\Flows"))
                 {
-                    foreach (String sd in subdirectoriesList)
+                    Dictionary<String, List<String>> declarativeTypeToName = new Dictionary<String, List<String>>();
+
+                    String[] fileNames = Directory.GetFiles(this.tbProjectFolder.Text + "\\Flows");
+
+                    foreach (String fl in fileNames)
                     {
-                        String[] subDirectoryPathParse = sd.Split('\\');
+                        String flowType = "";
 
-                        if (subDirectoryPathParse[subDirectoryPathParse.Length - 1] == "classes")
+                        XmlDocument xmlDoc = new XmlDocument();
+                        xmlDoc.Load(fl);
+
+
+                        XmlNodeList status = xmlDoc.GetElementsByTagName("status");
+                        XmlNodeList processType = xmlDoc.GetElementsByTagName("processType");
+
+                        // AutoLaunched Flow
+                        if (status[0].InnerText != "Obsolete"
+                            && processType[0].InnerText == "AutoLaunchedFlow")
                         {
-                            searchResultsDict.Add("Classes", new Dictionary<String, List<String>>());
-                            String[] classFiles = Directory.GetFiles(sd);
+                            MessageBox.Show("Hello1");
 
-                            // Loop through the files and find the class names which end in cls
-                            foreach (String classFileName in classFiles)
-                            {
-                                if (classFileName.EndsWith("cls"))
-                                {
-                                    // Get the class name then search for where it is used avoiding the current folder, profiles and permission sets
-                                    String[] classNamePath = classFileName.Split('\\');
-                                    String[] className = classNamePath[classNamePath.Length - 1].Split('.');
 
-                                    // Search for the values in the subfolders
-                                    List<String> searchResults = SearchUtilityClass.searchForObjectName(this.tbProjectFolder.Text, sd, classNamePath[classNamePath.Length - 1]);
-                                    if (searchResults.Count > 0)
-                                    {
-                                        searchResultsDict["Classes"].Add(className[0], searchResults);
-                                    }
-                                    else
-                                    {
-                                        searchResultsDict["Classes"].Add(className[0], new List<string>());
-                                    }
-                                }
-                            }
+
                         }
-                        else if (subDirectoryPathParse[subDirectoryPathParse.Length - 1] == "flows")
+                        // Process Builder
+                        else if (status[0].InnerText != "Obsolete"
+                            && processType[0].InnerText == "Workflow")
                         {
-                            searchResultsDict.Add("Flows", new Dictionary<String, List<String>>());
-                            String[] flowFiles = Directory.GetFiles(sd);
-
-                            // Loop through the files and find the class names which end in cls
-                            foreach (String flowFileName in flowFiles)
-                            {
-                                // Get the class name then search for where it is used avoiding the current folder, profiles and permission sets
-                                String[] flowNamePath = flowFileName.Split('\\');
-                                String[] flowName = flowNamePath[flowNamePath.Length - 1].Split('.');
-
-                                // Search for the values in the subfolders
-                                List<String> searchResults = SearchUtilityClass.searchForObjectName(this.tbProjectFolder.Text, sd, flowNamePath[flowNamePath.Length - 1]);
-                                if (searchResults.Count > 0)
-                                {
-                                    searchResultsDict["Flows"].Add(flowName[0], searchResults);
-                                }
-                                else
-                                {
-                                    searchResultsDict["Flows"].Add(flowName[0], new List<string>());
-                                }
-                            }
+                            MessageBox.Show("Hello2");
                         }
-                        else if (subDirectoryPathParse[subDirectoryPathParse.Length - 1] == "lwc")
-                        {
-                            searchResultsDict.Add("LWCs", new Dictionary<String, List<String>>());
-                            String[] lwcFolders = Directory.GetDirectories(sd);
-
-                            // Loop through the files and find the class names which end in cls
-                            foreach (String lwcFolderPath in lwcFolders)
-                            {
-                                // Get the class name then search for where it is used avoiding the current folder, profiles and permission sets
-                                String[] lwcNamePath = lwcFolderPath.Split('\\');
-                                String lwcFolderName = lwcNamePath[lwcNamePath.Length - 1];
-
-                                // Search for the values in the subfolders
-                                List<String> searchResults = SearchUtilityClass.searchForObjectName(this.tbProjectFolder.Text, sd, lwcNamePath[lwcNamePath.Length - 1]);
-                                if (searchResults.Count > 0)
-                                {
-                                    searchResultsDict["LWCs"].Add(lwcFolderName, searchResults);
-                                }
-                                else
-                                {
-                                    searchResultsDict["LWCs"].Add(lwcFolderName, new List<string>());
-                                }
-                            }
-                        }
-                        else if (subDirectoryPathParse[subDirectoryPathParse.Length - 1] == "pages")
-                        {
-                            searchResultsDict.Add("Pages", new Dictionary<String, List<String>>());
-                            String[] vfPageFiles = Directory.GetFiles(sd);
-
-                            // Loop through the files and find the class names which end in cls
-                            foreach (String vfPageFileName in vfPageFiles)
-                            {
-                                if (vfPageFileName.EndsWith("page"))
-                                {
-                                    // Get the class name then search for where it is used avoiding the current folder, profiles and permission sets
-                                    String[] vfPageNamePath = vfPageFileName.Split('\\');
-                                    String[] vfPageName = vfPageNamePath[vfPageNamePath.Length - 1].Split('.');
-
-                                    // Search for the values in the subfolders
-                                    List<String> searchResults = SearchUtilityClass.searchForObjectName(this.tbProjectFolder.Text, sd, vfPageNamePath[vfPageNamePath.Length - 1]);
-                                    if (searchResults.Count > 0)
-                                    {
-                                        searchResultsDict["Pages"].Add(vfPageName[0], searchResults);
-                                    }
-                                    else
-                                    {
-                                        searchResultsDict["Pages"].Add(vfPageName[0], new List<string>());
-                                    }
-                                }
-                            }
-                        }
-                        //else if (subDirectoryPathParse[subDirectoryPathParse.Length - 1] == "triggers")
-                        //{
-                        //    searchResultsDict.Add("triggers", new Dictionary<String, List<String>>());
-                        //    String[] triggerFiles = Directory.GetDirectories(sd);
-
-                        //    // Loop through the files and find the class names which end in cls
-                        //    foreach (String triggerFileName in triggerFiles)
-                        //    {
-                        //        // Get the class name then search for where it is used avoiding the current folder, profiles and permission sets
-                        //        String[] triggerNamePath = triggerFileName.Split('\\');
-                        //        String[] triggerName = triggerNamePath[triggerNamePath.Length - 1].Split('.');
-
-                        //        // Search for the values in the subfolders
-                        //        List<String> searchResults = SearchUtilityClass.searchForObjectName(this.tbProjectFolder.Text, sd, triggerNamePath[triggerNamePath.Length - 1]);
-                        //        if (searchResults.Count > 0)
-                        //        {
-                        //            searchResultsDict["triggers"].Add(triggerName[0], searchResults);
-                        //        }
-                        //        else
-                        //        {
-                        //            searchResultsDict["triggers"].Add(triggerName[0], new List<string>());
-                        //        }
-                        //    }
-                        //}
                     }
                 }
             }
-
-            // Write contents to Excel
-            if (searchResultsDict.Count > 0)
+            else
             {
-                Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
-                xlapp.Visible = false;
-
-                Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlapp.Workbooks.Add();
-
-                foreach (String folderName in searchResultsDict.Keys)
-                {
-                    Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
-                                                                                (System.Reflection.Missing.Value,
-                                                                                 xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
-                                                                                 System.Reflection.Missing.Value,
-                                                                                 System.Reflection.Missing.Value);
-
-                    xlWorksheet.Name = folderName;
-
-                    //Int32 rowStart = 2;
-                    Int32 rowEnd = 2;
-                    //Int32 colStart = 2;
-                    Int32 colEnd = 2;
-                    //Int32 lastRowNumber = 2;
-
-                    foreach (String objName in searchResultsDict[folderName].Keys)
-                    {
-                        writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, objName);
-                        writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd + 1, searchResultsDict[folderName][objName].Count.ToString());
-
-                        formatExcelRange(xlWorksheet,
-                                            rowEnd,
-                                            rowEnd,
-                                            colEnd,
-                                            colEnd + 1,
-                                            14,
-                                            255,
-                                            255,
-                                            255,
-                                            63,
-                                            98,
-                                            174,
-                                            true,
-                                            false,
-                                            "");
-
-                        rowEnd++;
-
-                        if (searchResultsDict[folderName][objName].Count > 0)
-                        {
-                            foreach (String relatedName in searchResultsDict[folderName][objName])
-                            {
-                                writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd + 2, relatedName);
-                                rowEnd++;
-                            }
-                        }
-
-                        rowEnd++;
-                    }
-                }
-
-                xlapp.Visible = true;
+                MessageBox.Show("Please make sure the \"Flows\" folder is in the path " + this.tbProjectFolder.Text + " or choose another path");
             }
         }
 
@@ -1178,5 +1321,18 @@ namespace SalesforceMetadata
         {
             this.tbProjectFolder.Text = UtilityClass.folderBrowserSelectPath("Select Project Folder", false, FolderEnum.ReadFrom);
         }
+
+
+        public class DeclarativeProcessTypes
+        {
+            String processName;
+            String processLabel;
+            String processType;
+            String apiVersion;
+            String status;
+            List<String> recordCreates;
+            List<String> 
+        }
+
     }
 }

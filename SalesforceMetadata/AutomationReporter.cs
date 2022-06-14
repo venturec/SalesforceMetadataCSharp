@@ -1048,7 +1048,7 @@ namespace SalesforceMetadata
             {
                 if (Directory.Exists(this.tbProjectFolder.Text + "\\Flows"))
                 {
-                    Dictionary<String, List<String>> declarativeTypeToName = new Dictionary<String, List<String>>();
+                    Dictionary<String, List<FlowProcess>> declarativeTypeToName = new Dictionary<String, List<FlowProcess>>();
 
                     String[] fileNames = Directory.GetFiles(this.tbProjectFolder.Text + "\\Flows");
 
@@ -1059,17 +1059,29 @@ namespace SalesforceMetadata
                         XmlDocument xmlDoc = new XmlDocument();
                         xmlDoc.Load(fl);
 
+                        // start contains information about the flow and specifically the Run In Mode
+                        // Need to extract out the Run In Mode
+                        XmlNodeList flowStart = xmlDoc.GetElementsByTagName("start");
+                        //XmlNodeList flowName = xmlDoc.GetElementsByTagName("");
+                        XmlNodeList flowLabel = xmlDoc.GetElementsByTagName("label");
+                        XmlNodeList flowProcessType = xmlDoc.GetElementsByTagName("processType");
+                        XmlNodeList flowApiVersion = xmlDoc.GetElementsByTagName("apiVersion");
 
                         XmlNodeList status = xmlDoc.GetElementsByTagName("status");
                         XmlNodeList processType = xmlDoc.GetElementsByTagName("processType");
+                        XmlNodeList recordCreates = xmlDoc.GetElementsByTagName("recordCreates");
+                        XmlNodeList recordUpdates = xmlDoc.GetElementsByTagName("recordUpdates");
+                        XmlNodeList recordDeletes = xmlDoc.GetElementsByTagName("recordDeletes");
+
+                        // For Process Builder
+                        XmlNodeList actionCalls = xmlDoc.GetElementsByTagName("actionCalls");
 
                         // AutoLaunched Flow
                         if (status[0].InnerText != "Obsolete"
                             && processType[0].InnerText == "AutoLaunchedFlow")
                         {
+
                             MessageBox.Show("Hello1");
-
-
 
                         }
                         // Process Builder
@@ -1077,6 +1089,16 @@ namespace SalesforceMetadata
                             && processType[0].InnerText == "Workflow")
                         {
                             MessageBox.Show("Hello2");
+
+                            FlowProcess fp = new FlowProcess();
+                            if (fp.actionCalls.ContainsKey())
+                            {
+                            }
+                            else
+                            {
+                                
+                            }
+
                         }
                     }
                 }
@@ -1323,15 +1345,20 @@ namespace SalesforceMetadata
         }
 
 
-        public class DeclarativeProcessTypes
+        public class FlowProcess
         {
-            String processName;
-            String processLabel;
-            String processType;
-            String apiVersion;
-            String status;
-            List<String> recordCreates;
-            List<String> 
+            public String processName;
+            public String processLabel;
+            public String processType;
+            public String apiVersion;
+            public String status;
+            public String runInMode;
+            // Key = object, values = the element names in the flows which initiate the DMLs 
+            public Dictionary<String, List<String>> recordCreates;
+            public Dictionary<String, List<String>> recordUpdates;
+            public Dictionary<String, List<String>> recordDeletes;
+
+            public Dictionary<String, List<String>> actionCalls;
         }
 
     }

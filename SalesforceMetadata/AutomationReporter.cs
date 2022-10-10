@@ -177,12 +177,12 @@ namespace SalesforceMetadata
 
         private void btnRunAutomationOptimizationReport_Click(object sender, EventArgs e)
         {
-            //SalesforceCredentials.fromOrgUsername = this.cmbUserName.Text;
-            //SalesforceCredentials.fromOrgPassword = this.tbPassword.Text;
-            //SalesforceCredentials.fromOrgSecurityToken = this.tbSecurityToken.Text;
-            //Boolean loginSuccess = SalesforceCredentials.salesforceToolingLogin();
+            SalesforceCredentials.fromOrgUsername = this.cmbUserName.Text;
+            SalesforceCredentials.fromOrgPassword = this.tbPassword.Text;
+            SalesforceCredentials.fromOrgSecurityToken = this.tbSecurityToken.Text;
+            Boolean loginSuccess = SalesforceCredentials.salesforceToolingLogin();
 
-            Boolean loginSuccess = true;
+            //Boolean loginSuccess = true;
             if (loginSuccess == false)
             {
                 MessageBox.Show("Please check username, password and/or security token");
@@ -192,7 +192,7 @@ namespace SalesforceMetadata
             {
                 //runApexTriggerToolingReport();
                 //runApexClassToolingReport();
-                runFlowProcessAutomationReport();
+                //runFlowProcessAutomationReport();
                 runWorkflowAutomationReport();
             }
 
@@ -411,7 +411,6 @@ namespace SalesforceMetadata
                 xlapp.Visible = true;
             }
         }
-
 
         private void runApexTriggerToolingReport()
         {
@@ -663,7 +662,8 @@ namespace SalesforceMetadata
                 xlApexClassWrksheet.Cells[apexClassRowId, 2].Value = apexClass.Name;
                 xlApexClassWrksheet.Cells[apexClassRowId, 3].Value = apexClass.ApiVersion;
                 xlApexClassWrksheet.Cells[apexClassRowId, 4].Value = apexClass.Status;
-                xlApexClassWrksheet.Cells[apexClassRowId, 5].Value = apexClass.NamespacePrefix;
+                xlApexClassWrksheet.Cells[apexClassRowId, 4].Value = "";
+                xlApexClassWrksheet.Cells[apexClassRowId, 6].Value = apexClass.NamespacePrefix;
 
                 if (apexClass.SymbolTable != null)
                 {
@@ -1034,18 +1034,6 @@ namespace SalesforceMetadata
         {
             if (this.tbProjectFolder.Text != "")
             {
-                
-            }
-            else
-            {
-                MessageBox.Show("");
-            }
-        }
-
-        private void runWorkflowAutomationReport()
-        {
-            if (this.tbProjectFolder.Text != "")
-            {
                 if (Directory.Exists(this.tbProjectFolder.Text + "\\Flows"))
                 {
                     Dictionary<String, List<FlowProcess>> declarativeTypeToName = new Dictionary<String, List<FlowProcess>>();
@@ -1054,6 +1042,9 @@ namespace SalesforceMetadata
 
                     foreach (String fl in fileNames)
                     {
+                        String[] filePathSplit = fl.Split('\\');
+                        String fileApiName = filePathSplit[filePathSplit.Length - 1].Split('.')[0];
+
                         String flowType = "";
 
                         XmlDocument xmlDoc = new XmlDocument();
@@ -1062,52 +1053,621 @@ namespace SalesforceMetadata
                         // start contains information about the flow and specifically the Run In Mode
                         // Need to extract out the Run In Mode
                         XmlNodeList flowStart = xmlDoc.GetElementsByTagName("start");
-                        //XmlNodeList flowName = xmlDoc.GetElementsByTagName("");
                         XmlNodeList flowLabel = xmlDoc.GetElementsByTagName("label");
                         XmlNodeList flowProcessType = xmlDoc.GetElementsByTagName("processType");
                         XmlNodeList flowApiVersion = xmlDoc.GetElementsByTagName("apiVersion");
-
                         XmlNodeList status = xmlDoc.GetElementsByTagName("status");
                         XmlNodeList processType = xmlDoc.GetElementsByTagName("processType");
+
                         XmlNodeList recordCreates = xmlDoc.GetElementsByTagName("recordCreates");
                         XmlNodeList recordUpdates = xmlDoc.GetElementsByTagName("recordUpdates");
                         XmlNodeList recordDeletes = xmlDoc.GetElementsByTagName("recordDeletes");
 
                         // For Process Builder
-                        XmlNodeList actionCalls = xmlDoc.GetElementsByTagName("actionCalls");
+                        //XmlNodeList actionCalls = xmlDoc.GetElementsByTagName("actionCalls");
 
                         // AutoLaunched Flow
                         if (status[0].InnerText != "Obsolete"
                             && processType[0].InnerText == "AutoLaunchedFlow")
                         {
+                            //MessageBox.Show("Hello1");
+                            FlowProcess fp = new FlowProcess();
 
-                            MessageBox.Show("Hello1");
+                            fp.processName = fileApiName;
 
+                            foreach (XmlElement elem in flowLabel)
+                            {
+                                if (elem.ParentNode.Name == "Flow")
+                                {
+                                    fp.processLabel = elem.InnerText;
+                                }
+                            }
+
+                            fp.processType = "AutoLaunchedFlow";
+                            fp.apiVersion = flowApiVersion[0].InnerText;
+                            fp.status = flowApiVersion[0].InnerText;
+
+                            foreach (XmlElement elem in recordCreates)
+                            {
+                                String ruLabel = "";
+                                String ruObject = "";
+
+                                foreach (XmlElement childElem in elem.ChildNodes)
+                                {
+                                    if (childElem.Name == "label")
+                                    {
+                                        ruLabel = childElem.InnerText;
+                                    }
+                                    else if (childElem.Name == "object")
+                                    {
+                                        ruObject = childElem.InnerText;
+                                    }
+                                }
+
+                                if (fp.recordCreates.ContainsKey(ruObject))
+                                {
+                                    fp.recordCreates[ruObject].Add(ruLabel);
+                                }
+                                else
+                                {
+                                    List<String> tempList = new List<string> { ruLabel };
+                                    Dictionary<String, List<String>> tempDictionary = new Dictionary<string, List<string>>();
+                                    tempDictionary.Add(ruObject, tempList);
+                                    fp.recordCreates = tempDictionary;
+                                }
+                            }
+
+                            foreach (XmlElement elem in recordUpdates)
+                            {
+                                String ruLabel = "";
+                                String ruObject = "";
+
+                                foreach (XmlElement childElem in elem.ChildNodes)
+                                {
+                                    if (childElem.Name == "label")
+                                    {
+                                        ruLabel = childElem.InnerText;
+                                    }
+                                    else if (childElem.Name == "object")
+                                    {
+                                        ruObject = childElem.InnerText;
+                                    }
+                                }
+
+                                if (fp.recordUpdates.ContainsKey(ruObject))
+                                {
+                                    fp.recordUpdates[ruObject].Add(ruLabel);
+                                }
+                                else
+                                {
+                                    List<String> tempList = new List<string> { ruLabel };
+                                    Dictionary<String, List<String>> tempDictionary = new Dictionary<string, List<string>>();
+                                    tempDictionary.Add(ruObject, tempList);
+                                    fp.recordUpdates = tempDictionary;
+                                }
+                            }
+
+                            foreach (XmlElement elem in recordDeletes)
+                            {
+                                String ruLabel = "";
+                                String ruObject = "";
+
+                                foreach (XmlElement childElem in elem.ChildNodes)
+                                {
+                                    if (childElem.Name == "label")
+                                    {
+                                        ruLabel = childElem.InnerText;
+                                    }
+                                    else if (childElem.Name == "object")
+                                    {
+                                        ruObject = childElem.InnerText;
+                                    }
+                                }
+
+                                if (fp.recordDeletes.ContainsKey(ruObject))
+                                {
+                                    fp.recordDeletes[ruObject].Add(ruLabel);
+                                }
+                                else
+                                {
+                                    List<String> tempList = new List<string> { ruLabel };
+                                    Dictionary<String, List<String>> tempDictionary = new Dictionary<string, List<string>>();
+                                    tempDictionary.Add(ruObject, tempList);
+                                    fp.recordDeletes = tempDictionary;
+                                }
+                            }
+
+
+                            if (declarativeTypeToName.ContainsKey("AutoLaunchedFlow"))
+                            {
+                                declarativeTypeToName["AutoLaunchedFlow"].Add(fp);
+                            }
+                            else
+                            {
+                                declarativeTypeToName.Add("AutoLaunchedFlow", new List<FlowProcess> { fp });
+                            }
                         }
                         // Process Builder
                         else if (status[0].InnerText != "Obsolete"
                             && processType[0].InnerText == "Workflow")
                         {
-                            MessageBox.Show("Hello2");
-
                             FlowProcess fp = new FlowProcess();
-                            if (fp.actionCalls.ContainsKey())
+
+                            fp.processName = fileApiName;
+
+                            foreach (XmlElement elem in flowLabel)
                             {
+                                if (elem.ParentNode.Name == "Flow")
+                                {
+                                    fp.processLabel = elem.InnerText;
+                                }
+                            }
+
+                            fp.processType = "Process Builder";
+                            fp.apiVersion = flowApiVersion[0].InnerText;
+                            fp.status = flowApiVersion[0].InnerText;
+
+                            foreach (XmlElement elem in recordCreates)
+                            {
+                                String ruLabel = "";
+                                String ruObject = "";
+
+                                foreach (XmlElement childElem in elem.ChildNodes)
+                                {
+                                    if (childElem.Name == "label")
+                                    {
+                                        ruLabel = childElem.InnerText;
+                                    }
+                                    else if (childElem.Name == "object")
+                                    {
+                                        ruObject = childElem.InnerText;
+                                    }
+                                }
+
+                                if (fp.recordCreates.ContainsKey(ruObject))
+                                {
+                                    fp.recordCreates[ruObject].Add(ruLabel);
+                                }
+                                else
+                                {
+                                    List<String> tempList = new List<string> { ruLabel };
+                                    Dictionary<String, List<String>> tempDictionary = new Dictionary<string, List<string>>();
+                                    tempDictionary.Add(ruObject, tempList);
+                                    fp.recordCreates = tempDictionary;
+                                }
+                            }
+
+                            foreach (XmlElement elem in recordUpdates)
+                            {
+                                String ruLabel = "";
+                                String ruObject = "";
+
+                                foreach (XmlElement childElem in elem.ChildNodes)
+                                {
+                                    if (childElem.Name == "label")
+                                    {
+                                        ruLabel = childElem.InnerText;
+                                    }
+                                    else if (childElem.Name == "object")
+                                    {
+                                        ruObject = childElem.InnerText;
+                                    }
+                                }
+
+                                if (fp.recordUpdates.ContainsKey(ruObject))
+                                {
+                                    fp.recordUpdates[ruObject].Add(ruLabel);
+                                }
+                                else
+                                {
+                                    List<String> tempList = new List<string> { ruLabel };
+                                    Dictionary<String, List<String>> tempDictionary = new Dictionary<string, List<string>>();
+                                    tempDictionary.Add(ruObject, tempList);
+                                    fp.recordUpdates = tempDictionary;
+                                }
+                            }
+
+                            foreach (XmlElement elem in recordDeletes)
+                            {
+                                String ruLabel = "";
+                                String ruObject = "";
+
+                                foreach (XmlElement childElem in elem.ChildNodes)
+                                {
+                                    if (childElem.Name == "label")
+                                    {
+                                        ruLabel = childElem.InnerText;
+                                    }
+                                    else if (childElem.Name == "object")
+                                    {
+                                        ruObject = childElem.InnerText;
+                                    }
+                                }
+
+                                if (fp.recordDeletes.ContainsKey(ruObject))
+                                {
+                                    fp.recordDeletes[ruObject].Add(ruLabel);
+                                }
+                                else
+                                {
+                                    List<String> tempList = new List<string> { ruLabel };
+                                    Dictionary<String, List<String>> tempDictionary = new Dictionary<string, List<string>>();
+                                    tempDictionary.Add(ruObject, tempList);
+                                    fp.recordDeletes = tempDictionary;
+                                }
+                            }
+
+                            if (declarativeTypeToName.ContainsKey("Process Builder"))
+                            {
+                                declarativeTypeToName["Process Builder"].Add(fp);
                             }
                             else
                             {
-                                
+                                declarativeTypeToName.Add("Process Builder", new List<FlowProcess> { fp });
                             }
-
                         }
                     }
+
+                    // Write the values in the Dictionary to an Excel file
+                    Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
+                    xlapp.Visible = true;
+
+                    Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlapp.Workbooks.Add();
+
+                    Int32 processBuilderRowId = 1;
+                    Int32 flowRowId = 1;
+
+
+                    // Process Builder
+                    Microsoft.Office.Interop.Excel.Worksheet xlProcessBuilderWrksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
+                                                                                        (System.Reflection.Missing.Value,
+                                                                                        xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
+                                                                                        System.Reflection.Missing.Value,
+                                                                                        System.Reflection.Missing.Value);
+                    xlProcessBuilderWrksheet.Name = "Process Builder";
+
+                    xlProcessBuilderWrksheet.Cells[processBuilderRowId, 1].Value = "ProcessBuilderName";
+                    xlProcessBuilderWrksheet.Cells[processBuilderRowId, 2].Value = "ProcessBuilderLabel";
+                    xlProcessBuilderWrksheet.Cells[processBuilderRowId, 3].Value = "ProcessBuilderType";
+                    xlProcessBuilderWrksheet.Cells[processBuilderRowId, 4].Value = "Status";
+                    xlProcessBuilderWrksheet.Cells[processBuilderRowId, 5].Value = "API Version";
+                    xlProcessBuilderWrksheet.Cells[processBuilderRowId, 6].Value = "Run In Mode";
+                    xlProcessBuilderWrksheet.Cells[processBuilderRowId, 7].Value = "Record Creates";
+                    xlProcessBuilderWrksheet.Cells[processBuilderRowId, 8].Value = "Record Updates";
+                    xlProcessBuilderWrksheet.Cells[processBuilderRowId, 9].Value = "Record Deletes";
+                    processBuilderRowId++;
+
+                    List<FlowProcess> processBuilders = declarativeTypeToName["Process Builder"];
+                    foreach (FlowProcess fp in processBuilders)
+                    {
+                        xlProcessBuilderWrksheet.Cells[processBuilderRowId, 1].Value = fp.processName;
+                        xlProcessBuilderWrksheet.Cells[processBuilderRowId, 2].Value = fp.processLabel;
+                        xlProcessBuilderWrksheet.Cells[processBuilderRowId, 3].Value = fp.processType;
+                        xlProcessBuilderWrksheet.Cells[processBuilderRowId, 4].Value = fp.status;
+                        xlProcessBuilderWrksheet.Cells[processBuilderRowId, 5].Value = fp.apiVersion;
+                        xlProcessBuilderWrksheet.Cells[processBuilderRowId, 6].Value = fp.runInMode;
+
+                        if (fp.recordCreates.Count > 0)
+                        {
+                            String dictionaryKeys = "";
+
+                            foreach (String key in fp.recordCreates.Keys)
+                            {
+                                dictionaryKeys = dictionaryKeys + key + ",";
+                            }
+
+                            xlProcessBuilderWrksheet.Cells[processBuilderRowId, 7].Value = dictionaryKeys;
+                        }
+
+                        if (fp.recordUpdates.Count > 0)
+                        {
+                            String dictionaryKeys = "";
+
+                            foreach (String key in fp.recordCreates.Keys)
+                            {
+                                dictionaryKeys = dictionaryKeys + key + ",";
+                            }
+
+                            xlProcessBuilderWrksheet.Cells[processBuilderRowId, 8].Value = dictionaryKeys;
+                        }
+
+                        if (fp.recordDeletes.Count > 0)
+                        {
+                            String dictionaryKeys = "";
+
+                            foreach (String key in fp.recordCreates.Keys)
+                            {
+                                dictionaryKeys = dictionaryKeys + key + ",";
+                            }
+
+                            xlProcessBuilderWrksheet.Cells[processBuilderRowId, 9].Value = dictionaryKeys;
+                        }
+
+                        processBuilderRowId++;
+                    }
+
+
+                    // AutoLaunchedFlow
+                    Microsoft.Office.Interop.Excel.Worksheet xlAutolaunchedFlowWrksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
+                                                                                        (System.Reflection.Missing.Value,
+                                                                                        xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
+                                                                                        System.Reflection.Missing.Value,
+                                                                                        System.Reflection.Missing.Value);
+                    xlAutolaunchedFlowWrksheet.Name = "AutoLaunchedFlow";
+
+                    xlAutolaunchedFlowWrksheet.Cells[flowRowId, 1].Value = "FlowName";
+                    xlAutolaunchedFlowWrksheet.Cells[flowRowId, 2].Value = "FlowLabel";
+                    xlAutolaunchedFlowWrksheet.Cells[flowRowId, 3].Value = "FlowType";
+                    xlAutolaunchedFlowWrksheet.Cells[flowRowId, 4].Value = "Status";
+                    xlAutolaunchedFlowWrksheet.Cells[flowRowId, 5].Value = "API Version";
+                    xlAutolaunchedFlowWrksheet.Cells[flowRowId, 6].Value = "Run In Mode";
+                    xlAutolaunchedFlowWrksheet.Cells[flowRowId, 7].Value = "Record Creates";
+                    xlAutolaunchedFlowWrksheet.Cells[flowRowId, 8].Value = "Record Updates";
+                    xlAutolaunchedFlowWrksheet.Cells[flowRowId, 9].Value = "Record Deletes";
+                    flowRowId++;
+
+                    List<FlowProcess> autoLaunchedFlows = declarativeTypeToName["AutoLaunchedFlow"];
+                    foreach (FlowProcess fp in autoLaunchedFlows)
+                    {
+                        xlAutolaunchedFlowWrksheet.Cells[flowRowId, 1].Value = fp.processName;
+                        xlAutolaunchedFlowWrksheet.Cells[flowRowId, 2].Value = fp.processLabel;
+                        xlAutolaunchedFlowWrksheet.Cells[flowRowId, 3].Value = fp.processType;
+                        xlAutolaunchedFlowWrksheet.Cells[flowRowId, 4].Value = fp.status;
+                        xlAutolaunchedFlowWrksheet.Cells[flowRowId, 5].Value = fp.apiVersion;
+                        xlAutolaunchedFlowWrksheet.Cells[flowRowId, 6].Value = fp.runInMode;
+
+                        if (fp.recordCreates.Count > 0)
+                        {
+                            String dictionaryKeys = "";
+
+                            foreach (String key in fp.recordCreates.Keys)
+                            {
+                                dictionaryKeys = dictionaryKeys + key + ",";
+                            }
+
+                            xlAutolaunchedFlowWrksheet.Cells[flowRowId, 7].Value = dictionaryKeys;
+                        }
+
+                        if (fp.recordUpdates.Count > 0)
+                        {
+                            String dictionaryKeys = "";
+
+                            foreach (String key in fp.recordCreates.Keys)
+                            {
+                                dictionaryKeys = dictionaryKeys + key + ",";
+                            }
+
+                            xlAutolaunchedFlowWrksheet.Cells[flowRowId, 8].Value = dictionaryKeys;
+                        }
+
+                        if (fp.recordDeletes.Count > 0)
+                        {
+                            String dictionaryKeys = "";
+
+                            foreach (String key in fp.recordCreates.Keys)
+                            {
+                                dictionaryKeys = dictionaryKeys + key + ",";
+                            }
+
+                            xlAutolaunchedFlowWrksheet.Cells[flowRowId, 9].Value = dictionaryKeys;
+                        }
+
+                        flowRowId++;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please make sure the \"Flows\" folder is in the path " + this.tbProjectFolder.Text + " or choose another path");
                 }
             }
             else
             {
-                MessageBox.Show("Please make sure the \"Flows\" folder is in the path " + this.tbProjectFolder.Text + " or choose another path");
+                
             }
         }
+
+        private void runWorkflowAutomationReport()
+        {
+            if (this.tbProjectFolder.Text != "")
+            {
+                if (Directory.Exists(this.tbProjectFolder.Text + "\\Workflows"))
+                {
+                    // Key = sObject, Values = FlowProcess
+                    Dictionary<String, List<FlowProcess>> flowProcessList = new Dictionary<String, List<FlowProcess>>();
+
+                    String[] fileNames = Directory.GetFiles(this.tbProjectFolder.Text + "\\Workflows");
+
+                    foreach (String fileName in fileNames)
+                    {
+                        String[] filePathSplit = fileName.Split('\\');
+                        String objectName = filePathSplit[filePathSplit.Length - 1].Split('.')[0];
+
+                        XmlDocument xd = new XmlDocument();
+                        xd.Load(fileName);
+
+
+                        XmlNodeList fieldUpdates = xd.GetElementsByTagName("fieldUpdates");
+                        Dictionary<String, String> fieldUpdateNameToObject = new Dictionary<String, String>();
+
+                        foreach (XmlElement elem in fieldUpdates)
+                        {
+                            fieldUpdateNameToObject.Add(elem.ChildNodes[0].InnerText, objectName);
+                        }
+
+                        XmlNodeList workflowRules = xd.GetElementsByTagName("rules");
+
+                        foreach (XmlElement elem in workflowRules)
+                        {
+                            FlowProcess fp = new FlowProcess();
+                            fp.objectName = objectName;
+
+                            if (elem.ChildNodes.Count > 0)
+                            {
+                                foreach (XmlElement ce1 in elem.ChildNodes)
+                                {
+                                    if (ce1.Name == "fullName")
+                                    {
+                                        fp.processName = ce1.InnerText;
+                                    }
+                                    else if (ce1.Name == "active")
+                                    {
+                                        fp.status = ce1.InnerText;
+                                    }
+                                    else if (ce1.Name == "triggerType")
+                                    {
+                                        fp.triggerType = ce1.InnerText;
+                                    }
+
+                                    XmlNodeList actions = elem.GetElementsByTagName("actions");
+
+                                    foreach (XmlElement actionElem in actions)
+                                    {
+                                        if (actionElem.ChildNodes[1].InnerText == "FieldUpdate")
+                                        {
+                                            if (fp.triggerType == "onCreateOnly")
+                                            {
+                                                if (fp.recordCreates.ContainsKey(objectName))
+                                                {
+                                                    fp.recordCreates[objectName].Add(actionElem.ChildNodes[0].InnerText);
+                                                }
+                                                else
+                                                {
+                                                    fp.recordCreates.Add(objectName, new List<String> { actionElem.ChildNodes[0].InnerText });
+                                                }
+                                            }
+                                            else if (fp.triggerType == "onCreateOrTriggeringUpdate")
+                                            {
+                                                if (fp.recordCreates.ContainsKey(objectName))
+                                                {
+                                                    fp.recordCreates[objectName].Add(actionElem.ChildNodes[0].InnerText);
+                                                }
+                                                else
+                                                {
+                                                    fp.recordCreates.Add(objectName, new List<String> { actionElem.ChildNodes[0].InnerText });
+                                                }
+
+                                                if (fp.recordUpdates.ContainsKey(objectName))
+                                                {
+                                                    fp.recordUpdates[objectName].Add(actionElem.ChildNodes[0].InnerText);
+                                                }
+                                                else
+                                                {
+                                                    fp.recordUpdates.Add(objectName, new List<String> { actionElem.ChildNodes[0].InnerText });
+                                                }
+                                            }
+                                            else if (fp.triggerType == "onAllChanges")
+                                            {
+                                                if (fp.recordCreates.ContainsKey(objectName))
+                                                {
+                                                    fp.recordCreates[objectName].Add(actionElem.ChildNodes[0].InnerText);
+                                                }
+                                                else
+                                                {
+                                                    fp.recordCreates.Add(objectName, new List<String> { actionElem.ChildNodes[0].InnerText });
+                                                }
+
+                                                if (fp.recordUpdates.ContainsKey(objectName))
+                                                {
+                                                    fp.recordUpdates[objectName].Add(actionElem.ChildNodes[0].InnerText);
+                                                }
+                                                else
+                                                {
+                                                    fp.recordUpdates.Add(objectName, new List<String> { actionElem.ChildNodes[0].InnerText });
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                if (flowProcessList.ContainsKey(objectName))
+                                {
+                                    flowProcessList[objectName].Add(fp);
+                                }
+                                else
+                                {
+                                    flowProcessList.Add(objectName, new List<FlowProcess> { fp });
+                                }
+                            }
+                        }
+                    }
+
+                    // Now write the values to an Excel file
+                    Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
+                    xlapp.Visible = true;
+
+                    Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlapp.Workbooks.Add();
+
+                    Int32 workflowRuleRowId = 1;
+                    Int32 flowRowId = 1;
+
+                    // AutoLaunchedFlow
+                    Microsoft.Office.Interop.Excel.Worksheet xlWorkflowWrksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
+                                                                                        (System.Reflection.Missing.Value,
+                                                                                        xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
+                                                                                        System.Reflection.Missing.Value,
+                                                                                        System.Reflection.Missing.Value);
+                    xlWorkflowWrksheet.Name = "Workflow Rules";
+
+                    xlWorkflowWrksheet.Cells[flowRowId, 1].Value = "Workflow Rule Name";
+                    xlWorkflowWrksheet.Cells[flowRowId, 2].Value = "Object";
+                    xlWorkflowWrksheet.Cells[flowRowId, 3].Value = "Trigger Type";
+                    xlWorkflowWrksheet.Cells[flowRowId, 4].Value = "Is Active";
+                    xlWorkflowWrksheet.Cells[flowRowId, 5].Value = "Field Updates on Record Create";
+                    xlWorkflowWrksheet.Cells[flowRowId, 6].Value = "Field Updates on Record Updates";
+                    flowRowId++;
+
+                    foreach (String objectName in flowProcessList.Keys)
+                    {
+                        foreach (FlowProcess fp in flowProcessList[objectName])
+                        {
+                            if (fp.status == "FALSE") continue;
+
+                            xlWorkflowWrksheet.Cells[flowRowId, 1].Value = fp.processName;
+                            xlWorkflowWrksheet.Cells[flowRowId, 2].Value = fp.objectName;
+                            xlWorkflowWrksheet.Cells[flowRowId, 3].Value = fp.triggerType;
+                            xlWorkflowWrksheet.Cells[flowRowId, 4].Value = fp.status;
+
+                            if (fp.recordCreates.Count > 0)
+                            {
+                                String dictionaryFieldUpdates = "";
+
+                                foreach (String key in fp.recordCreates.Keys)
+                                {
+                                    foreach (String fu in fp.recordCreates[key])
+                                    {
+                                        dictionaryFieldUpdates = dictionaryFieldUpdates + fu + ",";
+                                    }
+                                }
+
+                                xlWorkflowWrksheet.Cells[flowRowId, 5].Value = dictionaryFieldUpdates;
+                            }
+
+                            if (fp.recordUpdates.Count > 0)
+                            {
+                                String dictionaryFieldUpdates = "";
+
+                                foreach (String key in fp.recordCreates.Keys)
+                                {
+                                    foreach (String fu in fp.recordUpdates[key])
+                                    {
+                                        dictionaryFieldUpdates = dictionaryFieldUpdates + fu + ",";
+                                    }
+                                }
+
+                                xlWorkflowWrksheet.Cells[flowRowId, 6].Value = dictionaryFieldUpdates;
+                            }
+
+                            flowRowId++;
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please make sure the \"Workflows\" folder is in the path " + this.tbProjectFolder.Text + " or choose another path");
+                }
+            }
+        }
+
 
         public void writeDataToExcelSheet(Microsoft.Office.Interop.Excel.Worksheet xlWorksheet,
                                           Int32 rowNumber,
@@ -1353,12 +1913,30 @@ namespace SalesforceMetadata
             public String apiVersion;
             public String status;
             public String runInMode;
+            public String triggerType;
+            public String objectName;
             // Key = object, values = the element names in the flows which initiate the DMLs 
             public Dictionary<String, List<String>> recordCreates;
             public Dictionary<String, List<String>> recordUpdates;
             public Dictionary<String, List<String>> recordDeletes;
+            public Dictionary<String, List<String>> fieldUpdates;
 
-            public Dictionary<String, List<String>> actionCalls;
+            public FlowProcess()
+            {
+                processName = "";
+                processLabel = "";
+                processType = "";
+                apiVersion = "";
+                status = "";
+                runInMode = "";
+                triggerType = "";
+                objectName = "";
+
+                recordCreates = new Dictionary<String, List<String>>();
+                recordUpdates = new Dictionary<String, List<String>>();
+                recordDeletes = new Dictionary<String, List<String>>();
+                fieldUpdates = new Dictionary<string, List<string>>();
+            }
         }
 
     }

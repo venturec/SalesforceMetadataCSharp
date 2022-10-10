@@ -167,7 +167,7 @@ namespace SalesforceMetadata
 
         public static String ApexComponentQuery()
         {
-            String query = "SELECT Id, ManageableState, " +
+            String query = "SELECT Id, Name, MasterLabel, NamespacePrefix, ApiVersion, ControllerKey, ControllerType, ManageableState, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ApexComponent";
 
@@ -230,7 +230,7 @@ namespace SalesforceMetadata
 
         public static String ApexPageQuery()
         {
-            String query = "SELECT Id, " +
+            String query = "SELECT Id, Name, MasterLabel, NamespacePrefix, ApiVersion, ControllerKey, ControllerType, ManageableState, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ApexPage";
 
@@ -1171,7 +1171,7 @@ namespace SalesforceMetadata
 
         public static String LightningComponentBundleQuery()
         {
-            String query = "SELECT Id, " +
+            String query = "SELECT Id, DeveloperName, ApiVersion, IsExposed, TargetConfigs, NamespacePrefix, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM LightningComponentBundle";
 
@@ -5007,9 +5007,204 @@ namespace SalesforceMetadata
             }
         }
 
-        public static void apexTriggerToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
-                                              String query, 
-                                              UtilityClass.REQUESTINGORG reqOrg, 
+        public static void apexComponentToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
+                                                String query, 
+                                                UtilityClass.REQUESTINGORG reqOrg, 
+                                                Dictionary<String, String> classIdToClassName) 
+        {
+            SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
+            SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
+
+            if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
+            {
+                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+            }
+            else
+            {
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+            }
+
+            if (toolingQr.records == null) return;
+
+            toolingRecords = toolingQr.records;
+
+            Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
+                                                                    (System.Reflection.Missing.Value,
+                                                                        xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
+                                                                        System.Reflection.Missing.Value,
+                                                                        System.Reflection.Missing.Value);
+            xlWorksheet.Name = "ApexComponent";
+            xlWorksheet.Cells[1, 1].Value = "Id";
+            xlWorksheet.Cells[1, 2].Value = "Name";
+            xlWorksheet.Cells[1, 3].Value = "MasterLabel";
+            xlWorksheet.Cells[1, 4].Value = "NamespacePrefix";
+            xlWorksheet.Cells[1, 5].Value = "ApiVersion";
+            xlWorksheet.Cells[1, 6].Value = "ControllerKey";
+            xlWorksheet.Cells[1, 7].Value = "ControllerType";
+            xlWorksheet.Cells[1, 8].Value = "ManageableState";
+            xlWorksheet.Cells[1, 9].Value = "CreatedById";
+            xlWorksheet.Cells[1, 10].Value = "CreatedByName";
+            xlWorksheet.Cells[1, 11].Value = "LastModifiedById";
+            xlWorksheet.Cells[1, 12].Value = "LastModifiedByName";
+            xlWorksheet.Cells[1, 13].Value = "CreatedDate";
+            xlWorksheet.Cells[1, 14].Value = "LastModifiedDate";
+
+            Int32 rowNumber = 2;
+            Boolean done = false;
+
+            while (done == false)
+            {
+                foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
+                {
+                    SalesforceMetadata.ToolingWSDL.ApexComponent1 apexComponent = (SalesforceMetadata.ToolingWSDL.ApexComponent1)toolingRecord;
+
+                    xlWorksheet.Cells[rowNumber, 1].Value = apexComponent.Id;
+                    xlWorksheet.Cells[rowNumber, 2].Value = apexComponent.Name;
+                    xlWorksheet.Cells[rowNumber, 3].Value = apexComponent.MasterLabel;
+                    xlWorksheet.Cells[rowNumber, 4].Value = apexComponent.NamespacePrefix;
+                    xlWorksheet.Cells[rowNumber, 5].Value = apexComponent.ApiVersion;
+                    xlWorksheet.Cells[rowNumber, 6].Value = apexComponent.ControllerKey;
+                    xlWorksheet.Cells[rowNumber, 7].Value = apexComponent.ControllerType;
+                    xlWorksheet.Cells[rowNumber, 8].Value = apexComponent.ManageableState;
+                    xlWorksheet.Cells[rowNumber, 9].Value = apexComponent.CreatedById;
+
+                    if (apexComponent.CreatedBy == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 10].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 10].Value = apexComponent.CreatedBy.Name;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 11].Value = apexComponent.LastModifiedById;
+
+                    if (apexComponent.LastModifiedBy == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 12].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 12].Value = apexComponent.LastModifiedBy.Name;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 13].Value = apexComponent.CreatedDate;
+                    xlWorksheet.Cells[rowNumber, 14].Value = apexComponent.LastModifiedDate;
+
+                    rowNumber++;
+                }
+
+                if (toolingQr.done)
+                {
+                    done = true;
+                }
+                else
+                {
+                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                }
+            }
+        }
+
+        public static void apexPageToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
+                                           String query, 
+                                           UtilityClass.REQUESTINGORG reqOrg, 
+                                           Dictionary<String, String> classIdToClassName) 
+        {
+            SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
+            SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
+
+            if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
+            {
+                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+            }
+            else
+            {
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+            }
+
+            if (toolingQr.records == null) return;
+
+            toolingRecords = toolingQr.records;
+
+            Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
+                                                                    (System.Reflection.Missing.Value,
+                                                                        xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
+                                                                        System.Reflection.Missing.Value,
+                                                                        System.Reflection.Missing.Value);
+            xlWorksheet.Name = "ApexPage";
+            xlWorksheet.Cells[1, 1].Value = "Id";
+            xlWorksheet.Cells[1, 2].Value = "Name";
+            xlWorksheet.Cells[1, 3].Value = "MasterLabel";
+            xlWorksheet.Cells[1, 4].Value = "NamespacePrefix";
+            xlWorksheet.Cells[1, 5].Value = "ApiVersion";
+            xlWorksheet.Cells[1, 6].Value = "ControllerKey";
+            xlWorksheet.Cells[1, 7].Value = "ControllerType";
+            xlWorksheet.Cells[1, 8].Value = "ManageableState";
+            xlWorksheet.Cells[1, 9].Value = "CreatedById";
+            xlWorksheet.Cells[1, 10].Value = "CreatedByName";
+            xlWorksheet.Cells[1, 11].Value = "LastModifiedById";
+            xlWorksheet.Cells[1, 12].Value = "LastModifiedByName";
+            xlWorksheet.Cells[1, 13].Value = "CreatedDate";
+            xlWorksheet.Cells[1, 14].Value = "LastModifiedDate";
+
+            Int32 rowNumber = 2;
+            Boolean done = false;
+
+            while (done == false)
+            {
+                foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
+                {
+                    SalesforceMetadata.ToolingWSDL.ApexPage1 apexPage = (SalesforceMetadata.ToolingWSDL.ApexPage1)toolingRecord;
+
+                    xlWorksheet.Cells[rowNumber, 1].Value = apexPage.Id;
+                    xlWorksheet.Cells[rowNumber, 2].Value = apexPage.Name;
+                    xlWorksheet.Cells[rowNumber, 3].Value = apexPage.MasterLabel;
+                    xlWorksheet.Cells[rowNumber, 4].Value = apexPage.NamespacePrefix;
+                    xlWorksheet.Cells[rowNumber, 5].Value = apexPage.ApiVersion;
+                    xlWorksheet.Cells[rowNumber, 6].Value = apexPage.ControllerKey;
+                    xlWorksheet.Cells[rowNumber, 7].Value = apexPage.ControllerType;
+                    xlWorksheet.Cells[rowNumber, 8].Value = apexPage.ManageableState;
+                    xlWorksheet.Cells[rowNumber, 9].Value = apexPage.CreatedById;
+                    if (apexPage.CreatedBy == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 10].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 10].Value = apexPage.CreatedBy.Name;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 11].Value = apexPage.LastModifiedById;
+                    
+                    if (apexPage.LastModifiedBy == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 12].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 12].Value = apexPage.LastModifiedBy.Name;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 13].Value = apexPage.CreatedDate;
+                    xlWorksheet.Cells[rowNumber, 14].Value = apexPage.LastModifiedDate;
+
+                    rowNumber++;
+                }
+
+                if (toolingQr.done)
+                {
+                    done = true;
+                }
+                else
+                {
+                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                }
+            }
+        }
+
+        public static void apexTriggerToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                              String query,
+                                              UtilityClass.REQUESTINGORG reqOrg,
                                               Dictionary<String, String> classIdToClassName,
                                               Dictionary<String, String> customObjIdToName18,
                                               Dictionary<String, String> customObjIdToName15)
@@ -5070,118 +5265,132 @@ namespace SalesforceMetadata
             xlWorksheet.Cells[1, 29].Value = "TestClassesAndMethods";
 
             Int32 rowNumber = 2;
-            foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
+            Boolean done = false;
+
+            while (done == false)
             {
-                SalesforceMetadata.ToolingWSDL.ApexTrigger1 apexTrigger = (SalesforceMetadata.ToolingWSDL.ApexTrigger1)toolingRecord;
-
-                xlWorksheet.Cells[rowNumber, 1].Value = apexTrigger.Id;
-                xlWorksheet.Cells[rowNumber, 2].Value = apexTrigger.Name;
-                xlWorksheet.Cells[rowNumber, 3].Value = apexTrigger.NamespacePrefix;
-                xlWorksheet.Cells[rowNumber, 4].Value = apexTrigger.ApiVersion;
-
-                if (apexTrigger.EntityDefinitionId != null && customObjIdToName18.ContainsKey(apexTrigger.EntityDefinitionId))
+                foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
                 {
-                    xlWorksheet.Cells[rowNumber, 5].Value = customObjIdToName18[apexTrigger.EntityDefinitionId];
-                }
-                else if (apexTrigger.EntityDefinitionId != null && customObjIdToName15.ContainsKey(apexTrigger.EntityDefinitionId))
-                {
-                    xlWorksheet.Cells[rowNumber, 5].Value = customObjIdToName15[apexTrigger.EntityDefinitionId];
-                }
-                else
-                {
-                    xlWorksheet.Cells[rowNumber, 5].Value = apexTrigger.EntityDefinitionId;
-                }
+                    SalesforceMetadata.ToolingWSDL.ApexTrigger1 apexTrigger = (SalesforceMetadata.ToolingWSDL.ApexTrigger1)toolingRecord;
 
-                xlWorksheet.Cells[rowNumber, 6].Value = apexTrigger.IsValid;
-                xlWorksheet.Cells[rowNumber, 7].Value = apexTrigger.Status;
-                xlWorksheet.Cells[rowNumber, 8].Value = apexTrigger.LengthWithoutComments;
+                    xlWorksheet.Cells[rowNumber, 1].Value = apexTrigger.Id;
+                    xlWorksheet.Cells[rowNumber, 2].Value = apexTrigger.Name;
+                    xlWorksheet.Cells[rowNumber, 3].Value = apexTrigger.NamespacePrefix;
+                    xlWorksheet.Cells[rowNumber, 4].Value = apexTrigger.ApiVersion;
 
-                xlWorksheet.Cells[rowNumber, 13].Value = apexTrigger.ManageableState;
-                xlWorksheet.Cells[rowNumber, 14].Value = apexTrigger.UsageBeforeInsert;
-                xlWorksheet.Cells[rowNumber, 15].Value = apexTrigger.UsageBeforeUpdate;
-                xlWorksheet.Cells[rowNumber, 16].Value = apexTrigger.UsageBeforeDelete;
-                xlWorksheet.Cells[rowNumber, 17].Value = apexTrigger.UsageAfterInsert;
-                xlWorksheet.Cells[rowNumber, 18].Value = apexTrigger.UsageAfterUpdate;
-                xlWorksheet.Cells[rowNumber, 19].Value = apexTrigger.UsageAfterDelete;
-                xlWorksheet.Cells[rowNumber, 20].Value = apexTrigger.UsageAfterUndelete;
-                xlWorksheet.Cells[rowNumber, 21].Value = apexTrigger.UsageIsBulk;
-                xlWorksheet.Cells[rowNumber, 22].Value = apexTrigger.CreatedById;
-
-                if (apexTrigger.CreatedBy == null)
-                {
-                    xlWorksheet.Cells[rowNumber, 23].Value = "";
-                }
-                else
-                {
-                    xlWorksheet.Cells[rowNumber, 23].Value = apexTrigger.CreatedBy.Name;
-                }
-
-                xlWorksheet.Cells[rowNumber, 24].Value = apexTrigger.LastModifiedById;
-                
-                if (apexTrigger.LastModifiedBy == null)
-                {
-                    xlWorksheet.Cells[rowNumber, 25].Value = "";
-                }
-                else
-                {
-                    xlWorksheet.Cells[rowNumber, 25].Value = apexTrigger.LastModifiedBy.Name;
-                }
-
-                xlWorksheet.Cells[rowNumber, 26].Value = apexTrigger.CreatedDate;
-                xlWorksheet.Cells[rowNumber, 27].Value = apexTrigger.LastModifiedDate;
-
-                SalesforceMetadata.ToolingWSDL.QueryResult toolingAggregateCoverageQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
-                toolingAggregateCoverageQr = SalesforceCredentials.fromOrgToolingSvc.query(ApexCodeCoverageAggregateQuery(apexTrigger.Id));
-
-                if (toolingAggregateCoverageQr.records != null)
-                {
-                    SalesforceMetadata.ToolingWSDL.sObject[] toolingQrRecords = toolingAggregateCoverageQr.records;
-                    foreach (SalesforceMetadata.ToolingWSDL.sObject toolingSobj in toolingQrRecords)
+                    if (apexTrigger.EntityDefinitionId != null && customObjIdToName18.ContainsKey(apexTrigger.EntityDefinitionId))
                     {
-                        ApexCodeCoverageAggregate accAggregate = (ApexCodeCoverageAggregate)toolingSobj;
-                        Double denominator = ((Double)accAggregate.NumLinesCovered + (Double)accAggregate.NumLinesUncovered);
-
-                        xlWorksheet.Cells[rowNumber, 9].Value = denominator;
-                        xlWorksheet.Cells[rowNumber, 10].Value = accAggregate.NumLinesCovered;
-                        xlWorksheet.Cells[rowNumber, 11].Value = accAggregate.NumLinesUncovered;
-
-                        if (denominator != 0)
-                        {
-                            Double percentCovered = (Double)accAggregate.NumLinesCovered / ((Double)accAggregate.NumLinesCovered + (Double)accAggregate.NumLinesUncovered);
-                            percentCovered = percentCovered * 100;
-                            xlWorksheet.Cells[rowNumber, 12].Value = percentCovered;
-                        }
+                        xlWorksheet.Cells[rowNumber, 5].Value = customObjIdToName18[apexTrigger.EntityDefinitionId];
+                    }
+                    else if (apexTrigger.EntityDefinitionId != null && customObjIdToName15.ContainsKey(apexTrigger.EntityDefinitionId))
+                    {
+                        xlWorksheet.Cells[rowNumber, 5].Value = customObjIdToName15[apexTrigger.EntityDefinitionId];
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 5].Value = apexTrigger.EntityDefinitionId;
                     }
 
-                    // Get Test Classes and Test Methods
-                    apexTestClassesAndMethods = new SalesforceMetadata.ToolingWSDL.QueryResult();
-                    apexTestClassesAndMethods = SalesforceCredentials.fromOrgToolingSvc.query(ApexCodeCoverageQuery(apexTrigger.Id));
+                    xlWorksheet.Cells[rowNumber, 6].Value = apexTrigger.IsValid;
+                    xlWorksheet.Cells[rowNumber, 7].Value = apexTrigger.Status;
+                    xlWorksheet.Cells[rowNumber, 8].Value = apexTrigger.LengthWithoutComments;
 
-                    SalesforceMetadata.ToolingWSDL.sObject[] apexTestClassesAndMethodsRecords = apexTestClassesAndMethods.records;
+                    xlWorksheet.Cells[rowNumber, 13].Value = apexTrigger.ManageableState;
+                    xlWorksheet.Cells[rowNumber, 14].Value = apexTrigger.UsageBeforeInsert;
+                    xlWorksheet.Cells[rowNumber, 15].Value = apexTrigger.UsageBeforeUpdate;
+                    xlWorksheet.Cells[rowNumber, 16].Value = apexTrigger.UsageBeforeDelete;
+                    xlWorksheet.Cells[rowNumber, 17].Value = apexTrigger.UsageAfterInsert;
+                    xlWorksheet.Cells[rowNumber, 18].Value = apexTrigger.UsageAfterUpdate;
+                    xlWorksheet.Cells[rowNumber, 19].Value = apexTrigger.UsageAfterDelete;
+                    xlWorksheet.Cells[rowNumber, 20].Value = apexTrigger.UsageAfterUndelete;
+                    xlWorksheet.Cells[rowNumber, 21].Value = apexTrigger.UsageIsBulk;
+                    xlWorksheet.Cells[rowNumber, 22].Value = apexTrigger.CreatedById;
 
-                    String testClasses = "";
-                    String apexTestClassAndMethod = "";
-
-                    if (apexTestClassesAndMethodsRecords != null)
+                    if (apexTrigger.CreatedBy == null)
                     {
-                        foreach (SalesforceMetadata.ToolingWSDL.sObject toolingClass in apexTestClassesAndMethodsRecords)
-                        {
-                            ApexCodeCoverage acm = (ApexCodeCoverage)toolingClass;
+                        xlWorksheet.Cells[rowNumber, 23].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 23].Value = apexTrigger.CreatedBy.Name;
+                    }
 
-                            if (!testClasses.Contains(classIdToClassName[acm.ApexTestClassId]))
+                    xlWorksheet.Cells[rowNumber, 24].Value = apexTrigger.LastModifiedById;
+
+                    if (apexTrigger.LastModifiedBy == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 25].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 25].Value = apexTrigger.LastModifiedBy.Name;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 26].Value = apexTrigger.CreatedDate;
+                    xlWorksheet.Cells[rowNumber, 27].Value = apexTrigger.LastModifiedDate;
+
+                    SalesforceMetadata.ToolingWSDL.QueryResult toolingAggregateCoverageQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
+                    toolingAggregateCoverageQr = SalesforceCredentials.fromOrgToolingSvc.query(ApexCodeCoverageAggregateQuery(apexTrigger.Id));
+
+                    if (toolingAggregateCoverageQr.records != null)
+                    {
+                        SalesforceMetadata.ToolingWSDL.sObject[] toolingQrRecords = toolingAggregateCoverageQr.records;
+                        foreach (SalesforceMetadata.ToolingWSDL.sObject toolingSobj in toolingQrRecords)
+                        {
+                            ApexCodeCoverageAggregate accAggregate = (ApexCodeCoverageAggregate)toolingSobj;
+                            Double denominator = ((Double)accAggregate.NumLinesCovered + (Double)accAggregate.NumLinesUncovered);
+
+                            xlWorksheet.Cells[rowNumber, 9].Value = denominator;
+                            xlWorksheet.Cells[rowNumber, 10].Value = accAggregate.NumLinesCovered;
+                            xlWorksheet.Cells[rowNumber, 11].Value = accAggregate.NumLinesUncovered;
+
+                            if (denominator != 0)
                             {
-                                testClasses = testClasses + classIdToClassName[acm.ApexTestClassId] + "; ";
+                                Double percentCovered = (Double)accAggregate.NumLinesCovered / ((Double)accAggregate.NumLinesCovered + (Double)accAggregate.NumLinesUncovered);
+                                percentCovered = percentCovered * 100;
+                                xlWorksheet.Cells[rowNumber, 12].Value = percentCovered;
+                            }
+                        }
+
+                        // Get Test Classes and Test Methods
+                        apexTestClassesAndMethods = new SalesforceMetadata.ToolingWSDL.QueryResult();
+                        apexTestClassesAndMethods = SalesforceCredentials.fromOrgToolingSvc.query(ApexCodeCoverageQuery(apexTrigger.Id));
+
+                        SalesforceMetadata.ToolingWSDL.sObject[] apexTestClassesAndMethodsRecords = apexTestClassesAndMethods.records;
+
+                        String testClasses = "";
+                        String apexTestClassAndMethod = "";
+
+                        if (apexTestClassesAndMethodsRecords != null)
+                        {
+                            foreach (SalesforceMetadata.ToolingWSDL.sObject toolingClass in apexTestClassesAndMethodsRecords)
+                            {
+                                ApexCodeCoverage acm = (ApexCodeCoverage)toolingClass;
+
+                                if (!testClasses.Contains(classIdToClassName[acm.ApexTestClassId]))
+                                {
+                                    testClasses = testClasses + classIdToClassName[acm.ApexTestClassId] + "; ";
+                                }
+
+                                apexTestClassAndMethod = apexTestClassAndMethod + classIdToClassName[acm.ApexTestClassId] + " - " + acm.TestMethodName + "; ";
                             }
 
-                            apexTestClassAndMethod = apexTestClassAndMethod + classIdToClassName[acm.ApexTestClassId] + " - " + acm.TestMethodName + "; ";
+                            xlWorksheet.Cells[rowNumber, 28].Value = testClasses;
+                            xlWorksheet.Cells[rowNumber, 29].Value = apexTestClassAndMethod;
                         }
-
-                        xlWorksheet.Cells[rowNumber, 28].Value = testClasses;
-                        xlWorksheet.Cells[rowNumber, 29].Value = apexTestClassAndMethod;
                     }
+
+                    rowNumber++;
                 }
 
-                rowNumber++;
+                if (toolingQr.done)
+                {
+                    done = true;
+                }
+                else
+                {
+                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                }
             }
         }
 
@@ -5407,8 +5616,6 @@ namespace SalesforceMetadata
                                                                         System.Reflection.Missing.Value,
                                                                         System.Reflection.Missing.Value);
 
-            Int32 rowNumberEnd = 1;
-
             xlWorksheet.Name = "CustomObjects";
             xlWorksheet.Cells[1, 1].Value = "Id";
             xlWorksheet.Cells[1, 2].Value = "DeveloperName";
@@ -5422,58 +5629,72 @@ namespace SalesforceMetadata
             xlWorksheet.Cells[1, 10].Value = "CreatedDate";
             xlWorksheet.Cells[1, 11].Value = "LastModifiedDate";
 
-            rowNumberEnd++;
+            Int32 rowNumber = 2;
+            Boolean done = false;
 
             List<CustomObjectClass> customObjectList = new List<CustomObjectClass>();
-            foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
+
+            while (done == false)
             {
-                CustomObjectClass customObjClass = new CustomObjectClass();
-
-                SalesforceMetadata.ToolingWSDL.CustomObject1 customObj = (SalesforceMetadata.ToolingWSDL.CustomObject1)toolingRecord;
-
-                customObjClass.Id = customObj.Id;
-                customObjClass.DeveloperName = customObj.DeveloperName;
-                customObjClass.NamespacePrefix = customObj.NamespacePrefix;
-                customObjClass.ExternalName = customObj.ExternalName;
-                customObjClass.ExternalRepository = customObj.ExternalRepository;
-                customObjClass.ManageableState = customObj.ManageableState.ToString();
-                customObjClass.SharingModel = customObj.SharingModel;
-                customObjClass.LastModifiedById = customObj.LastModifiedById;
-
-                if (customObj.LastModifiedBy == null)
+                foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
                 {
-                    customObjClass.LastModifiedByName = "";
+                    CustomObjectClass customObjClass = new CustomObjectClass();
+
+                    SalesforceMetadata.ToolingWSDL.CustomObject1 customObj = (SalesforceMetadata.ToolingWSDL.CustomObject1)toolingRecord;
+
+                    customObjClass.Id = customObj.Id;
+                    customObjClass.DeveloperName = customObj.DeveloperName;
+                    customObjClass.NamespacePrefix = customObj.NamespacePrefix;
+                    customObjClass.ExternalName = customObj.ExternalName;
+                    customObjClass.ExternalRepository = customObj.ExternalRepository;
+                    customObjClass.ManageableState = customObj.ManageableState.ToString();
+                    customObjClass.SharingModel = customObj.SharingModel;
+                    customObjClass.LastModifiedById = customObj.LastModifiedById;
+
+                    if (customObj.LastModifiedBy == null)
+                    {
+                        customObjClass.LastModifiedByName = "";
+                    }
+                    else
+                    {
+                        customObjClass.LastModifiedByName = customObj.LastModifiedBy.Name;
+                    }
+
+                    customObjClass.CreatedDate = customObj.CreatedDate;
+                    customObjClass.LastModifiedDate = customObj.LastModifiedDate;
+
+                    customObjectList.Add(customObjClass);
+                    customObjIdToName18.Add(customObj.Id, customObj.DeveloperName);
+                    customObjIdToName15.Add(customObj.Id.Substring(0, customObj.Id.Length - 3), customObj.DeveloperName);
+                }
+
+                if (toolingQr.done)
+                {
+                    done = true;
                 }
                 else
                 {
-                    customObjClass.LastModifiedByName = customObj.LastModifiedBy.Name;
+                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
-
-                customObjClass.CreatedDate = customObj.CreatedDate;
-                customObjClass.LastModifiedDate = customObj.LastModifiedDate;
-
-                customObjectList.Add(customObjClass);
-                customObjIdToName18.Add(customObj.Id, customObj.DeveloperName);
-                customObjIdToName15.Add(customObj.Id.Substring(0, customObj.Id.Length - 3), customObj.DeveloperName);
             }
 
             if (customObjectList.Count > 0)
             {
                 foreach (CustomObjectClass custObj in customObjectList)
                 {
-                    xlWorksheet.Cells[rowNumberEnd, 1].Value = custObj.Id;
-                    xlWorksheet.Cells[rowNumberEnd, 2].Value = custObj.DeveloperName;
-                    xlWorksheet.Cells[rowNumberEnd, 3].Value = custObj.NamespacePrefix;
-                    xlWorksheet.Cells[rowNumberEnd, 4].Value = custObj.ExternalName;
-                    xlWorksheet.Cells[rowNumberEnd, 5].Value = custObj.ExternalRepository;
-                    xlWorksheet.Cells[rowNumberEnd, 6].Value = custObj.ManageableState;
-                    xlWorksheet.Cells[rowNumberEnd, 7].Value = custObj.SharingModel;
-                    xlWorksheet.Cells[rowNumberEnd, 8].Value = custObj.LastModifiedById;
-                    xlWorksheet.Cells[rowNumberEnd, 9].Value = custObj.LastModifiedByName;
-                    xlWorksheet.Cells[rowNumberEnd, 10].Value = custObj.CreatedDate;
-                    xlWorksheet.Cells[rowNumberEnd, 11].Value = custObj.LastModifiedDate;
+                    xlWorksheet.Cells[rowNumber, 1].Value = custObj.Id;
+                    xlWorksheet.Cells[rowNumber, 2].Value = custObj.DeveloperName;
+                    xlWorksheet.Cells[rowNumber, 3].Value = custObj.NamespacePrefix;
+                    xlWorksheet.Cells[rowNumber, 4].Value = custObj.ExternalName;
+                    xlWorksheet.Cells[rowNumber, 5].Value = custObj.ExternalRepository;
+                    xlWorksheet.Cells[rowNumber, 6].Value = custObj.ManageableState;
+                    xlWorksheet.Cells[rowNumber, 7].Value = custObj.SharingModel;
+                    xlWorksheet.Cells[rowNumber, 8].Value = custObj.LastModifiedById;
+                    xlWorksheet.Cells[rowNumber, 9].Value = custObj.LastModifiedByName;
+                    xlWorksheet.Cells[rowNumber, 10].Value = custObj.CreatedDate;
+                    xlWorksheet.Cells[rowNumber, 11].Value = custObj.LastModifiedDate;
 
-                    rowNumberEnd++;
+                    rowNumber++;
                 }
             }
         }
@@ -5515,40 +5736,54 @@ namespace SalesforceMetadata
             xlWorksheet.Cells[1, 10].Value = "LastModifiedDate";
 
             Int32 rowNumber = 2;
-            foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
+            Boolean done = false;
+
+            while (done == false)
             {
-                SalesforceMetadata.ToolingWSDL.EmailTemplate1 emailTemplate = (SalesforceMetadata.ToolingWSDL.EmailTemplate1)toolingRecord;
-
-                xlWorksheet.Cells[rowNumber, 1].Value = emailTemplate.Id;
-                xlWorksheet.Cells[rowNumber, 2].Value = emailTemplate.Name;
-                xlWorksheet.Cells[rowNumber, 3].Value = emailTemplate.Subject;
-                //xlWorksheet.Cells[rowNumber, 4].Value = emailTemplate.ApiVersion;
-                xlWorksheet.Cells[rowNumber, 5].Value = emailTemplate.CreatedById;
-
-                if (emailTemplate.CreatedBy == null)
+                foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
                 {
-                    xlWorksheet.Cells[rowNumber, 6].Value = "";
+                    SalesforceMetadata.ToolingWSDL.EmailTemplate1 emailTemplate = (SalesforceMetadata.ToolingWSDL.EmailTemplate1)toolingRecord;
+
+                    xlWorksheet.Cells[rowNumber, 1].Value = emailTemplate.Id;
+                    xlWorksheet.Cells[rowNumber, 2].Value = emailTemplate.Name;
+                    xlWorksheet.Cells[rowNumber, 3].Value = emailTemplate.Subject;
+                    //xlWorksheet.Cells[rowNumber, 4].Value = emailTemplate.ApiVersion;
+                    xlWorksheet.Cells[rowNumber, 5].Value = emailTemplate.CreatedById;
+
+                    if (emailTemplate.CreatedBy == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 6].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 6].Value = emailTemplate.CreatedBy.Name;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 7].Value = emailTemplate.LastModifiedById;
+
+                    if (emailTemplate.LastModifiedBy == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 8].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 8].Value = emailTemplate.LastModifiedBy.Name;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 9].Value = emailTemplate.CreatedDate;
+                    xlWorksheet.Cells[rowNumber, 10].Value = emailTemplate.LastModifiedDate;
+
+                    rowNumber++;
+                }
+
+                if (toolingQr.done)
+                {
+                    done = true;
                 }
                 else
                 {
-                    xlWorksheet.Cells[rowNumber, 6].Value = emailTemplate.CreatedBy.Name;
+                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
-
-                xlWorksheet.Cells[rowNumber, 7].Value = emailTemplate.LastModifiedById;
-
-                if (emailTemplate.LastModifiedBy == null)
-                {
-                    xlWorksheet.Cells[rowNumber, 8].Value = "";
-                }
-                else
-                {
-                    xlWorksheet.Cells[rowNumber, 8].Value = emailTemplate.LastModifiedBy.Name;
-                }
-
-                xlWorksheet.Cells[rowNumber, 9].Value = emailTemplate.CreatedDate;
-                xlWorksheet.Cells[rowNumber, 10].Value = emailTemplate.LastModifiedDate;
-
-                rowNumber++;
             }
         }
 
@@ -5612,7 +5847,6 @@ namespace SalesforceMetadata
                 {
                     xlWorksheet.Cells[rowNumber, 3].Value = flexiPage.EntityDefinitionId;
                 }
-
 
                 xlWorksheet.Cells[rowNumber, 4].Value = flexiPage.ManageableState;
                 xlWorksheet.Cells[rowNumber, 5].Value = flexiPage.MasterLabel;
@@ -5827,6 +6061,88 @@ namespace SalesforceMetadata
 
                 xlWorksheet.Cells[rowNumber, 13].Value = lyOut.CreatedDate;
                 xlWorksheet.Cells[rowNumber, 14].Value = lyOut.LastModifiedDate;
+
+                rowNumber++;
+            }
+        }
+
+
+        public static void lwcToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                      String query,
+                                      UtilityClass.REQUESTINGORG reqOrg)
+        {
+            // Make a call to the Tooling API to retrieve the ApexClassMember passing in the ApexClass IDs
+            SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
+            SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
+
+            if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
+            {
+                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+            }
+            else
+            {
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+            }
+
+            if (toolingQr.records == null) return;
+
+            toolingRecords = toolingQr.records;
+
+            Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
+                                                                    (System.Reflection.Missing.Value,
+                                                                        xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
+                                                                        System.Reflection.Missing.Value,
+                                                                        System.Reflection.Missing.Value);
+
+            xlWorksheet.Name = "LightningComponentBundle";
+            xlWorksheet.Cells[1, 1].Value = "Id";
+            xlWorksheet.Cells[1, 2].Value = "DeveloperName";
+            xlWorksheet.Cells[1, 3].Value = "ApiVersion";
+            xlWorksheet.Cells[1, 4].Value = "IsExposed";
+            xlWorksheet.Cells[1, 5].Value = "TargetConfigs";
+            xlWorksheet.Cells[1, 6].Value = "NamespacePrefix";
+            xlWorksheet.Cells[1, 7].Value = "CreatedById";
+            xlWorksheet.Cells[1, 8].Value = "CreatedByName";
+            xlWorksheet.Cells[1, 9].Value = "LastModifiedById";
+            xlWorksheet.Cells[1, 10].Value = "LastModifiedByName";
+            xlWorksheet.Cells[1, 11].Value = "CreatedDate";
+            xlWorksheet.Cells[1, 12].Value = "LastModifiedDate";
+
+            Int32 rowNumber = 2;
+            foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
+            {
+                SalesforceMetadata.ToolingWSDL.LightningComponentBundle1 lwc = (SalesforceMetadata.ToolingWSDL.LightningComponentBundle1)toolingRecord;
+
+                xlWorksheet.Cells[rowNumber, 1].Value = lwc.Id;
+                xlWorksheet.Cells[rowNumber, 2].Value = lwc.DeveloperName;
+                xlWorksheet.Cells[rowNumber, 3].Value = lwc.ApiVersion;
+                xlWorksheet.Cells[rowNumber, 4].Value = lwc.IsExposed;
+                xlWorksheet.Cells[rowNumber, 5].Value = lwc.TargetConfigs;
+                xlWorksheet.Cells[rowNumber, 6].Value = lwc.NamespacePrefix;
+                xlWorksheet.Cells[rowNumber, 7].Value = lwc.CreatedById;
+
+                if (lwc.CreatedBy == null)
+                {
+                    xlWorksheet.Cells[rowNumber, 8].Value = "";
+                }
+                else
+                {
+                    xlWorksheet.Cells[rowNumber, 8].Value = lwc.CreatedBy.Name;
+                }
+
+                xlWorksheet.Cells[rowNumber, 9].Value = lwc.LastModifiedById;
+
+                if (lwc.LastModifiedBy == null)
+                {
+                    xlWorksheet.Cells[rowNumber, 10].Value = "";
+                }
+                else
+                {
+                    xlWorksheet.Cells[rowNumber, 10].Value = lwc.LastModifiedBy.Name;
+                }
+
+                xlWorksheet.Cells[rowNumber, 11].Value = lwc.CreatedDate;
+                xlWorksheet.Cells[rowNumber, 12].Value = lwc.LastModifiedDate;
 
                 rowNumber++;
             }

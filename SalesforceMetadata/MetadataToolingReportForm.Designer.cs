@@ -44,7 +44,8 @@
             // 
             // btnGenerateToolingReport
             // 
-            this.btnGenerateToolingReport.Location = new System.Drawing.Point(12, 380);
+            this.btnGenerateToolingReport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnGenerateToolingReport.Location = new System.Drawing.Point(14, 609);
             this.btnGenerateToolingReport.Name = "btnGenerateToolingReport";
             this.btnGenerateToolingReport.Size = new System.Drawing.Size(158, 23);
             this.btnGenerateToolingReport.TabIndex = 2;
@@ -66,6 +67,8 @@
             // 
             // lbToolingTypes
             // 
+            this.lbToolingTypes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.lbToolingTypes.FormattingEnabled = true;
             this.lbToolingTypes.Items.AddRange(new object[] {
             "ApexClass",
@@ -102,14 +105,14 @@
             "WorkSkillRouting"});
             this.lbToolingTypes.Location = new System.Drawing.Point(15, 84);
             this.lbToolingTypes.Name = "lbToolingTypes";
-            this.lbToolingTypes.Size = new System.Drawing.Size(387, 259);
+            this.lbToolingTypes.Size = new System.Drawing.Size(387, 499);
             this.lbToolingTypes.TabIndex = 3;
             // 
             // MetadataToolingReportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(852, 426);
+            this.ClientSize = new System.Drawing.Size(852, 667);
             this.Controls.Add(this.lbToolingTypes);
             this.Controls.Add(this.lblMetdataFolderSelection);
             this.Controls.Add(this.btnGenerateToolingReport);

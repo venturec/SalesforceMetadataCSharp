@@ -582,8 +582,7 @@ namespace SalesforceMetadata
         private void btnFromGenerateToolingChangeReport_Click(object sender, EventArgs e)
         {
             if (this.cmbUserName.Text == ""
-                || this.tbPassword.Text == ""
-                || this.tbSecurityToken.Text == "")
+                || this.tbPassword.Text == "")
             {
                 MessageBox.Show("Please provide the credentials necessary to continue");
             }

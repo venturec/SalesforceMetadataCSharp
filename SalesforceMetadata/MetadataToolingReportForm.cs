@@ -104,16 +104,47 @@ namespace SalesforceMetadata
                     ToolingApiHelper.apexTriggerToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName, customObjIdToName18, customObjIdToName15);
                 }
 
-                if (lbToolingTypes.CheckedItems.Contains("CompactLayout"))
+                if (lbToolingTypes.CheckedItems.Contains("LightningComponentBundle"))
                 {
-                    query = ToolingApiHelper.CompactLayoutQuery("");
-                    ToolingApiHelper.compactLayoutToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+                    query = ToolingApiHelper.LightningComponentBundleQuery();
+                    ToolingApiHelper.lwcToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
                 }
 
                 if (lbToolingTypes.CheckedItems.Contains("Flow"))
                 {
                     query = ToolingApiHelper.FlowQuery();
                     ToolingApiHelper.flowToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+                }
+
+                if (lbToolingTypes.CheckedItems.Contains("ApexPage"))
+                {
+                    if (classIdToClassName.Count == 0)
+                    {
+                        query = ToolingApiHelper.ApexClassQuery("");
+                        ToolingApiHelper.getApexClasses(query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
+                    }
+
+                    query = "";
+                    query = ToolingApiHelper.ApexPageQuery();
+                    ToolingApiHelper.apexPageToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
+                }
+
+                if (lbToolingTypes.CheckedItems.Contains("ApexComponent"))
+                {
+                    if (classIdToClassName.Count == 0)
+                    {
+                        query = ToolingApiHelper.ApexClassQuery("");
+                        ToolingApiHelper.getApexClasses(query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
+                    }
+
+                    query = ToolingApiHelper.ApexComponentQuery();
+                    ToolingApiHelper.apexComponentToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
+                }
+
+                if (lbToolingTypes.CheckedItems.Contains("CompactLayout"))
+                {
+                    query = ToolingApiHelper.CompactLayoutQuery("");
+                    ToolingApiHelper.compactLayoutToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
                 }
 
                 if (lbToolingTypes.CheckedItems.Contains("FlexiPage"))
@@ -139,6 +170,8 @@ namespace SalesforceMetadata
                     query = ToolingApiHelper.LayoutQuery("");
                     ToolingApiHelper.layoutToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
                 }
+
+
 
                 if (lbToolingTypes.CheckedItems.Contains("EmailTemplate"))
                 {

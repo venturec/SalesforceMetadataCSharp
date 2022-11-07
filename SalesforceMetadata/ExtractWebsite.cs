@@ -514,7 +514,8 @@ namespace SalesforceMetadata
             if (cmbIncludeTextPos.Text == "Yes")
             {
                 iTextSharp.text.Utilities.includeTextPositionsInFile = true;
-                sw.WriteLine("CharSpaceWidth" + "\t" + "StartLocation" + "\t" + "EndLocation" + "\t" + "DistParallelStart" + "\t" + "DistParallelEnd" + "\t" + "DistPerpendicular" + "\t" + "TextValue");
+                iTextSharp.text.Utilities.fileName = parsedFileName[0];
+                sw.WriteLine("FileName" + "\t" + "CharSpaceWidth" + "\t" + "StartLocation" + "\t" + "EndLocation" + "\t" + "DistParallelStart" + "\t" + "DistParallelEnd" + "\t" + "DistPerpendicular" + "\t" + "TextValue");
             }
             else
             {

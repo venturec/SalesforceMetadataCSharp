@@ -123,55 +123,55 @@ namespace SalesforceMetadata
 
 
             ///* TOORG Login Credentials */
-            //if (reqOrg == UtilityClass.REQUESTINGORG.TOORG
-            //   && toOrgUsername != null
-            //   && toOrgUsername != "")
-            //{
-            //    toOrgSS = new SforceService();
-            //    toOrgLR = new SalesforceMetadata.PartnerWSDL.LoginResult();
-            //    toOrgMS = new MetadataService();
+            if (reqOrg == UtilityClass.REQUESTINGORG.TOORG
+               && toOrgUsername != null
+               && toOrgUsername != "")
+            {
+                toOrgSS = new SforceService();
+                toOrgLR = new SalesforceMetadata.PartnerWSDL.LoginResult();
+                toOrgMS = new MetadataService();
 
-            //    try
-            //    {
-            //        toOrgLR.metadataServerUrl = usernameWsdlUrl[toOrgUsername];
+                try
+                {
+                    toOrgLR.metadataServerUrl = usernamePartnerUrl[toOrgUsername];
 
-            //        if (isProduction[toOrgUsername] == false)
-            //        {
-            //            toOrgSS.Url = usernameWsdlUrl[toOrgUsername];
-            //            toOrgLR.sandbox = true;
-            //        }
+                    if (isProduction[toOrgUsername] == false)
+                    {
+                        toOrgSS.Url = usernamePartnerUrl[toOrgUsername];
+                        toOrgLR.sandbox = true;
+                    }
 
-            //        if (toOrgSecurityToken != null && toOrgSecurityToken != "")
-            //        {
-            //            toOrgLR = toOrgSS.login(toOrgUsername, toOrgPassword + toOrgSecurityToken);
-            //            if (toOrgLR.sessionId != null && toOrgLR.passwordExpired == false)
-            //            {
-            //                loginSuccess = true;
-            //            }
-            //        }
-            //        else
-            //        {
-            //            toOrgLR = toOrgSS.login(toOrgUsername, toOrgPassword);
-            //            if (toOrgLR.sessionId != null && toOrgLR.passwordExpired == false)
-            //            {
-            //                loginSuccess = true;
-            //            }
-            //        }
+                    if (toOrgSecurityToken != null && toOrgSecurityToken != "")
+                    {
+                        toOrgLR = toOrgSS.login(toOrgUsername, toOrgPassword + toOrgSecurityToken);
+                        if (toOrgLR.sessionId != null && toOrgLR.passwordExpired == false)
+                        {
+                            loginSuccess = true;
+                        }
+                    }
+                    else
+                    {
+                        toOrgLR = toOrgSS.login(toOrgUsername, toOrgPassword);
+                        if (toOrgLR.sessionId != null && toOrgLR.passwordExpired == false)
+                        {
+                            loginSuccess = true;
+                        }
+                    }
 
-            //        // Get the login result and update the Salesforce Service object
-            //        toOrgSS.Url = toOrgLR.serverUrl;
-            //        toOrgSS.SessionHeaderValue = new PartnerWSDL.SessionHeader();
-            //        toOrgSS.SessionHeaderValue.sessionId = toOrgLR.sessionId;
+                    // Get the login result and update the Salesforce Service object
+                    toOrgSS.Url = toOrgLR.serverUrl;
+                    toOrgSS.SessionHeaderValue = new PartnerWSDL.SessionHeader();
+                    toOrgSS.SessionHeaderValue.sessionId = toOrgLR.sessionId;
 
-            //        // Set up the Metadata Service connection including the All Or None Header
-            //        toOrgMS.Url = toOrgLR.metadataServerUrl;
-            //        toOrgMS.SessionHeaderValue = new MetadataWSDL.SessionHeader();
-            //        toOrgMS.SessionHeaderValue.sessionId = toOrgLR.sessionId;
-            //    }
-            //    catch (Exception loginFromExc2)
-            //    {
-            //    }
-            //}
+                    // Set up the Metadata Service connection including the All Or None Header
+                    toOrgMS.Url = toOrgLR.metadataServerUrl;
+                    toOrgMS.SessionHeaderValue = new MetadataWSDL.SessionHeader();
+                    toOrgMS.SessionHeaderValue.sessionId = toOrgLR.sessionId;
+                }
+                catch (Exception loginFromExc2)
+                {
+                }
+            }
             
             return loginSuccess;
         }

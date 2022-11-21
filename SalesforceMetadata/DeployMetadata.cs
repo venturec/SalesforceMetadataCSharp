@@ -18,6 +18,10 @@ namespace SalesforceMetadata
     {
         public Boolean isProduction;
 
+        public String salesforceUserName;
+        public String salesforcePassword;
+        public String salesforceSecurityToken;
+
         private int ONE_SECOND = 1000;
         private int MAX_NUM_POLL_REQUESTS = 50;
 
@@ -40,6 +44,13 @@ namespace SalesforceMetadata
         {
             Boolean quickDeploySuccessful = false;
             this.rtMessages.Text = "";
+
+            SalesforceCredentials.fromOrgUsername = null;
+            SalesforceCredentials.fromOrgPassword = null;
+            SalesforceCredentials.fromOrgSecurityToken = null;
+            SalesforceCredentials.toOrgUsername = this.salesforceUserName;
+            SalesforceCredentials.toOrgPassword = this.salesforcePassword;
+            SalesforceCredentials.toOrgSecurityToken = this.salesforceSecurityToken;
 
             Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.TOORG);
             if (loginSuccess == false)

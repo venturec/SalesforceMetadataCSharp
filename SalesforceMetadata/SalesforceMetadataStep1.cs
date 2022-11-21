@@ -514,9 +514,6 @@ namespace SalesforceMetadata
                 SalesforceCredentials.fromOrgUsername = null;
                 SalesforceCredentials.fromOrgPassword = null;
                 SalesforceCredentials.fromOrgSecurityToken = null;
-                SalesforceCredentials.toOrgUsername = this.cmbUserName.Text;
-                SalesforceCredentials.toOrgPassword = this.tbPassword.Text;
-                SalesforceCredentials.toOrgSecurityToken = this.tbSecurityToken.Text;
 
                 // Validate if the form is already opened and bring it to the front if it is.
                 Boolean isAlreadyOpen = false;
@@ -525,6 +522,10 @@ namespace SalesforceMetadata
                 {
                     if (openFrm.Name == "DeployMetadata")
                     {
+                        //openFrm.salesforceUserName = this.cmbUserName.Text;
+                        //SalesforceCredentials.toOrgPassword = this.tbPassword.Text;
+                        //SalesforceCredentials.toOrgSecurityToken = this.tbSecurityToken.Text;
+
                         openFrm.Show();
                         openFrm.Location = this.Location;
                         openFrm.BringToFront();
@@ -535,6 +536,10 @@ namespace SalesforceMetadata
                 if (isAlreadyOpen == false)
                 {
                     DeployMetadata dm = new DeployMetadata();
+                    dm.salesforceUserName = this.cmbUserName.Text;
+                    dm.salesforcePassword = this.tbPassword.Text;
+                    dm.salesforceSecurityToken = this.tbSecurityToken.Text;
+
                     dm.isProduction = SalesforceCredentials.isProduction[this.cmbUserName.Text];
                     dm.Show();
                     dm.Location = this.Location;

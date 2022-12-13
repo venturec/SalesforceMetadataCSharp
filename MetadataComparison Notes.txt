@@ -1,0 +1,75 @@
+C:\Users\marcu\Documents\Projects\Florida DEM\fdem__ccpartial\unpackaged\objects
+
+C:\Users\marcu\Documents\Projects\Florida DEM\fdem__testprod\unpackaged\objects
+
+
+mstrFileComparison.ContainsKey("objects") == true
+
+
+   Example:        objects ->         Account.object ->  CustomObject       fields ->          Account_Status__c -> tag name -> values
+private Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> mstrFileComparison;
+private Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> compFileComparison;
+
+
+comparedValuesWithNameValue
+//                 foldername         filename           metadata type      sub-type           type name            xml tag     xml tag value
+// Example:        objects ->         Account.object ->  CustomObject       fields ->          Account_Status__c -> tag name -> values
+private Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> comparedValuesWithNameValue;
+
+
+
+// Do not include any objects or fields with a Namespace in them.
+String[] splitFileName = fileName.Split(new String[] { "__" }, StringSplitOptions.None);
+if (splitFileName.Length > 2) return;
+
+// This one needs to be done first, then check if the name field contains a namespace
+// If it does, return from this method without adding the differences to the comparedValuesWithNameValue
+String[] splitKey = nameKey.Split('|');
+String[] splitObjFieldCombo = splitKey[0].Split('.');
+
+if (splitObjFieldCombo.Length == 1)
+{
+	String[] splitNameField1 = splitObjFieldCombo[0].Split(new String[] { "__" }, StringSplitOptions.None);
+	if (splitNameField1.Length > 2) return;
+}
+else
+{
+	String[] splitNameField1 = splitObjFieldCombo[0].Split(new String[] { "__" }, StringSplitOptions.None);
+	String[] splitNameField2 = splitObjFieldCombo[1].Split(new String[] { "__" }, StringSplitOptions.None);
+	if (splitNameField1.Length > 2
+		|| splitNameField2.Length > 2)
+	{
+		return;
+	}
+}
+
+
+// File is new check
+if (fileIsNew == true)
+{
+	fileName = "[New] " + fileName;
+}
+else
+{
+	fileName = "[Updated] " + fileName;
+}
+
+// Name key is new check
+if (nameKeyIsNew == true)
+{
+	splitKey[0] = "[New] " + splitKey[0];
+}
+else
+{
+	splitKey[0] = "[Updated] " + splitKey[0];
+}
+
+// Element value is new check
+if (elementValueIsNew == true)
+{
+	splitKey[1] = "[New] " + splitKey[1];
+}
+else
+{
+	splitKey[1] = "[Updated] " + splitKey[1];
+}

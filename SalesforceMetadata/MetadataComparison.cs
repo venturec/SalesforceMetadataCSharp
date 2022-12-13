@@ -54,8 +54,12 @@ namespace SalesforceMetadata
 
             // Master Folder / Files Dictionary population
 
-            Boolean appendDirectory = true;
+            // If there are no additional folders in the directory, we will add the folder name at minimum to the mstrDir and compDir and set the appendDirectory to false so that we 
+            // are not appending the sub-folder name to the path.
+            // Example: c:\Users\username\Documents\Projects\Project Name\unpackaged\objects
+            // We do not want to appending the \objects\ folder to the already existing path since that would cause an error.
 
+            Boolean appendDirectory = true;
             if (mstrDir.Length == 0)
             {
                 mstrDir = new string[1];
@@ -69,6 +73,7 @@ namespace SalesforceMetadata
                 compDir[0] = this.tbToFolder.Text;
             }
 
+            // Populate the mDirAndFiles Dictionary variable
             foreach (String mDir in mstrDir)
             {
                 String[] dirSplit = mDir.Split('\\');
@@ -133,7 +138,7 @@ namespace SalesforceMetadata
                 }
             }
 
-            // Comparison Folder / Files Dictionary population
+            // Populate the cDirAndFiles Dictionary variable
             foreach (String cDir in compDir)
             {
                 String[] dirSplit = cDir.Split('\\');
@@ -250,50 +255,69 @@ namespace SalesforceMetadata
 
                                     // Check if the file is in XML format and can be loaded as an XmlDocument
                                     Boolean isXmlDocument = true;
-                                    try
+
+                                    XmlDocument mDoc = new XmlDocument();
+                                    if (mDir == "aura")
                                     {
-                                        XmlDocument mDoc = new XmlDocument();
-                                        if (mDir == "aura")
-                                        {
-                                            checkAndAddNameToDictionary(mDir, mObjFile, mFile, false, false);
-                                        }
-                                        else if (mDir == "lwc")
-                                        {
-                                            checkAndAddNameToDictionary(mDir, mObjFile, mFile, false, false);
-                                        }
-                                        else
+                                        checkAndAddFileNamesToDictionary(mDir, mObjFile, mFile, false);
+                                    }
+                                    else if (mDir == "lwc")
+                                    {
+                                        checkAndAddFileNamesToDictionary(mDir, mObjFile, mFile, false);
+                                    }
+                                    else
+                                    {
+                                        try
                                         {
                                             mDoc.Load(masterFile);
-                                            parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
+                                        }
+                                        catch (Exception exc)
+                                        {
+                                            isXmlDocument = false;
                                         }
 
+                                        if(isXmlDocument == true) parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
+                                    }
 
-                                        XmlDocument cDoc = new XmlDocument();
-                                        if (mDir == "aura")
-                                        {
-                                            // Do nothing. We've already confirmed the files are different and added them previously.
-                                        }
-                                        else if (mDir == "lwc")
-                                        {
-                                            // Do nothing. We've already confirmed the files are different and added them previously.
-                                        }
-                                        else
+
+                                    XmlDocument cDoc = new XmlDocument();
+                                    if (mDir == "aura")
+                                    {
+                                        // Do nothing. We've already confirmed the files are different and added them previously.
+                                    }
+                                    else if (mDir == "lwc")
+                                    {
+                                        // Do nothing. We've already confirmed the files are different and added them previously.
+                                    }
+                                    else
+                                    {
+                                        try
                                         {
                                             cDoc.Load(comparisonFile);
-                                            parseXmlDocument(mDir, mFile, cDoc, compFileComparison);
+                                        }
+                                        catch (Exception exc)
+                                        {
+                                            Console.WriteLine(exc.Message + '\n' + exc.StackTrace);
+                                            isXmlDocument = false;
                                         }
 
+                                        if (isXmlDocument == true) parseXmlDocument(mDir, mFile, cDoc, compFileComparison);
+                                    }
 
-                                        // Loop through mstrFileComparison and compFileComparison to determine the differences and add to the comparedValuesWithNameValue
-                                        // if the mstrFileComparison and compFileComparison contain values
-                                        if (mstrFileComparison.Count > 0)
+
+                                    // Loop through mstrFileComparison and compFileComparison to determine the differences and add to the comparedValuesWithNameValue
+                                    // if the mstrFileComparison and compFileComparison contain values
+                                    if (isXmlDocument == true && mstrFileComparison.Count > 0)
+                                    {
+                                        try
                                         {
                                             checkAndAddDifferencesToDictionary(mstrFileComparison, compFileComparison, false);
                                         }
-                                    }
-                                    catch (Exception exc)
-                                    {
-                                        isXmlDocument = false;
+                                        catch (Exception exc)
+                                        {
+                                            //MessageBox.Show(exc.Message + '\n' + exc.StackTrace);
+                                            Console.WriteLine(exc.Message + '\n' + exc.StackTrace);
+                                        }
                                     }
 
                                     // If it cannot be loaded as an XML document, then just add the name of the file to the TreeView
@@ -321,7 +345,7 @@ namespace SalesforceMetadata
 
                                         if (masterContents != comparisonContents)
                                         {
-                                            checkAndAddNameToDictionary(mDir, "", mFile, false, false);
+                                            checkAndAddFileNamesToDictionary(mDir, "", mFile, false);
                                         }
                                     }
                                 }
@@ -335,43 +359,53 @@ namespace SalesforceMetadata
                                 // TODO: Move the XML Parsing to a separate method and parse out the entire XML file adding it to the tree view instead of just adding the name of the file
                                 // Add the file since it does not exist
                                 Boolean isXmlDocument = true;
-                                try
+
+                                XmlDocument mDoc = new XmlDocument();
+                                if (mDir == "aura")
                                 {
-                                    XmlDocument mDoc = new XmlDocument();
-                                    if (mDir == "aura")
+                                    checkAndAddFileNamesToDictionary(mDir, mObjFile, mFile, true);
+                                }
+                                else if (mDir == "lwc")
+                                {
+                                    checkAndAddFileNamesToDictionary(mDir, mObjFile, mFile, true);
+                                }
+                                else
+                                {
+                                    try
                                     {
-                                        checkAndAddNameToDictionary(mDir, mObjFile, mFile, true, true);
+                                        if (appendDirectory)
+                                        {
+                                            mDoc.Load(this.tbFromFolder.Text + '\\' + mDir + '\\' + mFile);
+                                        }
+                                        else 
+                                        {
+                                            mDoc.Load(this.tbFromFolder.Text + '\\' + mFile);
+                                        }
                                     }
-                                    else if (mDir == "lwc")
+                                    catch (Exception exc)
                                     {
-                                        checkAndAddNameToDictionary(mDir, mObjFile, mFile, true, true);
-                                    }
-                                    else
-                                    {
-                                        mDoc.Load(this.tbFromFolder.Text + '\\' + mDir + '\\' + mFile);
-                                        parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
+                                        Console.WriteLine(exc.Message + '\n' + exc.StackTrace);
+                                        isXmlDocument = false;
                                     }
 
-                                    // Loop through mstrFileComparison and compFileComparison to determine the differences
-                                    if (mstrFileComparison.Count > 0)
-                                    {
-                                        checkAndAddDifferencesToDictionary(mstrFileComparison, compFileComparison, true);
-                                    }
+                                    if (isXmlDocument == true)  parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
                                 }
-                                catch (Exception exc2)
+
+                                // Loop through mstrFileComparison and compFileComparison to determine the differences
+                                if (isXmlDocument == true && mstrFileComparison.Count > 0)
                                 {
-                                    isXmlDocument = false;
+                                    checkAndAddDifferencesToDictionary(mstrFileComparison, compFileComparison, true);
                                 }
 
                                 if (isXmlDocument == false)
                                 {
-                                    checkAndAddNameToDictionary(mDir, "", mFile, true, true);
+                                    checkAndAddFileNamesToDictionary(mDir, "", mFile, true);
                                 }
                             }
                         }
                     }
                 }
-                // The Directory exists in the Master folder, but the Compare To folder does not contain the directly
+                // The Directory exists in the Master folder, but the Compare To folder does not contain the directory
                 // Therefore, add all files in the directory
                 else
                 {
@@ -382,37 +416,47 @@ namespace SalesforceMetadata
                         foreach (String mFile in mDirAndFiles[mDir][mObjFile])
                         {
                             Boolean isXmlDocument = true;
-                            try
+
+                            XmlDocument mDoc = new XmlDocument();
+                            if (mDir == "aura")
                             {
-                                XmlDocument mDoc = new XmlDocument();
-                                if (mDir == "aura")
+                                checkAndAddFileNamesToDictionary(mDir, mObjFile, mFile, true);
+                            }
+                            else if (mDir == "lwc")
+                            {
+                                checkAndAddFileNamesToDictionary(mDir, mObjFile, mFile, true);
+                            }
+                            else
+                            {
+                                try
                                 {
-                                    checkAndAddNameToDictionary(mDir, mObjFile, mFile, true, true);
+                                    if (appendDirectory)
+                                    {
+                                        mDoc.Load(this.tbFromFolder.Text + '\\' + mDir + '\\' + mFile);
+                                    }
+                                    else
+                                    {
+                                        mDoc.Load(this.tbFromFolder.Text + '\\' + mFile);
+                                    }
                                 }
-                                else if (mDir == "lwc")
+                                catch (Exception exc)
                                 {
-                                    checkAndAddNameToDictionary(mDir, mObjFile, mFile, true, true);
-                                }
-                                else
-                                {
-                                    mDoc.Load(this.tbFromFolder.Text + '\\' + mDir + '\\' + mFile);
-                                    parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
+                                    Console.WriteLine(exc.Message + '\n' + exc.StackTrace);
+                                    isXmlDocument = false;
                                 }
 
-                                // Loop through mstrFileComparison and compFileComparison to determine the differences
-                                if (mstrFileComparison.Count > 0)
-                                {
-                                    checkAndAddDifferencesToDictionary(mstrFileComparison, compFileComparison, true);
-                                }
+                                if(isXmlDocument == true) parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
                             }
-                            catch (Exception exc2)
+
+                            // Loop through mstrFileComparison and compFileComparison to determine the differences
+                            if (isXmlDocument == true && mstrFileComparison.Count > 0)
                             {
-                                isXmlDocument = false;
+                                checkAndAddDifferencesToDictionary(mstrFileComparison, compFileComparison, true);
                             }
 
                             if (isXmlDocument == false)
                             {
-                                checkAndAddNameToDictionary(mDir, "", mFile, true, true);
+                                checkAndAddFileNamesToDictionary(mDir, "", mFile, true);
                             }
                         }
                     }
@@ -478,6 +522,11 @@ namespace SalesforceMetadata
                     {
                         TreeNode tnd2 = new TreeNode();
                         tnd2.Text = fileName;
+
+                        if (fileName.StartsWith("[New] "))
+                        {
+                            tnd2.BackColor = Color.LightBlue;
+                        }
 
                         foreach (String nd1Name in this.comparedValuesWithNameValue[directoryName][fileName].Keys)
                         {
@@ -545,8 +594,9 @@ namespace SalesforceMetadata
         {
             //Console.WriteLine("parseXmlDocument" + Environment.NewLine);
 
+            // First find the #text node values to determine if there are changes to those vlaues.
+            // Use the parent node names up the chain to be the keys with the #text value being the value
             String nodeBlockNameValue = "";
-
             foreach (XmlNode nd1 in xmlDoc.ChildNodes)
             {
                 if (nd1.HasChildNodes)
@@ -780,7 +830,7 @@ namespace SalesforceMetadata
             }
         }
 
-        private void checkAndAddNameToDictionary(String directoryName, String subDirectoryName, String fileName, Boolean fileIsNew, Boolean componentIsNew)
+        private void checkAndAddFileNamesToDictionary(String directoryName, String subDirectoryName, String fileName, Boolean fileIsNew)
         {
             if (fileIsNew == true)
             {
@@ -815,12 +865,25 @@ namespace SalesforceMetadata
                                                         Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> compFileComparison,
                                                         Boolean fileIsNew)
         {
+            
+            String fileNamePrependedVlaue = "";
+
+            if (fileIsNew == true)
+            {
+                fileNamePrependedVlaue = "[New] ";
+            }
+
+            // We only want to add the element values which have changed
             foreach (String directoryName in mstrFileComparison.Keys)
             {
                 if (compFileComparison.ContainsKey(directoryName))
                 {
                     foreach (String fileName in mstrFileComparison[directoryName].Keys)
                     {
+                        // Skip over managed packages and continue on with the next iteration
+                        String[] splitFileName = fileName.Split(new String[] { "__" }, StringSplitOptions.None);
+                        if (splitFileName.Length > 2) continue;
+
                         if (compFileComparison[directoryName].ContainsKey(fileName))
                         {
                             foreach (String nd1Name in mstrFileComparison[directoryName][fileName].Keys)
@@ -831,24 +894,120 @@ namespace SalesforceMetadata
                                     {
                                         if (compFileComparison[directoryName][fileName][nd1Name].ContainsKey(nd2Name))
                                         {
+                                            List<String> mstrKeyList = new List<string>(mstrFileComparison[directoryName][fileName][nd1Name][nd2Name].Keys);
+                                            List<String> compKeyList = new List<string>(compFileComparison[directoryName][fileName][nd1Name][nd2Name].Keys);
+
+                                            HashSet<String> mstrApiNames = new HashSet<string>();
+                                            HashSet<String> compApiNames = new HashSet<string>();
+
+                                            foreach (String nameKey in mstrKeyList)
+                                            {
+                                                String[] mstrNameWithValue = parseNodeNameAndValue(nameKey);
+                                                mstrApiNames.Add(mstrNameWithValue[0]);
+                                            }
+
+                                            foreach (String nameKey in compKeyList)
+                                            {
+                                                String[] compNameWithValue = parseNodeNameAndValue(nameKey);
+                                                compApiNames.Add(compNameWithValue[0]);
+                                            }
+
                                             foreach (String nameKey in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name].Keys)
                                             {
-                                                if (compFileComparison[directoryName][fileName][nd1Name][nd2Name].ContainsKey(nameKey))
+                                                String[] mstrNameWithValue = parseNodeNameAndValue(nameKey);
+                                                String[] splitObjFieldCombo = mstrNameWithValue[0].Split('.');
+
+                                                // Skip over managed package api names
+                                                if (splitObjFieldCombo.Length == 1)
                                                 {
-                                                    foreach (String itemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
+                                                    String[] splitNameField1 = splitObjFieldCombo[0].Split(new String[] { "__" }, StringSplitOptions.None);
+                                                    if (splitNameField1.Length > 2)
                                                     {
-                                                        if (!compFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey].Contains(itemValue))
+                                                        continue;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    String[] splitNameField1 = splitObjFieldCombo[0].Split(new String[] { "__" }, StringSplitOptions.None);
+                                                    String[] splitNameField2 = splitObjFieldCombo[1].Split(new String[] { "__" }, StringSplitOptions.None);
+                                                    if (splitNameField1.Length > 2
+                                                        || splitNameField2.Length > 2)
+                                                    {
+                                                        continue;
+                                                    }
+                                                }
+
+                                                // Now determine if the compFileComparison contains the name or not and then prepend the Updated or New
+                                                //if (compFileComparison[directoryName][fileName][nd1Name][nd2Name].ContainsKey(nameKey))
+                                                if(compApiNames.Contains(mstrNameWithValue[0]))
+                                                {
+                                                    if (compFileComparison[directoryName][fileName][nd1Name][nd2Name].ContainsKey(nameKey))
+                                                    {
+                                                        foreach (String elemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
                                                         {
-                                                            // Add to the comparedValuesWithNameValue
-                                                            addToComparedValuesWithNameValueDictionary(directoryName, fileName, nd1Name, nd2Name, nameKey, itemValue, fileIsNew, false);
+                                                            try
+                                                            {
+                                                                if (!compFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey].Contains(elemValue))
+                                                                {
+                                                                    // Add to the comparedValuesWithNameValue
+                                                                    addToComparedValuesWithNameValueDictionary(directoryName,
+                                                                                                               fileNamePrependedVlaue + fileName,
+                                                                                                               nd1Name,
+                                                                                                               nd2Name,
+                                                                                                               "[Updated] " + mstrNameWithValue[0],
+                                                                                                               elemValue);
+                                                                }
+                                                            }
+                                                            catch (Exception exc)
+                                                            {
+                                                                Console.WriteLine(exc);
+                                                            }
+                                                        }
+                                                    }
+                                                    else 
+                                                    {
+                                                        foreach (String elemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
+                                                        {
+                                                            try
+                                                            {
+                                                                if (compFileComparison[directoryName][fileName][nd1Name][nd2Name].ContainsKey(nameKey)
+                                                                    && !compFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey].Contains(elemValue))
+                                                                {
+                                                                    // Add to the comparedValuesWithNameValue
+                                                                    addToComparedValuesWithNameValueDictionary(directoryName,
+                                                                                                               fileNamePrependedVlaue + fileName,
+                                                                                                               nd1Name,
+                                                                                                               nd2Name,
+                                                                                                               "[Updated] " + mstrNameWithValue[0],
+                                                                                                               elemValue);
+                                                                }
+                                                                else if (!compFileComparison[directoryName][fileName][nd1Name][nd2Name].ContainsKey(nameKey))
+                                                                {
+                                                                    addToComparedValuesWithNameValueDictionary(directoryName,
+                                                                                                               fileNamePrependedVlaue + fileName,
+                                                                                                               nd1Name,
+                                                                                                               nd2Name,
+                                                                                                               "[Updated] " + mstrNameWithValue[0],
+                                                                                                               elemValue);
+                                                                }
+                                                            }
+                                                            catch (Exception exc)
+                                                            {
+                                                                Console.WriteLine(exc);
+                                                            }
                                                         }
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    foreach (String itemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
+                                                    foreach (String elemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
                                                     {
-                                                        addToComparedValuesWithNameValueDictionary(directoryName, fileName, nd1Name, nd2Name, nameKey, itemValue, fileIsNew, true);
+                                                        addToComparedValuesWithNameValueDictionary(directoryName, 
+                                                                                                   fileNamePrependedVlaue + fileName, 
+                                                                                                   nd1Name, 
+                                                                                                   nd2Name, 
+                                                                                                   "[New] " + mstrNameWithValue[0], 
+                                                                                                   elemValue);
                                                     }
                                                 }
                                             }
@@ -857,9 +1016,14 @@ namespace SalesforceMetadata
                                         {
                                             foreach (String nameKey in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name].Keys)
                                             {
-                                                foreach (String itemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
+                                                foreach (String elemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
                                                 {
-                                                    addToComparedValuesWithNameValueDictionary(directoryName, fileName, nd1Name, nd2Name, nameKey, itemValue, fileIsNew, true);
+                                                    addToComparedValuesWithNameValueDictionary(directoryName, 
+                                                                                               fileNamePrependedVlaue + fileName, 
+                                                                                               nd1Name, 
+                                                                                               nd2Name, 
+                                                                                               nameKey, 
+                                                                                               elemValue);
                                                 }
                                             }
                                         }
@@ -871,9 +1035,14 @@ namespace SalesforceMetadata
                                     {
                                         foreach (String nameKey in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name].Keys)
                                         {
-                                            foreach (String itemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
+                                            foreach (String elemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
                                             {
-                                                addToComparedValuesWithNameValueDictionary(directoryName, fileName, nd1Name, nd2Name, nameKey, itemValue, fileIsNew, true);
+                                                addToComparedValuesWithNameValueDictionary(directoryName, 
+                                                                                           fileNamePrependedVlaue + fileName, 
+                                                                                           nd1Name, 
+                                                                                           nd2Name, 
+                                                                                           nameKey, 
+                                                                                           elemValue);
                                             }
                                         }
                                     }
@@ -888,9 +1057,14 @@ namespace SalesforceMetadata
                                 {
                                     foreach (String nameKey in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name].Keys)
                                     {
-                                        foreach (String itemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
+                                        foreach (String elemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
                                         {
-                                            addToComparedValuesWithNameValueDictionary(directoryName, fileName, nd1Name, nd2Name, nameKey, itemValue, fileIsNew, true);
+                                            addToComparedValuesWithNameValueDictionary(directoryName, 
+                                                                                       fileNamePrependedVlaue + fileName, 
+                                                                                       nd1Name, 
+                                                                                       nd2Name, 
+                                                                                       nameKey, 
+                                                                                       elemValue);
                                         }
                                     }
                                 }
@@ -908,9 +1082,14 @@ namespace SalesforceMetadata
                             {
                                 foreach (String nameKey in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name].Keys)
                                 {
-                                    foreach (String itemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
+                                    foreach (String elemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
                                     {
-                                        addToComparedValuesWithNameValueDictionary(directoryName, fileName, nd1Name, nd2Name, nameKey, itemValue, fileIsNew, true);
+                                        addToComparedValuesWithNameValueDictionary(directoryName, 
+                                                                                   fileNamePrependedVlaue + fileName, 
+                                                                                   nd1Name, 
+                                                                                   nd2Name, 
+                                                                                   nameKey, 
+                                                                                   elemValue);
                                     }
                                 }
                             }
@@ -921,54 +1100,21 @@ namespace SalesforceMetadata
         }
 
 
-        // Directory Name -> File Name -> Nd1Name -> Nd2Name -> Name Value (may be noName) -> tagName -> node values which are different or do not exist
-        private void addToComparedValuesWithNameValueDictionary(String directoryName, String fileName, String nd1Name, String nd2Name, String nameKey, String itemValue, Boolean fileIsNew, Boolean componentIsNew)
+        private String[] parseNodeNameAndValue(String nodeNameWithValue)
         {
-            // Do not include any objects or fields with a Namespace in them.
-            String[] splitFileName = fileName.Split(new String[] { "__" }, StringSplitOptions.None);
-            if (splitFileName.Length > 2) return;
-
-            // This one needs to be done first, then check if the name field contains a namespace
-            // If it does, return from this method without adding the differences to the comparedValuesWithNameValue
-            String[] splitKey = nameKey.Split('|');
-            String[] splitObjFieldCombo = splitKey[0].Split('.');
-
-            if (splitObjFieldCombo.Length == 1)
-            {
-                String[] splitNameField1 = splitObjFieldCombo[0].Split(new String[] { "__" }, StringSplitOptions.None);
-                if (splitNameField1.Length > 2) return;
-            }
-            else
-            {
-                String[] splitNameField1 = splitObjFieldCombo[0].Split(new String[] { "__" }, StringSplitOptions.None);
-                String[] splitNameField2 = splitObjFieldCombo[1].Split(new String[] { "__" }, StringSplitOptions.None);
-                if (splitNameField1.Length > 2
-                    || splitNameField2.Length > 2)
-                {
-                    return;
-                }
-            }
-            
+            String[] parsedNodeNameWithValue = nodeNameWithValue.Split('|');
+            return parsedNodeNameWithValue;
+        }
 
 
-            if (fileIsNew == true)
-            {
-                fileName = "[New] " + fileName;
-            }
-            else
-            {
-                fileName = "[Updated] " + fileName;
-            }
-
-            if (componentIsNew == true)
-            {
-                splitKey[0] = "[New] " + splitKey[0];
-            }
-            else
-            {
-                splitKey[0] = "[Updated] " + splitKey[0];
-            }
-
+        // Directory Name -> File Name -> Nd1Name -> Nd2Name -> Name Value (may be noName) -> tagName -> node values which are different or do not exist
+        private void addToComparedValuesWithNameValueDictionary(String directoryName, 
+                                                                String fileName, 
+                                                                String nd1Name, 
+                                                                String nd2Name, 
+                                                                String nameKey, 
+                                                                String elemValue)
+        {
             if (comparedValuesWithNameValue.ContainsKey(directoryName))
             {
                 if (comparedValuesWithNameValue[directoryName].ContainsKey(fileName))
@@ -977,26 +1123,26 @@ namespace SalesforceMetadata
                     {
                         if (comparedValuesWithNameValue[directoryName][fileName][nd1Name].ContainsKey(nd2Name))
                         {
-                            if (comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].ContainsKey(splitKey[0]))
+                            if (comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].ContainsKey(nameKey))
                             {
-                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][splitKey[0]].Add(itemValue);
+                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].Add(elemValue);
                             }
                             else
                             {
-                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(splitKey[0], new List<string> { itemValue });
+                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string> { elemValue });
                             }
                         }
                         else
                         {
                             comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
-                            comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(splitKey[0], new List<string> { itemValue });
+                            comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string> { elemValue });
                         }
                     }
                     else
                     {
                         comparedValuesWithNameValue[directoryName][fileName].Add(nd1Name, new Dictionary<string, Dictionary<string, List<string>>>());
                         comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
-                        comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(splitKey[0], new List<string> { itemValue });
+                        comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string> { elemValue });
                     }
                 }
                 else
@@ -1004,7 +1150,7 @@ namespace SalesforceMetadata
                     comparedValuesWithNameValue[directoryName].Add(fileName, new Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>());
                     comparedValuesWithNameValue[directoryName][fileName].Add(nd1Name, new Dictionary<string, Dictionary<string, List<string>>>());
                     comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
-                    comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(splitKey[0], new List<string> { itemValue });
+                    comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string> { elemValue });
                 }
             }
             else
@@ -1013,7 +1159,7 @@ namespace SalesforceMetadata
                 comparedValuesWithNameValue[directoryName].Add(fileName, new Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>());
                 comparedValuesWithNameValue[directoryName][fileName].Add(nd1Name, new Dictionary<string, Dictionary<string, List<string>>>());
                 comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
-                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(splitKey[0], new List<string> { itemValue });
+                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string> { elemValue });
             }
         }
 
@@ -1021,6 +1167,7 @@ namespace SalesforceMetadata
         /**********************************************************************************************************************/
 
         // You will need to get the name field if it exists
+        /*
         private Boolean doesTreeNodeExist(TreeNodeCollection treeNdColl, String value)
         {
             Boolean nodeExists = false;
@@ -1065,7 +1212,7 @@ namespace SalesforceMetadata
 
             return nodeExists;
         }
-
+        */
 
         private Boolean directoryExists(String directoryName, Boolean appendDirectoryName)
         {
@@ -1175,6 +1322,7 @@ namespace SalesforceMetadata
             return filesAreDifferent;
         }
 
+        /*
         private TreeNode checkIfNodeExists(TreeNodeCollection tnCollection, String value)
         {
             TreeNode tn = new TreeNode();
@@ -1189,6 +1337,7 @@ namespace SalesforceMetadata
 
             return tn;
         }
+        */
 
         private void treeViewDifference_AfterCheck(object sender, TreeViewEventArgs e)
         {
@@ -1494,10 +1643,6 @@ namespace SalesforceMetadata
 
         /*******************************************************************************************************************************/
 
-
-
-
-
         // Use Tooling API
         private void btnFindUnusedApexItems_Click(object sender, EventArgs e)
         {
@@ -1534,12 +1679,12 @@ namespace SalesforceMetadata
             gdp.tbMetadataFolderToReadFrom.Text = this.tbFromFolder.Text;
             gdp.treeNodeCollFromDiff = this.treeViewDifferences.Nodes;
             gdp.populateMetadataTreeView();
-            gdp.selectDefaultsFromDiff();
+            //gdp.selectDefaultsFromDiff();
 
             gdp.Show();
         }
 
-
+        /*
         private Dictionary<String, Dictionary<String, String>> getTagAndInnerText(String tagFilterName, String nameTag, XmlDocument xmlDoc)
         {
             Dictionary<String, Dictionary<String, String>> tagWithInnerText = new Dictionary<String, Dictionary<String, String>>();
@@ -1565,7 +1710,6 @@ namespace SalesforceMetadata
             return tagWithInnerText;
         }
 
-
         public String formatExcelTabName(String tabNameValue)
         {
             // \ , / , * , ? , : , [ ,].
@@ -1583,6 +1727,7 @@ namespace SalesforceMetadata
 
             return tabNameValue;
         }
+        */
 
         private void btnExport_Click(object sender, EventArgs e)
         {

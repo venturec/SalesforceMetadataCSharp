@@ -64,17 +64,17 @@
             // 
             // tbFromFolder
             // 
-            this.tbFromFolder.Location = new System.Drawing.Point(171, 16);
+            this.tbFromFolder.Location = new System.Drawing.Point(197, 16);
             this.tbFromFolder.Name = "tbFromFolder";
-            this.tbFromFolder.Size = new System.Drawing.Size(572, 20);
+            this.tbFromFolder.Size = new System.Drawing.Size(611, 20);
             this.tbFromFolder.TabIndex = 1;
             this.tbFromFolder.DoubleClick += new System.EventHandler(this.tbFromFolder_DoubleClick);
             // 
             // tbToFolder
             // 
-            this.tbToFolder.Location = new System.Drawing.Point(171, 57);
+            this.tbToFolder.Location = new System.Drawing.Point(197, 54);
             this.tbToFolder.Name = "tbToFolder";
-            this.tbToFolder.Size = new System.Drawing.Size(572, 20);
+            this.tbToFolder.Size = new System.Drawing.Size(611, 20);
             this.tbToFolder.TabIndex = 3;
             this.tbToFolder.Tag = "Most of the time this will be your production org";
             this.tbToFolder.DoubleClick += new System.EventHandler(this.tbToFolder_DoubleClick);
@@ -84,19 +84,19 @@
             this.lblFromFolder.AutoSize = true;
             this.lblFromFolder.Location = new System.Drawing.Point(12, 19);
             this.lblFromFolder.Name = "lblFromFolder";
-            this.lblFromFolder.Size = new System.Drawing.Size(71, 13);
+            this.lblFromFolder.Size = new System.Drawing.Size(136, 13);
             this.lblFromFolder.TabIndex = 0;
             this.lblFromFolder.Tag = "Most of the time this will be from your Sandbox Org";
-            this.lblFromFolder.Text = "Master Folder";
+            this.lblFromFolder.Text = "Read Changes From Folder";
             // 
             // lblToFolder
             // 
             this.lblToFolder.AutoSize = true;
             this.lblToFolder.Location = new System.Drawing.Point(12, 57);
             this.lblToFolder.Name = "lblToFolder";
-            this.lblToFolder.Size = new System.Drawing.Size(87, 13);
+            this.lblToFolder.Size = new System.Drawing.Size(97, 13);
             this.lblToFolder.TabIndex = 2;
-            this.lblToFolder.Text = "Compared Folder";
+            this.lblToFolder.Text = "Compare-To Folder";
             // 
             // GenerateDeploymentPackage
             // 

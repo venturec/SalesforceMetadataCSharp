@@ -257,6 +257,14 @@ namespace SalesforceMetadata
             }
         }
 
+        public void defaultSelectedFromMetadataComp()
+        {
+            if (runTreeNodeSelector == true)
+            {
+                runTreeNodeSelector = false;
+            }
+        }
+
         private void treeViewMetadata_AfterCheck(object sender, TreeViewEventArgs e)
         {
             if (runTreeNodeSelector == true)

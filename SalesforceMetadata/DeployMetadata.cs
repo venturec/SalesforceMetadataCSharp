@@ -148,6 +148,7 @@ namespace SalesforceMetadata
                     }
 
                     dopt.runTests = splitValues.ToArray();
+                    dopt.testLevel = TestLevel.RunSpecifiedTests;
                 }
 
                 if (this.cbCheckOnly.Checked == true)

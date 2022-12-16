@@ -86,6 +86,8 @@
             // cbCheckOnly
             // 
             this.cbCheckOnly.AutoSize = true;
+            this.cbCheckOnly.Checked = true;
+            this.cbCheckOnly.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbCheckOnly.Location = new System.Drawing.Point(637, 145);
             this.cbCheckOnly.Margin = new System.Windows.Forms.Padding(2);
             this.cbCheckOnly.Name = "cbCheckOnly";

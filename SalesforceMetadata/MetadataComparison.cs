@@ -43,6 +43,13 @@ namespace SalesforceMetadata
         // These objects will need to have further comparisons done.
         private void RunComparison_Click(object sender, EventArgs e)
         {
+            if (this.tbFromFolder.Text == ""
+                || this.tbToFolder.Text == "")
+            {
+                MessageBox.Show("Please select a Read-From folder as well as a Compare-To Folder", "Missing Read-From / Compare-To Folder(s)", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             this.treeViewDifferences.Nodes.Clear();
 
             // Add all files from the different directory folders to the dictionary
@@ -1674,12 +1681,18 @@ namespace SalesforceMetadata
 
         private void GenerateDeploymentPackage_Click(object sender, EventArgs e)
         {
+            if (this.tbFromFolder.Text == "")
+            {
+                MessageBox.Show("Please select a Read-From folder", "Missing Read-From Folder", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             GenerateDeploymentPackage gdp = new GenerateDeploymentPackage();
 
             gdp.tbMetadataFolderToReadFrom.Text = this.tbFromFolder.Text;
             gdp.treeNodeCollFromDiff = this.treeViewDifferences.Nodes;
             gdp.populateMetadataTreeView();
-            //gdp.selectDefaultsFromDiff();
+            gdp.defaultSelectedFromMetadataComp();
 
             gdp.Show();
         }

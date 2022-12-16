@@ -633,7 +633,7 @@ namespace SalesforceMetadata
                                                                                      xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
                                                                                      System.Reflection.Missing.Value,
                                                                                      System.Reflection.Missing.Value);
-                        xlWorksheet.Name = sobj;
+                        xlWorksheet.Name = tabNameLengthCheck(sobj);
 
                         xlWorksheet.Cells[1, 1].Value = "API Name";
                         xlWorksheet.Cells[1, 2].Value = "Label";
@@ -775,7 +775,7 @@ namespace SalesforceMetadata
                     }
                     catch (Exception exc)
                     {
-
+                        Console.WriteLine(exc.Message);
                     }
 
                 }
@@ -1031,6 +1031,19 @@ namespace SalesforceMetadata
                     this.sobjectListBox.Items.Add(sobjName);
                 }
             }
+        }
+
+        private String tabNameLengthCheck(String potentialName)
+        {
+            String reducedName = potentialName;
+
+            if (reducedName.Length > 30)
+            {
+                reducedName = reducedName.Substring(0, 28);
+                reducedName = reducedName + "_1";
+            }
+
+            return reducedName;
         }
     }
 }

@@ -1045,8 +1045,6 @@ namespace SalesforceMetadata
                         String[] filePathSplit = fl.Split('\\');
                         String fileApiName = filePathSplit[filePathSplit.Length - 1].Split('.')[0];
 
-                        String flowType = "";
-
                         XmlDocument xmlDoc = new XmlDocument();
                         xmlDoc.Load(fl);
 
@@ -1597,7 +1595,7 @@ namespace SalesforceMetadata
 
                     Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlapp.Workbooks.Add();
 
-                    Int32 workflowRuleRowId = 1;
+                    //Int32 workflowRuleRowId = 1;
                     Int32 flowRowId = 1;
 
                     // AutoLaunchedFlow

@@ -14,12 +14,12 @@
 #pragma warning disable 1591
 
 namespace SalesforceMetadata.PartnerWSDL {
-    using System;
-    using System.Web.Services;
     using System.Diagnostics;
-    using System.Web.Services.Protocols;
+    using System;
     using System.Xml.Serialization;
     using System.ComponentModel;
+    using System.Web.Services.Protocols;
+    using System.Web.Services;
     
     
     /// <remarks/>
@@ -598,8 +598,8 @@ namespace SalesforceMetadata.PartnerWSDL {
         public event describeNounsCompletedEventHandler describeNounsCompleted;
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LoginScopeHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LoginScopeHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public LoginResult login(string username, string password) {
@@ -632,11 +632,11 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result", IsNullable=true)]
         public DescribeSObjectResult describeSObject(string sObjectType) {
@@ -667,11 +667,11 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result", IsNullable=true)]
         public DescribeSObjectResult[] describeSObjects([System.Xml.Serialization.XmlElementAttribute("sObjectType")] string[] sObjectType) {
@@ -702,10 +702,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public DescribeGlobalResult describeGlobal() {
@@ -734,11 +734,11 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public DescribeDataCategoryGroupResult[] describeDataCategoryGroups([System.Xml.Serialization.XmlElementAttribute("sObjectType")] string[] sObjectType) {
@@ -769,11 +769,11 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public DescribeDataCategoryGroupStructureResult[] describeDataCategoryGroupStructures([System.Xml.Serialization.XmlElementAttribute("pairs")] DataCategoryGroupSobjectTypePair[] pairs, bool topCategoriesOnly) {
@@ -806,11 +806,11 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public DescribeDataCategoryMappingResult[] describeDataCategoryMappings() {
@@ -839,11 +839,11 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public KnowledgeSettings describeKnowledgeSettings() {
@@ -872,10 +872,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlArrayAttribute("result", IsNullable=true)]
         [return: System.Xml.Serialization.XmlArrayItemAttribute("appMenuItems", IsNullable=false)]
@@ -909,10 +909,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public DescribeGlobalTheme describeGlobalTheme() {
@@ -941,10 +941,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlArrayAttribute("result")]
         [return: System.Xml.Serialization.XmlArrayItemAttribute("themeItems", IsNullable=false)]
@@ -976,10 +976,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result", IsNullable=true)]
         public DescribeLayoutResult describeLayout(string sObjectType, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string layoutName, [System.Xml.Serialization.XmlElementAttribute("recordTypeIds")] string[] recordTypeIds) {
@@ -1014,10 +1014,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result", IsNullable=true)]
         public DescribeSoftphoneLayoutResult describeSoftphoneLayout() {
@@ -1046,10 +1046,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result", IsNullable=true)]
         public DescribeSearchLayoutResult[] describeSearchLayouts([System.Xml.Serialization.XmlElementAttribute("sObjectType")] string[] sObjectType) {
@@ -1080,10 +1080,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public DescribeSearchableEntityResult[] describeSearchableEntities(bool includeOnlyEntitiesWithTabs) {
@@ -1114,10 +1114,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public DescribeSearchScopeOrderResult[] describeSearchScopeOrder(bool includeRealTimeEntities, [System.Xml.Serialization.XmlIgnoreAttribute()] bool includeRealTimeEntitiesSpecified) {
@@ -1150,10 +1150,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result", IsNullable=true)]
         public DescribeCompactLayoutsResult describeCompactLayouts(string sObjectType, [System.Xml.Serialization.XmlElementAttribute("recordTypeIds")] string[] recordTypeIds) {
@@ -1186,10 +1186,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlArrayAttribute("result", IsNullable=true)]
         [return: System.Xml.Serialization.XmlArrayItemAttribute("pathAssistants", IsNullable=false)]
@@ -1225,10 +1225,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlArrayAttribute("result", IsNullable=true)]
         [return: System.Xml.Serialization.XmlArrayItemAttribute("approvalLayouts", IsNullable=false)]
@@ -1262,10 +1262,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlArrayAttribute("result")]
         [return: System.Xml.Serialization.XmlArrayItemAttribute("describeSoqlListViews", IsNullable=false)]
@@ -1297,10 +1297,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
         [System.Web.Services.Protocols.SoapHeaderAttribute("MruHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public ExecuteListViewResult executeListView(ExecuteListViewRequest request) {
@@ -1331,10 +1331,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlArrayAttribute("result")]
         [return: System.Xml.Serialization.XmlArrayItemAttribute("describeSoqlListViews", IsNullable=false)]
@@ -1374,10 +1374,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result", IsNullable=true)]
         public DescribeTabSetResult[] describeTabs() {
@@ -1406,10 +1406,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result", IsNullable=true)]
         public DescribeTab[] describeAllTabs() {
@@ -1438,10 +1438,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public DescribeCompactLayout[] describePrimaryCompactLayouts([System.Xml.Serialization.XmlElementAttribute("sObjectTypes")] string[] sObjectTypes) {
@@ -1472,21 +1472,21 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("StreamingEnabledHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AssignmentRuleHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AllOrNoneHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("EmailHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingInfoValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AllowFieldTruncationHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("MruHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AssignmentRuleHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("MruHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("DuplicateRuleHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EmailHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AllowFieldTruncationHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingInfoValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AllOrNoneHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("StreamingEnabledHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public SaveResult[] create([System.Xml.Serialization.XmlElementAttribute("sObjects")] sObject[] sObjects) {
@@ -1517,22 +1517,22 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("OwnerChangeOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("StreamingEnabledHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AssignmentRuleHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AllOrNoneHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("EmailHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingInfoValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AllowFieldTruncationHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("MruHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("OwnerChangeOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AssignmentRuleHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("MruHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("DuplicateRuleHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EmailHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AllowFieldTruncationHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingInfoValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AllOrNoneHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("StreamingEnabledHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public SaveResult[] update([System.Xml.Serialization.XmlElementAttribute("sObjects")] sObject[] sObjects) {
@@ -1563,22 +1563,22 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("OwnerChangeOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("StreamingEnabledHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AssignmentRuleHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AllOrNoneHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("EmailHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingInfoValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AllowFieldTruncationHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("MruHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("OwnerChangeOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AssignmentRuleHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("MruHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("DuplicateRuleHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EmailHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AllowFieldTruncationHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingInfoValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AllOrNoneHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("StreamingEnabledHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public UpsertResult[] upsert(string externalIDFieldName, [System.Xml.Serialization.XmlElementAttribute("sObjects")] sObject[] sObjects) {
@@ -1611,20 +1611,20 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AssignmentRuleHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("StreamingEnabledHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingInfoValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AllowFieldTruncationHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("EmailHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("MruHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AssignmentRuleHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("MruHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("DuplicateRuleHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EmailHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AllowFieldTruncationHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingInfoValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("StreamingEnabledHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public MergeResult[] merge([System.Xml.Serialization.XmlElementAttribute("request")] MergeRequest[] request) {
@@ -1655,20 +1655,20 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("UserTerritoryDeleteHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AllOrNoneHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("StreamingEnabledHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingInfoValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AllowFieldTruncationHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("EmailHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("StreamingEnabledHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("UserTerritoryDeleteHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("DuplicateRuleHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EmailHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AllowFieldTruncationHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingInfoValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AllOrNoneHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public DeleteResult[] delete([System.Xml.Serialization.XmlElementAttribute("ids")] string[] ids) {
@@ -1699,18 +1699,18 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("StreamingEnabledHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AllOrNoneHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingInfoValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DuplicateRuleHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AllOrNoneHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("StreamingEnabledHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("AllowFieldTruncationHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DuplicateRuleHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public UndeleteResult[] undelete([System.Xml.Serialization.XmlElementAttribute("ids")] string[] ids) {
@@ -1741,9 +1741,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public EmptyRecycleBinResult[] emptyRecycleBin([System.Xml.Serialization.XmlElementAttribute("ids")] string[] ids) {
@@ -1774,12 +1774,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("QueryOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("MruHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("QueryOptionsValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result", IsNullable=true)]
         public sObject[] retrieve(string fieldList, string sObjectType, [System.Xml.Serialization.XmlElementAttribute("ids")] string[] ids) {
@@ -1814,17 +1814,17 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingInfoValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
         [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("StreamingEnabledHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingInfoValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DuplicateRuleHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("AllowFieldTruncationHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DuplicateRuleHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public ProcessResult[] process([System.Xml.Serialization.XmlElementAttribute("actions")] ProcessRequest[] actions) {
@@ -1855,17 +1855,17 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingInfoValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
         [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("StreamingEnabledHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingInfoValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DuplicateRuleHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("AllowFieldTruncationHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DuplicateRuleHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public LeadConvertResult[] convertLead([System.Xml.Serialization.XmlElementAttribute("leadConverts")] LeadConvert[] leadConverts) {
@@ -1896,9 +1896,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void logout() {
             this.Invoke("logout", new object[0]);
@@ -1925,9 +1925,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public InvalidateSessionsResult[] invalidateSessions([System.Xml.Serialization.XmlElementAttribute("sessionIds")] string[] sessionIds) {
@@ -1958,9 +1958,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public GetDeletedResult getDeleted(string sObjectType, System.DateTime startDate, System.DateTime endDate) {
@@ -1995,9 +1995,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public GetUpdatedResult getUpdated(string sObjectType, System.DateTime startDate, System.DateTime endDate) {
@@ -2032,12 +2032,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("QueryOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("MruHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("QueryOptionsValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public QueryResult query(string queryString) {
@@ -2068,10 +2068,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("QueryOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("QueryOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public QueryResult queryAll(string queryString) {
@@ -2102,10 +2102,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("QueryOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("QueryOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public QueryResult queryMore(string queryLocator) {
@@ -2136,10 +2136,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public SearchResult search(string searchString) {
@@ -2170,9 +2170,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public GetServerTimestampResult getServerTimestamp() {
@@ -2201,9 +2201,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public SetPasswordResult setPassword(string userId, string password) {
@@ -2236,9 +2236,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public ChangeOwnPasswordResult changeOwnPassword(string oldPassword, string newPassword) {
@@ -2271,10 +2271,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
         [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
         [System.Web.Services.Protocols.SoapHeaderAttribute("EmailHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public ResetPasswordResult resetPassword(string userId) {
@@ -2305,9 +2305,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public GetUserInfoResult getUserInfo() {
@@ -2336,20 +2336,20 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("UserTerritoryDeleteHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AllOrNoneHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("StreamingEnabledHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingInfoValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AllowFieldTruncationHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("EmailHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("StreamingEnabledHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("UserTerritoryDeleteHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("DuplicateRuleHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EmailHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AllowFieldTruncationHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingInfoValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AllOrNoneHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public DeleteByExampleResult[] deleteByExample([System.Xml.Serialization.XmlElementAttribute("sObjects")] sObject[] sObjects) {
@@ -2380,9 +2380,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public SendEmailResult[] sendEmailMessage([System.Xml.Serialization.XmlElementAttribute("ids")] string[] ids) {
@@ -2413,9 +2413,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public SendEmailResult[] sendEmail([System.Xml.Serialization.XmlElementAttribute("messages")] Email[] messages) {
@@ -2446,9 +2446,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public RenderEmailTemplateResult[] renderEmailTemplate([System.Xml.Serialization.XmlElementAttribute("renderRequests")] RenderEmailTemplateRequest[] renderRequests) {
@@ -2479,9 +2479,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public RenderStoredEmailTemplateResult renderStoredEmailTemplate(RenderStoredEmailTemplateRequest request) {
@@ -2512,21 +2512,21 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("OwnerChangeOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("StreamingEnabledHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AssignmentRuleHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AllOrNoneHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("EmailHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AllowFieldTruncationHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("MruHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("OwnerChangeOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AssignmentRuleHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("MruHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DisableFeedTrackingHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("DebuggingHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("DuplicateRuleHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EmailHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AllowFieldTruncationHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AllOrNoneHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("StreamingEnabledHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public PerformQuickActionResult[] performQuickActions([System.Xml.Serialization.XmlElementAttribute("quickActions")] PerformQuickActionRequest[] quickActions) {
@@ -2557,11 +2557,11 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public DescribeQuickActionResult[] describeQuickActions([System.Xml.Serialization.XmlElementAttribute("quickActions")] string[] quickActions) {
@@ -2592,11 +2592,11 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public DescribeQuickActionResult[] describeQuickActionsForRecordType([System.Xml.Serialization.XmlElementAttribute("quickActions")] string[] quickActions, string recordTypeId) {
@@ -2629,11 +2629,11 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public DescribeAvailableQuickActionResult[] describeAvailableQuickActions([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string contextType) {
@@ -2664,11 +2664,11 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public QuickActionTemplateResult[] retrieveQuickActionTemplates([System.Xml.Serialization.XmlElementAttribute("quickActionNames")] string[] quickActionNames, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string contextId) {
@@ -2701,11 +2701,11 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public QuickActionTemplateResult[] retrieveMassQuickActionTemplates(string quickActionName, [System.Xml.Serialization.XmlElementAttribute("contextIds")] string[] contextIds) {
@@ -2738,10 +2738,10 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public DescribeVisualForceResult describeVisualForce(bool includeAllDetails, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string namespacePrefix) {
@@ -2774,11 +2774,11 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("DuplicateRuleHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public FindDuplicatesResult[] findDuplicates([System.Xml.Serialization.XmlElementAttribute("sObjects")] sObject[] sObjects) {
@@ -2809,11 +2809,11 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("DuplicateRuleHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result")]
         public FindDuplicatesResult[] findDuplicatesByIds([System.Xml.Serialization.XmlElementAttribute("ids")] string[] ids) {
@@ -2844,11 +2844,11 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("LocaleOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("PackageVersionHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("CallOptionsValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("LimitInfoHeaderValue", Direction=System.Web.Services.Protocols.SoapHeaderDirection.Out)]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SessionHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="urn:partner.soap.sforce.com", ResponseNamespace="urn:partner.soap.sforce.com", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("result", IsNullable=true)]
         public DescribeNounResult[] describeNouns([System.Xml.Serialization.XmlElementAttribute("nouns")] string[] nouns, bool onlyRenamed, bool includeFields) {
@@ -2908,29 +2908,63 @@ namespace SalesforceMetadata.PartnerWSDL {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
-    public partial class LoginScopeHeader : System.Web.Services.Protocols.SoapHeader {
+    public partial class PackageVersionHeader : System.Web.Services.Protocols.SoapHeader {
         
-        private string organizationIdField;
-        
-        private string portalIdField;
+        private PackageVersion[] packageVersionsField;
         
         /// <remarks/>
-        public string organizationId {
+        [System.Xml.Serialization.XmlElementAttribute("packageVersions")]
+        public PackageVersion[] packageVersions {
             get {
-                return this.organizationIdField;
+                return this.packageVersionsField;
             }
             set {
-                this.organizationIdField = value;
+                this.packageVersionsField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
+    public partial class PackageVersion {
+        
+        private int majorNumberField;
+        
+        private int minorNumberField;
+        
+        private string namespaceField;
+        
+        /// <remarks/>
+        public int majorNumber {
+            get {
+                return this.majorNumberField;
+            }
+            set {
+                this.majorNumberField = value;
             }
         }
         
         /// <remarks/>
-        public string portalId {
+        public int minorNumber {
             get {
-                return this.portalIdField;
+                return this.minorNumberField;
             }
             set {
-                this.portalIdField = value;
+                this.minorNumberField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string @namespace {
+            get {
+                return this.namespaceField;
+            }
+            set {
+                this.namespaceField = value;
             }
         }
     }
@@ -3071,6 +3105,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         COMMERCE_ADMIN_MISCONFIGURATION,
         
         /// <remarks/>
+        CONFIG_PUBLISH_FAILED,
+        
+        /// <remarks/>
         CONTENT_ALREADY_AN_ASSET_EXCEPTION,
         
         /// <remarks/>
@@ -3186,6 +3223,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         DUPLICATE_VALUE,
+        
+        /// <remarks/>
+        EASY_ROUTING_CREATION_NOT_ALLOWED,
         
         /// <remarks/>
         EMAIL_BATCH_SIZE_LIMIT_EXCEEDED,
@@ -3470,6 +3510,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         KEY_HAS_BEEN_DESTROYED,
         
         /// <remarks/>
+        LANGUAGE_PARAM_CONFLICT,
+        
+        /// <remarks/>
         LICENSING_DATA_ERROR,
         
         /// <remarks/>
@@ -3620,6 +3663,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         SERVICE_DESK_NOT_ENABLED,
         
         /// <remarks/>
+        SITE_PUBLISH_FAILED,
+        
+        /// <remarks/>
         SOCIALCRM_FEEDSERVICE_API_CLIENT_EXCEPTION,
         
         /// <remarks/>
@@ -3701,7 +3747,16 @@ namespace SalesforceMetadata.PartnerWSDL {
         UNSUPPORTED_CLIENT,
         
         /// <remarks/>
+        UNSUPPORTED_DML_OPERATION,
+        
+        /// <remarks/>
         UNSUPPORTED_MEDIA_TYPE,
+        
+        /// <remarks/>
+        UNSUPPORTED_QUERY,
+        
+        /// <remarks/>
+        USER_EMAIL_NOT_CONNECTED,
         
         /// <remarks/>
         VERSION_NOT_FOUND,
@@ -3800,6 +3855,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         ACTION_CALL_INVALID_OUTPUT_PARAM,
+        
+        /// <remarks/>
+        ACTION_TYPE_REQUIRED_FOR_STEP,
         
         /// <remarks/>
         ADDING_ATTACHMENT_QUESTIONS_ADDITION_TO_EXISTING_SURVEY,
@@ -3917,6 +3975,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         BEFORE_SAVE_FLOW_RECORD_UPDATE_INVALID_REFERENCE,
+        
+        /// <remarks/>
+        BEFORE_SAVE_FLOW_RECORD_UPDATE_RELATED_RECORD_REQUIRES_INPUTASSIGNMENTS,
         
         /// <remarks/>
         BEFORE_SAVE_FLOW_RECORD_UPDATE_REQUIRES_INPUTASSIGNMENTS,
@@ -4076,6 +4137,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         DECISION_MISSING_OUTCOME,
+        
+        /// <remarks/>
+        DETERMINATION_FLOW_ACTION_TYPE_REQUIRED,
         
         /// <remarks/>
         DYNAMIC_TYPE_MAPPING_MISSING,
@@ -4507,10 +4571,22 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_TEST_PARAMETER_INVALID,
         
         /// <remarks/>
+        FLOW_TEST_PARAMETER_LEFTVALUEREFERENCE_INVALID,
+        
+        /// <remarks/>
         FLOW_TEST_PARAMETER_MISSING,
         
         /// <remarks/>
         FLOW_TEST_PARAMETER_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_TEST_PARAMETER_TYPE_INVALID,
+        
+        /// <remarks/>
+        FLOW_TEST_PARAMETER_VALUE_INVALID,
+        
+        /// <remarks/>
+        FLOW_TEST_PARAMETER_VALUE_MISSING,
         
         /// <remarks/>
         FLOW_TEST_PARAMS_REQUIRED,
@@ -4576,6 +4652,21 @@ namespace SalesforceMetadata.PartnerWSDL {
         INPUTPARAM_MISMATCHED_OBJECTTYPE,
         
         /// <remarks/>
+        INPUTVARIABLE_COLLECTION_NOT_SUPPORTED_FOR_DYNAMIC_ACTION,
+        
+        /// <remarks/>
+        INPUTVARIABLE_COLLECTION_NOT_SUPPORTED_FOR_ENVIRONMENT,
+        
+        /// <remarks/>
+        INPUTVARIABLE_DATATYPE_NOT_SUPPORTED_FOR_DYNAMIC_ACTION,
+        
+        /// <remarks/>
+        INPUTVARIABLE_DATATYPE_NOT_SUPPORTED_FOR_ENVIRONMENT,
+        
+        /// <remarks/>
+        INVALID_ACTION_TYPE_FOR_STEP,
+        
+        /// <remarks/>
         INVALID_ASSIGNEE,
         
         /// <remarks/>
@@ -4594,6 +4685,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         INVALID_PROCESSTYPE_ENVIRONMENT_COMBINATION,
         
         /// <remarks/>
+        INVALID_QUERY_LOCATOR_FORMAT,
+        
+        /// <remarks/>
         INVALID_REGEX_IN_SURVEY_QUESTIONS,
         
         /// <remarks/>
@@ -4603,7 +4697,13 @@ namespace SalesforceMetadata.PartnerWSDL {
         INVALID_SURVEY_VARIABLE_NAME_OR_TYPE,
         
         /// <remarks/>
+        INVALID_TIME_ZONE,
+        
+        /// <remarks/>
         INVOCABLE_ACTION_TYPE_NOT_SUPPORTED_FOR_ENVIRONMENT,
+        
+        /// <remarks/>
+        LOCATOR_LOCATION_EXCEEDS_SIZE,
         
         /// <remarks/>
         LOOP_ASSIGNNEXTVALUETO_MISMATCHED_APEXCLASSTYPE,
@@ -4753,7 +4853,13 @@ namespace SalesforceMetadata.PartnerWSDL {
         PROCESSTYPE_SCREEN_FIELDTYPE_NOT_SUPPORTED,
         
         /// <remarks/>
+        PROCESS_TYPE_ELEMENT_ATTRIBUTE_REQUIRED,
+        
+        /// <remarks/>
         PROCESS_TYPE_INCOMPATIBLE,
+        
+        /// <remarks/>
+        QUERY_LOCATOR_EXPIRED,
         
         /// <remarks/>
         RECOMMENDATION_STRATEGY_EXCEPTION,
@@ -4930,6 +5036,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         SCREENFIELD_VALIDATIONRULE_NOT_SUPPORTED,
         
         /// <remarks/>
+        SCREENFIELD_VALIDATION_RULES_NOT_SUPPORTED_FOR_ENVIRONMENT,
+        
+        /// <remarks/>
         SCREENFOOTER_MERGEFIELD_NOT_SUPPORTED,
         
         /// <remarks/>
@@ -5059,18 +5168,6 @@ namespace SalesforceMetadata.PartnerWSDL {
         SUBFLOW_DIFFERENT_RUNMODE,
         
         /// <remarks/>
-        SUBFLOW_INPUT_ELEMENT_INCOMPATIBLE_DATATYPES,
-        
-        /// <remarks/>
-        SUBFLOW_INPUT_MISMATCHED_APEX_CLASS,
-        
-        /// <remarks/>
-        SUBFLOW_INPUT_MISMATCHED_COLLECTIONTYPES,
-        
-        /// <remarks/>
-        SUBFLOW_INPUT_MISMATCHED_OBJECTS,
-        
-        /// <remarks/>
         SUBFLOW_INPUT_MISSING_NAME,
         
         /// <remarks/>
@@ -5078,12 +5175,6 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         SUBFLOW_INPUT_REFERENCES_FIELD_ON_SOBJECT_VARIABLE,
-        
-        /// <remarks/>
-        SUBFLOW_INPUT_VALUE_INCOMPATIBLE_DATATYPES,
-        
-        /// <remarks/>
-        SUBFLOW_INPUT_VARIABLE_NOT_FOUND_IN_MASTERFLOW,
         
         /// <remarks/>
         SUBFLOW_INPUT_VARIABLE_NOT_FOUND_IN_REFERENCEDFLOW,
@@ -5209,6 +5300,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         SURVEY_RULE_INVALID_RIGHT_OPERAND,
         
         /// <remarks/>
+        SURVEY_SAVE_ERROR,
+        
+        /// <remarks/>
         SURVEY_SCREENFIELD_TYPE_NOT_SUPPORTED_FOR_QUESTION,
         
         /// <remarks/>
@@ -5219,6 +5313,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         SYSTEM_MODE_NOT_ALLOWED,
+        
+        /// <remarks/>
+        TEMPORARY_QUERY_MORE_FAILURE,
         
         /// <remarks/>
         TRIGGERED_FLOW_REDUNDANT_QUERY,
@@ -5258,6 +5355,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         TYPE_MAPPING_NOT_SUPPORTED_FOR_PROCESS_TYPE,
+        
+        /// <remarks/>
+        UNAUTHORIZED_USER_FOR_CURSOR,
         
         /// <remarks/>
         UNEXPECTED_ERROR,
@@ -5996,6 +6096,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         COMMUNITY_NOT_ACCESSIBLE,
         
         /// <remarks/>
+        CONFLICT,
+        
+        /// <remarks/>
         CONFLICTING_ENVIRONMENT_HUB_MEMBER,
         
         /// <remarks/>
@@ -6317,7 +6420,13 @@ namespace SalesforceMetadata.PartnerWSDL {
         INGESTION_TOTAL_FILE_SIZE_LIMIT_EXCEEDED,
         
         /// <remarks/>
+        INPUTPARAM_INCOMPATIBLE_DATATYPE,
+        
+        /// <remarks/>
         INSERT_UPDATE_DELETE_NOT_ALLOWED_DURING_MAINTENANCE,
+        
+        /// <remarks/>
+        INSUFFICIENT_ACCESS,
         
         /// <remarks/>
         INSUFFICIENT_ACCESS_ON_CROSS_REFERENCE_ENTITY,
@@ -6476,6 +6585,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         INVALID_MASTER_OR_TRANSLATED_SOLUTION,
         
         /// <remarks/>
+        INVALID_MERGE_RECORD,
+        
+        /// <remarks/>
         INVALID_MESSAGE_ID_REFERENCE,
         
         /// <remarks/>
@@ -6602,6 +6714,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         INVALID_TYPE_ON_FIELD_IN_RECORD,
         
         /// <remarks/>
+        INVALID_UNMERGE_RECORD,
+        
+        /// <remarks/>
         INVALID_USERID,
         
         /// <remarks/>
@@ -6672,6 +6787,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         MATCH_PRECONDITION_FAILED,
+        
+        /// <remarks/>
+        MATCH_PRECONDITION_REQUIRED,
         
         /// <remarks/>
         MATCH_RUNTIME_ERROR,
@@ -6749,7 +6867,16 @@ namespace SalesforceMetadata.PartnerWSDL {
         METADATA_FIELD_UPDATE_ERROR,
         
         /// <remarks/>
+        METHOD_NOT_ALLOWED,
+        
+        /// <remarks/>
+        MISMATCHING_TYPES,
+        
+        /// <remarks/>
         MISSING_ARGUMENT,
+        
+        /// <remarks/>
+        MISSING_OMNI_PROCESS_ID,
         
         /// <remarks/>
         MISSING_RECEIVEDDOCUMENTID_ATTACHMENT,
@@ -6761,10 +6888,16 @@ namespace SalesforceMetadata.PartnerWSDL {
         MIXED_DML_OPERATION,
         
         /// <remarks/>
+        MULTIPLE_CONTENT_FOUND,
+        
+        /// <remarks/>
         MULTIPLE_VOUCHERS,
         
         /// <remarks/>
         NONUNIQUE_SHIPPING_ADDRESS,
+        
+        /// <remarks/>
+        NOT_FOUND,
         
         /// <remarks/>
         NOT_RECOVERABLE_SEARCH_PROVIDER_ERROR,
@@ -6944,6 +7077,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         PROCESSING_HALTED,
         
         /// <remarks/>
+        PROGRAM_PROGRESS_NOT_ACTIVE,
+        
+        /// <remarks/>
         QA_INVALID_CREATE_FEED_ITEM,
         
         /// <remarks/>
@@ -7017,6 +7153,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         RETRIEVE_USER_CONFIG_ERROR,
+        
+        /// <remarks/>
+        ROUTES_EVALUATION_LIMIT_EXCEEDED,
         
         /// <remarks/>
         SALESFORCE_INBOX_TRANSPORT_CONNECTION_ERROR,
@@ -7178,6 +7317,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         UNSUPPORTED_APEX_TRIGGER_OPERATON,
         
         /// <remarks/>
+        UNSUPPORTED_MODE,
+        
+        /// <remarks/>
         UNSUPPORTED_PAYMENT_GATEWAY_TYPE,
         
         /// <remarks/>
@@ -7218,6 +7360,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         WEBLINK_URL_INVALID,
+        
+        /// <remarks/>
+        WEM_SEGMENTS_CAN_NOT_HAVE_NON_ACTIVE_SEGMENT_TYPE,
+        
+        /// <remarks/>
+        WEM_SHIFT_SEGMENT_TIME_IS_OUTSIDE_OF_THE_SHIFT_DURATION,
         
         /// <remarks/>
         WEM_USER_NOT_ORG_ADMIN,
@@ -19550,51 +19698,6 @@ namespace SalesforceMetadata.PartnerWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
-    public partial class PackageVersion {
-        
-        private int majorNumberField;
-        
-        private int minorNumberField;
-        
-        private string namespaceField;
-        
-        /// <remarks/>
-        public int majorNumber {
-            get {
-                return this.majorNumberField;
-            }
-            set {
-                this.majorNumberField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int minorNumber {
-            get {
-                return this.minorNumberField;
-            }
-            set {
-                this.minorNumberField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string @namespace {
-            get {
-                return this.namespaceField;
-            }
-            set {
-                this.namespaceField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public partial class GetUserInfoResult {
         
         private bool accessibilityModeField;
@@ -19995,6 +20098,64 @@ namespace SalesforceMetadata.PartnerWSDL {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
+    public partial class QueryOptions : System.Web.Services.Protocols.SoapHeader {
+        
+        private int batchSizeField;
+        
+        private bool batchSizeFieldSpecified;
+        
+        /// <remarks/>
+        public int batchSize {
+            get {
+                return this.batchSizeField;
+            }
+            set {
+                this.batchSizeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool batchSizeSpecified {
+            get {
+                return this.batchSizeFieldSpecified;
+            }
+            set {
+                this.batchSizeFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
+    public partial class LimitInfoHeader : System.Web.Services.Protocols.SoapHeader {
+        
+        private LimitInfo[] limitInfoField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("limitInfo")]
+        public LimitInfo[] limitInfo {
+            get {
+                return this.limitInfoField;
+            }
+            set {
+                this.limitInfoField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
     public partial class OwnerChangeOptions : System.Web.Services.Protocols.SoapHeader {
         
         private OwnerChangeOption[] optionsField;
@@ -20007,64 +20168,6 @@ namespace SalesforceMetadata.PartnerWSDL {
             }
             set {
                 this.optionsField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
-    public partial class StreamingEnabledHeader : System.Web.Services.Protocols.SoapHeader {
-        
-        private bool streamingEnabledField;
-        
-        /// <remarks/>
-        public bool streamingEnabled {
-            get {
-                return this.streamingEnabledField;
-            }
-            set {
-                this.streamingEnabledField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
-    public partial class CallOptions : System.Web.Services.Protocols.SoapHeader {
-        
-        private string clientField;
-        
-        private string defaultNamespaceField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string client {
-            get {
-                return this.clientField;
-            }
-            set {
-                this.clientField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string defaultNamespace {
-            get {
-                return this.defaultNamespaceField;
-            }
-            set {
-                this.defaultNamespaceField = value;
             }
         }
     }
@@ -20112,17 +20215,17 @@ namespace SalesforceMetadata.PartnerWSDL {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
-    public partial class SessionHeader : System.Web.Services.Protocols.SoapHeader {
+    public partial class MruHeader : System.Web.Services.Protocols.SoapHeader {
         
-        private string sessionIdField;
+        private bool updateMruField;
         
         /// <remarks/>
-        public string sessionId {
+        public bool updateMru {
             get {
-                return this.sessionIdField;
+                return this.updateMruField;
             }
             set {
-                this.sessionIdField = value;
+                this.updateMruField = value;
             }
         }
     }
@@ -20134,156 +20237,17 @@ namespace SalesforceMetadata.PartnerWSDL {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
-    public partial class LimitInfoHeader : System.Web.Services.Protocols.SoapHeader {
+    public partial class AllowFieldTruncationHeader : System.Web.Services.Protocols.SoapHeader {
         
-        private LimitInfo[] limitInfoField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("limitInfo")]
-        public LimitInfo[] limitInfo {
-            get {
-                return this.limitInfoField;
-            }
-            set {
-                this.limitInfoField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
-    public partial class LocaleOptions : System.Web.Services.Protocols.SoapHeader {
-        
-        private string languageField;
-        
-        private bool localizeErrorsField;
-        
-        private bool localizeErrorsFieldSpecified;
+        private bool allowFieldTruncationField;
         
         /// <remarks/>
-        public string language {
+        public bool allowFieldTruncation {
             get {
-                return this.languageField;
+                return this.allowFieldTruncationField;
             }
             set {
-                this.languageField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public bool localizeErrors {
-            get {
-                return this.localizeErrorsField;
-            }
-            set {
-                this.localizeErrorsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool localizeErrorsSpecified {
-            get {
-                return this.localizeErrorsFieldSpecified;
-            }
-            set {
-                this.localizeErrorsFieldSpecified = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
-    public partial class UserTerritoryDeleteHeader : System.Web.Services.Protocols.SoapHeader {
-        
-        private string transferToUserIdField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string transferToUserId {
-            get {
-                return this.transferToUserIdField;
-            }
-            set {
-                this.transferToUserIdField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
-    public partial class AllOrNoneHeader : System.Web.Services.Protocols.SoapHeader {
-        
-        private bool allOrNoneField;
-        
-        /// <remarks/>
-        public bool allOrNone {
-            get {
-                return this.allOrNoneField;
-            }
-            set {
-                this.allOrNoneField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
-    public partial class EmailHeader : System.Web.Services.Protocols.SoapHeader {
-        
-        private bool triggerAutoResponseEmailField;
-        
-        private bool triggerOtherEmailField;
-        
-        private bool triggerUserEmailField;
-        
-        /// <remarks/>
-        public bool triggerAutoResponseEmail {
-            get {
-                return this.triggerAutoResponseEmailField;
-            }
-            set {
-                this.triggerAutoResponseEmailField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public bool triggerOtherEmail {
-            get {
-                return this.triggerOtherEmailField;
-            }
-            set {
-                this.triggerOtherEmailField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public bool triggerUserEmail {
-            get {
-                return this.triggerUserEmailField;
-            }
-            set {
-                this.triggerUserEmailField = value;
+                this.allowFieldTruncationField = value;
             }
         }
     }
@@ -20317,39 +20281,18 @@ namespace SalesforceMetadata.PartnerWSDL {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
-    public partial class DebuggingInfo : System.Web.Services.Protocols.SoapHeader {
+    public partial class UserTerritoryDeleteHeader : System.Web.Services.Protocols.SoapHeader {
         
-        private string debugLogField;
-        
-        /// <remarks/>
-        public string debugLog {
-            get {
-                return this.debugLogField;
-            }
-            set {
-                this.debugLogField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
-    public partial class AllowFieldTruncationHeader : System.Web.Services.Protocols.SoapHeader {
-        
-        private bool allowFieldTruncationField;
+        private string transferToUserIdField;
         
         /// <remarks/>
-        public bool allowFieldTruncation {
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string transferToUserId {
             get {
-                return this.allowFieldTruncationField;
+                return this.transferToUserIdField;
             }
             set {
-                this.allowFieldTruncationField = value;
+                this.transferToUserIdField = value;
             }
         }
     }
@@ -20421,86 +20364,6 @@ namespace SalesforceMetadata.PartnerWSDL {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
-    public partial class MruHeader : System.Web.Services.Protocols.SoapHeader {
-        
-        private bool updateMruField;
-        
-        /// <remarks/>
-        public bool updateMru {
-            get {
-                return this.updateMruField;
-            }
-            set {
-                this.updateMruField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
-    public partial class QueryOptions : System.Web.Services.Protocols.SoapHeader {
-        
-        private int batchSizeField;
-        
-        private bool batchSizeFieldSpecified;
-        
-        /// <remarks/>
-        public int batchSize {
-            get {
-                return this.batchSizeField;
-            }
-            set {
-                this.batchSizeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool batchSizeSpecified {
-            get {
-                return this.batchSizeFieldSpecified;
-            }
-            set {
-                this.batchSizeFieldSpecified = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
-    public partial class PackageVersionHeader : System.Web.Services.Protocols.SoapHeader {
-        
-        private PackageVersion[] packageVersionsField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("packageVersions")]
-        public PackageVersion[] packageVersions {
-            get {
-                return this.packageVersionsField;
-            }
-            set {
-                this.packageVersionsField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
     public partial class DuplicateRuleHeader : System.Web.Services.Protocols.SoapHeader {
         
         private bool allowSaveField;
@@ -20536,6 +20399,257 @@ namespace SalesforceMetadata.PartnerWSDL {
             }
             set {
                 this.runAsCurrentUserField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
+    public partial class CallOptions : System.Web.Services.Protocols.SoapHeader {
+        
+        private string clientField;
+        
+        private string defaultNamespaceField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string client {
+            get {
+                return this.clientField;
+            }
+            set {
+                this.clientField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string defaultNamespace {
+            get {
+                return this.defaultNamespaceField;
+            }
+            set {
+                this.defaultNamespaceField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
+    public partial class EmailHeader : System.Web.Services.Protocols.SoapHeader {
+        
+        private bool triggerAutoResponseEmailField;
+        
+        private bool triggerOtherEmailField;
+        
+        private bool triggerUserEmailField;
+        
+        /// <remarks/>
+        public bool triggerAutoResponseEmail {
+            get {
+                return this.triggerAutoResponseEmailField;
+            }
+            set {
+                this.triggerAutoResponseEmailField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool triggerOtherEmail {
+            get {
+                return this.triggerOtherEmailField;
+            }
+            set {
+                this.triggerOtherEmailField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool triggerUserEmail {
+            get {
+                return this.triggerUserEmailField;
+            }
+            set {
+                this.triggerUserEmailField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
+    public partial class LocaleOptions : System.Web.Services.Protocols.SoapHeader {
+        
+        private string languageField;
+        
+        private bool localizeErrorsField;
+        
+        private bool localizeErrorsFieldSpecified;
+        
+        /// <remarks/>
+        public string language {
+            get {
+                return this.languageField;
+            }
+            set {
+                this.languageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool localizeErrors {
+            get {
+                return this.localizeErrorsField;
+            }
+            set {
+                this.localizeErrorsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool localizeErrorsSpecified {
+            get {
+                return this.localizeErrorsFieldSpecified;
+            }
+            set {
+                this.localizeErrorsFieldSpecified = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
+    public partial class LoginScopeHeader : System.Web.Services.Protocols.SoapHeader {
+        
+        private string organizationIdField;
+        
+        private string portalIdField;
+        
+        /// <remarks/>
+        public string organizationId {
+            get {
+                return this.organizationIdField;
+            }
+            set {
+                this.organizationIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string portalId {
+            get {
+                return this.portalIdField;
+            }
+            set {
+                this.portalIdField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
+    public partial class DebuggingInfo : System.Web.Services.Protocols.SoapHeader {
+        
+        private string debugLogField;
+        
+        /// <remarks/>
+        public string debugLog {
+            get {
+                return this.debugLogField;
+            }
+            set {
+                this.debugLogField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
+    public partial class AllOrNoneHeader : System.Web.Services.Protocols.SoapHeader {
+        
+        private bool allOrNoneField;
+        
+        /// <remarks/>
+        public bool allOrNone {
+            get {
+                return this.allOrNoneField;
+            }
+            set {
+                this.allOrNoneField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
+    public partial class StreamingEnabledHeader : System.Web.Services.Protocols.SoapHeader {
+        
+        private bool streamingEnabledField;
+        
+        /// <remarks/>
+        public bool streamingEnabled {
+            get {
+                return this.streamingEnabledField;
+            }
+            set {
+                this.streamingEnabledField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="urn:partner.soap.sforce.com")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="urn:partner.soap.sforce.com", IsNullable=false)]
+    public partial class SessionHeader : System.Web.Services.Protocols.SoapHeader {
+        
+        private string sessionIdField;
+        
+        /// <remarks/>
+        public string sessionId {
+            get {
+                return this.sessionIdField;
+            }
+            set {
+                this.sessionIdField = value;
             }
         }
     }

@@ -24,9 +24,12 @@ namespace SalesforceMetadata
 
         private UtilityClass.REQUESTINGORG reqOrg;
 
+        private String orgName;
+
         public SalesforceMetadataStep1()
         {
             InitializeComponent();
+            this.orgName = "";
             populateCredentialsFile();
         }
 
@@ -106,12 +109,15 @@ namespace SalesforceMetadata
             {
                 this.lblSalesforce.Text = "Salesforce";
                 this.Text = "Salesforce Metadata - Production";
+                this.orgName = "Production";
             }
             else
             {
                 this.lblSalesforce.Text = "Salesforce Sandbox";
                 String[] userNamesplit = this.cmbUserName.Text.Split('.');
-                this.Text = "Salesforce Metadata - " + userNamesplit[userNamesplit.Length - 1].ToUpper();
+                this.orgName = userNamesplit[userNamesplit.Length - 1].ToUpper();
+                this.Text = "Salesforce Metadata - " + this.orgName;
+
             }
 
             this.tbSecurityToken.Text = "";
@@ -173,6 +179,10 @@ namespace SalesforceMetadata
                             {
                                 ctrl.Enabled = false;
                             }
+                            else if (ctrl.Name == "lblRetrieveFromOrg")
+                            {
+                                ctrl.Text = "Retrieve Metadata from " + this.orgName;
+                            }
                         }
                             
                         openFrm.Show();
@@ -208,6 +218,10 @@ namespace SalesforceMetadata
                                 || ctrl.Name == "btnToOrgRetrieveMetadataWPkg")
                         {
                             ctrl.Enabled = false;
+                        }
+                        else if (ctrl.Name == "lblRetrieveFromOrg")
+                        {
+                            ctrl.Text = "Retrieve Metadata from " + this.orgName;
                         }
                     }
 

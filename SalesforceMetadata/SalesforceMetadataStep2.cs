@@ -631,14 +631,5 @@ namespace SalesforceMetadata
                 }
             }
         }
-
-        //private class InstalledPackageVersion
-        //{
-        //    public String packageName;
-        //    public String majorVersion;
-        //    public String minorVersion;
-        //}
-
     }
-
 }

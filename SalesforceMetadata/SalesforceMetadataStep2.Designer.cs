@@ -39,9 +39,6 @@
             this.horizontalLine2 = new System.Windows.Forms.Label();
             this.btnRetrieveMetadata = new System.Windows.Forms.Button();
             this.lblRetrieveFromOrg = new System.Windows.Forms.Label();
-            this.horizontalLine4 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.OpenMetadataComparison = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblPackageXML
@@ -56,7 +53,7 @@
             // 
             // tbFromOrgSaveLocation
             // 
-            this.tbFromOrgSaveLocation.Location = new System.Drawing.Point(233, 47);
+            this.tbFromOrgSaveLocation.Location = new System.Drawing.Point(254, 44);
             this.tbFromOrgSaveLocation.Margin = new System.Windows.Forms.Padding(2);
             this.tbFromOrgSaveLocation.Name = "tbFromOrgSaveLocation";
             this.tbFromOrgSaveLocation.Size = new System.Drawing.Size(498, 20);
@@ -65,7 +62,7 @@
             // 
             // btnRetrieveMetadataFromSelected
             // 
-            this.btnRetrieveMetadataFromSelected.Location = new System.Drawing.Point(765, 47);
+            this.btnRetrieveMetadataFromSelected.Location = new System.Drawing.Point(765, 41);
             this.btnRetrieveMetadataFromSelected.Margin = new System.Windows.Forms.Padding(2);
             this.btnRetrieveMetadataFromSelected.Name = "btnRetrieveMetadataFromSelected";
             this.btnRetrieveMetadataFromSelected.Size = new System.Drawing.Size(193, 24);
@@ -79,9 +76,9 @@
             this.rtMessages.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.rtMessages.Location = new System.Drawing.Point(7, 502);
+            this.rtMessages.Location = new System.Drawing.Point(7, 219);
             this.rtMessages.Name = "rtMessages";
-            this.rtMessages.Size = new System.Drawing.Size(946, 315);
+            this.rtMessages.Size = new System.Drawing.Size(946, 598);
             this.rtMessages.TabIndex = 22;
             this.rtMessages.Text = "";
             // 
@@ -101,15 +98,15 @@
             this.lblExistingPackageXml.AutoSize = true;
             this.lblExistingPackageXml.Location = new System.Drawing.Point(4, 126);
             this.lblExistingPackageXml.Name = "lblExistingPackageXml";
-            this.lblExistingPackageXml.Size = new System.Drawing.Size(228, 13);
+            this.lblExistingPackageXml.Size = new System.Drawing.Size(239, 13);
             this.lblExistingPackageXml.TabIndex = 7;
-            this.lblExistingPackageXml.Text = "Retrieve Zip File with Existing Package.xml File";
+            this.lblExistingPackageXml.Text = "Retrieve Metadata with Existing Package.xml File";
             // 
             // tbExistingPackageXml
             // 
-            this.tbExistingPackageXml.Location = new System.Drawing.Point(238, 122);
+            this.tbExistingPackageXml.Location = new System.Drawing.Point(254, 123);
             this.tbExistingPackageXml.Name = "tbExistingPackageXml";
-            this.tbExistingPackageXml.Size = new System.Drawing.Size(497, 20);
+            this.tbExistingPackageXml.Size = new System.Drawing.Size(498, 20);
             this.tbExistingPackageXml.TabIndex = 8;
             this.tbExistingPackageXml.DoubleClick += new System.EventHandler(this.tbExistingPackageXml_DoubleClick);
             // 
@@ -126,7 +123,7 @@
             // 
             // btnRetrieveMetadata
             // 
-            this.btnRetrieveMetadata.Location = new System.Drawing.Point(765, 119);
+            this.btnRetrieveMetadata.Location = new System.Drawing.Point(765, 121);
             this.btnRetrieveMetadata.Name = "btnRetrieveMetadata";
             this.btnRetrieveMetadata.Size = new System.Drawing.Size(193, 23);
             this.btnRetrieveMetadata.TabIndex = 9;
@@ -140,49 +137,15 @@
             this.lblRetrieveFromOrg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRetrieveFromOrg.Location = new System.Drawing.Point(3, 9);
             this.lblRetrieveFromOrg.Name = "lblRetrieveFromOrg";
-            this.lblRetrieveFromOrg.Size = new System.Drawing.Size(178, 20);
+            this.lblRetrieveFromOrg.Size = new System.Drawing.Size(157, 20);
             this.lblRetrieveFromOrg.TabIndex = 0;
-            this.lblRetrieveFromOrg.Text = "From-Org Processing";
-            // 
-            // horizontalLine4
-            // 
-            this.horizontalLine4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.horizontalLine4.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.horizontalLine4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.horizontalLine4.Location = new System.Drawing.Point(-4, 469);
-            this.horizontalLine4.Name = "horizontalLine4";
-            this.horizontalLine4.Size = new System.Drawing.Size(971, 23);
-            this.horizontalLine4.TabIndex = 21;
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label2.Location = new System.Drawing.Point(-4, 379);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(971, 10);
-            this.label2.TabIndex = 23;
-            // 
-            // OpenMetadataComparison
-            // 
-            this.OpenMetadataComparison.Location = new System.Drawing.Point(12, 415);
-            this.OpenMetadataComparison.Name = "OpenMetadataComparison";
-            this.OpenMetadataComparison.Size = new System.Drawing.Size(193, 23);
-            this.OpenMetadataComparison.TabIndex = 24;
-            this.OpenMetadataComparison.Text = "Open Metadata Comparison Form";
-            this.OpenMetadataComparison.UseVisualStyleBackColor = true;
+            this.lblRetrieveFromOrg.Text = "Retrieve Metadata";
             // 
             // SalesforceMetadataStep2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(963, 836);
-            this.Controls.Add(this.OpenMetadataComparison);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.horizontalLine4);
             this.Controls.Add(this.lblRetrieveFromOrg);
             this.Controls.Add(this.btnRetrieveMetadata);
             this.Controls.Add(this.horizontalLine2);
@@ -213,8 +176,5 @@
         private System.Windows.Forms.Label horizontalLine2;
         private System.Windows.Forms.Button btnRetrieveMetadata;
         private System.Windows.Forms.Label lblRetrieveFromOrg;
-        private System.Windows.Forms.Label horizontalLine4;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button OpenMetadataComparison;
     }
 }

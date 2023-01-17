@@ -197,6 +197,18 @@ namespace SalesforceMetadata
                     getMetadataTypes("ApexComponent", packageXmlSB, members);
                     getMetadataTypes("ApexPage", packageXmlSB, members);
                     getMetadataTypes("ApexTrigger", packageXmlSB, members);
+                    getMetadataTypes("ConnectedApp", packageXmlSB, members);
+                    getMetadataTypes("CustomApplication", packageXmlSB, members);
+                    getMetadataTypes("CustomApplicationComponent", packageXmlSB, members);
+                    getMetadataTypes("CustomMetadata", packageXmlSB, members);
+                    getMetadataTypes("CustomPermissions", packageXmlSB, members);
+                    getMetadataTypes("CustomTab", packageXmlSB, members);
+                    getMetadataTypes("ExternalDataSource", packageXmlSB, members);
+                    getMetadataTypes("Flow", packageXmlSB, members);
+                    getMetadataTypes("FlowDefinition", packageXmlSB, members);
+                    getMetadataTypes("Layout", packageXmlSB, members);
+                    getMetadataTypes("NamedCredential", packageXmlSB, members);
+                    getMetadataTypes("ServicePresenceStatus", packageXmlSB, members);
 
                     if (!alreadyAdded.Contains("CustomObject"))
                     {
@@ -210,6 +222,7 @@ namespace SalesforceMetadata
                         getMetadataTypes("CustomObject", packageXmlSB, members);
                     }
 
+                    // Reset the default members to the flag for all members and add the additional types selected.
                     members = new String[1];
                     members[0] = "*";
                     getMetadataTypes(selected, packageXmlSB, members);

@@ -41,14 +41,12 @@
             this.lblFolderLocation = new System.Windows.Forms.Label();
             this.lblSaveResultsTo = new System.Windows.Forms.Label();
             this.tbSaveResultsTo = new System.Windows.Forms.TextBox();
-            this.btnGenerateConfigReportAsCSV = new System.Windows.Forms.Button();
+            this.btnGenerateConfigReportAsHTML = new System.Windows.Forms.Button();
             this.linkUnsupportedMetadataTypes = new System.Windows.Forms.LinkLabel();
             this.lblUnsupportedMetadataTypes = new System.Windows.Forms.Label();
-            this.generateConfigReportExcel = new System.Windows.Forms.Button();
             this.cwProgressBar = new System.Windows.Forms.ProgressBar();
             this.lblProgressIndicator = new System.Windows.Forms.Label();
             this.chkListBoxTasks = new System.Windows.Forms.CheckedListBox();
-            this.btnObjectAutomationMap = new System.Windows.Forms.Button();
             this.fromOrgGroup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -177,15 +175,15 @@
             this.tbSaveResultsTo.TabIndex = 4;
             this.tbSaveResultsTo.DoubleClick += new System.EventHandler(this.tbSaveResultsTo_DoubleClick);
             // 
-            // btnGenerateConfigReportAsCSV
+            // btnGenerateConfigReportAsHTML
             // 
-            this.btnGenerateConfigReportAsCSV.Location = new System.Drawing.Point(10, 248);
-            this.btnGenerateConfigReportAsCSV.Name = "btnGenerateConfigReportAsCSV";
-            this.btnGenerateConfigReportAsCSV.Size = new System.Drawing.Size(203, 28);
-            this.btnGenerateConfigReportAsCSV.TabIndex = 5;
-            this.btnGenerateConfigReportAsCSV.Text = "Save Configuration Workbook To CSV";
-            this.btnGenerateConfigReportAsCSV.UseVisualStyleBackColor = true;
-            this.btnGenerateConfigReportAsCSV.Click += new System.EventHandler(this.btnGenerateConfigReportAsCSV_Click);
+            this.btnGenerateConfigReportAsHTML.Location = new System.Drawing.Point(10, 248);
+            this.btnGenerateConfigReportAsHTML.Name = "btnGenerateConfigReportAsHTML";
+            this.btnGenerateConfigReportAsHTML.Size = new System.Drawing.Size(225, 28);
+            this.btnGenerateConfigReportAsHTML.TabIndex = 5;
+            this.btnGenerateConfigReportAsHTML.Text = "Save Configuration Workbook To HTML";
+            this.btnGenerateConfigReportAsHTML.UseVisualStyleBackColor = true;
+            this.btnGenerateConfigReportAsHTML.Click += new System.EventHandler(this.btnGenerateConfigReportAsHTML_Click);
             // 
             // linkUnsupportedMetadataTypes
             // 
@@ -206,16 +204,6 @@
             this.lblUnsupportedMetadataTypes.Size = new System.Drawing.Size(201, 13);
             this.lblUnsupportedMetadataTypes.TabIndex = 8;
             this.lblUnsupportedMetadataTypes.Text = "Salesforce Metadata Unsupported Types";
-            // 
-            // generateConfigReportExcel
-            // 
-            this.generateConfigReportExcel.Location = new System.Drawing.Point(228, 248);
-            this.generateConfigReportExcel.Name = "generateConfigReportExcel";
-            this.generateConfigReportExcel.Size = new System.Drawing.Size(203, 28);
-            this.generateConfigReportExcel.TabIndex = 6;
-            this.generateConfigReportExcel.Text = "Generate Config Workbook in Excel";
-            this.generateConfigReportExcel.UseVisualStyleBackColor = true;
-            this.generateConfigReportExcel.Click += new System.EventHandler(this.btnGenerateConfigReport_Excel_Click);
             // 
             // cwProgressBar
             // 
@@ -243,30 +231,18 @@
             this.chkListBoxTasks.Size = new System.Drawing.Size(301, 79);
             this.chkListBoxTasks.TabIndex = 12;
             // 
-            // btnObjectAutomationMap
-            // 
-            this.btnObjectAutomationMap.Location = new System.Drawing.Point(447, 248);
-            this.btnObjectAutomationMap.Name = "btnObjectAutomationMap";
-            this.btnObjectAutomationMap.Size = new System.Drawing.Size(203, 28);
-            this.btnObjectAutomationMap.TabIndex = 7;
-            this.btnObjectAutomationMap.Text = "Generate Object Automation Map";
-            this.btnObjectAutomationMap.UseVisualStyleBackColor = true;
-            this.btnObjectAutomationMap.Click += new System.EventHandler(this.btnObjectAutomationMap_Click);
-            // 
             // ConfigurationWorkbook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(927, 553);
-            this.Controls.Add(this.btnObjectAutomationMap);
             this.Controls.Add(this.chkListBoxTasks);
             this.Controls.Add(this.lblProgressIndicator);
             this.Controls.Add(this.cwProgressBar);
             this.Controls.Add(this.fromOrgGroup);
-            this.Controls.Add(this.generateConfigReportExcel);
             this.Controls.Add(this.lblUnsupportedMetadataTypes);
             this.Controls.Add(this.linkUnsupportedMetadataTypes);
-            this.Controls.Add(this.btnGenerateConfigReportAsCSV);
+            this.Controls.Add(this.btnGenerateConfigReportAsHTML);
             this.Controls.Add(this.tbSaveResultsTo);
             this.Controls.Add(this.lblSaveResultsTo);
             this.Controls.Add(this.lblFolderLocation);
@@ -296,13 +272,11 @@
         private System.Windows.Forms.Label lblFolderLocation;
         private System.Windows.Forms.Label lblSaveResultsTo;
         private System.Windows.Forms.TextBox tbSaveResultsTo;
-        private System.Windows.Forms.Button btnGenerateConfigReportAsCSV;
+        private System.Windows.Forms.Button btnGenerateConfigReportAsHTML;
         private System.Windows.Forms.LinkLabel linkUnsupportedMetadataTypes;
         private System.Windows.Forms.Label lblUnsupportedMetadataTypes;
-        private System.Windows.Forms.Button generateConfigReportExcel;
         private System.Windows.Forms.ProgressBar cwProgressBar;
         private System.Windows.Forms.Label lblProgressIndicator;
         private System.Windows.Forms.CheckedListBox chkListBoxTasks;
-        private System.Windows.Forms.Button btnObjectAutomationMap;
     }
 }

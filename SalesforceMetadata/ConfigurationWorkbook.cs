@@ -562,6 +562,7 @@ namespace SalesforceMetadata
                 sw.WriteLine("</div>");
             }
 
+
             XmlNodeList custom = xd.GetElementsByTagName("custom");
             if (custom.Count > 0)
             {
@@ -574,6 +575,7 @@ namespace SalesforceMetadata
                 sw.WriteLine("</span>");
                 sw.WriteLine("</div>");
             }
+
 
             XmlNodeList userLicense = xd.GetElementsByTagName("userLicense");
             if (userLicense.Count > 0)
@@ -588,6 +590,7 @@ namespace SalesforceMetadata
                 sw.WriteLine("</div>");
             }
 
+
             XmlNodeList fullName = xd.GetElementsByTagName("fullName");
             if (fullName.Count > 0)
             {
@@ -600,6 +603,7 @@ namespace SalesforceMetadata
                 sw.WriteLine("</span>");
                 sw.WriteLine("</div>");
             }
+
 
             XmlNodeList label = xd.GetElementsByTagName("label");
             if (label.Count > 0)
@@ -614,6 +618,7 @@ namespace SalesforceMetadata
                 sw.WriteLine("</div>");
             }
 
+
             XmlNodeList license = xd.GetElementsByTagName("license");
             if (license.Count > 0)
             {
@@ -627,6 +632,7 @@ namespace SalesforceMetadata
                 sw.WriteLine("</div>");
             }
 
+
             XmlNodeList hasActivationRequired = xd.GetElementsByTagName("hasActivationRequired");
             if (hasActivationRequired.Count > 0)
             {
@@ -639,6 +645,7 @@ namespace SalesforceMetadata
                 sw.WriteLine("</span>");
                 sw.WriteLine("</div>");
             }
+
 
             XmlNodeList userPermissions = xd.GetElementsByTagName("userPermissions");
             if (userPermissions.Count > 0)
@@ -666,6 +673,7 @@ namespace SalesforceMetadata
                     sw.WriteLine("</div>");
                 }
             }
+
 
             // Object permissions
             XmlNodeList objectPermissions = xd.GetElementsByTagName("objectPermissions");
@@ -737,6 +745,7 @@ namespace SalesforceMetadata
                     sw.WriteLine("</div>");
                 }
             }
+
 
             // Field Permissions
             List<String> objectTitleWritten = new List<string>();
@@ -953,6 +962,7 @@ namespace SalesforceMetadata
                 }
             }
 
+
             XmlNodeList layoutAssignments = xd.GetElementsByTagName("layoutAssignments");
             if (layoutAssignments.Count > 0)
             {
@@ -1004,6 +1014,38 @@ namespace SalesforceMetadata
                 }
             }
 
+
+            XmlNodeList flowAccesses = xd.GetElementsByTagName("flowAccesses");
+            if (flowAccesses.Count > 0)
+            {
+                sw.WriteLine("<br />");
+
+                sw.WriteLine("<div>");
+                sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth400\">");
+                sw.WriteLine("Flow Name");
+                sw.WriteLine("</span>");
+                sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth120 textAlignCenter\">");
+                sw.WriteLine("Enabled");
+                sw.WriteLine("</span>");
+                sw.WriteLine("</div>");
+
+                foreach (XmlNode nd1 in flowAccesses)
+                {
+                    sw.WriteLine("<div>");
+
+                    sw.WriteLine("<span class=\"objectValues fieldBackgroundGray columnWidth400 fontItalic textAlignLeft\">");
+                    sw.WriteLine(nd1.ChildNodes[1].InnerText);
+                    sw.WriteLine("</span>");
+
+                    sw.WriteLine(checkTrueFalseValueForCSS(nd1.ChildNodes[0].InnerText));
+                    sw.WriteLine(nd1.ChildNodes[0].InnerText);
+                    sw.WriteLine("</span>");
+
+                    sw.WriteLine("</div>");
+                }
+            }
+
+
             XmlNodeList classAccesses = xd.GetElementsByTagName("classAccesses");
             if (classAccesses.Count > 0)
             {
@@ -1033,6 +1075,7 @@ namespace SalesforceMetadata
                     sw.WriteLine("</div>");
                 }
             }
+
 
             XmlNodeList pageAccesses = xd.GetElementsByTagName("pageAccesses");
             if (pageAccesses.Count > 0)

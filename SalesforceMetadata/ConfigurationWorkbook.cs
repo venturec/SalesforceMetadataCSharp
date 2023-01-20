@@ -36,161 +36,9 @@ namespace SalesforceMetadata
 
     public partial class ConfigurationWorkbook : System.Windows.Forms.Form
     {
-        private Dictionary<String, String> usernameToSecurityToken;
-
-        //private Dictionary<String, List<String>> objectNodesToValues2;
-        //private Dictionary<String, Dictionary<String, List<String>>> objectNodesToValues3;
-        //private Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>> objectNodesToValues4;
-        //private Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>> objectNodesToValues5;
-        //private Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> objectNodesToValues6;
-        //private Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>> objectNodesToValues7;
-        //private Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>>> objectNodesToValues8;
-        //private Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>>>> objectNodesToValues9;
-
-        private List<String> node2ColumnNamesWritten;
-
         public ConfigurationWorkbook()
         {
             InitializeComponent();
-            populateCredentialsFile();
-        }
-
-        private void populateCredentialsFile()
-        {
-            Boolean encryptionFileSettingsPopulated = true;
-            if (Properties.Settings.Default.UserAndAPIFileLocation == ""
-            || Properties.Settings.Default.SharedSecretLocation == "")
-            {
-                encryptionFileSettingsPopulated = false;
-            }
-
-            if (encryptionFileSettingsPopulated == false)
-            {
-                MessageBox.Show("Please populate the fields in the Settings from the Landing Page first, then use this form to download the Metadata.");
-                return;
-            }
-
-            SalesforceCredentials.usernamePartnerUrl = new Dictionary<String, String>();
-            SalesforceCredentials.usernameMetadataUrl = new Dictionary<String, String>();
-            SalesforceCredentials.usernameToolingWsdlUrl = new Dictionary<String, String>();
-            SalesforceCredentials.isProduction = new Dictionary<String, Boolean>();
-            SalesforceCredentials.defaultWsdlObjects = new Dictionary<String, List<String>>();
-
-            // Decrypt the contents of the file and place in an XML Document format
-            StreamReader encryptedContents = new StreamReader(Properties.Settings.Default.UserAndAPIFileLocation);
-            StreamReader sharedSecret = new StreamReader(Properties.Settings.Default.SharedSecretLocation);
-            String decryptedContents = Crypto.DecryptString(encryptedContents.ReadToEnd(),
-                                                            sharedSecret.ReadToEnd(),
-                                                            Properties.Settings.Default.Salt);
-
-            encryptedContents.Close();
-            sharedSecret.Close();
-
-            XmlDocument sfUser = new XmlDocument();
-            sfUser.LoadXml(decryptedContents);
-
-            XmlNodeList documentNodes = sfUser.GetElementsByTagName("usersetting");
-
-            this.usernameToSecurityToken = new Dictionary<string, string>();
-
-            for (int i = 0; i < documentNodes.Count; i++)
-            {
-                String username = "";
-                String partnerWsdlUrl = "";
-                String metadataWdldUrl = "";
-                String toolingWsdlUrl = "";
-                Boolean isProd = false;
-                List<String> defaultWsdlObjectList = new List<String>();
-                foreach (XmlNode childNode in documentNodes[i].ChildNodes)
-                {
-                    if (childNode.Name == "username")
-                    {
-                        username = childNode.InnerText;
-                    }
-
-                    if (childNode.Name == "securitytoken")
-                    {
-                        usernameToSecurityToken.Add(username, childNode.InnerText);
-                    }
-
-                    if (childNode.Name == "isproduction")
-                    {
-                        isProd = Convert.ToBoolean(childNode.InnerText);
-                    }
-
-                    if (childNode.Name == "partnerwsdlurl")
-                    {
-                        partnerWsdlUrl = childNode.InnerText;
-                    }
-
-                    if (childNode.Name == "metadatawsdlurl")
-                    {
-                        metadataWdldUrl = childNode.InnerText;
-                    }
-
-                    if (childNode.Name == "toolingwsdlurl")
-                    {
-                        toolingWsdlUrl = childNode.InnerText;
-                    }
-
-                    if (childNode.Name == "defaultpackages" && childNode.HasChildNodes)
-                    {
-                        XmlNodeList defObjects = childNode.ChildNodes;
-                        foreach (XmlNode obj in defObjects)
-                        {
-                            defaultWsdlObjectList.Add(obj.InnerText);
-                        }
-                    }
-                }
-
-                SalesforceCredentials.usernamePartnerUrl.Add(username, partnerWsdlUrl);
-                SalesforceCredentials.usernameMetadataUrl.Add(username, metadataWdldUrl);
-                SalesforceCredentials.isProduction.Add(username, isProd);
-
-                if (defaultWsdlObjectList.Count > 0)
-                {
-                    SalesforceCredentials.defaultWsdlObjects.Add(username, defaultWsdlObjectList);
-                }
-
-                if (toolingWsdlUrl != "")
-                {
-                    SalesforceCredentials.usernameToolingWsdlUrl.Add(username, toolingWsdlUrl);
-                }
-            }
-
-            populateUserNames();
-        }
-
-
-        private void populateUserNames()
-        {
-            foreach (String un in SalesforceCredentials.usernamePartnerUrl.Keys)
-            {
-                this.cmbUserName.Items.Add(un);
-            }
-        }
-
-        private void cmbUserName_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
-            {
-                this.lblSalesforce.Text = "Salesforce";
-                this.Text = "Salesforce Production";
-            }
-            else
-            {
-                this.lblSalesforce.Text = "Salesforce Sandbox";
-                String[] userNamesplit = this.cmbUserName.Text.Split('.');
-                this.Text = "Salesforce " + userNamesplit[userNamesplit.Length - 1].ToUpper();
-            }
-
-            this.tbSecurityToken.Text = "";
-            if (this.usernameToSecurityToken.ContainsKey(this.cmbUserName.Text))
-            {
-                this.tbSecurityToken.Text = this.usernameToSecurityToken[cmbUserName.Text];
-            }
-
-            this.tbPassword.Text = "";
         }
 
         private void tbSelectedFolder_DoubleClick(object sender, EventArgs e)
@@ -216,8 +64,6 @@ namespace SalesforceMetadata
                 MessageBox.Show("Please select a file to save the results to");
                 return;
             }
-
-            node2ColumnNamesWritten = new List<string>(); 
 
             // Bypass Aura and LWC folders
             String[] folders = Directory.GetDirectories(tbSelectedFolder.Text);
@@ -411,32 +257,6 @@ namespace SalesforceMetadata
                                 " }");
 
             styleFile.Close();
-        }
-
-        private String fullObjectNameExtract(String fileNameWithPath)
-        {
-            String objectName = "";
-            String[] fileParse = fileNameWithPath.Split('\\');
-            String[] fileName = fileParse[fileParse.Length - 1].Split('.');
-
-            if (fileName.Length > 2)
-            {
-                for (Int32 i = 0; i < fileName.Length - 1; i++)
-                {
-                    objectName = objectName + fileName[i] + "_";
-                }
-            }
-            else
-            {
-                objectName = fileName[0];
-            }
-
-            if (objectName.EndsWith("_"))
-            {
-                objectName = objectName.Substring(0, objectName.Length - 1);
-            }
-
-            return objectName;
         }
 
         private String directoryNameExtract(String folderNameWithPath)
@@ -1347,35 +1167,6 @@ namespace SalesforceMetadata
             return returnValue;
         }
 
-        private String checkObjectNameLength(String folderName, String objName, Dictionary<String, Int32> fileNames)
-        {
-            //String combinedName = folderName + "_" + objName;
-
-            String combinedName = objName;
-            String shortName = "";
-
-            if (combinedName.Length > 30)
-            {
-                shortName = combinedName.Substring(0, 28);
-            }
-            else
-            {
-                shortName = combinedName;
-            }
-
-            if (fileNames.ContainsKey(shortName.ToLower()))
-            {
-                fileNames[shortName.ToLower()] = fileNames[shortName.ToLower()] + 1;
-                shortName = shortName + "_" + fileNames[shortName.ToLower()].ToString();
-            }
-            else
-            {
-                fileNames.Add(shortName.ToLower(), 1);
-            }
-
-            return shortName;
-        }
-
         private List<String> getObjectTopFieldNames(String directoryName)
         {
             List<String> xmlTopNodeNames = new List<String>();
@@ -2078,35 +1869,6 @@ namespace SalesforceMetadata
             sw.WriteLine("</span>");
             sw.WriteLine("</div>");
         }
-
-        private void writeChildnodesPlusValues(XmlNode nd, StreamWriter sw)
-        {
-        }
-
-        private void writeInnerTextValues(XmlNode nd, StreamWriter sw)
-        {
-            
-        }
-
-        private StreamWriter getFileStream(String directoryName, String fileName)
-        {
-            StreamWriter sw;
-
-            if (File.Exists(this.tbSaveResultsTo.Text + "\\" + directoryName + fileName))
-            {
-                sw = new StreamWriter(this.tbSaveResultsTo.Text + "\\" + directoryName + fileName, true);
-            }
-            else
-            {
-                sw = new StreamWriter(this.tbSaveResultsTo.Text + "\\" + directoryName + fileName, true);
-                sw.WriteLine("\"ObjectName\",\"ObjectType\",\"PrimaryKey\",\"ForeignKey\",\"ParentTag\"");
-            }
-
-            return sw;
-        }
-
-
-
 
     }
 }

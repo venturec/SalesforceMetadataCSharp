@@ -217,16 +217,6 @@ namespace SalesforceMetadata
                 return;
             }
 
-            // Instantiate new Dictionaries
-            //objectNodesToValues2 = new Dictionary<String, List<String>>();
-            //objectNodesToValues3 = new Dictionary<String, Dictionary<String, List<String>>>();
-            //objectNodesToValues4 = new Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>();
-            //objectNodesToValues5 = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>();
-            //objectNodesToValues6 = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>();
-            //objectNodesToValues7 = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>>();
-            //objectNodesToValues8 = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>>>();
-            //objectNodesToValues9 = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>>>>();
-
             node2ColumnNamesWritten = new List<string>(); 
 
             // Bypass Aura and LWC folders
@@ -282,6 +272,7 @@ namespace SalesforceMetadata
             
             swSummary.WriteLine("</tbody>" + Environment.NewLine);
             swSummary.WriteLine("</table>" + Environment.NewLine);
+
             swSummary.WriteLine("</body>");
             swSummary.WriteLine("</html>");
 
@@ -296,6 +287,29 @@ namespace SalesforceMetadata
 
             styleFile.WriteLine("div { display:block; height:28.656px }");
             styleFile.WriteLine("a, a:hover, a:active, a:visited { color: white; }");
+
+            styleFile.WriteLine(".accordion {" +
+                                " background-color: #3F62AE;" +
+                                " cursor: pointer;" +
+                                " width:100%;" +
+                                " border: none;" +
+                                " text-align:left;" +
+                                " color:#ECF0F1;" +
+                                " outline:none;" +
+                                " font-size: 14pt;" +
+                                " transition: 0.4s;" +
+                                "}");
+
+            styleFile.WriteLine(".active, .accordion:hover {" +
+                                " background-color: #ccc;" +
+                                "}");
+
+            styleFile.WriteLine(".panel {" +
+                                " padding: 0 18px;" +
+                                " display: none;" +
+                                " background-color: white;" +
+                                " overflow: hidden;" +
+                                "}");
 
             styleFile.WriteLine(".fontNormal{ font-style:normal; }");
             styleFile.WriteLine(".fontItalic{ font-style:italic; }");
@@ -508,18 +522,6 @@ namespace SalesforceMetadata
             sw.WriteLine("</head>");
             sw.WriteLine("<body>");
 
-            /*
-            List<String> mdtFields = new List<string>();
-            if (directoryName == "settings")
-            {
-                mdtFields = getObjectTopFieldNames(directoryName, fileName);
-            }
-            else
-            {
-                mdtFields = getObjectTopFieldNames(directoryName);
-            }
-            */
-
             foreach (XmlNode nd1 in xd.ChildNodes)
             {
                 if (nd1.LocalName == "xml")
@@ -541,11 +543,14 @@ namespace SalesforceMetadata
                 }
             }
 
+            sw.WriteLine("<script>\r\n");
+            sw.WriteLine("var acc = document.getElementsByClassName(\"accordion\"); \r\n var i; \r\n for (i = 0; i < acc.length; i++) { \r\n acc[i].addEventListener(\"click\", function() { \r\n this.classList.toggle(\"active\"); \r\n var panel = this.nextElementSibling; \r\n if (panel.style.display === \"contents\") { \r\n panel.style.display=\"none\"; \r\n } else { \r\n panel.style.display=\"contents\"; \r\n } \r\n }); \r\n}");
+            sw.WriteLine("</script>");
+
             sw.WriteLine("</body>");
             sw.WriteLine("</html>");
             sw.Close();
         }
-
 
         private void writeProfilePermissionSetsToHtml(XmlDocument xd, StreamWriter sw)
         {
@@ -554,7 +559,7 @@ namespace SalesforceMetadata
             {
                 sw.WriteLine("<div>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth300\">");
-                sw.WriteLine("description");
+                sw.WriteLine("Description");
                 sw.WriteLine("</span>");
                 sw.WriteLine("<span class=\"objectValues fieldBackgroundGray columnWidth630\">");
                 sw.WriteLine(description[0].InnerText);
@@ -568,7 +573,7 @@ namespace SalesforceMetadata
             {
                 sw.WriteLine("<div>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth300\">");
-                sw.WriteLine("custom");
+                sw.WriteLine("Custom");
                 sw.WriteLine("</span>");
                 sw.WriteLine("<span class=\"objectValues fieldBackgroundGray columnWidth630 fontItalic\">");
                 sw.WriteLine(custom[0].InnerText);
@@ -582,7 +587,7 @@ namespace SalesforceMetadata
             {
                 sw.WriteLine("<div>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth300\">");
-                sw.WriteLine("userLicense");
+                sw.WriteLine("User License");
                 sw.WriteLine("</span>");
                 sw.WriteLine("<span class=\"objectValues fieldBackgroundGray columnWidth630 fontItalic\">");
                 sw.WriteLine(userLicense[0].InnerText);
@@ -596,7 +601,7 @@ namespace SalesforceMetadata
             {
                 sw.WriteLine("<div>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth300\">");
-                sw.WriteLine("fullName");
+                sw.WriteLine("Full Name");
                 sw.WriteLine("</span>");
                 sw.WriteLine("<span class=\"objectValues fieldBackgroundGray columnWidth630 fontItalic\">");
                 sw.WriteLine(fullName[0].InnerText);
@@ -610,7 +615,7 @@ namespace SalesforceMetadata
             {
                 sw.WriteLine("<div>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth300\">");
-                sw.WriteLine("label");
+                sw.WriteLine("Label");
                 sw.WriteLine("</span>");
                 sw.WriteLine("<span class=\"objectValues fieldBackgroundGray columnWidth630 fontItalic\">");
                 sw.WriteLine(label[0].InnerText);
@@ -638,7 +643,7 @@ namespace SalesforceMetadata
             {
                 sw.WriteLine("<div>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth300\">");
-                sw.WriteLine("hasActivationRequired");
+                sw.WriteLine("Has Activation Required");
                 sw.WriteLine("</span>");
                 sw.WriteLine("<span class=\"objectValues fieldBackgroundGray columnWidth630 fontItalic\">");
                 sw.WriteLine(hasActivationRequired[0].InnerText);
@@ -651,6 +656,10 @@ namespace SalesforceMetadata
             if (userPermissions.Count > 0)
             {
                 sw.WriteLine("<br />");
+                sw.WriteLine("<br />");
+
+                sw.WriteLine("<button class=\"accordion\">User Permission</button>");
+                sw.WriteLine("<div class=\"panel\">");
 
                 sw.WriteLine("<div>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth400\">");
@@ -672,6 +681,8 @@ namespace SalesforceMetadata
                     sw.WriteLine("</span>");
                     sw.WriteLine("</div>");
                 }
+
+                sw.WriteLine("</div>");
             }
 
 
@@ -680,6 +691,10 @@ namespace SalesforceMetadata
             if (objectPermissions.Count > 0)
             {
                 sw.WriteLine("<br />");
+                sw.WriteLine("<br />");
+
+                sw.WriteLine("<button class=\"accordion\">Object Permissions</button>");
+                sw.WriteLine("<div class=\"panel\">");
 
                 sw.WriteLine("<div>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth400\">");
@@ -744,6 +759,8 @@ namespace SalesforceMetadata
 
                     sw.WriteLine("</div>");
                 }
+
+                sw.WriteLine("</div>");
             }
 
 
@@ -753,6 +770,10 @@ namespace SalesforceMetadata
             if (fieldPermissions.Count > 0)
             {
                 sw.WriteLine("<br />");
+                sw.WriteLine("<br />");
+
+                sw.WriteLine("<button class=\"accordion\">Field Permissions</button>");
+                sw.WriteLine("<div class=\"panel\">");
 
                 foreach (XmlNode nd1 in fieldPermissions)
                 {
@@ -794,6 +815,8 @@ namespace SalesforceMetadata
                     sw.WriteLine("</span>");
                     sw.WriteLine("</div>");
                 }
+
+                sw.WriteLine("</div>");
             }
 
 
@@ -802,6 +825,10 @@ namespace SalesforceMetadata
             if (recordTypeVisibilities.Count > 0)
             {
                 sw.WriteLine("<br />");
+                sw.WriteLine("<br />");
+
+                sw.WriteLine("<button class=\"accordion\">Record Type Visibilities</button>");
+                sw.WriteLine("<div class=\"panel\">");
 
                 sw.WriteLine("<div>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth400\">");
@@ -888,6 +915,8 @@ namespace SalesforceMetadata
 
                     sw.WriteLine("</div>");
                 }
+
+                sw.WriteLine("</div>");
             }
 
 
@@ -895,10 +924,14 @@ namespace SalesforceMetadata
             if (applicationVisibilities.Count > 0)
             {
                 sw.WriteLine("<br />");
+                sw.WriteLine("<br />");
+
+                sw.WriteLine("<button class=\"accordion\">Application Visibilities</button>");
+                sw.WriteLine("<div class=\"panel\">");
 
                 sw.WriteLine("<div>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth400\">");
-                sw.WriteLine("Application Visibilities");
+                sw.WriteLine("Application");
                 sw.WriteLine("</span>");
                 sw.WriteLine("<span class=\"objectValues fieldBackgroundGray columnWidth120 fontItalic textAlignCenter\">");
                 sw.WriteLine("Visible");
@@ -933,16 +966,22 @@ namespace SalesforceMetadata
 
                     sw.WriteLine("</div>");
                 }
+
+                sw.WriteLine("</div>");
             }
 
             XmlNodeList tabVisibilities = xd.GetElementsByTagName("tabVisibilities");
             if (tabVisibilities.Count > 0)
             {
                 sw.WriteLine("<br />");
+                sw.WriteLine("<br />");
+
+                sw.WriteLine("<button class=\"accordion\">Tab Visibilities</button>");
+                sw.WriteLine("<div class=\"panel\">");
 
                 sw.WriteLine("<div>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth400\">");
-                sw.WriteLine("Tab Visibilities");
+                sw.WriteLine("Tab Name");
                 sw.WriteLine("</span>");
                 sw.WriteLine("<span class=\"objectValues fieldBackgroundGray columnWidth120 fontItalic textAlignCenter\">");
                 sw.WriteLine("Visibility");
@@ -960,6 +999,8 @@ namespace SalesforceMetadata
                     sw.WriteLine("</span>");
                     sw.WriteLine("</div>");
                 }
+
+                sw.WriteLine("</div>");
             }
 
 
@@ -967,11 +1008,12 @@ namespace SalesforceMetadata
             if (layoutAssignments.Count > 0)
             {
                 sw.WriteLine("<br />");
+                sw.WriteLine("<br />");
+
+                sw.WriteLine("<button class=\"accordion\">Layout Assignments</button>");
+                sw.WriteLine("<div class=\"panel\">");
 
                 sw.WriteLine("<div>");
-                sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth256\">");
-                sw.WriteLine("Layout Assignments");
-                sw.WriteLine("</span>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth400\">");
                 sw.WriteLine("Layout Name");
                 sw.WriteLine("</span>");
@@ -986,9 +1028,6 @@ namespace SalesforceMetadata
                 foreach (XmlNode nd1 in layoutAssignments)
                 {
                     sw.WriteLine("<div>");
-                    sw.WriteLine("<span class=\"columnWidth256 displayInlineBlock\">");
-                    sw.WriteLine("&nbsp;");
-                    sw.WriteLine("</span>");
 
                     if (nd1.ChildNodes.Count == 1)
                     {
@@ -1012,6 +1051,8 @@ namespace SalesforceMetadata
 
                     sw.WriteLine("</div>");
                 }
+
+                sw.WriteLine("</div>");
             }
 
 
@@ -1019,6 +1060,10 @@ namespace SalesforceMetadata
             if (flowAccesses.Count > 0)
             {
                 sw.WriteLine("<br />");
+                sw.WriteLine("<br />");
+
+                sw.WriteLine("<button class=\"accordion\">Flow Access</button>");
+                sw.WriteLine("<div class=\"panel\">");
 
                 sw.WriteLine("<div>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth400\">");
@@ -1043,6 +1088,8 @@ namespace SalesforceMetadata
 
                     sw.WriteLine("</div>");
                 }
+
+                sw.WriteLine("</div>");
             }
 
 
@@ -1050,10 +1097,14 @@ namespace SalesforceMetadata
             if (classAccesses.Count > 0)
             {
                 sw.WriteLine("<br />");
+                sw.WriteLine("<br />");
+
+                sw.WriteLine("<button class=\"accordion\">Apex Class Access</button>");
+                sw.WriteLine("<div class=\"panel\">");
 
                 sw.WriteLine("<div>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth400\">");
-                sw.WriteLine("Apex Class");
+                sw.WriteLine("Apex Class Name");
                 sw.WriteLine("</span>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth120 textAlignCenter\">");
                 sw.WriteLine("Enabled");
@@ -1074,6 +1125,8 @@ namespace SalesforceMetadata
 
                     sw.WriteLine("</div>");
                 }
+
+                sw.WriteLine("</div>");
             }
 
 
@@ -1081,10 +1134,14 @@ namespace SalesforceMetadata
             if (pageAccesses.Count > 0)
             {
                 sw.WriteLine("<br />");
+                sw.WriteLine("<br />");
+
+                sw.WriteLine("<button class=\"accordion\">Apex Page Access</button>");
+                sw.WriteLine("<div class=\"panel\">");
 
                 sw.WriteLine("<div>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth400\">");
-                sw.WriteLine("Apex Page");
+                sw.WriteLine("Apex Page Name");
                 sw.WriteLine("</span>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth120 textAlignCenter\">");
                 sw.WriteLine("Enabled");
@@ -1105,6 +1162,8 @@ namespace SalesforceMetadata
 
                     sw.WriteLine("</div>");
                 }
+
+                sw.WriteLine("</div>");
             }
 
 
@@ -1112,6 +1171,10 @@ namespace SalesforceMetadata
             if (customSettingAccesses.Count > 0)
             {
                 sw.WriteLine("<br />");
+                sw.WriteLine("<br />");
+
+                sw.WriteLine("<button class=\"accordion\">Custom Setting Access</button>");
+                sw.WriteLine("<div class=\"panel\">");
 
                 sw.WriteLine("<div>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth400\">");
@@ -1136,6 +1199,8 @@ namespace SalesforceMetadata
 
                     sw.WriteLine("</div>");
                 }
+
+                sw.WriteLine("</div>");
             }
 
 
@@ -1143,6 +1208,10 @@ namespace SalesforceMetadata
             if (customMetadataTypeAccesses.Count > 0)
             {
                 sw.WriteLine("<br />");
+                sw.WriteLine("<br />");
+
+                sw.WriteLine("<button class=\"accordion\">Custom Metadata Type Name</button>");
+                sw.WriteLine("<div class=\"panel\">");
 
                 sw.WriteLine("<div>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth400\">");
@@ -1167,6 +1236,8 @@ namespace SalesforceMetadata
 
                     sw.WriteLine("</div>");
                 }
+
+                sw.WriteLine("</div>");
             }
 
 
@@ -1174,10 +1245,14 @@ namespace SalesforceMetadata
             if (customPermissions.Count > 0)
             {
                 sw.WriteLine("<br />");
+                sw.WriteLine("<br />");
+
+                sw.WriteLine("<button class=\"accordion\">Custom Permissions</button>");
+                sw.WriteLine("<div class=\"panel\">");
 
                 sw.WriteLine("<div>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth400\">");
-                sw.WriteLine("Custom Permissions");
+                sw.WriteLine("Custom Permissions Name");
                 sw.WriteLine("</span>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth120 textAlignCenter\">");
                 sw.WriteLine("Enabled");
@@ -1198,6 +1273,8 @@ namespace SalesforceMetadata
 
                     sw.WriteLine("</div>");
                 }
+
+                sw.WriteLine("</div>");
             }
 
 
@@ -1205,6 +1282,10 @@ namespace SalesforceMetadata
             if (categoryGroupVisibilities.Count > 0)
             {
                 sw.WriteLine("<br />");
+                sw.WriteLine("<br />");
+
+                sw.WriteLine("<button class=\"accordion\">Data Category Group Visibilities</button>");
+                sw.WriteLine("<div class=\"panel\">");
 
                 sw.WriteLine("<div>");
                 sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth400\">");
@@ -1229,6 +1310,8 @@ namespace SalesforceMetadata
 
                     sw.WriteLine("</div>");
                 }
+
+                sw.WriteLine("</div>");
             }
         }
 

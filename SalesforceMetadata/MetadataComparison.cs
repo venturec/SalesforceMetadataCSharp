@@ -1748,7 +1748,7 @@ namespace SalesforceMetadata
 
             if (this.cmbExportType.Text == "Export All to CSV")
             {
-                exportToCSV();
+                exportToCSV(false);
             }
             else if (this.cmbExportType.Text == "Export All to Excel")
             {
@@ -1761,7 +1761,7 @@ namespace SalesforceMetadata
             }
             else if (this.cmbExportType.Text == "Export Selected to CSV")
             {
-
+                exportToCSV(true);
             }
             else if (this.cmbExportType.Text == "Export Selected to Excel")
             {
@@ -1772,7 +1772,7 @@ namespace SalesforceMetadata
         }
 
 
-        private void exportToCSV()
+        private void exportToCSV(Boolean exportSelected)
         {
             String[] folderPathName = this.tbFromFolder.Text.Split('\\');
 
@@ -1818,10 +1818,23 @@ namespace SalesforceMetadata
             sw.Write("XML Value");
             sw.Write(Environment.NewLine);
 
+            Boolean continueLoop = true;
+
             foreach (TreeNode tnd1 in this.treeViewDifferences.Nodes)
             {
                 foreach (TreeNode tnd2 in tnd1.Nodes)
                 {
+                    if (exportSelected && tnd2.Checked == true)
+                    {
+                        continueLoop = true;
+                    }
+                    else if (exportSelected && tnd2.Checked == false)
+                    {
+                        continueLoop = false;
+                    }
+
+                    if (continueLoop == false) continue;
+
                     // Use the object variable as the Key
                     // Exceptions will be Aura and LWC Components
                     String tnd2ObjectNewOrUpdated = "";

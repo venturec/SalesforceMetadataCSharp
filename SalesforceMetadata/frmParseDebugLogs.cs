@@ -17,7 +17,7 @@ namespace SalesforceMetadata
         // SUMMARY: The only instances where a new TAB will be added to the text file are when it is a CODE_UNIT_STARTED and METHOD_ENTRY
 
         // Key is the event tag, value is the tab number. It can be 0 for no tab, 1 to increment the tab count or -1 to decrement the tab count
-        private HashSet<String> debugEventTags;
+        //private HashSet<String> debugEventTags;
 
 
         // The last event tag placed here is what will be searched for.
@@ -44,6 +44,7 @@ namespace SalesforceMetadata
             InitializeComponent();
         }
 
+        /*
         private void allocateEventTagsToDictinary()
         {
             //CheckedListBox.CheckedItemCollection itemsColl = this.parseSpecifics.CheckedItems;
@@ -204,8 +205,8 @@ namespace SalesforceMetadata
                 debugEventTags.Add("VARIABLE_SCOPE_BEGIN");
                 debugEventTags.Add("VARIABLE_ASSIGNMENT");
             }
-
         }
+        */
 
         private void tbDebugFile_DoubleClick(object sender, EventArgs e)
         {
@@ -226,7 +227,7 @@ namespace SalesforceMetadata
                 return;
             }
 
-            allocateEventTagsToDictinary();
+            //allocateEventTagsToDictinary();
 
             String[] fileNameSplit = this.tbDebugFile.Text.Split(char.Parse("\\"));
             String folderSaveLocation = "";
@@ -445,6 +446,21 @@ namespace SalesforceMetadata
                             columnElements = line.Split(char.Parse("|"));
                         }
                     }
+                    else if (columnElements[1] == DebugEventTags.FLOW_ACTIONCALL_DETAIL)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_ASSIGNMENT_DETAIL)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_BULK_ELEMENT_BEGIN)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_BULK_ELEMENT_DETAIL)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_BULK_ELEMENT_END)
+                    {
+                    }
                     else if (columnElements[1] == DebugEventTags.FLOW_CREATE_INTERVIEW_BEGIN)
                     {
                         debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
@@ -461,6 +477,36 @@ namespace SalesforceMetadata
                     else if (columnElements[1] == DebugEventTags.FLOW_CREATE_INTERVIEW_END)
                     {
                         if (tabCount > 0) tabCount--;
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_CREATE_INTERVIEW_ERROR)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_ELEMENT_BEGIN)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_ELEMENT_END)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_ELEMENT_ERROR)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_ELEMENT_FAULT)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_LOOP_DETAIL)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_RULE_DETAIL)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_START_INTERVIEWS_BEGIN)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_START_INTERVIEWS_END)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_START_INTERVIEWS_ERROR)
+                    {
                     }
                     else if (columnElements[1] == DebugEventTags.FLOW_START_INTERVIEW_BEGIN)
                     {
@@ -485,6 +531,12 @@ namespace SalesforceMetadata
                     else if (columnElements[1] == DebugEventTags.FLOW_START_INTERVIEW_END)
                     {
                         if (tabCount > 0) tabCount--;
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_SUBFLOW_DETAIL)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_VALUE_ASSIGNMENT)
+                    {
                     }
                     else if (columnElements[1] == DebugEventTags.HEAP_ALLOCATE)
                     {
@@ -524,6 +576,12 @@ namespace SalesforceMetadata
                         debugSW.Write("METHOD_EXIT");
                         debugSW.Write(Environment.NewLine);
                     }
+                    else if (columnElements[1] == DebugEventTags.SAVEPOINT_ROLLBACK)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.SAVEPOINT_SET)
+                    {
+                    }
                     else if (columnElements[1] == DebugEventTags.SOQL_EXECUTE_BEGIN)
                     {
                         debugSW.Write(tabCount.ToString() + " | " + columnElements[0].ToString() + " | ");
@@ -549,6 +607,12 @@ namespace SalesforceMetadata
                     {
                         if (tabCount > 0) tabCount--;
                     }
+                    else if (columnElements[1] == DebugEventTags.SOSL_EXECUTE_BEGIN)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.SOSL_EXECUTE_END)
+                    {
+                    }
                     else if (columnElements[1] == DebugEventTags.STATEMENT_EXECUTE)
                     {
 
@@ -566,7 +630,7 @@ namespace SalesforceMetadata
 
                         for (Int32 ce = 0; ce < columnElements.Length; ce++)
                         {
-                            if(ce == 2) debugSW.Write(columnElements[ce] + " ");
+                            if (ce == 2) debugSW.Write(columnElements[ce] + " ");
                             if (ce > 3) debugSW.Write(columnElements[ce] + " ");
                         }
 
@@ -575,6 +639,18 @@ namespace SalesforceMetadata
                     else if (columnElements[1] == DebugEventTags.USER_INFO)
                     {
 
+                    }
+                    else if (columnElements[1] == DebugEventTags.VALIDATION_ERROR)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.VALIDATION_FAIL)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.VALIDATION_FORMULA)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.VALIDATION_RULE)
+                    {
                     }
                     else if (columnElements[1] == DebugEventTags.VARIABLE_ASSIGNMENT)
                     {
@@ -591,7 +667,7 @@ namespace SalesforceMetadata
 
                         for (Int32 ce = 0; ce < columnElements.Length; ce++)
                         {
-                            if(ce > 1) debugSW.Write(columnElements[ce] + " ");
+                            if (ce > 1) debugSW.Write(columnElements[ce] + " ");
                         }
 
                         debugSW.Write(Environment.NewLine);
@@ -612,11 +688,23 @@ namespace SalesforceMetadata
 
                         for (Int32 ce = 0; ce < columnElements.Length; ce++)
                         {
-                            if(ce > 1) debugSW.Write(columnElements[ce] + " ");
+                            if (ce > 1) debugSW.Write(columnElements[ce] + " ");
                         }
 
                         debugSW.Write(Environment.NewLine);
 
+                    }
+                    else if (columnElements[1] == DebugEventTags.VARIABLE_SCOPE_END)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.WF_EMAIL_ALERT)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.WF_EMAIL_SENT)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.WF_FIELD_UPDATE)
+                    {
                     }
                     else if (columnElements[1] == DebugEventTags.WF_FLOW_ACTION_BEGIN)
                     {
@@ -646,12 +734,6 @@ namespace SalesforceMetadata
 
         }
 
-
-        public void writeTablesToStream(Int32 tabCount)
-        {
-
-        }
-
         public class DebugLogWrapper
         {
             Double timeBlockInMilliseconds;
@@ -671,7 +753,7 @@ namespace SalesforceMetadata
                 return;
             }
 
-            allocateEventTagsToDictinary();
+            //allocateEventTagsToDictinary();
 
             String milSecStart = "";
             String milSecEnd = "";
@@ -686,7 +768,6 @@ namespace SalesforceMetadata
                 if (columnElements.Length > 1)
                 {
                     // Check if we have a 
-
                     if (columnElements[1] == DebugEventTags.BULK_HEAP_ALLOCATE)
                     {
 
@@ -924,7 +1005,6 @@ namespace SalesforceMetadata
 
             populateTreeNodes(debugLogWithLevels);
         }
-
 
         private void populateTreeNodes(List<string> debugLogWithLevels)
         {

@@ -66,6 +66,7 @@
             this.cmbSalesforceSObjects.Name = "cmbSalesforceSObjects";
             this.cmbSalesforceSObjects.Size = new System.Drawing.Size(426, 21);
             this.cmbSalesforceSObjects.TabIndex = 1;
+            this.cmbSalesforceSObjects.SelectedValueChanged += new System.EventHandler(this.cmbSalesforceSObjects_SelectedValueChanged);
             // 
             // lblSalesforceSobjects
             // 

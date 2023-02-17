@@ -1045,5 +1045,10 @@ namespace SalesforceMetadata
 
             return reducedName;
         }
+
+        private void cmbSalesforceSObjects_SelectedValueChanged(object sender, EventArgs e)
+        {
+            populateListView(this.cmbSalesforceSObjects.SelectedItem.ToString());
+        }
     }
 }

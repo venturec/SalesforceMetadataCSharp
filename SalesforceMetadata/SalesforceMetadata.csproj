@@ -77,6 +77,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DevelopmentEnvironment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DevelopmentEnvironment.Designer.cs">
+      <DependentUpon>DevelopmentEnvironment.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExtractFieldsFromMetadata.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -229,6 +235,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DeployMetadata.resx">
       <DependentUpon>DeployMetadata.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DevelopmentEnvironment.resx">
+      <DependentUpon>DevelopmentEnvironment.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EncryptDecryptText.resx">
       <DependentUpon>EncryptDecryptText.cs</DependentUpon>

@@ -142,5 +142,17 @@ namespace SalesforceMetadata
             LWCInspector lwci = new LWCInspector();
             lwci.Show();
         }
+
+        private void btnDevelopmentIde_Click(object sender, EventArgs e)
+        {
+            DevelopmentEnvironment devEnv = new DevelopmentEnvironment();
+            devEnv.Show();
+        }
+
+        private void btnDeployments_Click(object sender, EventArgs e)
+        {
+            DeployMetadata deployments = new DeployMetadata();
+            deployments.Show();
+        }
     }
 }

@@ -148,5 +148,29 @@ namespace SalesforceMetadata.Properties {
                 this["DefaultAPI"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DevelopmentSelectedFolder {
+            get {
+                return ((string)(this["DevelopmentSelectedFolder"]));
+            }
+            set {
+                this["DevelopmentSelectedFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DevelopmentDeploymentFolder {
+            get {
+                return ((string)(this["DevelopmentDeploymentFolder"]));
+            }
+            set {
+                this["DevelopmentDeploymentFolder"] = value;
+            }
+        }
     }
 }

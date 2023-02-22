@@ -43,12 +43,21 @@
             this.lblDeploymentID = new System.Windows.Forms.Label();
             this.tbDeploymentValidationId = new System.Windows.Forms.TextBox();
             this.cbRunTests = new System.Windows.Forms.CheckBox();
+            this.fromOrgGroup = new System.Windows.Forms.GroupBox();
+            this.lblSFUsername = new System.Windows.Forms.Label();
+            this.tbPassword = new System.Windows.Forms.TextBox();
+            this.tbSecurityToken = new System.Windows.Forms.TextBox();
+            this.lblPassword = new System.Windows.Forms.Label();
+            this.lblSecurityToken = new System.Windows.Forms.Label();
+            this.cmbUserName = new System.Windows.Forms.ComboBox();
+            this.lblSalesforce = new System.Windows.Forms.Label();
+            this.fromOrgGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(79, 142);
+            this.label1.Location = new System.Drawing.Point(79, 152);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(97, 13);
@@ -58,7 +67,7 @@
             // tbTestsToRun
             // 
             this.tbTestsToRun.AcceptsReturn = true;
-            this.tbTestsToRun.Location = new System.Drawing.Point(205, 142);
+            this.tbTestsToRun.Location = new System.Drawing.Point(205, 152);
             this.tbTestsToRun.Margin = new System.Windows.Forms.Padding(2);
             this.tbTestsToRun.Multiline = true;
             this.tbTestsToRun.Name = "tbTestsToRun";
@@ -67,7 +76,7 @@
             // 
             // tbDeploymentName
             // 
-            this.tbDeploymentName.Location = new System.Drawing.Point(206, 33);
+            this.tbDeploymentName.Location = new System.Drawing.Point(206, 43);
             this.tbDeploymentName.Margin = new System.Windows.Forms.Padding(2);
             this.tbDeploymentName.Name = "tbDeploymentName";
             this.tbDeploymentName.Size = new System.Drawing.Size(497, 20);
@@ -76,7 +85,7 @@
             // lblDeploymentName
             // 
             this.lblDeploymentName.AutoSize = true;
-            this.lblDeploymentName.Location = new System.Drawing.Point(82, 36);
+            this.lblDeploymentName.Location = new System.Drawing.Point(82, 46);
             this.lblDeploymentName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblDeploymentName.Name = "lblDeploymentName";
             this.lblDeploymentName.Size = new System.Drawing.Size(94, 13);
@@ -88,7 +97,7 @@
             this.cbCheckOnly.AutoSize = true;
             this.cbCheckOnly.Checked = true;
             this.cbCheckOnly.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbCheckOnly.Location = new System.Drawing.Point(637, 145);
+            this.cbCheckOnly.Location = new System.Drawing.Point(637, 155);
             this.cbCheckOnly.Margin = new System.Windows.Forms.Padding(2);
             this.cbCheckOnly.Name = "cbCheckOnly";
             this.cbCheckOnly.Size = new System.Drawing.Size(160, 17);
@@ -98,11 +107,11 @@
             // 
             // btnDeployMetadata
             // 
-            this.btnDeployMetadata.Location = new System.Drawing.Point(619, 250);
+            this.btnDeployMetadata.Location = new System.Drawing.Point(619, 260);
             this.btnDeployMetadata.Margin = new System.Windows.Forms.Padding(2);
             this.btnDeployMetadata.Name = "btnDeployMetadata";
             this.btnDeployMetadata.Size = new System.Drawing.Size(193, 24);
-            this.btnDeployMetadata.TabIndex = 11;
+            this.btnDeployMetadata.TabIndex = 12;
             this.btnDeployMetadata.Text = "Deploy Metadata Package";
             this.btnDeployMetadata.UseVisualStyleBackColor = true;
             this.btnDeployMetadata.Click += new System.EventHandler(this.btnDeployMetadata_Click);
@@ -110,7 +119,7 @@
             // lblZipFileLocation
             // 
             this.lblZipFileLocation.AutoSize = true;
-            this.lblZipFileLocation.Location = new System.Drawing.Point(26, 59);
+            this.lblZipFileLocation.Location = new System.Drawing.Point(26, 69);
             this.lblZipFileLocation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblZipFileLocation.Name = "lblZipFileLocation";
             this.lblZipFileLocation.Size = new System.Drawing.Size(150, 13);
@@ -119,7 +128,7 @@
             // 
             // tbZipFileLocation
             // 
-            this.tbZipFileLocation.Location = new System.Drawing.Point(205, 59);
+            this.tbZipFileLocation.Location = new System.Drawing.Point(205, 69);
             this.tbZipFileLocation.Margin = new System.Windows.Forms.Padding(2);
             this.tbZipFileLocation.Name = "tbZipFileLocation";
             this.tbZipFileLocation.Size = new System.Drawing.Size(497, 20);
@@ -133,8 +142,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtMessages.Location = new System.Drawing.Point(12, 325);
             this.rtMessages.Name = "rtMessages";
-            this.rtMessages.Size = new System.Drawing.Size(1017, 357);
-            this.rtMessages.TabIndex = 13;
+            this.rtMessages.Size = new System.Drawing.Size(1349, 357);
+            this.rtMessages.TabIndex = 14;
             this.rtMessages.Text = "";
             // 
             // lblDeploymentMessage
@@ -143,13 +152,13 @@
             this.lblDeploymentMessage.Location = new System.Drawing.Point(12, 309);
             this.lblDeploymentMessage.Name = "lblDeploymentMessage";
             this.lblDeploymentMessage.Size = new System.Drawing.Size(109, 13);
-            this.lblDeploymentMessage.TabIndex = 12;
+            this.lblDeploymentMessage.TabIndex = 13;
             this.lblDeploymentMessage.Text = "Deployment Message";
             // 
             // cbPurgeOnDelete
             // 
             this.cbPurgeOnDelete.AutoSize = true;
-            this.cbPurgeOnDelete.Location = new System.Drawing.Point(637, 191);
+            this.cbPurgeOnDelete.Location = new System.Drawing.Point(637, 201);
             this.cbPurgeOnDelete.Name = "cbPurgeOnDelete";
             this.cbPurgeOnDelete.Size = new System.Drawing.Size(103, 17);
             this.cbPurgeOnDelete.TabIndex = 10;
@@ -159,7 +168,7 @@
             // lblDeploymentID
             // 
             this.lblDeploymentID.AutoSize = true;
-            this.lblDeploymentID.Location = new System.Drawing.Point(50, 88);
+            this.lblDeploymentID.Location = new System.Drawing.Point(50, 98);
             this.lblDeploymentID.Name = "lblDeploymentID";
             this.lblDeploymentID.Size = new System.Drawing.Size(126, 13);
             this.lblDeploymentID.TabIndex = 4;
@@ -167,7 +176,7 @@
             // 
             // tbDeploymentValidationId
             // 
-            this.tbDeploymentValidationId.Location = new System.Drawing.Point(206, 88);
+            this.tbDeploymentValidationId.Location = new System.Drawing.Point(206, 98);
             this.tbDeploymentValidationId.Name = "tbDeploymentValidationId";
             this.tbDeploymentValidationId.Size = new System.Drawing.Size(496, 20);
             this.tbDeploymentValidationId.TabIndex = 5;
@@ -175,18 +184,105 @@
             // cbRunTests
             // 
             this.cbRunTests.AutoSize = true;
-            this.cbRunTests.Location = new System.Drawing.Point(637, 168);
+            this.cbRunTests.Location = new System.Drawing.Point(637, 178);
             this.cbRunTests.Name = "cbRunTests";
             this.cbRunTests.Size = new System.Drawing.Size(104, 17);
             this.cbRunTests.TabIndex = 9;
             this.cbRunTests.Text = "Run Local Tests";
             this.cbRunTests.UseVisualStyleBackColor = true;
             // 
+            // fromOrgGroup
+            // 
+            this.fromOrgGroup.BackColor = System.Drawing.SystemColors.Control;
+            this.fromOrgGroup.Controls.Add(this.lblSFUsername);
+            this.fromOrgGroup.Controls.Add(this.tbPassword);
+            this.fromOrgGroup.Controls.Add(this.tbSecurityToken);
+            this.fromOrgGroup.Controls.Add(this.lblPassword);
+            this.fromOrgGroup.Controls.Add(this.lblSecurityToken);
+            this.fromOrgGroup.Controls.Add(this.cmbUserName);
+            this.fromOrgGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fromOrgGroup.Location = new System.Drawing.Point(838, 22);
+            this.fromOrgGroup.Name = "fromOrgGroup";
+            this.fromOrgGroup.Size = new System.Drawing.Size(523, 115);
+            this.fromOrgGroup.TabIndex = 11;
+            this.fromOrgGroup.TabStop = false;
+            this.fromOrgGroup.Text = "From Org";
+            // 
+            // lblSFUsername
+            // 
+            this.lblSFUsername.AutoSize = true;
+            this.lblSFUsername.Location = new System.Drawing.Point(55, 30);
+            this.lblSFUsername.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSFUsername.Name = "lblSFUsername";
+            this.lblSFUsername.Size = new System.Drawing.Size(104, 13);
+            this.lblSFUsername.TabIndex = 1;
+            this.lblSFUsername.Text = "Username (from Org)";
+            // 
+            // tbPassword
+            // 
+            this.tbPassword.Location = new System.Drawing.Point(176, 53);
+            this.tbPassword.Margin = new System.Windows.Forms.Padding(2);
+            this.tbPassword.Name = "tbPassword";
+            this.tbPassword.PasswordChar = '*';
+            this.tbPassword.Size = new System.Drawing.Size(215, 20);
+            this.tbPassword.TabIndex = 4;
+            // 
+            // tbSecurityToken
+            // 
+            this.tbSecurityToken.Location = new System.Drawing.Point(176, 80);
+            this.tbSecurityToken.Margin = new System.Windows.Forms.Padding(2);
+            this.tbSecurityToken.Name = "tbSecurityToken";
+            this.tbSecurityToken.Size = new System.Drawing.Size(215, 20);
+            this.tbSecurityToken.TabIndex = 6;
+            this.tbSecurityToken.UseSystemPasswordChar = true;
+            // 
+            // lblPassword
+            // 
+            this.lblPassword.AutoSize = true;
+            this.lblPassword.Location = new System.Drawing.Point(55, 56);
+            this.lblPassword.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblPassword.Name = "lblPassword";
+            this.lblPassword.Size = new System.Drawing.Size(102, 13);
+            this.lblPassword.TabIndex = 3;
+            this.lblPassword.Text = "Password (from Org)";
+            // 
+            // lblSecurityToken
+            // 
+            this.lblSecurityToken.AutoSize = true;
+            this.lblSecurityToken.Location = new System.Drawing.Point(31, 84);
+            this.lblSecurityToken.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSecurityToken.Name = "lblSecurityToken";
+            this.lblSecurityToken.Size = new System.Drawing.Size(128, 13);
+            this.lblSecurityToken.TabIndex = 5;
+            this.lblSecurityToken.Text = "Security Token (from Org)";
+            // 
+            // cmbUserName
+            // 
+            this.cmbUserName.DropDownWidth = 325;
+            this.cmbUserName.FormattingEnabled = true;
+            this.cmbUserName.Location = new System.Drawing.Point(176, 27);
+            this.cmbUserName.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbUserName.Name = "cmbUserName";
+            this.cmbUserName.Size = new System.Drawing.Size(324, 21);
+            this.cmbUserName.TabIndex = 2;
+            this.cmbUserName.SelectedIndexChanged += new System.EventHandler(this.cmbUserName_SelectedIndexChanged);
+            // 
+            // lblSalesforce
+            // 
+            this.lblSalesforce.AutoSize = true;
+            this.lblSalesforce.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSalesforce.Location = new System.Drawing.Point(12, 9);
+            this.lblSalesforce.Name = "lblSalesforce";
+            this.lblSalesforce.Size = new System.Drawing.Size(0, 17);
+            this.lblSalesforce.TabIndex = 15;
+            // 
             // DeployMetadata
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1047, 694);
+            this.ClientSize = new System.Drawing.Size(1379, 694);
+            this.Controls.Add(this.lblSalesforce);
+            this.Controls.Add(this.fromOrgGroup);
             this.Controls.Add(this.cbRunTests);
             this.Controls.Add(this.tbDeploymentValidationId);
             this.Controls.Add(this.lblDeploymentID);
@@ -204,6 +300,8 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "DeployMetadata";
             this.Text = "DeployMetadata";
+            this.fromOrgGroup.ResumeLayout(false);
+            this.fromOrgGroup.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -225,5 +323,13 @@
         private System.Windows.Forms.Label lblDeploymentID;
         private System.Windows.Forms.TextBox tbDeploymentValidationId;
         private System.Windows.Forms.CheckBox cbRunTests;
+        private System.Windows.Forms.GroupBox fromOrgGroup;
+        private System.Windows.Forms.Label lblSFUsername;
+        private System.Windows.Forms.TextBox tbPassword;
+        private System.Windows.Forms.TextBox tbSecurityToken;
+        private System.Windows.Forms.Label lblPassword;
+        private System.Windows.Forms.Label lblSecurityToken;
+        private System.Windows.Forms.ComboBox cmbUserName;
+        private System.Windows.Forms.Label lblSalesforce;
     }
 }

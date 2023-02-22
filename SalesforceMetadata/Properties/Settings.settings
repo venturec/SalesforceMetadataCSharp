@@ -35,5 +35,11 @@
     <Setting Name="DefaultAPI" Type="System.String" Scope="User">
       <Value Profile="(Default)">56.0</Value>
     </Setting>
+    <Setting Name="DevelopmentSelectedFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DevelopmentDeploymentFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

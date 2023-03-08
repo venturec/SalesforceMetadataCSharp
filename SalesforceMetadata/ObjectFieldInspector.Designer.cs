@@ -103,6 +103,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listViewSobjectFields.CausesValidation = false;
             this.listViewSobjectFields.HideSelection = false;
+            this.listViewSobjectFields.LabelEdit = true;
             this.listViewSobjectFields.Location = new System.Drawing.Point(16, 401);
             this.listViewSobjectFields.Name = "listViewSobjectFields";
             this.listViewSobjectFields.Size = new System.Drawing.Size(1055, 408);

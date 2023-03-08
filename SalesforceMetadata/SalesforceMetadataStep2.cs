@@ -86,7 +86,14 @@ namespace SalesforceMetadata
                 urlParsed = urlParsed[2].Split('.');
                 extractToFolder = urlParsed[0];
 
-                extractToFolder = extractToFolder.Replace("--", "__");
+                if (extractToFolder.Contains("--"))
+                {
+                    extractToFolder = extractToFolder.Replace("--", "__");
+                }
+                else
+                {
+                    extractToFolder = extractToFolder + "__production";
+                }
 
                 // Knock off the HTML
             }
@@ -96,7 +103,14 @@ namespace SalesforceMetadata
                 urlParsed = urlParsed[2].Split('.');
                 extractToFolder = urlParsed[0];
 
-                extractToFolder = extractToFolder.Replace("--", "__");
+                if (extractToFolder.Contains("--"))
+                {
+                    extractToFolder = extractToFolder.Replace("--", "__");
+                }
+                else
+                {
+                    extractToFolder = extractToFolder + "__production";
+                }
             }
 
             // After selecting a Metadata type to get, build the package.xml file

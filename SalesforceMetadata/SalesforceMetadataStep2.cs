@@ -115,7 +115,7 @@ namespace SalesforceMetadata
 
             // After selecting a Metadata type to get, build the package.xml file
             // If it is a Profile or Permission set, the Object will also be required
-            DescribeGlobalResult dgr = null;
+            DescribeGlobalResult dgr = SalesforceCredentials.getDescribeGlobalResult(reqOrg);
             MetadataService ms = null;
 
             StringBuilder packageXmlSB = new StringBuilder();
@@ -126,24 +126,7 @@ namespace SalesforceMetadata
             {
                 if (selected == "CustomObject" && !alreadyAdded.Contains(selected))
                 {
-                    dgr = SalesforceCredentials.getDescribeGlobalResult(reqOrg);
-
-                    List<String> members = new List<string>();
-                    for (Int32 i = 0; i < dgr.sobjects.Length; i++)
-                    {
-                        String[] memberNameSplit = dgr.sobjects[i].name.Split(new String[] { "__" }, StringSplitOptions.None);
-
-                        // Considerations:
-                        // StandardObject
-                        // Custom object with a name like IO__c
-                        // Custom object with a namespace namespace__Obj_Name__c
-
-                        if (memberNameSplit.Length < 3)
-                        {
-                            members.Add(dgr.sobjects[i].name);
-                        }
-                    }
-
+                    List<String> members = getSObjectMembers(dgr, reqOrg);
                     getMetadataTypes("CustomObject", packageXmlSB, members.ToArray());
                 }
                 else if (selected == "EmailTemplate" && !alreadyAdded.Contains(selected))
@@ -202,44 +185,38 @@ namespace SalesforceMetadata
                             || selected == "Profile")
                             && !alreadyAdded.Contains(selected))
                 {
-                    dgr = SalesforceCredentials.getDescribeGlobalResult(reqOrg);
+                    List<String> members = new List<String>();
+                    members.Add("*");
 
-                    String[] members = new String[1];
-                    members[0] = "*";
+                    getMetadataTypes("ApexClass", packageXmlSB, members.ToArray());
+                    getMetadataTypes("ApexComponent", packageXmlSB, members.ToArray());
+                    getMetadataTypes("ApexPage", packageXmlSB, members.ToArray());
+                    getMetadataTypes("ApexTrigger", packageXmlSB, members.ToArray());
+                    getMetadataTypes("ConnectedApp", packageXmlSB, members.ToArray());
+                    getMetadataTypes("CustomApplication", packageXmlSB, members.ToArray());
+                    getMetadataTypes("CustomApplicationComponent", packageXmlSB, members.ToArray());
+                    getMetadataTypes("CustomMetadata", packageXmlSB, members.ToArray());
+                    getMetadataTypes("CustomPermissions", packageXmlSB, members.ToArray());
+                    getMetadataTypes("CustomTab", packageXmlSB, members.ToArray());
+                    getMetadataTypes("ExternalDataSource", packageXmlSB, members.ToArray());
+                    getMetadataTypes("Flow", packageXmlSB, members.ToArray());
+                    getMetadataTypes("FlowDefinition", packageXmlSB, members.ToArray());
+                    getMetadataTypes("Layout", packageXmlSB, members.ToArray());
+                    getMetadataTypes("NamedCredential", packageXmlSB, members.ToArray());
+                    getMetadataTypes("ServicePresenceStatus", packageXmlSB, members.ToArray());
 
-                    getMetadataTypes("ApexClass", packageXmlSB, members);
-                    getMetadataTypes("ApexComponent", packageXmlSB, members);
-                    getMetadataTypes("ApexPage", packageXmlSB, members);
-                    getMetadataTypes("ApexTrigger", packageXmlSB, members);
-                    getMetadataTypes("ConnectedApp", packageXmlSB, members);
-                    getMetadataTypes("CustomApplication", packageXmlSB, members);
-                    getMetadataTypes("CustomApplicationComponent", packageXmlSB, members);
-                    getMetadataTypes("CustomMetadata", packageXmlSB, members);
-                    getMetadataTypes("CustomPermissions", packageXmlSB, members);
-                    getMetadataTypes("CustomTab", packageXmlSB, members);
-                    getMetadataTypes("ExternalDataSource", packageXmlSB, members);
-                    getMetadataTypes("Flow", packageXmlSB, members);
-                    getMetadataTypes("FlowDefinition", packageXmlSB, members);
-                    getMetadataTypes("Layout", packageXmlSB, members);
-                    getMetadataTypes("NamedCredential", packageXmlSB, members);
-                    getMetadataTypes("ServicePresenceStatus", packageXmlSB, members);
-
+                    // Clear the * to allow for accessing all Sobjects in the org
+                    members.Clear();
                     if (!alreadyAdded.Contains("CustomObject"))
                     {
-                        members = new String[dgr.sobjects.Length];
-
-                        for (Int32 i = 0; i < members.Length; i++)
-                        {
-                            members[i] = dgr.sobjects[i].name;
-                        }
-
-                        getMetadataTypes("CustomObject", packageXmlSB, members);
+                        members = getSObjectMembers(dgr, reqOrg);
+                        getMetadataTypes("CustomObject", packageXmlSB, members.ToArray());
                     }
 
                     // Reset the default members to the flag for all members and add the additional types selected.
-                    members = new String[1];
-                    members[0] = "*";
-                    getMetadataTypes(selected, packageXmlSB, members);
+                    members.Clear();
+                    members.Add("*");
+                    getMetadataTypes(selected, packageXmlSB, members.ToArray());
 
                     alreadyAdded.Add(selected);
                 }
@@ -469,16 +446,9 @@ namespace SalesforceMetadata
 
                 foreach (String s in members)
                 {
-                    if (   !s.EndsWith("__Tag")
-                        && !s.EndsWith("__History")
-                        && !s.EndsWith("__Feed")
-                        && !s.EndsWith("__ChangeEvent")
-                        && !s.EndsWith("__Share"))
-                    {
-                        packageXmlSB.Append("<members>");
-                        packageXmlSB.Append(s);
-                        packageXmlSB.Append("</members>" + Environment.NewLine);
-                    }
+                    packageXmlSB.Append("<members>");
+                    packageXmlSB.Append(s);
+                    packageXmlSB.Append("</members>" + Environment.NewLine);
                 }
 
                 packageXmlSB.Append("<name>" + metadataObjectName + "</name>" + Environment.NewLine);
@@ -561,6 +531,25 @@ namespace SalesforceMetadata
             }
 
             return result;
+        }
+
+        private List<String> getSObjectMembers(SalesforceMetadata.PartnerWSDL.DescribeGlobalResult dgr, UtilityClass.REQUESTINGORG reqOrg)
+        {
+            List<String> members = new List<string>();
+            for (Int32 i = 0; i < dgr.sobjects.Length; i++)
+            {
+                String sobj = dgr.sobjects[i].name;
+                if (!sobj.EndsWith("__Tag")
+                    && !sobj.EndsWith("__History")
+                    && !sobj.EndsWith("__Feed")
+                    && !sobj.EndsWith("__ChangeEvent")
+                    && !sobj.EndsWith("__Share"))
+                {
+                    members.Add(sobj);
+                }
+            }
+
+            return members;
         }
 
         private List<String> getSubdirectories(String folderLocation)

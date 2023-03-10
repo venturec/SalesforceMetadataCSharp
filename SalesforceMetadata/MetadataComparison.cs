@@ -888,8 +888,8 @@ namespace SalesforceMetadata
                     foreach (String fileName in mstrFileComparison[directoryName].Keys)
                     {
                         // Skip over managed packages and continue on with the next iteration
-                        String[] splitFileName = fileName.Split(new String[] { "__" }, StringSplitOptions.None);
-                        if (splitFileName.Length > 2) continue;
+                        //String[] splitFileName = fileName.Split(new String[] { "__" }, StringSplitOptions.None);
+                        //if (splitFileName.Length > 2) continue;
 
                         if (compFileComparison[directoryName].ContainsKey(fileName))
                         {
@@ -922,27 +922,6 @@ namespace SalesforceMetadata
                                             foreach (String nameKey in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name].Keys)
                                             {
                                                 String[] mstrNameWithValue = parseNodeNameAndValue(nameKey);
-                                                String[] splitObjFieldCombo = mstrNameWithValue[0].Split('.');
-
-                                                // Skip over managed package api names
-                                                if (splitObjFieldCombo.Length == 1)
-                                                {
-                                                    String[] splitNameField1 = splitObjFieldCombo[0].Split(new String[] { "__" }, StringSplitOptions.None);
-                                                    if (splitNameField1.Length > 2)
-                                                    {
-                                                        continue;
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    String[] splitNameField1 = splitObjFieldCombo[0].Split(new String[] { "__" }, StringSplitOptions.None);
-                                                    String[] splitNameField2 = splitObjFieldCombo[1].Split(new String[] { "__" }, StringSplitOptions.None);
-                                                    if (splitNameField1.Length > 2
-                                                        || splitNameField2.Length > 2)
-                                                    {
-                                                        continue;
-                                                    }
-                                                }
 
                                                 // Now determine if the compFileComparison contains the name or not and then prepend the Updated or New
                                                 //if (compFileComparison[directoryName][fileName][nd1Name][nd2Name].ContainsKey(nameKey))
@@ -1056,6 +1035,8 @@ namespace SalesforceMetadata
                                 }
                             }
                         }
+                        // The Source of Truth contains a file, but the destination does not. 
+                        // This is where we add the entire document to the Tree View, even if the directories exist in both orgs
                         else
                         {
                             foreach (String nd1Name in mstrFileComparison[directoryName][fileName].Keys)
@@ -1064,13 +1045,15 @@ namespace SalesforceMetadata
                                 {
                                     foreach (String nameKey in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name].Keys)
                                     {
+                                        String[] mstrNameWithValue = parseNodeNameAndValue(nameKey);
+
                                         foreach (String elemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
                                         {
-                                            addToComparedValuesWithNameValueDictionary(directoryName, 
+                                                addToComparedValuesWithNameValueDictionary(directoryName, 
                                                                                        fileNamePrependedVlaue + fileName, 
                                                                                        nd1Name, 
-                                                                                       nd2Name, 
-                                                                                       nameKey, 
+                                                                                       nd2Name,
+                                                                                       mstrNameWithValue[0], 
                                                                                        elemValue);
                                         }
                                     }
@@ -1079,6 +1062,8 @@ namespace SalesforceMetadata
                         }
                     }
                 }
+                // The Source of Truth contains a Directory or folder, but the destination does not contain the directory. 
+                // Therefore, add the directory name and all files Treeview marking them as [NEW]
                 else
                 {
                     foreach (String fileName in mstrFileComparison[directoryName].Keys)
@@ -1089,13 +1074,15 @@ namespace SalesforceMetadata
                             {
                                 foreach (String nameKey in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name].Keys)
                                 {
+                                    String[] mstrNameWithValue = parseNodeNameAndValue(nameKey);
+
                                     foreach (String elemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
                                     {
                                         addToComparedValuesWithNameValueDictionary(directoryName, 
                                                                                    fileNamePrependedVlaue + fileName, 
                                                                                    nd1Name, 
-                                                                                   nd2Name, 
-                                                                                   nameKey, 
+                                                                                   nd2Name,
+                                                                                   mstrNameWithValue[0], 
                                                                                    elemValue);
                                     }
                                 }

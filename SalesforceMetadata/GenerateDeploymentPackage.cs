@@ -27,7 +27,6 @@ namespace SalesforceMetadata
 
         public TreeNodeCollection treeNodeCollFromDiff;
 
-
         public GenerateDeploymentPackage()
         {
             InitializeComponent();
@@ -143,118 +142,102 @@ namespace SalesforceMetadata
             }
         }
 
-        public void selectDefaultsFromDiff()
+        public void populateMetadataTreeViewFromDiff()
         {
-            foreach (TreeNode tnd1 in treeNodeCollFromDiff)
+            this.treeViewMetadata.Nodes.Clear();
+
+            foreach (TreeNode tndDiff1 in this.treeNodeCollFromDiff)
             {
-                if (tnd1.Text == "permissionsets"
-                    || tnd1.Text == "profiles")
+                if (tndDiff1.Text == "permissionsets"
+                    || tndDiff1.Text == "profiles")
                 {
                     continue;
                 }
 
-                // Get the incoming node text from the Differences.
-                foreach (TreeNode tnd2 in tnd1.Nodes)
+                TreeNode tnd1 = new TreeNode();
+                tnd1.Text = tndDiff1.Text;
+                tnd1.Checked = tndDiff1.Checked;
+
+                foreach (TreeNode tndDiff2 in tndDiff1.Nodes)
                 {
-                    String tnd2Text = "";
+                    TreeNode tnd2 = new TreeNode();
+                    tnd2.Text = removeNewUpdatedFromNodeText(tndDiff2.Text);
+                    tnd2.Checked = tndDiff2.Checked;
 
-                    if (tnd2.Text.StartsWith("[New]"))
+                    if (tndDiff2.Nodes.Count > 0)
                     {
-                        tnd2Text = tnd2.Text.Substring(6, tnd2.Text.Length - 6);
-                    }
-                    else if (tnd2.Text.StartsWith("[Updated]"))
-                    {
-                        tnd2Text = tnd2.Text.Substring(10, tnd2.Text.Length - 10);
-                    }
-                    else
-                    {
-                        tnd2Text = tnd2.Text;
-                    }
-
-
-                    if (tnd1.Text == "objects")
-                    {
-                        foreach (TreeNode tnd3 in tnd2.Nodes)
+                        foreach (TreeNode tndDiff3 in tndDiff2.Nodes)
                         {
-                            foreach (TreeNode tnd4 in tnd3.Nodes)
+                            TreeNode tnd3 = new TreeNode();
+                            tnd3.Text = removeNewUpdatedFromNodeText(tndDiff3.Text);
+                            tnd3.Checked = tndDiff3.Checked;
+
+                            if (tndDiff3.Nodes.Count > 0)
                             {
-                                foreach (TreeNode tnd5 in tnd4.Nodes)
+                                foreach (TreeNode tndDiff4 in tndDiff3.Nodes)
                                 {
-                                    // Actual Name with [Updated] or [New]
-                                    String tnd5Text = "";
+                                    TreeNode tnd4 = new TreeNode();
+                                    tnd4.Text = removeNewUpdatedFromNodeText(tndDiff4.Text);
+                                    tnd4.Checked = tndDiff2.Checked;
 
-                                    if (tnd5.Text.StartsWith("[New]"))
+                                    if (tndDiff4.Nodes.Count > 0)
                                     {
-                                        tnd5Text = tnd5.Text.Substring(6, tnd5.Text.Length - 6);
-                                    }
-                                    else if (tnd5.Text.StartsWith("[Updated]"))
-                                    {
-                                        tnd5Text = tnd5.Text.Substring(10, tnd5.Text.Length - 10);
-                                    }
-                                    else
-                                    {
-                                        tnd5Text = tnd5.Text;
-                                    }
-
-                                    // Now find it in the treeViewMetadata and set the Checked state to true
-                                    foreach (TreeNode mdTnd1 in this.treeViewMetadata.Nodes)
-                                    {
-                                        if (mdTnd1.Text == "objects")
+                                        foreach (TreeNode tndDiff5 in tndDiff4.Nodes)
                                         {
-                                            foreach (TreeNode mdTnd2 in mdTnd1.Nodes)
+                                            TreeNode tnd5 = new TreeNode();
+                                            tnd5.Text = removeNewUpdatedFromNodeText(tndDiff5.Text);
+                                            tnd5.Checked = tndDiff2.Checked;
+
+                                            if (tndDiff5.Nodes.Count > 0)
                                             {
-                                                if (mdTnd2.Text == tnd2Text)
+                                                foreach (TreeNode tndDiff6 in tndDiff5.Nodes)
                                                 {
-                                                    foreach (TreeNode mdTnd3 in mdTnd2.Nodes)
-                                                    {
-                                                        // Load the XML from mdTnd3 to determine the name of the object types
-                                                        XmlDocument xd = new XmlDocument();
-                                                        xd.LoadXml("<document>" + mdTnd3.Text + "</document>");
+                                                    TreeNode tnd6 = new TreeNode();
+                                                    tnd6.Text = removeNewUpdatedFromNodeText(tndDiff6.Text);
+                                                    tnd6.Checked = tndDiff2.Checked;
 
-                                                        // Get the Name based on the object element type to see if it is in the differences
-                                                        // coming over from the difference report.
-                                                        String nodeBlockNameValue = MetadataDifferenceProcessing.getNameField("CustomObject", xd.ChildNodes[0].ChildNodes[0].Name, xd.ChildNodes[0].ChildNodes[0].OuterXml);
-
-                                                        if (nodeBlockNameValue == "")
-                                                        {
-                                                            nodeBlockNameValue = xd.ChildNodes[0].ChildNodes[0].Name;
-                                                        }
-
-                                                        if (nodeBlockNameValue == tnd5Text)
-                                                        {
-                                                            mdTnd3.Checked = true;
-                                                        }
-                                                        else if (nodeBlockNameValue == tnd2Text)
-                                                        {
-                                                            mdTnd3.Checked = true;
-                                                        }
-                                                    }
+                                                    tnd5.Nodes.Add(tnd6);
                                                 }
                                             }
+
+                                            tnd4.Nodes.Add(tnd5);
                                         }
                                     }
+
+                                    tnd3.Nodes.Add(tnd4);
                                 }
                             }
+
+                            tnd2.Nodes.Add(tnd3);
                         }
                     }
-                    else
-                    {
-                        foreach (TreeNode mdTnd1 in this.treeViewMetadata.Nodes)
-                        {
-                            if (mdTnd1.Text == tnd1.Text)
-                            {
-                                foreach (TreeNode mdTnd2 in mdTnd1.Nodes)
-                                {
-                                    if (mdTnd2.Text == tnd2Text)
-                                    {
-                                        mdTnd2.Checked = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
+
+                    tnd1.Nodes.Add(tnd2);
+
                 }
+
+                this.treeViewMetadata.Nodes.Add(tnd1);
             }
+        }
+
+        private String removeNewUpdatedFromNodeText(String currentTextValue)
+        {
+            String returnval = "";
+
+            if (currentTextValue.StartsWith("[New]"))
+            {
+                returnval = currentTextValue.Substring(6, currentTextValue.Length - 6);
+            }
+            else if (currentTextValue.StartsWith("[Updated]"))
+            {
+                returnval = currentTextValue.Substring(10, currentTextValue.Length - 10);
+            }
+            else
+            {
+                returnval = currentTextValue;
+            }
+
+            return returnval;
         }
 
         public void defaultSelectedFromMetadataComp()
@@ -1531,9 +1514,9 @@ namespace SalesforceMetadata
 
                                 Directory.CreateDirectory(this.tbDeploymentPackageLocation.Text + "\\lwc\\" + tnd2.Text);
                                 DirectoryInfo dirInfo = new DirectoryInfo(this.tbMetadataFolderToReadFrom.Text + "\\lwc\\" + tnd2.Text);
-                                FileInfo[] auraSubdirFiles = dirInfo.GetFiles();
+                                FileInfo[] lwcSubdirFiles = dirInfo.GetFiles();
 
-                                foreach (FileInfo file in auraSubdirFiles)
+                                foreach (FileInfo file in lwcSubdirFiles)
                                 {
                                     file.CopyTo(this.tbDeploymentPackageLocation.Text + "\\lwc\\" + tnd2.Text + "\\" + file.Name, true);
                                 }

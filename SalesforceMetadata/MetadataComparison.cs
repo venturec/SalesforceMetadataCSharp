@@ -1173,54 +1173,6 @@ namespace SalesforceMetadata
 
         /**********************************************************************************************************************/
 
-        // You will need to get the name field if it exists
-        /*
-        private Boolean doesTreeNodeExist(TreeNodeCollection treeNdColl, String value)
-        {
-            Boolean nodeExists = false;
-            foreach (TreeNode nd in treeNdColl)
-            {
-                if (nd.Text == value)
-                {
-                    nodeExists = true;
-                }
-            }
-
-            return nodeExists;
-        }
-
-        private Boolean doesChildTreeNodeExist(TreeNode treeNd, String comparisonValue, Int32 nodeLevel)
-        {
-            Boolean nodeExists = false;
-
-            foreach (TreeNode tnd2 in treeNd.Nodes)
-            {
-                if (nodeLevel > 2)
-                {
-                    foreach (TreeNode tnd3 in tnd2.Nodes)
-                    {
-                        if (nodeLevel > 3)
-                        {
-                            foreach (TreeNode tnd4 in tnd3.Nodes)
-                            {
-                                if (tnd4.Text == comparisonValue)
-                                {
-                                    nodeExists = true;
-                                }
-                            }
-                        }
-                        else if(tnd3.Text == comparisonValue)
-                        {
-                            nodeExists = true;
-                        }
-                    }
-                }
-            }
-
-            return nodeExists;
-        }
-        */
-
         private Boolean directoryExists(String directoryName, Boolean appendDirectoryName)
         {
             Boolean directoryExists = false;
@@ -1329,23 +1281,6 @@ namespace SalesforceMetadata
             return filesAreDifferent;
         }
 
-        /*
-        private TreeNode checkIfNodeExists(TreeNodeCollection tnCollection, String value)
-        {
-            TreeNode tn = new TreeNode();
-
-            if (tnCollection.Count != 0)
-            {
-                for (int i = 0; i < tnCollection.Count; i++)
-                {
-                    if (tnCollection[i].Text == value) tn = tnCollection[i];
-                }
-            }
-
-            return tn;
-        }
-        */
-
         private void treeViewDifference_AfterCheck(object sender, TreeViewEventArgs e)
         {
             TreeNode tn = e.Node;
@@ -1365,7 +1300,6 @@ namespace SalesforceMetadata
                 }
             }
         }
-
 
         private void tbFromFolder_DoubleClick(object sender, EventArgs e)
         {
@@ -1691,56 +1625,10 @@ namespace SalesforceMetadata
 
             gdp.tbMetadataFolderToReadFrom.Text = this.tbFromFolder.Text;
             gdp.treeNodeCollFromDiff = this.treeViewDifferences.Nodes;
-            gdp.populateMetadataTreeView();
-            gdp.defaultSelectedFromMetadataComp();
-
+            
+            gdp.populateMetadataTreeViewFromDiff();
             gdp.Show();
         }
-
-        /*
-        private Dictionary<String, Dictionary<String, String>> getTagAndInnerText(String tagFilterName, String nameTag, XmlDocument xmlDoc)
-        {
-            Dictionary<String, Dictionary<String, String>> tagWithInnerText = new Dictionary<String, Dictionary<String, String>>();
-
-            foreach (XmlNode nd1 in xmlDoc.ChildNodes)
-            {
-                foreach (XmlNode nd2 in nd1.ChildNodes)
-                {
-                    if (nd2.Name == tagFilterName)
-                    {
-                        String nameValue = MetadataDifferenceProcessing.getNameValue(tagFilterName, nameTag, nd2.OuterXml);
-
-                        tagWithInnerText.Add(nameValue, new Dictionary<String, String>());
-
-                        foreach (XmlNode nd3 in nd2.ChildNodes)
-                        {
-                            tagWithInnerText[nameValue].Add(nd3.Name, nd3.InnerText);
-                        }
-                    }
-                }
-            }
-
-            return tagWithInnerText;
-        }
-
-        public String formatExcelTabName(String tabNameValue)
-        {
-            // \ , / , * , ? , : , [ ,].
-
-            tabNameValue = tabNameValue.Replace('\\', '_');
-            tabNameValue = tabNameValue.Replace(',', '_');
-            tabNameValue = tabNameValue.Replace('/', '_');
-            tabNameValue = tabNameValue.Replace('*', '_');
-            tabNameValue = tabNameValue.Replace('?', '_');
-            tabNameValue = tabNameValue.Replace(':', '_');
-            tabNameValue = tabNameValue.Replace('[', '_');
-            tabNameValue = tabNameValue.Replace(']', '_');
-
-            tabNameValue = tabNameValue.Substring(0, 30);
-
-            return tabNameValue;
-        }
-        */
 
         private void btnExport_Click(object sender, EventArgs e)
         {
@@ -1770,7 +1658,6 @@ namespace SalesforceMetadata
 
             MessageBox.Show("Export of Folders and Types to CSV Complete");
         }
-
 
         private void exportToCSV(Boolean exportSelected)
         {

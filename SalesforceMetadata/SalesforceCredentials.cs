@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using SalesforceMetadata.PartnerWSDL;
 using SalesforceMetadata.MetadataWSDL;
 using SalesforceMetadata.ToolingWSDL;
+using System.Runtime.CompilerServices;
 
 namespace SalesforceMetadata
 {
@@ -176,7 +177,6 @@ namespace SalesforceMetadata
             return loginSuccess;
         }
 
-
         public static Boolean salesforceToolingLogin()
         {
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
@@ -254,6 +254,21 @@ namespace SalesforceMetadata
             return dgr;
         }
 
+        public static SalesforceMetadata.PartnerWSDL.DescribeTab[] getDescribeTab(UtilityClass.REQUESTINGORG reqOrg)
+        {
+            SalesforceMetadata.PartnerWSDL.DescribeTab[] descrTabs;
+
+            if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
+            {
+                descrTabs = fromOrgSS.describeAllTabs();
+            }
+            else
+            {
+                descrTabs = new SalesforceMetadata.PartnerWSDL.DescribeTab[1];
+            }
+
+            return descrTabs;
+        }
         public static DescribeMetadataResult getDescribeMetadataResult(UtilityClass.REQUESTINGORG reqOrg)
         {
             DescribeMetadataResult dmd = new DescribeMetadataResult();

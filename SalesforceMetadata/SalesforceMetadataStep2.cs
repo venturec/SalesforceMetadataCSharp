@@ -115,7 +115,6 @@ namespace SalesforceMetadata
 
             // After selecting a Metadata type to get, build the package.xml file
             // If it is a Profile or Permission set, the Object will also be required
-            DescribeGlobalResult dgr = SalesforceCredentials.getDescribeGlobalResult(reqOrg);
             MetadataService ms = null;
 
             StringBuilder packageXmlSB = new StringBuilder();
@@ -126,8 +125,18 @@ namespace SalesforceMetadata
             {
                 if (selected == "CustomObject" && !alreadyAdded.Contains(selected))
                 {
-                    List<String> members = getSObjectMembers(dgr, reqOrg);
+                    List<String> members = new List<String>();
+                    members.AddRange(getSObjectMembers(reqOrg));
                     getMetadataTypes("CustomObject", packageXmlSB, members.ToArray());
+                }
+                else if (selected == "CustomTab")
+                {
+                    List<String> members = new List<String>();
+                    if (!alreadyAdded.Contains("CustomTab"))
+                    {
+                        members.AddRange(getTabDescribe(reqOrg));
+                        getMetadataTypes("CustomTab", packageXmlSB, members.ToArray());
+                    }
                 }
                 else if (selected == "EmailTemplate" && !alreadyAdded.Contains(selected))
                 {
@@ -197,7 +206,6 @@ namespace SalesforceMetadata
                     getMetadataTypes("CustomApplicationComponent", packageXmlSB, members.ToArray());
                     getMetadataTypes("CustomMetadata", packageXmlSB, members.ToArray());
                     getMetadataTypes("CustomPermissions", packageXmlSB, members.ToArray());
-                    getMetadataTypes("CustomTab", packageXmlSB, members.ToArray());
                     getMetadataTypes("ExternalDataSource", packageXmlSB, members.ToArray());
                     getMetadataTypes("Flow", packageXmlSB, members.ToArray());
                     getMetadataTypes("FlowDefinition", packageXmlSB, members.ToArray());
@@ -205,11 +213,18 @@ namespace SalesforceMetadata
                     getMetadataTypes("NamedCredential", packageXmlSB, members.ToArray());
                     getMetadataTypes("ServicePresenceStatus", packageXmlSB, members.ToArray());
 
+                    members.Clear();
+                    if (!alreadyAdded.Contains("CustomTab"))
+                    {
+                        members.AddRange(getTabDescribe(reqOrg));
+                        getMetadataTypes("CustomTab", packageXmlSB, members.ToArray());
+                    }
+
                     // Clear the * to allow for accessing all Sobjects in the org
                     members.Clear();
                     if (!alreadyAdded.Contains("CustomObject"))
                     {
-                        members = getSObjectMembers(dgr, reqOrg);
+                        members = getSObjectMembers(reqOrg);
                         getMetadataTypes("CustomObject", packageXmlSB, members.ToArray());
                     }
 
@@ -533,8 +548,23 @@ namespace SalesforceMetadata
             return result;
         }
 
-        private List<String> getSObjectMembers(SalesforceMetadata.PartnerWSDL.DescribeGlobalResult dgr, UtilityClass.REQUESTINGORG reqOrg)
+        private List<String> getTabDescribe(UtilityClass.REQUESTINGORG reqOrg)
         {
+            DescribeTab[] descrTabs = SalesforceCredentials.getDescribeTab(reqOrg);
+
+            List<String> members = new List<String>();
+            for (Int32 i = 0; i < descrTabs.Length; i++)
+            {
+                members.Add(descrTabs[i].name);
+            }
+
+            return members;
+        }
+
+        private List<String> getSObjectMembers(UtilityClass.REQUESTINGORG reqOrg)
+        {
+            DescribeGlobalResult dgr = SalesforceCredentials.getDescribeGlobalResult(reqOrg);
+
             List<String> members = new List<string>();
             for (Int32 i = 0; i < dgr.sobjects.Length; i++)
             {

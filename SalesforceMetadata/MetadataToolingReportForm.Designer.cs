@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MetadataToolingReportForm));
             this.tbMetadataFolderLocation = new System.Windows.Forms.TextBox();
             this.btnGenerateToolingReport = new System.Windows.Forms.Button();
             this.lblMetdataFolderSelection = new System.Windows.Forms.Label();
@@ -117,6 +118,7 @@
             this.Controls.Add(this.lblMetdataFolderSelection);
             this.Controls.Add(this.btnGenerateToolingReport);
             this.Controls.Add(this.tbMetadataFolderLocation);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MetadataToolingReportForm";
             this.Text = "Metadata / Tooling Report Form";
             this.ResumeLayout(false);

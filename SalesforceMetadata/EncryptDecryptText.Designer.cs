@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EncryptDecryptText));
             this.tbSharedSecret = new System.Windows.Forms.TextBox();
             this.tbSalt = new System.Windows.Forms.TextBox();
             this.tbEncryptedText = new System.Windows.Forms.TextBox();
@@ -167,6 +168,7 @@
             this.Controls.Add(this.tbEncryptedText);
             this.Controls.Add(this.tbSalt);
             this.Controls.Add(this.tbSharedSecret);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "EncryptDecryptText";
             this.Text = "Encrypt / Decrypt Text";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EncryptDecryptText_FormClosing);

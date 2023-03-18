@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExtractFieldsFromMetadata));
             this.tbSelectedFolder = new System.Windows.Forms.TextBox();
             this.btnExtractFields = new System.Windows.Forms.Button();
             this.lblSelectedFolder = new System.Windows.Forms.Label();
@@ -69,6 +70,7 @@
             this.Controls.Add(this.lblSelectedFolder);
             this.Controls.Add(this.btnExtractFields);
             this.Controls.Add(this.tbSelectedFolder);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ExtractFieldsFromMetadata";
             this.Text = "ExtractFieldsFromMetadata";
             this.ResumeLayout(false);

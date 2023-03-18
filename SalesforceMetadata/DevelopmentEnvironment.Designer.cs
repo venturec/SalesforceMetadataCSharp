@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DevelopmentEnvironment));
             this.lblNote = new System.Windows.Forms.Label();
             this.treeViewMetadata = new System.Windows.Forms.TreeView();
             this.tbParentFolder = new System.Windows.Forms.TextBox();
@@ -214,6 +215,7 @@
             this.Controls.Add(this.tbParentFolder);
             this.Controls.Add(this.treeViewMetadata);
             this.Controls.Add(this.lblNote);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "DevelopmentEnvironment";
             this.Text = "DevelopmentEnvironment";
             this.fromOrgGroup.ResumeLayout(false);

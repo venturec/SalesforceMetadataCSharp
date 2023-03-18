@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MetadataComparison));
             this.lblPackageDifferences = new System.Windows.Forms.Label();
             this.RunComparison = new System.Windows.Forms.Button();
             this.tbFromFolder = new System.Windows.Forms.TextBox();
@@ -190,6 +191,7 @@
             this.Controls.Add(this.tbFromFolder);
             this.Controls.Add(this.RunComparison);
             this.Controls.Add(this.lblPackageDifferences);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MetadataComparison";
             this.Text = "Comparison Form";
             this.ResumeLayout(false);

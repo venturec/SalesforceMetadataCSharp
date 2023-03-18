@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExtractWebsites));
             this.lblURL = new System.Windows.Forms.Label();
             this.tbURL = new System.Windows.Forms.TextBox();
             this.btnGetPageLinks = new System.Windows.Forms.Button();
@@ -48,26 +49,27 @@
             // lblURL
             // 
             this.lblURL.AutoSize = true;
-            this.lblURL.Location = new System.Drawing.Point(12, 55);
+            this.lblURL.Location = new System.Drawing.Point(9, 45);
+            this.lblURL.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblURL.Name = "lblURL";
-            this.lblURL.Size = new System.Drawing.Size(36, 17);
+            this.lblURL.Size = new System.Drawing.Size(29, 13);
             this.lblURL.TabIndex = 0;
             this.lblURL.Text = "URL";
             // 
             // tbURL
             // 
-            this.tbURL.Location = new System.Drawing.Point(64, 55);
-            this.tbURL.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tbURL.Location = new System.Drawing.Point(48, 45);
+            this.tbURL.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbURL.Name = "tbURL";
-            this.tbURL.Size = new System.Drawing.Size(1143, 22);
+            this.tbURL.Size = new System.Drawing.Size(858, 20);
             this.tbURL.TabIndex = 1;
             // 
             // btnGetPageLinks
             // 
-            this.btnGetPageLinks.Location = new System.Drawing.Point(12, 222);
-            this.btnGetPageLinks.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnGetPageLinks.Location = new System.Drawing.Point(9, 180);
+            this.btnGetPageLinks.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnGetPageLinks.Name = "btnGetPageLinks";
-            this.btnGetPageLinks.Size = new System.Drawing.Size(155, 31);
+            this.btnGetPageLinks.Size = new System.Drawing.Size(116, 25);
             this.btnGetPageLinks.TabIndex = 8;
             this.btnGetPageLinks.Text = "Get Page Links";
             this.btnGetPageLinks.UseVisualStyleBackColor = true;
@@ -75,28 +77,29 @@
             // 
             // tbFileSaveLocation
             // 
-            this.tbFileSaveLocation.Location = new System.Drawing.Point(156, 95);
-            this.tbFileSaveLocation.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tbFileSaveLocation.Location = new System.Drawing.Point(117, 77);
+            this.tbFileSaveLocation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbFileSaveLocation.Name = "tbFileSaveLocation";
-            this.tbFileSaveLocation.Size = new System.Drawing.Size(1051, 22);
+            this.tbFileSaveLocation.Size = new System.Drawing.Size(789, 20);
             this.tbFileSaveLocation.TabIndex = 3;
             this.tbFileSaveLocation.DoubleClick += new System.EventHandler(this.tbFileSaveLocation_DoubleClick);
             // 
             // lblSaveURLsToFile
             // 
             this.lblSaveURLsToFile.AutoSize = true;
-            this.lblSaveURLsToFile.Location = new System.Drawing.Point(12, 95);
+            this.lblSaveURLsToFile.Location = new System.Drawing.Point(9, 77);
+            this.lblSaveURLsToFile.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSaveURLsToFile.Name = "lblSaveURLsToFile";
-            this.lblSaveURLsToFile.Size = new System.Drawing.Size(126, 17);
+            this.lblSaveURLsToFile.Size = new System.Drawing.Size(97, 13);
             this.lblSaveURLsToFile.TabIndex = 2;
             this.lblSaveURLsToFile.Text = "Save URLs To File";
             // 
             // btnRetrieveWebsites
             // 
-            this.btnRetrieveWebsites.Location = new System.Drawing.Point(189, 222);
-            this.btnRetrieveWebsites.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnRetrieveWebsites.Location = new System.Drawing.Point(142, 180);
+            this.btnRetrieveWebsites.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnRetrieveWebsites.Name = "btnRetrieveWebsites";
-            this.btnRetrieveWebsites.Size = new System.Drawing.Size(152, 31);
+            this.btnRetrieveWebsites.Size = new System.Drawing.Size(114, 25);
             this.btnRetrieveWebsites.TabIndex = 9;
             this.btnRetrieveWebsites.Text = "Retrieve Websites";
             this.btnRetrieveWebsites.UseVisualStyleBackColor = true;
@@ -120,28 +123,28 @@
             "20",
             "25",
             "30"});
-            this.cmbLayers.Location = new System.Drawing.Point(156, 153);
-            this.cmbLayers.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmbLayers.Location = new System.Drawing.Point(117, 124);
+            this.cmbLayers.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cmbLayers.Name = "cmbLayers";
-            this.cmbLayers.Size = new System.Drawing.Size(121, 24);
+            this.cmbLayers.Size = new System.Drawing.Size(92, 21);
             this.cmbLayers.TabIndex = 5;
             this.cmbLayers.Text = "1";
             // 
             // lblLayers
             // 
             this.lblLayers.AutoSize = true;
-            this.lblLayers.Location = new System.Drawing.Point(12, 153);
+            this.lblLayers.Location = new System.Drawing.Point(9, 124);
+            this.lblLayers.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblLayers.Name = "lblLayers";
-            this.lblLayers.Size = new System.Drawing.Size(89, 17);
+            this.lblLayers.Size = new System.Drawing.Size(67, 13);
             this.lblLayers.TabIndex = 4;
             this.lblLayers.Text = "Layers Deep";
             // 
             // btnHTMLToText
             // 
-            this.btnHTMLToText.Location = new System.Drawing.Point(368, 222);
-            this.btnHTMLToText.Margin = new System.Windows.Forms.Padding(4);
+            this.btnHTMLToText.Location = new System.Drawing.Point(276, 180);
             this.btnHTMLToText.Name = "btnHTMLToText";
-            this.btnHTMLToText.Size = new System.Drawing.Size(152, 31);
+            this.btnHTMLToText.Size = new System.Drawing.Size(114, 25);
             this.btnHTMLToText.TabIndex = 10;
             this.btnHTMLToText.Text = "HTML Page To Text";
             this.btnHTMLToText.UseVisualStyleBackColor = true;
@@ -152,39 +155,35 @@
             this.cbStayInSameDomain.AutoSize = true;
             this.cbStayInSameDomain.Checked = true;
             this.cbStayInSameDomain.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbStayInSameDomain.Location = new System.Drawing.Point(341, 155);
-            this.cbStayInSameDomain.Margin = new System.Windows.Forms.Padding(4);
+            this.cbStayInSameDomain.Location = new System.Drawing.Point(256, 126);
             this.cbStayInSameDomain.Name = "cbStayInSameDomain";
-            this.cbStayInSameDomain.Size = new System.Drawing.Size(165, 21);
+            this.cbStayInSameDomain.Size = new System.Drawing.Size(128, 17);
             this.cbStayInSameDomain.TabIndex = 6;
             this.cbStayInSameDomain.Text = "Stay In Same Domain";
             this.cbStayInSameDomain.UseVisualStyleBackColor = true;
             // 
             // tbPDFFileLocation
             // 
-            this.tbPDFFileLocation.Location = new System.Drawing.Point(164, 395);
-            this.tbPDFFileLocation.Margin = new System.Windows.Forms.Padding(4);
+            this.tbPDFFileLocation.Location = new System.Drawing.Point(123, 321);
             this.tbPDFFileLocation.Name = "tbPDFFileLocation";
-            this.tbPDFFileLocation.Size = new System.Drawing.Size(995, 22);
+            this.tbPDFFileLocation.Size = new System.Drawing.Size(747, 20);
             this.tbPDFFileLocation.TabIndex = 12;
             this.tbPDFFileLocation.DoubleClick += new System.EventHandler(this.tbPDFFileLocation_DoubleClick);
             // 
             // lblPDFFile
             // 
             this.lblPDFFile.AutoSize = true;
-            this.lblPDFFile.Location = new System.Drawing.Point(8, 399);
-            this.lblPDFFile.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblPDFFile.Location = new System.Drawing.Point(6, 324);
             this.lblPDFFile.Name = "lblPDFFile";
-            this.lblPDFFile.Size = new System.Drawing.Size(61, 17);
+            this.lblPDFFile.Size = new System.Drawing.Size(47, 13);
             this.lblPDFFile.TabIndex = 11;
             this.lblPDFFile.Text = "PDF File";
             // 
             // btnPDFToText
             // 
-            this.btnPDFToText.Location = new System.Drawing.Point(1008, 482);
-            this.btnPDFToText.Margin = new System.Windows.Forms.Padding(4);
+            this.btnPDFToText.Location = new System.Drawing.Point(756, 392);
             this.btnPDFToText.Name = "btnPDFToText";
-            this.btnPDFToText.Size = new System.Drawing.Size(152, 31);
+            this.btnPDFToText.Size = new System.Drawing.Size(114, 25);
             this.btnPDFToText.TabIndex = 15;
             this.btnPDFToText.Text = "PDF to Text";
             this.btnPDFToText.UseVisualStyleBackColor = true;
@@ -196,28 +195,26 @@
             this.cmbIncludeTextPos.Items.AddRange(new object[] {
             "No",
             "Yes"});
-            this.cmbIncludeTextPos.Location = new System.Drawing.Point(164, 438);
-            this.cmbIncludeTextPos.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbIncludeTextPos.Location = new System.Drawing.Point(123, 356);
             this.cmbIncludeTextPos.Name = "cmbIncludeTextPos";
-            this.cmbIncludeTextPos.Size = new System.Drawing.Size(160, 24);
+            this.cmbIncludeTextPos.Size = new System.Drawing.Size(121, 21);
             this.cmbIncludeTextPos.TabIndex = 14;
             this.cmbIncludeTextPos.Text = "Yes";
             // 
             // lblIncludeTextPositions
             // 
             this.lblIncludeTextPositions.AutoSize = true;
-            this.lblIncludeTextPositions.Location = new System.Drawing.Point(8, 442);
-            this.lblIncludeTextPositions.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblIncludeTextPositions.Location = new System.Drawing.Point(6, 359);
             this.lblIncludeTextPositions.Name = "lblIncludeTextPositions";
-            this.lblIncludeTextPositions.Size = new System.Drawing.Size(145, 17);
+            this.lblIncludeTextPositions.Size = new System.Drawing.Size(111, 13);
             this.lblIncludeTextPositions.TabIndex = 13;
             this.lblIncludeTextPositions.Text = "Include Text Positions";
             // 
             // ExtractWebsites
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1219, 576);
+            this.ClientSize = new System.Drawing.Size(914, 468);
             this.Controls.Add(this.lblIncludeTextPositions);
             this.Controls.Add(this.cmbIncludeTextPos);
             this.Controls.Add(this.btnPDFToText);
@@ -233,7 +230,8 @@
             this.Controls.Add(this.btnGetPageLinks);
             this.Controls.Add(this.tbURL);
             this.Controls.Add(this.lblURL);
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "ExtractWebsites";
             this.Text = "Extract Website";
             this.ResumeLayout(false);

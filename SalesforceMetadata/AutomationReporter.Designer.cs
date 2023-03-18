@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AutomationReporter));
             this.ProjectFolder = new System.Windows.Forms.Label();
             this.SaveResultsTo = new System.Windows.Forms.Label();
             this.btnRunAutomationOptimizationReport = new System.Windows.Forms.Button();
@@ -219,6 +220,7 @@
             this.Controls.Add(this.btnRunAutomationOptimizationReport);
             this.Controls.Add(this.SaveResultsTo);
             this.Controls.Add(this.ProjectFolder);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AutomationReporter";
             this.Text = "Automation Reporter";
             this.fromOrgGroup.ResumeLayout(false);

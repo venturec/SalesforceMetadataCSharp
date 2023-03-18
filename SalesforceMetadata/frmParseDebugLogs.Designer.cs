@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmParseDebugLogs));
             this.tbDebugFile = new System.Windows.Forms.TextBox();
             this.lblFileToParse = new System.Windows.Forms.Label();
             this.horizontalLine1 = new System.Windows.Forms.TextBox();
@@ -112,6 +113,7 @@
             this.Controls.Add(this.horizontalLine1);
             this.Controls.Add(this.lblFileToParse);
             this.Controls.Add(this.tbDebugFile);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmParseDebugLogs";
             this.Text = "Parse Debug Logs";
             this.ResumeLayout(false);

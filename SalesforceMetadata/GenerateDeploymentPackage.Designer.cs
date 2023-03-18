@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GenerateDeploymentPackage));
             this.treeViewMetadata = new System.Windows.Forms.TreeView();
             this.tbDeploymentPackageLocation = new System.Windows.Forms.TextBox();
             this.lblDeploymentFolder = new System.Windows.Forms.Label();
@@ -209,6 +210,7 @@
             this.Controls.Add(this.lblDeploymentFolder);
             this.Controls.Add(this.tbDeploymentPackageLocation);
             this.Controls.Add(this.treeViewMetadata);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GenerateDeploymentPackage";
             this.Text = "GenerateDeploymentPackage";
             this.ResumeLayout(false);

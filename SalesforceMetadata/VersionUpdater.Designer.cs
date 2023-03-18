@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VersionUpdater));
             this.tbComponentsLocation = new System.Windows.Forms.TextBox();
             this.cmbDefaultAPI = new System.Windows.Forms.ComboBox();
             this.btnUpdateAPI = new System.Windows.Forms.Button();
@@ -68,6 +69,7 @@
             this.Controls.Add(this.btnUpdateAPI);
             this.Controls.Add(this.cmbDefaultAPI);
             this.Controls.Add(this.tbComponentsLocation);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "VersionUpdater";
             this.Text = "API Version Updater";
             this.ResumeLayout(false);

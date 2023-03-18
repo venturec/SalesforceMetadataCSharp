@@ -29,6 +29,7 @@ namespace SalesforceMetadata
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LWCInspector));
             this.tbLWCFolderPath = new System.Windows.Forms.TextBox();
             this.btnParseLWC = new System.Windows.Forms.Button();
             this.lblLWCFolder = new System.Windows.Forms.Label();
@@ -39,19 +40,17 @@ namespace SalesforceMetadata
             // 
             // tbLWCFolderPath
             // 
-            this.tbLWCFolderPath.Location = new System.Drawing.Point(160, 43);
-            this.tbLWCFolderPath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbLWCFolderPath.Location = new System.Drawing.Point(120, 35);
             this.tbLWCFolderPath.Name = "tbLWCFolderPath";
-            this.tbLWCFolderPath.Size = new System.Drawing.Size(1039, 22);
+            this.tbLWCFolderPath.Size = new System.Drawing.Size(780, 20);
             this.tbLWCFolderPath.TabIndex = 1;
             this.tbLWCFolderPath.DoubleClick += new System.EventHandler(this.tbLWCFolderPath_DoubleClick);
             // 
             // btnParseLWC
             // 
-            this.btnParseLWC.Location = new System.Drawing.Point(373, 205);
-            this.btnParseLWC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnParseLWC.Location = new System.Drawing.Point(280, 167);
             this.btnParseLWC.Name = "btnParseLWC";
-            this.btnParseLWC.Size = new System.Drawing.Size(191, 28);
+            this.btnParseLWC.Size = new System.Drawing.Size(143, 23);
             this.btnParseLWC.TabIndex = 5;
             this.btnParseLWC.Text = "Parse LWC";
             this.btnParseLWC.UseVisualStyleBackColor = true;
@@ -60,39 +59,36 @@ namespace SalesforceMetadata
             // lblLWCFolder
             // 
             this.lblLWCFolder.AutoSize = true;
-            this.lblLWCFolder.Location = new System.Drawing.Point(16, 47);
-            this.lblLWCFolder.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblLWCFolder.Location = new System.Drawing.Point(12, 38);
             this.lblLWCFolder.Name = "lblLWCFolder";
-            this.lblLWCFolder.Size = new System.Drawing.Size(115, 17);
+            this.lblLWCFolder.Size = new System.Drawing.Size(88, 13);
             this.lblLWCFolder.TabIndex = 0;
             this.lblLWCFolder.Text = "LWC Folder Path";
             // 
             // tbSaveResultsTo
             // 
-            this.tbSaveResultsTo.Location = new System.Drawing.Point(160, 118);
-            this.tbSaveResultsTo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbSaveResultsTo.Location = new System.Drawing.Point(120, 96);
             this.tbSaveResultsTo.Name = "tbSaveResultsTo";
-            this.tbSaveResultsTo.Size = new System.Drawing.Size(1039, 22);
+            this.tbSaveResultsTo.Size = new System.Drawing.Size(780, 20);
             this.tbSaveResultsTo.TabIndex = 3;
             this.tbSaveResultsTo.Tag = "";
-            this.tbSaveResultsTo.Text = "";
             this.tbSaveResultsTo.DoubleClick += new System.EventHandler(this.tbSaveResultsTo_DoubleClick);
             // 
             // lblSaveTo
             // 
             this.lblSaveTo.AutoSize = true;
-            this.lblSaveTo.Location = new System.Drawing.Point(16, 122);
-            this.lblSaveTo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSaveTo.Location = new System.Drawing.Point(12, 99);
             this.lblSaveTo.Name = "lblSaveTo";
-            this.lblSaveTo.Size = new System.Drawing.Size(112, 17);
+            this.lblSaveTo.Size = new System.Drawing.Size(86, 13);
             this.lblSaveTo.TabIndex = 2;
             this.lblSaveTo.Text = "Save Results To";
             // 
             // btnConsolidateAll
             // 
-            this.btnConsolidateAll.Location = new System.Drawing.Point(160, 205);
+            this.btnConsolidateAll.Location = new System.Drawing.Point(120, 167);
+            this.btnConsolidateAll.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnConsolidateAll.Name = "btnConsolidateAll";
-            this.btnConsolidateAll.Size = new System.Drawing.Size(191, 28);
+            this.btnConsolidateAll.Size = new System.Drawing.Size(143, 23);
             this.btnConsolidateAll.TabIndex = 4;
             this.btnConsolidateAll.Text = "Consolidate All LWCs";
             this.btnConsolidateAll.UseVisualStyleBackColor = true;
@@ -100,16 +96,16 @@ namespace SalesforceMetadata
             // 
             // LWCInspector
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1724, 743);
+            this.ClientSize = new System.Drawing.Size(1293, 604);
             this.Controls.Add(this.btnConsolidateAll);
             this.Controls.Add(this.lblSaveTo);
             this.Controls.Add(this.tbSaveResultsTo);
             this.Controls.Add(this.lblLWCFolder);
             this.Controls.Add(this.btnParseLWC);
             this.Controls.Add(this.tbLWCFolderPath);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LWCInspector";
             this.Text = "LWCInspector";
             this.ResumeLayout(false);

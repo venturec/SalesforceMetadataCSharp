@@ -111,6 +111,7 @@
             this.listViewSobjectFields.UseCompatibleStateImageBehavior = false;
             this.listViewSobjectFields.View = System.Windows.Forms.View.Details;
             this.listViewSobjectFields.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listViewSobjectFields_ColumnClick);
+            this.listViewSobjectFields.SelectedIndexChanged += new System.EventHandler(this.listViewSobjectFields_SelectedIndexChanged);
             // 
             // btnGetSobjectFields
             // 

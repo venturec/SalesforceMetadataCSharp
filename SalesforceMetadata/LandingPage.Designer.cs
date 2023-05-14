@@ -45,7 +45,6 @@
             this.MetadataComparison = new System.Windows.Forms.Button();
             this.btnUpdateAPIVersion = new System.Windows.Forms.Button();
             this.btnGenerateDeploymentPackage = new System.Windows.Forms.Button();
-            this.btnGenerateObjectFieldsFromXML = new System.Windows.Forms.Button();
             this.btnParseLWC = new System.Windows.Forms.Button();
             this.btnDevelopmentIde = new System.Windows.Forms.Button();
             this.btnDeployments = new System.Windows.Forms.Button();
@@ -169,7 +168,7 @@
             // 
             // btnExtractHTMLPages
             // 
-            this.btnExtractHTMLPages.Location = new System.Drawing.Point(506, 168);
+            this.btnExtractHTMLPages.Location = new System.Drawing.Point(508, 207);
             this.btnExtractHTMLPages.Margin = new System.Windows.Forms.Padding(2);
             this.btnExtractHTMLPages.Name = "btnExtractHTMLPages";
             this.btnExtractHTMLPages.Size = new System.Drawing.Size(190, 35);
@@ -201,7 +200,7 @@
             // 
             // btnUpdateAPIVersion
             // 
-            this.btnUpdateAPIVersion.Location = new System.Drawing.Point(508, 128);
+            this.btnUpdateAPIVersion.Location = new System.Drawing.Point(508, 167);
             this.btnUpdateAPIVersion.Name = "btnUpdateAPIVersion";
             this.btnUpdateAPIVersion.Size = new System.Drawing.Size(190, 35);
             this.btnUpdateAPIVersion.TabIndex = 14;
@@ -218,16 +217,6 @@
             this.btnGenerateDeploymentPackage.Text = "Generate Deployment Package";
             this.btnGenerateDeploymentPackage.UseVisualStyleBackColor = true;
             this.btnGenerateDeploymentPackage.Click += new System.EventHandler(this.btnGenerateDeploymentPackage_Click);
-            // 
-            // btnGenerateObjectFieldsFromXML
-            // 
-            this.btnGenerateObjectFieldsFromXML.Location = new System.Drawing.Point(508, 87);
-            this.btnGenerateObjectFieldsFromXML.Name = "btnGenerateObjectFieldsFromXML";
-            this.btnGenerateObjectFieldsFromXML.Size = new System.Drawing.Size(190, 35);
-            this.btnGenerateObjectFieldsFromXML.TabIndex = 13;
-            this.btnGenerateObjectFieldsFromXML.Text = "Generate Object Fields from XML";
-            this.btnGenerateObjectFieldsFromXML.UseVisualStyleBackColor = true;
-            this.btnGenerateObjectFieldsFromXML.Click += new System.EventHandler(this.btnGenerateObjectFieldsFromXML_Click);
             // 
             // btnParseLWC
             // 
@@ -267,7 +256,6 @@
             this.Controls.Add(this.btnDeployments);
             this.Controls.Add(this.btnDevelopmentIde);
             this.Controls.Add(this.btnParseLWC);
-            this.Controls.Add(this.btnGenerateObjectFieldsFromXML);
             this.Controls.Add(this.btnGenerateDeploymentPackage);
             this.Controls.Add(this.btnUpdateAPIVersion);
             this.Controls.Add(this.MetadataComparison);
@@ -312,7 +300,6 @@
         private System.Windows.Forms.Button MetadataComparison;
         private System.Windows.Forms.Button btnUpdateAPIVersion;
         private System.Windows.Forms.Button btnGenerateDeploymentPackage;
-        private System.Windows.Forms.Button btnGenerateObjectFieldsFromXML;
         private System.Windows.Forms.Button btnParseLWC;
         private System.Windows.Forms.Button btnDevelopmentIde;
         private System.Windows.Forms.Button btnDeployments;

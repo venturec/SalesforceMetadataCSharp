@@ -83,12 +83,6 @@
     <Compile Include="DevelopmentEnvironment.Designer.cs">
       <DependentUpon>DevelopmentEnvironment.cs</DependentUpon>
     </Compile>
-    <Compile Include="ExtractFieldsFromMetadata.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ExtractFieldsFromMetadata.Designer.cs">
-      <DependentUpon>ExtractFieldsFromMetadata.cs</DependentUpon>
-    </Compile>
     <Compile Include="FolderEnum.cs" />
     <Compile Include="AutomationReporter.cs">
       <SubType>Form</SubType>
@@ -241,9 +235,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EncryptDecryptText.resx">
       <DependentUpon>EncryptDecryptText.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ExtractFieldsFromMetadata.resx">
-      <DependentUpon>ExtractFieldsFromMetadata.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ExtractWebsite.resx">
       <DependentUpon>ExtractWebsite.cs</DependentUpon>

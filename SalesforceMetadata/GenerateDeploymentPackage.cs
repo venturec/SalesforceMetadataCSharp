@@ -46,7 +46,13 @@ namespace SalesforceMetadata
 
         private void tbDeploymentPackageLocation_DoubleClick(object sender, EventArgs e)
         {
-            this.tbDeploymentPackageLocation.Text = UtilityClass.folderBrowserSelectPath("Select folder to save Deployment items to", true, FolderEnum.SaveTo);
+            this.tbDeploymentPackageLocation.Text = UtilityClass.folderBrowserSelectPath("Select folder to save Deployment items to", 
+                                                                                         true, 
+                                                                                         FolderEnum.SaveTo,
+                                                                                         Properties.Settings.Default.DeploymentPackageLastSaveLocation);
+
+            Properties.Settings.Default.DeploymentPackageLastSaveLocation = this.tbDeploymentPackageLocation.Text;
+            Properties.Settings.Default.Save();
 
             Boolean isEmpty = true;
             String[] dirs = Directory.GetDirectories(this.tbDeploymentPackageLocation.Text);
@@ -64,7 +70,13 @@ namespace SalesforceMetadata
 
         private void tbMetadataFolderToReadFrom_DoubleClick(object sender, EventArgs e)
         {
-            this.tbMetadataFolderToReadFrom.Text = UtilityClass.folderBrowserSelectPath("Select folder to read the Deployment items to", true, FolderEnum.SaveTo);
+            this.tbMetadataFolderToReadFrom.Text = UtilityClass.folderBrowserSelectPath("Select folder to read the Deployment items to", 
+                                                                                        true, 
+                                                                                        FolderEnum.SaveTo,
+                                                                                        Properties.Settings.Default.DeploymentPackageLastReadLocation);
+
+            Properties.Settings.Default.DeploymentPackageLastReadLocation = this.tbDeploymentPackageLocation.Text;
+            Properties.Settings.Default.Save();
 
             if (this.tbMetadataFolderToReadFrom.Text != "")
             {

@@ -26,7 +26,13 @@ namespace SalesforceMetadata
 
         private void tbMetadataFolderLocation_DoubleClick(object sender, EventArgs e)
         {
-            this.tbMetadataFolderLocation.Text = UtilityClass.folderBrowserSelectPath("Select Directory to read the Metadata from", true, FolderEnum.ReadFrom);
+            this.tbMetadataFolderLocation.Text = UtilityClass.folderBrowserSelectPath("Select Directory to read the Metadata from", 
+                                                                                      true, 
+                                                                                      FolderEnum.ReadFrom,
+                                                                                      Properties.Settings.Default.MetadataToolingLastReadFrom);
+
+            Properties.Settings.Default.MetadataToolingLastReadFrom = this.tbMetadataFolderLocation.Text;
+            Properties.Settings.Default.Save();
         }
 
         private void btnDone_Click(object sender, EventArgs e)

@@ -131,12 +131,6 @@ namespace SalesforceMetadata
             gdp.Show();
         }
 
-        private void btnGenerateObjectFieldsFromXML_Click(object sender, EventArgs e)
-        {
-            ExtractFieldsFromMetadata efm = new ExtractFieldsFromMetadata();
-            efm.Show();
-        }
-
         private void btnParseLWC_Click(object sender, EventArgs e)
         {
             LWCInspector lwci = new LWCInspector();

@@ -338,7 +338,13 @@ namespace SalesforceMetadata
 
         private void tbFileSaveLocation_DoubleClick(object sender, EventArgs e)
         {
-            this.tbFileSaveLocation.Text = UtilityClass.folderBrowserSelectPath("Save URLs To...", true, FolderEnum.SaveTo);
+            this.tbFileSaveLocation.Text = UtilityClass.folderBrowserSelectPath("Save URLs To...", 
+                                                                                true, 
+                                                                                FolderEnum.SaveTo,
+                                                                                Properties.Settings.Default.UrlExtractSaveToLocation);
+            
+            Properties.Settings.Default.UrlExtractSaveToLocation = this.tbFileSaveLocation.Text;
+            Properties.Settings.Default.Save();
         }
 
 

@@ -12,7 +12,7 @@ namespace SalesforceMetadata.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.4.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.5.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -56,54 +56,6 @@ namespace SalesforceMetadata.Properties {
             }
             set {
                 this["Salt"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LastFolderSaveLocation {
-            get {
-                return ((string)(this["LastFolderSaveLocation"]));
-            }
-            set {
-                this["LastFolderSaveLocation"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LastFolderReadLocation {
-            get {
-                return ((string)(this["LastFolderReadLocation"]));
-            }
-            set {
-                this["LastFolderReadLocation"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string MetadataFolderPath {
-            get {
-                return ((string)(this["MetadataFolderPath"]));
-            }
-            set {
-                this["MetadataFolderPath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DeploymentPackageTreeNodeSaveLocation {
-            get {
-                return ((string)(this["DeploymentPackageTreeNodeSaveLocation"]));
-            }
-            set {
-                this["DeploymentPackageTreeNodeSaveLocation"] = value;
             }
         }
         
@@ -170,6 +122,198 @@ namespace SalesforceMetadata.Properties {
             }
             set {
                 this["DevelopmentDeploymentFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AutomationReportLastReadLocation {
+            get {
+                return ((string)(this["AutomationReportLastReadLocation"]));
+            }
+            set {
+                this["AutomationReportLastReadLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AutomationReportLastSaveLocation {
+            get {
+                return ((string)(this["AutomationReportLastSaveLocation"]));
+            }
+            set {
+                this["AutomationReportLastSaveLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ConfigurationWorkbookLastReadLocation {
+            get {
+                return ((string)(this["ConfigurationWorkbookLastReadLocation"]));
+            }
+            set {
+                this["ConfigurationWorkbookLastReadLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ConfigurationWorkbookLastSaveLocation {
+            get {
+                return ((string)(this["ConfigurationWorkbookLastSaveLocation"]));
+            }
+            set {
+                this["ConfigurationWorkbookLastSaveLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string UrlExtractSaveToLocation {
+            get {
+                return ((string)(this["UrlExtractSaveToLocation"]));
+            }
+            set {
+                this["UrlExtractSaveToLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DeploymentPackageLastSaveLocation {
+            get {
+                return ((string)(this["DeploymentPackageLastSaveLocation"]));
+            }
+            set {
+                this["DeploymentPackageLastSaveLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DeploymentPackageLastReadLocation {
+            get {
+                return ((string)(this["DeploymentPackageLastReadLocation"]));
+            }
+            set {
+                this["DeploymentPackageLastReadLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LWCLastReadLocation {
+            get {
+                return ((string)(this["LWCLastReadLocation"]));
+            }
+            set {
+                this["LWCLastReadLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LWCLastSaveLocation {
+            get {
+                return ((string)(this["LWCLastSaveLocation"]));
+            }
+            set {
+                this["LWCLastSaveLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MetadataComparisonLastCompareFrom {
+            get {
+                return ((string)(this["MetadataComparisonLastCompareFrom"]));
+            }
+            set {
+                this["MetadataComparisonLastCompareFrom"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MetadataComparisonLastCompareTo {
+            get {
+                return ((string)(this["MetadataComparisonLastCompareTo"]));
+            }
+            set {
+                this["MetadataComparisonLastCompareTo"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MetadataToolingLastReadFrom {
+            get {
+                return ((string)(this["MetadataToolingLastReadFrom"]));
+            }
+            set {
+                this["MetadataToolingLastReadFrom"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ObjectModificationLastReadFrom {
+            get {
+                return ((string)(this["ObjectModificationLastReadFrom"]));
+            }
+            set {
+                this["ObjectModificationLastReadFrom"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MetadataLastSaveToLocation {
+            get {
+                return ((string)(this["MetadataLastSaveToLocation"]));
+            }
+            set {
+                this["MetadataLastSaveToLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastSearchLocation {
+            get {
+                return ((string)(this["LastSearchLocation"]));
+            }
+            set {
+                this["LastSearchLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ApiVersionUpdaterLastReadLocation {
+            get {
+                return ((string)(this["ApiVersionUpdaterLastReadLocation"]));
+            }
+            set {
+                this["ApiVersionUpdaterLastReadLocation"] = value;
             }
         }
     }

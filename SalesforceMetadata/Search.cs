@@ -297,7 +297,13 @@ namespace SalesforceMetadata
 
         private void tbLocation_DoubleClick(object sender, EventArgs e)
         {
-            this.tbSearchLocation.Text = UtilityClass.folderBrowserSelectPath("Select the Directory to search", false, FolderEnum.ReadFrom);
+            this.tbSearchLocation.Text = UtilityClass.folderBrowserSelectPath("Select the Directory to search", 
+                                                                              false, 
+                                                                              FolderEnum.ReadFrom,
+                                                                              Properties.Settings.Default.LastSearchLocation);
+
+            Properties.Settings.Default.LastSearchLocation = this.tbSearchLocation.Text;
+            Properties.Settings.Default.Save();
         }
 
 

@@ -29,12 +29,24 @@ namespace SalesforceMetadata
 
         private void tbLWCFolderPath_DoubleClick(object sender, EventArgs e)
         {
-            this.tbLWCFolderPath.Text = UtilityClass.folderBrowserSelectPath("Select LWC Folder to Parse", false, FolderEnum.ReadFrom);
+            this.tbLWCFolderPath.Text = UtilityClass.folderBrowserSelectPath("Select LWC Folder to Parse", 
+                                                                             false, 
+                                                                             FolderEnum.ReadFrom,
+                                                                             Properties.Settings.Default.LWCLastReadLocation);
+
+            Properties.Settings.Default.LWCLastReadLocation = this.tbLWCFolderPath.Text;
+            Properties.Settings.Default.Save();
         }
 
         private void tbSaveResultsTo_DoubleClick(object sender, EventArgs e)
         {
-            this.tbSaveResultsTo.Text = UtilityClass.folderBrowserSelectPath("Save Results to", true, FolderEnum.SaveTo);
+            this.tbSaveResultsTo.Text = UtilityClass.folderBrowserSelectPath("Save Results to", 
+                                                                             true, 
+                                                                             FolderEnum.SaveTo, 
+                                                                             Properties.Settings.Default.LWCLastSaveLocation);
+
+            Properties.Settings.Default.LWCLastSaveLocation = this.tbSaveResultsTo.Text;
+            Properties.Settings.Default.Save();
         }
 
         private void btnParseLWC_Click(object sender, EventArgs e)

@@ -1290,12 +1290,24 @@ namespace SalesforceMetadata
 
         private void tbFromFolder_DoubleClick(object sender, EventArgs e)
         {
-            this.tbFromFolder.Text = UtilityClass.folderBrowserSelectPath("Select the Compare From Folder", false, FolderEnum.ReadFrom);
+            this.tbFromFolder.Text = UtilityClass.folderBrowserSelectPath("Select the Compare From Folder", 
+                                                                          false, 
+                                                                          FolderEnum.ReadFrom,
+                                                                          Properties.Settings.Default.MetadataComparisonLastCompareFrom);
+
+            Properties.Settings.Default.MetadataComparisonLastCompareFrom = this.tbFromFolder.Text;
+            Properties.Settings.Default.Save();
         }
 
         private void tbToFolder_DoubleClick(object sender, EventArgs e)
         {
-            this.tbToFolder.Text = UtilityClass.folderBrowserSelectPath("Select the Compare To Folder", false, FolderEnum.ReadFrom);
+            this.tbToFolder.Text = UtilityClass.folderBrowserSelectPath("Select the Compare To Folder", 
+                                                                        false, 
+                                                                        FolderEnum.ReadFrom,
+                                                                        Properties.Settings.Default.MetadataComparisonLastCompareTo);
+            
+            Properties.Settings.Default.MetadataComparisonLastCompareTo = this.tbFromFolder.Text;
+            Properties.Settings.Default.Save();
         }
 
 

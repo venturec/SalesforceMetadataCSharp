@@ -15,188 +15,1248 @@ using System.Xml;
 using SalesforceMetadata.PartnerWSDL;
 using SalesforceMetadata.MetadataWSDL;
 using SalesforceMetadata.ToolingWSDL;
+using static SalesforceMetadata.AutomationReporter;
+using iTextSharp.text;
+using System.Reflection;
 
 
 namespace SalesforceMetadata
 {
     public partial class AutomationReporter : Form
     {
-        //private Dictionary<String, String> metadataXmlNameToFolder;
-        private Dictionary<String, String> usernameToSecurityToken;
-        //private frmUserSettings userSetting;
+        // Key = Object API Name
+        public Dictionary<String, ObjectToFields> objectToFieldsDictionary;
 
-        public List<String> subdirectorySearchCompleted;
-        public List<String> fileNames;
+        // Key = Object API Name + Field Name
+        public Dictionary<String, List<ObjectValidations>> objectValidationsDictionary;
 
-        public Dictionary<String, String> classIdToClassName;
+        // Key = class name
+        public Dictionary<String, ApexClasses> classNmToClass;
+
+        // Variable names used in Triggers and classes
+        // Object
+        // Trigger Name
+        // Trigger Type - insert, update, delete, undelete
+        public Dictionary<String, List<ApexTriggers>> objectToTrigger;
+
+        public Dictionary<String, List<Flow>> objectToFlow;
 
         public AutomationReporter()
         {
             InitializeComponent();
-            populateCredentials();
+        }
+
+        private void btnRunAutomationReport_Click(object sender, EventArgs e)
+        {
+            if (this.tbProjectFolder.Text != null && this.tbProjectFolder.Text != "")
+            {
+                // We need the objects and fields and the apex classes extracted out first
+                runObjectFieldExtract();
+                
+                runApexClassExtract();
+
+                runApexTriggerExtract();
+
+                runFlowProcessExtract();
+                
+                runWorkflowExtract();
+
+                //runApprovalProcessExtract();
+
+                //runQuickActionExtract();
+
+                
+                // Write the data to an HTML friendly format
+
+
+                MessageBox.Show("Automation Report Complete");
+            }
         }
 
 
-        private void populateCredentials()
+        // We need the objects and fields and the apex classes extracted out first
+        private void runObjectFieldExtract()
         {
-            Boolean encryptionFileSettingsPopulated = true;
-            if (Properties.Settings.Default.UserAndAPIFileLocation == ""
-            || Properties.Settings.Default.SharedSecretLocation == "")
+            if (Directory.Exists(this.tbProjectFolder.Text + "\\objects"))
             {
-                encryptionFileSettingsPopulated = false;
-            }
+                String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\objects");
 
-            if (encryptionFileSettingsPopulated == false)
-            {
-                MessageBox.Show("Please populate the fields in the Settings from the Landing Page first, then use this form to download the Metadata.");
-                return;
-            }
+                objectToFieldsDictionary = new Dictionary<string, ObjectToFields>();
+                objectValidationsDictionary = new Dictionary<String, List<ObjectValidations>>();
 
-            SalesforceCredentials.usernamePartnerUrl = new Dictionary<String, String>();
-            SalesforceCredentials.usernameMetadataUrl = new Dictionary<String, String>();
-            SalesforceCredentials.usernameToolingWsdlUrl = new Dictionary<String, String>();
-            SalesforceCredentials.isProduction = new Dictionary<String, Boolean>();
-            SalesforceCredentials.defaultWsdlObjects = new Dictionary<String, List<String>>();
-
-            // Decrypt the contents of the file and place in an XML Document format
-            StreamReader encryptedContents = new StreamReader(Properties.Settings.Default.UserAndAPIFileLocation);
-            StreamReader sharedSecret = new StreamReader(Properties.Settings.Default.SharedSecretLocation);
-            String decryptedContents = Crypto.DecryptString(encryptedContents.ReadToEnd(),
-                                                            sharedSecret.ReadToEnd(),
-                                                            Properties.Settings.Default.Salt);
-
-            encryptedContents.Close();
-            sharedSecret.Close();
-
-            XmlDocument sfUser = new XmlDocument();
-            sfUser.LoadXml(decryptedContents);
-
-            XmlNodeList documentNodes = sfUser.GetElementsByTagName("usersetting");
-
-            this.usernameToSecurityToken = new Dictionary<string, string>();
-
-            for (int i = 0; i < documentNodes.Count; i++)
-            {
-                String username = "";
-                //String enterpriseWsdlUrl = "";
-                String partnerWsdlUrl = "";
-                String metadataWdldUrl = "";
-                String toolingWsdlUrl = "";
-                Boolean isProd = false;
-                List<String> defaultWsdlObjectList = new List<String>();
-                foreach (XmlNode childNode in documentNodes[i].ChildNodes)
+                foreach (String fl in files)
                 {
-                    if (childNode.Name == "username")
-                    {
-                        username = childNode.InnerText;
-                    }
+                    String[] flPathSplit = fl.Split('\\');
+                    String[] flNameSplit = flPathSplit[flPathSplit.Length - 1].Split('.');
 
-                    if (childNode.Name == "securitytoken")
-                    {
-                        usernameToSecurityToken.Add(username, childNode.InnerText);
-                    }
+                    XmlDocument objXd = new XmlDocument();
+                    objXd.Load(fl);
 
-                    if (childNode.Name == "isproduction")
-                    {
-                        isProd = Convert.ToBoolean(childNode.InnerText);
-                    }
+                    XmlNodeList fieldList = objXd.GetElementsByTagName("fields");
+                    XmlNodeList validationRules = objXd.GetElementsByTagName("validationRules");
+                    XmlNodeList sharingmodel = objXd.GetElementsByTagName("sharingModel");
+                    XmlNodeList objvisibility = objXd.GetElementsByTagName("visibility");
 
-                    if (childNode.Name == "partnerwsdlurl")
-                    {
-                        partnerWsdlUrl = childNode.InnerText;
-                    }
+                    // Get all fields into the Dictionary
+                    ObjectToFields otf = new ObjectToFields();
+                    otf.objectName = flNameSplit[0];
 
-                    if (childNode.Name == "metadatawsdlurl")
+                    otf.fields = new List<String>();
+                    foreach (XmlNode fldNd in fieldList)
                     {
-                        metadataWdldUrl = childNode.InnerText;
-                    }
-
-                    if (childNode.Name == "toolingwsdlurl")
-                    {
-                        toolingWsdlUrl = childNode.InnerText;
-                    }
-
-                    if (childNode.Name == "defaultpackages" && childNode.HasChildNodes)
-                    {
-                        XmlNodeList defObjects = childNode.ChildNodes;
-                        foreach (XmlNode obj in defObjects)
+                        if (fldNd.ParentNode.Name == "CustomObject")
                         {
-                            defaultWsdlObjectList.Add(obj.InnerText);
+                            otf.fields.Add(fldNd.ChildNodes[0].InnerText);
+                        }
+                    }
+
+                    if (sharingmodel.Count > 0)
+                    {
+                        otf.sharingModel = sharingmodel[0].ChildNodes[0].InnerText;
+                    }
+
+                    if (objvisibility.Count > 0)
+                    {
+                        otf.visibility = objvisibility[0].ChildNodes[0].InnerText;
+                    }
+
+                    objectToFieldsDictionary.Add(flNameSplit[0], otf);
+
+
+                    // Get all Validation Rules into the Dictionary
+                    foreach (XmlNode objVal in validationRules)
+                    {
+                        if (objVal.ChildNodes[1].InnerText == "true")
+                        {
+                            ObjectValidations ov = new ObjectValidations();
+
+                            foreach (XmlNode cn in objVal.ChildNodes)
+                            {
+                                if (cn.Name == "fullName")
+                                {
+                                    ov.validationName = cn.InnerText;
+                                }
+                                else if (cn.Name == "errorConditionFormula")
+                                {
+                                    ov.errorConditionFormula = cn.InnerText;
+                                }
+                            }
+
+                            if (objectValidationsDictionary.ContainsKey(flNameSplit[0]))
+                            {
+                                objectValidationsDictionary[flNameSplit[0]].Add(ov);
+                            }
+                            else
+                            {
+                                objectValidationsDictionary.Add(flNameSplit[0], new List<ObjectValidations> { ov });
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void runApexClassExtract()
+        {
+            if (Directory.Exists(this.tbProjectFolder.Text + "\\classes"))
+            {
+                String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\classes");
+
+                this.classNmToClass = new Dictionary<string, ApexClasses>();
+
+                foreach (String fl in files)
+                {
+                    String[] flPathSplit = fl.Split('\\');
+                    String[] flNameSplit = flPathSplit[flPathSplit.Length - 1].Split('.');
+
+                    if (flNameSplit[1] == "cls-meta") { continue; }
+
+                    StreamReader sr = new StreamReader(fl);
+                    String flread = sr.ReadToEnd();
+                    sr.Close();
+
+                    flread = reduceWhitespace(flread);
+
+                    // Break the file contents into an array of string to parse through
+                    String[] filearray = flread.Split(' ');
+
+                    parseApexClass(filearray);
+                }
+            }
+        }
+
+        // This one will be a little more complex
+        // Extract out the SOQL comments filtering on SELECT and FROM
+        // Extract out the List of objects
+        // Extract out the Map of objects
+        // Extract methods
+        // Extract inner classes
+        // Extract the trigger handler classes
+        // Extract the extends and implements
+        // Extract out the database.insert, database.update, database.delete, database.undelete
+        // Extract out the insert, update, delete, undelete
+        // Bypass the test classes and methods as we don't need these in the current mapping
+        // Map the object to what automation pieces are around these as well as the variable names uses so that you can determine when an instantiated variable
+        // is used to trigger other automation such as insert, update, delete, undelete
+
+        // For triggers only:
+        // before insert,
+        // before update,
+        // before delete,
+        // after insert,
+        // after update,
+        // after delete,
+        // after undelete,
+
+        // Note: The , may or may not be there in the trigger types
+        private void runApexTriggerExtract()
+        {
+            this.objectToTrigger = new Dictionary<string, List<ApexTriggers>>();
+
+            if (Directory.Exists(this.tbProjectFolder.Text + "\\triggers"))
+            {
+                String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\triggers");
+
+                foreach (String fl in files)
+                {
+                    String[] flPathSplit = fl.Split('\\');
+                    String[] flNameSplit = flPathSplit[flPathSplit.Length - 1].Split('.');
+
+                    if (flNameSplit[1] == "trigger-meta") { continue; }
+
+                    StreamReader sr = new StreamReader(fl);
+                    String flread = sr.ReadToEnd();
+                    sr.Close();
+
+                    flread = reduceWhitespace(flread);
+
+                    // Break the file contents into an array of string to parse through
+                    String[] filearray = flread.Split(' ');
+
+                    parseApexTrigger(filearray);
+                }
+            }
+        }
+
+        private void runQuickActionExtract()
+        {
+            if (Directory.Exists(this.tbProjectFolder.Text + "\\quickActions"))
+            {
+
+            }
+        }
+
+        private void runFlowProcessExtract()
+        {
+            if (Directory.Exists(this.tbProjectFolder.Text + "\\flows"))
+            {
+                objectToFlow = new Dictionary<string, List<Flow>>();
+
+                String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\flows");
+
+                foreach (String fl in files)
+                {
+                    String[] flPathSplit = fl.Split('\\');
+                    String[] flNameSplit = flPathSplit[flPathSplit.Length - 1].Split('.');
+
+                    Flow flowObj = new Flow();
+                    flowObj.apiName = flNameSplit[0];
+
+                    XmlDocument objXd = new XmlDocument();
+                    objXd.Load(fl);
+
+                    XmlNodeList ndListStatus = objXd.GetElementsByTagName("status");
+                    XmlNodeList ndListLabel = objXd.GetElementsByTagName("label");
+                    XmlNodeList ndListProcType = objXd.GetElementsByTagName("processType");
+                    XmlNodeList ndListObjProc = objXd.GetElementsByTagName("processMetadataValues");
+                    XmlNodeList ndListStart = objXd.GetElementsByTagName("start");
+                    XmlNodeList ndListApiVs = objXd.GetElementsByTagName("apiVersion");
+                    XmlNodeList ndListRunInMd = objXd.GetElementsByTagName("runInMode");
+
+                    XmlNodeList ndListRecordCreates = objXd.GetElementsByTagName("recordCreates");
+                    XmlNodeList ndListRecordUpdates = objXd.GetElementsByTagName("recordUpdates");
+                    XmlNodeList ndListRecordDeletes = objXd.GetElementsByTagName("recordDeletes");
+
+                    Boolean continueLoop = true;
+                    foreach (XmlNode xn in ndListStatus)
+                    {
+                        if (xn.ParentNode.LocalName == "Flow")
+                        {
+                            if (xn.InnerText == "Active")
+                            {
+                                flowObj.isActive = true;
+                            }
+                            else
+                            {
+                                continueLoop = false;
+                            }
+                        }
+                    }
+
+                    if (continueLoop == false)
+                    {
+                        continue;
+                    }
+
+                    foreach (XmlNode xn in ndListLabel)
+                    {
+                        if (xn.ParentNode.LocalName == "Flow")
+                        {
+                            flowObj.label = xn.InnerText;
+                        }
+                    }
+
+                    foreach (XmlNode xn in ndListProcType)
+                    {
+                        if (xn.ParentNode.LocalName == "Flow")
+                        {
+                            flowObj.flowProcessType = xn.InnerText;
+                        }
+                    }
+
+                    foreach (XmlNode xn in ndListObjProc)
+                    {
+                        if (xn.ParentNode.LocalName == "Flow")
+                        {
+                            Debug.WriteLine(" ");
+                            if (xn.ChildNodes[0].InnerText == "ObjectType")
+                            {
+                                flowObj.objectName = xn.ChildNodes[1].InnerText;
+                            }
+                            else if (xn.ChildNodes[0].InnerText == "TriggerType")
+                            {
+                                flowObj.triggerType = xn.ChildNodes[1].InnerText;
+                            }
+                        }
+                    }
+
+                    foreach (XmlNode xn in ndListApiVs)
+                    {
+                        flowObj.apiVersion = xn.InnerText;
+                    }
+
+                    foreach (XmlNode xn in ndListStart)
+                    {
+                        if (xn.ParentNode.LocalName == "Flow")
+                        {
+                            foreach (XmlNode cn1 in xn.ChildNodes)
+                            {
+                                if (cn1.Name == "object")
+                                {
+                                    flowObj.objectName = cn1.InnerText;
+                                }
+                                else if (cn1.Name == "recordTriggerType")
+                                {
+                                    flowObj.recordTriggerTrype = cn1.InnerText;
+                                }
+                                else if (cn1.Name == "triggerType")
+                                {
+                                    flowObj.triggerType = cn1.InnerText;
+                                }
+                                else if (cn1.Name == "connector")
+                                {
+                                    //Debug.WriteLine(" ");
+                                }
+                            }
+                        }
+                    }
+
+                    foreach (XmlNode xn in ndListRunInMd)
+                    {
+                        if (xn.ParentNode.LocalName == "Flow")
+                        {
+                            flowObj.runInMode = xn.InnerText;
+                        }
+                    }
+
+                    foreach (XmlNode xn in ndListRecordCreates)
+                    {
+                        if (xn.ParentNode.LocalName == "Flow")
+                        {
+                            String objName = "";
+                            String varName = "";
+
+                            foreach (XmlNode nd1 in xn.ChildNodes)
+                            {
+                                if (nd1.Name == "object")
+                                {
+                                    objName = nd1.InnerText;
+                                }
+                                else if (nd1.Name == "name")
+                                {
+                                    varName = nd1.InnerText;
+                                }
+                            }
+
+                            if (objName != "")
+                            {
+                                if (flowObj.recordCreates.ContainsKey(objName))
+                                {
+                                    flowObj.recordCreates[objName].Add(varName);
+                                }
+                                else
+                                {
+                                    flowObj.recordCreates.Add(objName, new List<String> { varName });
+                                }
+                            }
+                        }
+                    }
+
+                    foreach (XmlNode xn in ndListRecordUpdates)
+                    {
+                        if (xn.ParentNode.LocalName == "Flow")
+                        {
+                            String objName = "";
+                            String varName = "";
+
+                            foreach (XmlNode nd1 in xn.ChildNodes)
+                            {
+                                if (nd1.Name == "object")
+                                {
+                                    objName = nd1.InnerText;
+                                }
+                                else if (nd1.Name == "name")
+                                {
+                                    varName = nd1.InnerText;
+                                }
+                            }
+
+                            if (objName != "")
+                            {
+                                if (flowObj.recordUpdates.ContainsKey(objName))
+                                {
+                                    flowObj.recordUpdates[objName].Add(varName);
+                                }
+                                else
+                                {
+                                    flowObj.recordUpdates.Add(objName, new List<String> { varName });
+                                }
+                            }
+                        }
+                    }
+
+                    foreach (XmlNode xn in ndListRecordDeletes)
+                    {
+                        if (xn.ParentNode.LocalName == "Flow")
+                        {
+                            String objName = "";
+                            String varName = "";
+
+                            foreach (XmlNode nd1 in xn.ChildNodes)
+                            {
+                                if (nd1.Name == "object")
+                                {
+                                    objName = nd1.InnerText;
+                                }
+                                else if (nd1.Name == "name")
+                                {
+                                    varName = nd1.InnerText;
+                                }
+                            }
+
+                            if (objName != "")
+                            {
+                                if (flowObj.recordDeletes.ContainsKey(objName))
+                                {
+                                    flowObj.recordDeletes[objName].Add(varName);
+                                }
+                                else
+                                {
+                                    flowObj.recordDeletes.Add(objName, new List<String> { varName });
+                                }
+                            }
+                        }
+                    }
+
+                    if (this.objectToFlow.ContainsKey(flowObj.objectName))
+                    {
+                        this.objectToFlow[flowObj.objectName].Add(flowObj);
+                    }
+                    else
+                    {
+                        this.objectToFlow.Add(flowObj.objectName, new List<Flow> { flowObj });
+                    }
+                }
+            }
+        }
+
+        private void runApprovalProcessExtract()
+        {
+            if (Directory.Exists(this.tbProjectFolder.Text + "\\approvalProcesses"))
+            {
+
+            }
+        }
+
+        private void runWorkflowExtract()
+        {
+            if (Directory.Exists(this.tbProjectFolder.Text + "\\workflows"))
+            {
+
+            }
+        }
+
+        public void writeDataToExcelSheet(Microsoft.Office.Interop.Excel.Worksheet xlWorksheet,
+                                          Int32 rowNumber,
+                                          Int32 colNumber,
+                                          String value)
+        {
+            xlWorksheet.Cells[rowNumber, colNumber].Value = value;
+        }
+
+        public void formatExcelRange(Microsoft.Office.Interop.Excel.Worksheet xlWorksheet,
+                                             Int32 startRowNumber,
+                                             Int32 endRowNumber,
+                                             Int32 startColNumber,
+                                             Int32 endColNumber,
+                                             Int32 fontSize,
+                                             Int32 fontColorRed,
+                                             Int32 fontColorGreen,
+                                             Int32 fontColorBlue,
+                                             Int32 interiorColorRed,
+                                             Int32 interiorColorGreen,
+                                             Int32 interiorColorBlue,
+                                             Boolean boldText,
+                                             Boolean italicText,
+                                             String fieldValues)
+        {
+            Microsoft.Office.Interop.Excel.Range rng;
+            rng = xlWorksheet.Range[xlWorksheet.Cells[startRowNumber, startColNumber], xlWorksheet.Cells[endRowNumber, endColNumber]];
+            rng.Font.Bold = boldText;
+            rng.Font.Italic = italicText;
+            rng.Font.Size = fontSize;
+            rng.Font.Color = System.Drawing.Color.FromArgb(fontColorRed, fontColorGreen, fontColorBlue);
+
+            if (fieldValues.ToLower() == "true")
+            {
+                rng.Interior.Color = System.Drawing.Color.FromArgb(220, 230, 241);
+            }
+            else if (fieldValues.ToLower() == "false")
+            {
+                rng.Interior.Color = System.Drawing.Color.FromArgb(250, 191, 143);
+            }
+            else
+            {
+                rng.Interior.Color = System.Drawing.Color.FromArgb(interiorColorRed, interiorColorGreen, interiorColorBlue);
+            }
+        }
+
+        private void tbProjectFolder_DoubleClick(object sender, EventArgs e)
+        {
+            this.tbProjectFolder.Text = UtilityClass.folderBrowserSelectPath("Select Project Folder", 
+                                                                             false, 
+                                                                             FolderEnum.ReadFrom,
+                                                                             Properties.Settings.Default.AutomationReportLastReadLocation);
+
+            Properties.Settings.Default.AutomationReportLastReadLocation = this.tbProjectFolder.Text;
+            Properties.Settings.Default.Save();
+        }
+
+        private void tbFileSaveTo_DoubleClick(object sender, EventArgs e)
+        {
+            this.tbFileSaveTo.Text = UtilityClass.folderBrowserSelectPath("Select Folder To Save Report To",
+                                                                             true,
+                                                                             FolderEnum.SaveTo,
+                                                                             Properties.Settings.Default.AutomationReportLastSaveLocation);
+
+            Properties.Settings.Default.AutomationReportLastSaveLocation = this.tbFileSaveTo.Text;
+            Properties.Settings.Default.Save();
+        }
+
+        private String reduceWhitespace(String strValue)
+        {
+            // Remove any comments and commented code
+            String fileContents1 = "";
+            Char[] charArray = strValue.ToCharArray();
+            Boolean inInlineComment = false;
+
+            Boolean inMultilineComment = false;
+            Int32 mlCommentNotationCount = 0;
+
+            Boolean skipOne = false;
+
+            for (Int32 i = 0; i < charArray.Length; i++)
+            {
+                if (skipOne == true)
+                {
+                    skipOne = false;
+                }
+                else if (inInlineComment == false
+                    && charArray[i].ToString() == "/" && charArray[i + 1].ToString() == "*")
+                {
+                    inMultilineComment = true;
+                    mlCommentNotationCount++;
+                }
+                else if (inMultilineComment == false
+                    && charArray[i].ToString() == "/" && charArray[i + 1].ToString() == "/")
+                {
+                    inInlineComment = true;
+                }
+                else if (inInlineComment == true
+                    && charArray[i] == '\n')
+                {
+                    inInlineComment = false;
+                }
+                else if (inInlineComment == false
+                    && charArray[i].ToString() == "*" && charArray[i + 1].ToString() == "/")
+                {
+                    mlCommentNotationCount--;
+                    if (mlCommentNotationCount == 0)
+                    {
+                        inMultilineComment = false;
+                        skipOne = true;
+                    }
+                }
+                else if (inInlineComment == false && inMultilineComment == false)
+                {
+                    fileContents1 = fileContents1 + charArray[i].ToString();
+                }
+            }
+
+            fileContents1 = fileContents1.Replace('\t', ' ');
+            fileContents1 = fileContents1.Replace('\r', ' ');
+            fileContents1 = fileContents1.Replace('\n', ' ');
+            fileContents1 = fileContents1.Replace("(", " ( ");
+            fileContents1 = fileContents1.Replace(")", " ) ");
+            fileContents1 = fileContents1.Replace("[", " [ ");
+            fileContents1 = fileContents1.Replace("]", " ] ");
+            fileContents1 = fileContents1.Replace("{", " { ");
+            fileContents1 = fileContents1.Replace("}", " } ");
+            fileContents1 = fileContents1.Replace(",", " , ");
+            fileContents1 = fileContents1.Replace(":", " : ");
+            fileContents1 = fileContents1.Replace(";", " ; ");
+            fileContents1 = fileContents1.Replace("  ", " ");
+            fileContents1 = fileContents1.Replace("  ", " ");
+            fileContents1 = fileContents1.Replace("  ", " ");
+            fileContents1 = fileContents1.Replace("  ", " ");
+            fileContents1 = fileContents1.Replace("  ", " ");
+            fileContents1 = fileContents1.Replace("  ", " ");
+            fileContents1 = fileContents1.Replace("  ", " ");
+            fileContents1 = fileContents1.Replace("  ", " ");
+            fileContents1 = fileContents1.Replace("  ", " ");
+            fileContents1 = fileContents1.Replace("  ", " ");
+            fileContents1 = fileContents1.Replace("  ", " ");
+            fileContents1 = fileContents1.Replace("  ", " ");
+            fileContents1 = fileContents1.Replace("  ", " ");
+            fileContents1 = fileContents1.Replace("  ", " ");
+            fileContents1 = fileContents1.Replace("  ", " ");
+
+            // Adjust for any space for List, Map, Set collection
+            // The Character loop below will handle any additional spacing.
+            // We only care about the < at this point to make sure a potential
+            // collection is not Map < but is Map<
+            fileContents1 = fileContents1.Replace(" <", "<");
+
+            fileContents1 = fileContents1.Trim();
+
+
+            String filecontents2 = "";
+
+            // reformat for Map, List, Set
+            Boolean inCollection = false;
+            String collectionVar = "";
+            Boolean firstLessThanFound = false;
+            Int32 lessThanCount = 0;
+
+            charArray = fileContents1.ToCharArray();
+            for (Int32 i = 0; i < charArray.Length; i++)
+            {
+                if (inCollection == true && charArray[i].ToString().ToLower() != " ")
+                {
+                    collectionVar = collectionVar + charArray[i].ToString();
+
+                    if (charArray[i].ToString() == "<" && firstLessThanFound == false)
+                    {
+                        firstLessThanFound = true;
+                        lessThanCount++;
+                    }
+                    else if (charArray[i].ToString() == "<" && firstLessThanFound == true)
+                    {
+                        lessThanCount++;
+                    }
+                    else if (charArray[i].ToString() == ">")
+                    {
+                        lessThanCount--;
+
+                        if (firstLessThanFound == true && lessThanCount == 0)
+                        {
+                            filecontents2 = filecontents2 + " " + collectionVar;
+
+                            collectionVar = "";
+                            inCollection = false;
+                            firstLessThanFound = false;
+                            lessThanCount = 0;
+                        }
+                    }
+                }
+                else if (charArray[i].ToString().ToLower() == "m"
+                   && charArray[i + 1].ToString().ToLower() == "a"
+                   && charArray[i + 2].ToString().ToLower() == "p"
+                   && charArray[i + 3].ToString().ToLower() == "<")
+                {
+                    inCollection = true;
+                    collectionVar = collectionVar + charArray[i].ToString();
+                }
+                else if (charArray[i].ToString().ToLower() == "l"
+                   && charArray[i + 1].ToString().ToLower() == "i"
+                   && charArray[i + 2].ToString().ToLower() == "s"
+                   && charArray[i + 3].ToString().ToLower() == "t"
+                   && charArray[i + 4].ToString().ToLower() == "<")
+                {
+                    inCollection = true;
+                    collectionVar = collectionVar + charArray[i].ToString();
+                }
+                else if (charArray[i].ToString().ToLower() == "s"
+                   && charArray[i + 1].ToString().ToLower() == "e"
+                   && charArray[i + 2].ToString().ToLower() == "t"
+                   && charArray[i + 3].ToString().ToLower() == "<")
+                {
+                    inCollection = true;
+                    collectionVar = collectionVar + charArray[i].ToString();
+                }
+                else if (inCollection == false)
+                {
+                    filecontents2 = filecontents2 + charArray[i].ToString();
+                }
+            }
+
+            return filecontents2;
+        }
+
+        private void parseApexTrigger(String[] filearray)
+        {
+            ApexTriggers at = new ApexTriggers();
+
+            Boolean inTriggerEvents = false;
+            Boolean inSOQLStatement = false;
+            String soqlStatement = "";
+            String soqlObject = "";
+
+            for (Int32 i = 0; i < filearray.Length - 1; i++)
+            {
+                if (filearray[i].ToLower() == "trigger")
+                {
+                    at.triggerName = filearray[i + 1];
+                    at.objectName = filearray[i + 3];
+
+                    inTriggerEvents = true;
+                }
+
+                if (inTriggerEvents == true
+                    && (filearray[i].ToLower() == "before" || filearray[i].ToLower() == "after"))
+                {
+                    String triggerevt = filearray[i] + " " + filearray[i + 1];
+                    if (triggerevt.EndsWith(","))
+                    {
+                        triggerevt = triggerevt.Substring(0, triggerevt.Length - 1);
+                    }
+
+                    at.triggerEvents.Add(triggerevt);
+
+                    if (triggerevt == "before insert")
+                    {
+                        at.isBeforeInsert = true;
+                    }
+                    else if(triggerevt == "before update")
+                    {
+                        at.isBeforeUpdate = true;
+                    }
+                    else if (triggerevt == "before delete")
+                    {
+                        at.isBeforeDelete = true;
+                    }
+                    else if (triggerevt == "after insert")
+                    {
+                        at.isAfterInsert = true;
+                    }
+                    else if (triggerevt == "after update")
+                    {
+                        at.isAfterUpdate = true;
+                    }
+                    else if (triggerevt == "after delete")
+                    {
+                        at.isAfterDelete = true;
+                    }
+                    else if (triggerevt == "after undelete")
+                    {
+                        at.isAfterUndelete = true;
+                    }
+                }
+                else if (inTriggerEvents == true
+                        && filearray[i].ToLower() == ")")
+                {
+                    inTriggerEvents = false;
+                }
+
+                if (filearray[i].ToLower() == "select" && inSOQLStatement == false)
+                {
+                    inSOQLStatement = true;
+                    at.logicContainedInTrigger = true;
+                }
+
+                if (inSOQLStatement == true && filearray[i].ToLower() == "]")
+                {
+                    inSOQLStatement = false;
+
+                    if (at.soqlStatements.ContainsKey(soqlObject))
+                    {
+                        at.soqlStatements[soqlObject].Add(soqlStatement);
+                    }
+                    else
+                    {
+                        at.soqlStatements.Add(soqlObject, new List<string> { soqlStatement });
+                    }
+
+                    soqlObject = "";
+                    soqlStatement = "";
+                }
+                else if (inSOQLStatement == true)
+                {
+                    soqlStatement = soqlStatement + filearray[i] + " ";
+                    if (filearray[i].ToLower() == "from")
+                    {
+                        soqlObject = filearray[i + 1];
+                    }
+                }
+
+                if (filearray[i].ToLower() == "database.insert"
+                    || filearray[i].ToLower() == "database.update"
+                    || filearray[i].ToLower() == "database.delete"
+                    || filearray[i].ToLower() == "database.undelete")
+                {
+                    at.logicContainedInTrigger = true;
+
+                    String varName = filearray[i + 2].ToLower();
+                    ObjectVarToType ovt = parseOutDmlVars(filearray, varName, filearray[i]);
+
+                    if (ovt.objectName != null)
+                    {
+                        if (at.objVarToType.ContainsKey(ovt.objectName))
+                        {
+                            at.objVarToType[ovt.objectName].Add(ovt);
+                        }
+                        else
+                        {
+                            at.objVarToType.Add(ovt.objectName, new List<ObjectVarToType> { ovt });
+                        }
+                    }
+                }
+                
+                if (filearray[i].ToLower() == "insert"
+                    || filearray[i].ToLower() == "update"
+                    || filearray[i].ToLower() == "delete"
+                    || filearray[i].ToLower() == "undelete")
+                {
+                    at.logicContainedInTrigger = true;
+
+                    String varName = filearray[i + 1].ToLower();
+                    ObjectVarToType ovt = parseOutDmlVars(filearray, varName, filearray[i]);
+
+                    if (ovt.objectName != null)
+                    {
+                        if (at.objVarToType.ContainsKey(ovt.objectName))
+                        {
+                            at.objVarToType[ovt.objectName].Add(ovt);
+                        }
+                        else
+                        {
+                            at.objVarToType.Add(ovt.objectName, new List<ObjectVarToType> { ovt });
+                        }
+                    }
+                }
+            }
+
+            if (this.objectToTrigger.ContainsKey(at.objectName))
+            {
+                this.objectToTrigger[at.objectName].Add(at);
+            }
+            else
+            {
+                this.objectToTrigger.Add(at.objectName, new List<ApexTriggers> { at });
+            }
+        }
+
+        private void parseApexClass(String[] filearray)
+        {
+            if (filearray[0].ToLower() == "@istest") return;
+
+            ApexClasses apexCls = new ApexClasses();
+
+            Boolean inClassName = true;
+            Int32 classDeclarationCount = 1;
+
+            Int32 skipTo = 0;
+            Boolean skipOver = false;
+
+            for (Int32 i = 0; i < filearray.Length - 1; i++)
+            {
+                // This is to skip over inner classes for now
+                if (skipOver == true && skipTo > i)
+                {
+                    // Don't do anything
+                }
+                else if (skipOver == true && skipTo == i)
+                {
+                    skipTo = 0;
+                    skipOver = false;
+                }
+                //else if (filearray[i].ToLower() == "class"
+                //    && classDeclarationCount == 0)
+                //{
+                //    classDeclarationCount++;
+                //    inClassName = true;
+                //}
+                //else if (filearray[i].ToLower() == "interface"
+                //    && classDeclarationCount == 0)
+                //{
+                //    classDeclarationCount++;
+                //    inClassName = true;
+                //}
+                else if (inClassName == true
+                         && classDeclarationCount == 1)
+                {
+                    if (filearray[i] == "{")
+                    {
+                        inClassName = false;
+                    }
+                    else if (filearray[i].ToLower() == "private"
+                            || filearray[i].ToLower() == "public"
+                            || filearray[i].ToLower() == "global")
+                    {
+                        apexCls.accessModifier = filearray[i].ToLower(); ;
+                    }
+                    else if (filearray[i].ToLower() == "virtual"
+                        || filearray[i].ToLower() == "abstract")
+                    {
+                        apexCls.optionalModifier = filearray[i].ToLower();
+                    }
+                    else if (filearray[i].ToLower() == "sharing")
+                    {
+                        apexCls.optionalModifier = filearray[i - 1].ToLower() + " " + filearray[i].ToLower();
+                    }
+                    else if (filearray[i].ToLower() == "class")
+                    {
+                        apexCls.className = filearray[i + 1];
+                    }
+                    else if (filearray[i].ToLower() == "interface")
+                    {
+                        apexCls.className = filearray[i + 1];
+                        apexCls.isInterface = true;
+                    }
+                    else if (filearray[i].ToLower() == "implements")
+                    {
+                        //apexCls.className = filearray[i];
+                    }
+                    else if (filearray[i].ToLower() == "extends")
+                    {
+                        apexCls.extendsClassName = filearray[i];
+                    }
+                }
+                // TODO: Skipping over inner classes for now
+                else if (inClassName == false
+                        && (filearray[i].ToLower() == "protected"
+                            || filearray[i].ToLower() == "private"
+                            || filearray[i].ToLower() == "public"
+                            || filearray[i].ToLower() == "global")
+                        && filearray[i + 1] == "class")
+                {
+                    skipTo = i;
+                    skipOver = true;
+
+                    Boolean icFirstBraceReached = false;
+                    Int32 braceCount = 0;
+                    for (Int32 j = i; j < filearray.Length - 1; j++)
+                    {
+                        if (filearray[j] == "{"
+                            && icFirstBraceReached == false)
+                        {
+                            braceCount++;
+                            icFirstBraceReached = true;
+                        }
+                        else if (filearray[j] == "{")
+                        {
+                            braceCount++;
+                        }
+                        else if (filearray[j] == "}")
+                        {
+                            braceCount--;
+                        }
+                        else if (braceCount == 0
+                            && icFirstBraceReached == true)
+                        {
+                            skipTo = j - 1;
+                            break;
+                        }
+                    }
+                }
+                else if (inClassName == false
+                        && (filearray[i].ToLower() == "protected"
+                || filearray[i].ToLower() == "private"
+                || filearray[i].ToLower() == "public"
+                || filearray[i].ToLower() == "global"))
+                {
+                    skipTo = parsePropertyOrMethod(filearray, apexCls, i);
+                    skipOver = true;
+                }
+            }
+
+            //classNmToClass = new Dictionary<string, ApexClasses>();
+            this.classNmToClass.Add(apexCls.className, apexCls);
+        }
+
+        public Int32 parsePropertyOrMethod(String[] filearray, ApexClasses ac, Int32 ap)
+        {
+            String propertyMethodName = "";
+            String propertyMethodQualifier = "";
+            String propertyMethodRtnDataType = "";
+            Boolean isStatic = false;
+            Boolean isFinal = false;
+            Boolean isOverride = false;
+
+            Int32 parenthesesCount = 0; // ( )
+            Int32 braceCount = 0;       // { }
+
+            Boolean isMethod = false;
+            Boolean isConstructor = false;
+
+            Boolean inSOQLStatement = false;
+            String soqlObject = "";
+            String soqlStatement = "";
+
+            ClassMethods cm = new ClassMethods();
+            ClassProperties cp = new ClassProperties();
+
+            // Key = Method Name - Value = SOQL Statements
+            Dictionary<String, List<String>> soqlStatements = new Dictionary<String, List<String>>();
+
+            Int32 lastCharLocation = 0;
+            
+            for (Int32 i = ap; i < filearray.Length - 1; i++)
+            {
+                // TODO: Bypass the constructors
+                if (filearray[i] == "(")
+                {
+                    if (propertyMethodName != "" && propertyMethodQualifier != "" && propertyMethodRtnDataType != "")
+                    {
+                        isMethod = true;
+                    }
+                    else
+                    {
+                        isConstructor = true;
+                    }
+
+                    parenthesesCount++;
+                }
+                else if (filearray[i] == ")")
+                {
+                    parenthesesCount--;
+                }
+                else if (filearray[i] == "{")
+                {
+                    braceCount++;
+                }
+                else if (filearray[i] == "}")
+                {
+                    braceCount--;
+
+                    if (braceCount == 0
+                        && isMethod == true)
+                    {
+                        cm.methodName = propertyMethodName;
+                        cm.qualifier = propertyMethodQualifier;
+                        cm.returnDataType = propertyMethodRtnDataType;
+                        cm.isOverride = isOverride;
+                        cm.isStatic = isStatic;
+                        cm.soqlStatements = soqlStatements;
+
+                        ac.classMethods.Add(cm);
+                        lastCharLocation = i;
+                        break;
+                    }
+                    else if (braceCount == 0
+                        && isConstructor == true)
+                    {
+                        lastCharLocation = i;
+                        break;
+                    }
+                }
+                else if (filearray[i].ToLower() == "protected"
+                    || filearray[i].ToLower() == "private"
+                    || filearray[i].ToLower() == "public"
+                    || filearray[i].ToLower() == "global")
+                {
+                    propertyMethodQualifier = filearray[i].ToLower();
+                }
+                else if (filearray[i].ToLower() == "override")
+                {
+                    isOverride = true;
+                }
+                else if (filearray[i].ToLower() == "static")
+                {
+                    isStatic = true;
+                }
+                else if (filearray[i].ToLower() == "final")
+                {
+                    isFinal = true;
+                }
+                else if (parenthesesCount == 0
+                    && braceCount == 0
+                    && isConstructor == false
+                    && propertyMethodRtnDataType == "")
+                {
+                    propertyMethodRtnDataType = filearray[i];
+                }
+                else if (parenthesesCount == 0
+                    && braceCount == 0
+                    && isConstructor == false
+                    && propertyMethodName == "")
+                {
+                    propertyMethodName = filearray[i];
+                }
+                else if (filearray[i] == ";"
+                        && isMethod == false
+                        && braceCount == 0
+                        && parenthesesCount == 0)
+                {
+                    // This is a property
+                    cp.propertyName = propertyMethodName;
+                    cp.qualifier = propertyMethodQualifier;
+                    cp.dataType = propertyMethodRtnDataType;
+                    cp.isFinal = isFinal;
+                    cp.isStatic = isStatic;
+
+                    ac.clsProperties.Add(propertyMethodName, cp);
+                    lastCharLocation = i;
+                    break;
+                }
+                else if (filearray[i].ToLower() == "database.insert"
+                    || filearray[i].ToLower() == "database.update"
+                    || filearray[i].ToLower() == "database.delete"
+                    || filearray[i].ToLower() == "database.undelete")
+                {
+                    String[] varNameSplit = filearray[i + 2].ToLower().Split('.');
+                    String varName = varNameSplit[0];
+                    ObjectVarToType ovt = parseOutDmlVars(filearray, varName, filearray[i]);
+
+                    if (ovt.objectName != null)
+                    {
+                        if (cm.objVarToType.ContainsKey(ovt.objectName))
+                        {
+                            cm.objVarToType[ovt.objectName].Add(ovt);
+                        }
+                        else
+                        {
+                            cm.objVarToType.Add(ovt.objectName, new List<ObjectVarToType> { ovt });
+                        }
+                    }
+                }
+                else if (filearray[i].ToLower() == "insert"
+                    || filearray[i].ToLower() == "update"
+                    || filearray[i].ToLower() == "delete"
+                    || filearray[i].ToLower() == "undelete")
+                {
+                    String[] varNameSplit = filearray[i + 2].ToLower().Split('.');
+                    String varName = varNameSplit[0];
+                    ObjectVarToType ovt = parseOutDmlVars(filearray, varName, filearray[i]);
+
+                    if (ovt.objectName != null)
+                    {
+                        if (cm.objVarToType.ContainsKey(ovt.objectName))
+                        {
+                            cm.objVarToType[ovt.objectName].Add(ovt);
+                        }
+                        else
+                        {
+                            cm.objVarToType.Add(ovt.objectName, new List<ObjectVarToType> { ovt });
                         }
                     }
                 }
 
-                SalesforceCredentials.usernamePartnerUrl.Add(username, partnerWsdlUrl);
-                SalesforceCredentials.usernameMetadataUrl.Add(username, metadataWdldUrl);
-                SalesforceCredentials.isProduction.Add(username, isProd);
-
-                if (defaultWsdlObjectList.Count > 0)
+                // SOQL query handlers
+                if (filearray[i].ToLower() == "select" && inSOQLStatement == false)
                 {
-                    SalesforceCredentials.defaultWsdlObjects.Add(username, defaultWsdlObjectList);
+                    inSOQLStatement = true;
                 }
 
-                if (toolingWsdlUrl != "")
+                if (inSOQLStatement == true && filearray[i].ToLower() == "]")
                 {
-                    SalesforceCredentials.usernameToolingWsdlUrl.Add(username, toolingWsdlUrl);
+                    inSOQLStatement = false;
+
+                    if (soqlStatements.ContainsKey(soqlObject))
+                    {
+                        soqlStatements[soqlObject].Add(soqlStatement);
+                    }
+                    else
+                    {
+                        soqlStatements.Add(soqlObject, new List<string> { soqlStatement });
+                    }
+
+                    soqlObject = "";
+                    soqlStatement = "";
+                }
+                else if (inSOQLStatement == true)
+                {
+                    soqlStatement = soqlStatement + filearray[i] + " ";
+                    if (filearray[i].ToLower() == "from")
+                    {
+                        soqlObject = filearray[i + 1];
+                    }
                 }
             }
 
-            populateUserNames();
+            return lastCharLocation;
         }
 
-
-        private void populateUserNames()
+        public ObjectVarToType parseOutDmlVars(String[] filearray, String varName, String dmlType)
         {
-            foreach (String un in SalesforceCredentials.usernamePartnerUrl.Keys)
-            {
-                this.cmbUserName.Items.Add(un);
-            }
-        }
+            ObjectVarToType ovt = new ObjectVarToType();
 
+            // Find the variable in the string array and determine what it is 
+            for (Int32 j = 0; j < filearray.Length - 1; j++)
+            {
+                if (filearray[j].ToLower() == varName)
+                {
+                    String[] varObjectAndType = filearray[j - 1].Split(new String[] { "<", ">" }, StringSplitOptions.None);
+                    // List or Map
+                    if (varObjectAndType.Length == 3)
+                    {
+                        // Accounts for a Map / Dictionary
+                        if (varObjectAndType[0].ToLower() == "map")
+                        {
+                            ovt.objectName = varObjectAndType[1].Split(',')[1];
+                        }
+                        else
+                        {
+                            ovt.objectName = varObjectAndType[1];
+                        }
 
-        private void cmbUserName_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
-            {
-                //this.lblSalesforce.Text = "Salesforce";
-                //this.Text = "Salesforce Metadata - Production";
-            }
-            else
-            {
-                //this.lblSalesforce.Text = "Salesforce Sandbox";
-                String[] userNamesplit = this.cmbUserName.Text.Split('.');
-                this.Text = "Salesforce Metadata - " + userNamesplit[userNamesplit.Length - 1].ToUpper();
-            }
+                        ovt.varType = varObjectAndType[0];
+                        ovt.varName = varName;
+                        ovt.dmlType = dmlType;
+                    }
+                    // Single object
+                    else if (varObjectAndType.Length == 2)
+                    {
+                        // Accounts for a Map / Dictionary
+                        if (varObjectAndType[0].ToLower() == "map")
+                        {
+                            ovt.objectName = varObjectAndType[1].Split(',')[1];
+                        }
+                        else
+                        {
+                            ovt.objectName = varObjectAndType[1];
+                        }
 
-            this.tbSecurityToken.Text = "";
-            if (this.usernameToSecurityToken.ContainsKey(this.cmbUserName.Text))
-            {
-                this.tbSecurityToken.Text = this.usernameToSecurityToken[cmbUserName.Text];
-            }
-        }
+                        ovt.varType = "";
+                        ovt.varName = varName;
+                        ovt.dmlType = dmlType;
+                    }
 
-        private void btnRunAutomationOptimizationReport_Click(object sender, EventArgs e)
-        {
-            SalesforceCredentials.fromOrgUsername = this.cmbUserName.Text;
-            SalesforceCredentials.fromOrgPassword = this.tbPassword.Text;
-            SalesforceCredentials.fromOrgSecurityToken = this.tbSecurityToken.Text;
-            Boolean loginSuccess = SalesforceCredentials.salesforceToolingLogin();
-
-            //Boolean loginSuccess = true;
-            if (loginSuccess == false)
-            {
-                MessageBox.Show("Please check username, password and/or security token");
-                return;
-            }
-            else
-            {
-                //runApexTriggerToolingReport();
-                //runApexClassToolingReport();
-                //runFlowProcessAutomationReport();
-                runWorkflowAutomationReport();
+                    break;
+                }
             }
 
-            MessageBox.Show("Class Extraction Complete");
+            return ovt;
         }
 
         private void btnFindWhereClassUsed_Click(object sender, EventArgs e)
@@ -412,1496 +1472,19 @@ namespace SalesforceMetadata
             }
         }
 
-        private void runApexTriggerToolingReport()
+        public class ObjectToFields 
         {
-            Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
-            xlapp.Visible = true;
-
-            Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlapp.Workbooks.Add();
-
-            Int32 apexTriggerRowId = 1;
-
-            Microsoft.Office.Interop.Excel.Worksheet xlApexTriggerWrksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
-                                                                           (System.Reflection.Missing.Value,
-                                                                           xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
-                                                                           System.Reflection.Missing.Value,
-                                                                           System.Reflection.Missing.Value);
-            xlApexTriggerWrksheet.Name = "ApexTriggers";
-
-            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 1].Value = "ApexTriggerId";
-            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 2].Value = "ApexTriggerName";
-            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 3].Value = "ApiVersion";
-            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 4].Value = "Status";
-            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 5].Value = "NamespacePrefix";
-            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 6].Value = "TableEnumOrId";
-            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 7].Value = "EntityDefinitionId";
-            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 8].Value = "LengthWithoutComments";
-            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 9].Value = "ManageableState";
-
-            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 10].Value = "UsageBeforeInsert";
-            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 11].Value = "UsageBeforeUpdate";
-            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 12].Value = "UsageBeforeDelete";
-            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 13].Value = "UsageAfterInsert";
-            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 14].Value = "UsageAfterUpdate";
-            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 15].Value = "UsageAfterDelete";
-            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 16].Value = "UsageAfterUndelete";
-            xlApexTriggerWrksheet.Cells[apexTriggerRowId, 17].Value = "UsageIsBulk";
-
-            apexTriggerRowId++;
-
-            String query = ToolingApiHelper.ApexTriggerQuery("");
-            SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
-            SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
-
-            toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
-
-            if (toolingQr.records == null) return;
-
-            toolingRecords = toolingQr.records;
-
-            foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
-            {
-                ApexTrigger1 at = new ApexTrigger1();
-                at = (ApexTrigger1)toolingRecord;
-
-                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 1].Value = at.Id;
-                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 2].Value = at.Name;
-                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 3].Value = at.ApiVersion;
-                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 4].Value = at.Status;
-                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 5].Value = at.NamespacePrefix;
-                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 6].Value = at.TableEnumOrId;
-                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 7].Value = at.EntityDefinitionId;
-                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 8].Value = at.LengthWithoutComments;
-                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 9].Value = at.ManageableState;
-                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 10].Value = at.UsageBeforeInsert;
-                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 11].Value = at.UsageBeforeUpdate;
-                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 12].Value = at.UsageBeforeDelete;
-                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 13].Value = at.UsageAfterInsert;
-                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 14].Value = at.UsageAfterUpdate;
-                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 15].Value = at.UsageAfterDelete;
-                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 16].Value = at.UsageAfterUndelete;
-                xlApexTriggerWrksheet.Cells[apexTriggerRowId, 17].Value = at.UsageIsBulk;
-
-                apexTriggerRowId++;
-            }
+            public String objectName;
+            public List<String> fields;
+            public String sharingModel;
+            public String visibility;
         }
 
-        private void runApexClassToolingReport()
+        public class ObjectValidations
         {
-            classIdToClassName = new Dictionary<String, String>();
-
-            Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
-            xlapp.Visible = true;
-
-            Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlapp.Workbooks.Add();
-
-            Int32 apexClassRowId = 1;
-            Int32 apexConstructorRowId = 1;
-            Int32 apexExternalRefRowId = 1;
-            Int32 apexInnerClassRowId = 1;
-            Int32 apexInterfaceRowId = 1;
-            Int32 apexMethodRowId = 1;
-            Int32 apexPropertyRowId = 1;
-            Int32 apexVariableRowId = 1;
-            Int32 apexTableDeclRowId = 1;
-
-            Microsoft.Office.Interop.Excel.Worksheet xlApexClassWrksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
-                                                                           (System.Reflection.Missing.Value,
-                                                                           xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
-                                                                           System.Reflection.Missing.Value,
-                                                                           System.Reflection.Missing.Value);
-            xlApexClassWrksheet.Name = "ApexClasses";
-
-            xlApexClassWrksheet.Cells[apexClassRowId, 1].Value = "ApexClassId";
-            xlApexClassWrksheet.Cells[apexClassRowId, 2].Value = "ApexClassName";
-            xlApexClassWrksheet.Cells[apexClassRowId, 3].Value = "ApiVersion";
-            xlApexClassWrksheet.Cells[apexClassRowId, 4].Value = "Status";
-            xlApexClassWrksheet.Cells[apexClassRowId, 5].Value = "ParentClass";
-            xlApexClassWrksheet.Cells[apexClassRowId, 6].Value = "NamespacePrefix";
-            apexClassRowId++;
-
-
-            Microsoft.Office.Interop.Excel.Worksheet xlApexConstructorWrksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
-                                                                           (System.Reflection.Missing.Value,
-                                                                           xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
-                                                                           System.Reflection.Missing.Value,
-                                                                           System.Reflection.Missing.Value);
-            xlApexConstructorWrksheet.Name = "Constructors";
-            xlApexConstructorWrksheet.Cells[apexConstructorRowId, 1].Value = "ApexClassId";
-            xlApexConstructorWrksheet.Cells[apexConstructorRowId, 2].Value = "ApexClassName";
-            xlApexConstructorWrksheet.Cells[apexConstructorRowId, 3].Value = "ConstructorType";
-            xlApexConstructorWrksheet.Cells[apexConstructorRowId, 4].Value = "Annotations";
-            xlApexConstructorWrksheet.Cells[apexConstructorRowId, 5].Value = "Modifiers";
-            xlApexConstructorWrksheet.Cells[apexConstructorRowId, 6].Value = "ConstructorName";
-            xlApexConstructorWrksheet.Cells[apexConstructorRowId, 7].Value = "Parameters";
-            apexConstructorRowId++;
-
-
-            Microsoft.Office.Interop.Excel.Worksheet xlApexExternalRefWrksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
-                                                                           (System.Reflection.Missing.Value,
-                                                                           xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
-                                                                           System.Reflection.Missing.Value,
-                                                                           System.Reflection.Missing.Value);
-            xlApexExternalRefWrksheet.Name = "ExternalReferences";
-            xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 1].Value = "ApexClassId";
-            xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 2].Value = "ApexClassName";
-            xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 3].Value = "Namespace";
-            xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 4].Value = "ExternalReferenceName";
-            xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 5].Value = "ExternalMethodName";
-            xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 6].Value = "IsStatic";
-            xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 7].Value = "Parameters";
-            xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 8].Value = "ArgTypes";
-            xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 9].Value = "ReturnType";
-            xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 10].Value = "ExternalSymbol";
-            apexExternalRefRowId++;
-
-
-            Microsoft.Office.Interop.Excel.Worksheet xlApexInnerClassWrksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
-                                                                           (System.Reflection.Missing.Value,
-                                                                           xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
-                                                                           System.Reflection.Missing.Value,
-                                                                           System.Reflection.Missing.Value);
-            xlApexInnerClassWrksheet.Name = "InnerClasses";
-            xlApexInnerClassWrksheet.Cells[apexInnerClassRowId, 1].Value = "ApexClassId";
-            xlApexInnerClassWrksheet.Cells[apexInnerClassRowId, 2].Value = "ApexClassName";
-            xlApexInnerClassWrksheet.Cells[apexInnerClassRowId, 3].Value = "Namespace";
-            xlApexInnerClassWrksheet.Cells[apexInnerClassRowId, 4].Value = "InnerClassName";
-            apexInnerClassRowId++;
-
-
-            Microsoft.Office.Interop.Excel.Worksheet xlApexInterfaceWrksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
-                                                                           (System.Reflection.Missing.Value,
-                                                                           xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
-                                                                           System.Reflection.Missing.Value,
-                                                                           System.Reflection.Missing.Value);
-            xlApexInterfaceWrksheet.Name = "Interfaces";
-            xlApexInterfaceWrksheet.Cells[apexInterfaceRowId, 1].Value = "ApexClassId";
-            xlApexInterfaceWrksheet.Cells[apexInterfaceRowId, 2].Value = "ApexClassName";
-            xlApexInterfaceWrksheet.Cells[apexInterfaceRowId, 3].Value = "Interfaces";
-            apexInterfaceRowId++;
-
-
-            Microsoft.Office.Interop.Excel.Worksheet xlApexMethodWrksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
-                                                                           (System.Reflection.Missing.Value,
-                                                                           xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
-                                                                           System.Reflection.Missing.Value,
-                                                                           System.Reflection.Missing.Value);
-            xlApexMethodWrksheet.Name = "Methods";
-            xlApexMethodWrksheet.Cells[apexMethodRowId, 1].Value = "ApexClassId";
-            xlApexMethodWrksheet.Cells[apexMethodRowId, 2].Value = "ApexClassName";
-            xlApexMethodWrksheet.Cells[apexMethodRowId, 3].Value = "MethodType";
-            xlApexMethodWrksheet.Cells[apexMethodRowId, 4].Value = "Annotations";
-            xlApexMethodWrksheet.Cells[apexMethodRowId, 5].Value = "Modifiers";
-            xlApexMethodWrksheet.Cells[apexMethodRowId, 6].Value = "MethodName";
-            xlApexMethodWrksheet.Cells[apexMethodRowId, 7].Value = "Parameters";
-            xlApexMethodWrksheet.Cells[apexMethodRowId, 8].Value = "ReturnType";
-            apexMethodRowId++;
-
-
-            Microsoft.Office.Interop.Excel.Worksheet xlApexPropertyWrksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
-                                                                           (System.Reflection.Missing.Value,
-                                                                           xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
-                                                                           System.Reflection.Missing.Value,
-                                                                           System.Reflection.Missing.Value);
-            xlApexPropertyWrksheet.Name = "Properties";
-            xlApexPropertyWrksheet.Cells[apexPropertyRowId, 1].Value = "ApexClassId";
-            xlApexPropertyWrksheet.Cells[apexPropertyRowId, 2].Value = "ApexClassName";
-            xlApexPropertyWrksheet.Cells[apexPropertyRowId, 3].Value = "Annotations";
-            xlApexPropertyWrksheet.Cells[apexPropertyRowId, 4].Value = "Modifiers";
-            xlApexPropertyWrksheet.Cells[apexPropertyRowId, 5].Value = "PropertyName";
-            xlApexPropertyWrksheet.Cells[apexPropertyRowId, 6].Value = "PropertyType";
-            apexPropertyRowId++;
-
-            Microsoft.Office.Interop.Excel.Worksheet xlApexVariableWrksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
-                                                                           (System.Reflection.Missing.Value,
-                                                                           xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
-                                                                           System.Reflection.Missing.Value,
-                                                                           System.Reflection.Missing.Value);
-            xlApexVariableWrksheet.Name = "Variables";
-            xlApexVariableWrksheet.Cells[apexVariableRowId, 1].Value = "ApexClassId";
-            xlApexVariableWrksheet.Cells[apexVariableRowId, 2].Value = "ApexClassName";
-            xlApexVariableWrksheet.Cells[apexVariableRowId, 3].Value = "Annotations";
-            xlApexVariableWrksheet.Cells[apexVariableRowId, 4].Value = "Modifiers";
-            xlApexVariableWrksheet.Cells[apexVariableRowId, 5].Value = "VariableName";
-            xlApexVariableWrksheet.Cells[apexVariableRowId, 6].Value = "VariableType";
-            apexVariableRowId++;
-
-
-            Microsoft.Office.Interop.Excel.Worksheet xlApexTableDeclWrksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
-                                                                           (System.Reflection.Missing.Value,
-                                                                           xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
-                                                                           System.Reflection.Missing.Value,
-                                                                           System.Reflection.Missing.Value);
-            xlApexTableDeclWrksheet.Name = "TableDeclaration";
-            xlApexTableDeclWrksheet.Cells[apexTableDeclRowId, 1].Value = "ApexClassId";
-            xlApexTableDeclWrksheet.Cells[apexTableDeclRowId, 2].Value = "ApexClassName";
-            xlApexTableDeclWrksheet.Cells[apexTableDeclRowId, 3].Value = "Annotations";
-            xlApexTableDeclWrksheet.Cells[apexTableDeclRowId, 4].Value = "Modifiers";
-            xlApexTableDeclWrksheet.Cells[apexTableDeclRowId, 5].Value = "TableDeclarationName";
-            xlApexTableDeclWrksheet.Cells[apexTableDeclRowId, 6].Value = "TableDeclarationType";
-            apexTableDeclRowId++;
-
-
-            // Make a call to the Tooling API to retrieve the ApexClassMember passing in the ApexClass IDs
-            String query = ToolingApiHelper.ApexClassQuery("");
-            SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
-            SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
-
-            toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
-
-            if (toolingQr.records == null) return;
-
-            toolingRecords = toolingQr.records;
-
-            foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
-            {
-                SalesforceMetadata.ToolingWSDL.ApexClass1 apexClass = (SalesforceMetadata.ToolingWSDL.ApexClass1)toolingRecord;
-                classIdToClassName.Add(apexClass.Id, apexClass.Name);
-
-                xlApexClassWrksheet.Cells[apexClassRowId, 1].Value = apexClass.Id;
-                xlApexClassWrksheet.Cells[apexClassRowId, 2].Value = apexClass.Name;
-                xlApexClassWrksheet.Cells[apexClassRowId, 3].Value = apexClass.ApiVersion;
-                xlApexClassWrksheet.Cells[apexClassRowId, 4].Value = apexClass.Status;
-                xlApexClassWrksheet.Cells[apexClassRowId, 4].Value = "";
-                xlApexClassWrksheet.Cells[apexClassRowId, 6].Value = apexClass.NamespacePrefix;
-
-                if (apexClass.SymbolTable != null)
-                {
-                    SalesforceMetadata.ToolingWSDL.SymbolTable apexClassSymbolTbl = apexClass.SymbolTable;
-
-                    xlApexClassWrksheet.Cells[apexClassRowId, 5].Value = apexClassSymbolTbl.parentClass;
-
-                    // Constructors
-                    if (apexClassSymbolTbl.constructors != null)
-                    {
-                        foreach (SalesforceMetadata.ToolingWSDL.Constructor constr in apexClassSymbolTbl.constructors)
-                        {
-                            xlApexConstructorWrksheet.Cells[apexConstructorRowId, 1].Value = apexClass.Id;
-                            xlApexConstructorWrksheet.Cells[apexConstructorRowId, 2].Value = apexClass.Name;
-
-                            xlApexConstructorWrksheet.Cells[apexConstructorRowId, 3].Value = constr.type;
-
-                            if (constr.annotations != null)
-                            {
-                                String annotations = "";
-
-                                foreach (SalesforceMetadata.ToolingWSDL.Annotation annot in constr.annotations)
-                                {
-                                    annotations = annotations + annot.name + ", ";
-                                }
-
-                                xlApexConstructorWrksheet.Cells[apexConstructorRowId, 4].Value = annotations.Substring(0, annotations.Length - 2);
-                            }
-
-                            if (constr.modifiers != null)
-                            {
-                                String modifiers = "";
-
-                                foreach (String modifier in constr.modifiers)
-                                {
-                                    modifiers = modifiers + modifier + ", ";
-                                }
-
-                                xlApexConstructorWrksheet.Cells[apexConstructorRowId, 5].Value = modifiers.Substring(0, modifiers.Length - 2);
-                            }
-
-                            xlApexConstructorWrksheet.Cells[apexConstructorRowId, 6].Value = constr.name;
-
-                            if (constr.parameters != null)
-                            {
-                                String parameters = "";
-
-                                foreach (SalesforceMetadata.ToolingWSDL.Parameter param in constr.parameters)
-                                {
-                                    parameters = parameters + param.type + " - " + param.name + ", ";
-                                }
-
-                                xlApexConstructorWrksheet.Cells[apexConstructorRowId, 7].Value = parameters.Substring(0, parameters.Length - 2);
-                            }
-
-                            apexConstructorRowId++;
-                        }
-                    }
-
-                    // External References
-                    if (apexClassSymbolTbl.externalReferences != null)
-                    {
-                        foreach (SalesforceMetadata.ToolingWSDL.ExternalReference extRef in apexClassSymbolTbl.externalReferences)
-                        {
-                            xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 1].Value = apexClass.Id;
-                            xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 2].Value = apexClass.Name;
-
-                            xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 3].Value = extRef.@namespace;
-                            xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 4].Value = extRef.name;
-
-                            if (extRef.methods != null)
-                            {
-                                foreach (SalesforceMetadata.ToolingWSDL.ExternalMethod extMethod in extRef.methods)
-                                {
-                                    xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 5].Value = extMethod.name;
-                                    xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 6].Value = extMethod.isStatic.ToString();
-
-                                    if (extMethod.parameters != null)
-                                    {
-                                        String parameters = "";
-                                        foreach (SalesforceMetadata.ToolingWSDL.Parameter param in extMethod.parameters)
-                                        {
-                                            parameters = parameters + param.type + " - " + param.name + ", ";
-                                        }
-
-                                        xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 7].Value = parameters.Substring(0, parameters.Length - 2);
-                                    }
-
-                                    if (extMethod.argTypes != null)
-                                    {
-                                        String argTypes = "";
-                                        foreach (String argType in extMethod.argTypes)
-                                        {
-                                            argTypes = argTypes + argType + ", ";
-                                        }
-
-                                        xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 8].Value = argTypes.Substring(0, argTypes.Length - 2);
-                                    }
-
-                                    xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 9].Value = extMethod.returnType;
-                                }
-                            }
-
-                            if (extRef.variables != null)
-                            {
-                                String extSymbols = "";
-                                foreach (SalesforceMetadata.ToolingWSDL.ExternalSymbol extSymb in extRef.variables)
-                                {
-                                    extSymbols = extSymbols + extSymb + ", ";
-                                }
-
-                                xlApexExternalRefWrksheet.Cells[apexExternalRefRowId, 10].Value = extSymbols.Substring(0, extSymbols.Length - 2);
-                            }
-
-                            apexExternalRefRowId++;
-                        }
-                    }
-
-                    // Inner Classes
-                    if (apexClassSymbolTbl.innerClasses != null)
-                    {
-                        foreach (SalesforceMetadata.ToolingWSDL.SymbolTable innerCls in apexClassSymbolTbl.innerClasses)
-                        {
-                            xlApexInnerClassWrksheet.Cells[apexInnerClassRowId, 1].Value = apexClass.Id;
-                            xlApexInnerClassWrksheet.Cells[apexInnerClassRowId, 2].Value = apexClass.Name;
-
-                            xlApexInnerClassWrksheet.Cells[apexInnerClassRowId, 3].Value = innerCls.@namespace;
-                            xlApexInnerClassWrksheet.Cells[apexInnerClassRowId, 4].Value = innerCls.name;
-
-                            //if (extRef.methods != null)
-                            //{
-                            //    foreach (SalesforceMetadata.ToolingWSDL.ExternalMethod extMethod in extRef.methods)
-                            //    {
-                            //        xlApexExternalRefWrksheet.Cells[apexConstructorRowId, 5].Value = extMethod.name;
-                            //        xlApexExternalRefWrksheet.Cells[apexConstructorRowId, 6].Value = extMethod.isStatic.ToString();
-
-                            //        if (extMethod.parameters != null)
-                            //        {
-                            //            String parameters = "";
-                            //            foreach (SalesforceMetadata.ToolingWSDL.Parameter param in extMethod.parameters)
-                            //            {
-                            //                parameters = parameters + param.type + " - " + param.name + ", ";
-                            //            }
-
-                            //            xlApexExternalRefWrksheet.Cells[apexConstructorRowId, 7].Value = parameters.Substring(0, parameters.Length - 2);
-                            //        }
-
-                            //        if (extMethod.argTypes != null)
-                            //        {
-                            //            String argTypes = "";
-                            //            foreach (String argType in extMethod.argTypes)
-                            //            {
-                            //                argTypes = argTypes + argType + ", ";
-                            //            }
-
-                            //            xlApexExternalRefWrksheet.Cells[apexConstructorRowId, 8].Value = argTypes.Substring(0, argTypes.Length - 2);
-                            //        }
-
-                            //        xlApexExternalRefWrksheet.Cells[apexConstructorRowId, 9].Value = extMethod.returnType;
-
-                            //    }
-                            //}
-
-                            apexInnerClassRowId++;
-                        }
-                    }
-
-                    // Interfaces
-                    if (apexClassSymbolTbl.interfaces != null)
-                    {
-                        xlApexInterfaceWrksheet.Cells[apexInterfaceRowId, 1].Value = apexClass.Id;
-                        xlApexInterfaceWrksheet.Cells[apexInterfaceRowId, 2].Value = apexClass.Name;
-
-                        String interfaces = "";
-                        foreach (String interfc in apexClassSymbolTbl.interfaces)
-                        {
-                            interfaces = interfaces + interfc + ", ";
-                        }
-
-                        xlApexInterfaceWrksheet.Cells[apexInterfaceRowId, 3].Value = interfaces.Substring(0, interfaces.Length - 2);
-
-                        apexInterfaceRowId++;
-                    }
-
-                    // Methods
-                    if (apexClassSymbolTbl.methods != null)
-                    {
-                        foreach (SalesforceMetadata.ToolingWSDL.Method meth in apexClassSymbolTbl.methods)
-                        {
-                            xlApexMethodWrksheet.Cells[apexMethodRowId, 1].Value = apexClass.Id;
-                            xlApexMethodWrksheet.Cells[apexMethodRowId, 2].Value = apexClass.Name;
-
-                            xlApexMethodWrksheet.Cells[apexMethodRowId, 3].Value = meth.type;
-
-                            if (meth.annotations != null)
-                            {
-                                String annotations = "";
-
-                                foreach (SalesforceMetadata.ToolingWSDL.Annotation annot in meth.annotations)
-                                {
-                                    annotations = annotations + annot.name + ", ";
-                                }
-
-                                xlApexMethodWrksheet.Cells[apexMethodRowId, 4].Value = annotations.Substring(0, annotations.Length - 2);
-                            }
-
-                            if (meth.modifiers != null)
-                            {
-                                String modifiers = "";
-
-                                foreach (String modifier in meth.modifiers)
-                                {
-                                    modifiers = modifiers + modifier + ", ";
-                                }
-
-                                xlApexMethodWrksheet.Cells[apexMethodRowId, 5].Value = modifiers.Substring(0, modifiers.Length - 2);
-                            }
-
-                            xlApexMethodWrksheet.Cells[apexMethodRowId, 6].Value = meth.name;
-
-                            if (meth.parameters != null)
-                            {
-                                String parameters = "";
-
-                                foreach (SalesforceMetadata.ToolingWSDL.Parameter param in meth.parameters)
-                                {
-                                    parameters = parameters + param.type + " - " + param.name + ", ";
-                                }
-
-                                xlApexMethodWrksheet.Cells[apexMethodRowId, 7].Value = parameters.Substring(0, parameters.Length - 2);
-                            }
-
-                            xlApexMethodWrksheet.Cells[apexMethodRowId, 8].Value = meth.returnType;
-
-                            apexMethodRowId++;
-                        }
-                    }
-
-                    // Properties
-                    if (apexClassSymbolTbl.properties != null)
-                    {
-                        foreach (SalesforceMetadata.ToolingWSDL.VisibilitySymbol visSymb in apexClassSymbolTbl.properties)
-                        {
-                            xlApexPropertyWrksheet.Cells[apexPropertyRowId, 1].Value = apexClass.Id;
-                            xlApexPropertyWrksheet.Cells[apexPropertyRowId, 2].Value = apexClass.Name;
-
-                            if (visSymb.annotations != null)
-                            {
-                                String annotations = "";
-
-                                foreach (SalesforceMetadata.ToolingWSDL.Annotation annot in visSymb.annotations)
-                                {
-                                    annotations = annotations + annot.name + ", ";
-                                }
-
-                                xlApexPropertyWrksheet.Cells[apexPropertyRowId, 3].Value = annotations.Substring(0, annotations.Length - 2);
-                            }
-
-                            if (visSymb.modifiers != null)
-                            {
-                                String modifiers = "";
-
-                                foreach (String modifier in visSymb.modifiers)
-                                {
-                                    modifiers = modifiers + modifier + ", ";
-                                }
-
-                                xlApexPropertyWrksheet.Cells[apexPropertyRowId, 4].Value = modifiers.Substring(0, modifiers.Length - 2);
-                            }
-
-
-                            xlApexPropertyWrksheet.Cells[apexPropertyRowId, 5].Value = visSymb.name;
-
-                            xlApexPropertyWrksheet.Cells[apexPropertyRowId, 6].Value = visSymb.type;
-
-                            apexPropertyRowId++;
-                        }
-                    }
-
-                    //Variables
-                    if (apexClassSymbolTbl.variables != null)
-                    {
-                        foreach (SalesforceMetadata.ToolingWSDL.Symbol symb in apexClassSymbolTbl.variables)
-                        {
-                            xlApexVariableWrksheet.Cells[apexVariableRowId, 1].Value = apexClass.Id;
-                            xlApexVariableWrksheet.Cells[apexVariableRowId, 2].Value = apexClass.Name;
-
-                            if (symb.annotations != null)
-                            {
-                                String annotations = "";
-
-                                foreach (SalesforceMetadata.ToolingWSDL.Annotation annot in symb.annotations)
-                                {
-                                    annotations = annotations + annot.name + ", ";
-                                }
-
-                                xlApexVariableWrksheet.Cells[apexVariableRowId, 3].Value = annotations.Substring(0, annotations.Length - 2);
-                            }
-
-                            if (symb.modifiers != null)
-                            {
-                                String modifiers = "";
-
-                                foreach (String modifier in symb.modifiers)
-                                {
-                                    modifiers = modifiers + modifier + ", ";
-                                }
-
-                                xlApexVariableWrksheet.Cells[apexVariableRowId, 4].Value = modifiers.Substring(0, modifiers.Length - 2);
-                            }
-
-                            xlApexVariableWrksheet.Cells[apexVariableRowId, 5].Value = symb.name;
-
-                            xlApexVariableWrksheet.Cells[apexVariableRowId, 6].Value = symb.type;
-
-                            apexVariableRowId++;
-                        }
-                    }
-
-                    // Table Declaration
-                    if (apexClassSymbolTbl.tableDeclaration != null)
-                    {
-                        SalesforceMetadata.ToolingWSDL.Symbol symb = apexClassSymbolTbl.tableDeclaration;
-
-                        xlApexTableDeclWrksheet.Cells[apexTableDeclRowId, 1].Value = apexClass.Id;
-                        xlApexTableDeclWrksheet.Cells[apexTableDeclRowId, 2].Value = apexClass.Name;
-
-                        if (symb.annotations != null)
-                        {
-                            String annotations = "";
-
-                            foreach (SalesforceMetadata.ToolingWSDL.Annotation annot in symb.annotations)
-                            {
-                                annotations = annotations + annot.name + ", ";
-                            }
-
-                            xlApexTableDeclWrksheet.Cells[apexTableDeclRowId, 3].Value = annotations.Substring(0, annotations.Length - 2);
-                        }
-
-                        if (symb.modifiers != null)
-                        {
-                            String modifiers = "";
-
-                            foreach (String modifier in symb.modifiers)
-                            {
-                                modifiers = modifiers + modifier + ", ";
-                            }
-
-                            xlApexTableDeclWrksheet.Cells[apexTableDeclRowId, 4].Value = modifiers.Substring(0, modifiers.Length - 2);
-                        }
-
-                        xlApexTableDeclWrksheet.Cells[apexTableDeclRowId, 5].Value = symb.name;
-
-                        xlApexTableDeclWrksheet.Cells[apexTableDeclRowId, 6].Value = symb.type;
-
-                        apexTableDeclRowId++;
-                    }
-                }
-
-
-                apexClassRowId++;
-            }
-
-            xlapp.Visible = true;
+            public String validationName;
+            public String errorConditionFormula;
         }
-
-        private void runFlowProcessAutomationReport()
-        {
-            if (this.tbProjectFolder.Text != "")
-            {
-                if (Directory.Exists(this.tbProjectFolder.Text + "\\Flows"))
-                {
-                    Dictionary<String, List<FlowProcess>> declarativeTypeToName = new Dictionary<String, List<FlowProcess>>();
-
-                    String[] fileNames = Directory.GetFiles(this.tbProjectFolder.Text + "\\Flows");
-
-                    foreach (String fl in fileNames)
-                    {
-                        String[] filePathSplit = fl.Split('\\');
-                        String fileApiName = filePathSplit[filePathSplit.Length - 1].Split('.')[0];
-
-                        XmlDocument xmlDoc = new XmlDocument();
-                        xmlDoc.Load(fl);
-
-                        // start contains information about the flow and specifically the Run In Mode
-                        // Need to extract out the Run In Mode
-                        XmlNodeList flowStart = xmlDoc.GetElementsByTagName("start");
-                        XmlNodeList flowLabel = xmlDoc.GetElementsByTagName("label");
-                        XmlNodeList flowProcessType = xmlDoc.GetElementsByTagName("processType");
-                        XmlNodeList flowApiVersion = xmlDoc.GetElementsByTagName("apiVersion");
-                        XmlNodeList status = xmlDoc.GetElementsByTagName("status");
-                        XmlNodeList processType = xmlDoc.GetElementsByTagName("processType");
-
-                        XmlNodeList recordCreates = xmlDoc.GetElementsByTagName("recordCreates");
-                        XmlNodeList recordUpdates = xmlDoc.GetElementsByTagName("recordUpdates");
-                        XmlNodeList recordDeletes = xmlDoc.GetElementsByTagName("recordDeletes");
-
-                        // For Process Builder
-                        //XmlNodeList actionCalls = xmlDoc.GetElementsByTagName("actionCalls");
-
-                        // AutoLaunched Flow
-                        if (status[0].InnerText != "Obsolete"
-                            && processType[0].InnerText == "AutoLaunchedFlow")
-                        {
-                            //MessageBox.Show("Hello1");
-                            FlowProcess fp = new FlowProcess();
-
-                            fp.processName = fileApiName;
-
-                            foreach (XmlElement elem in flowLabel)
-                            {
-                                if (elem.ParentNode.Name == "Flow")
-                                {
-                                    fp.processLabel = elem.InnerText;
-                                }
-                            }
-
-                            fp.processType = "AutoLaunchedFlow";
-                            fp.apiVersion = flowApiVersion[0].InnerText;
-                            fp.status = flowApiVersion[0].InnerText;
-
-                            foreach (XmlElement elem in recordCreates)
-                            {
-                                String ruLabel = "";
-                                String ruObject = "";
-
-                                foreach (XmlElement childElem in elem.ChildNodes)
-                                {
-                                    if (childElem.Name == "label")
-                                    {
-                                        ruLabel = childElem.InnerText;
-                                    }
-                                    else if (childElem.Name == "object")
-                                    {
-                                        ruObject = childElem.InnerText;
-                                    }
-                                }
-
-                                if (fp.recordCreates.ContainsKey(ruObject))
-                                {
-                                    fp.recordCreates[ruObject].Add(ruLabel);
-                                }
-                                else
-                                {
-                                    List<String> tempList = new List<string> { ruLabel };
-                                    Dictionary<String, List<String>> tempDictionary = new Dictionary<string, List<string>>();
-                                    tempDictionary.Add(ruObject, tempList);
-                                    fp.recordCreates = tempDictionary;
-                                }
-                            }
-
-                            foreach (XmlElement elem in recordUpdates)
-                            {
-                                String ruLabel = "";
-                                String ruObject = "";
-
-                                foreach (XmlElement childElem in elem.ChildNodes)
-                                {
-                                    if (childElem.Name == "label")
-                                    {
-                                        ruLabel = childElem.InnerText;
-                                    }
-                                    else if (childElem.Name == "object")
-                                    {
-                                        ruObject = childElem.InnerText;
-                                    }
-                                }
-
-                                if (fp.recordUpdates.ContainsKey(ruObject))
-                                {
-                                    fp.recordUpdates[ruObject].Add(ruLabel);
-                                }
-                                else
-                                {
-                                    List<String> tempList = new List<string> { ruLabel };
-                                    Dictionary<String, List<String>> tempDictionary = new Dictionary<string, List<string>>();
-                                    tempDictionary.Add(ruObject, tempList);
-                                    fp.recordUpdates = tempDictionary;
-                                }
-                            }
-
-                            foreach (XmlElement elem in recordDeletes)
-                            {
-                                String ruLabel = "";
-                                String ruObject = "";
-
-                                foreach (XmlElement childElem in elem.ChildNodes)
-                                {
-                                    if (childElem.Name == "label")
-                                    {
-                                        ruLabel = childElem.InnerText;
-                                    }
-                                    else if (childElem.Name == "object")
-                                    {
-                                        ruObject = childElem.InnerText;
-                                    }
-                                }
-
-                                if (fp.recordDeletes.ContainsKey(ruObject))
-                                {
-                                    fp.recordDeletes[ruObject].Add(ruLabel);
-                                }
-                                else
-                                {
-                                    List<String> tempList = new List<string> { ruLabel };
-                                    Dictionary<String, List<String>> tempDictionary = new Dictionary<string, List<string>>();
-                                    tempDictionary.Add(ruObject, tempList);
-                                    fp.recordDeletes = tempDictionary;
-                                }
-                            }
-
-
-                            if (declarativeTypeToName.ContainsKey("AutoLaunchedFlow"))
-                            {
-                                declarativeTypeToName["AutoLaunchedFlow"].Add(fp);
-                            }
-                            else
-                            {
-                                declarativeTypeToName.Add("AutoLaunchedFlow", new List<FlowProcess> { fp });
-                            }
-                        }
-                        // Process Builder
-                        else if (status[0].InnerText != "Obsolete"
-                            && processType[0].InnerText == "Workflow")
-                        {
-                            FlowProcess fp = new FlowProcess();
-
-                            fp.processName = fileApiName;
-
-                            foreach (XmlElement elem in flowLabel)
-                            {
-                                if (elem.ParentNode.Name == "Flow")
-                                {
-                                    fp.processLabel = elem.InnerText;
-                                }
-                            }
-
-                            fp.processType = "Process Builder";
-                            fp.apiVersion = flowApiVersion[0].InnerText;
-                            fp.status = flowApiVersion[0].InnerText;
-
-                            foreach (XmlElement elem in recordCreates)
-                            {
-                                String ruLabel = "";
-                                String ruObject = "";
-
-                                foreach (XmlElement childElem in elem.ChildNodes)
-                                {
-                                    if (childElem.Name == "label")
-                                    {
-                                        ruLabel = childElem.InnerText;
-                                    }
-                                    else if (childElem.Name == "object")
-                                    {
-                                        ruObject = childElem.InnerText;
-                                    }
-                                }
-
-                                if (fp.recordCreates.ContainsKey(ruObject))
-                                {
-                                    fp.recordCreates[ruObject].Add(ruLabel);
-                                }
-                                else
-                                {
-                                    List<String> tempList = new List<string> { ruLabel };
-                                    Dictionary<String, List<String>> tempDictionary = new Dictionary<string, List<string>>();
-                                    tempDictionary.Add(ruObject, tempList);
-                                    fp.recordCreates = tempDictionary;
-                                }
-                            }
-
-                            foreach (XmlElement elem in recordUpdates)
-                            {
-                                String ruLabel = "";
-                                String ruObject = "";
-
-                                foreach (XmlElement childElem in elem.ChildNodes)
-                                {
-                                    if (childElem.Name == "label")
-                                    {
-                                        ruLabel = childElem.InnerText;
-                                    }
-                                    else if (childElem.Name == "object")
-                                    {
-                                        ruObject = childElem.InnerText;
-                                    }
-                                }
-
-                                if (fp.recordUpdates.ContainsKey(ruObject))
-                                {
-                                    fp.recordUpdates[ruObject].Add(ruLabel);
-                                }
-                                else
-                                {
-                                    List<String> tempList = new List<string> { ruLabel };
-                                    Dictionary<String, List<String>> tempDictionary = new Dictionary<string, List<string>>();
-                                    tempDictionary.Add(ruObject, tempList);
-                                    fp.recordUpdates = tempDictionary;
-                                }
-                            }
-
-                            foreach (XmlElement elem in recordDeletes)
-                            {
-                                String ruLabel = "";
-                                String ruObject = "";
-
-                                foreach (XmlElement childElem in elem.ChildNodes)
-                                {
-                                    if (childElem.Name == "label")
-                                    {
-                                        ruLabel = childElem.InnerText;
-                                    }
-                                    else if (childElem.Name == "object")
-                                    {
-                                        ruObject = childElem.InnerText;
-                                    }
-                                }
-
-                                if (fp.recordDeletes.ContainsKey(ruObject))
-                                {
-                                    fp.recordDeletes[ruObject].Add(ruLabel);
-                                }
-                                else
-                                {
-                                    List<String> tempList = new List<string> { ruLabel };
-                                    Dictionary<String, List<String>> tempDictionary = new Dictionary<string, List<string>>();
-                                    tempDictionary.Add(ruObject, tempList);
-                                    fp.recordDeletes = tempDictionary;
-                                }
-                            }
-
-                            if (declarativeTypeToName.ContainsKey("Process Builder"))
-                            {
-                                declarativeTypeToName["Process Builder"].Add(fp);
-                            }
-                            else
-                            {
-                                declarativeTypeToName.Add("Process Builder", new List<FlowProcess> { fp });
-                            }
-                        }
-                    }
-
-                    // Write the values in the Dictionary to an Excel file
-                    Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
-                    xlapp.Visible = true;
-
-                    Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlapp.Workbooks.Add();
-
-                    Int32 processBuilderRowId = 1;
-                    Int32 flowRowId = 1;
-
-
-                    // Process Builder
-                    Microsoft.Office.Interop.Excel.Worksheet xlProcessBuilderWrksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
-                                                                                        (System.Reflection.Missing.Value,
-                                                                                        xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
-                                                                                        System.Reflection.Missing.Value,
-                                                                                        System.Reflection.Missing.Value);
-                    xlProcessBuilderWrksheet.Name = "Process Builder";
-
-                    xlProcessBuilderWrksheet.Cells[processBuilderRowId, 1].Value = "ProcessBuilderName";
-                    xlProcessBuilderWrksheet.Cells[processBuilderRowId, 2].Value = "ProcessBuilderLabel";
-                    xlProcessBuilderWrksheet.Cells[processBuilderRowId, 3].Value = "ProcessBuilderType";
-                    xlProcessBuilderWrksheet.Cells[processBuilderRowId, 4].Value = "Status";
-                    xlProcessBuilderWrksheet.Cells[processBuilderRowId, 5].Value = "API Version";
-                    xlProcessBuilderWrksheet.Cells[processBuilderRowId, 6].Value = "Run In Mode";
-                    xlProcessBuilderWrksheet.Cells[processBuilderRowId, 7].Value = "Record Creates";
-                    xlProcessBuilderWrksheet.Cells[processBuilderRowId, 8].Value = "Record Updates";
-                    xlProcessBuilderWrksheet.Cells[processBuilderRowId, 9].Value = "Record Deletes";
-                    processBuilderRowId++;
-
-                    List<FlowProcess> processBuilders = declarativeTypeToName["Process Builder"];
-                    foreach (FlowProcess fp in processBuilders)
-                    {
-                        xlProcessBuilderWrksheet.Cells[processBuilderRowId, 1].Value = fp.processName;
-                        xlProcessBuilderWrksheet.Cells[processBuilderRowId, 2].Value = fp.processLabel;
-                        xlProcessBuilderWrksheet.Cells[processBuilderRowId, 3].Value = fp.processType;
-                        xlProcessBuilderWrksheet.Cells[processBuilderRowId, 4].Value = fp.status;
-                        xlProcessBuilderWrksheet.Cells[processBuilderRowId, 5].Value = fp.apiVersion;
-                        xlProcessBuilderWrksheet.Cells[processBuilderRowId, 6].Value = fp.runInMode;
-
-                        if (fp.recordCreates.Count > 0)
-                        {
-                            String dictionaryKeys = "";
-
-                            foreach (String key in fp.recordCreates.Keys)
-                            {
-                                dictionaryKeys = dictionaryKeys + key + ",";
-                            }
-
-                            xlProcessBuilderWrksheet.Cells[processBuilderRowId, 7].Value = dictionaryKeys;
-                        }
-
-                        if (fp.recordUpdates.Count > 0)
-                        {
-                            String dictionaryKeys = "";
-
-                            foreach (String key in fp.recordCreates.Keys)
-                            {
-                                dictionaryKeys = dictionaryKeys + key + ",";
-                            }
-
-                            xlProcessBuilderWrksheet.Cells[processBuilderRowId, 8].Value = dictionaryKeys;
-                        }
-
-                        if (fp.recordDeletes.Count > 0)
-                        {
-                            String dictionaryKeys = "";
-
-                            foreach (String key in fp.recordCreates.Keys)
-                            {
-                                dictionaryKeys = dictionaryKeys + key + ",";
-                            }
-
-                            xlProcessBuilderWrksheet.Cells[processBuilderRowId, 9].Value = dictionaryKeys;
-                        }
-
-                        processBuilderRowId++;
-                    }
-
-
-                    // AutoLaunchedFlow
-                    Microsoft.Office.Interop.Excel.Worksheet xlAutolaunchedFlowWrksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
-                                                                                        (System.Reflection.Missing.Value,
-                                                                                        xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
-                                                                                        System.Reflection.Missing.Value,
-                                                                                        System.Reflection.Missing.Value);
-                    xlAutolaunchedFlowWrksheet.Name = "AutoLaunchedFlow";
-
-                    xlAutolaunchedFlowWrksheet.Cells[flowRowId, 1].Value = "FlowName";
-                    xlAutolaunchedFlowWrksheet.Cells[flowRowId, 2].Value = "FlowLabel";
-                    xlAutolaunchedFlowWrksheet.Cells[flowRowId, 3].Value = "FlowType";
-                    xlAutolaunchedFlowWrksheet.Cells[flowRowId, 4].Value = "Status";
-                    xlAutolaunchedFlowWrksheet.Cells[flowRowId, 5].Value = "API Version";
-                    xlAutolaunchedFlowWrksheet.Cells[flowRowId, 6].Value = "Run In Mode";
-                    xlAutolaunchedFlowWrksheet.Cells[flowRowId, 7].Value = "Record Creates";
-                    xlAutolaunchedFlowWrksheet.Cells[flowRowId, 8].Value = "Record Updates";
-                    xlAutolaunchedFlowWrksheet.Cells[flowRowId, 9].Value = "Record Deletes";
-                    flowRowId++;
-
-                    List<FlowProcess> autoLaunchedFlows = declarativeTypeToName["AutoLaunchedFlow"];
-                    foreach (FlowProcess fp in autoLaunchedFlows)
-                    {
-                        xlAutolaunchedFlowWrksheet.Cells[flowRowId, 1].Value = fp.processName;
-                        xlAutolaunchedFlowWrksheet.Cells[flowRowId, 2].Value = fp.processLabel;
-                        xlAutolaunchedFlowWrksheet.Cells[flowRowId, 3].Value = fp.processType;
-                        xlAutolaunchedFlowWrksheet.Cells[flowRowId, 4].Value = fp.status;
-                        xlAutolaunchedFlowWrksheet.Cells[flowRowId, 5].Value = fp.apiVersion;
-                        xlAutolaunchedFlowWrksheet.Cells[flowRowId, 6].Value = fp.runInMode;
-
-                        if (fp.recordCreates.Count > 0)
-                        {
-                            String dictionaryKeys = "";
-
-                            foreach (String key in fp.recordCreates.Keys)
-                            {
-                                dictionaryKeys = dictionaryKeys + key + ",";
-                            }
-
-                            xlAutolaunchedFlowWrksheet.Cells[flowRowId, 7].Value = dictionaryKeys;
-                        }
-
-                        if (fp.recordUpdates.Count > 0)
-                        {
-                            String dictionaryKeys = "";
-
-                            foreach (String key in fp.recordCreates.Keys)
-                            {
-                                dictionaryKeys = dictionaryKeys + key + ",";
-                            }
-
-                            xlAutolaunchedFlowWrksheet.Cells[flowRowId, 8].Value = dictionaryKeys;
-                        }
-
-                        if (fp.recordDeletes.Count > 0)
-                        {
-                            String dictionaryKeys = "";
-
-                            foreach (String key in fp.recordCreates.Keys)
-                            {
-                                dictionaryKeys = dictionaryKeys + key + ",";
-                            }
-
-                            xlAutolaunchedFlowWrksheet.Cells[flowRowId, 9].Value = dictionaryKeys;
-                        }
-
-                        flowRowId++;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Please make sure the \"Flows\" folder is in the path " + this.tbProjectFolder.Text + " or choose another path");
-                }
-            }
-            else
-            {
-                
-            }
-        }
-
-        private void runWorkflowAutomationReport()
-        {
-            if (this.tbProjectFolder.Text != "")
-            {
-                if (Directory.Exists(this.tbProjectFolder.Text + "\\Workflows"))
-                {
-                    // Key = sObject, Values = FlowProcess
-                    Dictionary<String, List<FlowProcess>> flowProcessList = new Dictionary<String, List<FlowProcess>>();
-
-                    String[] fileNames = Directory.GetFiles(this.tbProjectFolder.Text + "\\Workflows");
-
-                    foreach (String fileName in fileNames)
-                    {
-                        String[] filePathSplit = fileName.Split('\\');
-                        String objectName = filePathSplit[filePathSplit.Length - 1].Split('.')[0];
-
-                        XmlDocument xd = new XmlDocument();
-                        xd.Load(fileName);
-
-
-                        XmlNodeList fieldUpdates = xd.GetElementsByTagName("fieldUpdates");
-                        Dictionary<String, String> fieldUpdateNameToObject = new Dictionary<String, String>();
-
-                        foreach (XmlElement elem in fieldUpdates)
-                        {
-                            fieldUpdateNameToObject.Add(elem.ChildNodes[0].InnerText, objectName);
-                        }
-
-                        XmlNodeList workflowRules = xd.GetElementsByTagName("rules");
-
-                        foreach (XmlElement elem in workflowRules)
-                        {
-                            FlowProcess fp = new FlowProcess();
-                            fp.objectName = objectName;
-
-                            if (elem.ChildNodes.Count > 0)
-                            {
-                                foreach (XmlElement ce1 in elem.ChildNodes)
-                                {
-                                    if (ce1.Name == "fullName")
-                                    {
-                                        fp.processName = ce1.InnerText;
-                                    }
-                                    else if (ce1.Name == "active")
-                                    {
-                                        fp.status = ce1.InnerText;
-                                    }
-                                    else if (ce1.Name == "triggerType")
-                                    {
-                                        fp.triggerType = ce1.InnerText;
-                                    }
-
-                                    XmlNodeList actions = elem.GetElementsByTagName("actions");
-
-                                    foreach (XmlElement actionElem in actions)
-                                    {
-                                        if (actionElem.ChildNodes[1].InnerText == "FieldUpdate")
-                                        {
-                                            if (fp.triggerType == "onCreateOnly")
-                                            {
-                                                if (fp.recordCreates.ContainsKey(objectName))
-                                                {
-                                                    fp.recordCreates[objectName].Add(actionElem.ChildNodes[0].InnerText);
-                                                }
-                                                else
-                                                {
-                                                    fp.recordCreates.Add(objectName, new List<String> { actionElem.ChildNodes[0].InnerText });
-                                                }
-                                            }
-                                            else if (fp.triggerType == "onCreateOrTriggeringUpdate")
-                                            {
-                                                if (fp.recordCreates.ContainsKey(objectName))
-                                                {
-                                                    fp.recordCreates[objectName].Add(actionElem.ChildNodes[0].InnerText);
-                                                }
-                                                else
-                                                {
-                                                    fp.recordCreates.Add(objectName, new List<String> { actionElem.ChildNodes[0].InnerText });
-                                                }
-
-                                                if (fp.recordUpdates.ContainsKey(objectName))
-                                                {
-                                                    fp.recordUpdates[objectName].Add(actionElem.ChildNodes[0].InnerText);
-                                                }
-                                                else
-                                                {
-                                                    fp.recordUpdates.Add(objectName, new List<String> { actionElem.ChildNodes[0].InnerText });
-                                                }
-                                            }
-                                            else if (fp.triggerType == "onAllChanges")
-                                            {
-                                                if (fp.recordCreates.ContainsKey(objectName))
-                                                {
-                                                    fp.recordCreates[objectName].Add(actionElem.ChildNodes[0].InnerText);
-                                                }
-                                                else
-                                                {
-                                                    fp.recordCreates.Add(objectName, new List<String> { actionElem.ChildNodes[0].InnerText });
-                                                }
-
-                                                if (fp.recordUpdates.ContainsKey(objectName))
-                                                {
-                                                    fp.recordUpdates[objectName].Add(actionElem.ChildNodes[0].InnerText);
-                                                }
-                                                else
-                                                {
-                                                    fp.recordUpdates.Add(objectName, new List<String> { actionElem.ChildNodes[0].InnerText });
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                if (flowProcessList.ContainsKey(objectName))
-                                {
-                                    flowProcessList[objectName].Add(fp);
-                                }
-                                else
-                                {
-                                    flowProcessList.Add(objectName, new List<FlowProcess> { fp });
-                                }
-                            }
-                        }
-                    }
-
-                    // Now write the values to an Excel file
-                    Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
-                    xlapp.Visible = true;
-
-                    Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlapp.Workbooks.Add();
-
-                    //Int32 workflowRuleRowId = 1;
-                    Int32 flowRowId = 1;
-
-                    // AutoLaunchedFlow
-                    Microsoft.Office.Interop.Excel.Worksheet xlWorkflowWrksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
-                                                                                        (System.Reflection.Missing.Value,
-                                                                                        xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
-                                                                                        System.Reflection.Missing.Value,
-                                                                                        System.Reflection.Missing.Value);
-                    xlWorkflowWrksheet.Name = "Workflow Rules";
-
-                    xlWorkflowWrksheet.Cells[flowRowId, 1].Value = "Workflow Rule Name";
-                    xlWorkflowWrksheet.Cells[flowRowId, 2].Value = "Object";
-                    xlWorkflowWrksheet.Cells[flowRowId, 3].Value = "Trigger Type";
-                    xlWorkflowWrksheet.Cells[flowRowId, 4].Value = "Is Active";
-                    xlWorkflowWrksheet.Cells[flowRowId, 5].Value = "Field Updates on Record Create";
-                    xlWorkflowWrksheet.Cells[flowRowId, 6].Value = "Field Updates on Record Updates";
-                    flowRowId++;
-
-                    foreach (String objectName in flowProcessList.Keys)
-                    {
-                        foreach (FlowProcess fp in flowProcessList[objectName])
-                        {
-                            if (fp.status == "FALSE") continue;
-
-                            xlWorkflowWrksheet.Cells[flowRowId, 1].Value = fp.processName;
-                            xlWorkflowWrksheet.Cells[flowRowId, 2].Value = fp.objectName;
-                            xlWorkflowWrksheet.Cells[flowRowId, 3].Value = fp.triggerType;
-                            xlWorkflowWrksheet.Cells[flowRowId, 4].Value = fp.status;
-
-                            if (fp.recordCreates.Count > 0)
-                            {
-                                String dictionaryFieldUpdates = "";
-
-                                foreach (String key in fp.recordCreates.Keys)
-                                {
-                                    foreach (String fu in fp.recordCreates[key])
-                                    {
-                                        dictionaryFieldUpdates = dictionaryFieldUpdates + fu + ",";
-                                    }
-                                }
-
-                                xlWorkflowWrksheet.Cells[flowRowId, 5].Value = dictionaryFieldUpdates;
-                            }
-
-                            if (fp.recordUpdates.Count > 0)
-                            {
-                                String dictionaryFieldUpdates = "";
-
-                                foreach (String key in fp.recordCreates.Keys)
-                                {
-                                    foreach (String fu in fp.recordUpdates[key])
-                                    {
-                                        dictionaryFieldUpdates = dictionaryFieldUpdates + fu + ",";
-                                    }
-                                }
-
-                                xlWorkflowWrksheet.Cells[flowRowId, 6].Value = dictionaryFieldUpdates;
-                            }
-
-                            flowRowId++;
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Please make sure the \"Workflows\" folder is in the path " + this.tbProjectFolder.Text + " or choose another path");
-                }
-            }
-        }
-
-
-        public void writeDataToExcelSheet(Microsoft.Office.Interop.Excel.Worksheet xlWorksheet,
-                                          Int32 rowNumber,
-                                          Int32 colNumber,
-                                          String value)
-        {
-            xlWorksheet.Cells[rowNumber, colNumber].Value = value;
-        }
-
-        public void formatExcelRange(Microsoft.Office.Interop.Excel.Worksheet xlWorksheet,
-                                             Int32 startRowNumber,
-                                             Int32 endRowNumber,
-                                             Int32 startColNumber,
-                                             Int32 endColNumber,
-                                             Int32 fontSize,
-                                             Int32 fontColorRed,
-                                             Int32 fontColorGreen,
-                                             Int32 fontColorBlue,
-                                             Int32 interiorColorRed,
-                                             Int32 interiorColorGreen,
-                                             Int32 interiorColorBlue,
-                                             Boolean boldText,
-                                             Boolean italicText,
-                                             String fieldValues)
-        {
-            Microsoft.Office.Interop.Excel.Range rng;
-            rng = xlWorksheet.Range[xlWorksheet.Cells[startRowNumber, startColNumber], xlWorksheet.Cells[endRowNumber, endColNumber]];
-            rng.Font.Bold = boldText;
-            rng.Font.Italic = italicText;
-            rng.Font.Size = fontSize;
-            rng.Font.Color = System.Drawing.Color.FromArgb(fontColorRed, fontColorGreen, fontColorBlue);
-
-            if (fieldValues.ToLower() == "true")
-            {
-                rng.Interior.Color = System.Drawing.Color.FromArgb(220, 230, 241);
-            }
-            else if (fieldValues.ToLower() == "false")
-            {
-                rng.Interior.Color = System.Drawing.Color.FromArgb(250, 191, 143);
-            }
-            else
-            {
-                rng.Interior.Color = System.Drawing.Color.FromArgb(interiorColorRed, interiorColorGreen, interiorColorBlue);
-            }
-        }
-
-        private void btnAddLoggingToMethod_Click(object sender, EventArgs e)
-        {
-            foreach (String fileName in fileNames)
-            {
-                String[] fileNameParts = fileName.Split('\\');
-
-                StreamReader sr = new StreamReader(fileName);
-                String fileContents = sr.ReadToEnd();
-                sr.Close();
-
-                StreamWriter sw = new StreamWriter(fileName);
-
-                String currentMethodName = "";
-                String previousMethodName = "";
-
-                Boolean insideMultiLineComment = false;
-                Boolean insideInlineComment = false;
-
-                Char[] fileCharArray = fileContents.ToCharArray();
-
-                // provides the length of the method name if the checkIfMethod returns a value so that the loop through the characters
-                // does not continue writing the same material
-                Int32 j = 0;
-
-                for (Int32 i = 0; i < fileCharArray.Length - 1; i++)
-                {
-                    if (fileCharArray[i] == '/' && fileCharArray[i + 1] == '*')
-                    {
-                        insideMultiLineComment = true;
-                    }
-                    else if (fileCharArray[i] == '*' && fileCharArray[i + 1] == '/')
-                    {
-                        insideMultiLineComment = false;
-                    }
-                    else if (fileCharArray[i] == '/' && fileCharArray[i + 1] == '/')
-                    {
-                        insideInlineComment = true;
-                    }
-                    else if (fileCharArray[i] == '\n' && insideInlineComment == true)
-                    {
-                        insideInlineComment = false;
-                    }
-
-                    // Get whether this is a method
-                    if (j == 0)
-                    {
-                        currentMethodName = checkIfMethod(fileCharArray, i);
-                    }
-
-                    if (currentMethodName != "" && insideMultiLineComment == false && insideInlineComment == false)
-                    {
-                        j = currentMethodName.Length; // Decrement this
-                        previousMethodName = currentMethodName;
-                        currentMethodName = "";
-                    }
-
-                    // While j is greater than 0, write the method out into the file character by character
-                    // When a { is hit, then write the { and then write the line Console.WriteLine(xxx)
-                    if (j > 0 && fileCharArray[i] == '{')
-                    {
-                        sw.Write(fileCharArray[i].ToString());
-                        j--;
-                    }
-                    else if (j > 0 && fileCharArray[i] != '{')
-                    {
-                        sw.Write(fileCharArray[i].ToString());
-                        j--;
-                    }
-                    else
-                    {
-                        sw.Write(fileCharArray[i].ToString());
-                    }
-                }
-
-                sw.Close();
-            }
-        }
-
-        public String checkIfMethod(Char[] fileCharArray, Int32 arrayPosition)
-        {
-            String methodName = "";
-
-            // protected inernal - 17
-            // private protected - 17
-            // protected - 9
-            // internal - 8
-            // private - 7
-            // public - 6
-
-            String startValue = "";
-            if (arrayPosition + 17 > fileCharArray.Length)
-            {
-                for (Int32 i = arrayPosition; i < fileCharArray.Length; i++)
-                {
-                    startValue = startValue + fileCharArray[i].ToString();
-                }
-            }
-            else
-            {
-                for (Int32 i = arrayPosition; i < arrayPosition + 17; i++)
-                {
-                    startValue = startValue + fileCharArray[i].ToString();
-                }
-            }
-
-            Boolean methodStart = false;
-            if (startValue == "protected inernal")
-            {
-                methodStart = true;
-            }
-            else if (startValue == "private protected")
-            {
-                methodStart = true;
-            }
-            else if (startValue.StartsWith("protected"))
-            {
-                methodStart = true;
-            }
-            else if (startValue.StartsWith("internal"))
-            {
-                methodStart = true;
-            }
-            else if (startValue.StartsWith("private"))
-            {
-                methodStart = true;
-            }
-            else if (startValue.StartsWith("public"))
-            {
-                methodStart = true;
-            }
-
-            Int32 parenthesesCount = 0;
-            Int32 braceCount = 0;
-            if (methodStart == true)
-            {
-                for (Int32 i = arrayPosition; i < fileCharArray.Length - 1; i++)
-                {
-                    if (fileCharArray[i] == '(')
-                    {
-                        parenthesesCount++;
-                    }
-                    else if (fileCharArray[i] == ')')
-                    {
-                        parenthesesCount++;
-                    }
-                    else if (fileCharArray[i] == '{')
-                    {
-                        methodName += fileCharArray[i].ToString();
-                        braceCount++;
-                        break;
-                    }
-                    else if (fileCharArray[i] == '}')
-                    {
-                        methodName += fileCharArray[i].ToString();
-                        break;
-                    }
-                    else if (fileCharArray[i] == ';')
-                    {
-                        methodName += fileCharArray[i].ToString();
-                        break;
-                    }
-
-                    methodName += fileCharArray[i].ToString();
-                }
-            }
-
-            if (parenthesesCount == 2 && braceCount == 1)
-            {
-                // Do nothing
-                methodName = methodName.Replace("\n", "");
-                methodName = methodName.Replace("\r", "");
-                methodName = methodName.Replace("  ", " ");
-                methodName = methodName.Replace("  ", " ");
-                methodName = methodName.Replace("  ", " ");
-                methodName = methodName.Replace("  ", " ");
-                methodName = methodName.Replace("  ", " ");
-            }
-            else
-            {
-                methodName = "";
-            }
-
-            return methodName;
-        }
-
-        private void tbProjectFolder_DoubleClick(object sender, EventArgs e)
-        {
-            this.tbProjectFolder.Text = UtilityClass.folderBrowserSelectPath("Select Project Folder", false, FolderEnum.ReadFrom);
-        }
-
 
         public class FlowProcess
         {
@@ -1937,5 +1520,127 @@ namespace SalesforceMetadata
             }
         }
 
+        public class ApexTriggers 
+        {
+            public String triggerName = "";
+            public String objectName = "";
+
+            public Boolean logicContainedInTrigger = false;
+
+            public Boolean isBeforeInsert = false;
+            public Boolean isBeforeUpdate = false;
+            public Boolean isBeforeDelete = false;
+            
+            public Boolean isAfterInsert = false;
+            public Boolean isAfterUpdate = false;
+            public Boolean isAfterDelete = false;
+            public Boolean isAfterUndelete = false;
+
+            public HashSet<String> triggerEvents;
+            public Dictionary<String, List<String>> soqlStatements;
+
+            public Dictionary<String, List<String>> classMethodCalls;
+
+            // Objects being updated
+            public Dictionary<String, List<ObjectVarToType>> objVarToType;
+            public ApexTriggers()
+            {
+                triggerEvents = new HashSet<string>();
+                soqlStatements = new Dictionary<String, List<String>>();
+                classMethodCalls = new Dictionary<string, List<string>>();
+                objVarToType = new Dictionary<String, List<ObjectVarToType>>();
+            }
+        }
+
+        public class ApexClasses
+        {
+            public string className = "";
+            public string accessModifier = "";
+            public string optionalModifier = "";
+
+            public Boolean isInterface = false;
+
+            public List<String> interfaceClassNames;
+            public String extendsClassName = "";
+            public Dictionary<String, ClassProperties> clsProperties;
+            public Dictionary<String, ApexClasses> innerClasses;
+            public List<ClassMethods> classMethods;
+            public Dictionary<String, String> objToFieldsReferenced;
+
+            // Objects being updated
+            //public Dictionary<String, List<ObjectVarToType>> objVarToType;
+
+            public ApexClasses()
+            {
+                interfaceClassNames = new List<String>();
+                clsProperties = new Dictionary<string, ClassProperties>();
+                innerClasses = new Dictionary<string, ApexClasses>();
+                classMethods = new List<ClassMethods>();
+                objToFieldsReferenced = new Dictionary<String, String>();
+            }
+        }
+
+        public class ObjectVarToType
+        {
+            public String objectName = "";
+            public String varType = "";
+            public String varName = "";
+            public String dmlType = "";
+        }
+
+        public class ClassProperties 
+        {
+            public String propertyName = "";
+            public String qualifier = "";
+            public String dataType = "";
+            public Boolean isStatic = false;
+            public Boolean isFinal = false;
+        }
+
+        public class ClassMethods
+        {
+            public String annotation = "";
+            public String methodName = "";
+            public String qualifier = "";
+            public Boolean isStatic = false;
+            public Boolean isOverride = false;
+            public String returnDataType = "";
+
+            // Key = sObject API Name, Value = SOQL Statements
+            public Dictionary<String, List<String>> soqlStatements;
+            public Dictionary<String, String> objToFieldsReferenced;
+
+            public Dictionary<String, List<ObjectVarToType>> objVarToType;
+
+            public ClassMethods() 
+            {
+                this.soqlStatements = new Dictionary<String, List<String>>();
+                this.objToFieldsReferenced = new Dictionary<String, String>();
+                this.objVarToType = new Dictionary<String, List<ObjectVarToType>>();
+            }
+        }
+
+        public class Flow 
+        {
+            public String apiName = "";
+            public String label = "";
+            public String objectName = "";
+            public String flowProcessType = "";
+            public String recordTriggerTrype = "";
+            public String triggerType = "";
+            public Boolean isActive = false;
+            public String apiVersion = "";
+            public String runInMode = "";
+            public Dictionary<String, List<String>> recordCreates;
+            public Dictionary<String, List<String>> recordUpdates;
+            public Dictionary<String, List<String>> recordDeletes;
+
+            public Flow()
+            {
+                recordCreates = new Dictionary<string, List<string>>();
+                recordUpdates = new Dictionary<string, List<string>>();
+                recordDeletes = new Dictionary<string, List<string>>();
+            }
+        }
     }
 }

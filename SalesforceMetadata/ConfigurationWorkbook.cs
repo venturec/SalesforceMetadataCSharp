@@ -43,12 +43,24 @@ namespace SalesforceMetadata
 
         private void tbSelectedFolder_DoubleClick(object sender, EventArgs e)
         {
-            this.tbSelectedFolder.Text = UtilityClass.folderBrowserSelectPath("Select Project Folder to Parse", false, FolderEnum.ReadFrom);
+            this.tbSelectedFolder.Text = UtilityClass.folderBrowserSelectPath("Select Project Folder to Parse", 
+                                                                              false, 
+                                                                              FolderEnum.ReadFrom,
+                                                                              Properties.Settings.Default.ConfigurationWorkbookLastReadLocation);
+
+            Properties.Settings.Default.ConfigurationWorkbookLastReadLocation = this.tbSelectedFolder.Text;
+            Properties.Settings.Default.Save();
         }
 
         private void tbSaveResultsTo_DoubleClick(object sender, EventArgs e)
         {
-            this.tbSaveResultsTo.Text = UtilityClass.folderBrowserSelectPath("Save Results to...", true, FolderEnum.SaveTo);
+            this.tbSaveResultsTo.Text = UtilityClass.folderBrowserSelectPath("Save Results to...", 
+                                                                             true, 
+                                                                             FolderEnum.SaveTo,
+                                                                             Properties.Settings.Default.ConfigurationWorkbookLastSaveLocation);
+
+            Properties.Settings.Default.ConfigurationWorkbookLastSaveLocation = this.tbSelectedFolder.Text;
+            Properties.Settings.Default.Save();
         }
 
         private void btnGenerateConfigReportAsHTML_Click(object sender, EventArgs e)

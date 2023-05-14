@@ -39,7 +39,9 @@ namespace SalesforceMetadata
         // Trigger Type - insert, update, delete, undelete
         public Dictionary<String, List<ApexTriggers>> objectToTrigger;
 
-        public Dictionary<String, List<Flow>> objectToFlow;
+        public Dictionary<String, List<FlowProcess>> objectToFlow;
+
+        public Dictionary<String, List<Workflows>> workflowObjToFieldUpdt;
 
         public AutomationReporter()
         {
@@ -65,9 +67,10 @@ namespace SalesforceMetadata
 
                 //runQuickActionExtract();
 
-                
-                // Write the data to an HTML friendly format
 
+                // Write the data to an HTML friendly format based on Order of Execution
+                // https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_triggers_order_of_execution.htm
+                writeAutomationLogicToFile();
 
                 MessageBox.Show("Automation Report Complete");
             }
@@ -250,7 +253,7 @@ namespace SalesforceMetadata
         {
             if (Directory.Exists(this.tbProjectFolder.Text + "\\flows"))
             {
-                objectToFlow = new Dictionary<string, List<Flow>>();
+                objectToFlow = new Dictionary<string, List<FlowProcess>>();
 
                 String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\flows");
 
@@ -259,7 +262,7 @@ namespace SalesforceMetadata
                     String[] flPathSplit = fl.Split('\\');
                     String[] flNameSplit = flPathSplit[flPathSplit.Length - 1].Split('.');
 
-                    Flow flowObj = new Flow();
+                    FlowProcess flowObj = new FlowProcess();
                     flowObj.apiName = flNameSplit[0];
 
                     XmlDocument objXd = new XmlDocument();
@@ -474,7 +477,113 @@ namespace SalesforceMetadata
                     }
                     else
                     {
-                        this.objectToFlow.Add(flowObj.objectName, new List<Flow> { flowObj });
+                        this.objectToFlow.Add(flowObj.objectName, new List<FlowProcess> { flowObj });
+                    }
+                }
+            }
+        }
+
+        private void runWorkflowExtract()
+        {
+            if (Directory.Exists(this.tbProjectFolder.Text + "\\workflows"))
+            {
+                if (Directory.Exists(this.tbProjectFolder.Text + "\\workflows"))
+                {
+                    workflowObjToFieldUpdt = new Dictionary<string, List<Workflows>>();
+
+                    String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\workflows");
+
+                    foreach (String fl in files)
+                    {
+                        String[] flPathSplit = fl.Split('\\');
+                        String[] flNameSplit = flPathSplit[flPathSplit.Length - 1].Split('.');
+
+                        XmlDocument objXd = new XmlDocument();
+                        objXd.Load(fl);
+
+                        XmlNodeList wfRules = objXd.GetElementsByTagName("rules");
+                        XmlNodeList wfFieldUpdates = objXd.GetElementsByTagName("fieldUpdates");
+
+                        foreach (XmlNode nd1 in wfRules)
+                        {
+                            if (nd1.ParentNode.Name == "Workflow")
+                            {
+                                Workflows wrkFlowObj = new Workflows();
+                                wrkFlowObj.objectName = flNameSplit[0];
+
+                                HashSet<String> fieldUpdates = new HashSet<String>();
+
+                                // Make sure the rule is active before adding the values
+                                foreach (XmlNode cn in nd1.ChildNodes)
+                                {
+                                    if (cn.Name == "active")
+                                    {
+                                        wrkFlowObj.isActive = Boolean.Parse(cn.InnerText);
+                                    }
+                                    else if (cn.Name == "fullName")
+                                    {
+                                        wrkFlowObj.workflowRuleName = cn.InnerText;
+                                    }
+                                    else if (cn.Name == "triggerType")
+                                    {
+                                        wrkFlowObj.triggerType = cn.InnerText;
+                                    }
+                                    else if (cn.Name == "actions")
+                                    {
+                                        if (cn.ChildNodes[1].InnerText == "FieldUpdate")
+                                        {
+                                            fieldUpdates.Add(cn.ChildNodes[0].InnerText);
+                                        }
+                                    }
+                                }
+
+                                if (wrkFlowObj.isActive == true
+                                    && fieldUpdates.Count > 0)
+                                {
+                                    foreach (XmlNode cn in wfFieldUpdates)
+                                    {
+                                        if (fieldUpdates.Contains(cn.ChildNodes[0].InnerText))
+                                        {
+                                            WorkflowFieldUpdate wfu = new WorkflowFieldUpdate();
+                                            wfu.fieldUpdateName = cn.ChildNodes[0].InnerText;
+
+                                            foreach (XmlNode cn2 in cn.ChildNodes)
+                                            {
+                                                if (cn2.Name == "field")
+                                                {
+                                                    wfu.fieldName = cn2.InnerText;
+                                                }
+                                                else if (cn2.Name == "name")
+                                                {
+                                                    wfu.fieldUpdateLabel = cn2.InnerText;
+                                                }
+                                                else if (cn2.Name == "notifyAssignee")
+                                                {
+                                                    wfu.notifyAssignee = Boolean.Parse(cn2.InnerText);
+                                                }
+                                                else if (cn2.Name == "reevaluateOnChange")
+                                                {
+                                                    wfu.reevaluateOnChange = Boolean.Parse(cn2.InnerText);
+                                                }
+                                            }
+
+                                            // Add the field update to the workflow object
+                                            wrkFlowObj.fieldUpdates.Add(wfu);
+                                        }
+                                    }
+
+                                    // Add the workflow to the dictionary
+                                    if (this.workflowObjToFieldUpdt.ContainsKey(wrkFlowObj.objectName))
+                                    {
+                                        this.workflowObjToFieldUpdt[wrkFlowObj.objectName].Add(wrkFlowObj);
+                                    }
+                                    else
+                                    {
+                                        this.workflowObjToFieldUpdt.Add(wrkFlowObj.objectName, new List<Workflows> { wrkFlowObj });
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -483,14 +592,6 @@ namespace SalesforceMetadata
         private void runApprovalProcessExtract()
         {
             if (Directory.Exists(this.tbProjectFolder.Text + "\\approvalProcesses"))
-            {
-
-            }
-        }
-
-        private void runWorkflowExtract()
-        {
-            if (Directory.Exists(this.tbProjectFolder.Text + "\\workflows"))
             {
 
             }
@@ -1259,6 +1360,201 @@ namespace SalesforceMetadata
             return ovt;
         }
 
+
+        public void writeAutomationLogicToFile()
+        {
+            StreamWriter sw = new StreamWriter(this.tbFileSaveTo.Text + "\\AutomationReport.txt");
+
+            sw.WriteLine("Salesforce Automation Report");
+            sw.WriteLine("Description");
+            sw.WriteLine("This report shows which objects are potentially impacted by Triggers, Class Methods, Flows and Workflow-Field Updates");
+            sw.WriteLine(Environment.NewLine);
+            sw.WriteLine("Report Run Date: " + DateTime.Now);
+            sw.Write(Environment.NewLine);
+
+            foreach (String obj in objectToFieldsDictionary.Keys)
+            {
+                Boolean objectNameWritten = false;
+
+                foreach (String clsNm in classNmToClass.Keys)
+                {
+                    Boolean clsNameWritten = false;
+
+                    foreach (ClassMethods am in classNmToClass[clsNm].classMethods)
+                    {
+                        Boolean methodNameWritten = false;
+
+                        foreach (String ovtObjName in am.objVarToType.Keys)
+                        {
+                            if (ovtObjName == obj)
+                            {
+                                if (objectNameWritten == false)
+                                {
+                                    sw.WriteLine("Object Name: " + obj);
+                                    objectNameWritten = true;
+                                }
+
+                                if (clsNameWritten == false)
+                                {
+                                    sw.WriteLine("\tClass Name: " + clsNm);
+                                    clsNameWritten = true;
+                                }
+
+                                if (methodNameWritten == false)
+                                {
+                                    sw.WriteLine("\t\tMethod Name: " + am.methodName + "\tQualifier: " + am.qualifier + "\tReturn Data Type: " + am.returnDataType);
+                                }
+
+                                sw.WriteLine("\t\t\tData Manimpulations (DMLs)");
+                                foreach (ObjectVarToType ovt in am.objVarToType[ovtObjName])
+                                {
+                                    sw.WriteLine("\t\t\tVar Type: " + ovt.varType + "\t" + ovt.varName + "\t" + ovt.dmlType);
+                                }
+
+                                // Write triggers potentially impacted by DML statements
+                                if (objectToTrigger.ContainsKey(ovtObjName))
+                                {
+                                    sw.Write(Environment.NewLine);
+                                    sw.Write(Environment.NewLine);
+
+                                    foreach (ApexTriggers at in objectToTrigger[obj])
+                                    {
+                                        sw.WriteLine("\tTrigger Name: " + at.triggerName);
+                                        sw.WriteLine("\t\tBefore Insert\tBefore Update\tBefore Delete\tAfter Insert\tAfter Update\tAfter Delete\tAfter Undelete");
+                                        sw.WriteLine("\t\t"
+                                            + at.isBeforeInsert
+                                            + "\t" + at.isBeforeUpdate
+                                            + "\t" + at.isBeforeDelete
+                                            + "\t" + at.isAfterInsert
+                                            + "\t" + at.isAfterUpdate
+                                            + "\t" + at.isAfterDelete
+                                            + "\t" + at.isAfterUndelete);
+                                    }
+                                }
+
+                                // Write Flows potentially impacted by DML statements
+                                if (objectToFlow.ContainsKey(ovtObjName))
+                                {
+                                    sw.Write(Environment.NewLine);
+                                    sw.Write(Environment.NewLine);
+
+                                    foreach (FlowProcess fl in objectToFlow[ovtObjName])
+                                    {
+                                        sw.WriteLine("\tFlow Name: " + fl.label + "(" + fl.apiName + ")" + "\tTrigger Type: " + fl.triggerType + "\tRun In Mode: " + fl.runInMode);
+                                    }
+                                }
+
+
+                                // Write Workflow field updates
+                                if (workflowObjToFieldUpdt.ContainsKey(ovtObjName))
+                                {
+                                    sw.Write(Environment.NewLine);
+                                    sw.Write(Environment.NewLine);
+
+                                    foreach (Workflows wf in workflowObjToFieldUpdt[ovtObjName])
+                                    {
+                                        sw.WriteLine("\tWorkflow Rule Name: " + wf.workflowRuleName + "\tTrigger Type: " + wf.triggerType);
+                                        sw.WriteLine("\t\tFields Being Updated");
+
+                                        foreach (WorkflowFieldUpdate wfu in wf.fieldUpdates)
+                                        {
+                                            sw.WriteLine("\t\tField Name: " + wfu.fieldName + "\tField Update Name: " + wfu.fieldUpdateName);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (objectToTrigger.ContainsKey(obj))
+                {
+                    sw.Write(Environment.NewLine);
+                    sw.Write(Environment.NewLine);
+
+                    if (objectNameWritten == false)
+                    {
+                        sw.WriteLine("Object Name: " + obj);
+                        objectNameWritten = true;
+                    }
+
+                    foreach (ApexTriggers at in objectToTrigger[obj])
+                    {
+                        sw.WriteLine("\tTrigger Name: " + at.triggerName);
+                        sw.WriteLine("\t\tBefore Insert\tBefore Update\tBefore Delete\tAfter Insert\tAfter Update\tAfter Delete\tAfter Undelete");
+                        sw.WriteLine("\t\t"
+                            + at.isBeforeInsert
+                            + "\t" + at.isBeforeUpdate
+                            + "\t" + at.isBeforeDelete
+                            + "\t" + at.isAfterInsert
+                            + "\t" + at.isAfterUpdate
+                            + "\t" + at.isAfterDelete
+                            + "\t" + at.isAfterUndelete);
+                    }
+                }
+
+                foreach (ApexClasses ac in classNmToClass.Values)
+                {
+                    foreach (ClassMethods cm in ac.classMethods)
+                    {
+                        if (cm.objVarToType.ContainsKey(obj))
+                        {
+                            sw.WriteLine("\t\tMethod Name: " + cm.methodName + "\tQualifier: " + cm.qualifier + "\tReturn Data Type: " + cm.returnDataType);
+
+                            foreach (ObjectVarToType ovt in cm.objVarToType[obj])
+                            {
+                                sw.WriteLine("\t\t\tData Manimpulations (DMLs)");
+                                sw.WriteLine("\t\t\tVar Type: " + ovt.varType + "\t" + ovt.varName + "\t" + ovt.dmlType);
+                            }
+                        }
+                    }
+                }
+
+                if (objectToFlow.ContainsKey(obj))
+                {
+                    sw.Write(Environment.NewLine);
+                    sw.Write(Environment.NewLine);
+
+                    if (objectNameWritten == false)
+                    {
+                        sw.WriteLine("Object Name: " + obj);
+                        objectNameWritten = true;
+                    }
+
+                    foreach (FlowProcess fl in objectToFlow[obj])
+                    {
+                        sw.WriteLine("\tFlow Name: " + fl.label + "(" + fl.apiName + ")" + "\tTrigger Type: " + fl.triggerType + "\tRun In Mode: " + fl.runInMode);
+                    }
+                }
+
+                // Write Workflow field updates
+                if (workflowObjToFieldUpdt.ContainsKey(obj))
+                {
+                    sw.Write(Environment.NewLine);
+                    sw.Write(Environment.NewLine);
+
+                    if (objectNameWritten == false)
+                    {
+                        sw.WriteLine("Object Name: " + obj);
+                        objectNameWritten = true;
+                    }
+
+                    foreach (Workflows wf in workflowObjToFieldUpdt[obj])
+                    {
+                        sw.WriteLine("\tWorkflow Rule Name: " + wf.workflowRuleName + "\tTrigger Type: " + wf.triggerType);
+                        sw.WriteLine("\t\tFields Being Updated");
+
+                        foreach (WorkflowFieldUpdate wfu in wf.fieldUpdates)
+                        {
+                            sw.WriteLine("\t\tField Name: " + wfu.fieldName + "\tField Update Name: " + wfu.fieldUpdateName);
+                        }
+                    }
+                }
+            }
+
+            sw.Close();
+        }
+
         private void btnFindWhereClassUsed_Click(object sender, EventArgs e)
         {
             Boolean excelIsInstalled = UtilityClass.microsoftExcelInstalledCheck();
@@ -1486,40 +1782,6 @@ namespace SalesforceMetadata
             public String errorConditionFormula;
         }
 
-        public class FlowProcess
-        {
-            public String processName;
-            public String processLabel;
-            public String processType;
-            public String apiVersion;
-            public String status;
-            public String runInMode;
-            public String triggerType;
-            public String objectName;
-            // Key = object, values = the element names in the flows which initiate the DMLs 
-            public Dictionary<String, List<String>> recordCreates;
-            public Dictionary<String, List<String>> recordUpdates;
-            public Dictionary<String, List<String>> recordDeletes;
-            public Dictionary<String, List<String>> fieldUpdates;
-
-            public FlowProcess()
-            {
-                processName = "";
-                processLabel = "";
-                processType = "";
-                apiVersion = "";
-                status = "";
-                runInMode = "";
-                triggerType = "";
-                objectName = "";
-
-                recordCreates = new Dictionary<String, List<String>>();
-                recordUpdates = new Dictionary<String, List<String>>();
-                recordDeletes = new Dictionary<String, List<String>>();
-                fieldUpdates = new Dictionary<string, List<string>>();
-            }
-        }
-
         public class ApexTriggers 
         {
             public String triggerName = "";
@@ -1620,7 +1882,7 @@ namespace SalesforceMetadata
             }
         }
 
-        public class Flow 
+        public class FlowProcess 
         {
             public String apiName = "";
             public String label = "";
@@ -1635,12 +1897,40 @@ namespace SalesforceMetadata
             public Dictionary<String, List<String>> recordUpdates;
             public Dictionary<String, List<String>> recordDeletes;
 
-            public Flow()
+            public FlowProcess()
             {
                 recordCreates = new Dictionary<string, List<string>>();
                 recordUpdates = new Dictionary<string, List<string>>();
                 recordDeletes = new Dictionary<string, List<string>>();
             }
+        }
+
+        public class Workflows 
+        {
+            // These are the rules
+            public String objectName = "";
+            public String workflowRuleName = "";
+            public String triggerType = "";
+            public Boolean isActive = false;
+
+            // These are the field updates
+            // Value = List<String> fields being updated
+            public List<WorkflowFieldUpdate> fieldUpdates;
+
+            public Workflows()
+            {
+                fieldUpdates = new List<WorkflowFieldUpdate>();
+            }
+        }
+
+        public class WorkflowFieldUpdate 
+        {
+            // Object being updated
+            public String fieldUpdateName = "";
+            public String fieldUpdateLabel = "";
+            public String fieldName = "";
+            public Boolean notifyAssignee = false;
+            public Boolean reevaluateOnChange = false;
         }
     }
 }

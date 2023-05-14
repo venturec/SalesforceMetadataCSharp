@@ -78,7 +78,7 @@
             this.tbFileSaveTo.Name = "tbFileSaveTo";
             this.tbFileSaveTo.Size = new System.Drawing.Size(521, 20);
             this.tbFileSaveTo.TabIndex = 4;
-            this.tbFileSaveTo.Text = "C:\\Users\\marcu\\Documents\\Projects\\Florida DEM\\Reports\\AutomationReport.txt";
+            this.tbFileSaveTo.Text = "C:\\Users\\marcu\\Documents\\Projects\\Florida DEM\\Reports";
             this.tbFileSaveTo.DoubleClick += new System.EventHandler(this.tbFileSaveTo_DoubleClick);
             // 
             // AutomationReporter

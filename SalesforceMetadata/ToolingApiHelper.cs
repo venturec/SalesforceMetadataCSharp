@@ -5634,6 +5634,8 @@ namespace SalesforceMetadata
 
             List<CustomObjectClass> customObjectList = new List<CustomObjectClass>();
 
+            Int32 loopRecordNumber = 1;
+
             while (done == false)
             {
                 foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
@@ -5663,9 +5665,14 @@ namespace SalesforceMetadata
                     customObjClass.CreatedDate = customObj.CreatedDate;
                     customObjClass.LastModifiedDate = customObj.LastModifiedDate;
 
-                    customObjectList.Add(customObjClass);
-                    customObjIdToName18.Add(customObj.Id, customObj.DeveloperName);
-                    customObjIdToName15.Add(customObj.Id.Substring(0, customObj.Id.Length - 3), customObj.DeveloperName);
+                    if (customObjIdToName18.ContainsKey(customObj.Id) == false)
+                    {
+                        customObjectList.Add(customObjClass);
+                        customObjIdToName18.Add(customObj.Id, customObj.DeveloperName);
+                        customObjIdToName15.Add(customObj.Id.Substring(0, customObj.Id.Length - 3), customObj.DeveloperName);
+                    }
+
+                    loopRecordNumber++;
                 }
 
                 if (toolingQr.done)

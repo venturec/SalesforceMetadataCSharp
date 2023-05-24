@@ -1694,7 +1694,11 @@ namespace SalesforceMetadata
                     skipTo = parseForLoop(filearray, cm, i);
                     skipOver = true;
                 }
-                else if (filearray[i].ToLower() == "database.saveresult")
+                else if (filearray[i].ToLower() == "database.deleteresult"
+                    || filearray[i].ToLower() == "database.mergeresult"
+                    || filearray[i].ToLower() == "database.undeleteresult"
+                    || filearray[i].ToLower() == "database.upsertresult"
+                    || filearray[i].ToLower() == "database.saveresult")
                 {
                     // Possible options include:
                     // Database.SaveResult[] sr = Database.update(updateBillingDocuments, false);
@@ -1778,7 +1782,8 @@ namespace SalesforceMetadata
                 else if (filearray[i].ToLower() == "database.insert"
                     || filearray[i].ToLower() == "database.update"
                     || filearray[i].ToLower() == "database.delete"
-                    || filearray[i].ToLower() == "database.undelete")
+                    || filearray[i].ToLower() == "database.undelete"
+                    || filearray[i].ToLower() == "database.upsert")
                 {
                     String[] varNameSplit = filearray[i + 2].ToLower().Split('.');
                     String varName = varNameSplit[0];
@@ -1790,7 +1795,8 @@ namespace SalesforceMetadata
                 else if (filearray[i].ToLower() == "insert"
                     || filearray[i].ToLower() == "update"
                     || filearray[i].ToLower() == "delete"
-                    || filearray[i].ToLower() == "undelete")
+                    || filearray[i].ToLower() == "undelete"
+                    || filearray[i].ToLower() == "upsert")
                 {
                     String varName = filearray[i + 1].ToLower();
                     skipTo = parseMethodDmlVars(filearray, varName, filearray[i], "", "", ac, cm, i + 1);

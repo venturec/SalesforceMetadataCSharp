@@ -11,14 +11,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 
-
 using SalesforceMetadata.PartnerWSDL;
 using SalesforceMetadata.MetadataWSDL;
 using SalesforceMetadata.ToolingWSDL;
 using static SalesforceMetadata.AutomationReporter;
 using iTextSharp.text;
 using System.Reflection;
-
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace SalesforceMetadata
 {
@@ -26,9 +25,6 @@ namespace SalesforceMetadata
     {
         // Key = Object API Name
         public Dictionary<String, ObjectToFields> objectToFieldsDictionary;
-
-        // Key = Object API Name + Field Name
-        public Dictionary<String, List<ObjectValidations>> objectValidationsDictionary;
 
         // Key = class name
         public Dictionary<String, ApexClasses> classNmToClass;
@@ -63,19 +59,26 @@ namespace SalesforceMetadata
                 
                 runWorkflowExtract();
 
-                //runApprovalProcessExtract();
+                runApprovalProcessExtract();
 
                 //runQuickActionExtract();
 
 
                 // Write the data to an HTML friendly format based on Order of Execution
-                // https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_triggers_order_of_execution.htm
-                writeAutomationLogicToFile();
+                // https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_triggers_order_of_execution.htm\
+                if (this.cbWriteToDataDictionary.Checked == true)
+                {
+                    writeToDataDictionary();
+                }
+                else
+                {
+                    // TODO: Needs work
+                    //writeAutomationLogicToFile();
+                }
 
                 MessageBox.Show("Automation Report Complete");
             }
         }
-
 
         // We need the objects and fields and the apex classes extracted out first
         private void runObjectFieldExtract()
@@ -85,7 +88,6 @@ namespace SalesforceMetadata
                 String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\objects");
 
                 objectToFieldsDictionary = new Dictionary<string, ObjectToFields>();
-                objectValidationsDictionary = new Dictionary<String, List<ObjectValidations>>();
 
                 foreach (String fl in files)
                 {
@@ -95,21 +97,211 @@ namespace SalesforceMetadata
                     XmlDocument objXd = new XmlDocument();
                     objXd.Load(fl);
 
-                    XmlNodeList fieldList = objXd.GetElementsByTagName("fields");
+                    XmlNodeList objLabel = objXd.GetElementsByTagName("label");
+                    XmlNodeList pluralLabel = objXd.GetElementsByTagName("pluralLabel");
+                    XmlNodeList objectFieldList = objXd.GetElementsByTagName("fields");
                     XmlNodeList validationRules = objXd.GetElementsByTagName("validationRules");
                     XmlNodeList sharingmodel = objXd.GetElementsByTagName("sharingModel");
                     XmlNodeList objvisibility = objXd.GetElementsByTagName("visibility");
+                    XmlNodeList customSetting = objXd.GetElementsByTagName("customSettingsType");
+                    XmlNodeList fieldSets = objXd.GetElementsByTagName("fieldSets");
+                    XmlNodeList compactLayouts = objXd.GetElementsByTagName("compactLayouts");
 
                     // Get all fields into the Dictionary
                     ObjectToFields otf = new ObjectToFields();
                     otf.objectName = flNameSplit[0];
 
                     otf.fields = new List<String>();
-                    foreach (XmlNode fldNd in fieldList)
+
+                    foreach (XmlNode xn in objLabel)
+                    {
+                        if (xn.ParentNode.Name == "CustomObject")
+                        {
+                            otf.objectLabel = xn.InnerText;
+                        }
+                    }
+
+                    foreach (XmlNode xn in pluralLabel)
+                    {
+                        if (xn.ParentNode.Name == "CustomObject")
+                        {
+                            otf.pluralLabel = xn.InnerText;
+                        }
+                    }
+
+                    foreach (XmlNode xn in customSetting)
+                    {
+                        if (xn.ParentNode.Name == "CustomObject")
+                        {
+                            otf.isCustomSetting = true;
+                            otf.customSettingType = xn.InnerText;
+                        }
+                    }
+
+                    foreach (XmlNode xn in compactLayouts)
+                    {
+                        if (xn.ParentNode.Name == "CustomObject")
+                        {
+                            String clName = "";
+                            List<String> clFields = new List<String>();
+
+                            foreach (XmlNode cn in xn.ChildNodes)
+                            {
+                                if (cn.Name == "fullName")
+                                {
+                                    clName = cn.InnerText;
+                                }
+                                else if (cn.Name == "fields")
+                                {
+                                    clFields.Add(cn.ChildNodes[0].InnerText);
+                                }
+                            }
+
+                            otf.compactLayoutToFieldNames.Add(clName, new List<String>());
+                            otf.compactLayoutToFieldNames[clName].AddRange(clFields);
+                        }
+                    }
+
+                    foreach (XmlNode xn in fieldSets)
+                    {
+                        if (xn.ParentNode.Name == "CustomObject")
+                        {
+                            String fsName = "";
+                            List<String> fsFields = new List<String>();
+
+                            foreach (XmlNode cn in xn.ChildNodes)
+                            {
+                                if (cn.Name == "fullName")
+                                {
+                                    fsName = cn.InnerText;
+                                }
+                                else if (cn.Name == "displayedFields")
+                                {
+                                    fsFields.Add(cn.ChildNodes[0].InnerText);
+                                }
+                            }
+
+                            otf.fieldSetToFieldNames.Add(fsName, new List<String>());
+                            otf.fieldSetToFieldNames[fsName].AddRange(fsFields);
+                        }
+                    }
+
+                    foreach (XmlNode fldNd in objectFieldList)
                     {
                         if (fldNd.ParentNode.Name == "CustomObject")
                         {
                             otf.fields.Add(fldNd.ChildNodes[0].InnerText);
+                            ObjectFields of = new ObjectFields();
+                            foreach (XmlNode fldDetailNd in fldNd.ChildNodes)
+                            {
+                                of.sObjectName = otf.objectName;
+
+                                if (fldDetailNd.Name == "fullName")
+                                {
+                                    of.fullName = fldDetailNd.InnerText;
+                                }
+                                else if (fldDetailNd.Name == "externalId")
+                                {
+                                    of.externalId = fldDetailNd.InnerText;
+                                }
+                                else if (fldDetailNd.Name == "label")
+                                {
+                                    of.label = fldDetailNd.InnerText;
+                                }
+                                else if (fldDetailNd.Name == "length")
+                                {
+                                    of.length = fldDetailNd.InnerText;
+                                }
+                                else if (fldDetailNd.Name == "required")
+                                {
+                                    of.required = fldDetailNd.InnerText;
+                                }
+                                else if (fldDetailNd.Name == "defaultValue")
+                                {
+                                    of.defaultValue = fldDetailNd.InnerText;
+                                }
+                                else if (fldDetailNd.Name == "trackHistory")
+                                {
+                                    of.trackHistory = Boolean.Parse(fldDetailNd.InnerText);
+                                    if (of.trackHistory == true)
+                                    {
+                                        otf.fieldsTrackedCount++;
+                                    }
+                                }
+                                else if (fldDetailNd.Name == "type")
+                                {
+                                    of.type = fldDetailNd.InnerText;
+                                }
+                                else if (fldDetailNd.Name == "formula")
+                                {
+                                    String frm = fldDetailNd.InnerText;
+                                    frm = frm.Replace('\t', ' ');
+                                    frm = frm.Replace('\r', ' ');
+                                    frm = frm.Replace('\n', ' ');
+                                    frm = frm.Replace("  ", " ");
+                                    frm = frm.Replace("  ", " ");
+                                    frm = frm.Replace("  ", " ");
+                                    frm = frm.Replace("  ", " ");
+                                    frm = frm.Replace("  ", " ");
+                                    frm = frm.Replace("  ", " ");
+                                    frm = frm.Replace("  ", " ");
+                                    frm = frm.Replace("  ", " ");
+                                    frm = frm.Replace("  ", " ");
+                                    frm = frm.Replace("  ", " ");
+                                    frm = frm.Replace("  ", " ");
+                                    frm = frm.Replace("  ", " ");
+                                    frm = frm.Replace("  ", " ");
+                                    frm = frm.Replace("  ", " ");
+                                    frm = frm.Replace("  ", " ");
+
+                                    of.isFormula = true;
+                                    of.formula = frm;
+                                    otf.formulaFieldCount++;
+                                }
+                                else if (fldDetailNd.Name == "precision")
+                                {
+                                    of.precision = fldDetailNd.InnerText;
+                                }
+                                else if (fldDetailNd.Name == "scale")
+                                {
+                                    of.scale = fldDetailNd.InnerText;
+                                }
+                                else if (fldDetailNd.Name == "unique")
+                                {
+                                    of.unique = fldDetailNd.InnerText;
+                                }
+                                else if (fldDetailNd.Name == "referenceTo")
+                                {
+                                    of.referenceTo = fldDetailNd.InnerText;
+                                }
+                                else if (fldDetailNd.Name == "deleteConstraint")
+                                {
+                                    of.deleteConstraint = fldDetailNd.InnerText;
+                                }
+                                else if (fldDetailNd.Name == "relationshipLabel")
+                                {
+                                    of.relationshipLabel = fldDetailNd.InnerText;
+                                }
+                                else if (fldDetailNd.Name == "relationshipName")
+                                {
+                                    of.relationshipName = fldDetailNd.InnerText;
+                                }
+                            }
+
+                            if (this.tbSearchFilter.Text == "")
+                            {
+                                otf.objFields.Add(of);
+                            }
+                            else if (of.fullName.Contains(this.tbSearchFilter.Text))
+                            {
+                                otf.objFields.Add(of);
+                            }
+                            else if (of.formula.Contains(this.tbSearchFilter.Text))
+                            {
+                                otf.objFields.Add(of);
+                            }
+
+                            otf.fieldCount++;
                         }
                     }
 
@@ -123,15 +315,13 @@ namespace SalesforceMetadata
                         otf.visibility = objvisibility[0].ChildNodes[0].InnerText;
                     }
 
-                    objectToFieldsDictionary.Add(flNameSplit[0], otf);
-
-
                     // Get all Validation Rules into the Dictionary
                     foreach (XmlNode objVal in validationRules)
                     {
                         if (objVal.ChildNodes[1].InnerText == "true")
                         {
                             ObjectValidations ov = new ObjectValidations();
+                            ov.sObjectName = otf.objectName;
 
                             foreach (XmlNode cn in objVal.ChildNodes)
                             {
@@ -141,20 +331,51 @@ namespace SalesforceMetadata
                                 }
                                 else if (cn.Name == "errorConditionFormula")
                                 {
-                                    ov.errorConditionFormula = cn.InnerText;
+                                    String errCond = cn.InnerText;
+                                    errCond = errCond.Replace('\t', ' ');
+                                    errCond = errCond.Replace('\r', ' ');
+                                    errCond = errCond.Replace('\n', ' ');
+                                    errCond = errCond.Replace("  ", " ");
+                                    errCond = errCond.Replace("  ", " ");
+                                    errCond = errCond.Replace("  ", " ");
+                                    errCond = errCond.Replace("  ", " ");
+                                    errCond = errCond.Replace("  ", " ");
+                                    errCond = errCond.Replace("  ", " ");
+                                    errCond = errCond.Replace("  ", " ");
+                                    errCond = errCond.Replace("  ", " ");
+                                    errCond = errCond.Replace("  ", " ");
+                                    errCond = errCond.Replace("  ", " ");
+                                    errCond = errCond.Replace("  ", " ");
+                                    errCond = errCond.Replace("  ", " ");
+                                    errCond = errCond.Replace("  ", " ");
+                                    errCond = errCond.Replace("  ", " ");
+                                    errCond = errCond.Replace("  ", " ");
+
+
+                                    ov.errorConditionFormula = errCond;
+                                }
+                                else if (cn.Name == "active")
+                                {
+                                    ov.isActive = Boolean.Parse(cn.InnerText);
                                 }
                             }
 
-                            if (objectValidationsDictionary.ContainsKey(flNameSplit[0]))
+                            if (this.tbSearchFilter.Text == "")
                             {
-                                objectValidationsDictionary[flNameSplit[0]].Add(ov);
+                                otf.objValidations.Add(ov);
                             }
-                            else
+                            else if (ov.validationName.Contains(this.tbSearchFilter.Text))
                             {
-                                objectValidationsDictionary.Add(flNameSplit[0], new List<ObjectValidations> { ov });
+                                otf.objValidations.Add(ov);
+                            }
+                            else if (ov.errorConditionFormula.Contains(this.tbSearchFilter.Text))
+                            {
+                                otf.objValidations.Add(ov);
                             }
                         }
                     }
+
+                    objectToFieldsDictionary.Add(flNameSplit[0], otf);
                 }
             }
         }
@@ -674,31 +895,55 @@ namespace SalesforceMetadata
             Boolean inMultilineComment = false;
             Int32 mlCommentNotationCount = 0;
 
+            Boolean restResource = false;
+
             Boolean skipOne = false;
 
+            // Remove inline and multi-line comments
+            // Consolidate @RestResource (url=
             for (Int32 i = 0; i < charArray.Length; i++)
             {
                 if (skipOne == true)
                 {
                     skipOne = false;
                 }
+                else if (charArray[i].ToString().ToLower() == "@"
+                    && charArray[i + 1].ToString().ToLower() == "r"
+                    && charArray[i + 2].ToString().ToLower() == "e"
+                    && charArray[i + 3].ToString().ToLower() == "s"
+                    && charArray[i + 4].ToString().ToLower() == "t"
+                    && charArray[i + 5].ToString().ToLower() == "r"
+                    && charArray[i + 6].ToString().ToLower() == "e"
+                    && charArray[i + 7].ToString().ToLower() == "s")
+                {
+                    restResource = true;
+                }
+                else if (restResource == true
+                    && charArray[i].ToString().ToLower() == ")")
+                {
+                    restResource = false;
+                }
                 else if (inInlineComment == false
+                    && restResource == false
                     && charArray[i].ToString() == "/" && charArray[i + 1].ToString() == "*")
                 {
                     inMultilineComment = true;
                     mlCommentNotationCount++;
                 }
                 else if (inMultilineComment == false
+                    && restResource == false
                     && charArray[i].ToString() == "/" && charArray[i + 1].ToString() == "/")
                 {
                     inInlineComment = true;
                 }
                 else if (inInlineComment == true
+                    && restResource == false
                     && charArray[i] == '\n')
                 {
                     inInlineComment = false;
                 }
                 else if (inInlineComment == false
+                    && restResource == false
                     && charArray[i].ToString() == "*" && charArray[i + 1].ToString() == "/")
                 {
                     mlCommentNotationCount--;
@@ -753,7 +998,7 @@ namespace SalesforceMetadata
 
             String filecontents2 = "";
 
-            // reformat for Map, List, Set
+            // reformat for Map, List, Set and String values
             Boolean inCollection = false;
             String collectionVar = "";
             Boolean firstLessThanFound = false;
@@ -790,27 +1035,30 @@ namespace SalesforceMetadata
                         }
                     }
                 }
-                else if (charArray[i].ToString().ToLower() == "m"
-                   && charArray[i + 1].ToString().ToLower() == "a"
-                   && charArray[i + 2].ToString().ToLower() == "p"
-                   && charArray[i + 3].ToString().ToLower() == "<")
+                else if (charArray.Length - i - 1 > 4
+                    && charArray[i].ToString().ToLower() == "s"
+                    && charArray[i + 1].ToString().ToLower() == "e"
+                    && charArray[i + 2].ToString().ToLower() == "t"
+                    && charArray[i + 3].ToString().ToLower() == "<")
                 {
                     inCollection = true;
                     collectionVar = collectionVar + charArray[i].ToString();
                 }
-                else if (charArray[i].ToString().ToLower() == "l"
+                else if (charArray.Length - i - 1 > 4
+                    && charArray[i].ToString().ToLower() == "m"
+                    && charArray[i + 1].ToString().ToLower() == "a"
+                    && charArray[i + 2].ToString().ToLower() == "p"
+                    && charArray[i + 3].ToString().ToLower() == "<")
+                {
+                    inCollection = true;
+                    collectionVar = collectionVar + charArray[i].ToString();
+                }
+                else if (charArray.Length - i - 1 > 5
+                   && charArray[i].ToString().ToLower() == "l"
                    && charArray[i + 1].ToString().ToLower() == "i"
                    && charArray[i + 2].ToString().ToLower() == "s"
                    && charArray[i + 3].ToString().ToLower() == "t"
                    && charArray[i + 4].ToString().ToLower() == "<")
-                {
-                    inCollection = true;
-                    collectionVar = collectionVar + charArray[i].ToString();
-                }
-                else if (charArray[i].ToString().ToLower() == "s"
-                   && charArray[i + 1].ToString().ToLower() == "e"
-                   && charArray[i + 2].ToString().ToLower() == "t"
-                   && charArray[i + 3].ToString().ToLower() == "<")
                 {
                     inCollection = true;
                     collectionVar = collectionVar + charArray[i].ToString();
@@ -820,6 +1068,10 @@ namespace SalesforceMetadata
                     filecontents2 = filecontents2 + charArray[i].ToString();
                 }
             }
+
+            filecontents2 = filecontents2.Replace("  ", " ");
+            filecontents2 = filecontents2.Replace("  ", " ");
+            filecontents2 = filecontents2.Replace("  ", " ");
 
             return filecontents2;
         }
@@ -833,17 +1085,28 @@ namespace SalesforceMetadata
             String soqlStatement = "";
             String soqlObject = "";
 
+            Int32 skipTo = 0;
+            Boolean skipOver = false;
+
             for (Int32 i = 0; i < filearray.Length - 1; i++)
             {
-                if (filearray[i].ToLower() == "trigger")
+                if (skipOver == true && skipTo > i)
+                {
+                    // Don't do anything
+                }
+                else if (skipOver == true && skipTo == i)
+                {
+                    skipTo = 0;
+                    skipOver = false;
+                }
+                else if (filearray[i].ToLower() == "trigger")
                 {
                     at.triggerName = filearray[i + 1];
                     at.objectName = filearray[i + 3];
 
                     inTriggerEvents = true;
                 }
-
-                if (inTriggerEvents == true
+                else if (inTriggerEvents == true
                     && (filearray[i].ToLower() == "before" || filearray[i].ToLower() == "after"))
                 {
                     String triggerevt = filearray[i] + " " + filearray[i + 1];
@@ -928,19 +1191,8 @@ namespace SalesforceMetadata
                     at.logicContainedInTrigger = true;
 
                     String varName = filearray[i + 2].ToLower();
-                    ObjectVarToType ovt = parseOutDmlVars(filearray, varName, filearray[i]);
-
-                    if (ovt.objectName != null)
-                    {
-                        if (at.objVarToType.ContainsKey(ovt.objectName))
-                        {
-                            at.objVarToType[ovt.objectName].Add(ovt);
-                        }
-                        else
-                        {
-                            at.objVarToType.Add(ovt.objectName, new List<ObjectVarToType> { ovt });
-                        }
-                    }
+                    skipTo = parseTriggerDmlVars(filearray, varName, filearray[i], at, i + 2);
+                    skipOver = true;
                 }
                 
                 if (filearray[i].ToLower() == "insert"
@@ -951,19 +1203,8 @@ namespace SalesforceMetadata
                     at.logicContainedInTrigger = true;
 
                     String varName = filearray[i + 1].ToLower();
-                    ObjectVarToType ovt = parseOutDmlVars(filearray, varName, filearray[i]);
-
-                    if (ovt.objectName != null)
-                    {
-                        if (at.objVarToType.ContainsKey(ovt.objectName))
-                        {
-                            at.objVarToType[ovt.objectName].Add(ovt);
-                        }
-                        else
-                        {
-                            at.objVarToType.Add(ovt.objectName, new List<ObjectVarToType> { ovt });
-                        }
-                    }
+                    skipTo = parseTriggerDmlVars(filearray, varName, filearray[i], at, i + 1);
+                    skipOver = true;
                 }
             }
 
@@ -979,9 +1220,27 @@ namespace SalesforceMetadata
 
         private void parseApexClass(String[] filearray)
         {
-            if (filearray[0].ToLower() == "@istest") return;
-
             ApexClasses apexCls = new ApexClasses();
+
+            HashSet<String> methodStartVariables = new HashSet<string> {"@auraenabled",
+                "@deprecated",
+                "@future",
+                "@invocablemethod",
+                "@invocablevariable",
+                "@istest",
+                "@readonly",
+                "@remoteaction",
+                "@testsetup",
+                "@testvisible",
+                "@httpdelete",
+                "@httpget",
+                "@httppatch",
+                "@httppost",
+                "@httpput",
+                "protected",
+                "private",
+                "public",
+                "global"};
 
             Boolean inClassName = true;
             Int32 classDeclarationCount = 1;
@@ -1001,22 +1260,18 @@ namespace SalesforceMetadata
                     skipTo = 0;
                     skipOver = false;
                 }
-                //else if (filearray[i].ToLower() == "class"
-                //    && classDeclarationCount == 0)
-                //{
-                //    classDeclarationCount++;
-                //    inClassName = true;
-                //}
-                //else if (filearray[i].ToLower() == "interface"
-                //    && classDeclarationCount == 0)
-                //{
-                //    classDeclarationCount++;
-                //    inClassName = true;
-                //}
                 else if (inClassName == true
                          && classDeclarationCount == 1)
                 {
-                    if (filearray[i] == "{")
+                    if (filearray[i].ToLower() == "@istest")
+                    {
+                        apexCls.isTestClass = true;
+                    }
+                    else if (filearray[i].ToLower() == "@restresource")
+                    {
+                        apexCls.isRestClass = true;
+                    }
+                    else if (filearray[i] == "{")
                     {
                         inClassName = false;
                     }
@@ -1024,7 +1279,7 @@ namespace SalesforceMetadata
                             || filearray[i].ToLower() == "public"
                             || filearray[i].ToLower() == "global")
                     {
-                        apexCls.accessModifier = filearray[i].ToLower(); ;
+                        apexCls.accessModifier = filearray[i].ToLower();
                     }
                     else if (filearray[i].ToLower() == "virtual"
                         || filearray[i].ToLower() == "abstract")
@@ -1038,19 +1293,26 @@ namespace SalesforceMetadata
                     else if (filearray[i].ToLower() == "class")
                     {
                         apexCls.className = filearray[i + 1];
+                        skipOver = true;
+                        skipTo = i + 1;
                     }
                     else if (filearray[i].ToLower() == "interface")
                     {
                         apexCls.className = filearray[i + 1];
                         apexCls.isInterface = true;
+                        skipOver = true;
+                        skipTo = i + 1;
                     }
                     else if (filearray[i].ToLower() == "implements")
                     {
-                        //apexCls.className = filearray[i];
+                        skipTo = parseClassImplements(filearray, apexCls, i);
+                        skipOver = true;
                     }
                     else if (filearray[i].ToLower() == "extends")
                     {
-                        apexCls.extendsClassName = filearray[i];
+                        apexCls.extendsClassName = filearray[i + 1];
+                        skipTo = i + 1;
+                        skipOver = true;
                     }
                 }
                 // TODO: Skipping over inner classes for now
@@ -1091,25 +1353,69 @@ namespace SalesforceMetadata
                     }
                 }
                 else if (inClassName == false
-                        && (filearray[i].ToLower() == "protected"
-                || filearray[i].ToLower() == "private"
-                || filearray[i].ToLower() == "public"
-                || filearray[i].ToLower() == "global"))
+                    && methodStartVariables.Contains(filearray[i].ToLower()))
                 {
                     skipTo = parsePropertyOrMethod(filearray, apexCls, i);
                     skipOver = true;
                 }
             }
 
-            //classNmToClass = new Dictionary<string, ApexClasses>();
             this.classNmToClass.Add(apexCls.className, apexCls);
         }
 
-        public Int32 parsePropertyOrMethod(String[] filearray, ApexClasses ac, Int32 ap)
+        public Int32 parseClassImplements(String[] filearray, ApexClasses ac, Int32 arraystart)
         {
+            Int32 lastCharLocation = arraystart;
+
+            for (Int32 i = arraystart + 1; i < filearray.Length - 1; i++)
+            {
+                if (filearray[i] == "{")
+                {
+                    // We don't want to skip over the class { so return 1 less than the current filearray i value
+                    lastCharLocation = i - 1;
+                    break;
+                }
+                else if (filearray[i] == ",")
+                {
+                    // Don't do anything. Skip over this.
+                }
+                else
+                {
+                    ac.implementsClassNames.Add(filearray[i]);
+                }
+            }
+
+            return lastCharLocation;
+        }
+
+        public Int32 parsePropertyOrMethod(String[] filearray, ApexClasses ac, Int32 arraystart)
+        {
+            HashSet<String> methodAnnotations = new HashSet<string> {"@auraenabled",
+                "@deprecated",
+                "@future",
+                "@invocablemethod",
+                "@invocablevariable",
+                "@istest",
+                "@readonly",
+                "@remoteaction",
+                "@testsetup",
+                "@testvisible",
+                "@httpdelete",
+                "@httpget",
+                "@httppatch",
+                "@httppost",
+                "@httpput"};
+
+            String propertyMethodAnnotation = "";
             String propertyMethodName = "";
             String propertyMethodQualifier = "";
             String propertyMethodRtnDataType = "";
+            String propertyValue = "";
+            
+            // Used for Database.SaveResult srVarName = 
+            String saveResultType = "";
+            String saveResultVar = "";
+
             Boolean isStatic = false;
             Boolean isFinal = false;
             Boolean isOverride = false;
@@ -1118,6 +1424,9 @@ namespace SalesforceMetadata
             Int32 braceCount = 0;       // { }
 
             Boolean isMethod = false;
+            Boolean inMethodBody = false;
+            String methodParameters = "";
+
             Boolean isConstructor = false;
 
             Boolean inSOQLStatement = false;
@@ -1131,15 +1440,33 @@ namespace SalesforceMetadata
             Dictionary<String, List<String>> soqlStatements = new Dictionary<String, List<String>>();
 
             Int32 lastCharLocation = 0;
-            
-            for (Int32 i = ap; i < filearray.Length - 1; i++)
+
+            Int32 skipTo = 0;
+            Boolean skipOver = false;
+
+            for (Int32 i = arraystart; i < filearray.Length - 1; i++)
             {
-                // TODO: Bypass the constructors
-                if (filearray[i] == "(")
+                // TODO: Bypass filearray values as they have been processed in sub-routines
+                if (skipOver == true && skipTo > i)
                 {
-                    if (propertyMethodName != "" && propertyMethodQualifier != "" && propertyMethodRtnDataType != "")
+                    // Don't do anything
+                }
+                else if (skipOver == true && skipTo == i)
+                {
+                    skipTo = 0;
+                    skipOver = false;
+                }
+                // Check for annotations and add them to the Class Method
+                else if (methodAnnotations.Contains(filearray[i].ToLower()))
+                {
+                    propertyMethodAnnotation = filearray[i];
+                }
+                else if (filearray[i] == "(")
+                {
+                    if (propertyMethodName != "" && propertyMethodRtnDataType != "")
                     {
                         isMethod = true;
+                        inMethodBody = true;
                     }
                     else
                     {
@@ -1151,6 +1478,98 @@ namespace SalesforceMetadata
                 else if (filearray[i] == ")")
                 {
                     parenthesesCount--;
+
+                    // METHOD PARAMETERS
+                    // Add the parameters to the methodParameters list
+                    if (parenthesesCount == 0
+                        && braceCount == 0
+                        && methodParameters.Length > 0)
+                    {
+                        String[] mpSplit = methodParameters.Split(new String[] { ",", " " }, StringSplitOptions.None);
+
+                        String methodParameters2 = "";
+                        foreach (String mp in mpSplit)
+                        {
+                            if (mp == "[")
+                            {
+                                methodParameters2 = methodParameters2.Trim();
+                                methodParameters2 = methodParameters2 + mp;
+                            }
+                            else if (mp == "]")
+                            {
+                                methodParameters2 = methodParameters2 + mp + " ";
+                            }
+                            else
+                            {
+                                methodParameters2 = methodParameters2 + mp + " ";
+                            }
+                        }
+
+                        methodParameters2 = methodParameters2.Trim();
+
+                        Int32 m = 0;
+
+                        String varName = "";
+                        String varType = "";
+                        Boolean varIsMap = false;
+
+                        mpSplit = methodParameters2.Split(new String[] { ",", " " }, StringSplitOptions.None);
+                        foreach (String mp in mpSplit)
+                        {
+                            if (mp != "")
+                            {
+                                if (mp.ToLower().StartsWith("map<"))
+                                {
+                                    varType = mp + ",";
+                                    varIsMap = true;
+                                }
+                                else if (varIsMap == true
+                                    && m == 0)
+                                {
+                                    varType = varType + mp;
+                                    m++;
+                                }
+                                else if (varIsMap == true
+                                    && m == 1)
+                                {
+                                    varName = mp;
+                                    m = 0;
+
+                                    ObjectVarToType ovt = new ObjectVarToType();
+                                    ovt.varType = varType;
+                                    ovt.varName = varName;
+
+                                    cm.methodParameters.Add(ovt);
+
+                                    varType = "";
+                                    varName = "";
+                                    varIsMap = false;
+                                }
+                                else if (varIsMap == false)
+                                {
+                                    if (m == 0)
+                                    {
+                                        varType = mp;
+                                        m++;
+                                    }
+                                    else if (m == 1)
+                                    {
+                                        varName = mp;
+                                        m = 0;
+
+                                        ObjectVarToType ovt = new ObjectVarToType();
+                                        ovt.varType = varType;
+                                        ovt.varName = varName;
+
+                                        cm.methodParameters.Add(ovt);
+
+                                        varType = "";
+                                        varName = "";
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 else if (filearray[i] == "{")
                 {
@@ -1164,6 +1583,7 @@ namespace SalesforceMetadata
                         && isMethod == true)
                     {
                         cm.methodName = propertyMethodName;
+                        cm.methodAnnotation = propertyMethodAnnotation;
                         cm.qualifier = propertyMethodQualifier;
                         cm.returnDataType = propertyMethodRtnDataType;
                         cm.isOverride = isOverride;
@@ -1181,38 +1601,161 @@ namespace SalesforceMetadata
                         break;
                     }
                 }
-                else if (filearray[i].ToLower() == "protected"
+                else if (inMethodBody == false
+                    && (filearray[i].ToLower() == "protected"
                     || filearray[i].ToLower() == "private"
                     || filearray[i].ToLower() == "public"
-                    || filearray[i].ToLower() == "global")
+                    || filearray[i].ToLower() == "global"))
                 {
                     propertyMethodQualifier = filearray[i].ToLower();
                 }
-                else if (filearray[i].ToLower() == "override")
+                else if (inMethodBody == false && filearray[i].ToLower() == "override")
                 {
                     isOverride = true;
                 }
-                else if (filearray[i].ToLower() == "static")
+                else if (inMethodBody == false && filearray[i].ToLower() == "static")
                 {
                     isStatic = true;
                 }
-                else if (filearray[i].ToLower() == "final")
+                else if (inMethodBody == false && filearray[i].ToLower() == "final")
                 {
                     isFinal = true;
                 }
+                // Method return type
                 else if (parenthesesCount == 0
                     && braceCount == 0
                     && isConstructor == false
                     && propertyMethodRtnDataType == "")
                 {
                     propertyMethodRtnDataType = filearray[i];
+
+                    if (filearray[i + 1] == "[")
+                    {
+                        propertyMethodRtnDataType = propertyMethodRtnDataType + filearray[i + 1] + filearray[i + 2];
+                        skipTo = i + 2;
+                        skipOver = true;
+                    }
                 }
+                // Method name
                 else if (parenthesesCount == 0
                     && braceCount == 0
                     && isConstructor == false
                     && propertyMethodName == "")
                 {
                     propertyMethodName = filearray[i];
+                }
+                // Method parameters
+                else if (isMethod == true
+                    && parenthesesCount == 1
+                    && braceCount == 0)
+                {
+                    methodParameters = methodParameters + filearray[i] + " ";
+                }
+                else if (filearray[i] == "="
+                    && parenthesesCount == 0
+                    && braceCount == 0
+                    && isConstructor == false
+                    && propertyValue == "")
+                {
+                    // If the 
+                    if (filearray[i + 2] == ";")
+                    {
+                        propertyValue = filearray[i + 1];
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else
+                    {
+                        for (Int32 j = i + 1; j < filearray.Length - 1; j++)
+                        {
+                            if (filearray[j] == ";")
+                            {
+                                // We don't want to skip over the semi-colon, so setting the skipTo to the value just prior in filearray
+                                skipTo = j - 1;
+                                skipOver = true;
+                                break;
+                            }
+                            else
+                            {
+                                propertyValue = propertyValue + " " + filearray[j];
+                                propertyValue = propertyValue.Trim();
+                            }
+                        }
+                    }
+                }
+                // Parse the for loops
+                // We want to determine if there is a for loop first before the database.saveresult 
+                // or =
+                // This is because a database.saveresult can have an = to capture the returned save results
+                else if (filearray[i].ToLower() == "for"
+                    && inMethodBody == true)
+                {
+                    // Left side / right side method variable
+                    skipTo = parseForLoop(filearray, cm, i);
+                    skipOver = true;
+                }
+                else if (filearray[i].ToLower() == "database.saveresult")
+                {
+                    // Possible options include:
+                    // Database.SaveResult[] sr = Database.update(updateBillingDocuments, false);
+                    //
+                    // OR another perfectly acceptable way is to declare a null Database.SaveResult[] array
+                    // 
+                    // Database.SaveResult[] sr;
+                    // try { sr = database.update(updateBillingDocuments) } catch(Exception e) {};
+
+                    if (filearray[i + 1] == "[")
+                    {
+                        saveResultType = filearray[i] + filearray[i + 1] + filearray[i + 2];
+                        saveResultVar = filearray[i + 3];
+                        skipTo = i + 4;
+                        skipOver = true;
+                    }
+                    else
+                    {
+                        saveResultType = filearray[i];
+                        saveResultVar = filearray[i + 1];
+                        skipTo = i + 2;
+                        skipOver = true;
+                    }
+                }
+                else if (filearray[i] == "="
+                    && inMethodBody == true)
+                {
+                    // Left side / right side method variable
+                    skipTo = parseMethodVariables(filearray, cm, i);
+                    skipOver = true;
+                }
+                else if (filearray[i].ToLower() == "return"
+                    && inMethodBody == true)
+                {
+                    skipTo = parseReturnValue(filearray, cm, i);
+                    skipOver = true;
+                }
+                // bypass the rest of the system.assert and assertEquals
+                else if (filearray[i].ToLower() == "system.assert"
+                    && inMethodBody == true)
+                {
+                    skipTo = bypassCharacters(filearray, i);
+                    skipOver = true;
+                }
+                else if (filearray[i].ToLower() == "system.assertequals"
+                    && inMethodBody == true)
+                {
+                    skipTo = bypassCharacters(filearray, i);
+                    skipOver = true;
+                }
+                else if (filearray[i].ToLower() == "system.assertnotequals"
+                    && inMethodBody == true)
+                {
+                    skipTo = bypassCharacters(filearray, i);
+                    skipOver = true;
+                }
+                else if (filearray[i].ToLower() == "system.debug"
+                    && inMethodBody == true)
+                {
+                    skipTo = bypassCharacters(filearray, i);
+                    skipOver = true;
                 }
                 else if (filearray[i] == ";"
                         && isMethod == false
@@ -1221,10 +1764,12 @@ namespace SalesforceMetadata
                 {
                     // This is a property
                     cp.propertyName = propertyMethodName;
+                    cp.propertyAnnotation = propertyMethodAnnotation;
                     cp.qualifier = propertyMethodQualifier;
                     cp.dataType = propertyMethodRtnDataType;
                     cp.isFinal = isFinal;
                     cp.isStatic = isStatic;
+                    cp.propertyValue = propertyValue;
 
                     ac.clsProperties.Add(propertyMethodName, cp);
                     lastCharLocation = i;
@@ -1237,49 +1782,28 @@ namespace SalesforceMetadata
                 {
                     String[] varNameSplit = filearray[i + 2].ToLower().Split('.');
                     String varName = varNameSplit[0];
-                    ObjectVarToType ovt = parseOutDmlVars(filearray, varName, filearray[i]);
-
-                    if (ovt.objectName != null)
-                    {
-                        if (cm.objVarToType.ContainsKey(ovt.objectName))
-                        {
-                            cm.objVarToType[ovt.objectName].Add(ovt);
-                        }
-                        else
-                        {
-                            cm.objVarToType.Add(ovt.objectName, new List<ObjectVarToType> { ovt });
-                        }
-                    }
+                    skipTo = parseMethodDmlVars(filearray, varName, filearray[i], saveResultType, saveResultVar, ac, cm, i + 2);
+                    skipOver = true;
+                    saveResultType = "";
+                    saveResultVar = "";
                 }
                 else if (filearray[i].ToLower() == "insert"
                     || filearray[i].ToLower() == "update"
                     || filearray[i].ToLower() == "delete"
                     || filearray[i].ToLower() == "undelete")
                 {
-                    String[] varNameSplit = filearray[i + 2].ToLower().Split('.');
-                    String varName = varNameSplit[0];
-                    ObjectVarToType ovt = parseOutDmlVars(filearray, varName, filearray[i]);
-
-                    if (ovt.objectName != null)
-                    {
-                        if (cm.objVarToType.ContainsKey(ovt.objectName))
-                        {
-                            cm.objVarToType[ovt.objectName].Add(ovt);
-                        }
-                        else
-                        {
-                            cm.objVarToType.Add(ovt.objectName, new List<ObjectVarToType> { ovt });
-                        }
-                    }
+                    String varName = filearray[i + 1].ToLower();
+                    skipTo = parseMethodDmlVars(filearray, varName, filearray[i], "", "", ac, cm, i + 1);
+                    skipOver = true;
                 }
-
                 // SOQL query handlers
-                if (filearray[i].ToLower() == "select" && inSOQLStatement == false)
+                else if (inMethodBody == true
+                    && filearray[i].ToLower() == "select" && inSOQLStatement == false)
                 {
                     inSOQLStatement = true;
                 }
-
-                if (inSOQLStatement == true && filearray[i].ToLower() == "]")
+                else if (inMethodBody == true
+                    && inSOQLStatement == true && filearray[i].ToLower() == "]")
                 {
                     inSOQLStatement = false;
 
@@ -1295,7 +1819,8 @@ namespace SalesforceMetadata
                     soqlObject = "";
                     soqlStatement = "";
                 }
-                else if (inSOQLStatement == true)
+                else if (inMethodBody == true
+                    && inSOQLStatement == true)
                 {
                     soqlStatement = soqlStatement + filearray[i] + " ";
                     if (filearray[i].ToLower() == "from")
@@ -1308,61 +1833,302 @@ namespace SalesforceMetadata
             return lastCharLocation;
         }
 
-        public ObjectVarToType parseOutDmlVars(String[] filearray, String varName, String dmlType)
+        public Int32 parseTriggerDmlVars(String[] filearray,
+            String varName,
+            String dmlType,
+            ApexTriggers at,
+            Int32 arraystart)
         {
             ObjectVarToType ovt = new ObjectVarToType();
 
-            // Find the variable in the string array and determine what it is 
-            for (Int32 j = 0; j < filearray.Length - 1; j++)
+            Int32 lastCharLocation = arraystart;
+
+
+
+            return lastCharLocation;
+        }
+
+        public Int32 parseMethodDmlVars(String[] filearray,
+            String varName,
+            String dmlType,
+            String saveResultType,
+            String saveResultVar,
+            ApexClasses ac,
+            ClassMethods cm,
+            Int32 arraystart)
+        {
+            ObjectVarToType ovt = new ObjectVarToType();
+            ovt.varName = varName;
+            ovt.dmlType = dmlType;
+            ovt.saveResultType = saveResultType;
+            ovt.saveResultVar = saveResultVar;
+            
+            Int32 lastCharLocation = arraystart;
+
+            Boolean objectNameFound = false;
+
+            // Loop through the method parameters and variables first
+            foreach (ObjectVarToType objNm in cm.methodParameters)
             {
-                if (filearray[j].ToLower() == varName)
+                if (objNm.varName.ToLower() == varName)
                 {
-                    String[] varObjectAndType = filearray[j - 1].Split(new String[] { "<", ">" }, StringSplitOptions.None);
-                    // List or Map
-                    if (varObjectAndType.Length == 3)
+                    ovt.objectName = objNm.varType;
+                    ovt.varType = objNm.varType;
+                    objectNameFound = true;
+                }
+
+                if (objectNameFound == true) break;
+            }
+
+            if (objectNameFound == false)
+            {
+                foreach (String objNm in cm.methodBodyVars.Keys)
+                {
+                    foreach (ObjectVarToType methodVar in cm.methodBodyVars[objNm])
                     {
-                        // Accounts for a Map / Dictionary
-                        if (varObjectAndType[0].ToLower() == "map")
+                        if (methodVar.varName.ToLower() == varName)
                         {
-                            ovt.objectName = varObjectAndType[1].Split(',')[1];
-                        }
-                        else
-                        {
-                            ovt.objectName = varObjectAndType[1];
+                            ovt.objectName = methodVar.objectName;
+                            ovt.varType = methodVar.objectName;
+                            objectNameFound = true;
                         }
 
-                        ovt.varType = varObjectAndType[0];
-                        ovt.varName = varName;
-                        ovt.dmlType = dmlType;
+                        if (objectNameFound == true) break;
                     }
-                    // Single object
-                    else if (varObjectAndType.Length == 2)
+
+                    if (objectNameFound == true) break;
+                }
+            }
+
+            // Then loop through the class properties next
+            if (objectNameFound == false)
+            {
+                foreach (String clsPropertyName in ac.clsProperties.Keys)
+                {
+                    if (clsPropertyName.ToLower() == varName)
                     {
-                        // Accounts for a Map / Dictionary
-                        if (varObjectAndType[0].ToLower() == "map")
+                        ovt.objectName = ac.clsProperties[clsPropertyName].dataType;
+                        ovt.varType = ac.clsProperties[clsPropertyName].dataType;
+                        objectNameFound = true;
+                    }
+                }
+            }
+
+            // Now loop backwards through the array to find the property if it still has not been found to get the object type this dml var is referencing
+            if (objectNameFound == false)
+            {
+                Debug.WriteLine(ac.className + ": varType: " + varName + " - "  + arraystart.ToString());
+                // Inline variable dynamically created
+                if (filearray[arraystart].ToLower() == "new")
+                {
+                    ovt.objectName = filearray[arraystart + 1];
+                    ovt.varType = filearray[arraystart + 1];
+
+                    String rightSide = "";
+                    for (Int32 i = arraystart + 2; i < filearray.Length; i++)
+                    {
+                        if (filearray[i] == ";")
                         {
-                            ovt.objectName = varObjectAndType[1].Split(',')[1];
+                            ovt.rightSide = rightSide.Trim();
+                            lastCharLocation = i;
+                            break;
                         }
                         else
                         {
-                            ovt.objectName = varObjectAndType[1];
+                            rightSide = rightSide + filearray[i] + " ";
                         }
+                    }
+                }
+            }
 
-                        ovt.varType = "";
-                        ovt.varName = varName;
-                        ovt.dmlType = dmlType;
+            cm.methodDmls.Add(ovt);
+
+            return lastCharLocation + 1;
+        }
+
+        public Int32 parseMethodVariables(String[] filearray, ClassMethods cm, Int32 arraystart)
+        {
+            Int32 lastCharLocation = arraystart;
+
+            Int32 distanceFromEqual = 0;
+
+            // Get the left side of the equation
+            // Find the distance between the = sign or what is in flarraystart
+            String methodObject = "";
+            String methodVar = "";
+            for (Int32 i = arraystart - 1; i >= 0; i--)
+            {
+                if (filearray[i] == ";"
+                    || filearray[i] == "{"
+                    || filearray[i] == "}")
+                {
+                    if (arraystart - distanceFromEqual == 4)
+                    {
+                        methodObject = filearray[arraystart - 4] + filearray[arraystart - 3] + filearray[arraystart - 2];
+                        methodVar = filearray[arraystart - 1];
+                    }
+                    else if (arraystart - distanceFromEqual == 3)
+                    {
+                        Debug.WriteLine(" ");
+                    }
+                    else if (arraystart - distanceFromEqual == 2)
+                    {
+                        methodObject = filearray[arraystart - 2];
+                        methodVar = filearray[arraystart - 1];
+                    }
+                    else if (arraystart - distanceFromEqual == 1)
+                    {
+                        methodObject = filearray[arraystart - 1];
                     }
 
                     break;
                 }
+                else
+                {
+                    distanceFromEqual = i;
+                }
             }
 
-            return ovt;
+            // Now get the right side of the equation
+            String rightSide = "";
+            Boolean inStringValue = false;
+            for (Int32 i = arraystart + 1; i < filearray.Length - 1; i++)
+            {
+                if (filearray[i] == "'"
+                    && inStringValue == false)
+                {
+                    inStringValue = true;
+                    rightSide = rightSide + filearray[i] + " ";
+                }
+                else if (filearray[i] == "'"
+                    && inStringValue == true)
+                {
+                    inStringValue = false;
+                    rightSide = rightSide + filearray[i] + " ";
+                }
+                else if (filearray[i] == ";"
+                    && inStringValue == false)
+                {
+                    lastCharLocation = i;
+
+                    ObjectVarToType ovt = new ObjectVarToType();
+                    ovt.objectName = methodObject;
+                    ovt.varName = methodVar;
+                    ovt.rightSide = rightSide.Trim();
+
+                    if (cm.methodBodyVars.ContainsKey(methodObject))
+                    {
+                        cm.methodBodyVars[methodObject].Add(ovt);
+                    }
+                    else
+                    {
+                        cm.methodBodyVars.Add(methodObject, new List<ObjectVarToType> { ovt });
+                    }
+
+                    break;
+                }
+                else
+                {
+                    rightSide = rightSide + filearray[i] + " ";
+                }
+            }
+
+            return lastCharLocation;
         }
 
+        public Int32 parseForLoop(String[] filearray, ClassMethods cm, Int32 arraystart)
+        {
+            Int32 lastCharLocation = arraystart;
+            ObjectVarToType ovt = new ObjectVarToType();
 
+            Boolean concatRightSide = false;
+            String rightSide = "";
+            for (Int32 i = arraystart; i < filearray.Length - 1; i++)
+            {
+                if (filearray[i] == ":")
+                {
+                    ovt.objectName = filearray[i - 2];
+                    ovt.varName = filearray[i - 1];
+                    ovt.isForLoop = true;
+
+                    concatRightSide = true;
+                }
+                // Bypass for loops with Integer i = 0
+                else if (filearray[i] == "{"
+                    && rightSide != "")
+                {
+                    rightSide = rightSide.Substring(0, rightSide.Length - 2);
+                    ovt.rightSide = rightSide.Trim();
+
+                    if (cm.methodForLoops.ContainsKey(ovt.objectName))
+                    {
+                        cm.methodForLoops[ovt.objectName].Add(ovt);
+                    }
+                    else
+                    {
+                        cm.methodForLoops.Add(ovt.objectName, new List<ObjectVarToType> { ovt });
+                    }
+
+                    break;
+                }
+                else if(concatRightSide == true)
+                {
+                    rightSide = rightSide + filearray[i] + " ";
+                }
+
+                // We do not want to remove the reference to the start of the for loop so that the brace count can be accurate when parsing the class
+                // Putting this here as it is safer when bypassing the for loops over Integer vars
+                lastCharLocation = i - 1;
+            }
+
+            return lastCharLocation;
+        }
+
+        public Int32 parseReturnValue(String[] filearray, ClassMethods cm, Int32 arraystart)
+        {
+            Int32 lastCharLocation = arraystart;
+
+            String returnValue = "";
+
+            for (Int32 i = arraystart + 1; i < filearray.Length - 1; i++)
+            {
+                if (filearray[i] == ";")
+                {
+                    cm.returnStatement = returnValue.Trim();
+                    lastCharLocation = i;
+                    break;
+                }
+                else
+                {
+                    returnValue = returnValue + filearray[i] + " ";
+                }
+            }
+
+            return lastCharLocation;
+        }
+
+        public Int32 bypassCharacters(String[] filearray, Int32 arraystart)
+        {
+            Int32 lastCharLocation = arraystart;
+
+            for (Int32 i = arraystart; i < filearray.Length - 1; i++)
+            {
+                if (filearray[i] == ";")
+                {
+                    lastCharLocation = i;
+                    break;
+                }
+            }
+
+            return lastCharLocation;
+        }
+
+        // TODO: Needs work
         public void writeAutomationLogicToFile()
         {
+            /*
+            writeObjectValuesToDictionary();
+
             StreamWriter sw = new StreamWriter(this.tbFileSaveTo.Text + "\\AutomationReport.txt");
 
             sw.WriteLine("Salesforce Automation Report");
@@ -1553,233 +2319,357 @@ namespace SalesforceMetadata
             }
 
             sw.Close();
+            */
         }
 
-        private void btnFindWhereClassUsed_Click(object sender, EventArgs e)
+        public void writeToDataDictionary() 
         {
-            Boolean excelIsInstalled = UtilityClass.microsoftExcelInstalledCheck();
-
-            Dictionary<String, Dictionary<String, List<String>>> searchResultsDict = new Dictionary<String, Dictionary<String, List<String>>>();
-
-            if (this.tbProjectFolder.Text != "")
+            if (this.objectToFieldsDictionary != null
+                && this.objectToFieldsDictionary.Count > 0)
             {
-                String[] directoryPathParse = this.tbProjectFolder.Text.Split('\\');
+                writeObjectValuesToDictionary();
+            }
 
-                // See if the Project Folder contains a subfolder called classes
-                String[] subdirectoriesList = Directory.GetDirectories(this.tbProjectFolder.Text);
+            if (this.classNmToClass != null
+                && this.classNmToClass.Count > 0)
+            {
+                writeClassValuesToDictionary();
+            }
+        }
 
-                if (subdirectoriesList.Length > 0)
+        public void writeObjectValuesToDictionary()
+        {
+            // Write the values
+
+            StreamWriter objWriter = new StreamWriter(this.tbFileSaveTo.Text + "\\sObjects.txt");
+            StreamWriter fieldWriter = new StreamWriter(this.tbFileSaveTo.Text + "\\sObjectFields.txt");
+            StreamWriter validationWriter = new StreamWriter(this.tbFileSaveTo.Text + "\\sObjectValidations.txt");
+
+            objWriter.WriteLine("sObjectName\t" +
+                "Label\t" +
+                "PluralLabel\t" +
+                "SharingModel\t" +
+                "Visibility\t" +
+                "FieldCount\t" +
+                "FieldsTrackedCount\t" +
+                "FormulaFieldCount\t" +
+                "IsCustomSetting\t" +
+                "CustomSettingType\t" +
+                "FieldSets");
+
+            fieldWriter.WriteLine("sObjectName\t" +
+                "FullName\t" +
+                "Label\t" +
+                "Required\t" +
+                "DefaultValue\t" +
+                "TrackHistory\t" +
+                "Type\t" +
+                "Length\t" +
+                "Precision\t" +
+                "Scale\t" +
+                "Unique\t" +
+                "ExternalId\t" +
+                "ReferenceTo\t" +
+                "DeleteConstraint\t" +
+                "RelationshipLabel\t" +
+                "RelationshipName\t" +
+                "IsFormula\t" +
+                "Formula");
+
+            validationWriter.WriteLine("sObjectName\t" +
+                "validationName\t" +
+                "isActive\t" +
+                "errorConditionFormula");
+
+            foreach (ObjectToFields otf in this.objectToFieldsDictionary.Values)
+            {
+                if (this.tbSearchFilter.Text != ""
+                    && (otf.objFields.Count > 0
+                        || otf.objValidations.Count > 0))
                 {
-                    foreach (String sd in subdirectoriesList)
+                    objWriter.Write(otf.objectName + "\t");
+                    objWriter.Write(otf.objectLabel + "\t");
+                    objWriter.Write(otf.pluralLabel + "\t");
+                    objWriter.Write(otf.sharingModel + "\t");
+                    objWriter.Write(otf.visibility + "\t");
+                    objWriter.Write(otf.fieldCount + "\t");
+                    objWriter.Write(otf.fieldsTrackedCount + "\t");
+                    objWriter.Write(otf.formulaFieldCount + "\t");
+                    objWriter.Write(otf.isCustomSetting + "\t");
+                    objWriter.Write(otf.customSettingType + "\t");
+                    objWriter.Write(Environment.NewLine);
+                }
+                else if (this.tbSearchFilter.Text == "")
+                {
+                    objWriter.Write(otf.objectName + "\t");
+                    objWriter.Write(otf.objectLabel + "\t");
+                    objWriter.Write(otf.pluralLabel + "\t");
+                    objWriter.Write(otf.sharingModel + "\t");
+                    objWriter.Write(otf.visibility + "\t");
+                    objWriter.Write(otf.fieldCount + "\t");
+                    objWriter.Write(otf.fieldsTrackedCount + "\t");
+                    objWriter.Write(otf.formulaFieldCount + "\t");
+                    objWriter.Write(otf.isCustomSetting + "\t");
+                    objWriter.Write(otf.customSettingType + "\t");
+                    objWriter.Write(Environment.NewLine);
+                }
+
+                foreach (ObjectFields of in otf.objFields)
+                {
+                    fieldWriter.Write(of.sObjectName + "\t");
+                    fieldWriter.Write(of.fullName + "\t");
+                    fieldWriter.Write(of.label + "\t");
+                    fieldWriter.Write(of.required + "\t");
+                    fieldWriter.Write(of.defaultValue + "\t");
+                    fieldWriter.Write(of.trackHistory + "\t");
+                    fieldWriter.Write(of.type + "\t");
+                    fieldWriter.Write(of.length + "\t");
+                    fieldWriter.Write(of.precision + "\t");
+                    fieldWriter.Write(of.scale + "\t");
+                    fieldWriter.Write(of.unique + "\t");
+                    fieldWriter.Write(of.externalId + "\t");
+                    fieldWriter.Write(of.referenceTo + "\t");
+                    fieldWriter.Write(of.deleteConstraint + "\t");
+                    fieldWriter.Write(of.relationshipLabel + "\t");
+                    fieldWriter.Write(of.relationshipName + "\t");
+                    fieldWriter.Write(of.isFormula + "\t");
+                    fieldWriter.Write(of.formula);
+                    fieldWriter.Write(Environment.NewLine);
+                }
+
+                foreach (ObjectValidations ov in otf.objValidations)
+                {
+                    validationWriter.Write(ov.sObjectName + "\t");
+                    validationWriter.Write(ov.validationName + "\t");
+                    validationWriter.Write(ov.isActive + "\t");
+                    validationWriter.Write(ov.errorConditionFormula);
+                    validationWriter.Write(Environment.NewLine);
+                }
+            }
+
+            objWriter.Close();
+            fieldWriter.Close();
+            validationWriter.Close();
+        }
+
+        public void writeClassValuesToDictionary()
+        {
+            StreamWriter apexClassWriter = new StreamWriter(this.tbFileSaveTo.Text + "\\ApexClasses.txt");
+
+            apexClassWriter.WriteLine(
+                "ClassName\t" +
+                "AccessModifier\t" +
+                "OptionalModifier\t" +
+                "IsTestClass\t" +
+                "IsInterface\t" +
+                "IsRestClass\t" +
+                "ExtendsClass\t" +
+                "ImplementsClasses\t" +
+                "ClassProperties\t" + 
+                "PropertyName\t" +
+                "PropertyAnnotation\t" +
+                "Qualifier\t" +
+                "IsStatic\t" +
+                "IsFinal\t" +
+                "PropertyDataType\t" +
+                "PropertyValue\t" +
+                "ClassMethods\t" +
+                "MethodName\t" +
+                "MethodAnnotation\t" +
+                "MethodQualifier\t" +
+                "IsStatic\t" +
+                "IsOverride\t" +
+                "ReturnDataType\t" +
+                "ReturnStatement\t" +
+                "MethodParameters\t" +
+                "MethodParameterVarType\t" +
+                "MethodParameterVarName\t" +
+                "MethodDMLs\t" +
+                "DMLType\t" +
+                "DMLObject\t" +
+                "DMLVarName\t" +
+                "SaveResultType\t" +
+                "SaveResultVarName\t" +
+                "SOQLStatements\t" +
+                "SOQLObject\t" +
+                "SOQLStatement"
+                );
+
+            foreach (String clsNm in this.classNmToClass.Keys)
+            {
+                apexClassWriter.Write(classNmToClass[clsNm].className + "\t");
+                apexClassWriter.Write(classNmToClass[clsNm].accessModifier + "\t");
+                apexClassWriter.Write(classNmToClass[clsNm].optionalModifier + "\t");
+                apexClassWriter.Write(classNmToClass[clsNm].isTestClass + "\t");
+                apexClassWriter.Write(classNmToClass[clsNm].isInterface + "\t");
+                apexClassWriter.Write(classNmToClass[clsNm].isRestClass + "\t");
+                apexClassWriter.Write(classNmToClass[clsNm].extendsClassName + "\t");
+                
+                foreach (String extCls in classNmToClass[clsNm].implementsClassNames)
+                {
+                    apexClassWriter.Write(extCls + ",");
+                }
+
+                apexClassWriter.Write("\t");
+                apexClassWriter.Write(Environment.NewLine);
+
+                // Write Class Properties / Variables
+                foreach (String clsPropNm in classNmToClass[clsNm].clsProperties.Keys)
+                {
+                    for (Int32 i = 0; i < 9; i++)
                     {
-                        String[] subDirectoryPathParse = sd.Split('\\');
+                        apexClassWriter.Write("\t");
+                    }
 
-                        if (subDirectoryPathParse[subDirectoryPathParse.Length - 1] == "classes")
+                    apexClassWriter.Write(classNmToClass[clsNm].clsProperties[clsPropNm].propertyName + "\t");
+                    apexClassWriter.Write(classNmToClass[clsNm].clsProperties[clsPropNm].propertyAnnotation + "\t");
+                    apexClassWriter.Write(classNmToClass[clsNm].clsProperties[clsPropNm].qualifier + "\t");
+                    apexClassWriter.Write(classNmToClass[clsNm].clsProperties[clsPropNm].isStatic + "\t");
+                    apexClassWriter.Write(classNmToClass[clsNm].clsProperties[clsPropNm].isFinal + "\t");
+                    apexClassWriter.Write(classNmToClass[clsNm].clsProperties[clsPropNm].dataType + "\t");
+                    apexClassWriter.Write(classNmToClass[clsNm].clsProperties[clsPropNm].propertyValue + "\t");
+                    apexClassWriter.Write(Environment.NewLine);
+                }
+
+
+                // Write Class Methods
+                foreach (ClassMethods clsMethod in classNmToClass[clsNm].classMethods)
+                {
+                    for (Int32 i = 0; i < 17; i++)
+                    {
+                        apexClassWriter.Write("\t");
+                    }
+
+                    apexClassWriter.Write(clsMethod.methodName + "\t");
+                    apexClassWriter.Write(clsMethod.methodAnnotation + "\t");
+                    apexClassWriter.Write(clsMethod.qualifier + "\t");
+                    apexClassWriter.Write(clsMethod.isStatic + "\t");
+                    apexClassWriter.Write(clsMethod.isOverride + "\t");
+                    apexClassWriter.Write(clsMethod.returnDataType + "\t");
+                    apexClassWriter.Write(clsMethod.returnStatement + "\t");
+                    apexClassWriter.Write(Environment.NewLine);
+
+                    if (clsMethod.methodParameters.Count > 0)
+                    {
+                        foreach(ObjectVarToType methParam in clsMethod.methodParameters)
                         {
-                            searchResultsDict.Add("Classes", new Dictionary<String, List<String>>());
-                            String[] classFiles = Directory.GetFiles(sd);
-
-                            // Loop through the files and find the class names which end in cls
-                            foreach (String classFileName in classFiles)
+                            for (Int32 i = 0; i < 25; i++)
                             {
-                                if (classFileName.EndsWith("cls"))
-                                {
-                                    // Get the class name then search for where it is used avoiding the current folder, profiles and permission sets
-                                    String[] classNamePath = classFileName.Split('\\');
-                                    String[] className = classNamePath[classNamePath.Length - 1].Split('.');
+                                apexClassWriter.Write("\t");
+                            }
 
-                                    // Search for the values in the subfolders
-                                    List<String> searchResults = SearchUtilityClass.searchForObjectName(this.tbProjectFolder.Text, sd, classNamePath[classNamePath.Length - 1]);
-                                    if (searchResults.Count > 0)
-                                    {
-                                        searchResultsDict["Classes"].Add(className[0], searchResults);
-                                    }
-                                    else
-                                    {
-                                        searchResultsDict["Classes"].Add(className[0], new List<string>());
-                                    }
-                                }
+                            apexClassWriter.Write(methParam.varType + "\t");
+                            apexClassWriter.Write(methParam.varName + "\t");
+                            apexClassWriter.Write(Environment.NewLine);
+                        }
+                    }
+
+                    if (clsMethod.methodDmls.Count > 0)
+                    {
+                        foreach (ObjectVarToType methDml in clsMethod.methodDmls)
+                        {
+                            for (Int32 i = 0; i < 28; i++)
+                            {
+                                apexClassWriter.Write("\t");
+                            }
+                            
+                            apexClassWriter.Write(methDml.dmlType + "\t");
+                            apexClassWriter.Write(methDml.objectName + "\t");
+                            apexClassWriter.Write(methDml.varName + "\t");
+                            apexClassWriter.Write(methDml.saveResultType + "\t");
+                            apexClassWriter.Write(methDml.saveResultVar + "\t");
+                            apexClassWriter.Write(Environment.NewLine);
+                        }
+                    }
+
+                    if (clsMethod.soqlStatements.Count > 0)
+                    {
+                        foreach (String soqlObj in clsMethod.soqlStatements.Keys)
+                        {
+                            for (Int32 i = 0; i < 33; i++)
+                            {
+                                apexClassWriter.Write("\t");
+                            }
+
+                            foreach (String soqlStmnt in clsMethod.soqlStatements[soqlObj])
+                            {
+                                apexClassWriter.Write(soqlObj + "\t");
+                                apexClassWriter.Write(soqlStmnt + "\t");
+                                apexClassWriter.Write(Environment.NewLine);
                             }
                         }
-                        else if (subDirectoryPathParse[subDirectoryPathParse.Length - 1] == "flows")
-                        {
-                            searchResultsDict.Add("Flows", new Dictionary<String, List<String>>());
-                            String[] flowFiles = Directory.GetFiles(sd);
-
-                            // Loop through the files and find the class names which end in cls
-                            foreach (String flowFileName in flowFiles)
-                            {
-                                // Get the class name then search for where it is used avoiding the current folder, profiles and permission sets
-                                String[] flowNamePath = flowFileName.Split('\\');
-                                String[] flowName = flowNamePath[flowNamePath.Length - 1].Split('.');
-
-                                // Search for the values in the subfolders
-                                List<String> searchResults = SearchUtilityClass.searchForObjectName(this.tbProjectFolder.Text, sd, flowNamePath[flowNamePath.Length - 1]);
-                                if (searchResults.Count > 0)
-                                {
-                                    searchResultsDict["Flows"].Add(flowName[0], searchResults);
-                                }
-                                else
-                                {
-                                    searchResultsDict["Flows"].Add(flowName[0], new List<string>());
-                                }
-                            }
-                        }
-                        else if (subDirectoryPathParse[subDirectoryPathParse.Length - 1] == "lwc")
-                        {
-                            searchResultsDict.Add("LWCs", new Dictionary<String, List<String>>());
-                            String[] lwcFolders = Directory.GetDirectories(sd);
-
-                            // Loop through the files and find the class names which end in cls
-                            foreach (String lwcFolderPath in lwcFolders)
-                            {
-                                // Get the class name then search for where it is used avoiding the current folder, profiles and permission sets
-                                String[] lwcNamePath = lwcFolderPath.Split('\\');
-                                String lwcFolderName = lwcNamePath[lwcNamePath.Length - 1];
-
-                                // Search for the values in the subfolders
-                                List<String> searchResults = SearchUtilityClass.searchForObjectName(this.tbProjectFolder.Text, sd, lwcNamePath[lwcNamePath.Length - 1]);
-                                if (searchResults.Count > 0)
-                                {
-                                    searchResultsDict["LWCs"].Add(lwcFolderName, searchResults);
-                                }
-                                else
-                                {
-                                    searchResultsDict["LWCs"].Add(lwcFolderName, new List<string>());
-                                }
-                            }
-                        }
-                        else if (subDirectoryPathParse[subDirectoryPathParse.Length - 1] == "pages")
-                        {
-                            searchResultsDict.Add("Pages", new Dictionary<String, List<String>>());
-                            String[] vfPageFiles = Directory.GetFiles(sd);
-
-                            // Loop through the files and find the class names which end in cls
-                            foreach (String vfPageFileName in vfPageFiles)
-                            {
-                                if (vfPageFileName.EndsWith("page"))
-                                {
-                                    // Get the class name then search for where it is used avoiding the current folder, profiles and permission sets
-                                    String[] vfPageNamePath = vfPageFileName.Split('\\');
-                                    String[] vfPageName = vfPageNamePath[vfPageNamePath.Length - 1].Split('.');
-
-                                    // Search for the values in the subfolders
-                                    List<String> searchResults = SearchUtilityClass.searchForObjectName(this.tbProjectFolder.Text, sd, vfPageNamePath[vfPageNamePath.Length - 1]);
-                                    if (searchResults.Count > 0)
-                                    {
-                                        searchResultsDict["Pages"].Add(vfPageName[0], searchResults);
-                                    }
-                                    else
-                                    {
-                                        searchResultsDict["Pages"].Add(vfPageName[0], new List<string>());
-                                    }
-                                }
-                            }
-                        }
-                        //else if (subDirectoryPathParse[subDirectoryPathParse.Length - 1] == "triggers")
-                        //{
-                        //    searchResultsDict.Add("triggers", new Dictionary<String, List<String>>());
-                        //    String[] triggerFiles = Directory.GetDirectories(sd);
-
-                        //    // Loop through the files and find the class names which end in cls
-                        //    foreach (String triggerFileName in triggerFiles)
-                        //    {
-                        //        // Get the class name then search for where it is used avoiding the current folder, profiles and permission sets
-                        //        String[] triggerNamePath = triggerFileName.Split('\\');
-                        //        String[] triggerName = triggerNamePath[triggerNamePath.Length - 1].Split('.');
-
-                        //        // Search for the values in the subfolders
-                        //        List<String> searchResults = SearchUtilityClass.searchForObjectName(this.tbProjectFolder.Text, sd, triggerNamePath[triggerNamePath.Length - 1]);
-                        //        if (searchResults.Count > 0)
-                        //        {
-                        //            searchResultsDict["triggers"].Add(triggerName[0], searchResults);
-                        //        }
-                        //        else
-                        //        {
-                        //            searchResultsDict["triggers"].Add(triggerName[0], new List<string>());
-                        //        }
-                        //    }
-                        //}
                     }
                 }
             }
 
-            // Write contents to Excel
-            if (searchResultsDict.Count > 0)
-            {
-                Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
-                xlapp.Visible = false;
-
-                Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlapp.Workbooks.Add();
-
-                foreach (String folderName in searchResultsDict.Keys)
-                {
-                    Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
-                                                                                (System.Reflection.Missing.Value,
-                                                                                 xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
-                                                                                 System.Reflection.Missing.Value,
-                                                                                 System.Reflection.Missing.Value);
-
-                    xlWorksheet.Name = folderName;
-
-                    //Int32 rowStart = 2;
-                    Int32 rowEnd = 2;
-                    //Int32 colStart = 2;
-                    Int32 colEnd = 2;
-                    //Int32 lastRowNumber = 2;
-
-                    foreach (String objName in searchResultsDict[folderName].Keys)
-                    {
-                        writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd, objName);
-                        writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd + 1, searchResultsDict[folderName][objName].Count.ToString());
-
-                        formatExcelRange(xlWorksheet,
-                                            rowEnd,
-                                            rowEnd,
-                                            colEnd,
-                                            colEnd + 1,
-                                            14,
-                                            255,
-                                            255,
-                                            255,
-                                            63,
-                                            98,
-                                            174,
-                                            true,
-                                            false,
-                                            "");
-
-                        rowEnd++;
-
-                        if (searchResultsDict[folderName][objName].Count > 0)
-                        {
-                            foreach (String relatedName in searchResultsDict[folderName][objName])
-                            {
-                                writeDataToExcelSheet(xlWorksheet, rowEnd, colEnd + 2, relatedName);
-                                rowEnd++;
-                            }
-                        }
-
-                        rowEnd++;
-                    }
-                }
-
-                xlapp.Visible = true;
-            }
+            apexClassWriter.Close();
         }
 
         public class ObjectToFields 
         {
-            public String objectName;
+            public String objectName = "";
+            public String objectLabel = "";
+            public String pluralLabel = "";
             public List<String> fields;
-            public String sharingModel;
-            public String visibility;
+            // These are the fields which exist on the object itself
+            public List<ObjectFields> objFields;
+            // These are the fields which are referenced from the current object either to fields on that object itself or in a Field Set or Validation rule
+            public List<ObjectFields> objFieldReferences;
+            public List<ObjectValidations> objValidations;
+            public String sharingModel = "";
+            public String visibility = "";
+            public Int32 fieldCount = 0;
+            public Int32 fieldsTrackedCount = 0;
+            public Int32 formulaFieldCount = 0;
+            public Boolean isCustomSetting = false;
+            public String customSettingType = "";
+            public Dictionary<String, List<String>> fieldSetToFieldNames;
+            public Dictionary<String, List<String>> compactLayoutToFieldNames;
+
+            public ObjectToFields()
+            {
+                fields = new List<String>();
+                objFields = new List<ObjectFields>();
+                objFieldReferences = new List<ObjectFields>();
+                objValidations = new List<ObjectValidations>();
+                fieldSetToFieldNames = new Dictionary<String, List<String>>();
+                compactLayoutToFieldNames = new Dictionary<string, List<string>>();
+            }
+        }
+
+        public class ObjectFields
+        {
+            public String sObjectName = "";
+            public String fullName = "";
+            public String externalId = "";
+            public String label = "";
+            public String length = "";
+            public String required = "";
+            public String defaultValue = "";
+            public Boolean trackHistory = false;
+            public String type = "";
+            public String precision = "";
+            public String scale = "";
+            public String unique = "";
+            public String referenceTo = "";
+            public String deleteConstraint = "";
+            public String relationshipLabel = "";
+            public String relationshipName = "";
+            public Boolean isFormula = false;
+            public String formula = "";
+
+            // Object name 
+            // public String referenceToObject = "";
+            // Field Set, Validation Rule, Formula Field
+            // public String referenceFromObjectSection = "";
         }
 
         public class ObjectValidations
         {
-            public String validationName;
-            public String errorConditionFormula;
+            public String sObjectName = "";
+            public String validationName = "";
+            public String errorConditionFormula = "";
+            public Boolean isActive = false;
         }
 
         public class ApexTriggers 
@@ -1821,8 +2711,11 @@ namespace SalesforceMetadata
             public string optionalModifier = "";
 
             public Boolean isInterface = false;
+            public Boolean isTestClass = false;
+            public Boolean isRestClass = false;
 
             public List<String> interfaceClassNames;
+            public List<String> implementsClassNames;
             public String extendsClassName = "";
             public Dictionary<String, ClassProperties> clsProperties;
             public Dictionary<String, ApexClasses> innerClasses;
@@ -1834,11 +2727,12 @@ namespace SalesforceMetadata
 
             public ApexClasses()
             {
-                interfaceClassNames = new List<String>();
-                clsProperties = new Dictionary<string, ClassProperties>();
-                innerClasses = new Dictionary<string, ApexClasses>();
-                classMethods = new List<ClassMethods>();
-                objToFieldsReferenced = new Dictionary<String, String>();
+                this.interfaceClassNames = new List<String>();
+                this.implementsClassNames = new List<String>();
+                this.clsProperties = new Dictionary<string, ClassProperties>();
+                this.innerClasses = new Dictionary<string, ApexClasses>();
+                this.classMethods = new List<ClassMethods>();
+                this.objToFieldsReferenced = new Dictionary<String, String>();
             }
         }
 
@@ -1848,37 +2742,50 @@ namespace SalesforceMetadata
             public String varType = "";
             public String varName = "";
             public String dmlType = "";
+            public String saveResultType = "";
+            public String saveResultVar = "";
+            public String rightSide = "";
+            public Boolean isForLoop = false;
         }
 
         public class ClassProperties 
         {
             public String propertyName = "";
+            public String propertyAnnotation = "";
             public String qualifier = "";
             public String dataType = "";
             public Boolean isStatic = false;
             public Boolean isFinal = false;
+            public String propertyValue = "";
         }
 
         public class ClassMethods
         {
-            public String annotation = "";
             public String methodName = "";
+            public String methodAnnotation = "";
             public String qualifier = "";
             public Boolean isStatic = false;
             public Boolean isOverride = false;
             public String returnDataType = "";
+            public String returnStatement = "";
 
             // Key = sObject API Name, Value = SOQL Statements
+            public List<ObjectVarToType> methodParameters;
             public Dictionary<String, List<String>> soqlStatements;
             public Dictionary<String, String> objToFieldsReferenced;
 
-            public Dictionary<String, List<ObjectVarToType>> objVarToType;
+            public Dictionary<String, List<ObjectVarToType>> methodBodyVars;
+            public Dictionary<String, List<ObjectVarToType>> methodForLoops;
+            public List<ObjectVarToType> methodDmls;
 
             public ClassMethods() 
             {
+                this.methodParameters = new List<ObjectVarToType>();
                 this.soqlStatements = new Dictionary<String, List<String>>();
                 this.objToFieldsReferenced = new Dictionary<String, String>();
-                this.objVarToType = new Dictionary<String, List<ObjectVarToType>>();
+                this.methodBodyVars = new Dictionary<String, List<ObjectVarToType>>();
+                this.methodForLoops = new Dictionary<String, List<ObjectVarToType>>();
+                this.methodDmls = new List<ObjectVarToType>();
             }
         }
 
@@ -1931,6 +2838,25 @@ namespace SalesforceMetadata
             public String fieldName = "";
             public Boolean notifyAssignee = false;
             public Boolean reevaluateOnChange = false;
+        }
+
+        private void btnParseObjectsAndFields_Click(object sender, EventArgs e)
+        {
+            if (this.tbProjectFolder.Text == "")
+            {
+                MessageBox.Show("Please select a project folder which contains the Salesforce metadata");
+            }
+
+            if (this.tbFileSaveTo.Text == "")
+            {
+                MessageBox.Show("Please select a folder location to save the report values to");
+            }
+
+            runObjectFieldExtract();
+
+            writeObjectValuesToDictionary();
+
+            MessageBox.Show("Sobject and Fields Extract Complete");
         }
     }
 }

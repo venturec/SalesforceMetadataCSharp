@@ -18,6 +18,7 @@ using static SalesforceMetadata.AutomationReporter;
 using iTextSharp.text;
 using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
+using iTextSharp.text.pdf;
 
 namespace SalesforceMetadata
 {
@@ -38,6 +39,8 @@ namespace SalesforceMetadata
         public Dictionary<String, List<FlowProcess>> objectToFlow;
 
         public Dictionary<String, List<Workflows>> workflowObjToFieldUpdt;
+
+        List<FieldExtractor> fieldExtractorList = new List<FieldExtractor>();
 
         public AutomationReporter()
         {
@@ -542,7 +545,7 @@ namespace SalesforceMetadata
                     {
                         if (xn.ParentNode.LocalName == "Flow")
                         {
-                            Debug.WriteLine(" ");
+                            //Debug.WriteLine(" ");
                             if (xn.ChildNodes[0].InnerText == "ObjectType")
                             {
                                 flowObj.objectName = xn.ChildNodes[1].InnerText;
@@ -930,9 +933,21 @@ namespace SalesforceMetadata
                     inMultilineComment = true;
                     mlCommentNotationCount++;
                 }
-                else if (inMultilineComment == false
+                // Inline comment, but avoid skipping over urls
+                else if (i == 0
+                    && inMultilineComment == false
                     && restResource == false
-                    && charArray[i].ToString() == "/" && charArray[i + 1].ToString() == "/")
+                    && charArray[i].ToString() == "/"
+                    && charArray[i + 1].ToString() == "/")
+                {
+                    inInlineComment = true;
+                }
+                else if (i > 0
+                    && inMultilineComment == false
+                    && restResource == false
+                    && charArray[i].ToString() == "/"
+                    && charArray[i + 1].ToString() == "/"
+                    && charArray[i - 1].ToString() != ":")
                 {
                     inInlineComment = true;
                 }
@@ -971,6 +986,9 @@ namespace SalesforceMetadata
             fileContents1 = fileContents1.Replace(",", " , ");
             fileContents1 = fileContents1.Replace(":", " : ");
             fileContents1 = fileContents1.Replace(";", " ; ");
+            fileContents1 = fileContents1.Replace("\\\\", " \\\\ ");
+            fileContents1 = fileContents1.Replace("\\'", " \\' ");
+            fileContents1 = fileContents1.Replace("'", " ' ");
             fileContents1 = fileContents1.Replace("  ", " ");
             fileContents1 = fileContents1.Replace("  ", " ");
             fileContents1 = fileContents1.Replace("  ", " ");
@@ -991,23 +1009,53 @@ namespace SalesforceMetadata
             // The Character loop below will handle any additional spacing.
             // We only care about the < at this point to make sure a potential
             // collection is not Map < but is Map<
-            fileContents1 = fileContents1.Replace(" <", "<");
+            fileContents1 = fileContents1.Replace("P <", "P<");
+            fileContents1 = fileContents1.Replace("T <", "T<");
+            fileContents1 = fileContents1.Replace("p <", "p<");
+            fileContents1 = fileContents1.Replace("t <", "t<");
 
             fileContents1 = fileContents1.Trim();
-
 
             String filecontents2 = "";
 
             // reformat for Map, List, Set and String values
             Boolean inCollection = false;
             String collectionVar = "";
+            Boolean inString = false;
             Boolean firstLessThanFound = false;
             Int32 lessThanCount = 0;
+
+            Int32 skipTo = 0;
+            Boolean skipOver = false;
 
             charArray = fileContents1.ToCharArray();
             for (Int32 i = 0; i < charArray.Length; i++)
             {
-                if (inCollection == true && charArray[i].ToString().ToLower() != " ")
+                if (skipOver == true && skipTo > i)
+                {
+                    // Don't do anything
+                }
+                else if (skipOver == true && skipTo == i)
+                {
+                    skipTo = 0;
+                    skipOver = false;
+                }
+                else if (charArray[i].ToString() == "'"
+                    && inString == false)
+                {
+                    filecontents2 = filecontents2 + charArray[i].ToString();
+                    inString = true;
+                }
+                else if (charArray[i].ToString() == "'"
+                    && charArray[i - 2].ToString() != "\\"
+                    && inString == true)
+                {
+                    filecontents2 = filecontents2 + charArray[i].ToString();
+                    inString = false;
+                }
+                else if (inString == false 
+                    && inCollection == true 
+                    && charArray[i].ToString().ToLower() != " ")
                 {
                     collectionVar = collectionVar + charArray[i].ToString();
 
@@ -1035,7 +1083,8 @@ namespace SalesforceMetadata
                         }
                     }
                 }
-                else if (charArray.Length - i - 1 > 4
+                else if (inString == false
+                    && charArray.Length - i - 1 > 4
                     && charArray[i].ToString().ToLower() == "s"
                     && charArray[i + 1].ToString().ToLower() == "e"
                     && charArray[i + 2].ToString().ToLower() == "t"
@@ -1044,7 +1093,8 @@ namespace SalesforceMetadata
                     inCollection = true;
                     collectionVar = collectionVar + charArray[i].ToString();
                 }
-                else if (charArray.Length - i - 1 > 4
+                else if (inString == false
+                    && charArray.Length - i - 1 > 4
                     && charArray[i].ToString().ToLower() == "m"
                     && charArray[i + 1].ToString().ToLower() == "a"
                     && charArray[i + 2].ToString().ToLower() == "p"
@@ -1053,7 +1103,8 @@ namespace SalesforceMetadata
                     inCollection = true;
                     collectionVar = collectionVar + charArray[i].ToString();
                 }
-                else if (charArray.Length - i - 1 > 5
+                else if (inString == false
+                   && charArray.Length - i - 1 > 5
                    && charArray[i].ToString().ToLower() == "l"
                    && charArray[i + 1].ToString().ToLower() == "i"
                    && charArray[i + 2].ToString().ToLower() == "s"
@@ -1063,12 +1114,323 @@ namespace SalesforceMetadata
                     inCollection = true;
                     collectionVar = collectionVar + charArray[i].ToString();
                 }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == ">"
+                    && charArray[i + 1].ToString() == ">"
+                    && charArray[i + 2].ToString() == ">"
+                    && charArray[i + 3].ToString() == "=")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + charArray[i + 2].ToString() + charArray[i + 3].ToString() + " ";
+                    skipTo = i + 3;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == ">"
+                    && charArray[i + 1].ToString() == ">"
+                    && charArray[i + 2].ToString() == ">")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + charArray[i + 2].ToString() + " ";
+                    skipTo = i + 2;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == ">"
+                    && charArray[i + 1].ToString() == ">"
+                    && charArray[i + 2].ToString() == "=")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + charArray[i + 2].ToString() + " ";
+                    skipTo = i + 2;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "="
+                    && charArray[i + 1].ToString() == "="
+                    && charArray[i + 2].ToString() == "=")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + charArray[i + 2].ToString() + " ";
+                    skipTo = i + 2;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "<"
+                    && charArray[i + 1].ToString() == "<"
+                    && charArray[i + 2].ToString() == "=")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + charArray[i + 2].ToString() + " ";
+                    skipTo = i + 2;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "!"
+                    && charArray[i + 1].ToString() == "="
+                    && charArray[i + 2].ToString() == "=")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + charArray[i + 2].ToString() + " ";
+                    skipTo = i + 2;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == ">"
+                    && charArray[i + 1].ToString() == ">")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                    skipTo = i + 1;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == ">"
+                    && charArray[i + 1].ToString() == "=")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                    skipTo = i + 1;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "<"
+                    && charArray[i + 1].ToString() == "=")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                    skipTo = i + 1;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "="
+                    && charArray[i + 1].ToString() == ">")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                    skipTo = i + 1;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "="
+                    && charArray[i + 1].ToString() == "=")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                    skipTo = i + 1;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "-"
+                    && charArray[i + 1].ToString() == "=")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                    skipTo = i + 1;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "<"
+                    && charArray[i + 1].ToString() == "<")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                    skipTo = i + 1;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "+"
+                    && charArray[i + 1].ToString() == "=")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                    skipTo = i + 1;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "+"
+                    && charArray[i + 1].ToString() == "+")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                    skipTo = i + 1;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "|"
+                    && charArray[i + 1].ToString() == "=")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                    skipTo = i + 1;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "|"
+                    && charArray[i + 1].ToString() == "|")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                    skipTo = i + 1;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "^"
+                    && charArray[i + 1].ToString() == "=")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                    skipTo = i + 1;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "?"
+                    && charArray[i + 1].ToString() == ".")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                    skipTo = i + 1;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "/"
+                    && charArray[i + 1].ToString() == "=")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                    skipTo = i + 1;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "*"
+                    && charArray[i + 1].ToString() == "=")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                    skipTo = i + 1;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "&"
+                    && charArray[i + 1].ToString() == "=")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                    skipTo = i + 1;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "&"
+                    && charArray[i + 1].ToString() == "&")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                    skipTo = i + 1;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "!"
+                    && charArray[i + 1].ToString() == "=")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                    skipTo = i + 1;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "-"
+                    && charArray[i + 1].ToString() == "-")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                    skipTo = i + 1;
+                    skipOver = true;
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == ">")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "=")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "<")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "+")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "~")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "|")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "^")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "/")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "*")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "&")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "!")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                }
+                else if (inString == false
+                    && inCollection == false
+                    && charArray[i].ToString() == "-")
+                {
+                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                }
                 else if (inCollection == false)
                 {
                     filecontents2 = filecontents2 + charArray[i].ToString();
                 }
             }
 
+            filecontents2 = filecontents2.Replace("  ", " ");
+            filecontents2 = filecontents2.Replace("  ", " ");
+            filecontents2 = filecontents2.Replace("  ", " ");
+            filecontents2 = filecontents2.Replace("  ", " ");
+            filecontents2 = filecontents2.Replace("  ", " ");
+            filecontents2 = filecontents2.Replace("  ", " ");
+            filecontents2 = filecontents2.Replace("  ", " ");
             filecontents2 = filecontents2.Replace("  ", " ");
             filecontents2 = filecontents2.Replace("  ", " ");
             filecontents2 = filecontents2.Replace("  ", " ");
@@ -1081,9 +1443,15 @@ namespace SalesforceMetadata
             ApexTriggers at = new ApexTriggers();
 
             Boolean inTriggerEvents = false;
+            Boolean inTriggerBody = false;
+            
             Boolean inSOQLStatement = false;
             String soqlStatement = "";
             String soqlObject = "";
+
+            // Used for Database.SaveResult srVarName = 
+            String saveResultType = "";
+            String saveResultVar = "";
 
             Int32 skipTo = 0;
             Boolean skipOver = false;
@@ -1120,45 +1488,144 @@ namespace SalesforceMetadata
                     if (triggerevt == "before insert")
                     {
                         at.isBeforeInsert = true;
+                        skipTo = i + 1;
+                        skipOver = true;
                     }
-                    else if(triggerevt == "before update")
+                    else if (triggerevt == "before update")
                     {
                         at.isBeforeUpdate = true;
+                        skipTo = i + 1;
+                        skipOver = true;
                     }
                     else if (triggerevt == "before delete")
                     {
                         at.isBeforeDelete = true;
+                        skipTo = i + 1;
+                        skipOver = true;
                     }
                     else if (triggerevt == "after insert")
                     {
                         at.isAfterInsert = true;
+                        skipTo = i + 1;
+                        skipOver = true;
                     }
                     else if (triggerevt == "after update")
                     {
                         at.isAfterUpdate = true;
+                        skipTo = i + 1;
+                        skipOver = true;
                     }
                     else if (triggerevt == "after delete")
                     {
                         at.isAfterDelete = true;
+                        skipTo = i + 1;
+                        skipOver = true;
                     }
                     else if (triggerevt == "after undelete")
                     {
                         at.isAfterUndelete = true;
+                        skipTo = i + 1;
+                        skipOver = true;
                     }
                 }
                 else if (inTriggerEvents == true
                         && filearray[i].ToLower() == ")")
                 {
                     inTriggerEvents = false;
+                    inTriggerBody = true;
+                }
+                else if (filearray[i] == "="
+                    && inTriggerBody == true)
+                {
+                    // Left side / right side method variable
+                    skipTo = parseTriggerVariables(filearray, at, i);
+                    skipOver = true;
+                }
+                else if (filearray[i].ToLower() == "for"
+                    && inTriggerBody == true)
+                {
+                    // Left side / right side method variable
+                    ObjectVarToType ovt = new ObjectVarToType();
+                    skipTo = parseForLoop(filearray, ovt, i);
+                    skipOver = true;
+
+                    if (at.triggerForLoops.ContainsKey(ovt.objectName))
+                    {
+                        at.triggerForLoops[ovt.objectName].Add(ovt);
+                    }
+                    else
+                    {
+                        at.triggerForLoops.Add(ovt.objectName, new List<ObjectVarToType> { ovt });
+                    }
+                }
+                else if (filearray[i].ToLower() == "throw"
+                    && inTriggerBody == true)
+                {
+                    skipTo = bypassCharacters(filearray, i);
+                    skipOver = true;
+                }
+                // bypass the rest of the system.assert and assertEquals
+                else if (filearray[i].ToLower() == "system.assert"
+                    && inTriggerBody == true)
+                {
+                    skipTo = bypassCharacters(filearray, i);
+                    skipOver = true;
+                }
+                else if (filearray[i].ToLower() == "system.assertequals"
+                    && inTriggerBody == true)
+                {
+                    skipTo = bypassCharacters(filearray, i);
+                    skipOver = true;
+                }
+                else if (filearray[i].ToLower() == "system.assertnotequals"
+                    && inTriggerBody == true)
+                {
+                    skipTo = bypassCharacters(filearray, i);
+                    skipOver = true;
+                }
+                else if (filearray[i].ToLower() == "system.debug"
+                    && inTriggerBody == true)
+                {
+                    skipTo = bypassCharacters(filearray, i);
+                    skipOver = true;
                 }
 
-                if (filearray[i].ToLower() == "select" && inSOQLStatement == false)
+                else if ((filearray[i].ToLower() == "database.deleteresult"
+                    || filearray[i].ToLower() == "database.mergeresult"
+                    || filearray[i].ToLower() == "database.undeleteresult"
+                    || filearray[i].ToLower() == "database.upsertresult"
+                    || filearray[i].ToLower() == "database.saveresult")
+                    && inTriggerBody == true)
+                {
+                    // Possible options include:
+                    // Database.SaveResult[] sr = Database.update(updateBillingDocuments, false);
+                    //
+                    // OR another perfectly acceptable way is to declare a null Database.SaveResult[] array
+                    // 
+                    // Database.SaveResult[] sr;
+                    // try { sr = database.update(updateBillingDocuments) } catch(Exception e) {};
+
+                    if (filearray[i + 1] == "[")
+                    {
+                        saveResultType = filearray[i] + filearray[i + 1] + filearray[i + 2];
+                        saveResultVar = filearray[i + 3];
+                        skipTo = i + 4;
+                        skipOver = true;
+                    }
+                    else
+                    {
+                        saveResultType = filearray[i];
+                        saveResultVar = filearray[i + 1];
+                        skipTo = i + 2;
+                        skipOver = true;
+                    }
+                }
+                else if (filearray[i].ToLower() == "select" && inSOQLStatement == false)
                 {
                     inSOQLStatement = true;
                     at.logicContainedInTrigger = true;
                 }
-
-                if (inSOQLStatement == true && filearray[i].ToLower() == "]")
+                else if (inSOQLStatement == true && filearray[i].ToLower() == "]")
                 {
                     inSOQLStatement = false;
 
@@ -1182,28 +1649,28 @@ namespace SalesforceMetadata
                         soqlObject = filearray[i + 1];
                     }
                 }
-
-                if (filearray[i].ToLower() == "database.insert"
+                else if ((filearray[i].ToLower() == "database.insert"
                     || filearray[i].ToLower() == "database.update"
                     || filearray[i].ToLower() == "database.delete"
                     || filearray[i].ToLower() == "database.undelete")
+                    && inTriggerBody == true)
                 {
                     at.logicContainedInTrigger = true;
 
                     String varName = filearray[i + 2].ToLower();
-                    skipTo = parseTriggerDmlVars(filearray, varName, filearray[i], at, i + 2);
+                    skipTo = parseTriggerDmlVars(filearray, varName, filearray[i], saveResultType, saveResultVar, at, i + 2);
                     skipOver = true;
                 }
-                
-                if (filearray[i].ToLower() == "insert"
+                else if ((filearray[i].ToLower() == "insert"
                     || filearray[i].ToLower() == "update"
                     || filearray[i].ToLower() == "delete"
                     || filearray[i].ToLower() == "undelete")
+                    && inTriggerBody == true)
                 {
                     at.logicContainedInTrigger = true;
 
                     String varName = filearray[i + 1].ToLower();
-                    skipTo = parseTriggerDmlVars(filearray, varName, filearray[i], at, i + 1);
+                    skipTo = parseTriggerDmlVars(filearray, varName, filearray[i], saveResultType, saveResultVar, at, i + 1);
                     skipOver = true;
                 }
             }
@@ -1216,6 +1683,137 @@ namespace SalesforceMetadata
             {
                 this.objectToTrigger.Add(at.objectName, new List<ApexTriggers> { at });
             }
+        }
+
+        public Int32 parseTriggerVariables(String[] filearray, ApexTriggers at, Int32 arraystart)
+        {
+            Int32 lastCharLocation = arraystart;
+
+            Int32 distanceFromEqual = 0;
+
+            // Get the left side of the equation
+            // Find the distance between the = sign or what is in flarraystart
+            String triggerObject = "";
+            String triggerVar = "";
+            for (Int32 i = arraystart - 1; i >= 0; i--)
+            {
+                if (filearray[i] == ";"
+                    || filearray[i] == "{"
+                    || filearray[i] == "}")
+                {
+                    // Example: testBillingSubList[0].Billing_Contact__c = testConList1[0].Id;
+                    if (arraystart - distanceFromEqual == 5)
+                    {
+                        triggerObject = filearray[arraystart - 5] + filearray[arraystart - 4] + filearray[arraystart - 3] + filearray[arraystart - 2];
+                        triggerVar = filearray[arraystart - 1];
+                    }
+                    // Example: cont.MailingZip = acct.BillingZip;
+                    else if (arraystart - distanceFromEqual == 4)
+                    {
+                        triggerObject = filearray[arraystart - 4] + filearray[arraystart - 3] + filearray[arraystart - 2];
+                        triggerVar = filearray[arraystart - 1];
+                    }
+                    else if (arraystart - distanceFromEqual == 3)
+                    {
+                        //Debug.WriteLine("parseMethodVariables: arraystart - distanceFromEqual == 3 ");
+                    }
+                    else if (arraystart - distanceFromEqual == 2)
+                    {
+                        triggerObject = filearray[arraystart - 2];
+                        triggerVar = filearray[arraystart - 1];
+                    }
+                    else if (arraystart - distanceFromEqual == 1)
+                    {
+                        triggerObject = filearray[arraystart - 1];
+                    }
+
+                    break;
+                }
+                else
+                {
+                    distanceFromEqual = i;
+                }
+            }
+
+            // Now get the right side of the equation
+            String rightSide = "";
+            Boolean inStringValue = false;
+            for (Int32 i = arraystart + 1; i < filearray.Length - 1; i++)
+            {
+                if (filearray[i] == "'"
+                    && inStringValue == false)
+                {
+                    inStringValue = true;
+                    rightSide = rightSide + filearray[i] + " ";
+                }
+                else if (filearray[i] == "'"
+                    && inStringValue == true)
+                {
+                    inStringValue = false;
+                    rightSide = rightSide + filearray[i] + " ";
+                }
+                else if (filearray[i] == ";"
+                    && inStringValue == false)
+                {
+                    lastCharLocation = i;
+
+                    ObjectVarToType ovt = new ObjectVarToType();
+                    ovt.objectName = triggerObject;
+                    ovt.varName = triggerVar;
+                    ovt.rightSide = rightSide.Trim();
+
+                    if (at.triggerBodyVars.ContainsKey(triggerObject))
+                    {
+                        at.triggerBodyVars[triggerObject].Add(ovt);
+                    }
+                    else
+                    {
+                        at.triggerBodyVars.Add(triggerObject, new List<ObjectVarToType> { ovt });
+                    }
+
+                    break;
+                }
+                else
+                {
+                    rightSide = rightSide + filearray[i] + " ";
+                }
+            }
+
+            return lastCharLocation;
+        }
+
+        public Int32 parseTriggerDmlVars(String[] filearray,
+            String varName,
+            String dmlType,
+            String saveResultType,
+            String saveResultVar,
+            ApexTriggers at,
+            Int32 arraystart)
+        {
+            ObjectVarToType ovt = new ObjectVarToType();
+            ovt.varName = varName;
+            ovt.dmlType = dmlType;
+            ovt.saveResultType = saveResultType;
+            ovt.saveResultVar = saveResultVar;
+
+            Int32 lastCharLocation = arraystart;
+
+            Boolean objectNameFound = false;
+
+            //foreach (ObjectVarToType objNm in at.)
+            //{
+            //    if (objNm.varName.ToLower() == varName)
+            //    {
+            //        ovt.objectName = objNm.varType;
+            //        ovt.varType = objNm.varType;
+            //        objectNameFound = true;
+            //    }
+
+            //    if (objectNameFound == true) break;
+            //}
+
+
+            return lastCharLocation;
         }
 
         private void parseApexClass(String[] filearray)
@@ -1240,7 +1838,8 @@ namespace SalesforceMetadata
                 "protected",
                 "private",
                 "public",
-                "global"};
+                "global",
+                "static"};
 
             Boolean inClassName = true;
             Int32 classDeclarationCount = 1;
@@ -1275,7 +1874,8 @@ namespace SalesforceMetadata
                     {
                         inClassName = false;
                     }
-                    else if (filearray[i].ToLower() == "private"
+                    else if (filearray[i].ToLower() == "protected"
+                            || filearray[i].ToLower() == "private"
                             || filearray[i].ToLower() == "public"
                             || filearray[i].ToLower() == "global")
                     {
@@ -1316,12 +1916,17 @@ namespace SalesforceMetadata
                     }
                 }
                 // TODO: Skipping over inner classes for now
+                // Will come back and add these later
                 else if (inClassName == false
                         && (filearray[i].ToLower() == "protected"
                             || filearray[i].ToLower() == "private"
                             || filearray[i].ToLower() == "public"
                             || filearray[i].ToLower() == "global")
-                        && filearray[i + 1] == "class")
+                        && (filearray[i + 1] == "class"
+                            || filearray[i + 2] == "class"
+                            || filearray[i + 3] == "class"
+                            || filearray[i + 4] == "class"
+                            || filearray[i + 5] == "class"))
                 {
                     skipTo = i;
                     skipOver = true;
@@ -1407,6 +2012,7 @@ namespace SalesforceMetadata
                 "@httpput"};
 
             String propertyMethodAnnotation = "";
+            String propertyMethodAnnotationParameters = "";
             String propertyMethodName = "";
             String propertyMethodQualifier = "";
             String propertyMethodRtnDataType = "";
@@ -1419,6 +2025,7 @@ namespace SalesforceMetadata
             Boolean isStatic = false;
             Boolean isFinal = false;
             Boolean isOverride = false;
+            Boolean isTestMethod = false;
 
             Int32 parenthesesCount = 0; // ( )
             Int32 braceCount = 0;       // { }
@@ -1446,10 +2053,12 @@ namespace SalesforceMetadata
 
             for (Int32 i = arraystart; i < filearray.Length - 1; i++)
             {
+                //Debug.WriteLine(i + " " + filearray[i]);
+
                 // TODO: Bypass filearray values as they have been processed in sub-routines
                 if (skipOver == true && skipTo > i)
                 {
-                    // Don't do anything
+                    // Don't do anything. This is the catch-all when a skip is needed.
                 }
                 else if (skipOver == true && skipTo == i)
                 {
@@ -1460,24 +2069,80 @@ namespace SalesforceMetadata
                 else if (methodAnnotations.Contains(filearray[i].ToLower()))
                 {
                     propertyMethodAnnotation = filearray[i];
+
+                    Int32 jCount = i + 1;
+                    String annotationParameters = "";
+                    if (filearray[i + 1] == "(")
+                    {
+                        for (Int32 j = jCount; j < filearray.Length; j++)
+                        {
+                            if (filearray[j] == ")")
+                            {
+                                annotationParameters = annotationParameters + filearray[j];
+                                jCount = j;
+
+                                break;
+                            }
+                            else
+                            {
+                                annotationParameters = annotationParameters + filearray[j];
+                            }
+                        }
+
+                        propertyMethodAnnotationParameters = annotationParameters;
+
+                        skipTo = jCount;
+                        skipOver = true;
+                    }
+                }
+                // Loop through text values and then skip over those blocks
+                else if (filearray[i] == "\'")
+                {
+                    //Debug.WriteLine(i + " " + filearray[i] + " " + filearray[i + 1] + " " + filearray[i + 2]);
+
+                    Int32 jCount = i + 1;
+                    Boolean inString = true;
+
+                    String stringValue = filearray[i];
+                    for (Int32 j = jCount; j <= filearray.Length; j++)
+                    {
+                        stringValue = stringValue + " " + filearray[j];
+                        jCount = j;
+
+                        if (filearray[j] == "'"
+                            && filearray[j - 1] != "\\"
+                            && inString == true)
+                        {
+                            //Debug.WriteLine(stringValue);
+                            break;
+                        }
+                    }
+
+                    skipTo = jCount;
+                    skipOver = true;
                 }
                 else if (filearray[i] == "(")
                 {
-                    if (propertyMethodName != "" && propertyMethodRtnDataType != "")
+                    parenthesesCount++;
+                    //Debug.WriteLine(i + " parenthCount: " + parenthesesCount + " filearray[i] == (");
+
+                    if (propertyMethodName != ""
+                        && propertyMethodRtnDataType != ""
+                        && inMethodBody == false)
                     {
                         isMethod = true;
                         inMethodBody = true;
                     }
-                    else
+                    else if (inMethodBody == false)
                     {
                         isConstructor = true;
                     }
 
-                    parenthesesCount++;
                 }
                 else if (filearray[i] == ")")
                 {
                     parenthesesCount--;
+                    //Debug.WriteLine(i + " parenthCount: " + parenthesesCount + " filearray[i] == )");
 
                     // METHOD PARAMETERS
                     // Add the parameters to the methodParameters list
@@ -1570,24 +2235,34 @@ namespace SalesforceMetadata
                             }
                         }
                     }
+                    else if (parenthesesCount == 0
+                        && filearray[i + 1] == ";")
+                    {
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
                 }
                 else if (filearray[i] == "{")
                 {
                     braceCount++;
+                    //Debug.WriteLine(i + " braceCount: " + braceCount + " filearray[i] == {");
                 }
                 else if (filearray[i] == "}")
                 {
                     braceCount--;
+                    //Debug.WriteLine(i + " braceCount: " + braceCount + " filearray[i] == }");
 
                     if (braceCount == 0
                         && isMethod == true)
                     {
                         cm.methodName = propertyMethodName;
                         cm.methodAnnotation = propertyMethodAnnotation;
+                        cm.annotationParameters = propertyMethodAnnotationParameters;
                         cm.qualifier = propertyMethodQualifier;
                         cm.returnDataType = propertyMethodRtnDataType;
                         cm.isOverride = isOverride;
                         cm.isStatic = isStatic;
+                        cm.isTestMethod = isTestMethod;
                         cm.soqlStatements = soqlStatements;
 
                         ac.classMethods.Add(cm);
@@ -1616,6 +2291,14 @@ namespace SalesforceMetadata
                 else if (inMethodBody == false && filearray[i].ToLower() == "static")
                 {
                     isStatic = true;
+
+                    if (filearray[i + 1].ToLower() == "testmethod")
+                    {
+                        isTestMethod = true;
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+
                 }
                 else if (inMethodBody == false && filearray[i].ToLower() == "final")
                 {
@@ -1657,7 +2340,6 @@ namespace SalesforceMetadata
                     && isConstructor == false
                     && propertyValue == "")
                 {
-                    // If the 
                     if (filearray[i + 2] == ";")
                     {
                         propertyValue = filearray[i + 1];
@@ -1690,8 +2372,28 @@ namespace SalesforceMetadata
                 else if (filearray[i].ToLower() == "for"
                     && inMethodBody == true)
                 {
+                    ObjectVarToType ovt = new ObjectVarToType();
+
                     // Left side / right side method variable
-                    skipTo = parseForLoop(filearray, cm, i);
+                    skipTo = parseForLoop(filearray, ovt, i);
+                    skipOver = true;
+
+                    if (ovt.objectName != "")
+                    {
+                        if (cm.methodForLoops.ContainsKey(ovt.objectName))
+                        {
+                            cm.methodForLoops[ovt.objectName].Add(ovt);
+                        }
+                        else
+                        {
+                            cm.methodForLoops.Add(ovt.objectName, new List<ObjectVarToType> { ovt });
+                        }
+                    }
+                }
+                else if (filearray[i].ToLower() == "throw"
+                    && inMethodBody == true)
+                {
+                    skipTo = bypassCharacters(filearray, i);
                     skipOver = true;
                 }
                 else if (filearray[i].ToLower() == "database.deleteresult"
@@ -1722,6 +2424,91 @@ namespace SalesforceMetadata
                         skipTo = i + 2;
                         skipOver = true;
                     }
+                }
+                // This is a getter setter property
+                else if ((filearray[i].ToLower() == "get"
+                    || filearray[i].ToLower() == "set")
+                    && braceCount == 1)
+                {
+                    // Loop to the last brace and reduce the bracecount
+                    Boolean inGetter = false;
+                    Boolean inSetter = false;
+                    String getterRtnValue = "";
+                    String setterValue = "";
+                    if (filearray[i].ToLower() == "get")
+                    {
+                        cp.isGetter = true;
+                        inGetter = true;
+                        inSetter = false;
+                    }
+                    else if (filearray[i].ToLower() == "set")
+                    {
+                        cp.isSetter = true;
+                        inGetter = false;
+                        inSetter = true;
+                    }
+
+                    // Get the return and setting values in the getter/setter
+                    Int32 gsBraceCount = 1;
+                    Int32 jCount = i + 1;
+                    while (gsBraceCount > 0)
+                    {
+                        if (filearray[jCount] == "{")
+                        {
+                            gsBraceCount++;
+                        }
+                        else if (filearray[jCount] == "}")
+                        {
+                            gsBraceCount--;
+
+                            if (gsBraceCount == 0)
+                            {
+                                break;
+                            }
+                        }
+                        else if (filearray[jCount].ToLower() == "get")
+                        {
+                            cp.isSetter = true;
+                            inGetter = true;
+                            inSetter = false;
+                        }
+                        else if (filearray[jCount].ToLower() == "set")
+                        {
+                            cp.isSetter = true;
+                            inGetter = false;
+                            inSetter = true;
+                        }
+                        else if (filearray[jCount] != ";"
+                            && inGetter == true)
+                        {
+                            getterRtnValue = getterRtnValue + filearray[jCount] + " ";
+                        }
+                        else if (filearray[jCount] != ";"
+                            && inSetter == true)
+                        {
+                            setterValue = setterValue + filearray[jCount] + " ";
+                        }
+
+                        jCount++;
+                    }
+
+                    // This is a property
+                    cp.propertyName = propertyMethodName;
+                    cp.propertyAnnotation = propertyMethodAnnotation;
+                    cp.annotationParameters = propertyMethodAnnotationParameters;
+                    cp.qualifier = propertyMethodQualifier;
+                    cp.dataType = propertyMethodRtnDataType;
+                    cp.isFinal = isFinal;
+                    cp.isStatic = isStatic;
+                    cp.propertyValue = propertyValue;
+                    cp.getterReturnValue = getterRtnValue;
+                    cp.setterValue = setterValue;
+
+                    ac.clsProperties.Add(propertyMethodName, cp);
+
+                    braceCount = 0;
+                    lastCharLocation = jCount;
+                    break;
                 }
                 else if (filearray[i] == "="
                     && inMethodBody == true)
@@ -1761,6 +2548,22 @@ namespace SalesforceMetadata
                     skipTo = bypassCharacters(filearray, i);
                     skipOver = true;
                 }
+                else if (filearray[i].ToLower() == "system.runas")
+                {
+                    Int32 jCount = i + 1;
+
+                    for (Int32 j = jCount; j < filearray.Length; j++)
+                    {
+                        jCount = j;
+                        if (filearray[j] == ")")
+                        {
+                            break;
+                        }
+                    }
+
+                    skipTo = jCount;
+                    skipOver = true;
+                }
                 else if (filearray[i] == ";"
                         && isMethod == false
                         && braceCount == 0
@@ -1769,6 +2572,7 @@ namespace SalesforceMetadata
                     // This is a property
                     cp.propertyName = propertyMethodName;
                     cp.propertyAnnotation = propertyMethodAnnotation;
+                    cp.annotationParameters = propertyMethodAnnotationParameters;
                     cp.qualifier = propertyMethodQualifier;
                     cp.dataType = propertyMethodRtnDataType;
                     cp.isFinal = isFinal;
@@ -1776,6 +2580,7 @@ namespace SalesforceMetadata
                     cp.propertyValue = propertyValue;
 
                     ac.clsProperties.Add(propertyMethodName, cp);
+
                     lastCharLocation = i;
                     break;
                 }
@@ -1798,8 +2603,18 @@ namespace SalesforceMetadata
                     || filearray[i].ToLower() == "undelete"
                     || filearray[i].ToLower() == "upsert")
                 {
-                    String varName = filearray[i + 1].ToLower();
-                    skipTo = parseMethodDmlVars(filearray, varName, filearray[i], "", "", ac, cm, i + 1);
+                    String varName = "";
+                    if (filearray[i + 1].ToLower() == "new")
+                    {
+                        varName = filearray[i + 2].ToLower();
+                        skipTo = parseMethodDmlVars(filearray, varName, filearray[i], "", "", ac, cm, i + 2);
+                    }
+                    else
+                    {
+                        varName = filearray[i + 1].ToLower();
+                        skipTo = parseMethodDmlVars(filearray, varName, filearray[i], "", "", ac, cm, i + 1);
+                    }
+
                     skipOver = true;
                 }
                 // SOQL query handlers
@@ -1835,21 +2650,6 @@ namespace SalesforceMetadata
                     }
                 }
             }
-
-            return lastCharLocation;
-        }
-
-        public Int32 parseTriggerDmlVars(String[] filearray,
-            String varName,
-            String dmlType,
-            ApexTriggers at,
-            Int32 arraystart)
-        {
-            ObjectVarToType ovt = new ObjectVarToType();
-
-            Int32 lastCharLocation = arraystart;
-
-
 
             return lastCharLocation;
         }
@@ -1897,12 +2697,11 @@ namespace SalesforceMetadata
                             ovt.objectName = methodVar.objectName;
                             ovt.varType = methodVar.objectName;
                             objectNameFound = true;
+
+                            lastCharLocation++;
+                            break;
                         }
-
-                        if (objectNameFound == true) break;
                     }
-
-                    if (objectNameFound == true) break;
                 }
             }
 
@@ -1916,6 +2715,9 @@ namespace SalesforceMetadata
                         ovt.objectName = ac.clsProperties[clsPropertyName].dataType;
                         ovt.varType = ac.clsProperties[clsPropertyName].dataType;
                         objectNameFound = true;
+
+                        lastCharLocation++;
+                        break;
                     }
                 }
             }
@@ -1923,7 +2725,6 @@ namespace SalesforceMetadata
             // Now loop backwards through the array to find the property if it still has not been found to get the object type this dml var is referencing
             if (objectNameFound == false)
             {
-                Debug.WriteLine(ac.className + ": varType: " + varName + " - "  + arraystart.ToString());
                 // Inline variable dynamically created
                 if (filearray[arraystart].ToLower() == "new")
                 {
@@ -1936,6 +2737,30 @@ namespace SalesforceMetadata
                         if (filearray[i] == ";")
                         {
                             ovt.rightSide = rightSide.Trim();
+
+                            lastCharLocation = i;
+                            break;
+                        }
+                        else
+                        {
+                            rightSide = rightSide + filearray[i] + " ";
+                        }
+                    }
+                }
+                // Examples:
+                // insert new Account_Group__c(Name = 'Account Group 1');
+                else if (filearray[arraystart - 1].ToLower() == "new")
+                {
+                    ovt.objectName = filearray[arraystart];
+                    ovt.varType = filearray[arraystart];
+
+                    String rightSide = "";
+                    for (Int32 i = arraystart + 1; i < filearray.Length; i++)
+                    {
+                        if (filearray[i] == ";")
+                        {
+                            ovt.rightSide = rightSide.Trim();
+
                             lastCharLocation = i;
                             break;
                         }
@@ -1949,7 +2774,12 @@ namespace SalesforceMetadata
 
             cm.methodDmls.Add(ovt);
 
-            return lastCharLocation + 1;
+            if (filearray[lastCharLocation + 1] == ";")
+            {
+                lastCharLocation++;
+            }
+
+            return lastCharLocation;
         }
 
         public Int32 parseMethodVariables(String[] filearray, ClassMethods cm, Int32 arraystart)
@@ -1968,14 +2798,21 @@ namespace SalesforceMetadata
                     || filearray[i] == "{"
                     || filearray[i] == "}")
                 {
-                    if (arraystart - distanceFromEqual == 4)
+                    // Example: testBillingSubList[0].Billing_Contact__c = testConList1[0].Id;
+                    if (arraystart - distanceFromEqual == 5)
+                    {
+                        methodObject = filearray[arraystart - 5] + filearray[arraystart - 4] + filearray[arraystart - 3] + filearray[arraystart - 2];
+                        methodVar = filearray[arraystart - 1];
+                    }
+                    // Example: cont.MailingZip = acct.BillingZip;
+                    else if (arraystart - distanceFromEqual == 4)
                     {
                         methodObject = filearray[arraystart - 4] + filearray[arraystart - 3] + filearray[arraystart - 2];
                         methodVar = filearray[arraystart - 1];
                     }
                     else if (arraystart - distanceFromEqual == 3)
                     {
-                        Debug.WriteLine(" ");
+                        //Debug.WriteLine("parseMethodVariables: arraystart - distanceFromEqual == 3 ");
                     }
                     else if (arraystart - distanceFromEqual == 2)
                     {
@@ -2042,10 +2879,9 @@ namespace SalesforceMetadata
             return lastCharLocation;
         }
 
-        public Int32 parseForLoop(String[] filearray, ClassMethods cm, Int32 arraystart)
+        public Int32 parseForLoop(String[] filearray, ObjectVarToType ovt, Int32 arraystart)
         {
             Int32 lastCharLocation = arraystart;
-            ObjectVarToType ovt = new ObjectVarToType();
 
             Boolean concatRightSide = false;
             String rightSide = "";
@@ -2059,21 +2895,21 @@ namespace SalesforceMetadata
 
                     concatRightSide = true;
                 }
-                // Bypass for loops with Integer i = 0
                 else if (filearray[i] == "{"
                     && rightSide != "")
                 {
                     rightSide = rightSide.Substring(0, rightSide.Length - 2);
                     ovt.rightSide = rightSide.Trim();
 
-                    if (cm.methodForLoops.ContainsKey(ovt.objectName))
-                    {
-                        cm.methodForLoops[ovt.objectName].Add(ovt);
-                    }
-                    else
-                    {
-                        cm.methodForLoops.Add(ovt.objectName, new List<ObjectVarToType> { ovt });
-                    }
+                    lastCharLocation = i - 1;
+
+                    break;
+                }
+                // Bypass for loops with Integer i = 0
+                else if (filearray[i] == "{"
+                    && rightSide == "")
+                {
+                    lastCharLocation = i - 1;
 
                     break;
                 }
@@ -2093,12 +2929,28 @@ namespace SalesforceMetadata
         public Int32 parseReturnValue(String[] filearray, ClassMethods cm, Int32 arraystart)
         {
             Int32 lastCharLocation = arraystart;
+            Boolean inString = false;
 
             String returnValue = "";
 
             for (Int32 i = arraystart + 1; i < filearray.Length - 1; i++)
             {
-                if (filearray[i] == ";")
+                if (filearray[i] == "'"
+                    && filearray[i - 1] != "\\"
+                    && inString == false)
+                {
+                    returnValue = returnValue + filearray[i] + " ";
+                    inString = true;
+                }
+                else if (filearray[i] == "'"
+                    && filearray[i - 1] != "\\"
+                    && inString == true)
+                {
+                    returnValue = returnValue + filearray[i] + " ";
+                    inString = false;
+                }
+                else if (filearray[i] == ";"
+                    && inString == false)
                 {
                     cm.returnStatement = returnValue.Trim();
                     lastCharLocation = i;
@@ -2117,9 +2969,24 @@ namespace SalesforceMetadata
         {
             Int32 lastCharLocation = arraystart;
 
+            Boolean inString = false;
+
             for (Int32 i = arraystart; i < filearray.Length - 1; i++)
             {
-                if (filearray[i] == ";")
+                if (filearray[i] == "'"
+                    && filearray[i - 1] != "\\"
+                    && inString == false)
+                {
+                    inString = true;
+                }
+                else if (filearray[i] == "'"
+                    && filearray[i - 1] != "\\"
+                    && inString == true)
+                {
+                    inString = false;
+                }
+                else if (filearray[i] == ";"
+                    && inString == false)
                 {
                     lastCharLocation = i;
                     break;
@@ -2698,15 +3565,18 @@ namespace SalesforceMetadata
             public Dictionary<String, List<String>> soqlStatements;
 
             public Dictionary<String, List<String>> classMethodCalls;
+            public Dictionary<String, List<ObjectVarToType>> triggerForLoops;
+            public Dictionary<String, List<ObjectVarToType>> triggerBodyVars;
+            public List<ObjectVarToType> triggerDmls;
 
-            // Objects being updated
-            public Dictionary<String, List<ObjectVarToType>> objVarToType;
             public ApexTriggers()
             {
                 triggerEvents = new HashSet<string>();
                 soqlStatements = new Dictionary<String, List<String>>();
                 classMethodCalls = new Dictionary<string, List<string>>();
-                objVarToType = new Dictionary<String, List<ObjectVarToType>>();
+                triggerForLoops = new Dictionary<string, List<ObjectVarToType>>();
+                triggerBodyVars = new Dictionary<String, List<ObjectVarToType>>();
+                triggerDmls = new List<ObjectVarToType>();
             }
         }
 
@@ -2728,9 +3598,6 @@ namespace SalesforceMetadata
             public List<ClassMethods> classMethods;
             public Dictionary<String, String> objToFieldsReferenced;
 
-            // Objects being updated
-            //public Dictionary<String, List<ObjectVarToType>> objVarToType;
-
             public ApexClasses()
             {
                 this.interfaceClassNames = new List<String>();
@@ -2744,9 +3611,15 @@ namespace SalesforceMetadata
 
         public class ObjectVarToType
         {
+            // This is the sObject name being referenced
             public String objectName = "";
+
+            // This is a system type being reference: i.e. String, Double, Integer, etc.
             public String varType = "";
+
+            // This is the variable name assigned to the sObject or system type
             public String varName = "";
+
             public String dmlType = "";
             public String saveResultType = "";
             public String saveResultVar = "";
@@ -2758,20 +3631,27 @@ namespace SalesforceMetadata
         {
             public String propertyName = "";
             public String propertyAnnotation = "";
+            public String annotationParameters = "";
             public String qualifier = "";
             public String dataType = "";
             public Boolean isStatic = false;
             public Boolean isFinal = false;
             public String propertyValue = "";
+            public Boolean isGetter = false;
+            public String getterReturnValue = "";
+            public Boolean isSetter = false;
+            public String setterValue = "";
         }
 
         public class ClassMethods
         {
             public String methodName = "";
             public String methodAnnotation = "";
+            public String annotationParameters = "";
             public String qualifier = "";
             public Boolean isStatic = false;
             public Boolean isOverride = false;
+            public Boolean isTestMethod = false;
             public String returnDataType = "";
             public String returnStatement = "";
 
@@ -2782,6 +3662,7 @@ namespace SalesforceMetadata
 
             public Dictionary<String, List<ObjectVarToType>> methodBodyVars;
             public Dictionary<String, List<ObjectVarToType>> methodForLoops;
+            public Dictionary<String, List<String>> getterSetter;
             public List<ObjectVarToType> methodDmls;
 
             public ClassMethods() 
@@ -2792,6 +3673,7 @@ namespace SalesforceMetadata
                 this.methodBodyVars = new Dictionary<String, List<ObjectVarToType>>();
                 this.methodForLoops = new Dictionary<String, List<ObjectVarToType>>();
                 this.methodDmls = new List<ObjectVarToType>();
+                this.getterSetter = new Dictionary<string, List<string>>();
             }
         }
 
@@ -2846,6 +3728,14 @@ namespace SalesforceMetadata
             public Boolean reevaluateOnChange = false;
         }
 
+        public class FieldExtractor
+        {
+            public String automationType = "";
+            public String automationName = "";
+            public String sObjectName = "";
+            public String sObjectField = "";
+        }
+
         private void btnParseObjectsAndFields_Click(object sender, EventArgs e)
         {
             if (this.tbProjectFolder.Text == "")
@@ -2864,5 +3754,153 @@ namespace SalesforceMetadata
 
             MessageBox.Show("Sobject and Fields Extract Complete");
         }
+
+        private void btnFieldReferences_Click(object sender, EventArgs e)
+        {
+            if (this.tbProjectFolder.Text != null && this.tbProjectFolder.Text != "")
+            {
+                // We need the objects and fields and the apex classes extracted out first
+                runObjectFieldExtract();
+
+                // Search through Triggers for field references
+                //searchApexTriggersForFields();
+                runApexTriggerExtract();
+
+                // Search through Classes for field references
+                //searchApexClassForFields();
+                runApexClassExtract();
+
+                // Search Flows/Processes for field references
+                //searchFlowsProcessesForFields();
+                runFlowProcessExtract();
+
+                // Search Workflows for field references
+                //searchWorkflowsForFields();
+                runWorkflowExtract();
+
+                // Write the results to a file
+                writeSearchResultsToFile();
+
+                MessageBox.Show("Field Reference Extraction Complete");
+            }
+        }
+
+        private void writeSearchResultsToFile()
+        {
+            StreamWriter sw = new StreamWriter(this.tbFileSaveTo.Text + "\\FieldResultsList.txt");
+
+            if (this.objectToTrigger != null
+                && this.objectToTrigger.Count > 0) 
+            {
+                foreach (String objnm in this.objectToTrigger.Keys)
+                {
+                    foreach (ApexTriggers at in this.objectToTrigger[objnm])
+                    {
+                        foreach (String tvar in at.triggerBodyVars.Keys)
+                        {
+                            foreach (ObjectVarToType ovt in at.triggerBodyVars[tvar])
+                            {
+                                sw.Write("ApexTrigger\t" +
+                                    at.triggerName + "\t" +
+                                    objnm + "\t" +
+                                    ovt.varName + "\t" +
+                                    ovt.objectName + "\t" +
+                                    ovt.rightSide +
+                                    Environment.NewLine);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (this.classNmToClass != null
+                && this.classNmToClass.Count > 0)
+            {
+                // Skip test classes
+                foreach (ApexClasses ac in this.classNmToClass.Values)
+                {
+                    if (ac.isTestClass)
+                    {
+                        continue;
+                    }
+
+                    sw.Write(Environment.NewLine);
+                    sw.Write(Environment.NewLine);
+                    sw.Write("Type\tClassName\tPropertyQualifier\tPropertyDataType\tPropertyName\tisGetter\tGetterReturnValue\tisSetter\tSetterValue\tPropertyValue");
+                    sw.Write(Environment.NewLine);
+
+                    foreach (String cpKey in ac.clsProperties.Keys)
+                    {
+                        sw.Write("ApexClassProperty\t" +
+                            ac.className + "\t" +
+                            ac.clsProperties[cpKey].qualifier + "\t" +
+                            ac.clsProperties[cpKey].dataType + "\t" +
+                            ac.clsProperties[cpKey].propertyName + "\t" +
+                            ac.clsProperties[cpKey].isGetter + "\t" +
+                            ac.clsProperties[cpKey].getterReturnValue + "\t" +
+                            ac.clsProperties[cpKey].isSetter + "\t" +
+                            ac.clsProperties[cpKey].setterValue + "\t" +
+                            ac.clsProperties[cpKey].propertyValue +
+                            Environment.NewLine);
+                    }
+
+                    foreach (ClassMethods cm in ac.classMethods)
+                    {
+                        sw.Write(Environment.NewLine);
+                        sw.Write(Environment.NewLine);
+                        sw.Write("Type\tClassName\tMethodQualifier\tMethodName\tReturnDataType\tParamType\tParamName");
+                        sw.Write(Environment.NewLine);
+
+                        foreach (ObjectVarToType methParm in cm.methodParameters)
+                        {
+                            sw.Write("ApexClassMethodParam\t" +
+                                ac.className + "\t" +
+                                cm.qualifier + "\t" +
+                                cm.methodName + "\t" +
+                                cm.returnDataType + "\t" +
+                                methParm.varType + "\t" +
+                                methParm.varName + 
+                                Environment.NewLine);
+                        }
+
+                        sw.Write(Environment.NewLine);
+                        sw.Write(Environment.NewLine);
+                        sw.Write("Type\tClassName\tMethodQualifier\tMethodName\tReturnDataType\tVarObjectName\tVarName\tVarValue");
+                        sw.Write(Environment.NewLine);
+
+                        foreach (String methodVar in cm.methodBodyVars.Keys)
+                        {
+                            foreach (ObjectVarToType ovt in cm.methodBodyVars[methodVar])
+                            {
+                                sw.Write("ApexClassMethodVar\t" +
+                                    ac.className + "\t" +
+                                    cm.qualifier + "\t" +
+                                    cm.methodName + "\t" +
+                                    cm.returnDataType + "\t" +
+                                    ovt.objectName + "\t" +
+                                    ovt.varName + "\t" +
+                                    ovt.rightSide +
+                                    Environment.NewLine);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (this.objectToFlow != null
+                && this.objectToFlow.Count > 0)
+            { 
+
+            }
+
+            if (this.workflowObjToFieldUpdt != null
+                && this.workflowObjToFieldUpdt.Count > 0)
+            {
+                
+            }
+
+            sw.Close();
+        }
+
     }
 }

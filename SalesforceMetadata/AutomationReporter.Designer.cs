@@ -37,6 +37,7 @@
             this.cbWriteToDataDictionary = new System.Windows.Forms.CheckBox();
             this.btnParseObjectsAndFields = new System.Windows.Forms.Button();
             this.tbSearchFilter = new System.Windows.Forms.TextBox();
+            this.btnFieldReferences = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ProjectFolder
@@ -112,11 +113,22 @@
             this.tbSearchFilter.Size = new System.Drawing.Size(162, 20);
             this.tbSearchFilter.TabIndex = 5;
             // 
+            // btnFieldReferences
+            // 
+            this.btnFieldReferences.Location = new System.Drawing.Point(127, 205);
+            this.btnFieldReferences.Name = "btnFieldReferences";
+            this.btnFieldReferences.Size = new System.Drawing.Size(199, 23);
+            this.btnFieldReferences.TabIndex = 8;
+            this.btnFieldReferences.Text = "Find Field References";
+            this.btnFieldReferences.UseVisualStyleBackColor = true;
+            this.btnFieldReferences.Click += new System.EventHandler(this.btnFieldReferences_Click);
+            // 
             // AutomationReporter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(940, 551);
+            this.Controls.Add(this.btnFieldReferences);
             this.Controls.Add(this.tbSearchFilter);
             this.Controls.Add(this.btnParseObjectsAndFields);
             this.Controls.Add(this.cbWriteToDataDictionary);
@@ -143,5 +155,6 @@
         private System.Windows.Forms.CheckBox cbWriteToDataDictionary;
         private System.Windows.Forms.Button btnParseObjectsAndFields;
         private System.Windows.Forms.TextBox tbSearchFilter;
+        private System.Windows.Forms.Button btnFieldReferences;
     }
 }

@@ -35,6 +35,7 @@
             this.btnParseDebugLogFile = new System.Windows.Forms.Button();
             this.btnDebugReplay = new System.Windows.Forms.Button();
             this.tvDebugReplay = new System.Windows.Forms.TreeView();
+            this.cbIncludeHierarchy = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // tbDebugFile
@@ -45,7 +46,7 @@
             this.tbDebugFile.Location = new System.Drawing.Point(111, 53);
             this.tbDebugFile.Name = "tbDebugFile";
             this.tbDebugFile.Size = new System.Drawing.Size(723, 20);
-            this.tbDebugFile.TabIndex = 0;
+            this.tbDebugFile.TabIndex = 1;
             this.tbDebugFile.DoubleClick += new System.EventHandler(this.tbDebugFile_DoubleClick);
             // 
             // lblFileToParse
@@ -54,7 +55,7 @@
             this.lblFileToParse.Location = new System.Drawing.Point(25, 53);
             this.lblFileToParse.Name = "lblFileToParse";
             this.lblFileToParse.Size = new System.Drawing.Size(65, 13);
-            this.lblFileToParse.TabIndex = 1;
+            this.lblFileToParse.TabIndex = 0;
             this.lblFileToParse.Text = "File to Parse";
             // 
             // horizontalLine1
@@ -67,7 +68,7 @@
             this.horizontalLine1.MaxLength = 0;
             this.horizontalLine1.Name = "horizontalLine1";
             this.horizontalLine1.Size = new System.Drawing.Size(1163, 20);
-            this.horizontalLine1.TabIndex = 2;
+            this.horizontalLine1.TabIndex = 4;
             // 
             // btnParseDebugLogFile
             // 
@@ -75,7 +76,7 @@
             this.btnParseDebugLogFile.Location = new System.Drawing.Point(1030, 45);
             this.btnParseDebugLogFile.Name = "btnParseDebugLogFile";
             this.btnParseDebugLogFile.Size = new System.Drawing.Size(121, 34);
-            this.btnParseDebugLogFile.TabIndex = 5;
+            this.btnParseDebugLogFile.TabIndex = 3;
             this.btnParseDebugLogFile.Text = "Parse Debug Log File";
             this.btnParseDebugLogFile.UseVisualStyleBackColor = true;
             this.btnParseDebugLogFile.Click += new System.EventHandler(this.btnParseDebugLogFile_Click);
@@ -99,14 +100,27 @@
             this.tvDebugReplay.Location = new System.Drawing.Point(12, 120);
             this.tvDebugReplay.Name = "tvDebugReplay";
             this.tvDebugReplay.Size = new System.Drawing.Size(995, 760);
-            this.tvDebugReplay.TabIndex = 7;
+            this.tvDebugReplay.TabIndex = 5;
             this.tvDebugReplay.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.tvDebugReplay_AfterExpand);
+            // 
+            // cbIncludeHierarchy
+            // 
+            this.cbIncludeHierarchy.AutoSize = true;
+            this.cbIncludeHierarchy.Checked = true;
+            this.cbIncludeHierarchy.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbIncludeHierarchy.Location = new System.Drawing.Point(858, 52);
+            this.cbIncludeHierarchy.Name = "cbIncludeHierarchy";
+            this.cbIncludeHierarchy.Size = new System.Drawing.Size(149, 17);
+            this.cbIncludeHierarchy.TabIndex = 2;
+            this.cbIncludeHierarchy.Text = "Include Hierarchy Number";
+            this.cbIncludeHierarchy.UseVisualStyleBackColor = true;
             // 
             // frmParseDebugLogs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1163, 884);
+            this.Controls.Add(this.cbIncludeHierarchy);
             this.Controls.Add(this.tvDebugReplay);
             this.Controls.Add(this.btnDebugReplay);
             this.Controls.Add(this.btnParseDebugLogFile);
@@ -129,5 +143,6 @@
         private System.Windows.Forms.Button btnParseDebugLogFile;
         private System.Windows.Forms.Button btnDebugReplay;
         private System.Windows.Forms.TreeView tvDebugReplay;
+        private System.Windows.Forms.CheckBox cbIncludeHierarchy;
     }
 }

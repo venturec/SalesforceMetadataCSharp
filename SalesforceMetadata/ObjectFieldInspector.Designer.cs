@@ -34,7 +34,6 @@
             this.lblSobjectFieldList = new System.Windows.Forms.Label();
             this.btnGetSobjects = new System.Windows.Forms.Button();
             this.listViewSobjectFields = new System.Windows.Forms.ListView();
-            this.btnGetSobjectFields = new System.Windows.Forms.Button();
             this.btnSaveFieldsToFile = new System.Windows.Forms.Button();
             this.salesforceOrgCredentials = new System.Windows.Forms.GroupBox();
             this.clbDataTypeFilter = new System.Windows.Forms.CheckedListBox();
@@ -94,7 +93,7 @@
             this.btnGetSobjects.TabIndex = 6;
             this.btnGetSobjects.Text = "Get Sobjects";
             this.btnGetSobjects.UseVisualStyleBackColor = true;
-            this.btnGetSobjects.Click += new System.EventHandler(this.btnGetSobjectFields_Click);
+            this.btnGetSobjects.Click += new System.EventHandler(this.btnGetSobjects_Click);
             // 
             // listViewSobjectFields
             // 
@@ -113,19 +112,9 @@
             this.listViewSobjectFields.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listViewSobjectFields_ColumnClick);
             this.listViewSobjectFields.SelectedIndexChanged += new System.EventHandler(this.listViewSobjectFields_SelectedIndexChanged);
             // 
-            // btnGetSobjectFields
-            // 
-            this.btnGetSobjectFields.Location = new System.Drawing.Point(11, 112);
-            this.btnGetSobjectFields.Name = "btnGetSobjectFields";
-            this.btnGetSobjectFields.Size = new System.Drawing.Size(115, 25);
-            this.btnGetSobjectFields.TabIndex = 3;
-            this.btnGetSobjectFields.Text = "View Sobject Fields";
-            this.btnGetSobjectFields.UseVisualStyleBackColor = true;
-            this.btnGetSobjectFields.Click += new System.EventHandler(this.getSobjectFields_Click);
-            // 
             // btnSaveFieldsToFile
             // 
-            this.btnSaveFieldsToFile.Location = new System.Drawing.Point(153, 112);
+            this.btnSaveFieldsToFile.Location = new System.Drawing.Point(11, 112);
             this.btnSaveFieldsToFile.Name = "btnSaveFieldsToFile";
             this.btnSaveFieldsToFile.Size = new System.Drawing.Size(138, 25);
             this.btnSaveFieldsToFile.TabIndex = 4;
@@ -339,7 +328,6 @@
             this.groupBox1.Controls.Add(this.cbFilterManagedPkg);
             this.groupBox1.Controls.Add(this.cbCustomObjectsOnly);
             this.groupBox1.Controls.Add(this.btnSaveFieldsToFile);
-            this.groupBox1.Controls.Add(this.btnGetSobjectFields);
             this.groupBox1.Controls.Add(this.lblSalesforceSobjects);
             this.groupBox1.Controls.Add(this.cmbSalesforceSObjects);
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
@@ -410,7 +398,6 @@
         private System.Windows.Forms.Label lblSobjectFieldList;
         private System.Windows.Forms.Button btnGetSobjects;
         private System.Windows.Forms.ListView listViewSobjectFields;
-        private System.Windows.Forms.Button btnGetSobjectFields;
         private System.Windows.Forms.Button btnSaveFieldsToFile;
         private System.Windows.Forms.GroupBox salesforceOrgCredentials;
         private System.Windows.Forms.Button btnSaveObjectsToFile;

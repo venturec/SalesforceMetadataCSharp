@@ -33,7 +33,7 @@ namespace SalesforceMetadata
             populateCredentialsFile();
         }
 
-        private void btnGetSobjectFields_Click(object sender, EventArgs e)
+        private void btnGetSobjects_Click(object sender, EventArgs e)
         {
             getSobjects();
         }
@@ -278,10 +278,10 @@ namespace SalesforceMetadata
             return sobjMetadata;
         }
 
-        private void getSobjectFields_Click(object sender, EventArgs e)
-        {
-            populateListView(this.cmbSalesforceSObjects.SelectedItem.ToString());
-        }
+        //private void getSobjectFields_Click(object sender, EventArgs e)
+        //{
+        //    populateListView(this.cmbSalesforceSObjects.SelectedItem.ToString());
+        //}
 
         private String getReferenceToObjects(List<String> objectList)
         {

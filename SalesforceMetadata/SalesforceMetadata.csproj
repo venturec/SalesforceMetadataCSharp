@@ -517,6 +517,9 @@
     <None Include="Web References\ToolingWSDL\DescribeLayout.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\ToolingWSDL\DescribeSchemaResult.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\ToolingWSDL\DescribeSObjectResult.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>

@@ -312,6 +312,35 @@ namespace SalesforceMetadata
                                 {
                                     of.relationshipName = fldDetailNd.InnerText;
                                 }
+                                else if (fldDetailNd.Name == "valueSet")
+                                {
+                                    String valueSet = "";
+
+                                    foreach (XmlNode val1 in fldDetailNd.ChildNodes)
+                                    {
+                                        if (val1.Name == "valueSetDefinition")
+                                        {
+                                            foreach (XmlNode val2 in val1.ChildNodes)
+                                            {
+                                                if (val2.Name == "value")
+                                                {
+                                                    foreach (XmlNode val3 in val2.ChildNodes)
+                                                    {
+                                                        if (val3.Name == "fullName")
+                                                        {
+                                                            valueSet = valueSet + val3.InnerText + ";";
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    if (valueSet != "")
+                                    {
+                                        of.picklistValueSet = valueSet;
+                                    }
+                                }
                             }
 
                             if (this.tbSearchFilter.Text == "")
@@ -3355,6 +3384,7 @@ namespace SalesforceMetadata
                 "DefaultValue\t" +
                 "TrackHistory\t" +
                 "Type\t" +
+                "PicklistValueSet\t" +
                 "Length\t" +
                 "Precision\t" +
                 "Scale\t" +
@@ -3418,6 +3448,7 @@ namespace SalesforceMetadata
                     fieldWriter.Write(of.defaultValue + "\t");
                     fieldWriter.Write(of.trackHistory + "\t");
                     fieldWriter.Write(of.type + "\t");
+                    fieldWriter.Write(of.picklistValueSet + "\t");
                     fieldWriter.Write(of.length + "\t");
                     fieldWriter.Write(of.precision + "\t");
                     fieldWriter.Write(of.scale + "\t");
@@ -3665,6 +3696,7 @@ namespace SalesforceMetadata
             public String relationshipName = "";
             public Boolean isFormula = false;
             public String formula = "";
+            public String picklistValueSet = "";
 
             // Object name 
             // public String referenceToObject = "";

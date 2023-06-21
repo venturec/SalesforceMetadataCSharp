@@ -60,13 +60,13 @@
             // 
             // btnRunAutomationReport
             // 
-            this.btnRunAutomationReport.Location = new System.Drawing.Point(127, 128);
+            this.btnRunAutomationReport.Location = new System.Drawing.Point(127, 207);
             this.btnRunAutomationReport.Name = "btnRunAutomationReport";
             this.btnRunAutomationReport.Size = new System.Drawing.Size(199, 23);
-            this.btnRunAutomationReport.TabIndex = 4;
+            this.btnRunAutomationReport.TabIndex = 6;
             this.btnRunAutomationReport.Text = "Run Automation Report";
             this.btnRunAutomationReport.UseVisualStyleBackColor = true;
-            this.btnRunAutomationReport.Click += new System.EventHandler(this.btnRunAutomationReport_Click);
+            this.btnRunAutomationReport.Visible = false;
             // 
             // tbProjectFolder
             // 
@@ -92,16 +92,16 @@
             this.cbWriteToDataDictionary.Location = new System.Drawing.Point(675, 130);
             this.cbWriteToDataDictionary.Name = "cbWriteToDataDictionary";
             this.cbWriteToDataDictionary.Size = new System.Drawing.Size(143, 17);
-            this.cbWriteToDataDictionary.TabIndex = 6;
+            this.cbWriteToDataDictionary.TabIndex = 8;
             this.cbWriteToDataDictionary.Text = "Write To Data Dictionary";
             this.cbWriteToDataDictionary.UseVisualStyleBackColor = true;
             // 
             // btnParseObjectsAndFields
             // 
-            this.btnParseObjectsAndFields.Location = new System.Drawing.Point(127, 167);
+            this.btnParseObjectsAndFields.Location = new System.Drawing.Point(127, 130);
             this.btnParseObjectsAndFields.Name = "btnParseObjectsAndFields";
             this.btnParseObjectsAndFields.Size = new System.Drawing.Size(199, 23);
-            this.btnParseObjectsAndFields.TabIndex = 7;
+            this.btnParseObjectsAndFields.TabIndex = 4;
             this.btnParseObjectsAndFields.Text = "Parse Objects and Fields";
             this.btnParseObjectsAndFields.UseVisualStyleBackColor = true;
             this.btnParseObjectsAndFields.Click += new System.EventHandler(this.btnParseObjectsAndFields_Click);
@@ -111,14 +111,14 @@
             this.tbSearchFilter.Location = new System.Drawing.Point(486, 128);
             this.tbSearchFilter.Name = "tbSearchFilter";
             this.tbSearchFilter.Size = new System.Drawing.Size(162, 20);
-            this.tbSearchFilter.TabIndex = 5;
+            this.tbSearchFilter.TabIndex = 7;
             // 
             // btnFieldReferences
             // 
-            this.btnFieldReferences.Location = new System.Drawing.Point(127, 205);
+            this.btnFieldReferences.Location = new System.Drawing.Point(127, 168);
             this.btnFieldReferences.Name = "btnFieldReferences";
             this.btnFieldReferences.Size = new System.Drawing.Size(199, 23);
-            this.btnFieldReferences.TabIndex = 8;
+            this.btnFieldReferences.TabIndex = 5;
             this.btnFieldReferences.Text = "Find Field References";
             this.btnFieldReferences.UseVisualStyleBackColor = true;
             this.btnFieldReferences.Click += new System.EventHandler(this.btnFieldReferences_Click);

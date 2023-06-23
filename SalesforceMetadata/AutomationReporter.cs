@@ -20,6 +20,8 @@ using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using iTextSharp.text.pdf;
 using System.Runtime.Remoting;
+using Microsoft.Office.Interop.Excel;
+using System.Web.Caching;
 
 namespace SalesforceMetadata
 {
@@ -39,7 +41,7 @@ namespace SalesforceMetadata
 
         public Dictionary<String, List<FlowProcess>> objectToFlow;
 
-        public Dictionary<String, List<Workflows>> workflowObj;
+        public Dictionary<String, List<WorkflowRules>> workflowObj;
         public Dictionary<String, List<WorkflowFieldUpdates>> workflowFldUpdates;
 
         List<FieldExtractor> fieldExtractorList = new List<FieldExtractor>();
@@ -823,7 +825,7 @@ namespace SalesforceMetadata
         {
             if (Directory.Exists(this.tbProjectFolder.Text + "\\workflows"))
             {
-                this.workflowObj = new Dictionary<string, List<Workflows>>();
+                this.workflowObj = new Dictionary<string, List<WorkflowRules>>();
                 this.workflowFldUpdates = new Dictionary<String, List<WorkflowFieldUpdates>>();
 
                 String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\workflows");
@@ -845,7 +847,7 @@ namespace SalesforceMetadata
                         {
                             if (nd1.ParentNode.Name == "Workflow")
                             {
-                                Workflows wrkFlowObj = new Workflows();
+                                WorkflowRules wrkFlowObj = new WorkflowRules();
                                 wrkFlowObj.objectName = flNameSplit[0];
 
                                 HashSet<String> fieldUpdates = new HashSet<String>();
@@ -881,7 +883,7 @@ namespace SalesforceMetadata
                                 }
                                 else
                                 {
-                                    this.workflowObj.Add(wrkFlowObj.objectName, new List<Workflows> { wrkFlowObj });
+                                    this.workflowObj.Add(wrkFlowObj.objectName, new List<WorkflowRules> { wrkFlowObj });
                                 }
                             }
                         }
@@ -889,7 +891,7 @@ namespace SalesforceMetadata
 
                     if (wfFieldUpdates.Count > 0)
                     {
-                        Workflows wrkFlowObj = new Workflows();
+                        WorkflowRules wrkFlowObj = new WorkflowRules();
                         wrkFlowObj.objectName = flNameSplit[0];
 
                         foreach (XmlNode nd1 in wfFieldUpdates)
@@ -2102,8 +2104,11 @@ namespace SalesforceMetadata
             String propertyMethodQualifier = "";
             String propertyMethodRtnDataType = "";
             String propertyValue = "";
-            
+
             // Used for Database.SaveResult srVarName = 
+            // Key = Variable name
+            // Value = Save Result Type
+            //Dictionary<String, String> saveResultType = new Dictionary<String, String>();
             String saveResultType = "";
             String saveResultVar = "";
 
@@ -2209,7 +2214,7 @@ namespace SalesforceMetadata
                 else if (filearray[i] == "(")
                 {
                     parenthesesCount++;
-                    //Debug.WriteLine(i + " parenthCount: " + parenthesesCount + " filearray[i] == (");
+                    Debug.WriteLine(i + " parenthCount: " + parenthesesCount + " filearray[i] == (");
 
                     if (propertyMethodName != ""
                         && propertyMethodRtnDataType != ""
@@ -2222,12 +2227,11 @@ namespace SalesforceMetadata
                     {
                         isConstructor = true;
                     }
-
                 }
                 else if (filearray[i] == ")")
                 {
                     parenthesesCount--;
-                    //Debug.WriteLine(i + " parenthCount: " + parenthesesCount + " filearray[i] == )");
+                    Debug.WriteLine(i + " parenthCount: " + parenthesesCount + " filearray[i] == )");
 
                     // METHOD PARAMETERS
                     // Add the parameters to the methodParameters list
@@ -2330,12 +2334,10 @@ namespace SalesforceMetadata
                 else if (filearray[i] == "{")
                 {
                     braceCount++;
-                    //Debug.WriteLine(i + " braceCount: " + braceCount + " filearray[i] == {");
                 }
                 else if (filearray[i] == "}")
                 {
                     braceCount--;
-                    //Debug.WriteLine(i + " braceCount: " + braceCount + " filearray[i] == }");
 
                     if (braceCount == 0
                         && isMethod == true)
@@ -2350,6 +2352,28 @@ namespace SalesforceMetadata
                         cm.isTestMethod = isTestMethod;
                         cm.soqlStatements = soqlStatements;
 
+                        // Before adding the method, go through the Method variables to determine if there
+                        // is a related Object associated with the left side of the equations.
+                        // The only ones to look for is where the objectName is not set
+
+                        foreach (ObjectVarToType ovt in cm.methodBodyVars)
+                        {
+                            if (ovt.leftSide != "")
+                            {
+                                findObjectNameFromVar(cm, ovt, ac);
+                            }
+                        }
+
+                        // Run one last loop through the DML lines to see if there are any which are missing the 
+                        // object and variable name association
+                        foreach (ObjectVarToType ovt in cm.methodDmls)
+                        {
+                            if (ovt.objectName == "")
+                            {
+                                findObjectNameFromVar(cm, ovt, ac);
+                            }
+                        }
+
                         ac.classMethods.Add(cm);
                         lastCharLocation = i;
                         break;
@@ -2361,6 +2385,7 @@ namespace SalesforceMetadata
                         break;
                     }
                 }
+                // Method access
                 else if (inMethodBody == false
                     && (filearray[i].ToLower() == "protected"
                     || filearray[i].ToLower() == "private"
@@ -2419,6 +2444,7 @@ namespace SalesforceMetadata
                 {
                     methodParameters = methodParameters + filearray[i] + " ";
                 }
+                // Class Property with value
                 else if (filearray[i] == "="
                     && parenthesesCount == 0
                     && braceCount == 0
@@ -2450,65 +2476,26 @@ namespace SalesforceMetadata
                         }
                     }
                 }
-                // Parse the for loops
-                // We want to determine if there is a for loop first before the database.saveresult 
-                // or =
-                // This is because a database.saveresult can have an = to capture the returned save results
-                else if (filearray[i].ToLower() == "for"
-                    && inMethodBody == true)
+                // Class Property no value
+                else if (filearray[i] == ";"
+                        && isMethod == false
+                        && braceCount == 0
+                        && parenthesesCount == 0)
                 {
-                    ObjectVarToType ovt = new ObjectVarToType();
+                    // This is a property
+                    cp.propertyName = propertyMethodName;
+                    cp.propertyAnnotation = propertyMethodAnnotation;
+                    cp.annotationParameters = propertyMethodAnnotationParameters;
+                    cp.qualifier = propertyMethodQualifier;
+                    cp.dataType = propertyMethodRtnDataType;
+                    cp.isFinal = isFinal;
+                    cp.isStatic = isStatic;
+                    cp.propertyValue = propertyValue;
 
-                    // Left side / right side method variable
-                    skipTo = parseForLoop(filearray, ovt, i);
-                    skipOver = true;
+                    ac.clsProperties.Add(propertyMethodName, cp);
 
-                    if (ovt.objectName != "")
-                    {
-                        if (cm.methodForLoops.ContainsKey(ovt.objectName))
-                        {
-                            cm.methodForLoops[ovt.objectName].Add(ovt);
-                        }
-                        else
-                        {
-                            cm.methodForLoops.Add(ovt.objectName, new List<ObjectVarToType> { ovt });
-                        }
-                    }
-                }
-                else if (filearray[i].ToLower() == "throw"
-                    && inMethodBody == true)
-                {
-                    skipTo = bypassCharacters(filearray, i);
-                    skipOver = true;
-                }
-                else if (filearray[i].ToLower() == "database.deleteresult"
-                    || filearray[i].ToLower() == "database.mergeresult"
-                    || filearray[i].ToLower() == "database.undeleteresult"
-                    || filearray[i].ToLower() == "database.upsertresult"
-                    || filearray[i].ToLower() == "database.saveresult")
-                {
-                    // Possible options include:
-                    // Database.SaveResult[] sr = Database.update(updateBillingDocuments, false);
-                    //
-                    // OR another perfectly acceptable way is to declare a null Database.SaveResult[] array
-                    // 
-                    // Database.SaveResult[] sr;
-                    // try { sr = database.update(updateBillingDocuments) } catch(Exception e) {};
-
-                    if (filearray[i + 1] == "[")
-                    {
-                        saveResultType = filearray[i] + filearray[i + 1] + filearray[i + 2];
-                        saveResultVar = filearray[i + 3];
-                        skipTo = i + 4;
-                        skipOver = true;
-                    }
-                    else
-                    {
-                        saveResultType = filearray[i];
-                        saveResultVar = filearray[i + 1];
-                        skipTo = i + 2;
-                        skipOver = true;
-                    }
+                    lastCharLocation = i;
+                    break;
                 }
                 // This is a getter setter property
                 else if ((filearray[i].ToLower() == "get"
@@ -2595,12 +2582,95 @@ namespace SalesforceMetadata
                     lastCharLocation = jCount;
                     break;
                 }
+                // Parse the for loops
+                // We want to determine if there is a for loop first before the database.saveresult 
+                // or =
+                // This is because a database.saveresult can have an = to capture the returned save results
+                else if (filearray[i].ToLower() == "for"
+                    && inMethodBody == true)
+                {
+                    ObjectVarToType ovt = new ObjectVarToType();
+
+                    // Left side / right side method variable
+                    skipTo = parseForLoop(filearray, ovt, i);
+                    skipOver = true;
+
+                    if (ovt.objectName != "")
+                    {
+                        if (cm.methodForLoops.ContainsKey(ovt.objectName))
+                        {
+                            cm.methodForLoops[ovt.objectName].Add(ovt);
+                        }
+                        else
+                        {
+                            cm.methodForLoops.Add(ovt.objectName, new List<ObjectVarToType> { ovt });
+                        }
+                    }
+                }
+                else if (filearray[i].ToLower() == "throw"
+                    && inMethodBody == true)
+                {
+                    skipTo = bypassCharacters(filearray, i);
+                    skipOver = true;
+                }
+                else if (filearray[i].ToLower() == "database.deleteresult"
+                    || filearray[i].ToLower() == "database.mergeresult"
+                    || filearray[i].ToLower() == "database.undeleteresult"
+                    || filearray[i].ToLower() == "database.upsertresult"
+                    || filearray[i].ToLower() == "database.saveresult")
+                {
+                    // Possible options include:
+                    // Database.SaveResult[] sr = Database.update(updateBillingDocuments, false);
+                    //
+                    // OR another perfectly acceptable way is to declare a null Database.SaveResult[] array
+                    // 
+                    // Database.SaveResult[] sr;
+                    // try { sr = database.update(updateBillingDocuments) } catch(Exception e) {};
+
+                    if (filearray[i + 1] == "[")
+                    {
+                        saveResultType = filearray[i] + filearray[i + 1] + filearray[i + 2];
+                        saveResultVar = filearray[i + 3];
+                        //saveResultType.Add(filearray[i + 3], filearray[i] + filearray[i + 1] + filearray[i + 2]);
+
+                        skipTo = i + 4;
+                        skipOver = true;
+                    }
+                    else
+                    {
+                        saveResultType = filearray[i];
+                        saveResultVar = filearray[i + 1];
+                        //saveResultType.Add(filearray[i + 1], filearray[i]);
+
+                        skipTo = i + 2;
+                        skipOver = true;
+                    }
+                }
+                // Method variable with value
                 else if (filearray[i] == "="
                     && inMethodBody == true)
                 {
-                    // Left side / right side method variable
-                    skipTo = parseMethodVariables(filearray, cm, i);
-                    skipOver = true;
+                    if (filearray[i + 1].ToLower() == "database.insert"
+                        || filearray[i + 1].ToLower() == "database.update"
+                        || filearray[i + 1].ToLower() == "database.delete"
+                        || filearray[i + 1].ToLower() == "database.undelete"
+                        || filearray[i + 1].ToLower() == "database.upsert")
+                    {
+                        // Don't do anything. Just skip to the next array value
+                        // This is for the context where a variable is declared for "database.saveresult" before it is being used.
+                        // The saveresult type and variable has already been allocated to a local variable and we do not need to capture anything here
+                        // Database.SaveResult[] sr;
+                        // if (!productsToUpdate.isEmpty())
+                        // {
+                        //     sr = database.update(productsToUpdate);
+                        // }
+                    }
+                    else
+                    {
+                        // Left side / right side method variable
+                        skipTo = parseMethodVariables(filearray, cm, i);
+                        skipOver = true;
+                    }
                 }
                 else if (filearray[i].ToLower() == "return"
                     && inMethodBody == true)
@@ -2649,26 +2719,6 @@ namespace SalesforceMetadata
                     skipTo = jCount;
                     skipOver = true;
                 }
-                else if (filearray[i] == ";"
-                        && isMethod == false
-                        && braceCount == 0
-                        && parenthesesCount == 0)
-                {
-                    // This is a property
-                    cp.propertyName = propertyMethodName;
-                    cp.propertyAnnotation = propertyMethodAnnotation;
-                    cp.annotationParameters = propertyMethodAnnotationParameters;
-                    cp.qualifier = propertyMethodQualifier;
-                    cp.dataType = propertyMethodRtnDataType;
-                    cp.isFinal = isFinal;
-                    cp.isStatic = isStatic;
-                    cp.propertyValue = propertyValue;
-
-                    ac.clsProperties.Add(propertyMethodName, cp);
-
-                    lastCharLocation = i;
-                    break;
-                }
                 else if (filearray[i].ToLower() == "database.insert"
                     || filearray[i].ToLower() == "database.update"
                     || filearray[i].ToLower() == "database.delete"
@@ -2677,10 +2727,26 @@ namespace SalesforceMetadata
                 {
                     String[] varNameSplit = filearray[i + 2].ToLower().Split('.');
                     String varName = varNameSplit[0];
-                    skipTo = parseMethodDmlVars(filearray, varName, filearray[i], saveResultType, saveResultVar, ac, cm, i + 2);
+
+                    if (filearray[i - 1] == "=")
+                    {
+                        skipTo = parseMethodDmlVars(filearray,
+                            varName,
+                            filearray[i],
+                            saveResultType,
+                            saveResultVar,
+                            ac,
+                            cm,
+                            i + 2);
+                    }
+                    else
+                    {
+                        skipTo = parseMethodDmlVars(filearray, varName, filearray[i], "", "", ac, cm, i + 2);
+                    }
+
                     skipOver = true;
-                    saveResultType = "";
-                    saveResultVar = "";
+                    //saveResultType = "";
+                    //saveResultVar = "";
                 }
                 else if (filearray[i].ToLower() == "insert"
                     || filearray[i].ToLower() == "update"
@@ -2734,6 +2800,26 @@ namespace SalesforceMetadata
                         soqlObject = filearray[i + 1];
                     }
                 }
+                else if (filearray[i] == ";"
+                    && inMethodBody == true)
+                {
+                    //Debug.WriteLine(" ");
+
+                    // Determine if this is a declared null variable
+                    if (filearray[i - 3] == "{"
+                        || filearray[i - 3] == "}"
+                        || filearray[i - 3] == "("
+                        || filearray[i - 3] == ")"
+                        || filearray[i - 3] == ";")
+                    {
+                        ObjectVarToType ovt = new ObjectVarToType();
+                        ovt.objectName = filearray[i - 2];
+                        ovt.varName = filearray[i - 1];
+                        ovt.nullVariableValue = true;
+
+                        cm.methodBodyVars.Add(ovt);
+                    }
+                }
             }
 
             return lastCharLocation;
@@ -2773,19 +2859,16 @@ namespace SalesforceMetadata
 
             if (objectNameFound == false)
             {
-                foreach (String objNm in cm.methodBodyVars.Keys)
+                foreach (ObjectVarToType methodVar in cm.methodBodyVars)
                 {
-                    foreach (ObjectVarToType methodVar in cm.methodBodyVars[objNm])
+                    if (methodVar.varName.ToLower() == varName)
                     {
-                        if (methodVar.varName.ToLower() == varName)
-                        {
-                            ovt.objectName = methodVar.objectName;
-                            ovt.varType = methodVar.objectName;
-                            objectNameFound = true;
+                        ovt.objectName = methodVar.objectName;
+                        ovt.varType = methodVar.objectName;
+                        objectNameFound = true;
 
-                            lastCharLocation++;
-                            break;
-                        }
+                        lastCharLocation++;
+                        break;
                     }
                 }
             }
@@ -2857,12 +2940,25 @@ namespace SalesforceMetadata
                 }
             }
 
-            cm.methodDmls.Add(ovt);
-
             if (filearray[lastCharLocation + 1] == ";")
             {
                 lastCharLocation++;
             }
+            // Account for the allOrNone parameter in the Database.insert/update/delete
+            else
+            {
+                for (Int32 i = arraystart + 1; i < filearray.Length; i++)
+                {
+                    if (filearray[i] == ";")
+                    {
+                        ovt.allOrNoneParameter = filearray[i - 2];
+                        lastCharLocation = i;
+                        break;
+                    }
+                }
+            }
+
+            cm.methodDmls.Add(ovt);
 
             return lastCharLocation;
         }
@@ -2875,8 +2971,15 @@ namespace SalesforceMetadata
 
             // Get the left side of the equation
             // Find the distance between the = sign or what is in flarraystart
+            String leftSide = "";
+            String rightSide = "";
+
             String methodObject = "";
             String methodVar = "";
+            Boolean isConstant = false;
+            String constantKeyword = "";
+
+            Boolean inStringValue = false;
             for (Int32 i = arraystart - 1; i >= 0; i--)
             {
                 if (filearray[i] == ";"
@@ -2895,9 +2998,17 @@ namespace SalesforceMetadata
                         methodObject = filearray[arraystart - 4] + filearray[arraystart - 3] + filearray[arraystart - 2];
                         methodVar = filearray[arraystart - 1];
                     }
+                    // final String ACTIVE_STATUS = ' Active ' ;
                     else if (arraystart - distanceFromEqual == 3)
                     {
-                        //Debug.WriteLine("parseMethodVariables: arraystart - distanceFromEqual == 3 ");
+                        constantKeyword = filearray[arraystart - 3];
+                        if (constantKeyword.ToLower() == "final")
+                        {
+                            isConstant = true;
+                        }
+
+                        methodObject = filearray[arraystart - 2];
+                        methodVar = filearray[arraystart - 1];
                     }
                     else if (arraystart - distanceFromEqual == 2)
                     {
@@ -2906,7 +3017,7 @@ namespace SalesforceMetadata
                     }
                     else if (arraystart - distanceFromEqual == 1)
                     {
-                        methodObject = filearray[arraystart - 1];
+                        leftSide = filearray[arraystart - 1];
                     }
 
                     break;
@@ -2918,8 +3029,6 @@ namespace SalesforceMetadata
             }
 
             // Now get the right side of the equation
-            String rightSide = "";
-            Boolean inStringValue = false;
             for (Int32 i = arraystart + 1; i < filearray.Length - 1; i++)
             {
                 if (filearray[i] == "'"
@@ -2942,16 +3051,12 @@ namespace SalesforceMetadata
                     ObjectVarToType ovt = new ObjectVarToType();
                     ovt.objectName = methodObject;
                     ovt.varName = methodVar;
+                    ovt.isConstant = isConstant;
+                    ovt.constantKeyword = constantKeyword;
+                    ovt.leftSide = leftSide;
                     ovt.rightSide = rightSide.Trim();
 
-                    if (cm.methodBodyVars.ContainsKey(methodObject))
-                    {
-                        cm.methodBodyVars[methodObject].Add(ovt);
-                    }
-                    else
-                    {
-                        cm.methodBodyVars.Add(methodObject, new List<ObjectVarToType> { ovt });
-                    }
+                    cm.methodBodyVars.Add(ovt);
 
                     break;
                 }
@@ -3049,6 +3154,139 @@ namespace SalesforceMetadata
 
             return lastCharLocation;
         }
+
+        public void findObjectNameFromVar(ClassMethods cm, ObjectVarToType ovt, ApexClasses ac)
+        {
+            String[] splitLeftSide = ovt.leftSide.Split('.');
+
+            Boolean objectNameFound = false;
+
+            // Loop through cm.methodParameters
+            if (objectNameFound == false)
+            {
+                foreach (ObjectVarToType methodParam in cm.methodParameters)
+                {
+                    if (methodParam.varName.ToLower() == splitLeftSide[0]
+                        && methodParam.objectName != "")
+                    {
+                        ovt.objectName = methodParam.objectName;
+                        ovt.objectFromMethodParameter = true;
+                        ovt.varName = ovt.leftSide;
+                        if (splitLeftSide.Length > 1)
+                        {
+                            for (Int32 i = 1; i <= splitLeftSide.Length - 1; i++)
+                            {
+                                ovt.varType = ovt.varType + splitLeftSide[i] + '.';
+                            }
+
+                            ovt.varType = ovt.varType.Substring(0, ovt.varType.Length - 1);
+                        }
+
+                        objectNameFound = true;
+
+                        if (objectNameFound == true) break;
+                    }
+                }
+            }
+
+            // Loop through cm.methodBodyVars
+            if (objectNameFound == false)
+            {
+                foreach (ObjectVarToType methodBodyOvt in cm.methodBodyVars)
+                {
+                    if (methodBodyOvt.varName == splitLeftSide[0]
+                        && methodBodyOvt.objectName != "")
+                    {
+                        ovt.objectName = methodBodyOvt.objectName;
+                        ovt.objectFromMethodVariable = true;
+                        ovt.varName = ovt.leftSide;
+                        if (splitLeftSide.Length > 1)
+                        {
+                            for (Int32 i = 1; i <= splitLeftSide.Length - 1; i++)
+                            {
+                                ovt.varType = ovt.varType + splitLeftSide[i] + '.';
+                            }
+
+                            ovt.varType = ovt.varType.Substring(0, ovt.varType.Length - 1);
+                        }
+
+                        objectNameFound = true;
+
+                        if (objectNameFound == true) break;
+                    }
+                }
+            }
+
+            // Loop through cm.forLoops
+            if (objectNameFound == false)
+            {
+                foreach (String forLoopObj in cm.methodForLoops.Keys)
+                {
+                    foreach (ObjectVarToType forLoopOvt in cm.methodForLoops[forLoopObj])
+                    {
+                        if (forLoopOvt.varName == splitLeftSide[0]
+                            && forLoopOvt.objectName != "")
+                        {
+                            ovt.objectName = forLoopOvt.objectName;
+                            ovt.objectFromMethodVariable = true;
+                            ovt.varName = ovt.leftSide;
+                            if (splitLeftSide.Length > 1)
+                            {
+                                for (Int32 i = 1; i <= splitLeftSide.Length - 1; i++)
+                                {
+                                    ovt.varType = ovt.varType + splitLeftSide[i] + '.';
+                                }
+
+                                ovt.varType = ovt.varType.Substring(0, ovt.varType.Length - 1);
+                            }
+
+                            objectNameFound = true;
+
+                            if (objectNameFound == true) break;
+                        }
+                    }
+
+                    if (objectNameFound == true) break;
+                }
+            }
+
+            // Loop through classProperties
+            if (objectNameFound == false)
+            {
+                foreach (ClassProperties cp in ac.clsProperties.Values)
+                {
+                    if (cp.propertyName == splitLeftSide[0])
+                    {
+                        ovt.objectName = cp.dataType;
+                        ovt.objectFromClassProperty = true;
+                        ovt.varName = ovt.leftSide;
+                        if (splitLeftSide.Length > 1)
+                        {
+                            for (Int32 i = 1; i <= splitLeftSide.Length - 1; i++)
+                            {
+                                ovt.varType = ovt.varType + splitLeftSide[i] + '.';
+                            }
+
+                            ovt.varType = ovt.varType.Substring(0, ovt.varType.Length - 1);
+                        }
+
+                        objectNameFound = true;
+
+                        if (objectNameFound == true) break;
+                    }
+                }
+            }
+
+            if (objectNameFound == false) 
+            {
+                ovt.objectName = ovt.leftSide;
+            }
+        }
+
+        //public void findObjectNameForDMLs()
+        //{
+            
+        //}
 
         public Int32 bypassCharacters(String[] filearray, Int32 arraystart)
         {
@@ -3503,7 +3741,7 @@ namespace SalesforceMetadata
 
         public class ObjectVarToType
         {
-            // This is the sObject name being referenced
+            // This is the sObject name being referenced if there is one
             public String objectName = "";
 
             // This is a system type being reference: i.e. String, Double, Integer, etc.
@@ -3515,8 +3753,20 @@ namespace SalesforceMetadata
             public String dmlType = "";
             public String saveResultType = "";
             public String saveResultVar = "";
-            public String rightSide = "";
+            public String allOrNoneParameter = "";
+
             public Boolean isForLoop = false;
+            public Boolean isConstant = false;
+            public String constantKeyword = "";
+
+            public Boolean nullVariableValue = false;
+            public Boolean objectFromClassProperty = false;
+            public Boolean objectFromMethodParameter = false;
+            public Boolean objectFromMethodVariable = false;
+            public Boolean objectFromMethodForLoop = false;
+            public Boolean objectFromInlineVariable = false;
+            public String leftSide = "";
+            public String rightSide = "";
         }
 
         public class ClassProperties 
@@ -3549,7 +3799,7 @@ namespace SalesforceMetadata
 
             // Key = sObject API Name, Value = SOQL Statements
             public List<ObjectVarToType> methodParameters;
-            public Dictionary<String, List<ObjectVarToType>> methodBodyVars;
+            public List<ObjectVarToType> methodBodyVars;
             public Dictionary<String, List<ObjectVarToType>> methodForLoops;
             public List<ObjectVarToType> methodDmls;
             public Dictionary<String, List<String>> soqlStatements;
@@ -3557,7 +3807,7 @@ namespace SalesforceMetadata
             public ClassMethods() 
             {
                 this.methodParameters = new List<ObjectVarToType>();
-                this.methodBodyVars = new Dictionary<String, List<ObjectVarToType>>();
+                this.methodBodyVars = new List<ObjectVarToType>();
                 this.methodForLoops = new Dictionary<String, List<ObjectVarToType>>();
                 this.methodDmls = new List<ObjectVarToType>();
                 this.soqlStatements = new Dictionary<String, List<String>>();
@@ -3600,7 +3850,7 @@ namespace SalesforceMetadata
             public Boolean isOutput = false;
         }
 
-        public class Workflows 
+        public class WorkflowRules
         {
             // These are the rules
             public String objectName = "";
@@ -3609,7 +3859,7 @@ namespace SalesforceMetadata
             public Boolean isActive = false;
             public HashSet<String> wfFieldUpdates;
 
-            public Workflows()
+            public WorkflowRules()
             {
                 wfFieldUpdates = new HashSet<String>();
             }
@@ -3678,13 +3928,13 @@ namespace SalesforceMetadata
                 runWorkflowExtract();
 
                 // Write the results to a file
-                writeSearchResultsToFile();
+                writeExtractedResultsToFile();
 
                 MessageBox.Show("Field Reference Extraction Complete");
             }
         }
 
-        private void writeSearchResultsToFile()
+        private void writeExtractedResultsToFile()
         {
             StreamWriter sw = new StreamWriter(this.tbFileSaveTo.Text + "\\FieldResultsList.txt");
 
@@ -3740,7 +3990,7 @@ namespace SalesforceMetadata
                     {
                         sw.Write(Environment.NewLine);
                         sw.Write(Environment.NewLine);
-                        sw.WriteLine("\tClassProperty\tPropertyQualifier\tPropertyDataType\tPropertyName\tisGetter\tGetterReturnValue\tisSetter\tSetterValue\tPropertyValue");
+                        sw.WriteLine("\tClassProperties\tPropertyQualifier\tPropertyDataType\tPropertyName\tIsGetter\tGetterReturnValue\tIsSetter\tSetterValue\tPropertyValue");
 
                         foreach (String cpKey in ac.clsProperties.Keys)
                         {
@@ -3763,19 +4013,20 @@ namespace SalesforceMetadata
                         {
                             sw.Write(Environment.NewLine);
                             sw.Write(Environment.NewLine);
-                            sw.WriteLine("\tClassMethod\tMethodName\tMethodQualifier\tReturnDataType");
+                            sw.WriteLine("\tClassMethod\tClassMethodName\tMethodQualifier\tReturnDataType\tAnnotation");
 
                             sw.Write("\t\t" +
                             ac.className + "." + cm.methodName + "\t" +
                             cm.qualifier + "\t" +
-                            cm.returnDataType +
+                            cm.returnDataType + "\t" +
+                            cm.methodAnnotation +
                             Environment.NewLine);
 
                             if (cm.methodParameters.Count > 0)
                             {
                                 sw.Write(Environment.NewLine);
                                 sw.Write(Environment.NewLine);
-                                sw.WriteLine("\t\tMethodParam\tParamType\tParamName");
+                                sw.WriteLine("\t\tMethodParamers\tParamType\tParamName");
 
                                 foreach (ObjectVarToType methParm in cm.methodParameters)
                                 {
@@ -3790,18 +4041,20 @@ namespace SalesforceMetadata
                             {
                                 sw.Write(Environment.NewLine);
                                 sw.Write(Environment.NewLine);
-                                sw.WriteLine("\t\t\tMethodVariable\tVariableObjectType\tVariableName\t=\tVariableValue");
+                                sw.WriteLine("\t\t\tMethodVariables\tVariableObjectType\tVariableName\t=\tVariableValue");
 
-                                foreach (String methodVar in cm.methodBodyVars.Keys)
+                                foreach (ObjectVarToType ovt in cm.methodBodyVars)
                                 {
-                                    foreach (ObjectVarToType ovt in cm.methodBodyVars[methodVar])
+                                    sw.Write("\t\t\t\t");
+                                    sw.Write(ovt.objectName + "\t");
+                                    sw.Write(ovt.varName + "\t");
+                                    if (ovt.nullVariableValue == false)
                                     {
-                                        sw.Write("\t\t\t\t" +
-                                            ovt.objectName + "\t" +
-                                            ovt.varName + "\t = \t" +
-                                            ovt.rightSide +
-                                            Environment.NewLine);
+                                        sw.Write("=\t");
+                                        sw.Write(ovt.rightSide);
                                     }
+
+                                    sw.Write(Environment.NewLine);
                                 }
                             }
 

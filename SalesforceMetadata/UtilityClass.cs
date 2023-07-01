@@ -80,11 +80,12 @@ namespace SalesforceMetadata
 
             fbd.ShowNewFolderButton = showNewFolderBtn;
 
-            fbd.ShowDialog();
-
-            if (fbd.SelectedPath != null && fbd.SelectedPath != "")
+            if (fbd.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
             {
-                selectedFolderPath = fbd.SelectedPath;
+                if (fbd.SelectedPath != null && fbd.SelectedPath != "")
+                {
+                    selectedFolderPath = fbd.SelectedPath;
+                }
             }
 
             return selectedFolderPath;

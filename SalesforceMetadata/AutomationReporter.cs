@@ -955,24 +955,32 @@ namespace SalesforceMetadata
 
         private void tbProjectFolder_DoubleClick(object sender, EventArgs e)
         {
-            this.tbProjectFolder.Text = UtilityClass.folderBrowserSelectPath("Select Project Folder", 
-                                                                             false, 
-                                                                             FolderEnum.ReadFrom,
-                                                                             Properties.Settings.Default.AutomationReportLastReadLocation);
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Select Project Folder",
+                                                                       false,
+                                                                       FolderEnum.ReadFrom,
+                                                                       Properties.Settings.Default.AutomationReportLastReadLocation);
 
-            Properties.Settings.Default.AutomationReportLastReadLocation = this.tbProjectFolder.Text;
-            Properties.Settings.Default.Save();
+            if (selectedPath != "")
+            {
+                this.tbProjectFolder.Text = selectedPath;
+                Properties.Settings.Default.AutomationReportLastReadLocation = selectedPath;
+                Properties.Settings.Default.Save();
+            }
         }
 
         private void tbFileSaveTo_DoubleClick(object sender, EventArgs e)
         {
-            this.tbFileSaveTo.Text = UtilityClass.folderBrowserSelectPath("Select Folder To Save Report To",
-                                                                             true,
-                                                                             FolderEnum.SaveTo,
-                                                                             Properties.Settings.Default.AutomationReportLastSaveLocation);
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Select Folder To Save Report To",
+                                                                       true,
+                                                                       FolderEnum.SaveTo,
+                                                                       Properties.Settings.Default.AutomationReportLastSaveLocation);
 
-            Properties.Settings.Default.AutomationReportLastSaveLocation = this.tbFileSaveTo.Text;
-            Properties.Settings.Default.Save();
+            if (selectedPath != "")
+            {
+                this.tbFileSaveTo.Text = selectedPath;
+                Properties.Settings.Default.AutomationReportLastSaveLocation = selectedPath;
+                Properties.Settings.Default.Save();
+            }
         }
 
         private String reduceWhitespace(String strValue)
@@ -3890,11 +3898,13 @@ namespace SalesforceMetadata
             if (this.tbProjectFolder.Text == "")
             {
                 MessageBox.Show("Please select a project folder which contains the Salesforce metadata");
+                return;
             }
 
             if (this.tbFileSaveTo.Text == "")
             {
                 MessageBox.Show("Please select a folder location to save the report values to");
+                return;
             }
 
             runObjectFieldExtract();
@@ -3906,32 +3916,41 @@ namespace SalesforceMetadata
 
         private void btnFieldReferences_Click(object sender, EventArgs e)
         {
-            if (this.tbProjectFolder.Text != null && this.tbProjectFolder.Text != "")
+            if (this.tbProjectFolder.Text == "")
             {
-                // We need the objects and fields and the apex classes extracted out first
-                runObjectFieldExtract();
-
-                // Search through Triggers for field references
-                //searchApexTriggersForFields();
-                runApexTriggerExtract();
-
-                // Search through Classes for field references
-                //searchApexClassForFields();
-                runApexClassExtract();
-
-                // Search Flows/Processes for field references
-                //searchFlowsProcessesForFields();
-                runFlowProcessExtract();
-
-                // Search Workflows for field references
-                //searchWorkflowsForFields();
-                runWorkflowExtract();
-
-                // Write the results to a file
-                writeExtractedResultsToFile();
-
-                MessageBox.Show("Field Reference Extraction Complete");
+                MessageBox.Show("Please select a project folder which contains the Salesforce metadata");
+                return;
             }
+
+            if (this.tbFileSaveTo.Text == "")
+            {
+                MessageBox.Show("Please select a folder location to save the report values to");
+                return;
+            }
+
+            // We need the objects and fields and the apex classes extracted out first
+            runObjectFieldExtract();
+
+            // Search through Triggers for field references
+            //searchApexTriggersForFields();
+            runApexTriggerExtract();
+
+            // Search through Classes for field references
+            //searchApexClassForFields();
+            runApexClassExtract();
+
+            // Search Flows/Processes for field references
+            //searchFlowsProcessesForFields();
+            runFlowProcessExtract();
+
+            // Search Workflows for field references
+            //searchWorkflowsForFields();
+            runWorkflowExtract();
+
+            // Write the results to a file
+            writeExtractedResultsToFile();
+
+            MessageBox.Show("Field Reference Extraction Complete");
         }
 
         private void writeExtractedResultsToFile()

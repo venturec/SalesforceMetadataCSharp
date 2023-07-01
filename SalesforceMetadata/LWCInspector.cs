@@ -29,24 +29,32 @@ namespace SalesforceMetadata
 
         private void tbLWCFolderPath_DoubleClick(object sender, EventArgs e)
         {
-            this.tbLWCFolderPath.Text = UtilityClass.folderBrowserSelectPath("Select LWC Folder to Parse", 
-                                                                             false, 
-                                                                             FolderEnum.ReadFrom,
-                                                                             Properties.Settings.Default.LWCLastReadLocation);
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Select LWC Folder to Parse", 
+                                                                       false, 
+                                                                       FolderEnum.ReadFrom,
+                                                                       Properties.Settings.Default.LWCLastReadLocation);
 
-            Properties.Settings.Default.LWCLastReadLocation = this.tbLWCFolderPath.Text;
-            Properties.Settings.Default.Save();
+            if (selectedPath != "")
+            {
+                this.tbLWCFolderPath.Text = selectedPath;
+                Properties.Settings.Default.LWCLastReadLocation = selectedPath;
+                Properties.Settings.Default.Save();
+            }
         }
 
         private void tbSaveResultsTo_DoubleClick(object sender, EventArgs e)
         {
-            this.tbSaveResultsTo.Text = UtilityClass.folderBrowserSelectPath("Save Results to", 
-                                                                             true, 
-                                                                             FolderEnum.SaveTo, 
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Save Results to",
+                                                                             true,
+                                                                             FolderEnum.SaveTo,
                                                                              Properties.Settings.Default.LWCLastSaveLocation);
 
-            Properties.Settings.Default.LWCLastSaveLocation = this.tbSaveResultsTo.Text;
-            Properties.Settings.Default.Save();
+            if (selectedPath != "")
+            {
+                this.tbSaveResultsTo.Text = selectedPath;
+                Properties.Settings.Default.LWCLastSaveLocation = selectedPath;
+                Properties.Settings.Default.Save();
+            }
         }
 
         private void btnParseLWC_Click(object sender, EventArgs e)

@@ -34,25 +34,33 @@ namespace SalesforceMetadata
 
         private void tbParentFolder_DoubleClick(object sender, EventArgs e)
         {
-            this.tbParentFolder.Text = UtilityClass.folderBrowserSelectPath("Select Your Project Folder", 
-                                                                            false, 
-                                                                            FolderEnum.SaveTo,
-                                                                            Properties.Settings.Default.DevelopmentSelectedFolder);
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Select Your Project Folder", 
+                                                                       false, 
+                                                                       FolderEnum.SaveTo,
+                                                                       Properties.Settings.Default.DevelopmentSelectedFolder);
 
-            Properties.Settings.Default.DevelopmentSelectedFolder = this.tbParentFolder.Text;
-            Properties.Settings.Default.Save();
-            populateTreeView();
+            if (selectedPath != "")
+            {
+                this.tbParentFolder.Text = selectedPath;
+                Properties.Settings.Default.DevelopmentSelectedFolder = selectedPath;
+                Properties.Settings.Default.Save();
+                populateTreeView();
+            }
         }
 
         private void tbDeployFrom_DoubleClick(object sender, EventArgs e)
         {
-            this.tbDeployFrom.Text = UtilityClass.folderBrowserSelectPath("Select The Deploy From Folder", 
-                                                                          false, 
-                                                                          FolderEnum.SaveTo,
-                                                                          Properties.Settings.Default.DevelopmentDeploymentFolder);
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Select The Deploy From Folder", 
+                                                                       false, 
+                                                                       FolderEnum.SaveTo,
+                                                                       Properties.Settings.Default.DevelopmentDeploymentFolder);
 
-            Properties.Settings.Default.DevelopmentDeploymentFolder = this.tbDeployFrom.Text;
-            Properties.Settings.Default.Save();
+            if (selectedPath != "")
+            {
+                this.tbDeployFrom.Text = selectedPath;
+                Properties.Settings.Default.DevelopmentDeploymentFolder = selectedPath;
+                Properties.Settings.Default.Save();
+            }
         }
 
         private void populateCredentialsFile()

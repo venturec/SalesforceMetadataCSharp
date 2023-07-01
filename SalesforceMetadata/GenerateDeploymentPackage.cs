@@ -46,40 +46,43 @@ namespace SalesforceMetadata
 
         private void tbDeploymentPackageLocation_DoubleClick(object sender, EventArgs e)
         {
-            this.tbDeploymentPackageLocation.Text = UtilityClass.folderBrowserSelectPath("Select folder to save Deployment items to", 
-                                                                                         true, 
-                                                                                         FolderEnum.SaveTo,
-                                                                                         Properties.Settings.Default.DeploymentPackageLastSaveLocation);
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Select folder to save Deployment items to", 
+                                                                       true, 
+                                                                       FolderEnum.SaveTo,
+                                                                       Properties.Settings.Default.DeploymentPackageLastSaveLocation);
 
-            Properties.Settings.Default.DeploymentPackageLastSaveLocation = this.tbDeploymentPackageLocation.Text;
-            Properties.Settings.Default.Save();
-
-            Boolean isEmpty = true;
-            String[] dirs = Directory.GetDirectories(this.tbDeploymentPackageLocation.Text);
-            String[] fls = Directory.GetFiles(this.tbDeploymentPackageLocation.Text);
-
-            if (dirs.Length > 0 || fls.Length > 0) isEmpty = false;
-
-            if (isEmpty == false)
+            if (selectedPath != "")
             {
-                // read from the items and mark the deployable items
-                // Which means you have to open the XML files and 
+                this.tbDeploymentPackageLocation.Text = selectedPath;
+                Properties.Settings.Default.DeploymentPackageLastSaveLocation = selectedPath;
+                Properties.Settings.Default.Save();
 
+                Boolean isEmpty = true;
+                String[] dirs = Directory.GetDirectories(this.tbDeploymentPackageLocation.Text);
+                String[] fls = Directory.GetFiles(this.tbDeploymentPackageLocation.Text);
+
+                if (dirs.Length > 0 || fls.Length > 0) isEmpty = false;
+
+                if (isEmpty == false)
+                {
+                    // read from the items and mark the deployable items
+                    // Which means you have to open the XML files and 
+                }
             }
         }
 
         private void tbMetadataFolderToReadFrom_DoubleClick(object sender, EventArgs e)
         {
-            this.tbMetadataFolderToReadFrom.Text = UtilityClass.folderBrowserSelectPath("Select folder to read the Deployment items to", 
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Select folder to read the Deployment items to", 
                                                                                         true, 
                                                                                         FolderEnum.SaveTo,
                                                                                         Properties.Settings.Default.DeploymentPackageLastReadLocation);
 
-            Properties.Settings.Default.DeploymentPackageLastReadLocation = this.tbDeploymentPackageLocation.Text;
-            Properties.Settings.Default.Save();
-
-            if (this.tbMetadataFolderToReadFrom.Text != "")
+            if(selectedPath != "")
             {
+                this.tbMetadataFolderToReadFrom.Text = selectedPath;
+                Properties.Settings.Default.DeploymentPackageLastReadLocation = selectedPath;
+                Properties.Settings.Default.Save();
                 populateMetadataTreeView();
             }
         }

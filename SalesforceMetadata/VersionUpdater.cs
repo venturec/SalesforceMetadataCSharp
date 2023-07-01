@@ -22,16 +22,15 @@ namespace SalesforceMetadata
 
         private void tbComponentsLocation_DoubleClick(object sender, EventArgs e)
         {
-            this.tbComponentsLocation.Text = UtilityClass.folderBrowserSelectPath("Select Top Level Directory or Sub-directory to update API Versions", 
-                                                                                  true, 
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Select Top Level Directory or Sub-directory to update API Versions",
+                                                                                  true,
                                                                                   FolderEnum.ReadFrom,
                                                                                   Properties.Settings.Default.ApiVersionUpdaterLastReadLocation);
-
-            Properties.Settings.Default.ApiVersionUpdaterLastReadLocation = this.tbComponentsLocation.Text;
-            Properties.Settings.Default.Save();
-
-            if (this.tbComponentsLocation.Text != null && this.tbComponentsLocation.Text != "")
+            if(selectedPath != "")
             {
+                this.tbComponentsLocation.Text = selectedPath;
+                Properties.Settings.Default.ApiVersionUpdaterLastReadLocation = selectedPath;
+                Properties.Settings.Default.Save();
                 this.btnUpdateAPI.Enabled = true;
             }
         }

@@ -606,16 +606,16 @@ namespace SalesforceMetadata
 
         private void tbPackageXMLLocation_DoubleClick(object sender, EventArgs e)
         {
-            this.tbFromOrgSaveLocation.Text = UtilityClass.folderBrowserSelectPath("Select Directory to Save the Metadata Results to", 
-                                                                                   true, 
-                                                                                   FolderEnum.SaveTo,
-                                                                                   Properties.Settings.Default.MetadataLastSaveToLocation);
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Select Directory to Save the Metadata Results to",
+                                                                       true,
+                                                                       FolderEnum.SaveTo,
+                                                                       Properties.Settings.Default.MetadataLastSaveToLocation);
 
-            Properties.Settings.Default.MetadataLastSaveToLocation = this.tbFromOrgSaveLocation.Text;
-            Properties.Settings.Default.Save();
-
-            if (this.tbFromOrgSaveLocation.Text != null && this.tbFromOrgSaveLocation.Text != "")
+            if (selectedPath != "")
             {
+                this.tbFromOrgSaveLocation.Text = selectedPath;
+                Properties.Settings.Default.MetadataLastSaveToLocation = selectedPath;
+                Properties.Settings.Default.Save();
                 this.btnRetrieveMetadataFromSelected.Enabled = true;
             }
         }

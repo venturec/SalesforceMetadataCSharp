@@ -107,17 +107,21 @@ namespace SalesforceMetadata
         {
             this.lbFileNames.Items.Clear();
 
-            this.tbObjectFolderLocation.Text = UtilityClass.folderBrowserSelectPath("Select the Folder Which Contains the Objects to Parse", 
-                                                                                    false, 
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Select the Folder Which Contains the Objects to Parse",
+                                                                                    false,
                                                                                     FolderEnum.ReadFrom,
                                                                                     Properties.Settings.Default.ObjectModificationLastReadFrom);
-
-            Properties.Settings.Default.ObjectModificationLastReadFrom = this.tbObjectFolderLocation.Text;
-            Properties.Settings.Default.Save();
-
-            if (Directory.Exists(this.tbObjectFolderLocation.Text))
+            if (selectedPath != "")
             {
-                getAllObjectFiles();
+                this.tbObjectFolderLocation.Text = selectedPath;
+
+                Properties.Settings.Default.ObjectModificationLastReadFrom = selectedPath;
+                Properties.Settings.Default.Save();
+
+                if (Directory.Exists(selectedPath))
+                {
+                    getAllObjectFiles();
+                }
             }
         }
 

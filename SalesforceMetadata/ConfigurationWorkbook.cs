@@ -43,24 +43,32 @@ namespace SalesforceMetadata
 
         private void tbSelectedFolder_DoubleClick(object sender, EventArgs e)
         {
-            this.tbSelectedFolder.Text = UtilityClass.folderBrowserSelectPath("Select Project Folder to Parse", 
-                                                                              false, 
-                                                                              FolderEnum.ReadFrom,
-                                                                              Properties.Settings.Default.ConfigurationWorkbookLastReadLocation);
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Select Project Folder to Parse", 
+                                                                       false, 
+                                                                       FolderEnum.ReadFrom,
+                                                                       Properties.Settings.Default.ConfigurationWorkbookLastReadLocation);
 
-            Properties.Settings.Default.ConfigurationWorkbookLastReadLocation = this.tbSelectedFolder.Text;
-            Properties.Settings.Default.Save();
+            if (selectedPath != "")
+            {
+                this.tbSelectedFolder.Text = selectedPath;
+                Properties.Settings.Default.ConfigurationWorkbookLastReadLocation = selectedPath;
+                Properties.Settings.Default.Save();
+            }
         }
 
         private void tbSaveResultsTo_DoubleClick(object sender, EventArgs e)
         {
-            this.tbSaveResultsTo.Text = UtilityClass.folderBrowserSelectPath("Save Results to...", 
-                                                                             true, 
-                                                                             FolderEnum.SaveTo,
-                                                                             Properties.Settings.Default.ConfigurationWorkbookLastSaveLocation);
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Save Results to...", 
+                                                                       true, 
+                                                                       FolderEnum.SaveTo,
+                                                                       Properties.Settings.Default.ConfigurationWorkbookLastSaveLocation);
 
-            Properties.Settings.Default.ConfigurationWorkbookLastSaveLocation = this.tbSelectedFolder.Text;
-            Properties.Settings.Default.Save();
+            if (selectedPath != "")
+            {
+                this.tbSaveResultsTo.Text = selectedPath;
+                Properties.Settings.Default.ConfigurationWorkbookLastSaveLocation = selectedPath;
+                Properties.Settings.Default.Save();
+            }
         }
 
         private void btnGenerateConfigReportAsHTML_Click(object sender, EventArgs e)

@@ -1290,24 +1290,32 @@ namespace SalesforceMetadata
 
         private void tbFromFolder_DoubleClick(object sender, EventArgs e)
         {
-            this.tbFromFolder.Text = UtilityClass.folderBrowserSelectPath("Select the Compare From Folder", 
-                                                                          false, 
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Select the Compare From Folder",
+                                                                          false,
                                                                           FolderEnum.ReadFrom,
                                                                           Properties.Settings.Default.MetadataComparisonLastCompareFrom);
 
-            Properties.Settings.Default.MetadataComparisonLastCompareFrom = this.tbFromFolder.Text;
-            Properties.Settings.Default.Save();
+            if (selectedPath != "")
+            {
+                this.tbFromFolder.Text = selectedPath;
+                Properties.Settings.Default.MetadataComparisonLastCompareFrom = selectedPath;
+                Properties.Settings.Default.Save();
+            }
         }
 
         private void tbToFolder_DoubleClick(object sender, EventArgs e)
         {
-            this.tbToFolder.Text = UtilityClass.folderBrowserSelectPath("Select the Compare To Folder", 
-                                                                        false, 
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Select the Compare To Folder",
+                                                                        false,
                                                                         FolderEnum.ReadFrom,
                                                                         Properties.Settings.Default.MetadataComparisonLastCompareTo);
-            
-            Properties.Settings.Default.MetadataComparisonLastCompareTo = this.tbFromFolder.Text;
-            Properties.Settings.Default.Save();
+
+            if (selectedPath != "")
+            {
+                this.tbToFolder.Text = selectedPath;
+                Properties.Settings.Default.MetadataComparisonLastCompareTo = selectedPath;
+                Properties.Settings.Default.Save();
+            }
         }
 
 

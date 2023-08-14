@@ -536,6 +536,7 @@ namespace SalesforceMetadata
             for (int page = 1; page <= reader.NumberOfPages; page++)
             {
                 ITextExtractionStrategy its = new LocationTextExtractionStrategy();
+                //ITextExtractionStrategy its = new SimpleTextExtractionStrategy();
 
                 String s = PdfTextExtractor.GetTextFromPage(reader, page, its);
                 s = Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(s)));
@@ -545,7 +546,7 @@ namespace SalesforceMetadata
             sw.Close();
             reader.Close();
 
-            MessageBox.Show("PDF Extraction Complete");
+            MessageBox.Show("PDF Text Extraction Complete");
         }
 
         private void tbPDFFileLocation_DoubleClick(object sender, EventArgs e)
@@ -556,6 +557,80 @@ namespace SalesforceMetadata
             if (dr == DialogResult.OK)
             {
                 this.tbPDFFileLocation.Text = ofd.FileName;
+            }
+        }
+
+        private void btnPDFBookmarks_Click(object sender, EventArgs e)
+        {
+            inspectPdf(this.tbPDFFileLocation.Text);
+
+            MessageBox.Show("PDF Bookmark Extraction Complete");
+        }
+
+        public void inspectPdf(String filename) {
+            if (this.tbPDFFileLocation.Text == "") return;
+
+            PdfReader reader = new PdfReader(filename);
+            IList<Dictionary<String, Object>> bookmarks = SimpleBookmark.GetBookmark(reader);
+
+            String[] parsedFilePath = this.tbPDFFileLocation.Text.Split('\\');
+            String[] parsedFileName = parsedFilePath[parsedFilePath.Length - 1].Split('.');
+
+            String originationFilePath = "";
+            for (Int32 i = 0; i < parsedFilePath.Length - 1; i++)
+            {
+                originationFilePath = originationFilePath + parsedFilePath[i] + "\\";
+            }
+
+            StreamWriter sw;
+            if (this.tbFileSaveLocation.Text == "")
+            {
+                sw = new StreamWriter(originationFilePath + parsedFileName[0] + "_bookmarks.txt");
+            }
+            else
+            {
+                sw = new StreamWriter(this.tbFileSaveLocation.Text + "\\" + parsedFileName[0] + "_bookmarks.txt");
+            }
+
+            Int32 m = 0;
+
+            for (int i = 0; i<bookmarks.Count; i++)
+            {
+                if (bookmarks[i].ContainsKey("Kids"))
+                {
+                    showTitle(bookmarks[i], sw, m + 1);
+                }
+                else
+                {
+                    sw.WriteLine(bookmarks[i]["Title"]);
+                }
+            }
+
+            reader.Close();
+            sw.Close();
+        }
+
+        public void showTitle(Dictionary<String, Object> bm, StreamWriter sw, Int32 m)
+        {
+            // Write the parent Title to the file
+            for (Int32 t = 0; t < m; t++)
+            {
+                sw.Write("\t");
+            }
+
+            sw.Write(bm["Title"] + Environment.NewLine);
+
+            // Set the last tabCount value. Since this is a self-nested call, the tabCount or m value will increment as needed for the additional layers
+            Int32 tabCount = m;
+
+            if (bm.ContainsKey("Kids"))
+            {
+                List<Dictionary<String, Object>> kids = (List<Dictionary<String, Object>>)bm["Kids"];
+
+                for (int i = 0; i < kids.Count; i++)
+                {
+                    showTitle(kids[i], sw, m + 1);
+                }
             }
         }
     }

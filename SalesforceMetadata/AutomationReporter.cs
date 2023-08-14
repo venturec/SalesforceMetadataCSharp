@@ -322,6 +322,10 @@ namespace SalesforceMetadata
                             {
                                 otf.objFields.Add(of);
                             }
+                            else
+                            {
+                                otf.objFields.Add(of);
+                            }
 
                             otf.fieldCount++;
                         }
@@ -391,6 +395,10 @@ namespace SalesforceMetadata
                                 otf.objValidations.Add(ov);
                             }
                             else if (ov.errorConditionFormula.Contains(this.tbSearchFilter.Text))
+                            {
+                                otf.objValidations.Add(ov);
+                            }
+                            else
                             {
                                 otf.objValidations.Add(ov);
                             }
@@ -4215,5 +4223,16 @@ namespace SalesforceMetadata
             sw.Close();
         }
 
+        private void btnRunAutomationReport_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        //private void tbFileSaveTo_MouseHover(object sender, EventArgs e)
+        //{
+        //    ToolTip tip = new ToolTip();
+        //    //tip.ToolTipTitle = ;
+        //    //tip.Show("Filters down the object and classes which contain the value in the Filter box", );
+        //}
     }
 }

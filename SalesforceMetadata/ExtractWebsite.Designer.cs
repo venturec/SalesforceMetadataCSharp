@@ -44,6 +44,7 @@
             this.btnPDFToText = new System.Windows.Forms.Button();
             this.cmbIncludeTextPos = new System.Windows.Forms.ComboBox();
             this.lblIncludeTextPositions = new System.Windows.Forms.Label();
+            this.btnPDFBookmarks = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblURL
@@ -59,7 +60,7 @@
             // tbURL
             // 
             this.tbURL.Location = new System.Drawing.Point(48, 45);
-            this.tbURL.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbURL.Margin = new System.Windows.Forms.Padding(2);
             this.tbURL.Name = "tbURL";
             this.tbURL.Size = new System.Drawing.Size(858, 20);
             this.tbURL.TabIndex = 1;
@@ -67,7 +68,7 @@
             // btnGetPageLinks
             // 
             this.btnGetPageLinks.Location = new System.Drawing.Point(9, 180);
-            this.btnGetPageLinks.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnGetPageLinks.Margin = new System.Windows.Forms.Padding(2);
             this.btnGetPageLinks.Name = "btnGetPageLinks";
             this.btnGetPageLinks.Size = new System.Drawing.Size(116, 25);
             this.btnGetPageLinks.TabIndex = 8;
@@ -78,7 +79,7 @@
             // tbFileSaveLocation
             // 
             this.tbFileSaveLocation.Location = new System.Drawing.Point(117, 77);
-            this.tbFileSaveLocation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbFileSaveLocation.Margin = new System.Windows.Forms.Padding(2);
             this.tbFileSaveLocation.Name = "tbFileSaveLocation";
             this.tbFileSaveLocation.Size = new System.Drawing.Size(789, 20);
             this.tbFileSaveLocation.TabIndex = 3;
@@ -97,7 +98,7 @@
             // btnRetrieveWebsites
             // 
             this.btnRetrieveWebsites.Location = new System.Drawing.Point(142, 180);
-            this.btnRetrieveWebsites.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnRetrieveWebsites.Margin = new System.Windows.Forms.Padding(2);
             this.btnRetrieveWebsites.Name = "btnRetrieveWebsites";
             this.btnRetrieveWebsites.Size = new System.Drawing.Size(114, 25);
             this.btnRetrieveWebsites.TabIndex = 9;
@@ -124,7 +125,7 @@
             "25",
             "30"});
             this.cmbLayers.Location = new System.Drawing.Point(117, 124);
-            this.cmbLayers.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cmbLayers.Margin = new System.Windows.Forms.Padding(2);
             this.cmbLayers.Name = "cmbLayers";
             this.cmbLayers.Size = new System.Drawing.Size(92, 21);
             this.cmbLayers.TabIndex = 5;
@@ -210,11 +211,22 @@
             this.lblIncludeTextPositions.TabIndex = 13;
             this.lblIncludeTextPositions.Text = "Include Text Positions";
             // 
+            // btnPDFBookmarks
+            // 
+            this.btnPDFBookmarks.Location = new System.Drawing.Point(756, 433);
+            this.btnPDFBookmarks.Name = "btnPDFBookmarks";
+            this.btnPDFBookmarks.Size = new System.Drawing.Size(114, 23);
+            this.btnPDFBookmarks.TabIndex = 16;
+            this.btnPDFBookmarks.Text = "Get PDF Bookmarks";
+            this.btnPDFBookmarks.UseVisualStyleBackColor = true;
+            this.btnPDFBookmarks.Click += new System.EventHandler(this.btnPDFBookmarks_Click);
+            // 
             // ExtractWebsites
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(914, 468);
+            this.Controls.Add(this.btnPDFBookmarks);
             this.Controls.Add(this.lblIncludeTextPositions);
             this.Controls.Add(this.cmbIncludeTextPos);
             this.Controls.Add(this.btnPDFToText);
@@ -231,7 +243,7 @@
             this.Controls.Add(this.tbURL);
             this.Controls.Add(this.lblURL);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ExtractWebsites";
             this.Text = "Extract Website";
             this.ResumeLayout(false);
@@ -255,5 +267,6 @@
         private System.Windows.Forms.Button btnPDFToText;
         private System.Windows.Forms.ComboBox cmbIncludeTextPos;
         private System.Windows.Forms.Label lblIncludeTextPositions;
+        private System.Windows.Forms.Button btnPDFBookmarks;
     }
 }

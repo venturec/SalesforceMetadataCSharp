@@ -38,6 +38,7 @@
             this.btnParseObjectsAndFields = new System.Windows.Forms.Button();
             this.tbSearchFilter = new System.Windows.Forms.TextBox();
             this.btnFieldReferences = new System.Windows.Forms.Button();
+            this.lblFilter = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // ProjectFolder
@@ -60,13 +61,15 @@
             // 
             // btnRunAutomationReport
             // 
-            this.btnRunAutomationReport.Location = new System.Drawing.Point(127, 207);
+            this.btnRunAutomationReport.Enabled = false;
+            this.btnRunAutomationReport.Location = new System.Drawing.Point(127, 227);
             this.btnRunAutomationReport.Name = "btnRunAutomationReport";
             this.btnRunAutomationReport.Size = new System.Drawing.Size(199, 23);
             this.btnRunAutomationReport.TabIndex = 6;
             this.btnRunAutomationReport.Text = "Run Automation Report";
             this.btnRunAutomationReport.UseVisualStyleBackColor = true;
             this.btnRunAutomationReport.Visible = false;
+            this.btnRunAutomationReport.Click += new System.EventHandler(this.btnRunAutomationReport_Click);
             // 
             // tbProjectFolder
             // 
@@ -89,6 +92,7 @@
             this.cbWriteToDataDictionary.AutoSize = true;
             this.cbWriteToDataDictionary.Checked = true;
             this.cbWriteToDataDictionary.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbWriteToDataDictionary.Enabled = false;
             this.cbWriteToDataDictionary.Location = new System.Drawing.Point(675, 130);
             this.cbWriteToDataDictionary.Name = "cbWriteToDataDictionary";
             this.cbWriteToDataDictionary.Size = new System.Drawing.Size(143, 17);
@@ -98,7 +102,7 @@
             // 
             // btnParseObjectsAndFields
             // 
-            this.btnParseObjectsAndFields.Location = new System.Drawing.Point(127, 130);
+            this.btnParseObjectsAndFields.Location = new System.Drawing.Point(127, 150);
             this.btnParseObjectsAndFields.Name = "btnParseObjectsAndFields";
             this.btnParseObjectsAndFields.Size = new System.Drawing.Size(199, 23);
             this.btnParseObjectsAndFields.TabIndex = 4;
@@ -108,14 +112,14 @@
             // 
             // tbSearchFilter
             // 
-            this.tbSearchFilter.Location = new System.Drawing.Point(486, 128);
+            this.tbSearchFilter.Location = new System.Drawing.Point(127, 102);
             this.tbSearchFilter.Name = "tbSearchFilter";
             this.tbSearchFilter.Size = new System.Drawing.Size(162, 20);
             this.tbSearchFilter.TabIndex = 7;
             // 
             // btnFieldReferences
             // 
-            this.btnFieldReferences.Location = new System.Drawing.Point(127, 168);
+            this.btnFieldReferences.Location = new System.Drawing.Point(127, 188);
             this.btnFieldReferences.Name = "btnFieldReferences";
             this.btnFieldReferences.Size = new System.Drawing.Size(199, 23);
             this.btnFieldReferences.TabIndex = 5;
@@ -123,11 +127,21 @@
             this.btnFieldReferences.UseVisualStyleBackColor = true;
             this.btnFieldReferences.Click += new System.EventHandler(this.btnFieldReferences_Click);
             // 
+            // lblFilter
+            // 
+            this.lblFilter.AutoSize = true;
+            this.lblFilter.Location = new System.Drawing.Point(12, 105);
+            this.lblFilter.Name = "lblFilter";
+            this.lblFilter.Size = new System.Drawing.Size(29, 13);
+            this.lblFilter.TabIndex = 9;
+            this.lblFilter.Text = "Filter";
+            // 
             // AutomationReporter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(940, 551);
+            this.Controls.Add(this.lblFilter);
             this.Controls.Add(this.btnFieldReferences);
             this.Controls.Add(this.tbSearchFilter);
             this.Controls.Add(this.btnParseObjectsAndFields);
@@ -156,5 +170,6 @@
         private System.Windows.Forms.Button btnParseObjectsAndFields;
         private System.Windows.Forms.TextBox tbSearchFilter;
         private System.Windows.Forms.Button btnFieldReferences;
+        private System.Windows.Forms.Label lblFilter;
     }
 }

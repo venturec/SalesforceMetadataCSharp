@@ -2021,6 +2021,7 @@ namespace SalesforceMetadata
                 // TODO: Skipping over inner classes for now
                 // Will come back and add these later
                 else if (inClassName == false
+                        && filearray.Length > i + 5
                         && (filearray[i].ToLower() == "protected"
                             || filearray[i].ToLower() == "private"
                             || filearray[i].ToLower() == "public"

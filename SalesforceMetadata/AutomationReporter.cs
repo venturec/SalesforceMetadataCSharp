@@ -2132,6 +2132,7 @@ namespace SalesforceMetadata
             Boolean isStatic = false;
             Boolean isFinal = false;
             Boolean isOverride = false;
+            Boolean isVirtual = false;
             Boolean isTestMethod = false;
 
             Int32 parenthesesCount = 0; // ( )
@@ -2365,6 +2366,7 @@ namespace SalesforceMetadata
                         cm.qualifier = propertyMethodQualifier;
                         cm.returnDataType = propertyMethodRtnDataType;
                         cm.isOverride = isOverride;
+                        cm.isVirtual = isVirtual;
                         cm.isStatic = isStatic;
                         cm.isTestMethod = isTestMethod;
                         cm.soqlStatements = soqlStatements;
@@ -2410,6 +2412,10 @@ namespace SalesforceMetadata
                     || filearray[i].ToLower() == "global"))
                 {
                     propertyMethodQualifier = filearray[i].ToLower();
+                }
+                else if (inMethodBody == false && filearray[i].ToLower() == "virtual")
+                {
+                    isVirtual = true;
                 }
                 else if (inMethodBody == false && filearray[i].ToLower() == "override")
                 {
@@ -3498,6 +3504,7 @@ namespace SalesforceMetadata
                 "MethodQualifier\t" +
                 "IsStatic\t" +
                 "IsOverride\t" +
+                "IsVirtual\t" +
                 "ReturnDataType\t" +
                 "ReturnStatement\t" +
                 "MethodParameters\t" +
@@ -3564,6 +3571,7 @@ namespace SalesforceMetadata
                     apexClassWriter.Write(clsMethod.qualifier + "\t");
                     apexClassWriter.Write(clsMethod.isStatic + "\t");
                     apexClassWriter.Write(clsMethod.isOverride + "\t");
+                    apexClassWriter.Write(clsMethod.isVirtual + "\t");
                     apexClassWriter.Write(clsMethod.returnDataType + "\t");
                     apexClassWriter.Write(clsMethod.returnStatement + "\t");
                     apexClassWriter.Write(Environment.NewLine);
@@ -3734,6 +3742,7 @@ namespace SalesforceMetadata
             public string optionalModifier = "";
 
             public Boolean isInterface = false;
+            public Boolean isVirtual = false;
             public Boolean isTestClass = false;
             public Boolean isRestClass = false;
 
@@ -3810,6 +3819,7 @@ namespace SalesforceMetadata
             public String qualifier = "";
             public Boolean isStatic = false;
             public Boolean isOverride = false;
+            public Boolean isVirtual = false;
             public Boolean isTestMethod = false;
             public String returnDataType = "";
             public String returnStatement = "";
@@ -4228,12 +4238,5 @@ namespace SalesforceMetadata
         {
 
         }
-
-        //private void tbFileSaveTo_MouseHover(object sender, EventArgs e)
-        //{
-        //    ToolTip tip = new ToolTip();
-        //    //tip.ToolTipTitle = ;
-        //    //tip.Show("Filters down the object and classes which contain the value in the Filter box", );
-        //}
     }
 }

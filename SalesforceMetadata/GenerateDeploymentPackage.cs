@@ -163,11 +163,12 @@ namespace SalesforceMetadata
 
             foreach (TreeNode tndDiff1 in this.treeNodeCollFromDiff)
             {
-                if (tndDiff1.Text == "permissionsets"
-                    || tndDiff1.Text == "profiles")
-                {
-                    continue;
-                }
+                // Commented out to allow for updating PermissionSets and Profiles
+                //if (tndDiff1.Text == "permissionsets"
+                //    || tndDiff1.Text == "profiles")
+                //{
+                //    continue;
+                //}
 
                 TreeNode tnd1 = new TreeNode();
                 tnd1.Text = tndDiff1.Text;
@@ -176,7 +177,9 @@ namespace SalesforceMetadata
                 foreach (TreeNode tndDiff2 in tndDiff1.Nodes)
                 {
                     TreeNode tnd2 = new TreeNode();
-                    tnd2.Text = removeNewUpdatedFromNodeText(tndDiff2.Text);
+                    TextToColor tcc2 = removeNewUpdatedFromNodeText(tndDiff2.Text);
+                    tnd2.Text = tcc2.textValue;
+                    tnd2.BackColor = tcc2.color;
                     tnd2.Checked = tndDiff2.Checked;
 
                     if (tndDiff2.Nodes.Count > 0)
@@ -184,7 +187,9 @@ namespace SalesforceMetadata
                         foreach (TreeNode tndDiff3 in tndDiff2.Nodes)
                         {
                             TreeNode tnd3 = new TreeNode();
-                            tnd3.Text = removeNewUpdatedFromNodeText(tndDiff3.Text);
+                            TextToColor tcc3 = removeNewUpdatedFromNodeText(tndDiff3.Text);
+                            tnd3.Text = tcc3.textValue;
+                            tnd3.BackColor = tcc3.color;
                             tnd3.Checked = tndDiff3.Checked;
 
                             if (tndDiff3.Nodes.Count > 0)
@@ -192,7 +197,9 @@ namespace SalesforceMetadata
                                 foreach (TreeNode tndDiff4 in tndDiff3.Nodes)
                                 {
                                     TreeNode tnd4 = new TreeNode();
-                                    tnd4.Text = removeNewUpdatedFromNodeText(tndDiff4.Text);
+                                    TextToColor tcc4 = removeNewUpdatedFromNodeText(tndDiff4.Text);
+                                    tnd4.Text = tcc4.textValue;
+                                    tnd4.BackColor = tcc4.color;
                                     tnd4.Checked = tndDiff2.Checked;
 
                                     if (tndDiff4.Nodes.Count > 0)
@@ -200,7 +207,9 @@ namespace SalesforceMetadata
                                         foreach (TreeNode tndDiff5 in tndDiff4.Nodes)
                                         {
                                             TreeNode tnd5 = new TreeNode();
-                                            tnd5.Text = removeNewUpdatedFromNodeText(tndDiff5.Text);
+                                            TextToColor tcc5 = removeNewUpdatedFromNodeText(tndDiff5.Text);
+                                            tnd5.Text = tcc5.textValue;
+                                            tnd5.BackColor = tcc5.color;
                                             tnd5.Checked = tndDiff2.Checked;
 
                                             if (tndDiff5.Nodes.Count > 0)
@@ -208,7 +217,9 @@ namespace SalesforceMetadata
                                                 foreach (TreeNode tndDiff6 in tndDiff5.Nodes)
                                                 {
                                                     TreeNode tnd6 = new TreeNode();
-                                                    tnd6.Text = removeNewUpdatedFromNodeText(tndDiff6.Text);
+                                                    TextToColor tcc6 = removeNewUpdatedFromNodeText(tndDiff6.Text);
+                                                    tnd6.Text = tcc6.textValue;
+                                                    tnd6.BackColor = tcc6.color;
                                                     tnd6.Checked = tndDiff2.Checked;
 
                                                     tnd5.Nodes.Add(tnd6);
@@ -235,24 +246,26 @@ namespace SalesforceMetadata
             }
         }
 
-        private String removeNewUpdatedFromNodeText(String currentTextValue)
+        private TextToColor removeNewUpdatedFromNodeText(String currentTextValue)
         {
-            String returnval = "";
+            TextToColor ttc = new TextToColor();
 
             if (currentTextValue.StartsWith("[New]"))
             {
-                returnval = currentTextValue.Substring(6, currentTextValue.Length - 6);
+                ttc.textValue = currentTextValue.Substring(6, currentTextValue.Length - 6);
+                ttc.color = Color.LightBlue;
             }
             else if (currentTextValue.StartsWith("[Updated]"))
             {
-                returnval = currentTextValue.Substring(10, currentTextValue.Length - 10);
+                ttc.textValue = currentTextValue.Substring(10, currentTextValue.Length - 10);
+                ttc.color = Color.LightGoldenrodYellow;
             }
             else
             {
-                returnval = currentTextValue;
+                ttc.textValue = currentTextValue;
             }
 
-            return returnval;
+            return ttc;
         }
 
         public void defaultSelectedFromMetadataComp()
@@ -2117,6 +2130,12 @@ namespace SalesforceMetadata
             }
 
             this.cmbDefaultAPI.Text = Properties.Settings.Default.DefaultAPI;
+        }
+
+        private class TextToColor
+        {
+            public String textValue { get; set; }
+            public Color color { get; set; }
         }
 
     }

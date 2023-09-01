@@ -36,7 +36,6 @@
             this.listViewSobjectFields = new System.Windows.Forms.ListView();
             this.btnSaveFieldsToFile = new System.Windows.Forms.Button();
             this.salesforceOrgCredentials = new System.Windows.Forms.GroupBox();
-            this.clbDataTypeFilter = new System.Windows.Forms.CheckedListBox();
             this.lblSFUsername = new System.Windows.Forms.Label();
             this.btnSaveObjectsToFile = new System.Windows.Forms.Button();
             this.tbPassword = new System.Windows.Forms.TextBox();
@@ -125,7 +124,6 @@
             // salesforceOrgCredentials
             // 
             this.salesforceOrgCredentials.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.salesforceOrgCredentials.Controls.Add(this.clbDataTypeFilter);
             this.salesforceOrgCredentials.Controls.Add(this.lblSFUsername);
             this.salesforceOrgCredentials.Controls.Add(this.btnSaveObjectsToFile);
             this.salesforceOrgCredentials.Controls.Add(this.tbPassword);
@@ -144,45 +142,6 @@
             this.salesforceOrgCredentials.TabStop = false;
             this.salesforceOrgCredentials.Text = "Salesforce Org Credentials";
             // 
-            // clbDataTypeFilter
-            // 
-            this.clbDataTypeFilter.FormattingEnabled = true;
-            this.clbDataTypeFilter.Items.AddRange(new object[] {
-            "All",
-            "Id",
-            "Reference (Lookup / Master-Detail)",
-            "Address",
-            "AnyType",
-            "Base 64",
-            "Boolean",
-            "Calculated",
-            "Combobox",
-            "Complex Value",
-            "Currency",
-            "DataCategoryGroupReference",
-            "Date",
-            "Double",
-            "Email",
-            "EncryptedString",
-            "Integer",
-            "JunctionIdList",
-            "Location",
-            "Long",
-            "Masterrecord",
-            "Multi-Select Picklist",
-            "Percent",
-            "Phone",
-            "Picklist",
-            "String",
-            "Text-Area",
-            "Time",
-            "URL"});
-            this.clbDataTypeFilter.Location = new System.Drawing.Point(708, 24);
-            this.clbDataTypeFilter.Name = "clbDataTypeFilter";
-            this.clbDataTypeFilter.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.clbDataTypeFilter.Size = new System.Drawing.Size(342, 94);
-            this.clbDataTypeFilter.TabIndex = 8;
-            // 
             // lblSFUsername
             // 
             this.lblSFUsername.AutoSize = true;
@@ -195,6 +154,7 @@
             // 
             // btnSaveObjectsToFile
             // 
+            this.btnSaveObjectsToFile.Enabled = false;
             this.btnSaveObjectsToFile.Location = new System.Drawing.Point(437, 67);
             this.btnSaveObjectsToFile.Margin = new System.Windows.Forms.Padding(2);
             this.btnSaveObjectsToFile.Name = "btnSaveObjectsToFile";
@@ -405,7 +365,6 @@
         private System.Windows.Forms.CheckedListBox sobjectListBox;
         private System.Windows.Forms.GroupBox grpSaveToExcel;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.CheckedListBox clbDataTypeFilter;
         private System.Windows.Forms.Button btnGetReferenceFields;
         private System.Windows.Forms.CheckBox cbSelectNone;
         private System.Windows.Forms.CheckBox cbSelectAll;

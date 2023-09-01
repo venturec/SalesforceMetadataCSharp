@@ -19,7 +19,7 @@ namespace SalesforceMetadata
         // Key = the Metadata Name. Value = the folder the metadata file comes from
         private Dictionary<String, String> metadataXmlNameToFolder;
         private Dictionary<String, String> usernameToSecurityToken;
-        private frmUserSettings userSetting;
+        private UserSettings userSetting;
         private List<String> metadataObjectsList;
 
         private UtilityClass.REQUESTINGORG reqOrg;
@@ -105,11 +105,25 @@ namespace SalesforceMetadata
 
         private void cmbUserName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
+            if (this.cmbUserName.Text == "")
+            {
+                this.tbPassword.Text = "";
+                this.tbSecurityToken.Text = "";
+            }
+            else if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
             {
                 this.lblSalesforce.Text = "Salesforce";
                 this.Text = "Salesforce Metadata - Production";
                 this.orgName = "Production";
+
+                this.tbPassword.Text = "";
+                this.tbSecurityToken.Text = "";
+                if (this.usernameToSecurityToken.ContainsKey(this.cmbUserName.Text))
+                {
+                    this.tbSecurityToken.Text = this.usernameToSecurityToken[cmbUserName.Text];
+                }
+
+                this.btnGetMetadataTypes.Enabled = true;
             }
             else
             {
@@ -118,16 +132,17 @@ namespace SalesforceMetadata
                 this.orgName = userNamesplit[userNamesplit.Length - 1].ToUpper();
                 this.Text = "Salesforce Metadata - " + this.orgName;
 
+                this.tbPassword.Text = "";
+                this.tbSecurityToken.Text = "";
+                if (this.usernameToSecurityToken.ContainsKey(this.cmbUserName.Text))
+                {
+                    this.tbSecurityToken.Text = this.usernameToSecurityToken[cmbUserName.Text];
+                }
+
+                this.btnGetMetadataTypes.Enabled = true;
+
             }
 
-            this.tbSecurityToken.Text = "";
-            if (this.usernameToSecurityToken.ContainsKey(this.cmbUserName.Text))
-            {
-                this.tbSecurityToken.Text = this.usernameToSecurityToken[cmbUserName.Text];
-            }
-
-            this.btnGetMetadataTypes.Enabled = true;
-            this.tbPassword.Text = "";
             this.lbMetadataTypes.Items.Clear();
         }
 
@@ -501,7 +516,7 @@ namespace SalesforceMetadata
 
         private void addUserAndSOAPAPIAddress()
         {
-            userSetting = new frmUserSettings();
+            userSetting = new UserSettings();
 
             if (userSetting.IsDisposed)
             {
@@ -519,45 +534,38 @@ namespace SalesforceMetadata
 
         private void btnDeploy_Click(object sender, EventArgs e)
         {
-            if (this.cmbUserName.Text == "" || this.cmbUserName.Text == "")
+            SalesforceCredentials.fromOrgUsername = null;
+            SalesforceCredentials.fromOrgPassword = null;
+            SalesforceCredentials.fromOrgSecurityToken = null;
+
+            // Validate if the form is already opened and bring it to the front if it is.
+            Boolean isAlreadyOpen = false;
+            FormCollection fc = Application.OpenForms;
+            foreach (System.Windows.Forms.Form openFrm in fc)
             {
-                MessageBox.Show("Please enter your credentials before continuing");
+                if (openFrm.Name == "DeployMetadata")
+                {
+                    openFrm.Show();
+                    openFrm.Location = this.Location;
+                    openFrm.BringToFront();
+                    isAlreadyOpen = true;
+                }
             }
-            else
+
+            if (isAlreadyOpen == false)
             {
-                SalesforceCredentials.fromOrgUsername = null;
-                SalesforceCredentials.fromOrgPassword = null;
-                SalesforceCredentials.fromOrgSecurityToken = null;
+                DeployMetadata dm = new DeployMetadata();
 
-                // Validate if the form is already opened and bring it to the front if it is.
-                Boolean isAlreadyOpen = false;
-                FormCollection fc = Application.OpenForms;
-                foreach (System.Windows.Forms.Form openFrm in fc)
+                dm.cmbUserName.SelectedItem = this.cmbUserName.Text;
+                dm.tbPassword.Text = this.tbPassword.Text;
+                dm.tbSecurityToken.Text = this.tbSecurityToken.Text;
+                if (this.cmbUserName.Text != "")
                 {
-                    if (openFrm.Name == "DeployMetadata")
-                    {
-                        //openFrm.salesforceUserName = this.cmbUserName.Text;
-                        //SalesforceCredentials.toOrgPassword = this.tbPassword.Text;
-                        //SalesforceCredentials.toOrgSecurityToken = this.tbSecurityToken.Text;
-
-                        openFrm.Show();
-                        openFrm.Location = this.Location;
-                        openFrm.BringToFront();
-                        isAlreadyOpen = true;
-                    }
-                }
-
-                if (isAlreadyOpen == false)
-                {
-                    DeployMetadata dm = new DeployMetadata();
-                    dm.salesforceUserName = this.cmbUserName.Text;
-                    dm.salesforcePassword = this.tbPassword.Text;
-                    dm.salesforceSecurityToken = this.tbSecurityToken.Text;
-
                     dm.isProduction = SalesforceCredentials.isProduction[this.cmbUserName.Text];
-                    dm.Show();
-                    dm.Location = this.Location;
                 }
+
+                dm.Show();
+                dm.Location = this.Location;
             }
         }
 

@@ -416,6 +416,9 @@ namespace SalesforceMetadata
                 // Therefore, add all files in the directory
                 else
                 {
+                    mstrFileComparison = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>();
+                    compFileComparison = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>();
+
                     // add directory from the master and all related files
                     // Add the entire block to the Difference Tree View: folder name + all files in that folder as subnodes of the parent
                     foreach (String mObjFile in mDirAndFiles[mDir].Keys)

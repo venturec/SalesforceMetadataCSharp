@@ -19,9 +19,9 @@ namespace SalesforceMetadata
     {
         public Boolean isProduction;
 
-        public String salesforceUserName;
-        public String salesforcePassword;
-        public String salesforceSecurityToken;
+        //public String salesforceUserName;
+        //public String salesforcePassword;
+        //public String salesforceSecurityToken;
 
         private int ONE_SECOND = 1000;
         private int MAX_NUM_POLL_REQUESTS = 50;
@@ -261,11 +261,21 @@ namespace SalesforceMetadata
 
         private void cmbUserName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
+            if (this.cmbUserName.Text == "")
+            {
+                this.tbPassword.Text = "";
+                this.tbSecurityToken.Text = "";
+            }
+            else if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
             {
                 this.lblSalesforce.Text = "Salesforce";
                 this.Text = "Salesforce Metadata - Production";
                 this.orgName = "Production";
+                this.tbSecurityToken.Text = "";
+                if (this.usernameToSecurityToken.ContainsKey(this.cmbUserName.Text))
+                {
+                    this.tbSecurityToken.Text = this.usernameToSecurityToken[cmbUserName.Text];
+                }
             }
             else
             {
@@ -273,13 +283,11 @@ namespace SalesforceMetadata
                 String[] userNamesplit = this.cmbUserName.Text.Split('.');
                 this.orgName = userNamesplit[userNamesplit.Length - 1].ToUpper();
                 this.Text = "Salesforce Metadata - " + this.orgName;
-
-            }
-
-            this.tbSecurityToken.Text = "";
-            if (this.usernameToSecurityToken.ContainsKey(this.cmbUserName.Text))
-            {
-                this.tbSecurityToken.Text = this.usernameToSecurityToken[cmbUserName.Text];
+                this.tbSecurityToken.Text = "";
+                if (this.usernameToSecurityToken.ContainsKey(this.cmbUserName.Text))
+                {
+                    this.tbSecurityToken.Text = this.usernameToSecurityToken[cmbUserName.Text];
+                }
             }
         }
 

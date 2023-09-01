@@ -19,6 +19,12 @@ namespace SalesforceMetadata
         public frmSearch()
         {
             InitializeComponent();
+            populateLastSearchLocation();
+        }
+
+        private void populateLastSearchLocation()
+        {
+            this.tbSearchLocation.Text = Properties.Settings.Default.LastSearchLocation;
         }
 
         private void btnSearch_Click(object sender, EventArgs e)

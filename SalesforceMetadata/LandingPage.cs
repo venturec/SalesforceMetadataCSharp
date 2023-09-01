@@ -15,7 +15,7 @@ namespace SalesforceMetadata
 {
     public partial class LandingPage : System.Windows.Forms.Form
     {
-        private frmUserSettings userSetting;
+        private UserSettings userSetting;
 
         public LandingPage()
         {
@@ -44,13 +44,13 @@ namespace SalesforceMetadata
         {
             if (userSetting == null)
             {
-                userSetting = new frmUserSettings();
+                userSetting = new UserSettings();
                 userSetting.Show();
                 userSetting.Location = this.Location;
             }
             else if (userSetting.IsDisposed)
             {
-                userSetting = new frmUserSettings();
+                userSetting = new UserSettings();
                 userSetting.Show();
                 userSetting.Location = this.Location;
                 userSetting.BringToFront();
@@ -72,7 +72,7 @@ namespace SalesforceMetadata
 
         private void BtnParseDebugLogs_Click(object sender, EventArgs e)
         {
-            frmParseDebugLogs parseDebugs = new frmParseDebugLogs();
+            ParseDebugLogs parseDebugs = new ParseDebugLogs();
             parseDebugs.Show();
             parseDebugs.Location = this.Location;
         }

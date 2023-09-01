@@ -107,5 +107,47 @@ namespace SalesforceMetadata
 
             return msExcelInstalled;
         }
+
+
+        public static void copyDirectory(string sourceDir, string destinationDir, bool recursive)
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(sourceDir);
+
+            // Cache directories before we start copying
+            DirectoryInfo[] dirs = dirInfo.GetDirectories();
+
+            // Create the destination directory
+            Directory.CreateDirectory(destinationDir);
+
+            // Get the files in the source directory and copy to the destination directory
+            foreach (FileInfo file in dirInfo.GetFiles())
+            {
+                string targetFilePath = Path.Combine(destinationDir, file.Name);
+                file.CopyTo(targetFilePath);
+            }
+
+            // If recursive and copying subdirectories, recursively call this method
+            if (recursive)
+            {
+                foreach (DirectoryInfo subDir in dirs)
+                {
+                    string newDestinationDir = Path.Combine(destinationDir, subDir.Name);
+                    copyDirectory(subDir.FullName, newDestinationDir, true);
+                }
+            }
+        }
+
+        public static void deleteAllFoldersAndFiles(string sourceDir, bool recursive)
+        {
+            DirectoryInfo di = new DirectoryInfo(sourceDir);
+            foreach (FileInfo file in di.GetFiles()) 
+            {
+                file.Delete();
+            }
+            foreach (DirectoryInfo dir in di.GetDirectories())
+            {
+                dir.Delete(recursive);
+            }
+        }
     }
 }

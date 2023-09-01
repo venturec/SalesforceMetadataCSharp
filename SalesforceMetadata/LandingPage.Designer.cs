@@ -190,10 +190,10 @@
             // 
             // MetadataComparison
             // 
-            this.MetadataComparison.Location = new System.Drawing.Point(9, 86);
+            this.MetadataComparison.Location = new System.Drawing.Point(9, 127);
             this.MetadataComparison.Name = "MetadataComparison";
             this.MetadataComparison.Size = new System.Drawing.Size(190, 35);
-            this.MetadataComparison.TabIndex = 3;
+            this.MetadataComparison.TabIndex = 4;
             this.MetadataComparison.Text = "Metadata Comparison";
             this.MetadataComparison.UseVisualStyleBackColor = true;
             this.MetadataComparison.Click += new System.EventHandler(this.MetadataComparison_Click);
@@ -210,10 +210,10 @@
             // 
             // btnGenerateDeploymentPackage
             // 
-            this.btnGenerateDeploymentPackage.Location = new System.Drawing.Point(9, 127);
+            this.btnGenerateDeploymentPackage.Location = new System.Drawing.Point(9, 168);
             this.btnGenerateDeploymentPackage.Name = "btnGenerateDeploymentPackage";
             this.btnGenerateDeploymentPackage.Size = new System.Drawing.Size(190, 35);
-            this.btnGenerateDeploymentPackage.TabIndex = 4;
+            this.btnGenerateDeploymentPackage.TabIndex = 5;
             this.btnGenerateDeploymentPackage.Text = "Generate Deployment Package";
             this.btnGenerateDeploymentPackage.UseVisualStyleBackColor = true;
             this.btnGenerateDeploymentPackage.Click += new System.EventHandler(this.btnGenerateDeploymentPackage_Click);
@@ -230,10 +230,10 @@
             // 
             // btnDevelopmentIde
             // 
-            this.btnDevelopmentIde.Location = new System.Drawing.Point(9, 168);
+            this.btnDevelopmentIde.Location = new System.Drawing.Point(9, 87);
             this.btnDevelopmentIde.Name = "btnDevelopmentIde";
             this.btnDevelopmentIde.Size = new System.Drawing.Size(190, 34);
-            this.btnDevelopmentIde.TabIndex = 5;
+            this.btnDevelopmentIde.TabIndex = 3;
             this.btnDevelopmentIde.Text = "Development IDE";
             this.btnDevelopmentIde.UseVisualStyleBackColor = true;
             this.btnDevelopmentIde.Click += new System.EventHandler(this.btnDevelopmentIde_Click);

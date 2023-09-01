@@ -44,6 +44,7 @@
             this.lblPassword = new System.Windows.Forms.Label();
             this.lblSecurityToken = new System.Windows.Forms.Label();
             this.cmbUserName = new System.Windows.Forms.ComboBox();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.fromOrgGroup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,8 +65,10 @@
             this.treeViewMetadata.CheckBoxes = true;
             this.treeViewMetadata.Location = new System.Drawing.Point(14, 142);
             this.treeViewMetadata.Name = "treeViewMetadata";
-            this.treeViewMetadata.Size = new System.Drawing.Size(880, 505);
+            this.treeViewMetadata.Size = new System.Drawing.Size(880, 681);
             this.treeViewMetadata.TabIndex = 5;
+            this.treeViewMetadata.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMetadata_AfterCheck);
+            this.treeViewMetadata.DoubleClick += new System.EventHandler(this.treeViewMetadata_DoubleClick);
             // 
             // tbParentFolder
             // 
@@ -74,6 +77,7 @@
             this.tbParentFolder.Name = "tbParentFolder";
             this.tbParentFolder.Size = new System.Drawing.Size(703, 23);
             this.tbParentFolder.TabIndex = 2;
+            this.tbParentFolder.TextChanged += new System.EventHandler(this.tbParentFolder_TextChanged);
             this.tbParentFolder.DoubleClick += new System.EventHandler(this.tbParentFolder_DoubleClick);
             // 
             // lblFolder
@@ -103,27 +107,29 @@
             this.tbDeployFrom.Name = "tbDeployFrom";
             this.tbDeployFrom.Size = new System.Drawing.Size(703, 23);
             this.tbDeployFrom.TabIndex = 4;
+            this.tbDeployFrom.TextChanged += new System.EventHandler(this.tbDeployFrom_TextChanged);
             this.tbDeployFrom.DoubleClick += new System.EventHandler(this.tbDeployFrom_DoubleClick);
             // 
             // btnRetrieveFromOrg
             // 
             this.btnRetrieveFromOrg.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRetrieveFromOrg.Location = new System.Drawing.Point(939, 142);
+            this.btnRetrieveFromOrg.Location = new System.Drawing.Point(1324, 142);
             this.btnRetrieveFromOrg.Name = "btnRetrieveFromOrg";
             this.btnRetrieveFromOrg.Size = new System.Drawing.Size(138, 34);
-            this.btnRetrieveFromOrg.TabIndex = 6;
+            this.btnRetrieveFromOrg.TabIndex = 7;
             this.btnRetrieveFromOrg.Text = "Retrieve from Org";
             this.btnRetrieveFromOrg.UseVisualStyleBackColor = true;
             // 
             // btnDeployToOrg
             // 
             this.btnDeployToOrg.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeployToOrg.Location = new System.Drawing.Point(939, 191);
+            this.btnDeployToOrg.Location = new System.Drawing.Point(1324, 191);
             this.btnDeployToOrg.Name = "btnDeployToOrg";
             this.btnDeployToOrg.Size = new System.Drawing.Size(138, 34);
-            this.btnDeployToOrg.TabIndex = 7;
+            this.btnDeployToOrg.TabIndex = 8;
             this.btnDeployToOrg.Text = "Deploy to Org";
             this.btnDeployToOrg.UseVisualStyleBackColor = true;
+            this.btnDeployToOrg.Click += new System.EventHandler(this.btnDeployToOrg_Click);
             // 
             // fromOrgGroup
             // 
@@ -138,7 +144,7 @@
             this.fromOrgGroup.Location = new System.Drawing.Point(939, 12);
             this.fromOrgGroup.Name = "fromOrgGroup";
             this.fromOrgGroup.Size = new System.Drawing.Size(523, 115);
-            this.fromOrgGroup.TabIndex = 8;
+            this.fromOrgGroup.TabIndex = 9;
             this.fromOrgGroup.TabStop = false;
             this.fromOrgGroup.Text = "From Org";
             // 
@@ -201,11 +207,22 @@
             this.cmbUserName.TabIndex = 2;
             this.cmbUserName.SelectedIndexChanged += new System.EventHandler(this.cmbUserName_SelectedIndexChanged);
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(743, 113);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(151, 23);
+            this.btnRefresh.TabIndex = 6;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
             // DevelopmentEnvironment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1481, 659);
+            this.ClientSize = new System.Drawing.Size(1481, 835);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.fromOrgGroup);
             this.Controls.Add(this.btnDeployToOrg);
             this.Controls.Add(this.btnRetrieveFromOrg);
@@ -228,11 +245,11 @@
         #endregion
 
         private System.Windows.Forms.Label lblNote;
-        private System.Windows.Forms.TreeView treeViewMetadata;
-        private System.Windows.Forms.TextBox tbParentFolder;
+        public System.Windows.Forms.TreeView treeViewMetadata;
+        public System.Windows.Forms.TextBox tbParentFolder;
         private System.Windows.Forms.Label lblFolder;
         private System.Windows.Forms.Label lblDeploymentFolder;
-        private System.Windows.Forms.TextBox tbDeployFrom;
+        public System.Windows.Forms.TextBox tbDeployFrom;
         private System.Windows.Forms.Button btnRetrieveFromOrg;
         private System.Windows.Forms.Button btnDeployToOrg;
         private System.Windows.Forms.GroupBox fromOrgGroup;
@@ -242,5 +259,6 @@
         private System.Windows.Forms.Label lblPassword;
         private System.Windows.Forms.Label lblSecurityToken;
         private System.Windows.Forms.ComboBox cmbUserName;
+        private System.Windows.Forms.Button btnRefresh;
     }
 }

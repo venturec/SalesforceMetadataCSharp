@@ -37,6 +37,10 @@ namespace SalesforceMetadata
             alreadyAdded = new HashSet<String>();
         }
 
+        public void populateSaveToLocation()
+        {
+            this.tbFromOrgSaveLocation.Text = Properties.Settings.Default.MetadataLastSaveToLocation;
+        }
 
         private void btnRetrieveMetadataFromSelected_Click(object sender, EventArgs e)
         {
@@ -629,69 +633,71 @@ namespace SalesforceMetadata
                 {
                     String[] subdirSplit = subDirectoryList[i].Split('\\');
 
-                    if (folderSkips.Contains(subdirSplit[subdirSplit.Length - 1]))
+                    if (!folderSkips.Contains(subdirSplit[subdirSplit.Length - 1]))
                     {
-                        continue;
-                    }
-
-                    try
-                    {
-                        // Get all files in the current directory
-                        String[] files = Directory.GetFiles(subDirectoryList[i]);
-                        if (files.Length > 0)
+                        try
                         {
-                            for (Int32 j = 0; j < files.Length; j++)
+                            // Get all files in the current directory
+                            String[] files = Directory.GetFiles(subDirectoryList[i]);
+                            if (files.Length > 0)
                             {
-                                FileInfo fi = new FileInfo(files[j]);
-                                fi.CopyTo(files[j] + "-meta.xml");
-                                fi.Delete();
-                            }
-                        }
-                    }
-                    catch (Exception exc)
-                    {
-
-                    }
-
-                    subdirectorySearchCompleted.Add(subDirectoryList[i]);
-
-                }
-
-                // Check if there are any additional sub directories in the current directory and add them to the list
-                List<String> subDirectories = new List<String>();
-                for (Int32 i = 0; i < subDirectoryList.Count; i++)
-                {
-                    if (subDirectoryList[i] != targetDirectory)
-                    {
-                        List<String> sds = getSubdirectories(subDirectoryList[i]);
-                        if (sds.Count > 0)
-                        {
-                            foreach (String s in sds)
-                            {
-                                if (!subdirectorySearchCompleted.Contains(s))
+                                for (Int32 j = 0; j < files.Length; j++)
                                 {
-                                    subDirectories.Add(s);
+                                    FileInfo fi = new FileInfo(files[j]);
+                                    fi.CopyTo(files[j] + "-meta.xml");
+                                    fi.Delete();
                                 }
                             }
                         }
-                    }
-                }
-
-                // Remove the current directories in subDirectoriesList before adding the additional subdirectories
-                // so the tool does not review them again
-                subDirectoryList.Clear();
-
-                if (subDirectories.Count > 0)
-                {
-                    foreach (String s in subDirectories)
-                    {
-                        if (!subDirectoryList.Contains(s))
+                        catch (Exception exc)
                         {
-                            subDirectoryList.Add(s);
+
+                        }
+
+                        subdirectorySearchCompleted.Add(subDirectoryList[i]);
+
+
+                        // Check if there are any additional sub directories in the current directory and add them to the list
+                        List<String> subDirectories = new List<String>();
+                        for (Int32 j = 0; j < subDirectoryList.Count; j++)
+                        {
+                            if (subDirectoryList[j] != targetDirectory)
+                            {
+                                List<String> sds = getSubdirectories(subDirectoryList[j]);
+                                if (sds.Count > 0)
+                                {
+                                    foreach (String s in sds)
+                                    {
+                                        if (!subdirectorySearchCompleted.Contains(s))
+                                        {
+                                            subDirectories.Add(s);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // Remove the current directories in subDirectoriesList before adding the additional subdirectories
+                        // so the tool does not review them again
+                        subDirectoryList.Clear();
+
+                        if (subDirectories.Count > 0)
+                        {
+                            foreach (String s in subDirectories)
+                            {
+                                if (!subDirectoryList.Contains(s))
+                                {
+                                    subDirectoryList.Add(s);
+                                }
+                            }
+
+                            subDirectories.Clear();
                         }
                     }
-
-                    subDirectories.Clear();
+                    else
+                    {
+                        subDirectoryList.Remove(subDirectoryList[i]);
+                    }
                 }
             }
         }

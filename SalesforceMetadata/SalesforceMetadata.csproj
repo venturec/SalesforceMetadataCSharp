@@ -110,17 +110,17 @@
     <Compile Include="ExtractWebsite.Designer.cs">
       <DependentUpon>ExtractWebsite.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmParseDebugLogs.cs">
+    <Compile Include="ParseDebugLogs.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmParseDebugLogs.Designer.cs">
-      <DependentUpon>frmParseDebugLogs.cs</DependentUpon>
+    <Compile Include="ParseDebugLogs.Designer.cs">
+      <DependentUpon>ParseDebugLogs.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmUserSettings.cs">
+    <Compile Include="UserSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmUserSettings.Designer.cs">
-      <DependentUpon>frmUserSettings.cs</DependentUpon>
+    <Compile Include="UserSettings.Designer.cs">
+      <DependentUpon>UserSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="GenerateDeploymentPackage.cs">
       <SubType>Form</SubType>
@@ -239,11 +239,11 @@
     <EmbeddedResource Include="ExtractWebsite.resx">
       <DependentUpon>ExtractWebsite.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmParseDebugLogs.resx">
-      <DependentUpon>frmParseDebugLogs.cs</DependentUpon>
+    <EmbeddedResource Include="ParseDebugLogs.resx">
+      <DependentUpon>ParseDebugLogs.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmUserSettings.resx">
-      <DependentUpon>frmUserSettings.cs</DependentUpon>
+    <EmbeddedResource Include="UserSettings.resx">
+      <DependentUpon>UserSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GenerateDeploymentPackage.resx">
       <DependentUpon>GenerateDeploymentPackage.cs</DependentUpon>

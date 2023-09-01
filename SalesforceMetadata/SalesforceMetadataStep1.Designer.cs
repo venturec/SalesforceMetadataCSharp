@@ -60,7 +60,7 @@
             // btnGetMetadataTypes
             // 
             this.btnGetMetadataTypes.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.btnGetMetadataTypes.Location = new System.Drawing.Point(822, 214);
+            this.btnGetMetadataTypes.Location = new System.Drawing.Point(821, 214);
             this.btnGetMetadataTypes.Margin = new System.Windows.Forms.Padding(2);
             this.btnGetMetadataTypes.Name = "btnGetMetadataTypes";
             this.btnGetMetadataTypes.Size = new System.Drawing.Size(165, 25);
@@ -188,7 +188,7 @@
             // btnDeploy
             // 
             this.btnDeploy.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.btnDeploy.Location = new System.Drawing.Point(822, 374);
+            this.btnDeploy.Location = new System.Drawing.Point(821, 441);
             this.btnDeploy.Name = "btnDeploy";
             this.btnDeploy.Size = new System.Drawing.Size(165, 23);
             this.btnDeploy.TabIndex = 15;
@@ -216,11 +216,11 @@
             // btnDevSBSeeding
             // 
             this.btnDevSBSeeding.BackColor = System.Drawing.SystemColors.Control;
-            this.btnDevSBSeeding.Location = new System.Drawing.Point(822, 318);
+            this.btnDevSBSeeding.Location = new System.Drawing.Point(1012, 441);
             this.btnDevSBSeeding.Margin = new System.Windows.Forms.Padding(2);
             this.btnDevSBSeeding.Name = "btnDevSBSeeding";
-            this.btnDevSBSeeding.Size = new System.Drawing.Size(165, 28);
-            this.btnDevSBSeeding.TabIndex = 14;
+            this.btnDevSBSeeding.Size = new System.Drawing.Size(165, 24);
+            this.btnDevSBSeeding.TabIndex = 16;
             this.btnDevSBSeeding.Text = "Open Dev Sandbox Seeding Form";
             this.btnDevSBSeeding.UseVisualStyleBackColor = false;
             this.btnDevSBSeeding.Click += new System.EventHandler(this.btnDevSBSeeding_Click);
@@ -228,30 +228,30 @@
             // btnSobjectFieldInspector
             // 
             this.btnSobjectFieldInspector.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.btnSobjectFieldInspector.Location = new System.Drawing.Point(822, 425);
+            this.btnSobjectFieldInspector.Location = new System.Drawing.Point(821, 244);
             this.btnSobjectFieldInspector.Name = "btnSobjectFieldInspector";
             this.btnSobjectFieldInspector.Size = new System.Drawing.Size(165, 27);
-            this.btnSobjectFieldInspector.TabIndex = 16;
+            this.btnSobjectFieldInspector.TabIndex = 12;
             this.btnSobjectFieldInspector.Text = "Sobject Field Inspector";
             this.btnSobjectFieldInspector.UseVisualStyleBackColor = false;
             this.btnSobjectFieldInspector.Click += new System.EventHandler(this.btnSobjectFieldInspector_Click);
             // 
             // btnFromGenerateToolingChangeReport
             // 
-            this.btnFromGenerateToolingChangeReport.Location = new System.Drawing.Point(822, 266);
+            this.btnFromGenerateToolingChangeReport.Location = new System.Drawing.Point(821, 277);
             this.btnFromGenerateToolingChangeReport.Name = "btnFromGenerateToolingChangeReport";
             this.btnFromGenerateToolingChangeReport.Size = new System.Drawing.Size(165, 25);
-            this.btnFromGenerateToolingChangeReport.TabIndex = 12;
+            this.btnFromGenerateToolingChangeReport.TabIndex = 13;
             this.btnFromGenerateToolingChangeReport.Text = "Generate Tooling Report";
             this.btnFromGenerateToolingChangeReport.UseVisualStyleBackColor = true;
             this.btnFromGenerateToolingChangeReport.Click += new System.EventHandler(this.btnFromGenerateToolingChangeReport_Click);
             // 
             // btnConfigurationWorkbook
             // 
-            this.btnConfigurationWorkbook.Location = new System.Drawing.Point(1012, 266);
+            this.btnConfigurationWorkbook.Location = new System.Drawing.Point(821, 308);
             this.btnConfigurationWorkbook.Name = "btnConfigurationWorkbook";
             this.btnConfigurationWorkbook.Size = new System.Drawing.Size(165, 25);
-            this.btnConfigurationWorkbook.TabIndex = 13;
+            this.btnConfigurationWorkbook.TabIndex = 14;
             this.btnConfigurationWorkbook.Text = "Configuration Workbook";
             this.btnConfigurationWorkbook.UseVisualStyleBackColor = true;
             this.btnConfigurationWorkbook.Click += new System.EventHandler(this.btnConfigurationWorkbook_Click);

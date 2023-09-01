@@ -313,10 +313,10 @@
         private System.Windows.Forms.TextBox tbTestsToRun;
         private System.Windows.Forms.TextBox tbDeploymentName;
         private System.Windows.Forms.Label lblDeploymentName;
-        private System.Windows.Forms.CheckBox cbCheckOnly;
+        public System.Windows.Forms.CheckBox cbCheckOnly;
         public System.Windows.Forms.Button btnDeployMetadata;
         private System.Windows.Forms.Label lblZipFileLocation;
-        private System.Windows.Forms.TextBox tbZipFileLocation;
+        public System.Windows.Forms.TextBox tbZipFileLocation;
         private System.Windows.Forms.RichTextBox rtMessages;
         private System.Windows.Forms.Label lblDeploymentMessage;
         private System.Windows.Forms.CheckBox cbPurgeOnDelete;
@@ -325,11 +325,11 @@
         private System.Windows.Forms.CheckBox cbRunTests;
         private System.Windows.Forms.GroupBox fromOrgGroup;
         private System.Windows.Forms.Label lblSFUsername;
-        private System.Windows.Forms.TextBox tbPassword;
-        private System.Windows.Forms.TextBox tbSecurityToken;
+        public System.Windows.Forms.TextBox tbPassword;
+        public System.Windows.Forms.TextBox tbSecurityToken;
         private System.Windows.Forms.Label lblPassword;
         private System.Windows.Forms.Label lblSecurityToken;
-        private System.Windows.Forms.ComboBox cmbUserName;
+        public System.Windows.Forms.ComboBox cmbUserName;
         private System.Windows.Forms.Label lblSalesforce;
     }
 }

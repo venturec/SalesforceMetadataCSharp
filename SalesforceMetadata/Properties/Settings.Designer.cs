@@ -316,5 +316,17 @@ namespace SalesforceMetadata.Properties {
                 this["ApiVersionUpdaterLastReadLocation"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SobjectReportLocation {
+            get {
+                return ((string)(this["SobjectReportLocation"]));
+            }
+            set {
+                this["SobjectReportLocation"] = value;
+            }
+        }
     }
 }

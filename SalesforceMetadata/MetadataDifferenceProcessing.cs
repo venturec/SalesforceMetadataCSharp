@@ -2902,10 +2902,10 @@ namespace SalesforceMetadata
             {
                 typeName = "Audience";
             }
-            //else if (folderName == "")
-            //{
-            //    typeName = "AuraDefinitionBundle";
-            //}
+            else if (folderName == "aura")
+            {
+                typeName = "AuraDefinitionBundle";
+            }
             else if (folderName == "authproviders")
             {
                 typeName = "AuthProvider";
@@ -3211,10 +3211,10 @@ namespace SalesforceMetadata
             {
                 typeName = "LightningBolt";
             }
-            //else if (folderName == "")
-            //{
-            //    typeName = "LightningComponentBundle";
-            //}
+            else if (folderName == "lwc")
+            {
+                typeName = "LightningComponentBundle";
+            }
             else if (folderName == "lightningExperienceThemes")
             {
                 typeName = "LightningExperienceTheme";

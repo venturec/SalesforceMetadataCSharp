@@ -22,6 +22,7 @@ namespace SalesforceMetadata
         private Dictionary<String, String> usernameToSecurityToken;
 
         private List<String> sObjectsList;
+        private List<DescribeGlobalSObjectResult> sObjGlobalResultList;
         private ListViewColumnSorter lvwColumnSorter;
 
 
@@ -71,7 +72,8 @@ namespace SalesforceMetadata
         {
             Boolean sfLoginSuccess = false;
             this.listViewSobjectFields.Items.Clear();
-            sObjectsList = new List<string>();
+            this.sObjectsList = new List<string>();
+            this.sObjGlobalResultList = new List<DescribeGlobalSObjectResult>();
 
             if (this.cmbUserName.Text == "" || this.tbPassword.Text == "")
             {
@@ -95,13 +97,15 @@ namespace SalesforceMetadata
             {
                 this.cmbSalesforceSObjects.Items.Add(dgsr.name);
                 this.sobjectListBox.Items.Add(dgsr.name);
-                sObjectsList.Add(dgsr.name);
+                this.sObjectsList.Add(dgsr.name);
+                this.sObjGlobalResultList.Add(dgsr);
             }
 
             this.cmbSalesforceSObjects.Sorted = true;
 
             this.btnGetSobjects.Enabled = false;
 
+            this.btnSaveObjectsToFile.Enabled = true;
         }
 
         private void populateListView(String sobjectName)
@@ -591,6 +595,12 @@ namespace SalesforceMetadata
 
         private void btnSaveObjectsToFile_Click(object sender, EventArgs e)
         {
+            //if (this.tbSaveSobjectsTo.Text == "")
+            //{
+            //    MessageBox.Show("Please select a location to save the Sobject CSV File to");
+            //    return;
+            //}
+
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "CSV|*.csv";
             sfd.FileName =  "SobjectList.csv";
@@ -599,18 +609,79 @@ namespace SalesforceMetadata
 
             if (sfd.FileName != "")
             {
-                StringBuilder sb = new StringBuilder();
+                StreamWriter sw = new StreamWriter(sfd.FileName, false);
+                sw.WriteLine("sObjectName,"
+                    + "sObjectLabel,"
+                    + "labelPlural,"
+                    + "keyPrefix,"
+                    + "custom,"
+                    + "customSetting,"
+                    + "deprecatedAndHidden,"
+                    + "createable,"
+                    + "updateable,"
+                    + "deletable,"
+                    + "queryable,"
+                    + "mergeable,"
+                    + "undeletable,"
+                    + "triggerable,"
+                    + "searchable,"
+                    + "retrieveable,"
+                    + "activateable,"
+                    + "associateEntityType,"
+                    + "associateParentEntity,"
+                    + "dataTranslationEnabled,"
+                    + "dataTranslationEnabledSpecified,"
+                    + "deepCloneable,"
+                    + "feedEnabled,"
+                    + "hasSubtypes,"
+                    + "idEnabled,"
+                    + "isInterface,"
+                    + "isSubtype,"
+                    + "layoutable,"
+                    + "mruEnabled,"
+                    + "replicateable");
 
-                foreach (String sObj in cmbSalesforceSObjects.Items)
+                foreach (DescribeGlobalSObjectResult dgr in this.sObjGlobalResultList)
                 {
-                    sb.Append(sObj + Environment.NewLine);
+                    sw.Write(dgr.name + ",");
+                    sw.Write(dgr.label + ",");
+                    sw.Write(dgr.labelPlural + ",");
+                    sw.Write(dgr.keyPrefix + ",");
+                    sw.Write(dgr.custom + ",");
+                    sw.Write(dgr.customSetting + ",");
+                    sw.Write(dgr.deprecatedAndHidden + ",");
+                    sw.Write(dgr.createable + ",");
+                    sw.Write(dgr.updateable + ",");
+                    sw.Write(dgr.deletable + ",");
+                    sw.Write(dgr.queryable + ",");
+                    sw.Write(dgr.mergeable + ",");
+                    sw.Write(dgr.undeletable + ",");
+                    sw.Write(dgr.triggerable + ",");
+                    sw.Write(dgr.searchable + ",");
+                    sw.Write(dgr.retrieveable + ",");
+                    
+                    sw.Write(dgr.activateable + ",");
+                    sw.Write(dgr.associateEntityType + ",");
+                    sw.Write(dgr.associateParentEntity + ",");
+                    sw.Write(dgr.dataTranslationEnabled + ",");
+                    sw.Write(dgr.dataTranslationEnabledSpecified + ",");
+                    sw.Write(dgr.deepCloneable + ",");
+                    sw.Write(dgr.feedEnabled + ",");
+                    sw.Write(dgr.hasSubtypes + ",");
+                    sw.Write(dgr.idEnabled + ",");
+                    sw.Write(dgr.isInterface + ",");
+                    sw.Write(dgr.isSubtype + ",");
+                    sw.Write(dgr.layoutable + ",");
+                    sw.Write(dgr.mruEnabled + ",");
+                    sw.Write(dgr.replicateable);
+
+                    sw.Write(Environment.NewLine);
                 }
 
-                using (StreamWriter sw = new StreamWriter(sfd.FileName, false))
-                {
-                    sw.Write(sb.ToString());
-                }
+                sw.Close();
             }
+
+            MessageBox.Show("Sobject CSV Extraction complete");
         }
 
         private void btnSaveSelectedToExcel_Click(object sender, EventArgs evt)

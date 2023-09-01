@@ -295,8 +295,6 @@ C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.DeployMetadata.resources
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.EncryptDecryptText.resources
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ExtractWebsites.resources
-C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmParseDebugLogs.resources
-C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmUserSettings.resources
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.GenerateDeploymentPackage.resources
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.MetadataComparison.resources
@@ -353,3 +351,5 @@ C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMeta
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CopyComplete
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb
+C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ParseDebugLogs.resources
+C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.UserSettings.resources

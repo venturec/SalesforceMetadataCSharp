@@ -13,6 +13,7 @@ using System.Xml;
 using SalesforceMetadata.PartnerWSDL;
 using SalesforceMetadata.MetadataWSDL;
 using SalesforceMetadata.ToolingWSDL;
+using System.Diagnostics.Eventing.Reader;
 
 namespace SalesforceMetadata
 {
@@ -276,333 +277,339 @@ namespace SalesforceMetadata
             }
         }
 
+        // TODO: When selecting the top parent Node, the fileNameSplit index throws an Out of Range Error
+        // Also, select the top parent node won't select any dependencies as it was not built for that.
         private void treeViewMetadata_AfterCheck(object sender, TreeViewEventArgs e)
         {
             if (runTreeNodeSelector == true)
             {
                 runTreeNodeSelector = false;
+            }
+            else
+            {
+                return;
+            }
 
-                String[] nodeFullPath = e.Node.FullPath.Split('\\');
-                String[] objectName = new string[2];
-                String[] fileNameSplit = nodeFullPath[1].Split('.');
+            String[] nodeFullPath = e.Node.FullPath.Split('\\');
+            String[] objectName = new string[2];
+            String[] fileNameSplit = nodeFullPath[1].Split('.');
 
-                if (nodeFullPath.Length > 1)
+            if (nodeFullPath.Length > 1)
+            {
+                objectName = nodeFullPath[1].Split('.');
+            }
+
+            // TODO:
+            // If a standard picklist field is selected, make sure to also select the related StandardValueSet. You will need a separate method for determining
+            //      if a field selected translates to a StandardValueSet
+
+            if (e.Node.Checked == true)
+            {
+                if (nodeFullPath.Length > 2
+                    && nodeFullPath[0] == "aura")
                 {
-                    objectName = nodeFullPath[1].Split('.');
+                    foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+                    {
+                        if (tnd1.Text == "aura")
+                        {
+                            foreach (TreeNode tnd2 in tnd1.Nodes)
+                            {
+                                if (tnd2.Text == nodeFullPath[1])
+                                {
+                                    tnd2.Checked = true;
+                                    foreach (TreeNode tnd3 in tnd2.Nodes)
+                                    {
+                                        tnd3.Checked = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-
-                // TODO:
-                // If a standard picklist field is selected, make sure to also select the related StandardValueSet. You will need a separate method for determining
-                //      if a field selected translates to a StandardValueSet
-
-                if (e.Node.Checked == true)
+                else if (nodeFullPath.Length > 2
+                            && nodeFullPath[0] == "lwc")
                 {
-                    if (nodeFullPath.Length > 2
-                        && nodeFullPath[0] == "aura")
+                    foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
                     {
-                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+                        if (tnd1.Text == "lwc")
                         {
-                            if (tnd1.Text == "aura")
+                            foreach (TreeNode tnd2 in tnd1.Nodes)
                             {
-                                foreach (TreeNode tnd2 in tnd1.Nodes)
+                                if (tnd2.Text == nodeFullPath[1])
                                 {
-                                    if (tnd2.Text == nodeFullPath[1])
+                                    tnd2.Checked = true;
+                                    foreach (TreeNode tnd3 in tnd2.Nodes)
                                     {
-                                        tnd2.Checked = true;
-                                        foreach (TreeNode tnd3 in tnd2.Nodes)
-                                        {
-                                            tnd3.Checked = true;
-                                        }
+                                        tnd3.Checked = true;
                                     }
                                 }
                             }
                         }
                     }
-                    else if (nodeFullPath.Length > 2
-                             && nodeFullPath[0] == "lwc")
+                }
+                else if (nodeFullPath.Length > 2
+                    && nodeFullPath[0] == "objects"
+                    && nodeFullPath[1].Contains("__c"))
+                {
+                    selectRequiredObjectFields(nodeFullPath[1]);
+                }
+                else if (nodeFullPath.Length > 2
+                        && nodeFullPath[0] == "objects")
+                {
+                    if (e.Node.Text.StartsWith("<fields"))
                     {
-                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
-                        {
-                            if (tnd1.Text == "lwc")
-                            {
-                                foreach (TreeNode tnd2 in tnd1.Nodes)
-                                {
-                                    if (tnd2.Text == nodeFullPath[1])
-                                    {
-                                        tnd2.Checked = true;
-                                        foreach (TreeNode tnd3 in tnd2.Nodes)
-                                        {
-                                            tnd3.Checked = true;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if (nodeFullPath.Length > 2
-                        && nodeFullPath[0] == "objects"
-                        && nodeFullPath[1].Contains("__c"))
-                    {
-                        selectRequiredObjectFields(nodeFullPath[1]);
-                    }
-                    else if (nodeFullPath.Length > 2
-                            && nodeFullPath[0] == "objects")
-                    {
-                        if (e.Node.Text.StartsWith("<fields"))
-                        {
-                            String tnd3XmlString = "<document>" + e.Node.Text + "</document>";
-                            XmlDocument tnd3Xd = new XmlDocument();
-                            tnd3Xd.LoadXml(tnd3XmlString);
+                        String tnd3XmlString = "<document>" + e.Node.Text + "</document>";
+                        XmlDocument tnd3Xd = new XmlDocument();
+                        tnd3Xd.LoadXml(tnd3XmlString);
 
-                            String objectFieldCombo = objectName[0] + "." + tnd3Xd.ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
+                        String objectFieldCombo = objectName[0] + "." + tnd3Xd.ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
 
-                            populateStandardValueSetHashSet(objectFieldCombo);
-                        }
+                        populateStandardValueSetHashSet(objectFieldCombo);
                     }
-                    else if (nodeFullPath.Length == 2
-                        && nodeFullPath[0] == "objects"
-                        && nodeFullPath[1].Contains("__mdt"))
+                }
+                else if (nodeFullPath.Length == 2
+                    && nodeFullPath[0] == "objects"
+                    && nodeFullPath[1].Contains("__mdt"))
+                {
+                    // First check off the sub-nodes from the parent
+                    foreach (TreeNode tnd3 in e.Node.Nodes)
                     {
-                        // First check off the sub-nodes from the parent
-                        foreach (TreeNode tnd3 in e.Node.Nodes)
-                        {
-                            tnd3.Checked = true;
-                        }
+                        tnd3.Checked = true;
+                    }
 
-                        // Check off the Metadata Types in the customMetadata folder related to the metadata type checked.
-                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+                    // Check off the Metadata Types in the customMetadata folder related to the metadata type checked.
+                    foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+                    {
+                        if (tnd1.Text == "customMetadata")
                         {
-                            if (tnd1.Text == "customMetadata")
+                            String[] splitObjectFileName = nodeFullPath[1].Split(new String[] { "__" }, StringSplitOptions.None);
+
+                            foreach (TreeNode tnd2 in tnd1.Nodes)
                             {
-                                String[] splitObjectFileName = nodeFullPath[1].Split(new String[] { "__" }, StringSplitOptions.None);
-
-                                foreach (TreeNode tnd2 in tnd1.Nodes)
+                                String[] splitTND2Node = tnd2.Text.Split('.');
+                                if (splitTND2Node[0] == splitObjectFileName[0])
                                 {
-                                    String[] splitTND2Node = tnd2.Text.Split('.');
-                                    if (splitTND2Node[0] == splitObjectFileName[0])
-                                    {
-                                        tnd2.Checked = true;
+                                    tnd2.Checked = true;
 
-                                        foreach (TreeNode tnd3 in tnd2.Nodes)
-                                        {
-                                            tnd3.Checked = true;
-                                        }
+                                    foreach (TreeNode tnd3 in tnd2.Nodes)
+                                    {
+                                        tnd3.Checked = true;
                                     }
                                 }
                             }
-                        }
-                    }
-                    else if (nodeFullPath.Length == 2
-                            && nodeFullPath[0] == "certs")
-                    {
-                        // Get the class name and then make sure the XML file is checked too
-                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
-                        {
-                            if (tnd1.Text == "certs")
-                            {
-                                foreach (TreeNode tnd2 in tnd1.Nodes)
-                                {
-                                    if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
-                                    {
-                                        tnd2.Checked = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if (nodeFullPath.Length == 2
-                            && nodeFullPath[0] == "classes")
-                    {
-                        // Get the class name and then make sure the XML file is checked too
-                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
-                        {
-                            if (tnd1.Text == "classes")
-                            {
-                                foreach (TreeNode tnd2 in tnd1.Nodes)
-                                {
-                                    if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
-                                    {
-                                        tnd2.Checked = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if (nodeFullPath.Length == 2
-                            && nodeFullPath[0] == "components")
-                    {
-                        // Get the class name and then make sure the XML file is checked too
-                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
-                        {
-                            if (tnd1.Text == "components")
-                            {
-                                foreach (TreeNode tnd2 in tnd1.Nodes)
-                                {
-                                    if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
-                                    {
-                                        tnd2.Checked = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if (nodeFullPath.Length == 2
-                             && nodeFullPath[0] == "contentassets")
-                    {
-                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
-                        {
-                            if (tnd1.Text == "contentassets")
-                            {
-                                foreach (TreeNode tnd2 in tnd1.Nodes)
-                                {
-                                    if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
-                                    {
-                                        tnd2.Checked = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if (nodeFullPath[0] == "layouts")
-                    {
-                        String[] objectNameSplit = nodeFullPath[1].Split('-');
-
-                        String xmlNodes = "<Layout>";
-
-                        // First, make sure the entire layout is included
-                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
-                        {
-                            if (tnd1.Text == "layouts")
-                            {
-                                foreach (TreeNode tnd2 in tnd1.Nodes)
-                                {
-                                    if (tnd2.Text == nodeFullPath[1])
-                                    {
-                                        tnd2.Checked = true;
-
-                                        foreach (TreeNode tnd3 in tnd2.Nodes)
-                                        {
-                                            tnd3.Checked = true;
-                                            xmlNodes = xmlNodes + tnd3.Text;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        xmlNodes = xmlNodes + "</Layout>";
-
-                        // Second, get the related object and fields from the layout
-                        // Third, go back to the object in the Tree View and select all fields which are on the layout based on the object selected
-                        selectObjectFieldsFromLayout(objectNameSplit[0], xmlNodes);
-                    }
-                    else if (nodeFullPath.Length == 2
-                            && nodeFullPath[0] == "pages")
-                    {
-                        // Get the class name and then make sure the XML file is checked too
-                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
-                        {
-                            if (tnd1.Text == "pages")
-                            {
-                                foreach (TreeNode tnd2 in tnd1.Nodes)
-                                {
-                                    if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
-                                    {
-                                        tnd2.Checked = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if (nodeFullPath[0] == "permissionsets")
-                    {
-                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
-                        {
-                            if (tnd1.Text == "permissionsets")
-                            {
-                                foreach (TreeNode tnd2 in tnd1.Nodes)
-                                {
-                                    if (tnd2.Text == nodeFullPath[1])
-                                    {
-                                        foreach (TreeNode tnd3 in tnd2.Nodes)
-                                        {
-                                            if (tnd3.Text.StartsWith("<label"))
-                                            {
-                                                tnd3.Checked = true;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if (nodeFullPath.Length == 2
-                            && nodeFullPath[0] == "staticresources")
-                    {
-                        // Get the class name and then make sure the XML file is checked too
-                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
-                        {
-                            if (tnd1.Text == "staticresources")
-                            {
-                                foreach (TreeNode tnd2 in tnd1.Nodes)
-                                {
-                                    String[] tnd2FileNameSplit = tnd2.Text.Split('.');
-
-                                    if (tnd2FileNameSplit[0] == fileNameSplit[0]
-                                        && tnd2.Text.EndsWith("-meta.xml"))
-                                    {
-                                        tnd2.Checked = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if (nodeFullPath.Length == 2
-                            && nodeFullPath[0] == "triggers")
-                    {
-                        // Get the trigger name and then make sure the XML file is checked too
-                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
-                        {
-                            if (tnd1.Text == "triggers")
-                            {
-                                foreach (TreeNode tnd2 in tnd1.Nodes)
-                                {
-                                    if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
-                                    {
-                                        tnd2.Checked = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    //else if (nodeFullPath[0] == "flexipages")
-                    //{ 
-                    //    String objectType = 
-                    //}
-                    else if (nodeFullPath.Length == 2)
-                    {
-                        foreach (TreeNode tnd3 in e.Node.Nodes)
-                        {
-                            tnd3.Checked = true;
                         }
                     }
                 }
                 else if (nodeFullPath.Length == 2
-                       && e.Node.Checked == false)
+                        && nodeFullPath[0] == "certs")
+                {
+                    // Get the class name and then make sure the XML file is checked too
+                    foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+                    {
+                        if (tnd1.Text == "certs")
+                        {
+                            foreach (TreeNode tnd2 in tnd1.Nodes)
+                            {
+                                if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
+                                {
+                                    tnd2.Checked = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (nodeFullPath.Length == 2
+                        && nodeFullPath[0] == "classes")
+                {
+                    // Get the class name and then make sure the XML file is checked too
+                    foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+                    {
+                        if (tnd1.Text == "classes")
+                        {
+                            foreach (TreeNode tnd2 in tnd1.Nodes)
+                            {
+                                if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
+                                {
+                                    tnd2.Checked = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (nodeFullPath.Length == 2
+                        && nodeFullPath[0] == "components")
+                {
+                    // Get the class name and then make sure the XML file is checked too
+                    foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+                    {
+                        if (tnd1.Text == "components")
+                        {
+                            foreach (TreeNode tnd2 in tnd1.Nodes)
+                            {
+                                if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
+                                {
+                                    tnd2.Checked = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (nodeFullPath.Length == 2
+                            && nodeFullPath[0] == "contentassets")
+                {
+                    foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+                    {
+                        if (tnd1.Text == "contentassets")
+                        {
+                            foreach (TreeNode tnd2 in tnd1.Nodes)
+                            {
+                                if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
+                                {
+                                    tnd2.Checked = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (nodeFullPath[0] == "layouts")
+                {
+                    String[] objectNameSplit = nodeFullPath[1].Split('-');
+
+                    String xmlNodes = "<Layout>";
+
+                    // First, make sure the entire layout is included
+                    foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+                    {
+                        if (tnd1.Text == "layouts")
+                        {
+                            foreach (TreeNode tnd2 in tnd1.Nodes)
+                            {
+                                if (tnd2.Text == nodeFullPath[1])
+                                {
+                                    tnd2.Checked = true;
+
+                                    foreach (TreeNode tnd3 in tnd2.Nodes)
+                                    {
+                                        tnd3.Checked = true;
+                                        xmlNodes = xmlNodes + tnd3.Text;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    xmlNodes = xmlNodes + "</Layout>";
+
+                    // Second, get the related object and fields from the layout
+                    // Third, go back to the object in the Tree View and select all fields which are on the layout based on the object selected
+                    selectObjectFieldsFromLayout(objectNameSplit[0], xmlNodes);
+                }
+                else if (nodeFullPath.Length == 2
+                        && nodeFullPath[0] == "pages")
+                {
+                    // Get the class name and then make sure the XML file is checked too
+                    foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+                    {
+                        if (tnd1.Text == "pages")
+                        {
+                            foreach (TreeNode tnd2 in tnd1.Nodes)
+                            {
+                                if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
+                                {
+                                    tnd2.Checked = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (nodeFullPath[0] == "permissionsets")
+                {
+                    foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+                    {
+                        if (tnd1.Text == "permissionsets")
+                        {
+                            foreach (TreeNode tnd2 in tnd1.Nodes)
+                            {
+                                if (tnd2.Text == nodeFullPath[1])
+                                {
+                                    foreach (TreeNode tnd3 in tnd2.Nodes)
+                                    {
+                                        if (tnd3.Text.StartsWith("<label"))
+                                        {
+                                            tnd3.Checked = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (nodeFullPath.Length == 2
+                        && nodeFullPath[0] == "staticresources")
+                {
+                    // Get the class name and then make sure the XML file is checked too
+                    foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+                    {
+                        if (tnd1.Text == "staticresources")
+                        {
+                            foreach (TreeNode tnd2 in tnd1.Nodes)
+                            {
+                                String[] tnd2FileNameSplit = tnd2.Text.Split('.');
+
+                                if (tnd2FileNameSplit[0] == fileNameSplit[0]
+                                    && tnd2.Text.EndsWith("-meta.xml"))
+                                {
+                                    tnd2.Checked = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (nodeFullPath.Length == 2
+                        && nodeFullPath[0] == "triggers")
+                {
+                    // Get the trigger name and then make sure the XML file is checked too
+                    foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+                    {
+                        if (tnd1.Text == "triggers")
+                        {
+                            foreach (TreeNode tnd2 in tnd1.Nodes)
+                            {
+                                if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
+                                {
+                                    tnd2.Checked = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                //else if (nodeFullPath[0] == "flexipages")
+                //{ 
+                //    String objectType = 
+                //}
+                else if (nodeFullPath.Length == 2)
                 {
                     foreach (TreeNode tnd3 in e.Node.Nodes)
                     {
-                        tnd3.Checked = false;
+                        tnd3.Checked = true;
                     }
                 }
-
-                if (standardValueSets.Count > 0)
-                {
-                    selectStandardValueSets(standardValueSets);
-                }
-
-                runTreeNodeSelector = true;
             }
+            else if (nodeFullPath.Length == 2
+                    && e.Node.Checked == false)
+            {
+                foreach (TreeNode tnd3 in e.Node.Nodes)
+                {
+                    tnd3.Checked = false;
+                }
+            }
+
+            if (standardValueSets.Count > 0)
+            {
+                selectStandardValueSets(standardValueSets);
+            }
+
+            runTreeNodeSelector = true;
         }
 
         public void selectRequiredObjectFields(String objectName)

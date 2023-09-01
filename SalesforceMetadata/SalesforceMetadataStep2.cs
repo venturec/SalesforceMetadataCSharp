@@ -15,6 +15,7 @@ using System.Xml.Linq;
 
 using SalesforceMetadata.PartnerWSDL;
 using SalesforceMetadata.MetadataWSDL;
+using System.Diagnostics.Eventing.Reader;
 
 namespace SalesforceMetadata
 {
@@ -655,49 +656,51 @@ namespace SalesforceMetadata
                         }
 
                         subdirectorySearchCompleted.Add(subDirectoryList[i]);
-
-
-                        // Check if there are any additional sub directories in the current directory and add them to the list
-                        List<String> subDirectories = new List<String>();
-                        for (Int32 j = 0; j < subDirectoryList.Count; j++)
-                        {
-                            if (subDirectoryList[j] != targetDirectory)
-                            {
-                                List<String> sds = getSubdirectories(subDirectoryList[j]);
-                                if (sds.Count > 0)
-                                {
-                                    foreach (String s in sds)
-                                    {
-                                        if (!subdirectorySearchCompleted.Contains(s))
-                                        {
-                                            subDirectories.Add(s);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        // Remove the current directories in subDirectoriesList before adding the additional subdirectories
-                        // so the tool does not review them again
-                        subDirectoryList.Clear();
-
-                        if (subDirectories.Count > 0)
-                        {
-                            foreach (String s in subDirectories)
-                            {
-                                if (!subDirectoryList.Contains(s))
-                                {
-                                    subDirectoryList.Add(s);
-                                }
-                            }
-
-                            subDirectories.Clear();
-                        }
                     }
-                    else
+                }
+
+                // Check if there are any additional sub directories in the current directory and add them to the list
+                List<String> subDirectories = new List<String>();
+                for (Int32 j = 0; j < subDirectoryList.Count; j++)
+                {
+                    String[] subdirectorySplit = subDirectoryList[j].Split('\\');
+
+                    if (folderSkips.Contains(subdirectorySplit[subdirectorySplit.Length - 1]))
                     {
-                        subDirectoryList.Remove(subDirectoryList[i]);
+                        continue;
                     }
+
+                    if (subDirectoryList[j] != targetDirectory)
+                    {
+                        List<String> sds = getSubdirectories(subDirectoryList[j]);
+                        if (sds.Count > 0)
+                        {
+                            foreach (String s in sds)
+                            {
+                                if (!subdirectorySearchCompleted.Contains(s))
+                                {
+                                    subDirectories.Add(s);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Remove the current directories in subDirectoriesList before adding the additional subdirectories
+                // so the tool does not review them again
+                subDirectoryList.Clear();
+
+                if (subDirectories.Count > 0)
+                {
+                    foreach (String s in subDirectories)
+                    {
+                        if (!subDirectoryList.Contains(s))
+                        {
+                            subDirectoryList.Add(s);
+                        }
+                    }
+
+                    subDirectories.Clear();
                 }
             }
         }

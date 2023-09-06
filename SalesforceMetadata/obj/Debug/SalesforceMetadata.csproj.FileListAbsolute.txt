@@ -353,3 +353,4 @@ C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMeta
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ParseDebugLogs.resources
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.UserSettings.resources
+C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ParseSalesforceMetadata.resources

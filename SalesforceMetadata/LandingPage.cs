@@ -148,5 +148,11 @@ namespace SalesforceMetadata
             DeployMetadata deployments = new DeployMetadata();
             deployments.Show();
         }
+
+        private void btnParseMetadataXml_Click(object sender, EventArgs e)
+        {
+            ParseSalesforceMetadata psm = new ParseSalesforceMetadata();
+            psm.Show();
+        }
     }
 }

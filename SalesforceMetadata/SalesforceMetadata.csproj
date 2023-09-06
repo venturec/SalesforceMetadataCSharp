@@ -116,6 +116,12 @@
     <Compile Include="ParseDebugLogs.Designer.cs">
       <DependentUpon>ParseDebugLogs.cs</DependentUpon>
     </Compile>
+    <Compile Include="ParseSalesforceMetadata.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ParseSalesforceMetadata.Designer.cs">
+      <DependentUpon>ParseSalesforceMetadata.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -241,6 +247,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ParseDebugLogs.resx">
       <DependentUpon>ParseDebugLogs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ParseSalesforceMetadata.resx">
+      <DependentUpon>ParseSalesforceMetadata.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserSettings.resx">
       <DependentUpon>UserSettings.cs</DependentUpon>

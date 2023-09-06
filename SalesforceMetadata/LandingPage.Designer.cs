@@ -48,6 +48,7 @@
             this.btnParseLWC = new System.Windows.Forms.Button();
             this.btnDevelopmentIde = new System.Windows.Forms.Button();
             this.btnDeployments = new System.Windows.Forms.Button();
+            this.btnParseMetadataXml = new System.Windows.Forms.Button();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -248,11 +249,22 @@
             this.btnDeployments.UseVisualStyleBackColor = true;
             this.btnDeployments.Click += new System.EventHandler(this.btnDeployments_Click);
             // 
+            // btnParseMetadataXml
+            // 
+            this.btnParseMetadataXml.Location = new System.Drawing.Point(510, 396);
+            this.btnParseMetadataXml.Name = "btnParseMetadataXml";
+            this.btnParseMetadataXml.Size = new System.Drawing.Size(188, 32);
+            this.btnParseMetadataXml.TabIndex = 18;
+            this.btnParseMetadataXml.Text = "Parse Metadata XML";
+            this.btnParseMetadataXml.UseVisualStyleBackColor = true;
+            this.btnParseMetadataXml.Click += new System.EventHandler(this.btnParseMetadataXml_Click);
+            // 
             // LandingPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(707, 441);
+            this.Controls.Add(this.btnParseMetadataXml);
             this.Controls.Add(this.btnDeployments);
             this.Controls.Add(this.btnDevelopmentIde);
             this.Controls.Add(this.btnParseLWC);
@@ -303,5 +315,6 @@
         private System.Windows.Forms.Button btnParseLWC;
         private System.Windows.Forms.Button btnDevelopmentIde;
         private System.Windows.Forms.Button btnDeployments;
+        private System.Windows.Forms.Button btnParseMetadataXml;
     }
 }

@@ -16,6 +16,8 @@ using System.Xml.Linq;
 using SalesforceMetadata.PartnerWSDL;
 using SalesforceMetadata.MetadataWSDL;
 using System.Diagnostics.Eventing.Reader;
+using System.Text.RegularExpressions;
+using System.Web.UI.MobileControls.Adapters;
 
 namespace SalesforceMetadata
 {
@@ -596,7 +598,7 @@ namespace SalesforceMetadata
         }
 
 
-        private void addVSCodeFileExtension(String targetDirectory)
+        public void addVSCodeFileExtension(String targetDirectory)
         {
             List<String> filePathsInDirectory = new List<string>();
 
@@ -611,8 +613,8 @@ namespace SalesforceMetadata
             // TODO: Come back and refactor these
             // However, you will then have to go into each of the sub-directories to determine the differences
             // At this point, hold off on these updates
-            folderSkips.Add("objects");
-            folderSkips.Add("objectTranslations");
+            //folderSkips.Add("objects");
+            //folderSkips.Add("objectTranslations");
 
             List<String> subdirectorySearchCompleted = new List<String>();
 
@@ -636,23 +638,77 @@ namespace SalesforceMetadata
 
                     if (!folderSkips.Contains(subdirSplit[subdirSplit.Length - 1]))
                     {
-                        try
+                        if (subdirSplit[subdirSplit.Length - 1] == "objects")
                         {
-                            // Get all files in the current directory
+                            // Create a new folder with the object name -> Batch__c
+                            // Parse the XML file to separate out the base object XML tags
+                            // Save the XML file to the folder -> Batch__c.object-meta.xml
+
+                            // Sub-Folders
+                            //      businessProcesses
+                            //      compactLayouts
+                            //      fields
+                            //      fieldSets
+                            //      listViews
+                            //      recordTypes
+                            //      validationRules
+                            //      webLinks
+
                             String[] files = Directory.GetFiles(subDirectoryList[i]);
                             if (files.Length > 0)
                             {
                                 for (Int32 j = 0; j < files.Length; j++)
                                 {
-                                    FileInfo fi = new FileInfo(files[j]);
-                                    fi.CopyTo(files[j] + "-meta.xml");
-                                    fi.Delete();
+                                    parseObjectFiles(files[j]);
                                 }
                             }
                         }
-                        catch (Exception exc)
+                        else if (subdirSplit[subdirSplit.Length - 1] == "objectTranslations")
                         {
+                            // Create a new folder with the object name -> Batch__c
+                            // Parse the XML file to separate out the base object XML tags
+                            // Save the XML file to the folder -> Batch__c.object-meta.xml
 
+                            // Sub-Folders
+                            //      businessProcesses
+                            //      compactLayouts
+                            //      fields
+                            //      fieldSets
+                            //      listViews
+                            //      recordTypes
+                            //      validationRules
+                            //      webLinks
+
+                            String[] files = Directory.GetFiles(subDirectoryList[i]);
+                            if (files.Length > 0)
+                            {
+                                for (Int32 j = 0; j < files.Length; j++)
+                                {
+                                    Debug.WriteLine(" ");
+                                    //parseObjectTranslationFiles(files[j]);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                // Get all files in the current directory
+                                String[] files = Directory.GetFiles(subDirectoryList[i]);
+                                if (files.Length > 0)
+                                {
+                                    for (Int32 j = 0; j < files.Length; j++)
+                                    {
+                                        FileInfo fi = new FileInfo(files[j]);
+                                        fi.CopyTo(files[j] + "-meta.xml");
+                                        fi.Delete();
+                                    }
+                                }
+                            }
+                            catch (Exception exc)
+                            {
+
+                            }
                         }
 
                         subdirectorySearchCompleted.Add(subDirectoryList[i]);
@@ -665,7 +721,13 @@ namespace SalesforceMetadata
                 {
                     String[] subdirectorySplit = subDirectoryList[j].Split('\\');
 
-                    if (folderSkips.Contains(subdirectorySplit[subdirectorySplit.Length - 1]))
+                    String folderName = subdirectorySplit[subdirectorySplit.Length - 1];
+
+                    if (folderSkips.Contains(folderName))
+                    {
+                        continue;
+                    }
+                    else if (folderName == "objects" || folderName == "objectTranslations")
                     {
                         continue;
                     }
@@ -702,6 +764,7 @@ namespace SalesforceMetadata
 
                     subDirectories.Clear();
                 }
+
             }
         }
 
@@ -726,6 +789,257 @@ namespace SalesforceMetadata
             return subDirectoryList;
         }
 
+        private void parseObjectFiles(String objectPath)
+        {
+            String[] objectPathSplit = objectPath.Split('\\');
+            String[] objDirectoryName = objectPathSplit[objectPathSplit.Length - 1].Split('.');
+
+            String objDirectoryPath = "";
+
+            for (Int32 i = 0; i < objectPathSplit.Length - 1; i++)
+            {
+                objDirectoryPath = objDirectoryPath + objectPathSplit[i] + "\\";
+            }
+
+            objDirectoryPath = objDirectoryPath + objDirectoryName[0];
+
+            DirectoryInfo objDir = Directory.CreateDirectory(objDirectoryPath);
+
+            // Sub-Folders
+            //      businessProcesses
+            //      compactLayouts
+            //      fields
+            //      fieldSets
+            //      listViews
+            //      recordTypes
+            //      validationRules
+            //      webLinks
+
+            XmlDocument xd = new XmlDocument();
+            xd.Load(objectPath);
+
+            XmlNodeList bpNodeList = xd.GetElementsByTagName("businessProcesses");
+            XmlNodeList clNodeList = xd.GetElementsByTagName("compactLayouts");
+            XmlNodeList fldNodeList = xd.GetElementsByTagName("fields");
+            XmlNodeList fldsetNodeList = xd.GetElementsByTagName("fieldSets");
+            XmlNodeList lvNodeList = xd.GetElementsByTagName("listViews");
+            XmlNodeList rtNodeList = xd.GetElementsByTagName("recordTypes");
+            XmlNodeList vrNodeList = xd.GetElementsByTagName("validationRules");
+            XmlNodeList wlNodeList = xd.GetElementsByTagName("webLinks");
+
+            if (bpNodeList.Count > 0)
+            {
+                DirectoryInfo dirInfo = Directory.CreateDirectory(objDir.FullName + "\\businessProcesses");
+
+                foreach (XmlNode xn in bpNodeList)
+                {
+                    if (xn.ParentNode.Name == "CustomObject")
+                    {
+                        XmlDocument xdDocument = new XmlDocument();
+                        xdDocument.LoadXml(xn.OuterXml);
+
+                        XmlNodeList nameNode = xdDocument.GetElementsByTagName("fullName");
+
+                        StreamWriter sw = new StreamWriter(dirInfo.FullName + "\\" + nameNode[0].InnerText + ".businessProcess-meta.xml");
+                        sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+
+                        String xnStr = xn.OuterXml.ToString();
+                        xnStr = xnStr.Replace("<businessProcesses", "<BusinessProcess");
+                        xnStr = xnStr.Replace("</businessProcesses", "</BusinessProcess");
+                        //xnStr = Regex.Replace(xnStr, "</([^>]*)>", "</$1>" + Environment.NewLine);
+                        sw.Write(xnStr);
+                        sw.Close();
+                    }
+                }
+            }
+
+            if (clNodeList.Count > 0)
+            {
+                DirectoryInfo dirInfo = Directory.CreateDirectory(objDir.FullName + "\\compactLayouts");
+
+                foreach (XmlNode xn in clNodeList)
+                {
+                    if (xn.ParentNode.Name == "CustomObject")
+                    {
+                        XmlDocument xdDocument = new XmlDocument();
+                        xdDocument.LoadXml(xn.OuterXml);
+
+                        XmlNodeList nameNode = xdDocument.GetElementsByTagName("fullName");
+
+                        StreamWriter sw = new StreamWriter(dirInfo.FullName + "\\" + nameNode[0].InnerText + ".compactLayout-meta.xml");
+                        sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+
+                        String xnStr = xn.OuterXml.ToString();
+                        xnStr = xnStr.Replace("<compactLayouts", "<CompactLayout");
+                        xnStr = xnStr.Replace("</compactLayouts", "</CompactLayout");
+                        //xnStr = Regex.Replace(xnStr, "</([^>]*)>", "</$1>" + Environment.NewLine);
+                        sw.Write(xnStr);
+                        sw.Close();
+                    }
+                }
+            }
+
+            if (fldNodeList.Count > 0)
+            {
+                DirectoryInfo dirInfo = Directory.CreateDirectory(objDir.FullName + "\\fields");
+
+                foreach (XmlNode xn in fldNodeList)
+                {
+                    if (xn.ParentNode.Name == "CustomObject")
+                    {
+                        XmlDocument xdDocument = new XmlDocument();
+                        xdDocument.LoadXml(xn.OuterXml);
+
+                        XmlNodeList nameNode = xdDocument.GetElementsByTagName("fullName");
+
+                        StreamWriter sw = new StreamWriter(dirInfo.FullName + "\\" + nameNode[0].InnerText + ".field-meta.xml");
+                        sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+
+                        String xnStr = xn.OuterXml.ToString();
+                        xnStr = xnStr.Replace("<fields", "<CustomField");
+                        xnStr = xnStr.Replace("</fields", "</CustomField");
+                        //xnStr = Regex.Replace(xnStr, "</([^>]*)>", "</$1>" + Environment.NewLine);
+                        sw.Write(xnStr);
+                        sw.Close();
+                    }
+                }
+            }
+
+            if (fldsetNodeList.Count > 0)
+            {
+                DirectoryInfo dirInfo = Directory.CreateDirectory(objDir.FullName + "\\fieldSets");
+
+                foreach (XmlNode xn in fldsetNodeList)
+                {
+                    if (xn.ParentNode.Name == "CustomObject")
+                    {
+                        XmlDocument xdDocument = new XmlDocument();
+                        xdDocument.LoadXml(xn.OuterXml);
+
+                        XmlNodeList nameNode = xdDocument.GetElementsByTagName("fullName");
+
+                        StreamWriter sw = new StreamWriter(dirInfo.FullName + "\\" + nameNode[0].InnerText + ".fieldSet-meta.xml");
+                        sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+
+                        String xnStr = xn.OuterXml.ToString();
+                        xnStr = xnStr.Replace("<fieldSets", "<FieldSet");
+                        xnStr = xnStr.Replace("</fieldSets", "</FieldSet");
+                        //xnStr = Regex.Replace(xnStr, "</([^>]*)>", "</$1>" + Environment.NewLine);
+                        sw.Write(xnStr);
+                        sw.Close();
+                    }
+                }
+            }
+
+            if (lvNodeList.Count > 0)
+            {
+                DirectoryInfo dirInfo = Directory.CreateDirectory(objDir.FullName + "\\listViews");
+
+                foreach (XmlNode xn in lvNodeList)
+                {
+                    if (xn.ParentNode.Name == "CustomObject")
+                    {
+                        XmlDocument xdDocument = new XmlDocument();
+                        xdDocument.LoadXml(xn.OuterXml);
+
+                        XmlNodeList nameNode = xdDocument.GetElementsByTagName("fullName");
+
+                        StreamWriter sw = new StreamWriter(dirInfo.FullName + "\\" + nameNode[0].InnerText + ".listView-meta.xml");
+                        sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+
+                        String xnStr = xn.OuterXml.ToString();
+                        xnStr = xnStr.Replace("<listViews", "<ListView");
+                        xnStr = xnStr.Replace("</listViews", "</ListView");
+                        //xnStr = Regex.Replace(xnStr, "</([^>]*)>", "</$1>" + Environment.NewLine);
+                        sw.Write(xnStr);
+                        sw.Close();
+                    }
+                }
+            }
+
+            if (rtNodeList.Count > 0)
+            {
+                DirectoryInfo dirInfo = Directory.CreateDirectory(objDir.FullName + "\\recordTypes");
+
+                foreach (XmlNode xn in rtNodeList)
+                {
+                    if (xn.ParentNode.Name == "CustomObject")
+                    {
+                        XmlDocument xdDocument = new XmlDocument();
+                        xdDocument.LoadXml(xn.OuterXml);
+
+                        XmlNodeList nameNode = xdDocument.GetElementsByTagName("fullName");
+
+                        StreamWriter sw = new StreamWriter(dirInfo.FullName + "\\" + nameNode[0].InnerText + ".recordType-meta.xml");
+                        sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+
+                        String xnStr = xn.OuterXml.ToString();
+                        xnStr = xnStr.Replace("<recordTypes", "<RecordType");
+                        xnStr = xnStr.Replace("</recordTypes", "</RecordType");
+                        //xnStr = Regex.Replace(xnStr, "</([^>]*)>", "</$1>" + Environment.NewLine);
+                        sw.Write(xnStr);
+                        sw.Close();
+                    }
+                }
+            }
+
+            if (vrNodeList.Count > 0)
+            {
+                DirectoryInfo dirInfo = Directory.CreateDirectory(objDir.FullName + "\\validationRules");
+
+                foreach (XmlNode xn in vrNodeList)
+                {
+                    if (xn.ParentNode.Name == "CustomObject")
+                    {
+                        XmlDocument xdDocument = new XmlDocument();
+                        xdDocument.LoadXml(xn.OuterXml);
+
+                        XmlNodeList nameNode = xdDocument.GetElementsByTagName("fullName");
+
+                        StreamWriter sw = new StreamWriter(dirInfo.FullName + "\\" + nameNode[0].InnerText + ".validationRule-meta.xml");
+                        sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+
+
+                        String xnStr = xn.OuterXml.ToString();
+                        xnStr = xnStr.Replace("<validationRules", "<ValidationRule");
+                        xnStr = xnStr.Replace("</validationRules", "</ValidationRule");
+                        //xnStr = Regex.Replace(xnStr, "</([^>]*)>", "</$1>" + Environment.NewLine);
+                        sw.Write(xnStr);
+                        sw.Close();
+                    }
+                }
+            }
+
+            if (wlNodeList.Count > 0)
+            {
+                DirectoryInfo dirInfo = Directory.CreateDirectory(objDir.FullName + "\\webLinks");
+
+                foreach (XmlNode xn in wlNodeList)
+                {
+                    if (xn.ParentNode.Name == "CustomObject")
+                    {
+                        XmlDocument xdDocument = new XmlDocument();
+                        xdDocument.LoadXml(xn.OuterXml);
+
+                        XmlNodeList nameNode = xdDocument.GetElementsByTagName("fullName");
+
+                        StreamWriter sw = new StreamWriter(dirInfo.FullName + "\\" + nameNode[0].InnerText + ".webLink-meta.xml");
+                        sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+
+                        String xnStr = xn.OuterXml.ToString();
+                        xnStr = xnStr.Replace("<webLinks", "<WebLink");
+                        xnStr = xnStr.Replace("</webLinks", "</WebLink");
+                        //xnStr = Regex.Replace(xnStr, "</([^>]*)>", "</$1>" + Environment.NewLine);
+                        sw.Write(xnStr);
+                        sw.Close();
+                    }
+                }
+            }
+
+            File.Move(objectPath, objDirectoryPath + "\\" + objectPathSplit[objectPathSplit.Length - 1] + "-meta.xml");
+            
+            Debug.WriteLine(" ");
+        }
 
         private FileProperties[] getFolderItems(List<ListMetadataQuery> mdqFolderList, MetadataService ms)
         {

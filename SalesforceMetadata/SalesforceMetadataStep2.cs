@@ -18,6 +18,7 @@ using SalesforceMetadata.MetadataWSDL;
 using System.Diagnostics.Eventing.Reader;
 using System.Text.RegularExpressions;
 using System.Web.UI.MobileControls.Adapters;
+using System.Security.Cryptography;
 
 namespace SalesforceMetadata
 {
@@ -831,215 +832,219 @@ namespace SalesforceMetadata
             {
                 DirectoryInfo dirInfo = Directory.CreateDirectory(objDir.FullName + "\\businessProcesses");
 
-                foreach (XmlNode xn in bpNodeList)
-                {
-                    if (xn.ParentNode.Name == "CustomObject")
-                    {
-                        XmlDocument xdDocument = new XmlDocument();
-                        xdDocument.LoadXml(xn.OuterXml);
-
-                        XmlNodeList nameNode = xdDocument.GetElementsByTagName("fullName");
-
-                        StreamWriter sw = new StreamWriter(dirInfo.FullName + "\\" + nameNode[0].InnerText + ".businessProcess-meta.xml");
-                        sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-
-                        String xnStr = xn.OuterXml.ToString();
-                        xnStr = xnStr.Replace("<businessProcesses", "<BusinessProcess");
-                        xnStr = xnStr.Replace("</businessProcesses", "</BusinessProcess");
-                        //xnStr = Regex.Replace(xnStr, "</([^>]*)>", "</$1>" + Environment.NewLine);
-                        sw.Write(xnStr);
-                        sw.Close();
-                    }
-                }
+                writeChildNodes(dirInfo,
+                                ".businessProcess-meta.xml",
+                                bpNodeList,
+                                "businessProcesses",
+                                "BusinessProcess");
             }
 
             if (clNodeList.Count > 0)
             {
                 DirectoryInfo dirInfo = Directory.CreateDirectory(objDir.FullName + "\\compactLayouts");
 
-                foreach (XmlNode xn in clNodeList)
-                {
-                    if (xn.ParentNode.Name == "CustomObject")
-                    {
-                        XmlDocument xdDocument = new XmlDocument();
-                        xdDocument.LoadXml(xn.OuterXml);
-
-                        XmlNodeList nameNode = xdDocument.GetElementsByTagName("fullName");
-
-                        StreamWriter sw = new StreamWriter(dirInfo.FullName + "\\" + nameNode[0].InnerText + ".compactLayout-meta.xml");
-                        sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-
-                        String xnStr = xn.OuterXml.ToString();
-                        xnStr = xnStr.Replace("<compactLayouts", "<CompactLayout");
-                        xnStr = xnStr.Replace("</compactLayouts", "</CompactLayout");
-                        //xnStr = Regex.Replace(xnStr, "</([^>]*)>", "</$1>" + Environment.NewLine);
-                        sw.Write(xnStr);
-                        sw.Close();
-                    }
-                }
+                writeChildNodes(dirInfo,
+                                ".compactLayout-meta.xml",
+                                clNodeList,
+                                "compactLayouts",
+                                "CompactLayout");
             }
 
             if (fldNodeList.Count > 0)
             {
                 DirectoryInfo dirInfo = Directory.CreateDirectory(objDir.FullName + "\\fields");
 
-                foreach (XmlNode xn in fldNodeList)
-                {
-                    if (xn.ParentNode.Name == "CustomObject")
-                    {
-                        XmlDocument xdDocument = new XmlDocument();
-                        xdDocument.LoadXml(xn.OuterXml);
-
-                        XmlNodeList nameNode = xdDocument.GetElementsByTagName("fullName");
-
-                        StreamWriter sw = new StreamWriter(dirInfo.FullName + "\\" + nameNode[0].InnerText + ".field-meta.xml");
-                        sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-
-                        String xnStr = xn.OuterXml.ToString();
-                        xnStr = xnStr.Replace("<fields", "<CustomField");
-                        xnStr = xnStr.Replace("</fields", "</CustomField");
-                        //xnStr = Regex.Replace(xnStr, "</([^>]*)>", "</$1>" + Environment.NewLine);
-                        sw.Write(xnStr);
-                        sw.Close();
-                    }
-                }
+                writeChildNodes(dirInfo,
+                                ".field-meta.xml",
+                                fldNodeList,
+                                "fields",
+                                "CustomField");
             }
 
             if (fldsetNodeList.Count > 0)
             {
                 DirectoryInfo dirInfo = Directory.CreateDirectory(objDir.FullName + "\\fieldSets");
 
-                foreach (XmlNode xn in fldsetNodeList)
-                {
-                    if (xn.ParentNode.Name == "CustomObject")
-                    {
-                        XmlDocument xdDocument = new XmlDocument();
-                        xdDocument.LoadXml(xn.OuterXml);
-
-                        XmlNodeList nameNode = xdDocument.GetElementsByTagName("fullName");
-
-                        StreamWriter sw = new StreamWriter(dirInfo.FullName + "\\" + nameNode[0].InnerText + ".fieldSet-meta.xml");
-                        sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-
-                        String xnStr = xn.OuterXml.ToString();
-                        xnStr = xnStr.Replace("<fieldSets", "<FieldSet");
-                        xnStr = xnStr.Replace("</fieldSets", "</FieldSet");
-                        //xnStr = Regex.Replace(xnStr, "</([^>]*)>", "</$1>" + Environment.NewLine);
-                        sw.Write(xnStr);
-                        sw.Close();
-                    }
-                }
+                writeChildNodes(dirInfo,
+                                ".fieldSet-meta.xml",
+                                fldsetNodeList,
+                                "fieldSets",
+                                "FieldSet");
             }
 
             if (lvNodeList.Count > 0)
             {
                 DirectoryInfo dirInfo = Directory.CreateDirectory(objDir.FullName + "\\listViews");
 
-                foreach (XmlNode xn in lvNodeList)
-                {
-                    if (xn.ParentNode.Name == "CustomObject")
-                    {
-                        XmlDocument xdDocument = new XmlDocument();
-                        xdDocument.LoadXml(xn.OuterXml);
-
-                        XmlNodeList nameNode = xdDocument.GetElementsByTagName("fullName");
-
-                        StreamWriter sw = new StreamWriter(dirInfo.FullName + "\\" + nameNode[0].InnerText + ".listView-meta.xml");
-                        sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-
-                        String xnStr = xn.OuterXml.ToString();
-                        xnStr = xnStr.Replace("<listViews", "<ListView");
-                        xnStr = xnStr.Replace("</listViews", "</ListView");
-                        //xnStr = Regex.Replace(xnStr, "</([^>]*)>", "</$1>" + Environment.NewLine);
-                        sw.Write(xnStr);
-                        sw.Close();
-                    }
-                }
+                writeChildNodes(dirInfo,
+                                ".listView-meta.xml",
+                                lvNodeList,
+                                "listViews",
+                                "ListView");
             }
 
             if (rtNodeList.Count > 0)
             {
                 DirectoryInfo dirInfo = Directory.CreateDirectory(objDir.FullName + "\\recordTypes");
 
-                foreach (XmlNode xn in rtNodeList)
-                {
-                    if (xn.ParentNode.Name == "CustomObject")
-                    {
-                        XmlDocument xdDocument = new XmlDocument();
-                        xdDocument.LoadXml(xn.OuterXml);
-
-                        XmlNodeList nameNode = xdDocument.GetElementsByTagName("fullName");
-
-                        StreamWriter sw = new StreamWriter(dirInfo.FullName + "\\" + nameNode[0].InnerText + ".recordType-meta.xml");
-                        sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-
-                        String xnStr = xn.OuterXml.ToString();
-                        xnStr = xnStr.Replace("<recordTypes", "<RecordType");
-                        xnStr = xnStr.Replace("</recordTypes", "</RecordType");
-                        //xnStr = Regex.Replace(xnStr, "</([^>]*)>", "</$1>" + Environment.NewLine);
-                        sw.Write(xnStr);
-                        sw.Close();
-                    }
-                }
+                writeChildNodes(dirInfo,
+                                ".recordType-meta.xml",
+                                rtNodeList,
+                                "recordTypes",
+                                "RecordType");
             }
 
             if (vrNodeList.Count > 0)
             {
                 DirectoryInfo dirInfo = Directory.CreateDirectory(objDir.FullName + "\\validationRules");
 
-                foreach (XmlNode xn in vrNodeList)
-                {
-                    if (xn.ParentNode.Name == "CustomObject")
-                    {
-                        XmlDocument xdDocument = new XmlDocument();
-                        xdDocument.LoadXml(xn.OuterXml);
-
-                        XmlNodeList nameNode = xdDocument.GetElementsByTagName("fullName");
-
-                        StreamWriter sw = new StreamWriter(dirInfo.FullName + "\\" + nameNode[0].InnerText + ".validationRule-meta.xml");
-                        sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-
-
-                        String xnStr = xn.OuterXml.ToString();
-                        xnStr = xnStr.Replace("<validationRules", "<ValidationRule");
-                        xnStr = xnStr.Replace("</validationRules", "</ValidationRule");
-                        //xnStr = Regex.Replace(xnStr, "</([^>]*)>", "</$1>" + Environment.NewLine);
-                        sw.Write(xnStr);
-                        sw.Close();
-                    }
-                }
+                writeChildNodes(dirInfo,
+                                ".validationRule-meta.xml",
+                                vrNodeList,
+                                "validationRules",
+                                "ValidationRule");
             }
 
             if (wlNodeList.Count > 0)
             {
                 DirectoryInfo dirInfo = Directory.CreateDirectory(objDir.FullName + "\\webLinks");
 
-                foreach (XmlNode xn in wlNodeList)
-                {
-                    if (xn.ParentNode.Name == "CustomObject")
-                    {
-                        XmlDocument xdDocument = new XmlDocument();
-                        xdDocument.LoadXml(xn.OuterXml);
-
-                        XmlNodeList nameNode = xdDocument.GetElementsByTagName("fullName");
-
-                        StreamWriter sw = new StreamWriter(dirInfo.FullName + "\\" + nameNode[0].InnerText + ".webLink-meta.xml");
-                        sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-
-                        String xnStr = xn.OuterXml.ToString();
-                        xnStr = xnStr.Replace("<webLinks", "<WebLink");
-                        xnStr = xnStr.Replace("</webLinks", "</WebLink");
-                        //xnStr = Regex.Replace(xnStr, "</([^>]*)>", "</$1>" + Environment.NewLine);
-                        sw.Write(xnStr);
-                        sw.Close();
-                    }
-                }
+                writeChildNodes(dirInfo,
+                                ".webLink-meta.xml",
+                                wlNodeList,
+                                "webLinks",
+                                "WebLink");
             }
 
             File.Move(objectPath, objDirectoryPath + "\\" + objectPathSplit[objectPathSplit.Length - 1] + "-meta.xml");
-            
-            Debug.WriteLine(" ");
         }
+
+        private void writeChildNodes(DirectoryInfo dirInfo, 
+                                     String fileExtension, 
+                                     XmlNodeList nodeList,
+                                     String parentTagToReplace, 
+                                     String newParentTag)
+        {
+            foreach (XmlNode xn in nodeList)
+            {
+                if (xn.ParentNode.Name == "CustomObject")
+                {
+                    XmlDocument xdDocument = new XmlDocument();
+                    xdDocument.LoadXml(xn.OuterXml);
+
+                    XmlNodeList nameNode = xdDocument.GetElementsByTagName("fullName");
+
+                    StreamWriter sw = new StreamWriter(dirInfo.FullName + "\\" + nameNode[0].InnerText + fileExtension);
+                    sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+
+                    String xmlStructure = "";
+
+                    foreach (XmlNode nd1 in xdDocument.ChildNodes)
+                    {
+                        if (nd1.Name == parentTagToReplace)
+                        {
+                            sw.Write("<" + newParentTag + " xmlns=\"http://soap.sforce.com/2006/04/metadata\">");
+                        }
+
+                        if (nd1.ChildNodes.Count > 0
+                            && nd1.ChildNodes[0].LocalName == "#text")
+                        {
+                            //sw.Write(nd1.ChildNodes[0].InnerText);
+                        }
+                        else if (nd1.ChildNodes.Count > 0)
+                        {
+                            foreach (XmlNode nd2 in nd1.ChildNodes)
+                            {
+                                if (nd2.ChildNodes.Count > 0
+                                    && nd2.ChildNodes[0].LocalName == "#text")
+                                {
+                                    sw.Write(Environment.NewLine);
+                                    sw.Write("    <" + nd2.LocalName + ">" + nd2.ChildNodes[0].InnerText + "</" + nd2.LocalName + ">");
+                                }
+                                else if (nd2.ChildNodes.Count > 0)
+                                {
+                                    sw.Write(Environment.NewLine);
+                                    sw.Write("    <" + nd2.LocalName + ">");
+
+                                    foreach (XmlNode nd3 in nd2.ChildNodes)
+                                    {
+                                        if (nd3.ChildNodes.Count > 0
+                                            && nd3.ChildNodes[0].LocalName == "#text")
+                                        {
+                                            sw.Write(Environment.NewLine);
+                                            sw.Write("        <" + nd3.LocalName + ">" + nd3.ChildNodes[0].InnerText + "</" + nd3.LocalName + ">");
+                                        }
+                                        else if (nd3.ChildNodes.Count > 0)
+                                        {
+                                            sw.Write(Environment.NewLine);
+                                            sw.Write("        <" + nd3.LocalName + ">");
+
+                                            foreach (XmlNode nd4 in nd3.ChildNodes)
+                                            {
+                                                if (nd4.ChildNodes.Count > 0
+                                                    && nd4.ChildNodes[0].LocalName == "#text")
+                                                {
+                                                    sw.Write(Environment.NewLine);
+                                                    sw.Write("            <" + nd4.LocalName + ">" + nd4.ChildNodes[0].InnerText + "</" + nd4.LocalName + ">");
+                                                }
+                                                else if (nd4.ChildNodes.Count > 0)
+                                                {
+                                                    sw.Write(Environment.NewLine);
+                                                    sw.Write("            <" + nd4.LocalName + ">");
+
+                                                    foreach (XmlNode nd5 in nd4.ChildNodes)
+                                                    {
+                                                        if (nd5.ChildNodes.Count > 0
+                                                            && nd5.ChildNodes[0].LocalName == "#text")
+                                                        {
+                                                            sw.Write(Environment.NewLine);
+                                                            sw.Write("                <" + nd5.LocalName + ">" + nd5.ChildNodes[0].InnerText + "</" + nd5.LocalName + ">");
+                                                        }
+                                                        else if (nd5.ChildNodes.Count > 0)
+                                                        {
+                                                            foreach (XmlNode nd6 in nd5.ChildNodes)
+                                                            {
+                                                                if (nd6.ChildNodes.Count > 0
+                                                                    && nd6.ChildNodes[0].LocalName == "#text")
+                                                                {
+                                                                    Debug.WriteLine(" ");
+                                                                }
+                                                                else if (nd6.ChildNodes.Count > 0)
+                                                                {
+                                                                    Debug.WriteLine(" ");
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+
+                                                    sw.Write(Environment.NewLine);
+                                                    sw.Write("            </" + nd4.LocalName + ">");
+                                                }
+                                            }
+
+                                            sw.Write(Environment.NewLine);
+                                            sw.Write("        </" + nd3.LocalName + ">");
+                                        }
+                                    }
+
+                                    sw.Write(Environment.NewLine);
+                                    sw.Write("    </" + nd2.LocalName + ">");
+                                }
+                            }
+
+                            //sw.Write(Environment.NewLine + "    </" + nd1.LocalName + ">");
+                        }
+
+                        sw.Write(Environment.NewLine + "</" + newParentTag + ">");
+                    }
+
+                    //sw.Write(Environment.NewLine + "</" + newParentTag + ">");
+
+                    sw.Close();
+                }
+            }
+        }
+
 
         private FileProperties[] getFolderItems(List<ListMetadataQuery> mdqFolderList, MetadataService ms)
         {

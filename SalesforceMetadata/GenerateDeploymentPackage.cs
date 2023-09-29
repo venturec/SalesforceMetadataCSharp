@@ -628,6 +628,10 @@ namespace SalesforceMetadata
                                 {
                                     tnd3.Checked = true;
                                 }
+                                else if (tnd3.Text.StartsWith("<description"))
+                                {
+                                    tnd3.Checked = true;
+                                }
                                 else if (tnd3.Text.StartsWith("<label"))
                                 {
                                     tnd3.Checked = true;

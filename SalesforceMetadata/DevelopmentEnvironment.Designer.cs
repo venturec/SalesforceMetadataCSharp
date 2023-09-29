@@ -45,6 +45,10 @@
             this.lblSecurityToken = new System.Windows.Forms.Label();
             this.cmbUserName = new System.Windows.Forms.ComboBox();
             this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnObjectFieldInspector = new System.Windows.Forms.Button();
+            this.lblRepository = new System.Windows.Forms.Label();
+            this.tbRepository = new System.Windows.Forms.TextBox();
+            this.btnBuildERD = new System.Windows.Forms.Button();
             this.fromOrgGroup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,10 +67,10 @@
             // treeViewMetadata
             // 
             this.treeViewMetadata.CheckBoxes = true;
-            this.treeViewMetadata.Location = new System.Drawing.Point(14, 142);
+            this.treeViewMetadata.Location = new System.Drawing.Point(14, 210);
             this.treeViewMetadata.Name = "treeViewMetadata";
-            this.treeViewMetadata.Size = new System.Drawing.Size(880, 681);
-            this.treeViewMetadata.TabIndex = 5;
+            this.treeViewMetadata.Size = new System.Drawing.Size(880, 639);
+            this.treeViewMetadata.TabIndex = 8;
             this.treeViewMetadata.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMetadata_AfterCheck);
             this.treeViewMetadata.DoubleClick += new System.EventHandler(this.treeViewMetadata_DoubleClick);
             // 
@@ -113,20 +117,21 @@
             // btnRetrieveFromOrg
             // 
             this.btnRetrieveFromOrg.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRetrieveFromOrg.Location = new System.Drawing.Point(1324, 142);
+            this.btnRetrieveFromOrg.Location = new System.Drawing.Point(1304, 144);
             this.btnRetrieveFromOrg.Name = "btnRetrieveFromOrg";
-            this.btnRetrieveFromOrg.Size = new System.Drawing.Size(138, 34);
-            this.btnRetrieveFromOrg.TabIndex = 7;
+            this.btnRetrieveFromOrg.Size = new System.Drawing.Size(159, 34);
+            this.btnRetrieveFromOrg.TabIndex = 9;
             this.btnRetrieveFromOrg.Text = "Retrieve from Org";
             this.btnRetrieveFromOrg.UseVisualStyleBackColor = true;
+            this.btnRetrieveFromOrg.Click += new System.EventHandler(this.btnRetrieveFromOrg_Click);
             // 
             // btnDeployToOrg
             // 
             this.btnDeployToOrg.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeployToOrg.Location = new System.Drawing.Point(1324, 191);
+            this.btnDeployToOrg.Location = new System.Drawing.Point(1304, 192);
             this.btnDeployToOrg.Name = "btnDeployToOrg";
-            this.btnDeployToOrg.Size = new System.Drawing.Size(138, 34);
-            this.btnDeployToOrg.TabIndex = 8;
+            this.btnDeployToOrg.Size = new System.Drawing.Size(159, 34);
+            this.btnDeployToOrg.TabIndex = 10;
             this.btnDeployToOrg.Text = "Deploy to Org";
             this.btnDeployToOrg.UseVisualStyleBackColor = true;
             this.btnDeployToOrg.Click += new System.EventHandler(this.btnDeployToOrg_Click);
@@ -144,7 +149,7 @@
             this.fromOrgGroup.Location = new System.Drawing.Point(939, 12);
             this.fromOrgGroup.Name = "fromOrgGroup";
             this.fromOrgGroup.Size = new System.Drawing.Size(523, 115);
-            this.fromOrgGroup.TabIndex = 9;
+            this.fromOrgGroup.TabIndex = 13;
             this.fromOrgGroup.TabStop = false;
             this.fromOrgGroup.Text = "From Org";
             // 
@@ -209,19 +214,63 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(743, 113);
+            this.btnRefresh.Location = new System.Drawing.Point(744, 176);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(151, 23);
-            this.btnRefresh.TabIndex = 6;
+            this.btnRefresh.Size = new System.Drawing.Size(151, 31);
+            this.btnRefresh.TabIndex = 7;
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // btnObjectFieldInspector
+            // 
+            this.btnObjectFieldInspector.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnObjectFieldInspector.Location = new System.Drawing.Point(1304, 240);
+            this.btnObjectFieldInspector.Name = "btnObjectFieldInspector";
+            this.btnObjectFieldInspector.Size = new System.Drawing.Size(159, 34);
+            this.btnObjectFieldInspector.TabIndex = 11;
+            this.btnObjectFieldInspector.Text = "Object Field Inspector";
+            this.btnObjectFieldInspector.UseVisualStyleBackColor = true;
+            this.btnObjectFieldInspector.Click += new System.EventHandler(this.btnObjectFieldInspector_Click);
+            // 
+            // lblRepository
+            // 
+            this.lblRepository.AutoSize = true;
+            this.lblRepository.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRepository.Location = new System.Drawing.Point(17, 113);
+            this.lblRepository.Name = "lblRepository";
+            this.lblRepository.Size = new System.Drawing.Size(124, 17);
+            this.lblRepository.TabIndex = 5;
+            this.lblRepository.Text = "Repository Path";
+            // 
+            // tbRepository
+            // 
+            this.tbRepository.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbRepository.Location = new System.Drawing.Point(191, 110);
+            this.tbRepository.Name = "tbRepository";
+            this.tbRepository.Size = new System.Drawing.Size(703, 23);
+            this.tbRepository.TabIndex = 6;
+            this.tbRepository.DoubleClick += new System.EventHandler(this.tbRepository_DoubleClick);
+            // 
+            // btnBuildERD
+            // 
+            this.btnBuildERD.Location = new System.Drawing.Point(1304, 288);
+            this.btnBuildERD.Name = "btnBuildERD";
+            this.btnBuildERD.Size = new System.Drawing.Size(159, 34);
+            this.btnBuildERD.TabIndex = 12;
+            this.btnBuildERD.Text = "Build ERD";
+            this.btnBuildERD.UseVisualStyleBackColor = true;
+            this.btnBuildERD.Click += new System.EventHandler(this.btnBuildERD_Click);
             // 
             // DevelopmentEnvironment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1481, 835);
+            this.ClientSize = new System.Drawing.Size(1481, 859);
+            this.Controls.Add(this.btnBuildERD);
+            this.Controls.Add(this.tbRepository);
+            this.Controls.Add(this.lblRepository);
+            this.Controls.Add(this.btnObjectFieldInspector);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.fromOrgGroup);
             this.Controls.Add(this.btnDeployToOrg);
@@ -260,5 +309,9 @@
         private System.Windows.Forms.Label lblSecurityToken;
         private System.Windows.Forms.ComboBox cmbUserName;
         private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.Button btnObjectFieldInspector;
+        private System.Windows.Forms.Label lblRepository;
+        private System.Windows.Forms.TextBox tbRepository;
+        private System.Windows.Forms.Button btnBuildERD;
     }
 }

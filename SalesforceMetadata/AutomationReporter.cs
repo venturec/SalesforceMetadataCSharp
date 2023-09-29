@@ -3983,23 +3983,43 @@ namespace SalesforceMetadata
                 {
                     foreach (ApexTriggers at in this.objectToTrigger[objnm])
                     {
-                        foreach (String tvar in at.triggerBodyVars.Keys)
+                        sw.Write(Environment.NewLine);
+                        sw.Write(Environment.NewLine);
+                        sw.WriteLine("ApexTrigger\tTriggerName\tObjectType\tBeforeInsert\tBeforeUpdate\tBeforeDelete\tAfterInsert\tAfterUpdate\tAfterDelete\tAfterUndelete");
+                        sw.Write("\t" + at.triggerName + "\t" + 
+                                        objnm + "\t" + 
+                                        at.isBeforeInsert + "\t" +
+                                        at.isBeforeUpdate + "\t" +
+                                        at.isBeforeDelete + "\t" +
+                                        at.isAfterInsert + "\t" +
+                                        at.isAfterUpdate + "\t" +
+                                        at.isAfterDelete + "\t" +
+                                        at.isAfterUndelete + "\t" + 
+                                        Environment.NewLine);
+
+                        if (at.triggerBodyVars.Count > 0)
                         {
-                            foreach (ObjectVarToType ovt in at.triggerBodyVars[tvar])
+                            sw.Write(Environment.NewLine);
+                            sw.Write(Environment.NewLine);
+                            sw.WriteLine("\tTriggerVariables\tObjectType\tVariableName\t=\tVariableValue");
+
+                            foreach (String tvar in at.triggerBodyVars.Keys)
                             {
-                                sw.Write("ApexTrigger\t" +
-                                    at.triggerName + "\t" +
-                                    objnm + "\t" +
-                                    ovt.varName + "\t" +
-                                    ovt.objectName + "\t" +
-                                    ovt.rightSide +
-                                    Environment.NewLine);
+                                foreach (ObjectVarToType ovt in at.triggerBodyVars[tvar])
+                                {
+                                    sw.Write("\t\t" +
+                                             ovt.objectName + "\t" +
+                                             ovt.varName + "\t=\t" +
+                                             ovt.rightSide +
+                                             Environment.NewLine);
+                                }
                             }
                         }
                     }
                 }
             }
 
+            // Write Class / Method results to file
             if (this.classNmToClass != null
                 && this.classNmToClass.Count > 0)
             {
@@ -4051,7 +4071,7 @@ namespace SalesforceMetadata
                         {
                             sw.Write(Environment.NewLine);
                             sw.Write(Environment.NewLine);
-                            sw.WriteLine("\tClassMethod\tClassMethodName\tMethodQualifier\tReturnDataType\tAnnotation");
+                            sw.WriteLine("\tClassMethod\tMethodName\tMethodQualifier\tReturnDataType\tAnnotation");
 
                             sw.Write("\t\t" +
                             ac.className + "." + cm.methodName + "\t" +
@@ -4138,6 +4158,7 @@ namespace SalesforceMetadata
                 }
             }
 
+            // Write Flow results to file
             if (this.objectToFlow != null
                 && this.objectToFlow.Count > 0)
             {
@@ -4200,6 +4221,7 @@ namespace SalesforceMetadata
 
             //}
 
+            // Write Workflow results to file
             if (this.workflowFldUpdates != null
                 && this.workflowFldUpdates.Count > 0)
             {

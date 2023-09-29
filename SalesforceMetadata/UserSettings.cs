@@ -17,6 +17,8 @@ namespace SalesforceMetadata
         {
             InitializeComponent();
             getCurrentUserFileLocation();
+            loadDefaultApis();
+            loadDefaultTextEditorPath();
         }
 
 
@@ -101,6 +103,8 @@ namespace SalesforceMetadata
                 Properties.Settings.Default.UserAndAPIFileLocation = this.tbXmlFileLocation.Text;
                 Properties.Settings.Default.SharedSecretLocation = this.tbSharedSecret.Text;
                 Properties.Settings.Default.Salt = this.tbSalt.Text;
+                Properties.Settings.Default.DefaultAPI = this.cmbDefaultAPI.Text;
+                Properties.Settings.Default.DefaultTextEditorPath = this.tbDefaultTextEditor.Text;
                 Properties.Settings.Default.Save();
             }
             else
@@ -110,6 +114,34 @@ namespace SalesforceMetadata
 
 
             return error;
+        }
+
+        public void loadDefaultApis()
+        {
+            foreach (String api in UtilityClass.generateAPIArray())
+            {
+                this.cmbDefaultAPI.Items.Add(api);
+            }
+
+            this.cmbDefaultAPI.Text = Properties.Settings.Default.DefaultAPI;
+        }
+
+        public void loadDefaultTextEditorPath()
+        {
+            this.tbDefaultTextEditor.Text = Properties.Settings.Default.DefaultTextEditorPath;
+        }
+
+        private void tbDefaultTextEditor_DoubleClick(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "exe files (*.exe)|*.exe|All Files (*.*)|*.*";
+            ofd.Title = "Please select an executable file";
+            ofd.ShowDialog();
+
+            this.tbDefaultTextEditor.Text = ofd.FileName;
+
+            Properties.Settings.Default.DefaultTextEditorPath = ofd.FileName;
+            Properties.Settings.Default.Save();
         }
     }
 }

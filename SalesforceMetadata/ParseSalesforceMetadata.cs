@@ -19,10 +19,24 @@ namespace SalesforceMetadata
 
         private void btnParseMetadata_Click(object sender, EventArgs e)
         {
-            String folderPath = "C:\\Users\\marcu\\Documents\\Projects\\SO Asher\\lionheartsystemsinc__elmsdev\\unpackaged\\objects";
+            if (this.tbMetadataFolderPath.Text == "")
+            {
+                MessageBox.Show("Please select a path to the metadata folder");
+                return;
+            }
+
+            //String folderPath = this.tbMetadataFolderPath.Text;
 
             SalesforceMetadataStep2 sfm = new SalesforceMetadataStep2();
-            sfm.addVSCodeFileExtension(folderPath);
+            sfm.addVSCodeFileExtension(this.tbMetadataFolderPath.Text);
+        }
+
+        private void tbMetadataFolderPath_DoubleClick(object sender, EventArgs e)
+        {
+            this.tbMetadataFolderPath.Text = UtilityClass.folderBrowserSelectPath("Select the Metadata Directory to Parse",
+                                                                                  false,
+                                                                                  FolderEnum.SaveTo,
+                                                                                  Properties.Settings.Default.ParseMetadataFolderaPath);
         }
     }
 }

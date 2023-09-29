@@ -17,7 +17,6 @@ namespace SalesforceMetadata
 {
     public partial class ObjectFieldInspector : System.Windows.Forms.Form
     {
-        public UtilityClass.REQUESTINGORG reqOrg;
         //private Dictionary<String, String> metadataXmlNameToFolder;
         private Dictionary<String, String> usernameToSecurityToken;
 
@@ -641,8 +640,33 @@ namespace SalesforceMetadata
                     + "mruEnabled,"
                     + "replicateable");
 
-                foreach (DescribeGlobalSObjectResult dgr in this.sObjGlobalResultList)
+
+                //PartnerWSDL.DescribeSObjectResult[] dsrList = new PartnerWSDL.DescribeSObjectResult[this.sObjGlobalResultList.Count];
+                //String[] sObjTypes = new String[this.sObjGlobalResultList.Count];
+
+                //Int32 i = 0;
+                //foreach (PartnerWSDL.DescribeGlobalSObjectResult dgr in this.sObjGlobalResultList)
+                //{
+                //    sObjTypes[i] = dgr.name;
+                //    i++;
+                //}
+
+                //try
+                //{
+                //    MAX LIMIT = 100
+                //    dsrList = SalesforceCredentials.fromOrgSS.describeSObjects(sObjTypes);
+                //}
+                //catch (Exception ex)
+                //{
+                //    Console.WriteLine(" ");
+                //}
+
+                //i = 0;
+                foreach (PartnerWSDL.DescribeGlobalSObjectResult dgr in this.sObjGlobalResultList)
                 {
+                    //PartnerWSDL.DescribeSObjectResult dsr = new PartnerWSDL.DescribeSObjectResult();
+                    //PartnerWSDL.ChildRelationship[] crs = dsrList[i].childRelationships;
+
                     sw.Write(dgr.name + ",");
                     sw.Write(dgr.label + ",");
                     sw.Write(dgr.labelPlural + ",");
@@ -674,6 +698,25 @@ namespace SalesforceMetadata
                     sw.Write(dgr.layoutable + ",");
                     sw.Write(dgr.mruEnabled + ",");
                     sw.Write(dgr.replicateable);
+
+                    //String childRelationshipNames = "";
+
+                    //if (crs != null)
+                    //{
+                    //    foreach (PartnerWSDL.ChildRelationship cr in crs)
+                    //    {
+                    //        String[] jncIdListNames = cr.junctionIdListNames;
+                    //        String[] jncRefTo = cr.junctionReferenceTo;
+
+                    //        //Console.Write(cr.childSObject + ", " + cr.field + ", " + cr.relationshipName + ", " + cr.restrictedDelete);
+
+                    //        childRelationshipNames = childRelationshipNames + cr.relationshipName + ",";
+                    //    }
+
+                    //    childRelationshipNames = childRelationshipNames.Substring(0, childRelationshipNames.Length - 1);
+                    //}
+
+                    //sw.Write(childRelationshipNames);
 
                     sw.Write(Environment.NewLine);
                 }

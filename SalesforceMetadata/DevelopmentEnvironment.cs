@@ -60,7 +60,7 @@ namespace SalesforceMetadata
         private void tbDeployFrom_DoubleClick(object sender, EventArgs e)
         {
             String selectedPath = UtilityClass.folderBrowserSelectPath("Select The Deploy From Folder", 
-                                                                       false, 
+                                                                       true, 
                                                                        FolderEnum.SaveTo,
                                                                        Properties.Settings.Default.DevelopmentDeploymentFolder);
 
@@ -190,6 +190,7 @@ namespace SalesforceMetadata
         {
             this.tbParentFolder.Text = Properties.Settings.Default.DevelopmentSelectedFolder;
             this.tbDeployFrom.Text = Properties.Settings.Default.DevelopmentDeploymentFolder;
+            this.tbRepository.Text = Properties.Settings.Default.RepositoryPath;
         }
 
         private void populateTreeView()
@@ -831,6 +832,10 @@ namespace SalesforceMetadata
                                 {
                                     tnd3.Checked = true;
                                 }
+                                else if (tnd3.Text.StartsWith("<description"))
+                                {
+                                    tnd3.Checked = true;
+                                }
                                 else if (tnd3.Text.StartsWith("<label"))
                                 {
                                     tnd3.Checked = true;
@@ -1184,7 +1189,54 @@ namespace SalesforceMetadata
 
             String pathToFile = "\"" + this.tbParentFolder.Text + "\\" + tv.SelectedNode.FullPath + "\"";
 
-            Process.Start(@"notepad++.exe", pathToFile);
+            if (Properties.Settings.Default.DefaultTextEditorPath == "")
+            {
+                Process.Start(@"notepad.exe", pathToFile);
+            }
+            else
+            {
+                Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, pathToFile);
+            }
+        }
+
+        private void btnObjectFieldInspector_Click(object sender, EventArgs e)
+        {
+            ObjectFieldInspector ofi = new ObjectFieldInspector();
+            ofi.cmbUserName.SelectedItem = this.cmbUserName.Text;
+            ofi.tbPassword.Text = this.tbPassword.Text;
+            ofi.tbSecurityToken.Text = this.tbSecurityToken.Text;
+            //if (SalesforceCredentials.isProduction.ContainsKey(this.cmbUserName.Text))
+            //{
+            //    ofi.isProduction = SalesforceCredentials.isProduction[this.cmbUserName.Text];
+            //}
+
+            ofi.Show();
+
+        }
+
+        private void btnRetrieveFromOrg_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tbRepository_DoubleClick(object sender, EventArgs e)
+        {
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Select the path to the Repository",
+                                                                       false,
+                                                                       FolderEnum.SaveTo,
+                                                                       Properties.Settings.Default.RepositoryPath);
+
+            if (selectedPath != "")
+            {
+                this.tbRepository.Text = selectedPath;
+                Properties.Settings.Default.RepositoryPath = selectedPath;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        private void btnBuildERD_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

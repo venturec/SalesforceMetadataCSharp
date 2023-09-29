@@ -599,7 +599,11 @@ namespace SalesforceMetadata
                 SalesforceCredentials.fromOrgSecurityToken = this.tbSecurityToken.Text;
 
                 ObjectFieldInspector ofi = new ObjectFieldInspector();
-                ofi.reqOrg = UtilityClass.REQUESTINGORG.FROMORG;
+                //ofi.reqOrg = UtilityClass.REQUESTINGORG.FROMORG;
+                ofi.cmbUserName.SelectedItem = this.cmbUserName.Text;
+                ofi.tbPassword.Text = this.tbPassword.Text;
+                ofi.tbSecurityToken.Text = this.tbSecurityToken.Text;
+
                 ofi.Show();
                 ofi.Location = this.Location;
             }

@@ -347,12 +347,12 @@
         }
 
         #endregion
-        private System.Windows.Forms.TextBox tbPassword;
-        private System.Windows.Forms.TextBox tbSecurityToken;
+        public System.Windows.Forms.TextBox tbPassword;
+        public System.Windows.Forms.TextBox tbSecurityToken;
         private System.Windows.Forms.Label lblSFUsername;
         private System.Windows.Forms.Label lblPassword;
         private System.Windows.Forms.Label lblSecurityToken;
-        private System.Windows.Forms.ComboBox cmbUserName;
+        public System.Windows.Forms.ComboBox cmbUserName;
         private System.Windows.Forms.ComboBox cmbSalesforceSObjects;
         private System.Windows.Forms.Label lblSalesforceSobjects;
         private System.Windows.Forms.Label lblSobjectFieldList;

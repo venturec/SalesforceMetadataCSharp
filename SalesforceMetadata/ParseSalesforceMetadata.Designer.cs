@@ -30,6 +30,8 @@
         {
             this.cbVSCodeStyle = new System.Windows.Forms.CheckBox();
             this.btnParseMetadata = new System.Windows.Forms.Button();
+            this.tbMetadataFolderPath = new System.Windows.Forms.TextBox();
+            this.lblMetadataFolderPath = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cbVSCodeStyle
@@ -46,7 +48,7 @@
             // 
             // btnParseMetadata
             // 
-            this.btnParseMetadata.Location = new System.Drawing.Point(12, 49);
+            this.btnParseMetadata.Location = new System.Drawing.Point(756, 85);
             this.btnParseMetadata.Name = "btnParseMetadata";
             this.btnParseMetadata.Size = new System.Drawing.Size(75, 23);
             this.btnParseMetadata.TabIndex = 1;
@@ -54,11 +56,30 @@
             this.btnParseMetadata.UseVisualStyleBackColor = true;
             this.btnParseMetadata.Click += new System.EventHandler(this.btnParseMetadata_Click);
             // 
+            // tbMetadataFolderPath
+            // 
+            this.tbMetadataFolderPath.Location = new System.Drawing.Point(124, 49);
+            this.tbMetadataFolderPath.Name = "tbMetadataFolderPath";
+            this.tbMetadataFolderPath.Size = new System.Drawing.Size(707, 20);
+            this.tbMetadataFolderPath.TabIndex = 2;
+            this.tbMetadataFolderPath.DoubleClick += new System.EventHandler(this.tbMetadataFolderPath_DoubleClick);
+            // 
+            // lblMetadataFolderPath
+            // 
+            this.lblMetadataFolderPath.AutoSize = true;
+            this.lblMetadataFolderPath.Location = new System.Drawing.Point(9, 52);
+            this.lblMetadataFolderPath.Name = "lblMetadataFolderPath";
+            this.lblMetadataFolderPath.Size = new System.Drawing.Size(109, 13);
+            this.lblMetadataFolderPath.TabIndex = 3;
+            this.lblMetadataFolderPath.Text = "Metadata Folder Path";
+            // 
             // ParseSalesforceMetadata
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(843, 475);
+            this.Controls.Add(this.lblMetadataFolderPath);
+            this.Controls.Add(this.tbMetadataFolderPath);
             this.Controls.Add(this.btnParseMetadata);
             this.Controls.Add(this.cbVSCodeStyle);
             this.Name = "ParseSalesforceMetadata";
@@ -72,5 +93,7 @@
 
         private System.Windows.Forms.CheckBox cbVSCodeStyle;
         private System.Windows.Forms.Button btnParseMetadata;
+        private System.Windows.Forms.TextBox tbMetadataFolderPath;
+        private System.Windows.Forms.Label lblMetadataFolderPath;
     }
 }

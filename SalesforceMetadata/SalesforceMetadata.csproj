@@ -77,6 +77,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddObject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddObject.Designer.cs">
+      <DependentUpon>AddObject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddObjectEvent.cs" />
     <Compile Include="DevelopmentEnvironment.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -229,6 +236,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AddObject.resx">
+      <DependentUpon>AddObject.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AutomationReporter.resx">
       <DependentUpon>AutomationReporter.cs</DependentUpon>
       <SubType>Designer</SubType>

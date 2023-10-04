@@ -28,11 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.MenuStrip msIDE;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DevelopmentEnvironment));
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectSolutionFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectSolutionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.apexClassToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.apexTriggerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lightningWebComponentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.visualforcePageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.visualforceComponentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.customObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblNote = new System.Windows.Forms.Label();
             this.treeViewMetadata = new System.Windows.Forms.TreeView();
-            this.tbParentFolder = new System.Windows.Forms.TextBox();
-            this.lblFolder = new System.Windows.Forms.Label();
+            this.tbProjectFolder = new System.Windows.Forms.TextBox();
+            this.lblProjectFolder = new System.Windows.Forms.Label();
             this.lblDeploymentFolder = new System.Windows.Forms.Label();
             this.tbDeployFrom = new System.Windows.Forms.TextBox();
             this.btnRetrieveFromOrg = new System.Windows.Forms.Button();
@@ -49,15 +63,132 @@
             this.lblRepository = new System.Windows.Forms.Label();
             this.tbRepository = new System.Windows.Forms.TextBox();
             this.btnBuildERD = new System.Windows.Forms.Button();
+            this.lblRootFolder = new System.Windows.Forms.Label();
+            this.tbRootFolder = new System.Windows.Forms.TextBox();
+            this.btnSearchMetadata = new System.Windows.Forms.Button();
+            this.btnDebugLogs = new System.Windows.Forms.Button();
+            msIDE = new System.Windows.Forms.MenuStrip();
+            msIDE.SuspendLayout();
             this.fromOrgGroup.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // msIDE
+            // 
+            msIDE.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            msIDE.Font = new System.Drawing.Font("Segoe UI", 10F);
+            msIDE.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            msIDE.Location = new System.Drawing.Point(0, 0);
+            msIDE.Name = "msIDE";
+            msIDE.Size = new System.Drawing.Size(1481, 27);
+            msIDE.TabIndex = 18;
+            msIDE.Text = "IDE Menu";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.selectSolutionFileToolStripMenuItem,
+            this.addToolStripMenuItem,
+            this.newProjectToolStripMenuItem,
+            this.saveProjectToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(41, 23);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // selectSolutionFileToolStripMenuItem
+            // 
+            this.selectSolutionFileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.projectSolutionToolStripMenuItem});
+            this.selectSolutionFileToolStripMenuItem.Name = "selectSolutionFileToolStripMenuItem";
+            this.selectSolutionFileToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.selectSolutionFileToolStripMenuItem.Text = "Open";
+            // 
+            // projectSolutionToolStripMenuItem
+            // 
+            this.projectSolutionToolStripMenuItem.Name = "projectSolutionToolStripMenuItem";
+            this.projectSolutionToolStripMenuItem.Size = new System.Drawing.Size(175, 24);
+            this.projectSolutionToolStripMenuItem.Text = "Project/Solution";
+            this.projectSolutionToolStripMenuItem.Click += new System.EventHandler(this.projectSolutionToolStripMenuItem_Click);
+            // 
+            // addToolStripMenuItem
+            // 
+            this.addToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.apexClassToolStripMenuItem,
+            this.apexTriggerToolStripMenuItem,
+            this.lightningWebComponentToolStripMenuItem,
+            this.visualforcePageToolStripMenuItem,
+            this.visualforceComponentToolStripMenuItem,
+            this.customObjectToolStripMenuItem});
+            this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.addToolStripMenuItem.Text = "Add";
+            // 
+            // apexClassToolStripMenuItem
+            // 
+            this.apexClassToolStripMenuItem.Name = "apexClassToolStripMenuItem";
+            this.apexClassToolStripMenuItem.Size = new System.Drawing.Size(244, 24);
+            this.apexClassToolStripMenuItem.Text = "Apex Class";
+            this.apexClassToolStripMenuItem.Click += new System.EventHandler(this.apexClassToolStripMenuItem_Click);
+            // 
+            // apexTriggerToolStripMenuItem
+            // 
+            this.apexTriggerToolStripMenuItem.Name = "apexTriggerToolStripMenuItem";
+            this.apexTriggerToolStripMenuItem.Size = new System.Drawing.Size(244, 24);
+            this.apexTriggerToolStripMenuItem.Text = "Apex Trigger";
+            this.apexTriggerToolStripMenuItem.Click += new System.EventHandler(this.apexTriggerToolStripMenuItem_Click);
+            // 
+            // lightningWebComponentToolStripMenuItem
+            // 
+            this.lightningWebComponentToolStripMenuItem.Name = "lightningWebComponentToolStripMenuItem";
+            this.lightningWebComponentToolStripMenuItem.Size = new System.Drawing.Size(244, 24);
+            this.lightningWebComponentToolStripMenuItem.Text = "Lightning Web Component";
+            // 
+            // visualforcePageToolStripMenuItem
+            // 
+            this.visualforcePageToolStripMenuItem.Name = "visualforcePageToolStripMenuItem";
+            this.visualforcePageToolStripMenuItem.Size = new System.Drawing.Size(244, 24);
+            this.visualforcePageToolStripMenuItem.Text = "Visualforce Page";
+            // 
+            // visualforceComponentToolStripMenuItem
+            // 
+            this.visualforceComponentToolStripMenuItem.Name = "visualforceComponentToolStripMenuItem";
+            this.visualforceComponentToolStripMenuItem.Size = new System.Drawing.Size(244, 24);
+            this.visualforceComponentToolStripMenuItem.Text = "Visualforce Component";
+            // 
+            // customObjectToolStripMenuItem
+            // 
+            this.customObjectToolStripMenuItem.Name = "customObjectToolStripMenuItem";
+            this.customObjectToolStripMenuItem.Size = new System.Drawing.Size(244, 24);
+            this.customObjectToolStripMenuItem.Text = "Custom Object";
+            // 
+            // newProjectToolStripMenuItem
+            // 
+            this.newProjectToolStripMenuItem.Name = "newProjectToolStripMenuItem";
+            this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.newProjectToolStripMenuItem.Text = "New Project";
+            this.newProjectToolStripMenuItem.Click += new System.EventHandler(this.newProjectToolStripMenuItem_Click);
+            // 
+            // saveProjectToolStripMenuItem
+            // 
+            this.saveProjectToolStripMenuItem.Name = "saveProjectToolStripMenuItem";
+            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.saveProjectToolStripMenuItem.Text = "Save Project";
+            this.saveProjectToolStripMenuItem.Click += new System.EventHandler(this.saveProjectToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // lblNote
             // 
             this.lblNote.AutoSize = true;
             this.lblNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, ((System.Drawing.FontStyle)(((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
                 | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNote.Location = new System.Drawing.Point(12, 9);
+            this.lblNote.Location = new System.Drawing.Point(12, 41);
             this.lblNote.Name = "lblNote";
             this.lblNote.Size = new System.Drawing.Size(883, 17);
             this.lblNote.TabIndex = 0;
@@ -67,38 +198,38 @@
             // treeViewMetadata
             // 
             this.treeViewMetadata.CheckBoxes = true;
-            this.treeViewMetadata.Location = new System.Drawing.Point(14, 210);
+            this.treeViewMetadata.Location = new System.Drawing.Point(14, 288);
             this.treeViewMetadata.Name = "treeViewMetadata";
             this.treeViewMetadata.Size = new System.Drawing.Size(880, 639);
-            this.treeViewMetadata.TabIndex = 8;
+            this.treeViewMetadata.TabIndex = 12;
             this.treeViewMetadata.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMetadata_AfterCheck);
             this.treeViewMetadata.DoubleClick += new System.EventHandler(this.treeViewMetadata_DoubleClick);
             // 
-            // tbParentFolder
+            // tbProjectFolder
             // 
-            this.tbParentFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbParentFolder.Location = new System.Drawing.Point(191, 43);
-            this.tbParentFolder.Name = "tbParentFolder";
-            this.tbParentFolder.Size = new System.Drawing.Size(703, 23);
-            this.tbParentFolder.TabIndex = 2;
-            this.tbParentFolder.TextChanged += new System.EventHandler(this.tbParentFolder_TextChanged);
-            this.tbParentFolder.DoubleClick += new System.EventHandler(this.tbParentFolder_DoubleClick);
+            this.tbProjectFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbProjectFolder.Location = new System.Drawing.Point(184, 80);
+            this.tbProjectFolder.Name = "tbProjectFolder";
+            this.tbProjectFolder.Size = new System.Drawing.Size(703, 23);
+            this.tbProjectFolder.TabIndex = 2;
+            this.tbProjectFolder.TextChanged += new System.EventHandler(this.tbProjectFolder_TextChanged);
+            this.tbProjectFolder.DoubleClick += new System.EventHandler(this.tbProjectFolder_DoubleClick);
             // 
-            // lblFolder
+            // lblProjectFolder
             // 
-            this.lblFolder.AutoSize = true;
-            this.lblFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFolder.Location = new System.Drawing.Point(17, 44);
-            this.lblFolder.Name = "lblFolder";
-            this.lblFolder.Size = new System.Drawing.Size(122, 17);
-            this.lblFolder.TabIndex = 1;
-            this.lblFolder.Text = "Selected Folder";
+            this.lblProjectFolder.AutoSize = true;
+            this.lblProjectFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProjectFolder.Location = new System.Drawing.Point(16, 80);
+            this.lblProjectFolder.Name = "lblProjectFolder";
+            this.lblProjectFolder.Size = new System.Drawing.Size(110, 17);
+            this.lblProjectFolder.TabIndex = 1;
+            this.lblProjectFolder.Text = "Project Folder";
             // 
             // lblDeploymentFolder
             // 
             this.lblDeploymentFolder.AutoSize = true;
             this.lblDeploymentFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDeploymentFolder.Location = new System.Drawing.Point(17, 76);
+            this.lblDeploymentFolder.Location = new System.Drawing.Point(16, 112);
             this.lblDeploymentFolder.Name = "lblDeploymentFolder";
             this.lblDeploymentFolder.Size = new System.Drawing.Size(150, 17);
             this.lblDeploymentFolder.TabIndex = 3;
@@ -107,7 +238,7 @@
             // tbDeployFrom
             // 
             this.tbDeployFrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbDeployFrom.Location = new System.Drawing.Point(191, 76);
+            this.tbDeployFrom.Location = new System.Drawing.Point(184, 112);
             this.tbDeployFrom.Name = "tbDeployFrom";
             this.tbDeployFrom.Size = new System.Drawing.Size(703, 23);
             this.tbDeployFrom.TabIndex = 4;
@@ -117,7 +248,7 @@
             // btnRetrieveFromOrg
             // 
             this.btnRetrieveFromOrg.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRetrieveFromOrg.Location = new System.Drawing.Point(1304, 144);
+            this.btnRetrieveFromOrg.Location = new System.Drawing.Point(16, 240);
             this.btnRetrieveFromOrg.Name = "btnRetrieveFromOrg";
             this.btnRetrieveFromOrg.Size = new System.Drawing.Size(159, 34);
             this.btnRetrieveFromOrg.TabIndex = 9;
@@ -128,7 +259,7 @@
             // btnDeployToOrg
             // 
             this.btnDeployToOrg.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeployToOrg.Location = new System.Drawing.Point(1304, 192);
+            this.btnDeployToOrg.Location = new System.Drawing.Point(192, 240);
             this.btnDeployToOrg.Name = "btnDeployToOrg";
             this.btnDeployToOrg.Size = new System.Drawing.Size(159, 34);
             this.btnDeployToOrg.TabIndex = 10;
@@ -146,10 +277,10 @@
             this.fromOrgGroup.Controls.Add(this.lblSecurityToken);
             this.fromOrgGroup.Controls.Add(this.cmbUserName);
             this.fromOrgGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fromOrgGroup.Location = new System.Drawing.Point(939, 12);
+            this.fromOrgGroup.Location = new System.Drawing.Point(939, 48);
             this.fromOrgGroup.Name = "fromOrgGroup";
             this.fromOrgGroup.Size = new System.Drawing.Size(523, 115);
-            this.fromOrgGroup.TabIndex = 13;
+            this.fromOrgGroup.TabIndex = 17;
             this.fromOrgGroup.TabStop = false;
             this.fromOrgGroup.Text = "From Org";
             // 
@@ -214,10 +345,11 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(744, 176);
+            this.btnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRefresh.Location = new System.Drawing.Point(744, 240);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(151, 31);
-            this.btnRefresh.TabIndex = 7;
+            this.btnRefresh.TabIndex = 11;
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
@@ -225,10 +357,10 @@
             // btnObjectFieldInspector
             // 
             this.btnObjectFieldInspector.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnObjectFieldInspector.Location = new System.Drawing.Point(1304, 240);
+            this.btnObjectFieldInspector.Location = new System.Drawing.Point(1304, 172);
             this.btnObjectFieldInspector.Name = "btnObjectFieldInspector";
             this.btnObjectFieldInspector.Size = new System.Drawing.Size(159, 34);
-            this.btnObjectFieldInspector.TabIndex = 11;
+            this.btnObjectFieldInspector.TabIndex = 13;
             this.btnObjectFieldInspector.Text = "Object Field Inspector";
             this.btnObjectFieldInspector.UseVisualStyleBackColor = true;
             this.btnObjectFieldInspector.Click += new System.EventHandler(this.btnObjectFieldInspector_Click);
@@ -237,7 +369,7 @@
             // 
             this.lblRepository.AutoSize = true;
             this.lblRepository.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRepository.Location = new System.Drawing.Point(17, 113);
+            this.lblRepository.Location = new System.Drawing.Point(17, 145);
             this.lblRepository.Name = "lblRepository";
             this.lblRepository.Size = new System.Drawing.Size(124, 17);
             this.lblRepository.TabIndex = 5;
@@ -246,27 +378,71 @@
             // tbRepository
             // 
             this.tbRepository.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbRepository.Location = new System.Drawing.Point(191, 110);
+            this.tbRepository.Location = new System.Drawing.Point(184, 144);
             this.tbRepository.Name = "tbRepository";
             this.tbRepository.Size = new System.Drawing.Size(703, 23);
             this.tbRepository.TabIndex = 6;
+            this.tbRepository.TextChanged += new System.EventHandler(this.tbDeployFrom_TextChanged);
             this.tbRepository.DoubleClick += new System.EventHandler(this.tbRepository_DoubleClick);
             // 
             // btnBuildERD
             // 
-            this.btnBuildERD.Location = new System.Drawing.Point(1304, 288);
+            this.btnBuildERD.Location = new System.Drawing.Point(1304, 260);
             this.btnBuildERD.Name = "btnBuildERD";
             this.btnBuildERD.Size = new System.Drawing.Size(159, 34);
-            this.btnBuildERD.TabIndex = 12;
+            this.btnBuildERD.TabIndex = 15;
             this.btnBuildERD.Text = "Build ERD";
             this.btnBuildERD.UseVisualStyleBackColor = true;
             this.btnBuildERD.Click += new System.EventHandler(this.btnBuildERD_Click);
+            // 
+            // lblRootFolder
+            // 
+            this.lblRootFolder.AutoSize = true;
+            this.lblRootFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRootFolder.Location = new System.Drawing.Point(16, 176);
+            this.lblRootFolder.Name = "lblRootFolder";
+            this.lblRootFolder.Size = new System.Drawing.Size(93, 17);
+            this.lblRootFolder.TabIndex = 7;
+            this.lblRootFolder.Text = "Root Folder";
+            // 
+            // tbRootFolder
+            // 
+            this.tbRootFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbRootFolder.Location = new System.Drawing.Point(184, 176);
+            this.tbRootFolder.Name = "tbRootFolder";
+            this.tbRootFolder.Size = new System.Drawing.Size(704, 23);
+            this.tbRootFolder.TabIndex = 8;
+            this.tbRootFolder.DoubleClick += new System.EventHandler(this.tbRootFolder_DoubleClick);
+            // 
+            // btnSearchMetadata
+            // 
+            this.btnSearchMetadata.Location = new System.Drawing.Point(1304, 216);
+            this.btnSearchMetadata.Name = "btnSearchMetadata";
+            this.btnSearchMetadata.Size = new System.Drawing.Size(160, 32);
+            this.btnSearchMetadata.TabIndex = 14;
+            this.btnSearchMetadata.Text = "Search Metadata";
+            this.btnSearchMetadata.UseVisualStyleBackColor = true;
+            this.btnSearchMetadata.Click += new System.EventHandler(this.btnSearchMetadata_Click);
+            // 
+            // btnDebugLogs
+            // 
+            this.btnDebugLogs.Location = new System.Drawing.Point(1304, 304);
+            this.btnDebugLogs.Name = "btnDebugLogs";
+            this.btnDebugLogs.Size = new System.Drawing.Size(160, 32);
+            this.btnDebugLogs.TabIndex = 16;
+            this.btnDebugLogs.Text = "Debug Logs";
+            this.btnDebugLogs.UseVisualStyleBackColor = true;
+            this.btnDebugLogs.Click += new System.EventHandler(this.btnDebugLogs_Click);
             // 
             // DevelopmentEnvironment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1481, 859);
+            this.ClientSize = new System.Drawing.Size(1481, 935);
+            this.Controls.Add(this.btnDebugLogs);
+            this.Controls.Add(this.btnSearchMetadata);
+            this.Controls.Add(this.tbRootFolder);
+            this.Controls.Add(this.lblRootFolder);
             this.Controls.Add(this.btnBuildERD);
             this.Controls.Add(this.tbRepository);
             this.Controls.Add(this.lblRepository);
@@ -277,13 +453,18 @@
             this.Controls.Add(this.btnRetrieveFromOrg);
             this.Controls.Add(this.tbDeployFrom);
             this.Controls.Add(this.lblDeploymentFolder);
-            this.Controls.Add(this.lblFolder);
-            this.Controls.Add(this.tbParentFolder);
+            this.Controls.Add(this.lblProjectFolder);
+            this.Controls.Add(this.tbProjectFolder);
             this.Controls.Add(this.treeViewMetadata);
             this.Controls.Add(this.lblNote);
+            this.Controls.Add(msIDE);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = msIDE;
             this.Name = "DevelopmentEnvironment";
             this.Text = "DevelopmentEnvironment";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DevelopmentEnvironment_FormClosing);
+            msIDE.ResumeLayout(false);
+            msIDE.PerformLayout();
             this.fromOrgGroup.ResumeLayout(false);
             this.fromOrgGroup.PerformLayout();
             this.ResumeLayout(false);
@@ -295,8 +476,8 @@
 
         private System.Windows.Forms.Label lblNote;
         public System.Windows.Forms.TreeView treeViewMetadata;
-        public System.Windows.Forms.TextBox tbParentFolder;
-        private System.Windows.Forms.Label lblFolder;
+        public System.Windows.Forms.TextBox tbProjectFolder;
+        private System.Windows.Forms.Label lblProjectFolder;
         private System.Windows.Forms.Label lblDeploymentFolder;
         public System.Windows.Forms.TextBox tbDeployFrom;
         private System.Windows.Forms.Button btnRetrieveFromOrg;
@@ -313,5 +494,22 @@
         private System.Windows.Forms.Label lblRepository;
         private System.Windows.Forms.TextBox tbRepository;
         private System.Windows.Forms.Button btnBuildERD;
+        private System.Windows.Forms.Label lblRootFolder;
+        private System.Windows.Forms.TextBox tbRootFolder;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem selectSolutionFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem projectSolutionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newProjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveProjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem apexClassToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem apexTriggerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem lightningWebComponentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem visualforcePageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem visualforceComponentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem customObjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.Button btnSearchMetadata;
+        private System.Windows.Forms.Button btnDebugLogs;
     }
 }

@@ -137,7 +137,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox tbDebugFile;
+        public System.Windows.Forms.TextBox tbDebugFile;
         private System.Windows.Forms.Label lblFileToParse;
         private System.Windows.Forms.TextBox horizontalLine1;
         private System.Windows.Forms.Button btnParseDebugLogFile;

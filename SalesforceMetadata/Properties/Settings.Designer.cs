@@ -376,5 +376,29 @@ namespace SalesforceMetadata.Properties {
                 this["RepositoryPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string IDEProjectRoot {
+            get {
+                return ((string)(this["IDEProjectRoot"]));
+            }
+            set {
+                this["IDEProjectRoot"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DebugLogPath {
+            get {
+                return ((string)(this["DebugLogPath"]));
+            }
+            set {
+                this["DebugLogPath"] = value;
+            }
+        }
     }
 }

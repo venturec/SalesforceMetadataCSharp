@@ -175,7 +175,7 @@ namespace SalesforceMetadata
 
                         foreach (String si in selItems)
                         {
-                            sfMetadataStep2.selectedItems.Add(si);
+                            sfMetadataStep2.selectedItems.Add(si, new List<string> { "*" });
                         }
 
                         foreach (Control ctrl in openFrm.Controls)
@@ -186,13 +186,6 @@ namespace SalesforceMetadata
                                 || ctrl.Name == "btnRetrieveMetadata")
                             {
                                 ctrl.Enabled = true;
-                            }
-                            else if (ctrl.Name == "tbToOrgSaveLocation"
-                                    || ctrl.Name == "btnToOrgRetrieveMetadata"
-                                    || ctrl.Name == "tbToOrgExistingPackageXml"
-                                    || ctrl.Name == "btnToOrgRetrieveMetadataWPkg")
-                            {
-                                ctrl.Enabled = false;
                             }
                             else if (ctrl.Name == "lblRetrieveFromOrg")
                             {
@@ -211,11 +204,12 @@ namespace SalesforceMetadata
                 {
                     SalesforceMetadataStep2 sfMetadataStep2 = new SalesforceMetadataStep2();
                     sfMetadataStep2.btnRetrieveMetadataFromSelected.Enabled = false;
-                    sfMetadataStep2.selectedItems = new List<String>();
+                    sfMetadataStep2.selectedItems = new Dictionary<String, List<String>>();
+                    sfMetadataStep2.tbFromOrgSaveLocation.Text = Properties.Settings.Default.MetadataLastSaveToLocation;
 
                     foreach (String si in selItems)
                     {
-                        sfMetadataStep2.selectedItems.Add(si);
+                        sfMetadataStep2.selectedItems.Add(si, new List<string> { "*" });
                     }
 
                     foreach (Control ctrl in sfMetadataStep2.Controls)
@@ -226,13 +220,6 @@ namespace SalesforceMetadata
                             || ctrl.Name == "btnRetrieveMetadata")
                         {
                             ctrl.Enabled = true;
-                        }
-                        else if (ctrl.Name == "tbToOrgSaveLocation"
-                                || ctrl.Name == "btnToOrgRetrieveMetadata"
-                                || ctrl.Name == "tbToOrgExistingPackageXml"
-                                || ctrl.Name == "btnToOrgRetrieveMetadataWPkg")
-                        {
-                            ctrl.Enabled = false;
                         }
                         else if (ctrl.Name == "lblRetrieveFromOrg")
                         {

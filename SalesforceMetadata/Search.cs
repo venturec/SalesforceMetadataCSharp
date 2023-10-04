@@ -22,7 +22,7 @@ namespace SalesforceMetadata
             populateLastSearchLocation();
         }
 
-        private void populateLastSearchLocation()
+        public void populateLastSearchLocation()
         {
             this.tbSearchLocation.Text = Properties.Settings.Default.LastSearchLocation;
         }

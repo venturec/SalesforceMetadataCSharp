@@ -108,7 +108,6 @@ namespace SalesforceMetadata
             return msExcelInstalled;
         }
 
-
         public static void copyDirectory(string sourceDir, string destinationDir, bool recursive)
         {
             DirectoryInfo dirInfo = new DirectoryInfo(sourceDir);

@@ -27,11 +27,13 @@ namespace SalesforceMetadata
         private int ONE_SECOND = 1000;
         private int MAX_NUM_POLL_REQUESTS = 50;
 
-        public List<String> selectedItems;
+        // Key = metadata name, Values = members
+        // Values can = * if allowed by the metadata api
+        public Dictionary<String, List<String>> selectedItems;
 
         private HashSet<String> alreadyAdded;
 
-        private String packageXMLFile = "";
+        //private String packageXMLFile = "";
         private String zipFile = "";
         private String extractToFolder = "";
         
@@ -41,52 +43,83 @@ namespace SalesforceMetadata
             alreadyAdded = new HashSet<String>();
         }
 
-        public void populateSaveToLocation()
-        {
-            this.tbFromOrgSaveLocation.Text = Properties.Settings.Default.MetadataLastSaveToLocation;
-        }
-
         private void btnRetrieveMetadataFromSelected_Click(object sender, EventArgs e)
         {
-            this.rtMessages.Text = "";
-            this.extractToFolder = "";
-            UtilityClass.REQUESTINGORG reqOrg = UtilityClass.REQUESTINGORG.FROMORG;
-            requestZipFile(reqOrg);
-        }
-
-        private void btnToOrgRetrieveMetadata_Click(object sender, EventArgs e)
-        {
-            this.rtMessages.Text = "";
-            this.extractToFolder = "";
-            UtilityClass.REQUESTINGORG reqOrg = UtilityClass.REQUESTINGORG.TOORG;
-            requestZipFile(reqOrg);
-        }
-
-
-        private Package setUnpackaged(String packageXmlFile)
-        {
-            Package manifestPkg = null;
-
-            if (File.Exists(@packageXmlFile))
+            if (this.tbFromOrgSaveLocation.Text == "")
             {
-                manifestPkg = parsePackageManifest(@packageXmlFile);
+                MessageBox.Show("Please select a directory to save the results to");
             }
+            else
+            {
+                this.rtMessages.Text = "";
+                this.extractToFolder = "";
+                String target_dir = this.tbFromOrgSaveLocation.Text;
 
-            return manifestPkg;
+                requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, this.cbRebuildFolder.Checked);
+            }
         }
 
+        private void btnRetrieveMetadataWithPackageXML_Click(object sender, EventArgs e)
+        {
+            if (this.tbExistingPackageXml.Text == "")
+            {
+                MessageBox.Show("Please select a package.xml file");
+            }
+            else if (!this.tbExistingPackageXml.Text.EndsWith("package.xml"))
+            {
+                MessageBox.Show("The file selected must be in XML format with the naming format of package.xml. Please select a file with the name package.xml");
+            }
+            else if (this.tbFromOrgSaveLocation.Text == "")
+            {
+                MessageBox.Show("Please select a directory to save the results to");
+            }
+            else
+            {
+                this.rtMessages.Text = "";
+                this.extractToFolder = "";
+                String target_dir = this.tbFromOrgSaveLocation.Text;
 
-        private void requestZipFile(UtilityClass.REQUESTINGORG reqOrg)
+                // Add the package.xml contents to the selectedItems dictionary
+                selectedItems = new Dictionary<string, List<string>>();
+                XmlDocument xd = new XmlDocument();
+                xd.Load(this.tbExistingPackageXml.Text);
+
+                foreach (XmlNode xn in xd.ChildNodes)
+                {
+                    List<String> members = new List<string>();
+                    foreach (XmlNode nd2 in xn.ChildNodes)
+                    {
+                        foreach (XmlNode nd3 in nd2.ChildNodes)
+                        {
+                            if (nd3.Name == "members")
+                            {
+                                members.Add(nd3.InnerText);
+                            }
+                            else if (nd3.Name == "name")
+                            {
+                                selectedItems.Add(nd3.InnerText, members);
+                            }
+                        }
+                    }
+                }
+
+                requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, this.cbRebuildFolder.Checked);
+            }
+        }
+
+        public async Task requestZipFile(UtilityClass.REQUESTINGORG reqOrg, String target_dir, Boolean rebuildFolder)
         {
             Boolean loginSuccess = SalesforceCredentials.salesforceLogin(reqOrg);
-
             if (loginSuccess == false)
             {
                 MessageBox.Show("Please check username, password and/or security token");
-                return;
             }
 
+            MetadataService ms = null;
+
             alreadyAdded.Clear();
+
+            List<Task> tasks = new List<Task>();
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
@@ -103,7 +136,7 @@ namespace SalesforceMetadata
                     extractToFolder = extractToFolder + "__production";
                 }
 
-                // Knock off the HTML
+                target_dir = target_dir + '\\' + extractToFolder;
             }
             else if (reqOrg == UtilityClass.REQUESTINGORG.TOORG)
             {
@@ -119,18 +152,26 @@ namespace SalesforceMetadata
                 {
                     extractToFolder = extractToFolder + "__production";
                 }
+
+                target_dir = target_dir + '\\' + extractToFolder;
             }
 
-            // After selecting a Metadata type to get, build the package.xml file
-            // If it is a Profile or Permission set, the Object will also be required
-            MetadataService ms = null;
-
-            StringBuilder packageXmlSB = new StringBuilder();
-            packageXmlSB.Append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine);
-            packageXmlSB.Append("<Package xmlns = \"http://soap.sforce.com/2006/04/metadata\">" + Environment.NewLine);
-
-            foreach (String selected in selectedItems)
+            if (!Directory.Exists(target_dir))
             {
+                DirectoryInfo di = Directory.CreateDirectory(target_dir);
+            }
+            else if(rebuildFolder == true)
+            {
+                Directory.Delete(target_dir, true);
+                DirectoryInfo di = Directory.CreateDirectory(target_dir);
+            }
+
+            foreach (String selected in selectedItems.Keys)
+            {
+                StringBuilder packageXmlSB = new StringBuilder();
+                packageXmlSB.Append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine);
+                packageXmlSB.Append("<Package xmlns = \"http://soap.sforce.com/2006/04/metadata\">" + Environment.NewLine);
+
                 if (selected == "CustomObject" && !alreadyAdded.Contains(selected))
                 {
                     List<String> members = new List<String>();
@@ -385,23 +426,24 @@ namespace SalesforceMetadata
                 }
 
                 alreadyAdded.Add(selected);
-            }
 
-            packageXmlSB.Append("<version>" + Properties.Settings.Default.DefaultAPI + "</version>" + Environment.NewLine);
-            packageXmlSB.Append("</Package>");
+                packageXmlSB.Append("<version>" + Properties.Settings.Default.DefaultAPI + "</version>" + Environment.NewLine);
+                packageXmlSB.Append("</Package>");
 
-            if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
-            {
-                packageXMLFile = this.tbFromOrgSaveLocation.Text + "\\package.xml";
+                RetrieveRequest retrieveRequest = new RetrieveRequest();
+                retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
+                retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
+
+                this.rtMessages.Text = this.rtMessages.Text + selected + ": Retrieving Metadata " + Environment.NewLine;
+
+                await retrieveZipFile(target_dir, ms, reqOrg, retrieveRequest, selected);
             }
             
-            File.WriteAllText(@packageXMLFile, packageXmlSB.ToString());
+            this.rtMessages.Text = this.rtMessages.Text + "Metadata Extract Completed Successfully";
+        }
 
-            // Retrieve Zip File
-            RetrieveRequest retrieveRequest = new RetrieveRequest();
-            retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
-            retrieveRequest.unpackaged = setUnpackaged(packageXMLFile);
-
+        private async Task retrieveZipFile(String target_dir, MetadataService ms, UtilityClass.REQUESTINGORG reqOrg, RetrieveRequest retrieveRequest, String metdataObject)
+        {
             AsyncResult asyncResult = new AsyncResult();
 
             ms = SalesforceCredentials.getMetadataService(reqOrg);
@@ -412,7 +454,7 @@ namespace SalesforceMetadata
 
             RetrieveResult result = waitForRetrieveCompletion(asyncResult, reqOrg);
 
-            String timestamp = DateTime.Now.Year.ToString() + "_" + DateTime.Now.Month.ToString() + "_" + DateTime.Now.Day.ToString() + "_" + 
+            String timestamp = DateTime.Now.Year.ToString() + "_" + DateTime.Now.Month.ToString() + "_" + DateTime.Now.Day.ToString() + "_" +
                                DateTime.Now.Hour.ToString() + "_" + DateTime.Now.Minute.ToString() + "_" + DateTime.Now.Second.ToString() + "_" + DateTime.Now.Millisecond.ToString();
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
@@ -429,19 +471,21 @@ namespace SalesforceMetadata
                     // Unzip the package and store it to the folder specified
                     if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
                     {
-                        String target_dir = this.tbFromOrgSaveLocation.Text + '\\' + extractToFolder;
-
-                        if (!Directory.Exists(target_dir))
+                        ZipArchive archive = ZipFile.Open(zipFile, ZipArchiveMode.Read);
+                        foreach (ZipArchiveEntry file in archive.Entries)
                         {
-                            DirectoryInfo di = Directory.CreateDirectory(target_dir);
-                        }
-                        else
-                        {
-                            Directory.Delete(target_dir, true);
-                        }
+                            String completeFileName = Path.GetFullPath(Path.Combine(target_dir, file.FullName));
+                            String directoryPath = Path.GetDirectoryName(completeFileName);
 
-                        ZipFile.ExtractToDirectory(zipFile, target_dir);
+                            // Confirm if directory path exists and if not create the directory
+                            if (!Directory.Exists(directoryPath))
+                            {
+                                // Assuming Empty for Directory
+                                Directory.CreateDirectory(directoryPath);
+                            }
 
+                            file.ExtractToFile(completeFileName, true);
+                        }
 
                         // If cbConvertToVSCodeStyle == true then add the -meta.xml to the end of the file for each file in the directories, except for LWC and Aura
                         // Objects will need to be reworked as well as their folder structure is different
@@ -450,24 +494,22 @@ namespace SalesforceMetadata
                             addVSCodeFileExtension(target_dir);
                         }
                     }
-
-                    this.rtMessages.Text = "Metadata Extract Completed Successfully";
                 }
                 catch (System.IO.IOException ioExc)
                 {
-                    this.rtMessages.Text = "IO Exception: " + ioExc.Message;
+                    this.rtMessages.Text = this.rtMessages.Text + metdataObject + ": IO Exception: " + ioExc.Message + Environment.NewLine;
                 }
                 catch (Exception exc)
                 {
-                    this.rtMessages.Text = "There was an error saving the package.zip file to the location specified: " + exc.Message;
+                    this.rtMessages.Text = this.rtMessages.Text + metdataObject + ": There was an error saving the package.zip file to the location specified: " + exc.Message + Environment.NewLine;
                 }
                 finally
                 {
+                    this.rtMessages.Text = this.rtMessages.Text + metdataObject + ": Metadata Extract Completed Successfully" + Environment.NewLine + Environment.NewLine;
                 }
             }
         }
-
-
+            
         // Add metadata types
         private void getMetadataTypes(String metadataObjectName, StringBuilder packageXmlSB, String[] members)
         {
@@ -489,14 +531,13 @@ namespace SalesforceMetadata
             }
         }
 
-
-        private Package parsePackageManifest(String fileName)
+        private Package parsePackageManifest(String packageXmlContents)
         {
             Package packageManifest = null;
             List<PackageTypeMembers> listPackageTypes = new List<PackageTypeMembers>();  // convert this to an array in the package
 
             XmlDocument sfPackage = new XmlDocument();
-            sfPackage.Load(fileName);
+            sfPackage.LoadXml(packageXmlContents);
 
             XmlNodeList documentNodes = sfPackage.GetElementsByTagName("types");
 
@@ -534,7 +575,6 @@ namespace SalesforceMetadata
 
             return packageManifest;
         }
-
 
         private RetrieveResult waitForRetrieveCompletion(AsyncResult asyncResult, UtilityClass.REQUESTINGORG reqOrg)
         {
@@ -598,7 +638,7 @@ namespace SalesforceMetadata
             return members;
         }
 
-
+        // VS Code style extensions
         public void addVSCodeFileExtension(String targetDirectory)
         {
             List<String> filePathsInDirectory = new List<string>();
@@ -769,6 +809,7 @@ namespace SalesforceMetadata
             }
         }
 
+        // VS Code style extensions
         private List<String> getSubdirectories(String folderLocation)
         {
             // Check for additional subdirectories in the current subdirectory list and add them to the list
@@ -790,6 +831,7 @@ namespace SalesforceMetadata
             return subDirectoryList;
         }
 
+        // VS Code style extensions
         private void parseObjectFiles(String objectPath)
         {
             String[] objectPathSplit = objectPath.Split('\\');
@@ -919,6 +961,7 @@ namespace SalesforceMetadata
             File.Move(objectPath, objDirectoryPath + "\\" + objectPathSplit[objectPathSplit.Length - 1] + "-meta.xml");
         }
 
+        // VS Code style extensions
         private void writeChildNodes(DirectoryInfo dirInfo, 
                                      String fileExtension, 
                                      XmlNodeList nodeList,
@@ -1045,13 +1088,11 @@ namespace SalesforceMetadata
             }
         }
 
-
         private FileProperties[] getFolderItems(List<ListMetadataQuery> mdqFolderList, MetadataService ms)
         {
             FileProperties[] sfFolderItems = ms.listMetadata(mdqFolderList.ToArray(), Convert.ToDouble(Properties.Settings.Default.DefaultAPI));
             return sfFolderItems;
         }
-
 
         private void tbPackageXMLLocation_DoubleClick(object sender, EventArgs e)
         {
@@ -1069,7 +1110,6 @@ namespace SalesforceMetadata
             }
         }
 
-
         private void tbExistingPackageXml_DoubleClick(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -1079,58 +1119,15 @@ namespace SalesforceMetadata
             DialogResult dr = ofd.ShowDialog();
 
             if(dr == DialogResult.OK) this.tbExistingPackageXml.Text = ofd.FileName;
+
+            this.btnRetrieveMetadataFromSelected.Enabled = false;
         }
 
-
-        private void btnRetrieveMetadata_Click(object sender, EventArgs e)
+        private void tbExistingPackageXml_TextChanged(object sender, EventArgs e)
         {
             if (this.tbExistingPackageXml.Text == "")
             {
-                MessageBox.Show("Please select a package.xml file");
-            }
-            else if (!this.tbExistingPackageXml.Text.EndsWith("package.xml"))
-            {
-                MessageBox.Show("The file selected must be in XML format with the naming format of package.xml. Please select a file with the name package.xml");
-            }
-            else
-            {
-                String zipFile = this.tbExistingPackageXml.Text.Substring(0, this.tbExistingPackageXml.Text.Length - 11) + "components.zip";
-
-                Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG);
-                if (loginSuccess == false)
-                {
-                    MessageBox.Show("Please check username, password and/or security token");
-                    return;
-                }
-
-                // Retrieve Zip File
-                RetrieveRequest retrieveRequest = new RetrieveRequest();
-                retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
-                retrieveRequest.unpackaged = setUnpackaged(this.tbExistingPackageXml.Text);
-
-                AsyncResult asyncResult = new AsyncResult();
-                if (SalesforceCredentials.fromOrgMS != null)
-                {
-                    asyncResult = SalesforceCredentials.fromOrgMS.retrieve(retrieveRequest);
-                }
-
-                RetrieveResult result = waitForRetrieveCompletion(asyncResult, UtilityClass.REQUESTINGORG.FROMORG);
-
-                if (result.zipFile != null)
-                {
-                    try
-                    {
-                        File.WriteAllBytes(@zipFile, result.zipFile);
-                        this.rtMessages.Text = "Metadata Extract Completed Successfully";
-                    }
-                    catch (Exception exc)
-                    {
-                        this.rtMessages.Text = "There was an error saving the package.zip file to the location specified: " + exc.Message;
-                    }
-                    finally
-                    {
-                    }
-                }
+                this.btnRetrieveMetadataFromSelected.Enabled = true;
             }
         }
     }

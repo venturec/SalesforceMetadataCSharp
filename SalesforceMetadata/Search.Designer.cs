@@ -159,8 +159,7 @@
             // 
             // searchProgressBar
             // 
-            this.searchProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.searchProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.searchProgressBar.Location = new System.Drawing.Point(74, 789);
             this.searchProgressBar.Name = "searchProgressBar";
@@ -235,7 +234,7 @@
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.RichTextBox rtbResults;
         private System.Windows.Forms.Label lblSearchText;
-        private System.Windows.Forms.TextBox tbSearchLocation;
+        public System.Windows.Forms.TextBox tbSearchLocation;
         private System.Windows.Forms.Label lblLocation;
         private System.Windows.Forms.Label lblResults;
         private System.Windows.Forms.CheckBox cbIncludeFileName;

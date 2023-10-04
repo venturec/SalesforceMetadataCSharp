@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -42,6 +43,7 @@ namespace SalesforceMetadata
         public ParseDebugLogs()
         {
             InitializeComponent();
+            populateDebugLogPath();
         }
 
         /*
@@ -217,6 +219,9 @@ namespace SalesforceMetadata
             DialogResult dr = ofd.ShowDialog();
 
             if (dr == DialogResult.OK) this.tbDebugFile.Text = ofd.FileName;
+
+            Properties.Settings.Default.DebugLogPath = ofd.FileName;
+            Properties.Settings.Default.Save();
         }
 
         private void btnParseDebugLogFile_Click(object sender, EventArgs e)
@@ -951,6 +956,11 @@ namespace SalesforceMetadata
                     expandAllNodes(tnd);
                 }
             }
+        }
+
+        private void populateDebugLogPath()
+        {
+            this.tbDebugFile.Text = Properties.Settings.Default.DebugLogPath;
         }
     }
 }

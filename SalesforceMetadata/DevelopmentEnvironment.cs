@@ -1201,6 +1201,12 @@ namespace SalesforceMetadata
                 Properties.Settings.Default.RepositoryPath = this.tbRepository.Text;
                 Properties.Settings.Default.IDEProjectRoot = this.tbRootFolder.Text;
 
+                //if (!Properties.Settings.Default.RecentProjects.Contains(ofd.FileName))
+                //{
+                //    //Properties.Settings.Default.RecentProjects.Add(ofd.FileName);
+                //    //this.recentToolStripMenuItem.
+                //}
+
                 Properties.Settings.Default.Save();
 
                 sr.Close();
@@ -1303,21 +1309,26 @@ namespace SalesforceMetadata
 
         private void treeViewMetadata_DoubleClick(object sender, EventArgs e)
         {
-            TreeView tv = (TreeView)sender;
+            System.Windows.Forms.MouseEventArgs evtArgs = (System.Windows.Forms.MouseEventArgs)e;
 
-            if (tv.SelectedNode != null)
+            if (evtArgs.Button == MouseButtons.Left)
             {
-                String pathToFile = "\"" + this.tbProjectFolder.Text + "\\" + tv.SelectedNode.FullPath;
+                TreeView tv = (TreeView)sender;
 
-                checkArchiveDirectory(this.tbProjectFolder.Text + "\\" + tv.SelectedNode.FullPath);
+                if (tv.SelectedNode != null)
+                {
+                    String pathToFile = "\"" + this.tbProjectFolder.Text + "\\" + tv.SelectedNode.FullPath;
 
-                if (Properties.Settings.Default.DefaultTextEditorPath == "")
-                {
-                    Process.Start(@"notepad.exe", pathToFile);
-                }
-                else
-                {
-                    Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, pathToFile);
+                    checkArchiveDirectory(this.tbProjectFolder.Text + "\\" + tv.SelectedNode.FullPath);
+
+                    if (Properties.Settings.Default.DefaultTextEditorPath == "")
+                    {
+                        Process.Start(@"notepad.exe", pathToFile);
+                    }
+                    else
+                    {
+                        Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, pathToFile);
+                    }
                 }
             }
         }
@@ -1429,38 +1440,6 @@ namespace SalesforceMetadata
             }
         }
 
-        private async void apexClassToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.tbProjectFolder.Text == "")
-            {
-                MessageBox.Show("Please select a Project Solution / Folder before adding new objects");
-            }
-            else
-            {
-                AddObject ao = new AddObject();
-                ao.projectFolderPath = this.tbProjectFolder.Text;
-                ao.loadSobjectsToCombobox();
-                ao.ObjectAdded += AddObject_ObjectAdded;
-                ao.Show();
-            }
-        }
-
-        private void apexTriggerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.tbProjectFolder.Text == "")
-            {
-                MessageBox.Show("Please select a Project Solution / Folder before adding new objects");
-            }
-            else
-            {
-                AddObject ao = new AddObject();
-                ao.projectFolderPath = this.tbProjectFolder.Text;
-                ao.loadSobjectsToCombobox();
-                ao.ObjectAdded += AddObject_ObjectAdded;
-                ao.Show();
-            }
-        }
-
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -1507,6 +1486,69 @@ namespace SalesforceMetadata
             ParseDebugLogs pdl = new ParseDebugLogs();
             pdl.tbDebugFile.Text = Properties.Settings.Default.DebugLogPath;
             pdl.Show();
+        }
+
+        private void treeViewMetadata_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.MouseEventArgs evtArgs = (System.Windows.Forms.MouseEventArgs)e;
+            if (evtArgs.Button == MouseButtons.Right)
+            {
+                this.treeViewMetadata.SelectedNode = this.treeViewMetadata.GetNodeAt(evtArgs.X, evtArgs.Y);
+
+
+            }
+        }
+
+        private void addApexTriggerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.tbProjectFolder.Text == "")
+            {
+                MessageBox.Show("Please select a Project Solution / Folder before adding new objects");
+            }
+            else
+            {
+                AddObject ao = new AddObject();
+                ao.projectFolderPath = this.tbProjectFolder.Text;
+                ao.loadSobjectsToCombobox();
+                ao.ObjectAdded += AddObject_ObjectAdded;
+                ao.Show();
+            }
+        }
+
+        private void addApexClassToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.tbProjectFolder.Text == "")
+            {
+                MessageBox.Show("Please select a Project Solution / Folder before adding new objects");
+            }
+            else
+            {
+                AddObject ao = new AddObject();
+                ao.projectFolderPath = this.tbProjectFolder.Text;
+                ao.loadSobjectsToCombobox();
+                ao.ObjectAdded += AddObject_ObjectAdded;
+                ao.Show();
+            }
+        }
+
+        private void addLightningWebComponentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void customObjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void visualforcePageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void visualforceComponentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

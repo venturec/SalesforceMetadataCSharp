@@ -33,16 +33,16 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectSolutionFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.projectSolutionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.apexClassToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.apexTriggerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lightningWebComponentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.visualforcePageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.visualforceComponentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.customObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.recentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addApexTriggerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addApexClassToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addLightningWebComponentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addOtherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.customObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblNote = new System.Windows.Forms.Label();
             this.treeViewMetadata = new System.Windows.Forms.TreeView();
             this.tbProjectFolder = new System.Windows.Forms.TextBox();
@@ -67,6 +67,8 @@
             this.tbRootFolder = new System.Windows.Forms.TextBox();
             this.btnSearchMetadata = new System.Windows.Forms.Button();
             this.btnDebugLogs = new System.Windows.Forms.Button();
+            this.visualforcePageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.visualforceComponentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             msIDE = new System.Windows.Forms.MenuStrip();
             msIDE.SuspendLayout();
             this.fromOrgGroup.SuspendLayout();
@@ -77,7 +79,11 @@
             msIDE.BackColor = System.Drawing.SystemColors.InactiveCaption;
             msIDE.Font = new System.Drawing.Font("Segoe UI", 10F);
             msIDE.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.addApexTriggerToolStripMenuItem,
+            this.addApexClassToolStripMenuItem,
+            this.addLightningWebComponentToolStripMenuItem,
+            this.addOtherToolStripMenuItem});
             msIDE.Location = new System.Drawing.Point(0, 0);
             msIDE.Name = "msIDE";
             msIDE.Size = new System.Drawing.Size(1481, 27);
@@ -88,10 +94,11 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectSolutionFileToolStripMenuItem,
-            this.addToolStripMenuItem,
             this.newProjectToolStripMenuItem,
             this.saveProjectToolStripMenuItem,
-            this.exitToolStripMenuItem});
+            this.exitToolStripMenuItem,
+            this.toolStripMenuItem2,
+            this.recentToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(41, 23);
             this.fileToolStripMenuItem.Text = "File";
@@ -101,7 +108,7 @@
             this.selectSolutionFileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.projectSolutionToolStripMenuItem});
             this.selectSolutionFileToolStripMenuItem.Name = "selectSolutionFileToolStripMenuItem";
-            this.selectSolutionFileToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.selectSolutionFileToolStripMenuItem.Size = new System.Drawing.Size(252, 24);
             this.selectSolutionFileToolStripMenuItem.Text = "Open";
             // 
             // projectSolutionToolStripMenuItem
@@ -111,77 +118,76 @@
             this.projectSolutionToolStripMenuItem.Text = "Project/Solution";
             this.projectSolutionToolStripMenuItem.Click += new System.EventHandler(this.projectSolutionToolStripMenuItem_Click);
             // 
-            // addToolStripMenuItem
-            // 
-            this.addToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.apexClassToolStripMenuItem,
-            this.apexTriggerToolStripMenuItem,
-            this.lightningWebComponentToolStripMenuItem,
-            this.visualforcePageToolStripMenuItem,
-            this.visualforceComponentToolStripMenuItem,
-            this.customObjectToolStripMenuItem});
-            this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-            this.addToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
-            this.addToolStripMenuItem.Text = "Add";
-            // 
-            // apexClassToolStripMenuItem
-            // 
-            this.apexClassToolStripMenuItem.Name = "apexClassToolStripMenuItem";
-            this.apexClassToolStripMenuItem.Size = new System.Drawing.Size(244, 24);
-            this.apexClassToolStripMenuItem.Text = "Apex Class";
-            this.apexClassToolStripMenuItem.Click += new System.EventHandler(this.apexClassToolStripMenuItem_Click);
-            // 
-            // apexTriggerToolStripMenuItem
-            // 
-            this.apexTriggerToolStripMenuItem.Name = "apexTriggerToolStripMenuItem";
-            this.apexTriggerToolStripMenuItem.Size = new System.Drawing.Size(244, 24);
-            this.apexTriggerToolStripMenuItem.Text = "Apex Trigger";
-            this.apexTriggerToolStripMenuItem.Click += new System.EventHandler(this.apexTriggerToolStripMenuItem_Click);
-            // 
-            // lightningWebComponentToolStripMenuItem
-            // 
-            this.lightningWebComponentToolStripMenuItem.Name = "lightningWebComponentToolStripMenuItem";
-            this.lightningWebComponentToolStripMenuItem.Size = new System.Drawing.Size(244, 24);
-            this.lightningWebComponentToolStripMenuItem.Text = "Lightning Web Component";
-            // 
-            // visualforcePageToolStripMenuItem
-            // 
-            this.visualforcePageToolStripMenuItem.Name = "visualforcePageToolStripMenuItem";
-            this.visualforcePageToolStripMenuItem.Size = new System.Drawing.Size(244, 24);
-            this.visualforcePageToolStripMenuItem.Text = "Visualforce Page";
-            // 
-            // visualforceComponentToolStripMenuItem
-            // 
-            this.visualforceComponentToolStripMenuItem.Name = "visualforceComponentToolStripMenuItem";
-            this.visualforceComponentToolStripMenuItem.Size = new System.Drawing.Size(244, 24);
-            this.visualforceComponentToolStripMenuItem.Text = "Visualforce Component";
-            // 
-            // customObjectToolStripMenuItem
-            // 
-            this.customObjectToolStripMenuItem.Name = "customObjectToolStripMenuItem";
-            this.customObjectToolStripMenuItem.Size = new System.Drawing.Size(244, 24);
-            this.customObjectToolStripMenuItem.Text = "Custom Object";
-            // 
             // newProjectToolStripMenuItem
             // 
             this.newProjectToolStripMenuItem.Name = "newProjectToolStripMenuItem";
-            this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.newProjectToolStripMenuItem.Size = new System.Drawing.Size(252, 24);
             this.newProjectToolStripMenuItem.Text = "New Project";
             this.newProjectToolStripMenuItem.Click += new System.EventHandler(this.newProjectToolStripMenuItem_Click);
             // 
             // saveProjectToolStripMenuItem
             // 
             this.saveProjectToolStripMenuItem.Name = "saveProjectToolStripMenuItem";
-            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(252, 24);
             this.saveProjectToolStripMenuItem.Text = "Save Project";
             this.saveProjectToolStripMenuItem.Click += new System.EventHandler(this.saveProjectToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(252, 24);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(252, 24);
+            this.toolStripMenuItem2.Text = "-----------------------------";
+            // 
+            // recentToolStripMenuItem
+            // 
+            this.recentToolStripMenuItem.Name = "recentToolStripMenuItem";
+            this.recentToolStripMenuItem.Size = new System.Drawing.Size(252, 24);
+            this.recentToolStripMenuItem.Text = "Recent Projects";
+            // 
+            // addApexTriggerToolStripMenuItem
+            // 
+            this.addApexTriggerToolStripMenuItem.Name = "addApexTriggerToolStripMenuItem";
+            this.addApexTriggerToolStripMenuItem.Size = new System.Drawing.Size(126, 23);
+            this.addApexTriggerToolStripMenuItem.Text = "Add Apex Trigger";
+            this.addApexTriggerToolStripMenuItem.Click += new System.EventHandler(this.addApexTriggerToolStripMenuItem_Click);
+            // 
+            // addApexClassToolStripMenuItem
+            // 
+            this.addApexClassToolStripMenuItem.Name = "addApexClassToolStripMenuItem";
+            this.addApexClassToolStripMenuItem.Size = new System.Drawing.Size(115, 23);
+            this.addApexClassToolStripMenuItem.Text = "Add Apex Class";
+            this.addApexClassToolStripMenuItem.Click += new System.EventHandler(this.addApexClassToolStripMenuItem_Click);
+            // 
+            // addLightningWebComponentToolStripMenuItem
+            // 
+            this.addLightningWebComponentToolStripMenuItem.Name = "addLightningWebComponentToolStripMenuItem";
+            this.addLightningWebComponentToolStripMenuItem.Size = new System.Drawing.Size(216, 23);
+            this.addLightningWebComponentToolStripMenuItem.Text = "Add Lightning Web Component";
+            this.addLightningWebComponentToolStripMenuItem.Click += new System.EventHandler(this.addLightningWebComponentToolStripMenuItem_Click);
+            // 
+            // addOtherToolStripMenuItem
+            // 
+            this.addOtherToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.customObjectToolStripMenuItem,
+            this.visualforcePageToolStripMenuItem,
+            this.visualforceComponentToolStripMenuItem});
+            this.addOtherToolStripMenuItem.Name = "addOtherToolStripMenuItem";
+            this.addOtherToolStripMenuItem.Size = new System.Drawing.Size(86, 23);
+            this.addOtherToolStripMenuItem.Text = "Add Other";
+            // 
+            // customObjectToolStripMenuItem
+            // 
+            this.customObjectToolStripMenuItem.Name = "customObjectToolStripMenuItem";
+            this.customObjectToolStripMenuItem.Size = new System.Drawing.Size(221, 24);
+            this.customObjectToolStripMenuItem.Text = "Custom Object";
+            this.customObjectToolStripMenuItem.Click += new System.EventHandler(this.customObjectToolStripMenuItem_Click);
             // 
             // lblNote
             // 
@@ -203,6 +209,7 @@
             this.treeViewMetadata.Size = new System.Drawing.Size(880, 639);
             this.treeViewMetadata.TabIndex = 12;
             this.treeViewMetadata.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMetadata_AfterCheck);
+            this.treeViewMetadata.Click += new System.EventHandler(this.treeViewMetadata_Click);
             this.treeViewMetadata.DoubleClick += new System.EventHandler(this.treeViewMetadata_DoubleClick);
             // 
             // tbProjectFolder
@@ -434,6 +441,20 @@
             this.btnDebugLogs.UseVisualStyleBackColor = true;
             this.btnDebugLogs.Click += new System.EventHandler(this.btnDebugLogs_Click);
             // 
+            // visualforcePageToolStripMenuItem1
+            // 
+            this.visualforcePageToolStripMenuItem.Name = "visualforcePageToolStripMenuItem1";
+            this.visualforcePageToolStripMenuItem.Size = new System.Drawing.Size(221, 24);
+            this.visualforcePageToolStripMenuItem.Text = "Visualforce Page";
+            this.visualforcePageToolStripMenuItem.Click += new System.EventHandler(this.visualforcePageToolStripMenuItem_Click);
+            // 
+            // visualforceComponentToolStripMenuItem1
+            // 
+            this.visualforceComponentToolStripMenuItem.Name = "visualforceComponentToolStripMenuItem1";
+            this.visualforceComponentToolStripMenuItem.Size = new System.Drawing.Size(221, 24);
+            this.visualforceComponentToolStripMenuItem.Text = "Visualforce Component";
+            this.visualforceComponentToolStripMenuItem.Click += new System.EventHandler(this.visualforceComponentToolStripMenuItem_Click);
+            // 
             // DevelopmentEnvironment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -501,15 +522,17 @@
         private System.Windows.Forms.ToolStripMenuItem projectSolutionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newProjectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveProjectToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem apexClassToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem apexTriggerToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem lightningWebComponentToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem visualforcePageToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem visualforceComponentToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem customObjectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.Button btnSearchMetadata;
         private System.Windows.Forms.Button btnDebugLogs;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem recentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addApexTriggerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addApexClassToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addOtherToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem customObjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addLightningWebComponentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem visualforcePageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem visualforceComponentToolStripMenuItem;
     }
 }

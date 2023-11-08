@@ -437,6 +437,27 @@ namespace SalesforceMetadata
                     }
                     else if (columnElements[1] == DebugEventTags.FLOW_ELEMENT_ERROR)
                     {
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+
+                        debugSW.Write("FLOW_ELEMENT_ERROR: " + columnElements[2] + Environment.NewLine);
+
+                        line = debugSR.ReadLine();
+                        columnElements = line.Split(char.Parse("|"));
+                        while (columnElements.Length == 1)
+                        {
+                            if (line != "")
+                            {
+                                for (Int32 tc = 0; tc < tabCount + 9; tc++)
+                                {
+                                    debugSW.Write("\t");
+                                }
+
+                                debugSW.WriteLine(line);
+                            }
+
+                            line = debugSR.ReadLine();
+                            columnElements = line.Split(char.Parse("|"));
+                        }
                     }
                     else if (columnElements[1] == DebugEventTags.FLOW_ELEMENT_FAULT)
                     {
@@ -545,9 +566,11 @@ namespace SalesforceMetadata
                     }
                     else if (columnElements[1] == DebugEventTags.VALIDATION_ERROR)
                     {
+
                     }
                     else if (columnElements[1] == DebugEventTags.VALIDATION_FAIL)
                     {
+
                     }
                     else if (columnElements[1] == DebugEventTags.VALIDATION_FORMULA)
                     {

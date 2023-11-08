@@ -560,7 +560,7 @@ namespace SalesforceMetadata
 
         public static String CustomFieldQuery()
         {
-            String query = "SELECT Id, TableEnumOrId, DeveloperName, ManageableState, NamespacePrefix, " +
+            String query = "SELECT Id, TableEnumOrId, DeveloperName, RelationshipLabel, ManageableState, NamespacePrefix, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM CustomField";
 
@@ -1604,7 +1604,7 @@ namespace SalesforceMetadata
 
         public static String RecordTypeQuery()
         {
-            String query = "SELECT Id, " +
+            String query = "SELECT Id, BusinessProcessId, Description, EntityDefinitionId, IsActive, ManageableState, Name, NamespacePrefix, SobjectType, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM RecordType";
 
@@ -5367,12 +5367,15 @@ namespace SalesforceMetadata
                             {
                                 ApexCodeCoverage acm = (ApexCodeCoverage)toolingClass;
 
-                                if (!testClasses.Contains(classIdToClassName[acm.ApexTestClassId]))
+                                if (classIdToClassName.Count > 0)
                                 {
-                                    testClasses = testClasses + classIdToClassName[acm.ApexTestClassId] + "; ";
-                                }
+                                    if (!testClasses.Contains(classIdToClassName[acm.ApexTestClassId]))
+                                    {
+                                        testClasses = testClasses + classIdToClassName[acm.ApexTestClassId] + "; ";
+                                    }
 
-                                apexTestClassAndMethod = apexTestClassAndMethod + classIdToClassName[acm.ApexTestClassId] + " - " + acm.TestMethodName + "; ";
+                                    apexTestClassAndMethod = apexTestClassAndMethod + classIdToClassName[acm.ApexTestClassId] + " - " + acm.TestMethodName + "; ";
+                                }
                             }
 
                             xlWorksheet.Cells[rowNumber, 28].Value = testClasses;
@@ -5493,14 +5496,16 @@ namespace SalesforceMetadata
             xlWorksheet.Cells[1, 3].Value = "NamespacePrefix";
             xlWorksheet.Cells[1, 4].Value = "DeveloperName";
             xlWorksheet.Cells[1, 5].Value = "Label";
-            xlWorksheet.Cells[1, 6].Value = "Type";
-            xlWorksheet.Cells[1, 7].Value = "ManageableState";
-            xlWorksheet.Cells[1, 8].Value = "CreatedById";
-            xlWorksheet.Cells[1, 9].Value = "CreatedByName";
-            xlWorksheet.Cells[1, 10].Value = "LastModifiedById";
-            xlWorksheet.Cells[1, 11].Value = "LastModifiedByName";
-            xlWorksheet.Cells[1, 12].Value = "CreatedDate";
-            xlWorksheet.Cells[1, 13].Value = "LastModifiedDate";
+            xlWorksheet.Cells[1, 6].Value = "FieldApiName";
+            xlWorksheet.Cells[1, 7].Value = "Type";
+            xlWorksheet.Cells[1, 8].Value = "RelationshipLabel";
+            xlWorksheet.Cells[1, 9].Value = "ManageableState";
+            xlWorksheet.Cells[1, 10].Value = "CreatedById";
+            xlWorksheet.Cells[1, 11].Value = "CreatedByName";
+            xlWorksheet.Cells[1, 12].Value = "LastModifiedById";
+            xlWorksheet.Cells[1, 13].Value = "LastModifiedByName";
+            xlWorksheet.Cells[1, 14].Value = "CreatedDate";
+            xlWorksheet.Cells[1, 15].Value = "LastModifiedDate";
 
             Int32 rowNumber = 2;
             Boolean done = false;
@@ -5521,20 +5526,47 @@ namespace SalesforceMetadata
                     if (customFld.TableEnumOrId != null && customObjIdToName18.ContainsKey(customFld.TableEnumOrId))
                     {
                         customObjName = customObjIdToName18[customFld.TableEnumOrId];
-                        xlWorksheet.Cells[rowNumber, 2].Value = customObjName;
-                        objectFieldNameToLabelKey = customObjName + "." + customFld.DeveloperName;
+
+                        if (customFld.NamespacePrefix == null)
+                        {
+                            xlWorksheet.Cells[rowNumber, 2].Value = customObjName;
+                            objectFieldNameToLabelKey = customObjName + "." + customFld.DeveloperName;
+                        }
+                        else
+                        {
+                            xlWorksheet.Cells[rowNumber, 2].Value = customObjName;
+                            objectFieldNameToLabelKey = customObjName + "." + customFld.NamespacePrefix + "__" + customFld.DeveloperName;
+                        }
                     }
                     else if (customFld.TableEnumOrId != null && customObjIdToName15.ContainsKey(customFld.TableEnumOrId))
                     {
                         customObjName = customObjIdToName15[customFld.TableEnumOrId];
-                        xlWorksheet.Cells[rowNumber, 2].Value = customObjName;
-                        objectFieldNameToLabelKey = customObjName + "." + customFld.DeveloperName;
+
+                        if (customFld.NamespacePrefix == null)
+                        {
+                            xlWorksheet.Cells[rowNumber, 2].Value = customObjName;
+                            objectFieldNameToLabelKey = customObjName + "." + customFld.DeveloperName;
+                        }
+                        else
+                        {
+                            xlWorksheet.Cells[rowNumber, 2].Value = customObjName;
+                            objectFieldNameToLabelKey = customObjName + "." + customFld.NamespacePrefix + "__" + customFld.DeveloperName;
+                        }
                     }
                     else
                     {
                         customObjName = customFld.TableEnumOrId;
-                        xlWorksheet.Cells[rowNumber, 2].Value = customObjName;
-                        objectFieldNameToLabelKey = customObjName + "." + customFld.DeveloperName;
+
+                        if (customFld.NamespacePrefix == null)
+                        {
+                            xlWorksheet.Cells[rowNumber, 2].Value = customObjName;
+                            objectFieldNameToLabelKey = customObjName + "." + customFld.DeveloperName;
+                        }
+                        else
+                        {
+                            xlWorksheet.Cells[rowNumber, 2].Value = customObjName;
+                            objectFieldNameToLabelKey = customObjName + "." + customFld.NamespacePrefix + "__" + customFld.DeveloperName;
+                        }
                     }
 
                     xlWorksheet.Cells[rowNumber, 3].Value = customFld.NamespacePrefix;
@@ -5544,33 +5576,43 @@ namespace SalesforceMetadata
                     {
                         xlWorksheet.Cells[rowNumber, 5].Value = objectFieldNameToLabel[objectFieldNameToLabelKey][0];
                         xlWorksheet.Cells[rowNumber, 6].Value = objectFieldNameToLabel[objectFieldNameToLabelKey][1];
+                        xlWorksheet.Cells[rowNumber, 7].Value = objectFieldNameToLabel[objectFieldNameToLabelKey][2];
                     }
 
-                    xlWorksheet.Cells[rowNumber, 7].Value = customFld.ManageableState.ToString();
-                    xlWorksheet.Cells[rowNumber, 8].Value = customFld.CreatedById;
-
-                    if (customFld.CreatedBy == null)
+                    if (customFld.RelationshipLabel == null)
                     {
-                        xlWorksheet.Cells[rowNumber, 9].Value = "";
+                        xlWorksheet.Cells[rowNumber, 8].Value = "";
                     }
                     else
                     {
-                        xlWorksheet.Cells[rowNumber, 9].Value = customFld.CreatedBy.Name;
+                        xlWorksheet.Cells[rowNumber, 8].Value = customFld.RelationshipLabel;
                     }
 
-                    xlWorksheet.Cells[rowNumber, 10].Value = customFld.LastModifiedById;
+                    xlWorksheet.Cells[rowNumber, 9].Value = customFld.ManageableState.ToString();
+                    xlWorksheet.Cells[rowNumber, 10].Value = customFld.CreatedById;
 
-                    if (customFld.LastModifiedBy == null)
+                    if (customFld.CreatedBy == null)
                     {
                         xlWorksheet.Cells[rowNumber, 11].Value = "";
                     }
                     else
                     {
-                        xlWorksheet.Cells[rowNumber, 11].Value = customFld.LastModifiedBy.Name;
+                        xlWorksheet.Cells[rowNumber, 11].Value = customFld.CreatedBy.Name;
                     }
 
-                    xlWorksheet.Cells[rowNumber, 12].Value = customFld.CreatedDate;
-                    xlWorksheet.Cells[rowNumber, 13].Value = customFld.LastModifiedDate;
+                    xlWorksheet.Cells[rowNumber, 12].Value = customFld.LastModifiedById;
+
+                    if (customFld.LastModifiedBy == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 13].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 13].Value = customFld.LastModifiedBy.Name;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 14].Value = customFld.CreatedDate;
+                    xlWorksheet.Cells[rowNumber, 15].Value = customFld.LastModifiedDate;
 
                     rowNumber++;
                 }
@@ -5667,9 +5709,18 @@ namespace SalesforceMetadata
 
                     if (customObjIdToName18.ContainsKey(customObj.Id) == false)
                     {
-                        customObjectList.Add(customObjClass);
-                        customObjIdToName18.Add(customObj.Id, customObj.DeveloperName);
-                        customObjIdToName15.Add(customObj.Id.Substring(0, customObj.Id.Length - 3), customObj.DeveloperName);
+                        if (customObjClass.NamespacePrefix == null)
+                        {
+                            customObjectList.Add(customObjClass);
+                            customObjIdToName18.Add(customObj.Id, customObj.DeveloperName);
+                            customObjIdToName15.Add(customObj.Id.Substring(0, customObj.Id.Length - 3), customObj.DeveloperName);
+                        }
+                        else
+                        {
+                            customObjectList.Add(customObjClass);
+                            customObjIdToName18.Add(customObj.Id, customObj.NamespacePrefix + "__" + customObj.DeveloperName);
+                            customObjIdToName15.Add(customObj.Id.Substring(0, customObj.Id.Length - 3), customObj.NamespacePrefix + "__" + customObj.DeveloperName);
+                        }
                     }
 
                     loopRecordNumber++;
@@ -5690,7 +5741,16 @@ namespace SalesforceMetadata
                 foreach (CustomObjectClass custObj in customObjectList)
                 {
                     xlWorksheet.Cells[rowNumber, 1].Value = custObj.Id;
-                    xlWorksheet.Cells[rowNumber, 2].Value = custObj.DeveloperName;
+
+                    if (custObj.NamespacePrefix == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 2].Value = custObj.DeveloperName;
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 2].Value = custObj.NamespacePrefix + "__" + custObj.DeveloperName;
+                    }
+
                     xlWorksheet.Cells[rowNumber, 3].Value = custObj.NamespacePrefix;
                     xlWorksheet.Cells[rowNumber, 4].Value = custObj.ExternalName;
                     xlWorksheet.Cells[rowNumber, 5].Value = custObj.ExternalRepository;
@@ -6086,10 +6146,6 @@ namespace SalesforceMetadata
             {
                 toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
             }
-            else
-            {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
-            }
 
             if (toolingQr.records == null) return;
 
@@ -6154,6 +6210,84 @@ namespace SalesforceMetadata
                 rowNumber++;
             }
         }
+
+        public static void recordTypesToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                      String query,
+                                      UtilityClass.REQUESTINGORG reqOrg)
+        {
+            // Make a call to the Tooling API to retrieve the ApexClassMember passing in the ApexClass IDs
+            SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
+            SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
+
+            if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
+            {
+                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+            }
+
+            if (toolingQr.records == null) return;
+
+            toolingRecords = toolingQr.records;
+
+            Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
+                                                                    (System.Reflection.Missing.Value,
+                                                                        xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
+                                                                        System.Reflection.Missing.Value,
+                                                                        System.Reflection.Missing.Value);
+            xlWorksheet.Name = "RecordTypes";
+            xlWorksheet.Cells[1, 1].Value = "Id";
+            xlWorksheet.Cells[1, 2].Value = "Name";
+            xlWorksheet.Cells[1, 3].Value = "NamespacePrefix";
+            xlWorksheet.Cells[1, 4].Value = "SobjectType";
+            xlWorksheet.Cells[1, 5].Value = "IsActive";
+            xlWorksheet.Cells[1, 6].Value = "ManageableState";
+            xlWorksheet.Cells[1, 7].Value = "CreatedById";
+            xlWorksheet.Cells[1, 8].Value = "CreatedByName";
+            xlWorksheet.Cells[1, 9].Value = "LastModifiedById";
+            xlWorksheet.Cells[1, 10].Value = "LastModifiedByName";
+            xlWorksheet.Cells[1, 11].Value = "CreatedDate";
+            xlWorksheet.Cells[1, 12].Value = "LastModifiedDate";
+
+            Int32 rowNumber = 2;
+            foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
+            {
+                SalesforceMetadata.ToolingWSDL.RecordType1 rt = (SalesforceMetadata.ToolingWSDL.RecordType1)toolingRecord;
+
+                xlWorksheet.Cells[rowNumber, 1].Value = rt.Id;
+                xlWorksheet.Cells[rowNumber, 2].Value = rt.Name;
+                xlWorksheet.Cells[rowNumber, 3].Value = rt.NamespacePrefix;
+                xlWorksheet.Cells[rowNumber, 4].Value = rt.SobjectType;
+                xlWorksheet.Cells[rowNumber, 5].Value = rt.IsActive.ToString();
+                xlWorksheet.Cells[rowNumber, 6].Value = rt.ManageableState;
+                xlWorksheet.Cells[rowNumber, 7].Value = rt.CreatedById;
+
+                if (rt.CreatedBy == null)
+                {
+                    xlWorksheet.Cells[rowNumber, 8].Value = "";
+                }
+                else
+                {
+                    xlWorksheet.Cells[rowNumber, 8].Value = rt.CreatedBy.Name;
+                }
+
+                xlWorksheet.Cells[rowNumber, 9].Value = rt.LastModifiedById;
+
+                if (rt.LastModifiedBy == null)
+                {
+                    xlWorksheet.Cells[rowNumber, 10].Value = "";
+                }
+                else
+                {
+                    xlWorksheet.Cells[rowNumber, 10].Value = rt.LastModifiedBy.Name;
+                }
+
+                xlWorksheet.Cells[rowNumber, 11].Value = rt.CreatedDate;
+                xlWorksheet.Cells[rowNumber, 12].Value = rt.LastModifiedDate;
+
+                rowNumber++;
+            }
+
+        }
+
 
         public static void validationRuleToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
                                                  String query, 

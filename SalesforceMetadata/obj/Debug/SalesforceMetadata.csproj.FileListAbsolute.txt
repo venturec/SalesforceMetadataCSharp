@@ -90,25 +90,19 @@ C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMeta
 C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
 C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe
 C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb
-C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmSearch.resources
-C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmUserSettings.resources
 C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csprojAssemblyReference.cache
 C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.GenerateTestClasses.resources
 C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.DeployMetadata.resources
 C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ObjectModification.resources
 C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ProfilesUpdater.resources
 C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ObjectFieldInspector.resources
-C:\Users\mharikian\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmParseDebugLogs.resources
 C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.DeployMetadata.resources
-C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmParseDebugLogs.resources
-C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmUserSettings.resources
 C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
 C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ObjectFieldInspector.resources
 C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ObjectModification.resources
 C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep1.resources
 C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.Properties.Resources.resources
 C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep2.resources
-C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmSearch.resources
 C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.Cache
 C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
 C:\Users\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe
@@ -138,8 +132,6 @@ D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\
 D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.DeployMetadata.resources
 D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.EncryptDecryptText.resources
 D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ExtractWebsites.resources
-D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmParseDebugLogs.resources
-D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmUserSettings.resources
 D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
 D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.MetadataComparison.resources
 D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ObjectFieldInspector.resources
@@ -149,7 +141,6 @@ D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\
 D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.RESTService.resources
 D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep2.resources
 D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ConfigurationWorkbook.resources
-D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmSearch.resources
 D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.cache
 D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
 D:\marcus\OneDrive\Visual Studio 2013\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CopyComplete
@@ -170,8 +161,6 @@ D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\
 D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.DeployMetadata.resources
 D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.EncryptDecryptText.resources
 D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ExtractWebsites.resources
-D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmParseDebugLogs.resources
-D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmUserSettings.resources
 D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.GenerateDeploymentPackage.resources
 D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
 D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.MetadataComparison.resources
@@ -183,7 +172,6 @@ D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\
 D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.RESTService.resources
 D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep2.resources
 D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ConfigurationWorkbook.resources
-D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmSearch.resources
 D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.VersionUpdater.resources
 D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.cache
 D:\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
@@ -202,8 +190,6 @@ C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadat
 C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.EncryptDecryptText.resources
 C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ExtractFieldsFromMetadata.resources
 C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ExtractWebsites.resources
-C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmParseDebugLogs.resources
-C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmUserSettings.resources
 C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.GenerateDeploymentPackage.resources
 C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
 C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.MetadataComparison.resources
@@ -215,7 +201,6 @@ C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadat
 C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.RESTService.resources
 C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep2.resources
 C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.ConfigurationWorkbook.resources
-C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmSearch.resources
 C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.VersionUpdater.resources
 C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.cache
 C:\Users\marcus\OneDrive\Visual Studio 2017\SalesforceMetadata\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
@@ -234,8 +219,6 @@ C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj
 C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.EncryptDecryptText.resources
 C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ExtractFieldsFromMetadata.resources
 C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ExtractWebsites.resources
-C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmParseDebugLogs.resources
-C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmUserSettings.resources
 C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.GenerateDeploymentPackage.resources
 C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
 C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.MetadataComparison.resources
@@ -247,7 +230,6 @@ C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj
 C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.RESTService.resources
 C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep2.resources
 C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ConfigurationWorkbook.resources
-C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmSearch.resources
 C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.VersionUpdater.resources
 C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.cache
 C:\Users\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
@@ -264,8 +246,6 @@ D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.EncryptDecryptText.resources
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ExtractFieldsFromMetadata.resources
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ExtractWebsites.resources
-D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmParseDebugLogs.resources
-D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmUserSettings.resources
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.GenerateDeploymentPackage.resources
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.MetadataComparison.resources
@@ -277,7 +257,6 @@ D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.RESTService.resources
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep2.resources
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ConfigurationWorkbook.resources
-D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmSearch.resources
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.VersionUpdater.resources
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.cache
 D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
@@ -306,7 +285,6 @@ C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.RESTService.resources
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep2.resources
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ConfigurationWorkbook.resources
-C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmSearch.resources
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.VersionUpdater.resources
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.cache
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
@@ -315,7 +293,6 @@ C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.LWCInspector.resources
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.AutomationReporter.resources
-C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.SuggestedBindingRedirects.cache
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.DevelopmentEnvironment.resources
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe.config
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe
@@ -330,8 +307,6 @@ C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMeta
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.EncryptDecryptText.resources
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ExtractFieldsFromMetadata.resources
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ExtractWebsites.resources
-C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmParseDebugLogs.resources
-C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmUserSettings.resources
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.GenerateDeploymentPackage.resources
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.LandingPage.resources
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.LWCInspector.resources
@@ -344,7 +319,6 @@ C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMeta
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.RESTService.resources
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.SalesforceMetadataStep2.resources
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ConfigurationWorkbook.resources
-C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmSearch.resources
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.VersionUpdater.resources
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.cache
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
@@ -355,3 +329,4 @@ C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.UserSettings.resources
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ParseSalesforceMetadata.resources
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.AddObject.resources
+C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmSearch.resources

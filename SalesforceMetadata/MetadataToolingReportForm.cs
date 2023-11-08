@@ -76,7 +76,7 @@ namespace SalesforceMetadata
                 // Some orgs have duplicate Case Type fields: one of them is the standard one, and the other is a custom one, but the Tooling API returns
                 // both with the same DeveloperName - Type and the custom one does not have the __c
 
-                //parseObjectFiles(objectFieldNameToLabel);
+                parseObjectFiles(objectFieldNameToLabel);
 
                 Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
                 xlapp.Visible = false;
@@ -85,45 +85,23 @@ namespace SalesforceMetadata
 
                 String query = "";
 
-
-                if (lbToolingTypes.CheckedItems.Contains("CustomObject"))
-                {
-                    query = ToolingApiHelper.CustomObjectQuery();
-                    ToolingApiHelper.customObjectToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
-
-                    query = ToolingApiHelper.CustomFieldQuery();
-                    ToolingApiHelper.customFieldToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15, objectFieldNameToLabel);
-                }
-
                 if (lbToolingTypes.CheckedItems.Contains("ApexClass"))
                 {
                     query = ToolingApiHelper.ApexClassQuery("");
                     ToolingApiHelper.getApexClasses(query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
                     ToolingApiHelper.apexClassToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
                 }
-
-                if (lbToolingTypes.CheckedItems.Contains("ApexTrigger"))
+                
+                if (lbToolingTypes.CheckedItems.Contains("ApexComponent"))
                 {
-                    if (customObjIdToName18.Count == 0)
+                    if (classIdToClassName.Count == 0)
                     {
-                        query = ToolingApiHelper.CustomObjectQuery();
-                        ToolingApiHelper.customObjectToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
+                        query = ToolingApiHelper.ApexClassQuery("");
+                        ToolingApiHelper.getApexClasses(query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
                     }
 
-                    query = ToolingApiHelper.ApexTriggerQuery("");
-                    ToolingApiHelper.apexTriggerToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName, customObjIdToName18, customObjIdToName15);
-                }
-
-                if (lbToolingTypes.CheckedItems.Contains("LightningComponentBundle"))
-                {
-                    query = ToolingApiHelper.LightningComponentBundleQuery();
-                    ToolingApiHelper.lwcToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
-                }
-
-                if (lbToolingTypes.CheckedItems.Contains("Flow"))
-                {
-                    query = ToolingApiHelper.FlowQuery();
-                    ToolingApiHelper.flowToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+                    query = ToolingApiHelper.ApexComponentQuery();
+                    ToolingApiHelper.apexComponentToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
                 }
 
                 if (lbToolingTypes.CheckedItems.Contains("ApexPage"))
@@ -139,22 +117,37 @@ namespace SalesforceMetadata
                     ToolingApiHelper.apexPageToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
                 }
 
-                if (lbToolingTypes.CheckedItems.Contains("ApexComponent"))
+                if (lbToolingTypes.CheckedItems.Contains("ApexTrigger"))
                 {
-                    if (classIdToClassName.Count == 0)
+                    if (customObjIdToName18.Count == 0)
                     {
-                        query = ToolingApiHelper.ApexClassQuery("");
-                        ToolingApiHelper.getApexClasses(query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
+                        query = ToolingApiHelper.CustomObjectQuery();
+                        ToolingApiHelper.customObjectToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
                     }
 
-                    query = ToolingApiHelper.ApexComponentQuery();
-                    ToolingApiHelper.apexComponentToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
+                    query = ToolingApiHelper.ApexTriggerQuery("");
+                    ToolingApiHelper.apexTriggerToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName, customObjIdToName18, customObjIdToName15);
                 }
 
                 if (lbToolingTypes.CheckedItems.Contains("CompactLayout"))
                 {
                     query = ToolingApiHelper.CompactLayoutQuery("");
                     ToolingApiHelper.compactLayoutToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+                }
+
+                if (lbToolingTypes.CheckedItems.Contains("CustomObject"))
+                {
+                    query = ToolingApiHelper.CustomObjectQuery();
+                    ToolingApiHelper.customObjectToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
+
+                    query = ToolingApiHelper.CustomFieldQuery();
+                    ToolingApiHelper.customFieldToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15, objectFieldNameToLabel);
+                }
+
+                if (lbToolingTypes.CheckedItems.Contains("EmailTemplate"))
+                {
+                    query = ToolingApiHelper.EmailTemplateQuery();
+                    ToolingApiHelper.emailTemplateToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
                 }
 
                 if (lbToolingTypes.CheckedItems.Contains("FlexiPage"))
@@ -169,6 +162,12 @@ namespace SalesforceMetadata
                     ToolingApiHelper.flexiPageToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
                 }
 
+                if (lbToolingTypes.CheckedItems.Contains("Flow"))
+                {
+                    query = ToolingApiHelper.FlowQuery();
+                    ToolingApiHelper.flowToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+                }
+
                 if (lbToolingTypes.CheckedItems.Contains("Layout"))
                 {
                     if (customObjIdToName18.Count == 0)
@@ -181,12 +180,28 @@ namespace SalesforceMetadata
                     ToolingApiHelper.layoutToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
                 }
 
-
-
-                if (lbToolingTypes.CheckedItems.Contains("EmailTemplate"))
+                if (lbToolingTypes.CheckedItems.Contains("LightningComponentBundle"))
                 {
-                    query = ToolingApiHelper.EmailTemplateQuery();
-                    ToolingApiHelper.emailTemplateToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+                    query = ToolingApiHelper.LightningComponentBundleQuery();
+                    ToolingApiHelper.lwcToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+                }
+
+                if (lbToolingTypes.CheckedItems.Contains("LightningComponentBundle"))
+                {
+                    query = ToolingApiHelper.LightningComponentBundleQuery();
+                    ToolingApiHelper.lwcToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+                }
+
+                if (lbToolingTypes.CheckedItems.Contains("RecordType"))
+                {
+                    //if (customObjIdToName18.Count == 0)
+                    //{
+                    //    query = ToolingApiHelper.CustomObjectQuery();
+                    //    ToolingApiHelper.customObjectToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
+                    //}
+
+                    query = ToolingApiHelper.RecordTypeQuery();
+                    ToolingApiHelper.recordTypesToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
                 }
 
                 if (lbToolingTypes.CheckedItems.Contains("ValidationRule"))
@@ -449,16 +464,24 @@ namespace SalesforceMetadata
                         {
                             if (nd1.ParentNode.Name == "CustomObject")
                             {
+                                String developerName = "";
                                 String fieldApiName = "";
                                 String label = "";
                                 String type = "";
 
                                 foreach (XmlNode nd2 in nd1.ChildNodes)
                                 {
+                                    // Check if a custom field first and then a standard field
                                     if (nd2.Name == "fullName"
                                         && nd2.InnerText.EndsWith("__c"))
                                     {
-                                        fieldApiName = nd2.InnerText.Substring(0, nd2.InnerText.Length - 3);
+                                        developerName = nd2.InnerText.Substring(0, nd2.InnerText.Length - 3);
+                                        fieldApiName = nd2.InnerText;
+                                    }
+                                    if (nd2.Name == "fullName")
+                                    {
+                                        developerName = nd2.InnerText;
+                                        fieldApiName = nd2.InnerText;
                                     }
                                     else if (nd2.Name == "label")
                                     {
@@ -470,13 +493,14 @@ namespace SalesforceMetadata
                                     }
                                 }
 
-                                if (fieldApiName != "")
+                                if (developerName != "")
                                 {
                                     List<String> tempList = new List<string>();
                                     tempList.Add(label);
+                                    tempList.Add(fieldApiName);
                                     tempList.Add(type);
 
-                                    objectFieldNameToLabel.Add(objectName + "." + fieldApiName, tempList);
+                                    objectFieldNameToLabel.Add(objectName + "." + developerName, tempList);
                                 }
                             }
                         }

@@ -62,9 +62,6 @@ namespace SalesforceMetadata
             SalesforceCredentials.fromOrgUsername = null;
             SalesforceCredentials.fromOrgPassword = null;
             SalesforceCredentials.fromOrgSecurityToken = null;
-            //SalesforceCredentials.toOrgUsername = this.salesforceUserName;
-            //SalesforceCredentials.toOrgPassword = this.salesforcePassword;
-            //SalesforceCredentials.toOrgSecurityToken = this.salesforceSecurityToken;
 
             SalesforceCredentials.toOrgUsername = this.cmbUserName.Text;
             SalesforceCredentials.toOrgPassword = this.tbPassword.Text;
@@ -139,8 +136,8 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    dopt.allowMissingFiles = true;
-                    dopt.autoUpdatePackage = true;
+                    dopt.allowMissingFiles = false;
+                    dopt.autoUpdatePackage = false;
                     dopt.rollbackOnError = false;
 
                     if (this.cbRunTests.Checked)

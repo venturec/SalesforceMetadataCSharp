@@ -164,28 +164,47 @@ namespace SalesforceMetadata
                 this.listViewSobjectFields.Columns[8].Text = "Required";
 
                 this.listViewSobjectFields.Columns.Add(new ColumnHeader());
-                this.listViewSobjectFields.Columns[9].Text = "Is Formula";
+                this.listViewSobjectFields.Columns[9].Text = "Is AutoNumber";
 
                 this.listViewSobjectFields.Columns.Add(new ColumnHeader());
-                this.listViewSobjectFields.Columns[10].Text = "Reference To";
+                this.listViewSobjectFields.Columns[10].Text = "Is Formula";
 
                 this.listViewSobjectFields.Columns.Add(new ColumnHeader());
-                this.listViewSobjectFields.Columns[11].Text = "Reference Target Field";
+                this.listViewSobjectFields.Columns[11].Text = "Reference To";
 
                 this.listViewSobjectFields.Columns.Add(new ColumnHeader());
-                this.listViewSobjectFields.Columns[12].Text = "Relationship Name";
+                this.listViewSobjectFields.Columns[12].Text = "Reference Target Field";
 
                 this.listViewSobjectFields.Columns.Add(new ColumnHeader());
-                this.listViewSobjectFields.Columns[13].Text = "External ID";
+                this.listViewSobjectFields.Columns[13].Text = "Relationship Name";
 
                 this.listViewSobjectFields.Columns.Add(new ColumnHeader());
-                this.listViewSobjectFields.Columns[14].Text = "Encrypted";
+                this.listViewSobjectFields.Columns[14].Text = "External ID";
 
                 this.listViewSobjectFields.Columns.Add(new ColumnHeader());
-                this.listViewSobjectFields.Columns[15].Text = "Picklist Values";
+                this.listViewSobjectFields.Columns[15].Text = "Encrypted";
 
                 this.listViewSobjectFields.Columns.Add(new ColumnHeader());
-                this.listViewSobjectFields.Columns[16].Text = "Multi-Select Picklist Values";
+                this.listViewSobjectFields.Columns[16].Text = "Createable";
+
+                this.listViewSobjectFields.Columns.Add(new ColumnHeader());
+                this.listViewSobjectFields.Columns[17].Text = "Updateable";
+
+                this.listViewSobjectFields.Columns.Add(new ColumnHeader());
+                this.listViewSobjectFields.Columns[18].Text = "Aggregateable";
+
+                this.listViewSobjectFields.Columns.Add(new ColumnHeader());
+                this.listViewSobjectFields.Columns[19].Text = "Groupable";
+
+                this.listViewSobjectFields.Columns.Add(new ColumnHeader());
+                this.listViewSobjectFields.Columns[20].Text = "Sortable";
+
+                this.listViewSobjectFields.Columns.Add(new ColumnHeader());
+                this.listViewSobjectFields.Columns[21].Text = "Picklist Values";
+
+                this.listViewSobjectFields.Columns.Add(new ColumnHeader());
+                this.listViewSobjectFields.Columns[22].Text = "Multi-Select Picklist Values";
+
 
                 // Example
                 //ListViewItem listViewItem1 = new ListViewItem(new String[] { "Banana", "a", "b", "c" }, -1, Color.Empty, Color.Yellow, null);
@@ -196,6 +215,79 @@ namespace SalesforceMetadata
                 Int32 i = 0;
                 foreach (Field cf in dsr.fields)
                 {
+                    /*
+                    cf.aggregatable;
+                    cf.aiPredictionField;
+                    cf.byteLength;
+                    cf.calculated;
+                    cf.calculatedFormula;
+                    cf.cascadeDelete;
+                    cf.cascadeDeleteSpecified;
+                    cf.caseSensitive;
+                    cf.compoundFieldName;
+                    cf.controllerName;
+                    cf.createable;
+                    cf.custom;
+                    cf.dataTranslationEnabled;
+                    cf.dataTranslationEnabledSpecified;
+                    cf.defaultedOnCreate;
+                    cf.defaultValue;
+                    cf.defaultValueFormula;
+                    cf.dependentPicklist;
+                    cf.dependentPicklistSpecified;
+                    cf.deprecatedAndHidden;
+                    cf.digits;
+                    cf.displayLocationInDecimal;
+                    cf.displayLocationInDecimalSpecified;
+                    cf.encrypted;
+                    cf.encryptedSpecified;
+                    cf.externalId;
+                    cf.externalIdSpecified;
+                    cf.extraTypeInfo;
+                    cf.filterable;
+                    cf.filteredLookupInfo;
+                    cf.formulaTreatNullNumberAsZero;
+                    cf.formulaTreatNullNumberAsZeroSpecified;
+                    cf.groupable;
+                    cf.highScaleNumber;
+                    cf.highScaleNumberSpecified;
+                    cf.htmlFormatted;
+                    cf.htmlFormattedSpecified;
+                    cf.idLookup;
+                    cf.label;
+                    cf.length;
+                    cf.mask;
+                    cf.maskType;
+                    cf.name;
+                    cf.nameField;
+                    cf.namePointing;
+                    cf.namePointingSpecified;
+                    cf.nillable;
+                    cf.permissionable;
+                    cf.picklistValues;
+                    cf.polymorphicForeignKey;
+                    cf.precision;
+                    cf.queryByDistance;
+                    cf.referenceTargetField;
+                    cf.referenceTo;
+                    cf.relationshipName;
+                    cf.relationshipOrder;
+                    cf.relationshipOrderSpecified;
+                    cf.restrictedDelete;
+                    cf.restrictedDeleteSpecified;
+                    cf.restrictedPicklist;
+                    cf.scale;
+                    cf.searchPrefilterable;
+                    cf.soapType;
+                    cf.sortable;
+                    cf.sortableSpecified;
+                    cf.type;
+                    cf.unique;
+                    cf.updateable;
+                    cf.writeRequiresMasterRead;
+                    cf.writeRequiresMasterReadSpecified;
+                    */
+
                     String referenceToObjects = "";
                     if (cf.referenceTo != null)
                     {
@@ -228,12 +320,18 @@ namespace SalesforceMetadata
                                                                            cf.custom.ToString(),
                                                                            cf.unique.ToString(),
                                                                            cf.nillable.ToString(),
+                                                                           cf.autoNumber.ToString(),
                                                                            cf.calculated.ToString(),
                                                                            referenceToObjects,
                                                                            cf.referenceTargetField,
                                                                            cf.relationshipName,
                                                                            cf.externalId.ToString(),
                                                                            cf.encrypted.ToString(),
+                                                                           cf.createable.ToString(),
+                                                                           cf.updateable.ToString(),
+                                                                           cf.aggregatable.ToString(),
+                                                                           cf.groupable.ToString(),
+                                                                           cf.sortable.ToString(),
                                                                            picklistValues,
                                                                            multiselectValues
                                                                           }, -1, Color.Empty, Color.AliceBlue, null);
@@ -251,12 +349,18 @@ namespace SalesforceMetadata
                                                                             cf.custom.ToString(),
                                                                             cf.unique.ToString(),
                                                                             cf.nillable.ToString(),
+                                                                            cf.autoNumber.ToString(),
                                                                             cf.calculated.ToString(),
                                                                             referenceToObjects,
                                                                             cf.referenceTargetField,
                                                                             cf.relationshipName,
                                                                             cf.externalId.ToString(),
                                                                             cf.encrypted.ToString(),
+                                                                            cf.createable.ToString(),
+                                                                            cf.updateable.ToString(),
+                                                                            cf.aggregatable.ToString(),
+                                                                            cf.groupable.ToString(),
+                                                                            cf.sortable.ToString(),
                                                                             picklistValues,
                                                                             multiselectValues
                                                                            }, -1, Color.Empty, Color.AntiqueWhite, null);
@@ -773,26 +877,32 @@ namespace SalesforceMetadata
                         xlWorksheet.Cells[1, 7].Value = "Custom";
                         xlWorksheet.Cells[1, 8].Value = "Unique";
                         xlWorksheet.Cells[1, 9].Value = "Required";
-                        xlWorksheet.Cells[1, 10].Value = "Default Value";
-                        xlWorksheet.Cells[1, 11].Value = "Default Value Formula";
-                        xlWorksheet.Cells[1, 12].Value = "Cascade Delete";
-                        xlWorksheet.Cells[1, 13].Value = "Cascade Delete Specified";
-                        xlWorksheet.Cells[1, 14].Value = "Is Formula";
-                        xlWorksheet.Cells[1, 15].Value = "Calculated Formula";
-                        xlWorksheet.Cells[1, 16].Value = "Treat Null Number As Zero";
-                        xlWorksheet.Cells[1, 17].Value = "Treat Null Number As Zero Specified";
-                        xlWorksheet.Cells[1, 18].Value = "Reference To";
-                        xlWorksheet.Cells[1, 19].Value = "Reference Target Field";
-                        xlWorksheet.Cells[1, 20].Value = "Relationship Name";
-                        xlWorksheet.Cells[1, 21].Value = "External ID";
-                        xlWorksheet.Cells[1, 22].Value = "Encrypted";
-                        xlWorksheet.Cells[1, 23].Value = "Picklist Values";
-                        xlWorksheet.Cells[1, 24].Value = "Dependent Picklist";
-                        xlWorksheet.Cells[1, 25].Value = "Dependent Picklist Specified";
-                        xlWorksheet.Cells[1, 26].Value = "Multi-Select Picklist Values";
+                        xlWorksheet.Cells[1, 10].Value = "Is Auto Number";
+                        xlWorksheet.Cells[1, 11].Value = "Default Value";
+                        xlWorksheet.Cells[1, 12].Value = "Default Value Formula";
+                        xlWorksheet.Cells[1, 13].Value = "Cascade Delete";
+                        xlWorksheet.Cells[1, 14].Value = "Cascade Delete Specified";
+                        xlWorksheet.Cells[1, 15].Value = "Is Formula";
+                        xlWorksheet.Cells[1, 16].Value = "Calculated Formula";
+                        xlWorksheet.Cells[1, 17].Value = "Treat Null Number As Zero";
+                        xlWorksheet.Cells[1, 18].Value = "Treat Null Number As Zero Specified";
+                        xlWorksheet.Cells[1, 19].Value = "Reference To";
+                        xlWorksheet.Cells[1, 20].Value = "Reference Target Field";
+                        xlWorksheet.Cells[1, 21].Value = "Relationship Name";
+                        xlWorksheet.Cells[1, 22].Value = "External ID";
+                        xlWorksheet.Cells[1, 23].Value = "Encrypted";
+                        xlWorksheet.Cells[1, 24].Value = "Picklist Values";
+                        xlWorksheet.Cells[1, 25].Value = "Dependent Picklist";
+                        xlWorksheet.Cells[1, 26].Value = "Dependent Picklist Specified";
+                        xlWorksheet.Cells[1, 27].Value = "Multi-Select Picklist Values";
+                        xlWorksheet.Cells[1, 28].Value = "Createable";
+                        xlWorksheet.Cells[1, 29].Value = "Updateable";
+                        xlWorksheet.Cells[1, 30].Value = "Aggregateable";
+                        xlWorksheet.Cells[1, 31].Value = "Groupable";
+                        xlWorksheet.Cells[1, 32].Value = "Sortable";
 
                         Microsoft.Office.Interop.Excel.Range rng;
-                        rng = xlWorksheet.Range[xlWorksheet.Cells[1, 1], xlWorksheet.Cells[1, 26]];
+                        rng = xlWorksheet.Range[xlWorksheet.Cells[1, 1], xlWorksheet.Cells[1, 32]];
                         rng.Font.Bold = true;
                         rng.Font.Size = 14;
                         rng.Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbFloralWhite;
@@ -833,25 +943,31 @@ namespace SalesforceMetadata
                                 xlWorksheet.Cells[rowNumber, 7].Value = cf.custom.ToString();
                                 xlWorksheet.Cells[rowNumber, 8].Value = cf.unique.ToString();
                                 xlWorksheet.Cells[rowNumber, 9].Value = cf.nillable.ToString();
-                                xlWorksheet.Cells[rowNumber, 10].Value = cf.defaultValue;
-                                xlWorksheet.Cells[rowNumber, 11].Value = cf.defaultValueFormula;
-                                xlWorksheet.Cells[rowNumber, 12].Value = cf.cascadeDelete;
-                                xlWorksheet.Cells[rowNumber, 13].Value = cf.cascadeDeleteSpecified;
-                                xlWorksheet.Cells[rowNumber, 14].Value = cf.calculated.ToString();
-                                xlWorksheet.Cells[rowNumber, 15].Value = cf.calculatedFormula;
-                                xlWorksheet.Cells[rowNumber, 16].Value = cf.formulaTreatNullNumberAsZero;
-                                xlWorksheet.Cells[rowNumber, 17].Value = cf.formulaTreatNullNumberAsZeroSpecified;
-                                xlWorksheet.Cells[rowNumber, 18].Value = referenceToObjects;
-                                xlWorksheet.Cells[rowNumber, 19].Value = cf.referenceTargetField;
-                                xlWorksheet.Cells[rowNumber, 20].Value = cf.relationshipName;
-                                xlWorksheet.Cells[rowNumber, 21].Value = cf.externalId.ToString();
-                                xlWorksheet.Cells[rowNumber, 22].Value = cf.encrypted.ToString();
-                                xlWorksheet.Cells[rowNumber, 23].Value = picklistValues;
-                                xlWorksheet.Cells[rowNumber, 24].Value = cf.dependentPicklist;
-                                xlWorksheet.Cells[rowNumber, 25].Value = cf.dependentPicklistSpecified;
-                                xlWorksheet.Cells[rowNumber, 26].Value = multiselectValues;
+                                xlWorksheet.Cells[rowNumber, 10].Value = cf.autoNumber.ToString();
+                                xlWorksheet.Cells[rowNumber, 11].Value = cf.defaultValue;
+                                xlWorksheet.Cells[rowNumber, 12].Value = cf.defaultValueFormula;
+                                xlWorksheet.Cells[rowNumber, 13].Value = cf.cascadeDelete;
+                                xlWorksheet.Cells[rowNumber, 14].Value = cf.cascadeDeleteSpecified;
+                                xlWorksheet.Cells[rowNumber, 15].Value = cf.calculated.ToString();
+                                xlWorksheet.Cells[rowNumber, 16].Value = cf.calculatedFormula;
+                                xlWorksheet.Cells[rowNumber, 17].Value = cf.formulaTreatNullNumberAsZero;
+                                xlWorksheet.Cells[rowNumber, 18].Value = cf.formulaTreatNullNumberAsZeroSpecified;
+                                xlWorksheet.Cells[rowNumber, 19].Value = referenceToObjects;
+                                xlWorksheet.Cells[rowNumber, 20].Value = cf.referenceTargetField;
+                                xlWorksheet.Cells[rowNumber, 21].Value = cf.relationshipName;
+                                xlWorksheet.Cells[rowNumber, 22].Value = cf.externalId.ToString();
+                                xlWorksheet.Cells[rowNumber, 23].Value = cf.encrypted.ToString();
+                                xlWorksheet.Cells[rowNumber, 24].Value = picklistValues;
+                                xlWorksheet.Cells[rowNumber, 25].Value = cf.dependentPicklist;
+                                xlWorksheet.Cells[rowNumber, 26].Value = cf.dependentPicklistSpecified;
+                                xlWorksheet.Cells[rowNumber, 27].Value = multiselectValues;
+                                xlWorksheet.Cells[rowNumber, 28].Value = cf.createable.ToString();
+                                xlWorksheet.Cells[rowNumber, 29].Value = cf.updateable.ToString();
+                                xlWorksheet.Cells[rowNumber, 30].Value = cf.aggregatable.ToString();
+                                xlWorksheet.Cells[rowNumber, 31].Value = cf.groupable.ToString();
+                                xlWorksheet.Cells[rowNumber, 32].Value = cf.sortable.ToString();
 
-                                rng = xlWorksheet.Range[xlWorksheet.Cells[rowNumber, 1], xlWorksheet.Cells[rowNumber, 26]];
+                                rng = xlWorksheet.Range[xlWorksheet.Cells[rowNumber, 1], xlWorksheet.Cells[rowNumber, 32]];
                                 rng.Font.Size = 11;
 
                                 Microsoft.Office.Interop.Excel.Borders border = rng.Borders;
@@ -873,25 +989,31 @@ namespace SalesforceMetadata
                                 xlWorksheet.Cells[rowNumber, 7].Value = cf.custom.ToString();
                                 xlWorksheet.Cells[rowNumber, 8].Value = cf.unique.ToString();
                                 xlWorksheet.Cells[rowNumber, 9].Value = cf.nillable.ToString();
-                                xlWorksheet.Cells[rowNumber, 10].Value = cf.defaultValue;
-                                xlWorksheet.Cells[rowNumber, 11].Value = cf.defaultValueFormula;
-                                xlWorksheet.Cells[rowNumber, 12].Value = cf.cascadeDelete;
-                                xlWorksheet.Cells[rowNumber, 13].Value = cf.cascadeDeleteSpecified;
-                                xlWorksheet.Cells[rowNumber, 14].Value = cf.calculated.ToString();
-                                xlWorksheet.Cells[rowNumber, 15].Value = cf.calculatedFormula;
-                                xlWorksheet.Cells[rowNumber, 16].Value = cf.formulaTreatNullNumberAsZero;
-                                xlWorksheet.Cells[rowNumber, 17].Value = cf.formulaTreatNullNumberAsZeroSpecified;
-                                xlWorksheet.Cells[rowNumber, 18].Value = referenceToObjects;
-                                xlWorksheet.Cells[rowNumber, 19].Value = cf.referenceTargetField;
-                                xlWorksheet.Cells[rowNumber, 20].Value = cf.relationshipName;
-                                xlWorksheet.Cells[rowNumber, 21].Value = cf.externalId.ToString();
-                                xlWorksheet.Cells[rowNumber, 22].Value = cf.encrypted.ToString();
-                                xlWorksheet.Cells[rowNumber, 23].Value = picklistValues;
-                                xlWorksheet.Cells[rowNumber, 24].Value = cf.dependentPicklist;
-                                xlWorksheet.Cells[rowNumber, 25].Value = cf.dependentPicklistSpecified;
-                                xlWorksheet.Cells[rowNumber, 26].Value = multiselectValues;
+                                xlWorksheet.Cells[rowNumber, 10].Value = cf.autoNumber.ToString();
+                                xlWorksheet.Cells[rowNumber, 11].Value = cf.defaultValue;
+                                xlWorksheet.Cells[rowNumber, 12].Value = cf.defaultValueFormula;
+                                xlWorksheet.Cells[rowNumber, 13].Value = cf.cascadeDelete;
+                                xlWorksheet.Cells[rowNumber, 14].Value = cf.cascadeDeleteSpecified;
+                                xlWorksheet.Cells[rowNumber, 15].Value = cf.calculated.ToString();
+                                xlWorksheet.Cells[rowNumber, 16].Value = cf.calculatedFormula;
+                                xlWorksheet.Cells[rowNumber, 17].Value = cf.formulaTreatNullNumberAsZero;
+                                xlWorksheet.Cells[rowNumber, 18].Value = cf.formulaTreatNullNumberAsZeroSpecified;
+                                xlWorksheet.Cells[rowNumber, 19].Value = referenceToObjects;
+                                xlWorksheet.Cells[rowNumber, 20].Value = cf.referenceTargetField;
+                                xlWorksheet.Cells[rowNumber, 21].Value = cf.relationshipName;
+                                xlWorksheet.Cells[rowNumber, 22].Value = cf.externalId.ToString();
+                                xlWorksheet.Cells[rowNumber, 23].Value = cf.encrypted.ToString();
+                                xlWorksheet.Cells[rowNumber, 24].Value = picklistValues;
+                                xlWorksheet.Cells[rowNumber, 25].Value = cf.dependentPicklist;
+                                xlWorksheet.Cells[rowNumber, 26].Value = cf.dependentPicklistSpecified;
+                                xlWorksheet.Cells[rowNumber, 27].Value = multiselectValues;
+                                xlWorksheet.Cells[rowNumber, 28].Value = cf.createable.ToString();
+                                xlWorksheet.Cells[rowNumber, 29].Value = cf.updateable.ToString();
+                                xlWorksheet.Cells[rowNumber, 30].Value = cf.aggregatable.ToString();
+                                xlWorksheet.Cells[rowNumber, 31].Value = cf.groupable.ToString();
+                                xlWorksheet.Cells[rowNumber, 32].Value = cf.sortable.ToString();
 
-                                rng = xlWorksheet.Range[xlWorksheet.Cells[rowNumber, 1], xlWorksheet.Cells[rowNumber, 26]];
+                                rng = xlWorksheet.Range[xlWorksheet.Cells[rowNumber, 1], xlWorksheet.Cells[rowNumber, 32]];
                                 rng.Font.Size = 11;
 
                                 Microsoft.Office.Interop.Excel.Borders border = rng.Borders;

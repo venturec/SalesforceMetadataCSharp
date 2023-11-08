@@ -974,7 +974,7 @@ namespace SalesforceMetadata
             String directoryName = dtt.Year + "_" + dtt.Month + "_" + dtt.Day + "_" + dtt.Hour + "_" + dtt.Minute + "_" + dtt.Second + "_" + dtt.Millisecond;
             String folderPath = this.tbDeployFrom.Text + "\\" + directoryName;
 
-            Directory.CreateDirectory(folderPath);
+            DirectoryInfo cdDi = Directory.CreateDirectory(folderPath);
 
             // We want to track the directory and files which will be deployed so we can build the package.xml properly
             foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
@@ -1307,7 +1307,9 @@ namespace SalesforceMetadata
 
             if (tv.SelectedNode != null)
             {
-                String pathToFile = "\"" + this.tbProjectFolder.Text + "\\" + tv.SelectedNode.FullPath + "\"";
+                String pathToFile = "\"" + this.tbProjectFolder.Text + "\\" + tv.SelectedNode.FullPath;
+
+                checkArchiveDirectory(this.tbProjectFolder.Text + "\\" + tv.SelectedNode.FullPath);
 
                 if (Properties.Settings.Default.DefaultTextEditorPath == "")
                 {
@@ -1318,6 +1320,47 @@ namespace SalesforceMetadata
                     Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, pathToFile);
                 }
             }
+        }
+
+        // Check if Code Archive directory exists
+        private void checkArchiveDirectory(String fileToCopy)
+        {
+            String[] fileToCopySplit = fileToCopy.Split('\\');
+            String codeArchiveRootPath = this.tbRootFolder.Text + "\\Code Archive";
+
+            // Confirm if Directory exists
+            if (!Directory.Exists(codeArchiveRootPath))
+            {
+                Directory.CreateDirectory(codeArchiveRootPath);
+            }
+
+            String[] fileNameSplit = fileToCopySplit[fileToCopySplit.Length - 1].Split('.');
+            String codeArchiveFolder = "";
+
+            if (fileToCopySplit[fileToCopySplit.Length - 3] == "aura" || fileToCopySplit[fileToCopySplit.Length - 3] == "lwc")
+            {
+                codeArchiveFolder = codeArchiveRootPath + "\\" + fileToCopySplit[fileToCopySplit.Length - 3] + "\\" + fileToCopySplit[fileToCopySplit.Length - 2];
+            }
+            else
+            {
+                codeArchiveFolder = codeArchiveRootPath + "\\" + fileToCopySplit[fileToCopySplit.Length - 2];
+            }
+
+            if (codeArchiveFolder != "" && !Directory.Exists(codeArchiveFolder))
+            {
+                Directory.CreateDirectory(codeArchiveFolder);
+            }
+
+            DateTime currDtTime = DateTime.Now;
+            String copiedFileName = codeArchiveFolder + "\\" + fileNameSplit[0] + "_" +
+                                                               currDtTime.Year.ToString() + "_" +
+                                                               currDtTime.Month.ToString() + "_" +
+                                                               currDtTime.Day.ToString() + "_" +
+                                                               currDtTime.Hour.ToString() + "_" +
+                                                               currDtTime.Minute.ToString() + "_" +
+                                                               currDtTime.Second.ToString() + "." + fileNameSplit[1];
+
+            File.Copy(fileToCopy, copiedFileName);
         }
 
         private void btnBuildERD_Click(object sender, EventArgs e)

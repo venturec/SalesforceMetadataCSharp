@@ -28,7 +28,7 @@ namespace SalesforceMetadata
 
         private Dictionary<String, String> usernameToSecurityToken;
 
-        private UtilityClass.REQUESTINGORG reqOrg;
+        //private UtilityClass.REQUESTINGORG reqOrg;
 
         private String orgName;
 

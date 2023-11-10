@@ -43,6 +43,8 @@
             this.addLightningWebComponentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addOtherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.customObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.visualforcePageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.visualforceComponentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblNote = new System.Windows.Forms.Label();
             this.treeViewMetadata = new System.Windows.Forms.TreeView();
             this.tbProjectFolder = new System.Windows.Forms.TextBox();
@@ -67,8 +69,7 @@
             this.tbRootFolder = new System.Windows.Forms.TextBox();
             this.btnSearchMetadata = new System.Windows.Forms.Button();
             this.btnDebugLogs = new System.Windows.Forms.Button();
-            this.visualforcePageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.visualforceComponentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.delMyDebugLogs = new System.Windows.Forms.Button();
             msIDE = new System.Windows.Forms.MenuStrip();
             msIDE.SuspendLayout();
             this.fromOrgGroup.SuspendLayout();
@@ -87,7 +88,7 @@
             msIDE.Location = new System.Drawing.Point(0, 0);
             msIDE.Name = "msIDE";
             msIDE.Size = new System.Drawing.Size(1481, 27);
-            msIDE.TabIndex = 18;
+            msIDE.TabIndex = 19;
             msIDE.Text = "IDE Menu";
             // 
             // fileToolStripMenuItem
@@ -189,6 +190,20 @@
             this.customObjectToolStripMenuItem.Text = "Custom Object";
             this.customObjectToolStripMenuItem.Click += new System.EventHandler(this.customObjectToolStripMenuItem_Click);
             // 
+            // visualforcePageToolStripMenuItem
+            // 
+            this.visualforcePageToolStripMenuItem.Name = "visualforcePageToolStripMenuItem";
+            this.visualforcePageToolStripMenuItem.Size = new System.Drawing.Size(221, 24);
+            this.visualforcePageToolStripMenuItem.Text = "Visualforce Page";
+            this.visualforcePageToolStripMenuItem.Click += new System.EventHandler(this.visualforcePageToolStripMenuItem_Click);
+            // 
+            // visualforceComponentToolStripMenuItem
+            // 
+            this.visualforceComponentToolStripMenuItem.Name = "visualforceComponentToolStripMenuItem";
+            this.visualforceComponentToolStripMenuItem.Size = new System.Drawing.Size(221, 24);
+            this.visualforceComponentToolStripMenuItem.Text = "Visualforce Component";
+            this.visualforceComponentToolStripMenuItem.Click += new System.EventHandler(this.visualforceComponentToolStripMenuItem_Click);
+            // 
             // lblNote
             // 
             this.lblNote.AutoSize = true;
@@ -287,7 +302,7 @@
             this.fromOrgGroup.Location = new System.Drawing.Point(939, 48);
             this.fromOrgGroup.Name = "fromOrgGroup";
             this.fromOrgGroup.Size = new System.Drawing.Size(523, 115);
-            this.fromOrgGroup.TabIndex = 17;
+            this.fromOrgGroup.TabIndex = 18;
             this.fromOrgGroup.TabStop = false;
             this.fromOrgGroup.Text = "From Org";
             // 
@@ -394,7 +409,8 @@
             // 
             // btnBuildERD
             // 
-            this.btnBuildERD.Location = new System.Drawing.Point(1304, 260);
+            this.btnBuildERD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBuildERD.Location = new System.Drawing.Point(1304, 250);
             this.btnBuildERD.Name = "btnBuildERD";
             this.btnBuildERD.Size = new System.Drawing.Size(159, 34);
             this.btnBuildERD.TabIndex = 15;
@@ -423,9 +439,10 @@
             // 
             // btnSearchMetadata
             // 
-            this.btnSearchMetadata.Location = new System.Drawing.Point(1304, 216);
+            this.btnSearchMetadata.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSearchMetadata.Location = new System.Drawing.Point(1304, 212);
             this.btnSearchMetadata.Name = "btnSearchMetadata";
-            this.btnSearchMetadata.Size = new System.Drawing.Size(160, 32);
+            this.btnSearchMetadata.Size = new System.Drawing.Size(158, 32);
             this.btnSearchMetadata.TabIndex = 14;
             this.btnSearchMetadata.Text = "Search Metadata";
             this.btnSearchMetadata.UseVisualStyleBackColor = true;
@@ -433,33 +450,32 @@
             // 
             // btnDebugLogs
             // 
-            this.btnDebugLogs.Location = new System.Drawing.Point(1304, 304);
+            this.btnDebugLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDebugLogs.Location = new System.Drawing.Point(1304, 290);
             this.btnDebugLogs.Name = "btnDebugLogs";
             this.btnDebugLogs.Size = new System.Drawing.Size(160, 32);
             this.btnDebugLogs.TabIndex = 16;
-            this.btnDebugLogs.Text = "Debug Logs";
+            this.btnDebugLogs.Text = "Debug Log Parsing";
             this.btnDebugLogs.UseVisualStyleBackColor = true;
             this.btnDebugLogs.Click += new System.EventHandler(this.btnDebugLogs_Click);
             // 
-            // visualforcePageToolStripMenuItem1
+            // delMyDebugLogs
             // 
-            this.visualforcePageToolStripMenuItem.Name = "visualforcePageToolStripMenuItem1";
-            this.visualforcePageToolStripMenuItem.Size = new System.Drawing.Size(221, 24);
-            this.visualforcePageToolStripMenuItem.Text = "Visualforce Page";
-            this.visualforcePageToolStripMenuItem.Click += new System.EventHandler(this.visualforcePageToolStripMenuItem_Click);
-            // 
-            // visualforceComponentToolStripMenuItem1
-            // 
-            this.visualforceComponentToolStripMenuItem.Name = "visualforceComponentToolStripMenuItem1";
-            this.visualforceComponentToolStripMenuItem.Size = new System.Drawing.Size(221, 24);
-            this.visualforceComponentToolStripMenuItem.Text = "Visualforce Component";
-            this.visualforceComponentToolStripMenuItem.Click += new System.EventHandler(this.visualforceComponentToolStripMenuItem_Click);
+            this.delMyDebugLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.delMyDebugLogs.Location = new System.Drawing.Point(1304, 328);
+            this.delMyDebugLogs.Name = "delMyDebugLogs";
+            this.delMyDebugLogs.Size = new System.Drawing.Size(158, 32);
+            this.delMyDebugLogs.TabIndex = 17;
+            this.delMyDebugLogs.Text = "Delete My Debug Logs";
+            this.delMyDebugLogs.UseVisualStyleBackColor = true;
+            this.delMyDebugLogs.Click += new System.EventHandler(this.delMyDebugLogs_Click);
             // 
             // DevelopmentEnvironment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1481, 935);
+            this.Controls.Add(this.delMyDebugLogs);
             this.Controls.Add(this.btnDebugLogs);
             this.Controls.Add(this.btnSearchMetadata);
             this.Controls.Add(this.tbRootFolder);
@@ -534,5 +550,6 @@
         private System.Windows.Forms.ToolStripMenuItem addLightningWebComponentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem visualforcePageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem visualforceComponentToolStripMenuItem;
+        private System.Windows.Forms.Button delMyDebugLogs;
     }
 }

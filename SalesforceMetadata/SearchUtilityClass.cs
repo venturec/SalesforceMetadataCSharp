@@ -22,11 +22,11 @@ namespace SalesforceMetadata
             List<String> subDirectoryList = new List<String>();
             subDirectoryList.AddRange(getSubdirectories(mainDirectoryName));
 
-            Boolean subdirectoriesExist = false;
-            if (subDirectoryList.Count > 0)
-            {
-                subdirectoriesExist = true;
-            }
+            //Boolean subdirectoriesExist = false;
+            //if (subDirectoryList.Count > 0)
+            //{
+            //    subdirectoriesExist = true;
+            //}
 
             // Get the Aura and LWC subdirectories populated so that the files are populated
             Int32 subdirectoryCount = subDirectoryList.Count;

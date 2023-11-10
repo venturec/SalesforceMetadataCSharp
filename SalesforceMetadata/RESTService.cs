@@ -149,7 +149,7 @@ namespace SalesforceMetadata
             Boolean isKey = true;
             Boolean insideQuote = false;
             //Boolean newRecord = false;
-            Boolean endOfRecord = false;
+            //Boolean endOfRecord = false;
 
             String strValue1 = "";
             String strValue2 = "";
@@ -160,7 +160,7 @@ namespace SalesforceMetadata
 
                 if (ch == '{')
                 {
-                    endOfRecord = false;
+                    //endOfRecord = false;
                     strValue1 = "";
                     strValue2 = "";
                 }
@@ -176,7 +176,7 @@ namespace SalesforceMetadata
 
                     insideQuote = false;
                     isKey = false;
-                    endOfRecord = true;
+                    //endOfRecord = true;
                 }
                 else if (ch == ':')
                 {

@@ -980,7 +980,7 @@ namespace SalesforceMetadata
                     StreamWriter sw = new StreamWriter(dirInfo.FullName + "\\" + nameNode[0].InnerText + fileExtension);
                     sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 
-                    String xmlStructure = "";
+                    //String xmlStructure = "";
 
                     foreach (XmlNode nd1 in xdDocument.ChildNodes)
                     {

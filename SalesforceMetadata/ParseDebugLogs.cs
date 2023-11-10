@@ -29,7 +29,7 @@ namespace SalesforceMetadata
         // When the code comes across DML_END it writes the text portion of the debug log to the file and removes DML_END from the list
         // When it comes across METHOD_EXIT, it writes the text portion of the debug log to the file and removes METHOD_EXIT from the list
         // The reason for using a List is I need to guarantee the order. A HashSet won't guarantee order
-        private List<String> eventTagHierarchy;
+        //private List<String> eventTagHierarchy;
 
         Int32 currentLevel = 0;
         //Int32 lastLevel = 1;
@@ -336,7 +336,7 @@ namespace SalesforceMetadata
                     else if (columnElements[1] == DebugEventTags.EXCEPTION_THROWN)
                     {
                         writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
-                        writeDebugLineDetail(debugSW, 2, "FLOW_ELEMENT_DEFERRED", columnElements);
+                        writeDebugLineDetail(debugSW, 2, "EXCEPTION_THROWN", columnElements);
                     }
                     else if (columnElements[1] == DebugEventTags.EXECUTION_STARTED)
                     {

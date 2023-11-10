@@ -24,7 +24,7 @@ namespace SalesforceMetadata
         Dictionary<String, TreeNode> tnListAddDependencies;
         Dictionary<String, TreeNode> tnListRemoveDependencies;
 
-        private String orgName;
+        //private String orgName;
         private Boolean bypassTextChange = false;
         private Boolean projectValuesChanged = false;
         private Boolean runTreeNodeSelector = true;
@@ -1549,6 +1549,145 @@ namespace SalesforceMetadata
         private void visualforceComponentToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void delMyDebugLogs_Click(object sender, EventArgs e)
+        {
+            if (this.cmbUserName.Text == "" || this.tbPassword.Text == "")
+            {
+                MessageBox.Show("Please select a username and enter the password first before continuing");
+                return;
+            }
+            else
+            {
+                SalesforceCredentials.fromOrgUsername = this.cmbUserName.Text;
+                SalesforceCredentials.fromOrgPassword = this.tbPassword.Text;
+                SalesforceCredentials.fromOrgSecurityToken = this.tbSecurityToken.Text;
+            }
+
+            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG);
+            if (loginSuccess == false)
+            {
+                MessageBox.Show("Please check username, password and/or security token");
+                return;
+            }
+
+            String selectStatement = "";
+            String userId = "";
+            userId = SalesforceCredentials.fromOrgLR.userId;
+
+            selectStatement = "SELECT Id FROM ApexLog WHERE LogUserId = \'" + userId + "\'";
+
+            SalesforceMetadata.PartnerWSDL.QueryResult qr = new SalesforceMetadata.PartnerWSDL.QueryResult();
+
+            try
+            {
+                qr = SalesforceCredentials.fromOrgSS.query(selectStatement);
+
+                if (qr.size > 2000)
+                {
+                    Boolean done = false;
+
+                    while (!done)
+                    {
+                        SalesforceMetadata.PartnerWSDL.sObject[] sobjRecords = qr.records;
+
+                        Dictionary<Int32, List<String>> recordIdsToDelete = new Dictionary<Int32, List<String>>();
+
+                        Int32 i = 0;
+                        List<String> rtds = new List<String>();
+
+                        if (sobjRecords == null)
+                        {
+
+                        }
+                        else
+                        {
+                            foreach (SalesforceMetadata.PartnerWSDL.sObject s in sobjRecords)
+                            {
+                                if (rtds.Count < 200)
+                                {
+                                    rtds.Add(s.Id);
+                                }
+                                else
+                                {
+                                    recordIdsToDelete.Add(i, rtds);
+                                    rtds = new List<String>();
+                                    rtds.Add(s.Id);
+
+                                    i++;
+                                }
+                            }
+
+                            if (rtds.Count > 0)
+                            {
+                                recordIdsToDelete.Add(i, rtds);
+                                rtds = new List<String>();
+                            }
+
+                            foreach (Int32 rtd in recordIdsToDelete.Keys)
+                            {
+                                if (recordIdsToDelete[rtd].Count > 0)
+                                {
+                                    PartnerWSDL.DeleteResult[] dr = SalesforceCredentials.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
+                                }
+                            }
+
+                            if (!qr.done)
+                            {
+                                qr = SalesforceCredentials.fromOrgSS.queryMore(qr.queryLocator);
+                            }
+                            else
+                            {
+                                done = true;
+                            }
+                        }
+                    }
+                }
+                else if (qr.records != null)
+                {
+                    SalesforceMetadata.PartnerWSDL.sObject[] sobjRecords = qr.records;
+                    Dictionary<Int32, List<String>> recordIdsToDelete = new Dictionary<Int32, List<String>>();
+
+                    Int32 i = 0;
+                    List<String> rtds = new List<String>();
+                    foreach (SalesforceMetadata.PartnerWSDL.sObject s in sobjRecords)
+                    {
+                        if (rtds.Count < 200)
+                        {
+                            rtds.Add(s.Id);
+                        }
+                        else
+                        {
+                            recordIdsToDelete.Add(i, rtds);
+                            rtds = new List<String>();
+                            rtds.Add(s.Id);
+
+                            i++;
+                        }
+                    }
+
+                    if (rtds.Count > 0)
+                    {
+                        recordIdsToDelete.Add(i, rtds);
+                        rtds = new List<String>();
+                    }
+
+                    foreach (Int32 rtd in recordIdsToDelete.Keys)
+                    {
+                        if (recordIdsToDelete[rtd].Count > 0)
+                        {
+                            PartnerWSDL.DeleteResult[] dr = SalesforceCredentials.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
+                        }
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+
+            MessageBox.Show("Debug log delete process completed");
         }
     }
 }

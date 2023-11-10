@@ -1901,7 +1901,7 @@ namespace SalesforceMetadata
 
             Int32 lastCharLocation = arraystart;
 
-            Boolean objectNameFound = false;
+            //Boolean objectNameFound = false;
 
             //foreach (ObjectVarToType objNm in at.)
             //{

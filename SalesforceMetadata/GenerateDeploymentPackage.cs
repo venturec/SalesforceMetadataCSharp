@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using System.Diagnostics;
 
 using SalesforceMetadata.PartnerWSDL;
 using SalesforceMetadata.MetadataWSDL;
@@ -122,6 +123,56 @@ namespace SalesforceMetadata
                     }
 
                     this.treeViewMetadata.Nodes.Add(tnd1);
+                }
+                else if (folderNameSplit[folderNameSplit.Length - 1] == "customMetadata")
+                {
+                    String priorCMTFileName = "";
+
+                    TreeNode tnd2 = new TreeNode();
+                    foreach (String fileName in fileNames)
+                    {
+                        String[] fileNameSplit = fileName.Split('\\');
+                        String[] objectNameSplit = fileNameSplit[fileNameSplit.Length - 1].Split('.');
+
+                        if (priorCMTFileName != objectNameSplit[0])
+                        {
+                            if (tnd2.Text != "")
+                            {
+                                tnd1.Nodes.Add(tnd2);
+                            }
+
+                            tnd2 = new TreeNode(objectNameSplit[0]);
+                            priorCMTFileName = objectNameSplit[0];
+                        }
+
+                        TreeNode tnd3 = new TreeNode(objectNameSplit[1] + "." + objectNameSplit[2]);
+                        tnd2.Nodes.Add(tnd3);
+
+                        try
+                        {
+                            XmlDocument xd = new XmlDocument();
+                            xd.Load(fileName);
+
+                            foreach (XmlNode nd1 in xd.ChildNodes)
+                            {
+                                foreach (XmlNode nd2 in nd1.ChildNodes)
+                                {
+                                    TreeNode tnd4 = new TreeNode(nd2.OuterXml);
+                                    tnd3.Nodes.Add(tnd4);
+                                }
+                            }
+
+                            //tnd1.Nodes.Add(tnd2);
+                        }
+                        catch (Exception e)
+                        {
+                            //tnd1.Nodes.Add(tnd2);
+                        }
+
+                    }
+
+                    this.treeViewMetadata.Nodes.Add(tnd1);
+
                 }
                 else
                 {
@@ -348,26 +399,45 @@ namespace SalesforceMetadata
                     }
                 }
                 else if (nodeFullPath.Length > 2
+                    && nodeFullPath[0] == "customMetadata")
+                {
+                    if (nodeFullPath.Length == 3
+                        || nodeFullPath.Length == 4)
+                    {
+                        foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+                        {
+                            if (tnd1.Text == "customMetadata")
+                            {
+                                foreach (TreeNode tnd2 in tnd1.Nodes)
+                                {
+                                    String[] splitTND2Node = tnd2.Text.Split('.');
+                                    if (splitTND2Node[0] == nodeFullPath[1])
+                                    {
+                                        foreach (TreeNode tnd3 in tnd2.Nodes)
+                                        {
+                                            if (tnd3.Text == nodeFullPath[2])
+                                            {
+                                                tnd3.Checked = true;
+
+                                                foreach (TreeNode tnd4 in tnd3.Nodes)
+                                                {
+                                                    tnd4.Checked = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (nodeFullPath.Length > 2
                     && nodeFullPath[0] == "objects"
                     && nodeFullPath[1].Contains("__c"))
                 {
                     selectRequiredObjectFields(nodeFullPath[1]);
                 }
                 else if (nodeFullPath.Length > 2
-                        && nodeFullPath[0] == "objects")
-                {
-                    if (e.Node.Text.StartsWith("<fields"))
-                    {
-                        String tnd3XmlString = "<document>" + e.Node.Text + "</document>";
-                        XmlDocument tnd3Xd = new XmlDocument();
-                        tnd3Xd.LoadXml(tnd3XmlString);
-
-                        String objectFieldCombo = objectName[0] + "." + tnd3Xd.ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
-
-                        populateStandardValueSetHashSet(objectFieldCombo);
-                    }
-                }
-                else if (nodeFullPath.Length == 2
                     && nodeFullPath[0] == "objects"
                     && nodeFullPath[1].Contains("__mdt"))
                 {
@@ -394,10 +464,29 @@ namespace SalesforceMetadata
                                     foreach (TreeNode tnd3 in tnd2.Nodes)
                                     {
                                         tnd3.Checked = true;
+
+                                        foreach (TreeNode tnd4 in tnd3.Nodes)
+                                        {
+                                            tnd4.Checked = true;
+                                        }
                                     }
                                 }
                             }
                         }
+                    }
+                }
+                else if (nodeFullPath.Length > 2
+                        && nodeFullPath[0] == "objects")
+                {
+                    if (e.Node.Text.StartsWith("<fields"))
+                    {
+                        String tnd3XmlString = "<document>" + e.Node.Text + "</document>";
+                        XmlDocument tnd3Xd = new XmlDocument();
+                        tnd3Xd.LoadXml(tnd3XmlString);
+
+                        String objectFieldCombo = objectName[0] + "." + tnd3Xd.ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
+
+                        populateStandardValueSetHashSet(objectFieldCombo);
                     }
                 }
                 else if (nodeFullPath.Length == 2
@@ -592,15 +681,31 @@ namespace SalesforceMetadata
                     foreach (TreeNode tnd3 in e.Node.Nodes)
                     {
                         tnd3.Checked = true;
+
+                        if (tnd3.Nodes.Count > 0)
+                        {
+                            foreach (TreeNode tnd4 in tnd3.Nodes)
+                            {
+                                tnd4.Checked = true;
+                            }
+                        }
                     }
                 }
             }
-            else if (nodeFullPath.Length == 2
+            else if (nodeFullPath.Length >= 2
                     && e.Node.Checked == false)
             {
                 foreach (TreeNode tnd3 in e.Node.Nodes)
                 {
                     tnd3.Checked = false;
+
+                    if (tnd3.Nodes.Count > 0)
+                    {
+                        foreach (TreeNode tnd4 in tnd3.Nodes)
+                        {
+                            tnd4.Checked = false;
+                        }
+                    }
                 }
             }
 
@@ -1534,6 +1639,37 @@ namespace SalesforceMetadata
                             else
                             {
                                 packageXmlObjectMembers.Add("ContentAsset", new HashSet<string> { objectNameSplit[0] });
+                            }
+                        }
+                    }
+                }
+                else if (tnd1.Text == "customMetadata")
+                {
+                    foreach (TreeNode tnd2 in tnd1.Nodes)
+                    {
+                        foreach (TreeNode tnd3 in tnd2.Nodes)
+                        {
+                            if (tnd3.Checked == true)
+                            {
+                                String[] objectNameSplit = tnd2.Text.Split('.');
+                                String[] fileNameSplit = tnd3.Text.Split('.');
+
+                                if (!Directory.Exists(this.tbDeploymentPackageLocation.Text + "\\customMetadata"))
+                                {
+                                    Directory.CreateDirectory(this.tbDeploymentPackageLocation.Text + "\\customMetadata");
+                                }
+
+                                FileInfo file = new FileInfo(this.tbMetadataFolderToReadFrom.Text + "\\customMetadata\\" + tnd2.Text + "." + tnd3.Text);
+                                file.CopyTo(this.tbDeploymentPackageLocation.Text + "\\customMetadata\\" + file.Name, true);
+
+                                if (packageXmlObjectMembers.ContainsKey("CustomMetadata"))
+                                {
+                                    packageXmlObjectMembers["CustomMetadata"].Add(objectNameSplit[0] + "." + fileNameSplit[0]);
+                                }
+                                else
+                                {
+                                    packageXmlObjectMembers.Add("CustomMetadata", new HashSet<string> { objectNameSplit[0] + "." + fileNameSplit[0] });
+                                }
                             }
                         }
                     }

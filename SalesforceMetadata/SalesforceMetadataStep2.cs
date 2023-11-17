@@ -459,7 +459,7 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                zipFile = this.tbFromOrgSaveLocation.Text + "\\components_" + extractToFolder + "_" + timestamp + ".zip";
+                zipFile = this.tbFromOrgSaveLocation.Text + "\\components_" + extractToFolder + "_" + metdataObject + "_" + timestamp + ".zip";
             }
 
             if (result.zipFile != null)
@@ -486,6 +486,7 @@ namespace SalesforceMetadata
 
                             file.ExtractToFile(completeFileName, true);
                         }
+
 
                         // If cbConvertToVSCodeStyle == true then add the -meta.xml to the end of the file for each file in the directories, except for LWC and Aura
                         // Objects will need to be reworked as well as their folder structure is different

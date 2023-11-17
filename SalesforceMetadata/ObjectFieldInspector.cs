@@ -1342,5 +1342,11 @@ namespace SalesforceMetadata
 
             this.listViewSobjectFields.Focus();
         }
+
+        private void listViewSobjectFields_DoubleClick(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ListView lv = (System.Windows.Forms.ListView)sender;
+            Clipboard.SetText(lv.FocusedItem.Text);
+        }
     }
 }

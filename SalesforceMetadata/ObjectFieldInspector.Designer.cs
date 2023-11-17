@@ -110,6 +110,7 @@
             this.listViewSobjectFields.View = System.Windows.Forms.View.Details;
             this.listViewSobjectFields.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listViewSobjectFields_ColumnClick);
             this.listViewSobjectFields.SelectedIndexChanged += new System.EventHandler(this.listViewSobjectFields_SelectedIndexChanged);
+            this.listViewSobjectFields.DoubleClick += new System.EventHandler(this.listViewSobjectFields_DoubleClick);
             // 
             // btnSaveFieldsToFile
             // 

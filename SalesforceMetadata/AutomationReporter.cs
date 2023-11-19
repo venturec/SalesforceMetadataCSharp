@@ -1631,6 +1631,30 @@ namespace SalesforceMetadata
                         skipOver = true;
                     }
                 }
+                else if (filearray[i] == "\'")
+                {
+                    //Debug.WriteLine(i + " " + filearray[i] + " " + filearray[i + 1] + " " + filearray[i + 2]);
+
+                    Int32 jCount = i + 1;
+                    Boolean inString = true;
+
+                    String stringValue = filearray[i];
+                    for (Int32 j = jCount; j <= filearray.Length; j++)
+                    {
+                        stringValue = stringValue + " " + filearray[j];
+                        jCount = j;
+
+                        if (filearray[j] == "'"
+                            && filearray[j - 1] != "\\"
+                            && inString == true)
+                        {
+                            break;
+                        }
+                    }
+
+                    skipTo = jCount;
+                    skipOver = true;
+                }
                 else if (inTriggerEvents == true
                         && filearray[i].ToLower() == ")")
                 {
@@ -1644,6 +1668,13 @@ namespace SalesforceMetadata
                     skipTo = parseTriggerVariables(filearray, at, i);
                     skipOver = true;
                 }
+                //else if (filearray[i] == "!="
+                //    && inTriggerBody == true)
+                //{
+                //    // Left side / right side method variable
+                //    skipTo = parseTriggerVariables(filearray, at, i);
+                //    skipOver = true;
+                //}
                 else if (filearray[i].ToLower() == "for"
                     && inTriggerBody == true)
                 {
@@ -1652,13 +1683,13 @@ namespace SalesforceMetadata
                     skipTo = parseForLoop(filearray, ovt, i);
                     skipOver = true;
 
-                    if (at.triggerForLoops.ContainsKey(ovt.objectName))
+                    if (at.triggerForLoops.ContainsKey(ovt.leftSideObject))
                     {
-                        at.triggerForLoops[ovt.objectName].Add(ovt);
+                        at.triggerForLoops[ovt.leftSideObject].Add(ovt);
                     }
                     else
                     {
-                        at.triggerForLoops.Add(ovt.objectName, new List<ObjectVarToType> { ovt });
+                        at.triggerForLoops.Add(ovt.leftSideObject, new List<ObjectVarToType> { ovt });
                     }
                 }
                 else if (filearray[i].ToLower() == "throw"
@@ -1797,12 +1828,15 @@ namespace SalesforceMetadata
             // Get the left side of the equation
             // Find the distance between the = sign or what is in flarraystart
             String triggerObject = "";
+            String leftSide = "";
             String triggerVar = "";
             for (Int32 i = arraystart - 1; i >= 0; i--)
             {
+                // We also need to account for inline IF statements
                 if (filearray[i] == ";"
                     || filearray[i] == "{"
-                    || filearray[i] == "}")
+                    || filearray[i] == "}"
+                    || filearray[i] == ")")
                 {
                     // Example: testBillingSubList[0].Billing_Contact__c = testConList1[0].Id;
                     if (arraystart - distanceFromEqual == 5)
@@ -1861,9 +1895,11 @@ namespace SalesforceMetadata
                     lastCharLocation = i;
 
                     ObjectVarToType ovt = new ObjectVarToType();
-                    ovt.objectName = triggerObject;
+                    ovt.leftSide = triggerObject;
                     ovt.varName = triggerVar;
                     ovt.rightSide = rightSide.Trim();
+
+                    findObjectNameFromVar(ovt, at);
 
                     if (at.triggerBodyVars.ContainsKey(triggerObject))
                     {
@@ -1899,22 +1935,124 @@ namespace SalesforceMetadata
             ovt.saveResultType = saveResultType;
             ovt.saveResultVar = saveResultVar;
 
+            String[] varNameSplit = varName.Split('.');
+
             Int32 lastCharLocation = arraystart;
 
-            //Boolean objectNameFound = false;
+            Boolean objectNameFound = false;
 
-            //foreach (ObjectVarToType objNm in at.)
-            //{
-            //    if (objNm.varName.ToLower() == varName)
-            //    {
-            //        ovt.objectName = objNm.varType;
-            //        ovt.varType = objNm.varType;
-            //        objectNameFound = true;
-            //    }
+            foreach (String tpObj in at.triggerBodyVars.Keys)
+            {
+                foreach (ObjectVarToType objNm in at.triggerBodyVars[tpObj])
+                {
+                    if (objNm.varName.ToLower() == varNameSplit[0].ToLower())
+                    {
+                        ovt.leftSideObject = objNm.leftSideObject;
+                        objectNameFound = true;
+                    }
 
-            //    if (objectNameFound == true) break;
-            //}
+                    if (objectNameFound == true) break;
+                }
 
+                if (objectNameFound == true)
+                {
+                    lastCharLocation++;
+                    break;
+                }
+            }
+
+            if (objectNameFound == false)
+            {
+                foreach (String tpObj in at.triggerForLoops.Keys)
+                {
+                    foreach (ObjectVarToType objNm in at.triggerForLoops[tpObj])
+                    {
+                        if (objNm.varName.ToLower() == varNameSplit[0].ToLower())
+                        {
+                            ovt.leftSideObject = objNm.leftSideObject;
+                            objectNameFound = true;
+                        }
+
+                        if (objectNameFound == true) break;
+                    }
+
+                    if (objectNameFound == true)
+                    {
+                        lastCharLocation++;
+                        break;
+                    }
+                }
+            }
+
+            // Now loop backwards through the array to find the property if it still has not been found to get the object type this dml var is referencing
+            if (objectNameFound == false)
+            {
+                // Inline variable dynamically created
+                if (filearray[arraystart].ToLower() == "new")
+                {
+                    ovt.leftSideObject = filearray[arraystart + 1];
+                    ovt.varType = filearray[arraystart + 1];
+
+                    String rightSide = "";
+                    for (Int32 i = arraystart + 2; i < filearray.Length; i++)
+                    {
+                        if (filearray[i] == ";")
+                        {
+                            ovt.rightSide = rightSide.Trim();
+
+                            lastCharLocation = i;
+                            break;
+                        }
+                        else
+                        {
+                            rightSide = rightSide + filearray[i] + " ";
+                        }
+                    }
+                }
+                // Examples:
+                // insert new Account_Group__c(Name = 'Account Group 1');
+                else if (filearray[arraystart - 1].ToLower() == "new")
+                {
+                    ovt.leftSideObject = filearray[arraystart];
+                    ovt.varType = filearray[arraystart];
+
+                    String rightSide = "";
+                    for (Int32 i = arraystart + 1; i < filearray.Length; i++)
+                    {
+                        if (filearray[i] == ";")
+                        {
+                            ovt.rightSide = rightSide.Trim();
+
+                            lastCharLocation = i;
+                            break;
+                        }
+                        else
+                        {
+                            rightSide = rightSide + filearray[i] + " ";
+                        }
+                    }
+                }
+            }
+
+            if (filearray[lastCharLocation] == ";")
+            {
+                lastCharLocation++;
+            }
+            // Account for the allOrNone parameter in the Database.insert/update/delete
+            else
+            {
+                for (Int32 i = arraystart + 1; i < filearray.Length; i++)
+                {
+                    if (filearray[i] == ";")
+                    {
+                        ovt.allOrNoneParameter = filearray[i - 2];
+                        lastCharLocation = i;
+                        break;
+                    }
+                }
+            }
+
+            at.triggerDmls.Add(ovt);
 
             return lastCharLocation;
         }
@@ -2387,7 +2525,7 @@ namespace SalesforceMetadata
                         // object and variable name association
                         foreach (ObjectVarToType ovt in cm.methodDmls)
                         {
-                            if (ovt.objectName == "")
+                            if (ovt.leftSideObject == "")
                             {
                                 findObjectNameFromVar(cm, ovt, ac);
                             }
@@ -2618,15 +2756,15 @@ namespace SalesforceMetadata
                     skipTo = parseForLoop(filearray, ovt, i);
                     skipOver = true;
 
-                    if (ovt.objectName != "")
+                    if (ovt.leftSideObject != "")
                     {
-                        if (cm.methodForLoops.ContainsKey(ovt.objectName))
+                        if (cm.methodForLoops.ContainsKey(ovt.leftSideObject))
                         {
-                            cm.methodForLoops[ovt.objectName].Add(ovt);
+                            cm.methodForLoops[ovt.leftSideObject].Add(ovt);
                         }
                         else
                         {
-                            cm.methodForLoops.Add(ovt.objectName, new List<ObjectVarToType> { ovt });
+                            cm.methodForLoops.Add(ovt.leftSideObject, new List<ObjectVarToType> { ovt });
                         }
                     }
                 }
@@ -2836,7 +2974,7 @@ namespace SalesforceMetadata
                         || filearray[i - 3] == ";")
                     {
                         ObjectVarToType ovt = new ObjectVarToType();
-                        ovt.objectName = filearray[i - 2];
+                        ovt.leftSideObject = filearray[i - 2];
                         ovt.varName = filearray[i - 1];
                         ovt.nullVariableValue = true;
 
@@ -2862,7 +3000,9 @@ namespace SalesforceMetadata
             ovt.dmlType = dmlType;
             ovt.saveResultType = saveResultType;
             ovt.saveResultVar = saveResultVar;
-            
+
+            String[] varNameSplit = varName.Split('.');
+
             Int32 lastCharLocation = arraystart;
 
             Boolean objectNameFound = false;
@@ -2870,9 +3010,9 @@ namespace SalesforceMetadata
             // Loop through the method parameters and variables first
             foreach (ObjectVarToType objNm in cm.methodParameters)
             {
-                if (objNm.varName.ToLower() == varName)
+                if (objNm.varName.ToLower() == varNameSplit[0].ToLower())
                 {
-                    ovt.objectName = objNm.varType;
+                    ovt.leftSideObject = objNm.varType;
                     ovt.varType = objNm.varType;
                     objectNameFound = true;
                 }
@@ -2884,12 +3024,35 @@ namespace SalesforceMetadata
             {
                 foreach (ObjectVarToType methodVar in cm.methodBodyVars)
                 {
-                    if (methodVar.varName.ToLower() == varName)
+                    if (methodVar.varName.ToLower() == varNameSplit[0].ToLower())
                     {
-                        ovt.objectName = methodVar.objectName;
-                        ovt.varType = methodVar.objectName;
+                        ovt.leftSideObject = methodVar.leftSideObject;
+                        ovt.varType = methodVar.leftSideObject;
                         objectNameFound = true;
 
+                        lastCharLocation++;
+                        break;
+                    }
+                }
+            }
+
+            if (objectNameFound == false)
+            {
+                foreach (String forLoopObj in cm.methodForLoops.Keys)
+                {
+                    foreach (ObjectVarToType objNm in cm.methodForLoops[forLoopObj])
+                    {
+                        if (objNm.varName.ToLower() == varNameSplit[0].ToLower())
+                        {
+                            ovt.leftSideObject = objNm.leftSideObject;
+                            objectNameFound = true;
+                        }
+
+                        if (objectNameFound == true) break;
+                    }
+
+                    if (objectNameFound == true)
+                    {
                         lastCharLocation++;
                         break;
                     }
@@ -2903,7 +3066,7 @@ namespace SalesforceMetadata
                 {
                     if (clsPropertyName.ToLower() == varName)
                     {
-                        ovt.objectName = ac.clsProperties[clsPropertyName].dataType;
+                        ovt.leftSideObject = ac.clsProperties[clsPropertyName].dataType;
                         ovt.varType = ac.clsProperties[clsPropertyName].dataType;
                         objectNameFound = true;
 
@@ -2919,7 +3082,7 @@ namespace SalesforceMetadata
                 // Inline variable dynamically created
                 if (filearray[arraystart].ToLower() == "new")
                 {
-                    ovt.objectName = filearray[arraystart + 1];
+                    ovt.leftSideObject = filearray[arraystart + 1];
                     ovt.varType = filearray[arraystart + 1];
 
                     String rightSide = "";
@@ -2942,7 +3105,7 @@ namespace SalesforceMetadata
                 // insert new Account_Group__c(Name = 'Account Group 1');
                 else if (filearray[arraystart - 1].ToLower() == "new")
                 {
-                    ovt.objectName = filearray[arraystart];
+                    ovt.leftSideObject = filearray[arraystart];
                     ovt.varType = filearray[arraystart];
 
                     String rightSide = "";
@@ -2963,7 +3126,7 @@ namespace SalesforceMetadata
                 }
             }
 
-            if (filearray[lastCharLocation + 1] == ";")
+            if (filearray[lastCharLocation] == ";")
             {
                 lastCharLocation++;
             }
@@ -3005,9 +3168,11 @@ namespace SalesforceMetadata
             Boolean inStringValue = false;
             for (Int32 i = arraystart - 1; i >= 0; i--)
             {
+                // We also need to account for inline IF statements
                 if (filearray[i] == ";"
                     || filearray[i] == "{"
-                    || filearray[i] == "}")
+                    || filearray[i] == "}"
+                    || filearray[i] == ")")
                 {
                     // Example: testBillingSubList[0].Billing_Contact__c = testConList1[0].Id;
                     if (arraystart - distanceFromEqual == 5)
@@ -3072,7 +3237,7 @@ namespace SalesforceMetadata
                     lastCharLocation = i;
 
                     ObjectVarToType ovt = new ObjectVarToType();
-                    ovt.objectName = methodObject;
+                    ovt.leftSideObject = methodObject;
                     ovt.varName = methodVar;
                     ovt.isConstant = isConstant;
                     ovt.constantKeyword = constantKeyword;
@@ -3102,7 +3267,7 @@ namespace SalesforceMetadata
             {
                 if (filearray[i] == ":")
                 {
-                    ovt.objectName = filearray[i - 2];
+                    ovt.leftSideObject = filearray[i - 2];
                     ovt.varName = filearray[i - 1];
                     ovt.isForLoop = true;
 
@@ -3178,9 +3343,123 @@ namespace SalesforceMetadata
             return lastCharLocation;
         }
 
+        public void findObjectNameFromVar(ObjectVarToType ovt, ApexTriggers at)
+        {
+            String[] splitLeftSide = ovt.leftSide.Split('.');
+            String[] splitRightSide = ovt.rightSide.Split('.');
+
+            Boolean objectNameFound = false;
+
+            // Loop through at.forLoops
+            if (objectNameFound == false)
+            {
+                foreach (String forLoopObj in at.triggerForLoops.Keys)
+                {
+                    foreach (ObjectVarToType forLoopOvt in at.triggerForLoops[forLoopObj])
+                    {
+                        if (forLoopOvt.varName == splitLeftSide[0]
+                            && forLoopOvt.leftSideObject != "")
+                        {
+                            ovt.leftSideObject = forLoopOvt.leftSideObject;
+                            ovt.varName = ovt.leftSide;
+                            if (splitLeftSide.Length > 1)
+                            {
+                                for (Int32 i = 1; i <= splitLeftSide.Length - 1; i++)
+                                {
+                                    ovt.varType = ovt.varType + splitLeftSide[i] + '.';
+                                }
+
+                                ovt.varType = ovt.varType.Substring(0, ovt.varType.Length - 1);
+                            }
+
+                            objectNameFound = true;
+
+                            if (objectNameFound == true) break;
+                        }
+                    }
+
+                    if (objectNameFound == true) break;
+                }
+            }
+
+            // Loop through Trigger Properties
+            if (objectNameFound == false)
+            {
+                foreach (String tpObj in at.triggerBodyVars.Keys)
+                {
+                    foreach (ObjectVarToType tp in at.triggerBodyVars[tpObj])
+                    {
+                        if (splitLeftSide[0] == tp.varName)
+                        {
+                            ovt.leftSideObject = tp.leftSideObject;
+                            ovt.varName = ovt.leftSide;
+                            if (splitLeftSide.Length > 1)
+                            {
+                                for (Int32 i = 1; i <= splitLeftSide.Length - 1; i++)
+                                {
+                                    ovt.varType = ovt.varType + splitLeftSide[i] + '.';
+                                }
+
+                                ovt.varType = ovt.varType.Substring(0, ovt.varType.Length - 1);
+                            }
+
+                            objectNameFound = true;
+
+                            if (objectNameFound == true) break;
+                        }
+                    }
+                }
+            }
+
+            if (objectNameFound == false)
+            {
+                ovt.leftSideObject = ovt.leftSide;
+            }
+
+            // Do the same for the right side
+            objectNameFound = false;
+
+            if (objectNameFound == false)
+            {
+                foreach (String forLoopObj in at.triggerForLoops.Keys)
+                {
+                    foreach (ObjectVarToType forLoopOvt in at.triggerForLoops[forLoopObj])
+                    {
+                        if (forLoopOvt.varName == splitRightSide[0]
+                            && forLoopOvt.leftSideObject != "")
+                        {
+                            ovt.rightSideObject = forLoopOvt.leftSideObject;
+                            objectNameFound = true;
+                            if (objectNameFound == true) break;
+                        }
+                    }
+
+                    if (objectNameFound == true) break;
+                }
+            }
+
+            // Loop through Trigger Properties
+            if (objectNameFound == false)
+            {
+                foreach (String tpObj in at.triggerBodyVars.Keys)
+                {
+                    foreach (ObjectVarToType tp in at.triggerBodyVars[tpObj])
+                    {
+                        if (splitRightSide[0] == tp.varName)
+                        {
+                            ovt.rightSideObject = tp.leftSideObject;
+                            objectNameFound = true;
+                            if (objectNameFound == true) break;
+                        }
+                    }
+                }
+            }
+        }
+
         public void findObjectNameFromVar(ClassMethods cm, ObjectVarToType ovt, ApexClasses ac)
         {
             String[] splitLeftSide = ovt.leftSide.Split('.');
+            String[] splitRightSide = ovt.rightSide.Split('.');
 
             Boolean objectNameFound = false;
 
@@ -3189,10 +3468,10 @@ namespace SalesforceMetadata
             {
                 foreach (ObjectVarToType methodParam in cm.methodParameters)
                 {
-                    if (methodParam.varName.ToLower() == splitLeftSide[0]
-                        && methodParam.objectName != "")
+                    if (splitLeftSide[0] == methodParam.varName.ToLower()
+                        && methodParam.leftSideObject != "")
                     {
-                        ovt.objectName = methodParam.objectName;
+                        ovt.leftSideObject = methodParam.leftSideObject;
                         ovt.objectFromMethodParameter = true;
                         ovt.varName = ovt.leftSide;
                         if (splitLeftSide.Length > 1)
@@ -3217,10 +3496,10 @@ namespace SalesforceMetadata
             {
                 foreach (ObjectVarToType methodBodyOvt in cm.methodBodyVars)
                 {
-                    if (methodBodyOvt.varName == splitLeftSide[0]
-                        && methodBodyOvt.objectName != "")
+                    if (splitLeftSide[0] == methodBodyOvt.varName
+                        && methodBodyOvt.leftSideObject != "")
                     {
-                        ovt.objectName = methodBodyOvt.objectName;
+                        ovt.leftSideObject = methodBodyOvt.leftSideObject;
                         ovt.objectFromMethodVariable = true;
                         ovt.varName = ovt.leftSide;
                         if (splitLeftSide.Length > 1)
@@ -3247,10 +3526,10 @@ namespace SalesforceMetadata
                 {
                     foreach (ObjectVarToType forLoopOvt in cm.methodForLoops[forLoopObj])
                     {
-                        if (forLoopOvt.varName == splitLeftSide[0]
-                            && forLoopOvt.objectName != "")
+                        if (splitLeftSide[0] == forLoopOvt.varName
+                            && forLoopOvt.leftSideObject != "")
                         {
-                            ovt.objectName = forLoopOvt.objectName;
+                            ovt.leftSideObject = forLoopOvt.leftSideObject;
                             ovt.objectFromMethodVariable = true;
                             ovt.varName = ovt.leftSide;
                             if (splitLeftSide.Length > 1)
@@ -3278,9 +3557,9 @@ namespace SalesforceMetadata
             {
                 foreach (ClassProperties cp in ac.clsProperties.Values)
                 {
-                    if (cp.propertyName == splitLeftSide[0])
+                    if (splitLeftSide[0] == cp.propertyName)
                     {
-                        ovt.objectName = cp.dataType;
+                        ovt.leftSideObject = cp.dataType;
                         ovt.objectFromClassProperty = true;
                         ovt.varName = ovt.leftSide;
                         if (splitLeftSide.Length > 1)
@@ -3302,14 +3581,88 @@ namespace SalesforceMetadata
 
             if (objectNameFound == false) 
             {
-                ovt.objectName = ovt.leftSide;
+                ovt.leftSideObject = ovt.leftSide;
+            }
+
+            // Do the same for the right side
+            objectNameFound = false;
+
+            if (objectNameFound == false)
+            {
+                foreach (ObjectVarToType methodParam in cm.methodParameters)
+                {
+                    if (splitRightSide[0] == methodParam.varName.ToLower()
+                        && methodParam.leftSideObject != "")
+                    {
+                        ovt.rightSideObject = methodParam.leftSideObject;
+                        objectNameFound = true;
+                        if (objectNameFound == true) break;
+                    }
+                }
+            }
+
+            // Loop through cm.methodBodyVars
+            if (objectNameFound == false)
+            {
+                foreach (ObjectVarToType methodBodyOvt in cm.methodBodyVars)
+                {
+                    if (splitRightSide[0] == methodBodyOvt.varName
+                        && methodBodyOvt.leftSideObject != "")
+                    {
+                        ovt.rightSideObject = methodBodyOvt.leftSideObject;
+                        objectNameFound = true;
+                        if (objectNameFound == true) break;
+                    }
+                }
+            }
+
+            // Loop through cm.forLoops
+            if (objectNameFound == false)
+            {
+                foreach (String forLoopObj in cm.methodForLoops.Keys)
+                {
+                    foreach (ObjectVarToType forLoopOvt in cm.methodForLoops[forLoopObj])
+                    {
+                        if (splitLeftSide[0] == forLoopOvt.varName
+                            && forLoopOvt.leftSideObject != "")
+                        {
+                            ovt.rightSideObject = forLoopOvt.leftSideObject;
+                            objectNameFound = true;
+                            if (objectNameFound == true) break;
+                        }
+                    }
+
+                    if (objectNameFound == true) break;
+                }
+            }
+
+            // Loop through classProperties
+            if (objectNameFound == false)
+            {
+                foreach (ClassProperties cp in ac.clsProperties.Values)
+                {
+                    if (splitLeftSide[0] == cp.propertyName)
+                    {
+                        ovt.rightSideObject = cp.dataType;
+                        ovt.objectFromClassProperty = true;
+                        ovt.varName = ovt.leftSide;
+                        if (splitLeftSide.Length > 1)
+                        {
+                            for (Int32 i = 1; i <= splitLeftSide.Length - 1; i++)
+                            {
+                                ovt.varType = ovt.varType + splitLeftSide[i] + '.';
+                            }
+
+                            ovt.varType = ovt.varType.Substring(0, ovt.varType.Length - 1);
+                        }
+
+                        objectNameFound = true;
+
+                        if (objectNameFound == true) break;
+                    }
+                }
             }
         }
-
-        //public void findObjectNameForDMLs()
-        //{
-            
-        //}
 
         public Int32 bypassCharacters(String[] filearray, Int32 arraystart)
         {
@@ -3477,6 +3830,7 @@ namespace SalesforceMetadata
             fieldSetWriter.Close();
         }
 
+        /****
         public void writeClassValuesToDictionary()
         {
             StreamWriter apexClassWriter = new StreamWriter(this.tbFileSaveTo.Text + "\\ApexClasses.txt");
@@ -3601,7 +3955,7 @@ namespace SalesforceMetadata
                             }
                             
                             apexClassWriter.Write(methDml.dmlType + "\t");
-                            apexClassWriter.Write(methDml.objectName + "\t");
+                            apexClassWriter.Write(methDml.leftSideObject + "\t");
                             apexClassWriter.Write(methDml.varName + "\t");
                             apexClassWriter.Write(methDml.saveResultType + "\t");
                             apexClassWriter.Write(methDml.saveResultVar + "\t");
@@ -3630,6 +3984,332 @@ namespace SalesforceMetadata
             }
 
             apexClassWriter.Close();
+        }
+        ****/
+
+        private void writeExtractedResultsToFile()
+        {
+            StreamWriter sw = new StreamWriter(this.tbFileSaveTo.Text + "\\AutomationReport.txt");
+
+            if (this.objectToTrigger != null
+                && this.objectToTrigger.Count > 0)
+            {
+                foreach (String objnm in this.objectToTrigger.Keys)
+                {
+                    foreach (ApexTriggers at in this.objectToTrigger[objnm])
+                    {
+                        sw.Write(Environment.NewLine);
+                        sw.Write(Environment.NewLine);
+                        sw.WriteLine("ApexTrigger\tTriggerName\tObjectType\tBeforeInsert\tBeforeUpdate\tBeforeDelete\tAfterInsert\tAfterUpdate\tAfterDelete\tAfterUndelete");
+                        sw.Write("\t" + at.triggerName + "\t" +
+                                        objnm + "\t" +
+                                        at.isBeforeInsert + "\t" +
+                                        at.isBeforeUpdate + "\t" +
+                                        at.isBeforeDelete + "\t" +
+                                        at.isAfterInsert + "\t" +
+                                        at.isAfterUpdate + "\t" +
+                                        at.isAfterDelete + "\t" +
+                                        at.isAfterUndelete + "\t" +
+                                        Environment.NewLine);
+
+                        if (at.triggerBodyVars.Count > 0)
+                        {
+                            sw.Write(Environment.NewLine);
+                            sw.Write(Environment.NewLine);
+                            sw.WriteLine("\tTriggerVariables\tLeftSideObject\tLeftSide\tLeftSideVarName\t=\tRightSideObject\tVariableValue");
+
+                            foreach (String tvar in at.triggerBodyVars.Keys)
+                            {
+                                foreach (ObjectVarToType ovt in at.triggerBodyVars[tvar])
+                                {
+                                    sw.Write("\t\t" +
+                                             ovt.leftSideObject + "\t" +
+                                             ovt.leftSide + "\t" + 
+                                             ovt.varName + "\t=\t" +
+                                             ovt.rightSideObject + "\t" +
+                                             ovt.rightSide +
+                                             Environment.NewLine);
+                                }
+                            }
+                        }
+
+                        if (at.triggerForLoops.Count > 0)
+                        {
+                            sw.Write(Environment.NewLine);
+                            sw.Write(Environment.NewLine);
+                            sw.WriteLine("\tTriggerForLoop\tForLoopObject\tForLoopVariable\tForLoopCollection");
+
+                            foreach (String forLoopVar in at.triggerForLoops.Keys)
+                            {
+                                foreach (ObjectVarToType ovt in at.triggerForLoops[forLoopVar])
+                                {
+                                    sw.Write("\t\t" +
+                                        ovt.leftSideObject + "\t" +
+                                        ovt.varName + "\t" +
+                                        ovt.rightSide +
+                                        Environment.NewLine);
+                                }
+                            }
+                        }
+
+                        if (at.triggerDmls.Count > 0)
+                        {
+                            sw.Write(Environment.NewLine);
+                            sw.Write(Environment.NewLine);
+                            sw.WriteLine("\tTriggerDMLs\tDMLType\tObjectType\tDMLVariableName\tSaveResultType\tSaveResultVariable\tDMLValues");
+
+                            foreach (ObjectVarToType ovt in at.triggerDmls)
+                            {
+                                sw.Write("\t\t" +
+                                    ovt.dmlType + "\t" +
+                                    ovt.leftSideObject + "\t" +
+                                    ovt.varName + "\t" +
+                                    ovt.saveResultType + "\t" +
+                                    ovt.saveResultVar + "\t" +
+                                    ovt.rightSide +
+                                    Environment.NewLine);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Write Class / Method results to file
+            if (this.classNmToClass != null
+                && this.classNmToClass.Count > 0)
+            {
+                // Skip test classes
+                foreach (ApexClasses ac in this.classNmToClass.Values)
+                {
+                    if (ac.isTestClass)
+                    {
+                        continue;
+                    }
+
+                    sw.Write(Environment.NewLine);
+                    sw.Write(Environment.NewLine);
+                    sw.WriteLine("ApexClass\tClassName\tAccessModifier\tOptional Modifier\tIs Rest Class\tIs Interface\tExtends Class");
+                    sw.Write("\t" +
+                        ac.className + "\t" +
+                        ac.accessModifier + "\t" +
+                        ac.optionalModifier + "\t" +
+                        ac.isRestClass + "\t" +
+                        ac.isInterface + "\t" +
+                        ac.extendsClassName +
+                        Environment.NewLine);
+
+
+                    if (ac.clsProperties.Count > 0)
+                    {
+                        sw.Write(Environment.NewLine);
+                        sw.Write(Environment.NewLine);
+                        sw.WriteLine("\tClassProperties\tPropertyQualifier\tPropertyDataType\tPropertyName\tIsGetter\tGetterReturnValue\tIsSetter\tSetterValue\tPropertyValue");
+
+                        foreach (String cpKey in ac.clsProperties.Keys)
+                        {
+                            sw.Write("\t\t" +
+                                ac.clsProperties[cpKey].qualifier + "\t" +
+                                ac.clsProperties[cpKey].dataType + "\t" +
+                                ac.clsProperties[cpKey].propertyName + "\t" +
+                                ac.clsProperties[cpKey].isGetter + "\t" +
+                                ac.clsProperties[cpKey].getterReturnValue + "\t" +
+                                ac.clsProperties[cpKey].isSetter + "\t" +
+                                ac.clsProperties[cpKey].setterValue + "\t" +
+                                ac.clsProperties[cpKey].propertyValue +
+                                Environment.NewLine);
+                        }
+                    }
+
+                    if (ac.classMethods.Count > 0)
+                    {
+                        foreach (ClassMethods cm in ac.classMethods)
+                        {
+                            sw.Write(Environment.NewLine);
+                            sw.Write(Environment.NewLine);
+                            sw.WriteLine("\tClassMethod\tMethodName\tMethodQualifier\tReturnDataType\tAnnotation");
+
+                            sw.Write("\t\t" +
+                            ac.className + "." + cm.methodName + "\t" +
+                            cm.qualifier + "\t" +
+                            cm.returnDataType + "\t" +
+                            cm.methodAnnotation +
+                            Environment.NewLine);
+
+                            if (cm.methodParameters.Count > 0)
+                            {
+                                sw.Write(Environment.NewLine);
+                                sw.Write(Environment.NewLine);
+                                sw.WriteLine("\t\tMethodParamers\tParamType\tParamName");
+
+                                foreach (ObjectVarToType methParm in cm.methodParameters)
+                                {
+                                    sw.Write("\t\t\t" +
+                                        methParm.varType + "\t" +
+                                        methParm.varName +
+                                        Environment.NewLine);
+                                }
+                            }
+
+                            if (cm.methodBodyVars.Count > 0)
+                            {
+                                sw.Write(Environment.NewLine);
+                                sw.Write(Environment.NewLine);
+                                sw.WriteLine("\t\t\tMethodVariables\tObjectLeftSide\tVariableName\t=\tObjectRightSide\tVariableValue");
+
+                                foreach (ObjectVarToType ovt in cm.methodBodyVars)
+                                {
+                                    sw.Write("\t\t\t\t");
+                                    sw.Write(ovt.leftSideObject + "\t");
+                                    sw.Write(ovt.varName + "\t");
+                                    if (ovt.nullVariableValue == false)
+                                    {
+                                        sw.Write("=\t");
+                                        sw.Write(ovt.rightSideObject + "\t");
+                                        sw.Write(ovt.rightSide);
+                                    }
+
+                                    sw.Write(Environment.NewLine);
+                                }
+                            }
+
+                            if (cm.methodForLoops.Count > 0)
+                            {
+                                sw.Write(Environment.NewLine);
+                                sw.Write(Environment.NewLine);
+                                sw.WriteLine("\t\t\tMethodForLoop\tForLoopObject\tForLoopVariable\tForLoopCollection");
+
+                                foreach (String forLoopVar in cm.methodForLoops.Keys)
+                                {
+                                    foreach (ObjectVarToType ovt in cm.methodForLoops[forLoopVar])
+                                    {
+                                        sw.Write("\t\t\t\t" +
+                                            ovt.leftSideObject + "\t" +
+                                            ovt.varName + "\t" +
+                                            ovt.rightSide +
+                                            Environment.NewLine);
+                                    }
+                                }
+                            }
+
+                            if (cm.methodDmls.Count > 0)
+                            {
+                                sw.Write(Environment.NewLine);
+                                sw.Write(Environment.NewLine);
+                                sw.WriteLine("\t\t\tMethodDMLs\tDMLType\tObjectType\tDMLVariableName\tSaveResultType\tSaveResultVariable\tDMLValues");
+
+                                foreach (ObjectVarToType ovt in cm.methodDmls)
+                                {
+                                    sw.Write("\t\t\t\t" +
+                                        ovt.dmlType + "\t" +
+                                        ovt.varType + "\t" +
+                                        ovt.varName + "\t" +
+                                        ovt.saveResultType + "\t" +
+                                        ovt.saveResultVar + "\t" +
+                                        ovt.rightSide +
+                                        Environment.NewLine);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Write Flow results to file
+            if (this.objectToFlow != null
+                && this.objectToFlow.Count > 0)
+            {
+                sw.Write("Flow_Process_Workflow\t" +
+                    "ObjectName\t" +
+                    "FlowApiName\t" +
+                    "FlowLabel\t" +
+                    "ProcessType\t" +
+                    "APIVersion" +
+                    Environment.NewLine);
+
+                foreach (String objName in this.objectToFlow.Keys)
+                {
+                    if (objName != "")
+                    {
+                        foreach (FlowProcess fp in objectToFlow[objName])
+                        {
+                            sw.Write(Environment.NewLine);
+
+                            sw.Write("\t" +
+                                objName + "\t" +
+                                fp.apiName + "\t" +
+                                fp.label + "\t" +
+                                fp.flowProcessType + "\t" +
+                                fp.apiVersion +
+                                Environment.NewLine);
+
+                            if (fp.variableToObject.Count > 0)
+                            {
+                                sw.Write(Environment.NewLine);
+                                sw.Write("\t\tFlowVariables\t" +
+                                    "FlowVariableName\t" +
+                                    "FlowObjectType\t" +
+                                    "FlowDataType\t" +
+                                    "IsCollection\t" +
+                                    "IsInput\t" +
+                                    "IsOutput" +
+                                    Environment.NewLine);
+
+                                foreach (FlowVariable fv in fp.variableToObject.Values)
+                                {
+                                    sw.Write("\t\t\t" +
+                                        fv.varName + "\t" +
+                                        fv.objectType + "\t" +
+                                        fv.dataType + "\t" +
+                                        fv.isCollection + "\t" +
+                                        fv.isInput + "\t" +
+                                        fv.isOutput +
+                                        Environment.NewLine);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            //if (this.workflowObjToFieldUpdt != null
+            //    && this.workflowObjToFieldUpdt.Count > 0)
+            //{
+
+            //}
+
+            // Write Workflow results to file
+            if (this.workflowFldUpdates != null
+                && this.workflowFldUpdates.Count > 0)
+            {
+                sw.Write("WorkflowFieldUpdate\t" +
+                    "ObjectName\t" +
+                    "FieldUpdateApiName\t" +
+                    "FieldUpdateLabel\t" +
+                    "FieldApiName\t" +
+                    "LiteralValue\t" +
+                    "NotifyAssignee\t" +
+                    "ReEvaludateOnChange" +
+                    Environment.NewLine);
+
+                foreach (String objName in this.workflowFldUpdates.Keys)
+                {
+                    sw.Write("\t" + objName + Environment.NewLine);
+
+                    foreach (WorkflowFieldUpdates wfu in this.workflowFldUpdates[objName])
+                    {
+                        sw.Write("\t\t" +
+                            wfu.fieldUpdateName + "\t" +
+                            wfu.fieldUpdateLabel + "\t" +
+                            wfu.fieldName + "\t" +
+                            wfu.literalValue + "\t" +
+                            wfu.notifyAssignee + "\t" +
+                            wfu.reevaluateOnChange +
+                            Environment.NewLine);
+                    }
+                }
+            }
+
+            sw.Close();
         }
 
         public class ObjectToFields 
@@ -3768,7 +4448,11 @@ namespace SalesforceMetadata
         public class ObjectVarToType
         {
             // This is the sObject name being referenced if there is one
-            public String objectName = "";
+            public String leftSideObject = "";
+            public String rightSideObject = "";
+
+            public String leftSide = "";
+            public String rightSide = "";
 
             // This is a system type being reference: i.e. String, Double, Integer, etc.
             public String varType = "";
@@ -3791,8 +4475,6 @@ namespace SalesforceMetadata
             public Boolean objectFromMethodVariable = false;
             public Boolean objectFromMethodForLoop = false;
             public Boolean objectFromInlineVariable = false;
-            public String leftSide = "";
-            public String rightSide = "";
         }
 
         public class ClassProperties 
@@ -3933,7 +4615,9 @@ namespace SalesforceMetadata
             MessageBox.Show("Sobject and Fields Extract Complete");
         }
 
-        private void btnFieldReferences_Click(object sender, EventArgs e)
+
+
+        private void btnRunAutomationReport_Click(object sender, EventArgs e)
         {
             if (this.tbProjectFolder.Text == "")
             {
@@ -3970,295 +4654,6 @@ namespace SalesforceMetadata
             writeExtractedResultsToFile();
 
             MessageBox.Show("Field Reference Extraction Complete");
-        }
-
-        private void writeExtractedResultsToFile()
-        {
-            StreamWriter sw = new StreamWriter(this.tbFileSaveTo.Text + "\\FieldResultsList.txt");
-
-            if (this.objectToTrigger != null
-                && this.objectToTrigger.Count > 0) 
-            {
-                foreach (String objnm in this.objectToTrigger.Keys)
-                {
-                    foreach (ApexTriggers at in this.objectToTrigger[objnm])
-                    {
-                        sw.Write(Environment.NewLine);
-                        sw.Write(Environment.NewLine);
-                        sw.WriteLine("ApexTrigger\tTriggerName\tObjectType\tBeforeInsert\tBeforeUpdate\tBeforeDelete\tAfterInsert\tAfterUpdate\tAfterDelete\tAfterUndelete");
-                        sw.Write("\t" + at.triggerName + "\t" + 
-                                        objnm + "\t" + 
-                                        at.isBeforeInsert + "\t" +
-                                        at.isBeforeUpdate + "\t" +
-                                        at.isBeforeDelete + "\t" +
-                                        at.isAfterInsert + "\t" +
-                                        at.isAfterUpdate + "\t" +
-                                        at.isAfterDelete + "\t" +
-                                        at.isAfterUndelete + "\t" + 
-                                        Environment.NewLine);
-
-                        if (at.triggerBodyVars.Count > 0)
-                        {
-                            sw.Write(Environment.NewLine);
-                            sw.Write(Environment.NewLine);
-                            sw.WriteLine("\tTriggerVariables\tObjectType\tVariableName\t=\tVariableValue");
-
-                            foreach (String tvar in at.triggerBodyVars.Keys)
-                            {
-                                foreach (ObjectVarToType ovt in at.triggerBodyVars[tvar])
-                                {
-                                    sw.Write("\t\t" +
-                                             ovt.objectName + "\t" +
-                                             ovt.varName + "\t=\t" +
-                                             ovt.rightSide +
-                                             Environment.NewLine);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Write Class / Method results to file
-            if (this.classNmToClass != null
-                && this.classNmToClass.Count > 0)
-            {
-                // Skip test classes
-                foreach (ApexClasses ac in this.classNmToClass.Values)
-                {
-                    if (ac.isTestClass)
-                    {
-                        continue;
-                    }
-
-                    sw.Write(Environment.NewLine);
-                    sw.Write(Environment.NewLine);
-                    sw.WriteLine("ApexClass\tClassName\tAccessModifier\tOptional Modifier\tIs Rest Class\tIs Interface\tExtends Class");
-                    sw.Write("\t" +
-                        ac.className + "\t" +
-                        ac.accessModifier + "\t" +
-                        ac.optionalModifier + "\t" +
-                        ac.isRestClass + "\t" +
-                        ac.isInterface + "\t" +
-                        ac.extendsClassName +
-                        Environment.NewLine);
-
-
-                    if (ac.clsProperties.Count > 0)
-                    {
-                        sw.Write(Environment.NewLine);
-                        sw.Write(Environment.NewLine);
-                        sw.WriteLine("\tClassProperties\tPropertyQualifier\tPropertyDataType\tPropertyName\tIsGetter\tGetterReturnValue\tIsSetter\tSetterValue\tPropertyValue");
-
-                        foreach (String cpKey in ac.clsProperties.Keys)
-                        {
-                            sw.Write("\t\t" +
-                                ac.clsProperties[cpKey].qualifier + "\t" +
-                                ac.clsProperties[cpKey].dataType + "\t" +
-                                ac.clsProperties[cpKey].propertyName + "\t" +
-                                ac.clsProperties[cpKey].isGetter + "\t" +
-                                ac.clsProperties[cpKey].getterReturnValue + "\t" +
-                                ac.clsProperties[cpKey].isSetter + "\t" +
-                                ac.clsProperties[cpKey].setterValue + "\t" +
-                                ac.clsProperties[cpKey].propertyValue +
-                                Environment.NewLine);
-                        }
-                    }
-
-                    if (ac.classMethods.Count > 0)
-                    {
-                        foreach (ClassMethods cm in ac.classMethods)
-                        {
-                            sw.Write(Environment.NewLine);
-                            sw.Write(Environment.NewLine);
-                            sw.WriteLine("\tClassMethod\tMethodName\tMethodQualifier\tReturnDataType\tAnnotation");
-
-                            sw.Write("\t\t" +
-                            ac.className + "." + cm.methodName + "\t" +
-                            cm.qualifier + "\t" +
-                            cm.returnDataType + "\t" +
-                            cm.methodAnnotation +
-                            Environment.NewLine);
-
-                            if (cm.methodParameters.Count > 0)
-                            {
-                                sw.Write(Environment.NewLine);
-                                sw.Write(Environment.NewLine);
-                                sw.WriteLine("\t\tMethodParamers\tParamType\tParamName");
-
-                                foreach (ObjectVarToType methParm in cm.methodParameters)
-                                {
-                                    sw.Write("\t\t\t" +
-                                        methParm.varType + "\t" +
-                                        methParm.varName +
-                                        Environment.NewLine);
-                                }
-                            }
-
-                            if (cm.methodBodyVars.Count > 0)
-                            {
-                                sw.Write(Environment.NewLine);
-                                sw.Write(Environment.NewLine);
-                                sw.WriteLine("\t\t\tMethodVariables\tVariableObjectType\tVariableName\t=\tVariableValue");
-
-                                foreach (ObjectVarToType ovt in cm.methodBodyVars)
-                                {
-                                    sw.Write("\t\t\t\t");
-                                    sw.Write(ovt.objectName + "\t");
-                                    sw.Write(ovt.varName + "\t");
-                                    if (ovt.nullVariableValue == false)
-                                    {
-                                        sw.Write("=\t");
-                                        sw.Write(ovt.rightSide);
-                                    }
-
-                                    sw.Write(Environment.NewLine);
-                                }
-                            }
-
-                            if (cm.methodForLoops.Count > 0)
-                            {
-                                sw.Write(Environment.NewLine);
-                                sw.Write(Environment.NewLine);
-                                sw.WriteLine("\t\t\tMethodForLoop\tForLoopObject\tForLoopVariable\tForLoopCollection");
-
-                                foreach (String forLoopVar in cm.methodForLoops.Keys)
-                                {
-                                    foreach (ObjectVarToType ovt in cm.methodForLoops[forLoopVar])
-                                    {
-                                        sw.Write("\t\t\t\t" +
-                                            ovt.objectName + "\t" +
-                                            ovt.varName + "\t" +
-                                            ovt.rightSide +
-                                            Environment.NewLine);
-                                    }
-                                }
-                            }
-
-                            if(cm.methodDmls.Count > 0) 
-                            {
-                                sw.Write(Environment.NewLine);
-                                sw.Write(Environment.NewLine);
-                                sw.WriteLine("\t\t\tMethodDMLs\tDMLType\tObjectType\tDMLVariableName\tSaveResultType\tSaveResultVariable\tDMLValues");
-
-                                foreach (ObjectVarToType ovt in cm.methodDmls)
-                                {
-                                    sw.Write("\t\t\t\t" +
-                                        ovt.dmlType + "\t" +
-                                        ovt.varType + "\t" +
-                                        ovt.varName + "\t" +
-                                        ovt.saveResultType + "\t" +
-                                        ovt.saveResultVar + "\t" +
-                                        ovt.rightSide +
-                                        Environment.NewLine);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Write Flow results to file
-            if (this.objectToFlow != null
-                && this.objectToFlow.Count > 0)
-            {
-                sw.Write("Flow_Process_Workflow\t" +
-                    "ObjectName\t" +
-                    "FlowApiName\t" +
-                    "FlowLabel\t" +
-                    "ProcessType\t" +
-                    "APIVersion" +
-                    Environment.NewLine);
-
-                foreach (String objName in this.objectToFlow.Keys)
-                {
-                    if (objName != "")
-                    {
-                        foreach (FlowProcess fp in objectToFlow[objName])
-                        {
-                            sw.Write(Environment.NewLine);
-
-                            sw.Write("\t" +
-                                objName + "\t" +
-                                fp.apiName + "\t" +
-                                fp.label + "\t" +
-                                fp.flowProcessType + "\t" +
-                                fp.apiVersion +
-                                Environment.NewLine);
-
-                            if (fp.variableToObject.Count > 0)
-                            {
-                                sw.Write(Environment.NewLine);
-                                sw.Write("\t\tFlowVariables\t" +
-                                    "FlowVariableName\t" +
-                                    "FlowObjectType\t" +
-                                    "FlowDataType\t" +
-                                    "IsCollection\t" +
-                                    "IsInput\t" +
-                                    "IsOutput" +
-                                    Environment.NewLine);
-
-                                foreach (FlowVariable fv in fp.variableToObject.Values)
-                                {
-                                    sw.Write("\t\t\t" +
-                                        fv.varName + "\t" +
-                                        fv.objectType + "\t" +
-                                        fv.dataType + "\t" +
-                                        fv.isCollection + "\t" +
-                                        fv.isInput + "\t" + 
-                                        fv.isOutput +
-                                        Environment.NewLine);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            //if (this.workflowObjToFieldUpdt != null
-            //    && this.workflowObjToFieldUpdt.Count > 0)
-            //{
-
-            //}
-
-            // Write Workflow results to file
-            if (this.workflowFldUpdates != null
-                && this.workflowFldUpdates.Count > 0)
-            {
-                sw.Write("WorkflowFieldUpdate\t" +
-                    "ObjectName\t" +
-                    "FieldUpdateApiName\t" +
-                    "FieldUpdateLabel\t" +
-                    "FieldApiName\t" +
-                    "LiteralValue\t" +
-                    "NotifyAssignee\t" +
-                    "ReEvaludateOnChange" +
-                    Environment.NewLine);
-
-                foreach (String objName in this.workflowFldUpdates.Keys)
-                {
-                    sw.Write("\t" + objName + Environment.NewLine);
-
-                    foreach (WorkflowFieldUpdates wfu in this.workflowFldUpdates[objName])
-                    {
-                        sw.Write("\t\t" + 
-                            wfu.fieldUpdateName + "\t" +
-                            wfu.fieldUpdateLabel + "\t" +
-                            wfu.fieldName + "\t" +
-                            wfu.literalValue + "\t" +
-                            wfu.notifyAssignee + "\t" +
-                            wfu.reevaluateOnChange +
-                            Environment.NewLine);
-                    }
-                }
-            }
-
-            sw.Close();
-        }
-
-        private void btnRunAutomationReport_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

@@ -4218,6 +4218,8 @@ namespace SalesforceMetadata
             if (this.objectToFlow != null
                 && this.objectToFlow.Count > 0)
             {
+                sw.Write(Environment.NewLine);
+                sw.Write(Environment.NewLine);
                 sw.Write("Flow_Process_Workflow\t" +
                     "ObjectName\t" +
                     "FlowApiName\t" +
@@ -4281,6 +4283,8 @@ namespace SalesforceMetadata
             if (this.workflowFldUpdates != null
                 && this.workflowFldUpdates.Count > 0)
             {
+                sw.Write(Environment.NewLine);
+                sw.Write(Environment.NewLine);
                 sw.Write("WorkflowFieldUpdate\t" +
                     "ObjectName\t" +
                     "FieldUpdateApiName\t" +

@@ -1028,7 +1028,7 @@ namespace SalesforceMetadata
                     }
                     catch (Exception exc)
                     {
-                        Console.WriteLine(exc.Message);
+                        //Console.WriteLine(exc.Message);
                     }
 
                 }

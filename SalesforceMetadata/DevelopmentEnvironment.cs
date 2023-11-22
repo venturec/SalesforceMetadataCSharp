@@ -265,7 +265,7 @@ namespace SalesforceMetadata
                 return;
             }
 
-            Debug.WriteLine("private void treeViewMetadata_AfterCheck(object sender, TreeViewEventArgs e)");
+            //Debug.WriteLine("private void treeViewMetadata_AfterCheck(object sender, TreeViewEventArgs e)");
 
             Boolean blAddDependencies = false;
             Boolean blRemoveDependencies = false;
@@ -275,7 +275,7 @@ namespace SalesforceMetadata
             // This means the selected Node is the top node for that group and the sub-nodes will need to be selected.
             if (tn.Checked == true && tn.Nodes.Count > 0)
             {
-                Debug.WriteLine("tn.Checked == true && tn.Nodes.Count > 0 : " + runTreeNodeSelector);
+                //Debug.WriteLine("tn.Checked == true && tn.Nodes.Count > 0 : " + runTreeNodeSelector);
 
                 foreach (TreeNode cNode in tn.Nodes)
                 {
@@ -293,7 +293,7 @@ namespace SalesforceMetadata
             }
             else if (tn.Checked == false && tn.Nodes.Count > 0)
             {
-                Debug.WriteLine("tn.Checked == false && tn.Nodes.Count > 0 : " + runTreeNodeSelector);
+                //Debug.WriteLine("tn.Checked == false && tn.Nodes.Count > 0 : " + runTreeNodeSelector);
 
                 foreach (TreeNode cNode in tn.Nodes)
                 {
@@ -315,7 +315,7 @@ namespace SalesforceMetadata
             {
                 if (!mainFolderNames.Contains(parentTn.Text))
                 {
-                    Debug.WriteLine("tn.Checked == true && parentTn != null && !mainFolderNames.Contains(parentTn.Text) : " + runTreeNodeSelector);
+                    //Debug.WriteLine("tn.Checked == true && parentTn != null && !mainFolderNames.Contains(parentTn.Text) : " + runTreeNodeSelector);
 
                     parentTn.Checked = true;
                     blAddDependencies = true;
@@ -324,18 +324,18 @@ namespace SalesforceMetadata
 
                     if (nodeFullPath[0] != "objects" && nodeFullPath[0] != "objectTranslations")
                     {
-                        Debug.WriteLine("if (nodeFullPath[0] != \"objects\" && nodeFullPath[0] != \"objectTranslations\") " + runTreeNodeSelector);
+                        //Debug.WriteLine("if (nodeFullPath[0] != \"objects\" && nodeFullPath[0] != \"objectTranslations\") " + runTreeNodeSelector);
                         foreach (TreeNode cNode in parentTn.Nodes)
                         {
-                            Debug.WriteLine("foreach (TreeNode cNode in parentTn.Nodes) " + runTreeNodeSelector);
+                            //Debug.WriteLine("foreach (TreeNode cNode in parentTn.Nodes) " + runTreeNodeSelector);
                             cNode.Checked = true;
 
                             if (cNode.Nodes.Count > 0)
                             {
-                                Debug.WriteLine("if (cNode.Nodes.Count > 0) " + runTreeNodeSelector);
+                                //Debug.WriteLine("if (cNode.Nodes.Count > 0) " + runTreeNodeSelector);
                                 foreach (TreeNode c2Node in cNode.Nodes)
                                 {
-                                    Debug.WriteLine("foreach (TreeNode c2Node in cNode.Nodes) " + runTreeNodeSelector);
+                                    //Debug.WriteLine("foreach (TreeNode c2Node in cNode.Nodes) " + runTreeNodeSelector);
                                     c2Node.Checked = true;
                                 }
                             }
@@ -352,17 +352,15 @@ namespace SalesforceMetadata
                 blRemoveDependencies = true;
             }
 
-            Debug.WriteLine("");
-
             if (blAddDependencies == true)
             {
-                Debug.WriteLine("blAddDependencies");
+                //Debug.WriteLine("blAddDependencies");
                 addDependencies(tn);
             }
 
             if (blRemoveDependencies == true)
             {
-                Debug.WriteLine("");
+                //Debug.WriteLine("");
                 removeDependencies(tn);
             }
 
@@ -371,7 +369,7 @@ namespace SalesforceMetadata
 
         public void addDependencies(TreeNode tn)
         {
-            Debug.WriteLine("public void addDependencies(TreeNode tn)");
+            //Debug.WriteLine("public void addDependencies(TreeNode tn)");
 
             foreach (TreeNode treeNd in this.treeViewMetadata.Nodes)
             {
@@ -452,7 +450,7 @@ namespace SalesforceMetadata
         }
         private void selectDependencies(TreeNode tn, String[] nodeFullPath, String[] fileNameSplit)
         {
-            Debug.WriteLine("public void selectDependencies(TreeNode tn, String[] nodeFullPath, String[] fileNameSplit)");
+            //Debug.WriteLine("public void selectDependencies(TreeNode tn, String[] nodeFullPath, String[] fileNameSplit)");
 
             String[] objectName = new string[2];
             if (nodeFullPath.Length > 1)
@@ -1035,15 +1033,15 @@ namespace SalesforceMetadata
                             }
                             else if (tnd1.Text == "profiles")
                             {
-                                Debug.Write("tnd1.Text == \"profiles\"");
+                                //Debug.Write("tnd1.Text == \"profiles\"");
                             }
                             else if (tnd1.Text == "permissionsets")
                             {
-                                Debug.Write("tnd1.Text == \"permissionsets\"");
+                                //Debug.Write("tnd1.Text == \"permissionsets\"");
                             }
                             else if (tnd1.Text == "reports")
                             {
-                                Debug.Write("tnd1.Text == \"reports\"");
+                                //Debug.Write("tnd1.Text == \"reports\"");
                             }
                             else
                             {

@@ -890,14 +890,14 @@ namespace SalesforceMetadata
             for (Int32 i = characterPos; i < stringArray.Count; i++)
             {
                 swLog.Write(stringArray[i] + " ");
-                Debug.WriteLine(stringArray[i]);
+                //Debug.WriteLine(stringArray[i]);
 
                 if (stringArray[i] == "{")
                 {
                     braceCount++;
                     leftBraceCount++;
-                    Debug.WriteLine("braceCount++" + i.ToString() + " " + braceCount.ToString());
-                    Debug.WriteLine("braceCount++" + i.ToString() + " " + leftBraceCount.ToString());
+                    //Debug.WriteLine("braceCount++" + i.ToString() + " " + braceCount.ToString());
+                    //Debug.WriteLine("braceCount++" + i.ToString() + " " + leftBraceCount.ToString());
                 }
                 else if (stringArray[i] == "}")
                 {
@@ -2162,7 +2162,7 @@ namespace SalesforceMetadata
                         }
                         else if (jsFunctionToWireFunction.ContainsKey(cf.folderName + cf.fileName + "." + cf.functionName))
                         {
-                            Debug.WriteLine("");
+                            //Debug.WriteLine("");
                         }
                         else
                         {

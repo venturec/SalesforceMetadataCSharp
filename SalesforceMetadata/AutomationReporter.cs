@@ -2370,7 +2370,7 @@ namespace SalesforceMetadata
                 else if (filearray[i] == "(")
                 {
                     parenthesesCount++;
-                    Debug.WriteLine(i + " parenthCount: " + parenthesesCount + " filearray[i] == (");
+                    //Debug.WriteLine(i + " parenthCount: " + parenthesesCount + " filearray[i] == (");
 
                     if (propertyMethodName != ""
                         && propertyMethodRtnDataType != ""
@@ -2387,7 +2387,7 @@ namespace SalesforceMetadata
                 else if (filearray[i] == ")")
                 {
                     parenthesesCount--;
-                    Debug.WriteLine(i + " parenthCount: " + parenthesesCount + " filearray[i] == )");
+                    //Debug.WriteLine(i + " parenthCount: " + parenthesesCount + " filearray[i] == )");
 
                     // METHOD PARAMETERS
                     // Add the parameters to the methodParameters list

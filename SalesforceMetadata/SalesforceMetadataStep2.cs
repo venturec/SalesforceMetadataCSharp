@@ -727,7 +727,7 @@ namespace SalesforceMetadata
                             {
                                 for (Int32 j = 0; j < files.Length; j++)
                                 {
-                                    Debug.WriteLine(" ");
+                                    //Debug.WriteLine(" ");
                                     //parseObjectTranslationFiles(files[j]);
                                 }
                             }
@@ -1052,11 +1052,11 @@ namespace SalesforceMetadata
                                                                 if (nd6.ChildNodes.Count > 0
                                                                     && nd6.ChildNodes[0].LocalName == "#text")
                                                                 {
-                                                                    Debug.WriteLine(" ");
+                                                                    //Debug.WriteLine(" ");
                                                                 }
                                                                 else if (nd6.ChildNodes.Count > 0)
                                                                 {
-                                                                    Debug.WriteLine(" ");
+                                                                    //Debug.WriteLine(" ");
                                                                 }
                                                             }
                                                         }

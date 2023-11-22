@@ -304,7 +304,7 @@ namespace SalesforceMetadata
                                         }
                                         catch (Exception exc)
                                         {
-                                            Console.WriteLine(exc.Message + '\n' + exc.StackTrace);
+                                            //Console.WriteLine(exc.Message + '\n' + exc.StackTrace);
                                             isXmlDocument = false;
                                         }
 
@@ -323,7 +323,7 @@ namespace SalesforceMetadata
                                         catch (Exception exc)
                                         {
                                             //MessageBox.Show(exc.Message + '\n' + exc.StackTrace);
-                                            Console.WriteLine(exc.Message + '\n' + exc.StackTrace);
+                                            //Console.WriteLine(exc.Message + '\n' + exc.StackTrace);
                                         }
                                     }
 
@@ -391,7 +391,7 @@ namespace SalesforceMetadata
                                     }
                                     catch (Exception exc)
                                     {
-                                        Console.WriteLine(exc.Message + '\n' + exc.StackTrace);
+                                        //Console.WriteLine(exc.Message + '\n' + exc.StackTrace);
                                         isXmlDocument = false;
                                     }
 
@@ -451,7 +451,7 @@ namespace SalesforceMetadata
                                 }
                                 catch (Exception exc)
                                 {
-                                    Console.WriteLine(exc.Message + '\n' + exc.StackTrace);
+                                    //Console.WriteLine(exc.Message + '\n' + exc.StackTrace);
                                     isXmlDocument = false;
                                 }
 
@@ -949,7 +949,7 @@ namespace SalesforceMetadata
                                                             }
                                                             catch (Exception exc)
                                                             {
-                                                                Console.WriteLine(exc);
+                                                                //Console.WriteLine(exc);
                                                             }
                                                         }
                                                     }
@@ -982,7 +982,7 @@ namespace SalesforceMetadata
                                                             }
                                                             catch (Exception exc)
                                                             {
-                                                                Console.WriteLine(exc);
+                                                                //Console.WriteLine(exc);
                                                             }
                                                         }
                                                     }

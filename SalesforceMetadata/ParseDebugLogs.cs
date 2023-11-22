@@ -46,170 +46,6 @@ namespace SalesforceMetadata
             populateDebugLogPath();
         }
 
-        /*
-        private void allocateEventTagsToDictinary()
-        {
-            //CheckedListBox.CheckedItemCollection itemsColl = this.parseSpecifics.CheckedItems;
-            HashSet<String> checkedDebugItems = new HashSet<string>();
-            //for (Int32 i = 0; i < this.parseSpecifics.CheckedItems.Count; i++)
-            //{
-            //    checkedDebugItems.Add((String)this.parseSpecifics.CheckedItems[i]);
-            //}
-
-
-            debugEventTags = new HashSet<String>();
-
-            debugEventTags.Add("USER_INFO");
-            debugEventTags.Add("EXCEPTION_THROWN");
-            debugEventTags.Add("FATAL_ERROR");
-            debugEventTags.Add("FLOW_CREATE_INTERVIEW_ERROR");
-            debugEventTags.Add("USER_DEBUG");
-
-            if (checkedDebugItems.Contains("All") || checkedDebugItems.Contains("HEAP_ALLOCATE"))
-            {
-                debugEventTags.Add("HEAP_ALLOCATE");
-                debugEventTags.Add("HEAP_DEALLOCATE");
-            }
-
-            if (checkedDebugItems.Contains("All") || checkedDebugItems.Contains("BULK_HEAP_ALLOCATE"))
-            {
-                debugEventTags.Add("BULK_HEAP_ALLOCATE");
-            }
-
-            if (checkedDebugItems.Contains("All") || checkedDebugItems.Contains("EXECUTION_STARTED"))
-            {
-                debugEventTags.Add("EXECUTION_STARTED");
-                debugEventTags.Add("EXECUTION_FINISHED");
-            }
-
-            if (checkedDebugItems.Contains("All") || checkedDebugItems.Contains("STATEMENT_EXECUTE"))
-            {
-                debugEventTags.Add("STATEMENT_EXECUTE");
-            }
-
-            if (checkedDebugItems.Contains("All") || checkedDebugItems.Contains("CALLOUT_REQUEST"))
-            {
-                debugEventTags.Add("CALLOUT_REQUEST");
-                debugEventTags.Add("CALLOUT_RESPONSE");
-            }
-
-            if (checkedDebugItems.Contains("All") || checkedDebugItems.Contains("CODE_UNIT_STARTED"))
-            {
-                debugEventTags.Add("CODE_UNIT_STARTED");
-                debugEventTags.Add("CODE_UNIT_FINISHED");
-            }
-
-            if (checkedDebugItems.Contains("All") || checkedDebugItems.Contains("CONSTRUCTOR_ENTRY"))
-            {
-
-                debugEventTags.Add("CONSTRUCTOR_ENTRY");
-                debugEventTags.Add("CONSTRUCTOR_EXIT");
-            }
-
-            if (checkedDebugItems.Contains("All") || checkedDebugItems.Contains("METHOD_ENTRY"))
-            {
-                debugEventTags.Add("CODE_UNIT_STARTED");
-                debugEventTags.Add("CODE_UNIT_FINISHED");
-
-                debugEventTags.Add("METHOD_ENTRY");
-                debugEventTags.Add("METHOD_EXIT");
-
-                debugEventTags.Add("DML_BEGIN");
-                debugEventTags.Add("DML_END");
-
-                debugEventTags.Add("SOQL_EXECUTE_BEGIN");
-                debugEventTags.Add("SOQL_EXECUTE_END");
-
-                debugEventTags.Add("WF_FIELD_UPDATE");
-            }
-
-            if (checkedDebugItems.Contains("All") || checkedDebugItems.Contains("ENTERING_MANAGED_PKG"))
-            {
-                debugEventTags.Add("ENTERING_MANAGED_PKG");
-            }
-
-            if (checkedDebugItems.Contains("All") || checkedDebugItems.Contains("FLOW_CREATE_INTERVIEW_BEGIN"))
-            {
-                debugEventTags.Add("WF_FLOW_ACTION_BEGIN");
-                debugEventTags.Add("WF_FLOW_ACTION_END");
-
-                debugEventTags.Add("WF_FLOW_ACTION_DETAIL");
-
-                debugEventTags.Add("FLOW_CREATE_INTERVIEW_BEGIN");
-                debugEventTags.Add("FLOW_CREATE_INTERVIEW_END");
-
-                debugEventTags.Add("FLOW_START_INTERVIEW_BEGIN");
-                debugEventTags.Add("FLOW_START_INTERVIEW_END");
-
-                debugEventTags.Add("FLOW_ELEMENT_BEGIN");
-                debugEventTags.Add("FLOW_ELEMENT_END");
-                debugEventTags.Add("FLOW_ELEMENT_ERROR");
-                debugEventTags.Add("FLOW_ELEMENT_FAULT");
-
-                debugEventTags.Add("FLOW_VALUE_ASSIGNMENT");
-            }
-
-            if (checkedDebugItems.Contains("All") || checkedDebugItems.Contains("DML_BEGIN"))
-            {
-                debugEventTags.Add("DML_BEGIN");
-                debugEventTags.Add("DML_END");
-            }
-
-            if (checkedDebugItems.Contains("All") || checkedDebugItems.Contains("SOQL_EXECUTE_BEGIN"))
-            {
-                debugEventTags.Add("SOQL_EXECUTE_BEGIN");
-                debugEventTags.Add("SOQL_EXECUTE_END");
-            }
-
-            if (checkedDebugItems.Contains("All") || checkedDebugItems.Contains("VALIDATION_RULE"))
-            {
-                debugEventTags.Add("VALIDATION_RULE");
-                debugEventTags.Add("VALIDATION_FORMULA");
-                debugEventTags.Add("VALIDATION_PASS");
-                debugEventTags.Add("VALIDATION_FAIL");
-                debugEventTags.Add("VALIDATION_ERROR");
-            }
-
-            if (checkedDebugItems.Contains("All") || checkedDebugItems.Contains("WF_FLOW_ACTION_BEGIN"))
-            {
-                debugEventTags.Add("WF_FLOW_ACTION_BEGIN");
-                debugEventTags.Add("WF_FLOW_ACTION_END");
-
-                debugEventTags.Add("WF_ACTION");
-                debugEventTags.Add("WF_ACTIONS_END");
-
-                debugEventTags.Add("WF_APPROVAL");
-                debugEventTags.Add("WF_ACTION_TASK");
-                debugEventTags.Add("WF_EMAIL_ALERT");
-                debugEventTags.Add("WF_FIELD_UPDATE");
-                debugEventTags.Add("WF_OUTBOUND_MSG");
-
-                debugEventTags.Add("WF_FLOW_ACTION_DETAIL");
-
-                debugEventTags.Add("FLOW_CREATE_INTERVIEW_BEGIN");
-                debugEventTags.Add("FLOW_CREATE_INTERVIEW_END");
-
-                debugEventTags.Add("FLOW_START_INTERVIEW_BEGIN");
-                debugEventTags.Add("FLOW_START_INTERVIEW_END");
-
-                debugEventTags.Add("FLOW_ELEMENT_BEGIN");
-                debugEventTags.Add("FLOW_ELEMENT_END");
-                debugEventTags.Add("FLOW_ELEMENT_ERROR");
-                debugEventTags.Add("FLOW_ELEMENT_FAULT");
-
-                debugEventTags.Add("FLOW_VALUE_ASSIGNMENT");
-            }
-
-            if (checkedDebugItems.Contains("All") 
-                || checkedDebugItems.Contains("VARIABLE_SCOPE_BEGIN")
-                || checkedDebugItems.Contains("VARIABLE_ASSIGNMENT"))
-            {
-                debugEventTags.Add("VARIABLE_SCOPE_BEGIN");
-                debugEventTags.Add("VARIABLE_ASSIGNMENT");
-            }
-        }
-        */
-
         private void tbDebugFile_DoubleClick(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -231,8 +67,6 @@ namespace SalesforceMetadata
                 MessageBox.Show("Please select a debug file to parse to continue");
                 return;
             }
-
-            //allocateEventTagsToDictinary();
 
             String[] fileNameSplit = this.tbDebugFile.Text.Split(char.Parse("\\"));
             String folderSaveLocation = "";
@@ -425,12 +259,19 @@ namespace SalesforceMetadata
                     }
                     else if (columnElements[1] == DebugEventTags.FLOW_BULK_ELEMENT_BEGIN)
                     {
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+                        writeDebugLineDetail(debugSW, 2, "FLOW_BULK_ELEMENT_BEGIN", columnElements);
+                        tabCount++;
                     }
                     else if (columnElements[1] == DebugEventTags.FLOW_BULK_ELEMENT_DETAIL)
                     {
                     }
                     else if (columnElements[1] == DebugEventTags.FLOW_BULK_ELEMENT_END)
                     {
+                        if (tabCount > 0) tabCount--;
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+                        debugSW.Write("FLOW_BULK_ELEMENT_END");
+                        debugSW.Write(Environment.NewLine);
                     }
                     else if (columnElements[1] == DebugEventTags.FLOW_CREATE_INTERVIEW_ERROR)
                     {
@@ -564,34 +405,66 @@ namespace SalesforceMetadata
                     {
 
                     }
+                    else if (columnElements[1] == DebugEventTags.VALIDATION_RULE)
+                    {
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+                        writeDebugLineDetail(debugSW, 1, "VALIDATION_RULE", columnElements);
+                        //tabCount++;
+                    }
                     else if (columnElements[1] == DebugEventTags.VALIDATION_ERROR)
                     {
-
+                        writeHierarchy(debugSW, tabCount + 1, columnElements[0].ToString());
+                        writeDebugLineDetail(debugSW, 1, "VALIDATION_ERROR", columnElements);
                     }
                     else if (columnElements[1] == DebugEventTags.VALIDATION_FAIL)
                     {
+                        //if (tabCount > 0) tabCount--;
+                        writeHierarchy(debugSW, tabCount + 1, columnElements[0].ToString());
+                        writeDebugLineDetail(debugSW, 1, "VALIDATION_FAIL", columnElements);
+                    }
 
-                    }
-                    else if (columnElements[1] == DebugEventTags.VALIDATION_FORMULA)
+                    else if (columnElements[1] == DebugEventTags.VALIDATION_PASS)
                     {
-                        //writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
-                        //writeDebugLineDetail(debugSW, 1, "VARIABLE_SCOPE_BEGIN", columnElements);
+                        writeHierarchy(debugSW, tabCount + 1, columnElements[0].ToString());
+                        writeDebugLineDetail(debugSW, 1, "VALIDATION_PASS", columnElements);
                     }
-                    else if (columnElements[1] == DebugEventTags.VALIDATION_RULE)
+                    else if (columnElements[1] == DebugEventTags.VARIABLE_SCOPE_BEGIN)
                     {
-                        //writeHierarchy(debugSW, tabCount + 1, columnElements[0].ToString());
-                        //writeDebugLineDetail(debugSW, 1, "VARIABLE_SCOPE_BEGIN", columnElements);
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+                        writeDebugLineDetail(debugSW, 1, "VARIABLE_SCOPE_BEGIN", columnElements);
                     }
-                    //else if (columnElements[1] == DebugEventTags.VARIABLE_SCOPE_BEGIN)
-                    //{
-                    //    writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
-                    //    writeDebugLineDetail(debugSW, 1, "VARIABLE_SCOPE_BEGIN", columnElements);
-                    //}
-                    //else if (columnElements[1] == DebugEventTags.VARIABLE_ASSIGNMENT)
-                    //{
-                    //    writeHierarchy(debugSW, tabCount + 1, columnElements[0].ToString());
-                    //    writeDebugLineDetail(debugSW, 1, "VARIABLE_ASSIGNMENT", columnElements);
-                    //}
+                    else if (columnElements[1] == DebugEventTags.VARIABLE_ASSIGNMENT)
+                    {
+                        writeHierarchy(debugSW, tabCount + 1, columnElements[0].ToString());
+                        writeDebugLineDetail(debugSW, 1, "VARIABLE_ASSIGNMENT", columnElements);
+                    }
+                    else if (columnElements[1] == DebugEventTags.WF_CRITERIA_BEGIN)
+                    {
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+                        writeDebugLineDetail(debugSW, 1, "WF_CRITERIA_BEGIN", columnElements);
+                        tabCount++;
+                    }
+                    else if (columnElements[1] == DebugEventTags.WF_RULE_NOT_EVALUATED)
+                    {
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+                        debugSW.Write("WF_RULE_NOT_EVALUATED");
+                        debugSW.Write(Environment.NewLine);
+
+                        if (tabCount > 0) tabCount--;
+                        
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+                        debugSW.Write("WF_CRITERIA_END");
+                        debugSW.Write(Environment.NewLine);
+                    }
+                    else if (columnElements[1] == DebugEventTags.WF_CRITERIA_END)
+                    {
+                        if (tabCount > 0) tabCount--;
+
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+
+                        debugSW.Write("WF_CRITERIA_END");
+                        debugSW.Write(Environment.NewLine);
+                    }
                     else if (columnElements[1] == DebugEventTags.WF_EMAIL_ALERT)
                     {
                     }
@@ -604,14 +477,27 @@ namespace SalesforceMetadata
                     else if (columnElements[1] == DebugEventTags.WF_FLOW_ACTION_BEGIN)
                     {
                         writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
-
                         debugSW.Write("WF_FLOW_ACTION_BEGIN" + Environment.NewLine);
-
                         tabCount++;
                     }
                     else if (columnElements[1] == DebugEventTags.WF_FLOW_ACTION_END)
                     {
                         if (tabCount > 0) tabCount--;
+
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+
+                        debugSW.Write("WF_FLOW_ACTION_END");
+                        debugSW.Write(Environment.NewLine);
+                    }
+                    else if (columnElements[1] == DebugEventTags.WF_FORMULA)
+                    {
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+                        writeDebugLineDetail(debugSW, 1, "WF_FORMULA", columnElements);
+                    }
+                    else if (columnElements[1] == DebugEventTags.WF_RULE_FILTER)
+                    {
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+                        writeDebugLineDetail(debugSW, 1, "WF_RULE_FILTER", columnElements);
                     }
                 }
             }

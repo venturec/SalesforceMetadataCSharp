@@ -17,13 +17,13 @@ namespace SalesforceMetadata
 {
     public partial class ObjectFieldInspector : System.Windows.Forms.Form
     {
-        //private Dictionary<String, String> metadataXmlNameToFolder;
         private Dictionary<String, String> usernameToSecurityToken;
 
         private List<String> sObjectsList;
         private List<DescribeGlobalSObjectResult> sObjGlobalResultList;
         private ListViewColumnSorter lvwColumnSorter;
 
+        Boolean isFromXml = false;
 
         public ObjectFieldInspector()
         {
@@ -706,7 +706,7 @@ namespace SalesforceMetadata
 
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "CSV|*.csv";
-            sfd.FileName =  "SobjectList.csv";
+            sfd.FileName = "SobjectList.csv";
             sfd.Title = "Save sObjects to File";
             sfd.ShowDialog();
 
@@ -787,7 +787,7 @@ namespace SalesforceMetadata
                     sw.Write(dgr.triggerable + ",");
                     sw.Write(dgr.searchable + ",");
                     sw.Write(dgr.retrieveable + ",");
-                    
+
                     sw.Write(dgr.activateable + ",");
                     sw.Write(dgr.associateEntityType + ",");
                     sw.Write(dgr.associateParentEntity + ",");
@@ -835,206 +835,238 @@ namespace SalesforceMetadata
         {
             if (sobjectListBox.CheckedItems.Count > 0)
             {
-                Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG);
-
-                if (loginSuccess == false)
-                {
-                    MessageBox.Show("Please check username, password and/or security token");
-                    return;
-                }
-
-                Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
-                xlapp.Visible = false;
-
-                Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlapp.Workbooks.Add();
-
                 List<String> sobjList = new List<string>();
                 foreach (String sobj in sobjectListBox.CheckedItems)
                 {
                     sobjList.Add(sobj);
                 }
 
-                DescribeSObjectResult[] dsrList = new DescribeSObjectResult[sobjList.Count];
-                dsrList = SalesforceCredentials.fromOrgSS.describeSObjects(sobjList.ToArray());
+                saveSelectedToExcel(sobjList);
+            }
+        }
 
-                foreach (DescribeSObjectResult dsr in dsrList)
+        private void btnExportSelected_Click(object sender, EventArgs e)
+        {
+            if (this.cmbSalesforceSObjects.Text != "")
+            {
+                List<String> sobjList = new List<string>();
+                sobjList.Add(this.cmbSalesforceSObjects.Text);
+                saveSelectedToExcel(sobjList);
+            }
+        }
+
+        private void saveSelectedToExcel(List<String> sobjList)
+        {
+            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG);
+            Boolean toolingLoginSuccess = SalesforceCredentials.salesforceToolingLogin();
+
+            if (loginSuccess == false)
+            {
+                MessageBox.Show("Please check username, password and/or security token");
+                return;
+            }
+
+            Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
+            xlapp.Visible = false;
+
+            Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlapp.Workbooks.Add();
+
+            DescribeSObjectResult[] dsrList = new DescribeSObjectResult[sobjList.Count];
+            dsrList = SalesforceCredentials.fromOrgSS.describeSObjects(sobjList.ToArray());
+
+            foreach (DescribeSObjectResult dsr in dsrList)
+            {
+                try
                 {
-                    try
+                    Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
+                                                                                (System.Reflection.Missing.Value,
+                                                                                    xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
+                                                                                    System.Reflection.Missing.Value,
+                                                                                    System.Reflection.Missing.Value);
+                    xlWorksheet.Name = tabNameLengthCheck(dsr.name);
+
+                    xlWorksheet.Cells[1, 1].Value = "API Name";
+                    xlWorksheet.Cells[1, 2].Value = "Label";
+                    xlWorksheet.Cells[1, 3].Value = "Data Type";
+                    xlWorksheet.Cells[1, 4].Value = "Length";
+                    xlWorksheet.Cells[1, 5].Value = "Precision";
+                    xlWorksheet.Cells[1, 6].Value = "Scale";
+                    xlWorksheet.Cells[1, 7].Value = "Custom";
+                    xlWorksheet.Cells[1, 8].Value = "Unique";
+                    xlWorksheet.Cells[1, 9].Value = "Required";
+                    xlWorksheet.Cells[1, 10].Value = "Is Auto Number";
+                    xlWorksheet.Cells[1, 11].Value = "Default Value";
+                    xlWorksheet.Cells[1, 12].Value = "Default Value Formula";
+                    xlWorksheet.Cells[1, 13].Value = "Cascade Delete";
+                    xlWorksheet.Cells[1, 14].Value = "Cascade Delete Specified";
+                    xlWorksheet.Cells[1, 15].Value = "Is Formula";
+                    xlWorksheet.Cells[1, 16].Value = "Calculated Formula";
+                    xlWorksheet.Cells[1, 17].Value = "Treat Null Number As Zero";
+                    xlWorksheet.Cells[1, 18].Value = "Treat Null Number As Zero Specified";
+                    xlWorksheet.Cells[1, 19].Value = "Reference To";
+                    xlWorksheet.Cells[1, 20].Value = "Reference Target Field";
+                    xlWorksheet.Cells[1, 21].Value = "Relationship Name";
+                    xlWorksheet.Cells[1, 22].Value = "External ID";
+                    xlWorksheet.Cells[1, 23].Value = "Encrypted";
+                    xlWorksheet.Cells[1, 24].Value = "Picklist Values";
+                    xlWorksheet.Cells[1, 25].Value = "Dependent Picklist";
+                    xlWorksheet.Cells[1, 26].Value = "Dependent Picklist Specified";
+                    xlWorksheet.Cells[1, 27].Value = "Multi-Select Picklist Values";
+                    xlWorksheet.Cells[1, 28].Value = "Createable";
+                    xlWorksheet.Cells[1, 29].Value = "Updateable";
+                    xlWorksheet.Cells[1, 30].Value = "Aggregateable";
+                    xlWorksheet.Cells[1, 31].Value = "Groupable";
+                    xlWorksheet.Cells[1, 32].Value = "Sortable";
+
+                    Microsoft.Office.Interop.Excel.Range rng;
+                    rng = xlWorksheet.Range[xlWorksheet.Cells[1, 1], xlWorksheet.Cells[1, 32]];
+                    rng.Font.Bold = true;
+                    rng.Font.Size = 14;
+                    rng.Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbFloralWhite;
+                    rng.Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbRoyalBlue;
+
+                    Int32 i = 0;
+                    Int32 rowNumber = 2;
+                    foreach (Field cf in dsr.fields)
                     {
-                        Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
-                                                                                    (System.Reflection.Missing.Value,
-                                                                                     xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
-                                                                                     System.Reflection.Missing.Value,
-                                                                                     System.Reflection.Missing.Value);
-                        xlWorksheet.Name = tabNameLengthCheck(dsr.name);
-
-                        xlWorksheet.Cells[1, 1].Value = "API Name";
-                        xlWorksheet.Cells[1, 2].Value = "Label";
-                        xlWorksheet.Cells[1, 3].Value = "Data Type";
-                        xlWorksheet.Cells[1, 4].Value = "Length";
-                        xlWorksheet.Cells[1, 5].Value = "Precision";
-                        xlWorksheet.Cells[1, 6].Value = "Scale";
-                        xlWorksheet.Cells[1, 7].Value = "Custom";
-                        xlWorksheet.Cells[1, 8].Value = "Unique";
-                        xlWorksheet.Cells[1, 9].Value = "Required";
-                        xlWorksheet.Cells[1, 10].Value = "Is Auto Number";
-                        xlWorksheet.Cells[1, 11].Value = "Default Value";
-                        xlWorksheet.Cells[1, 12].Value = "Default Value Formula";
-                        xlWorksheet.Cells[1, 13].Value = "Cascade Delete";
-                        xlWorksheet.Cells[1, 14].Value = "Cascade Delete Specified";
-                        xlWorksheet.Cells[1, 15].Value = "Is Formula";
-                        xlWorksheet.Cells[1, 16].Value = "Calculated Formula";
-                        xlWorksheet.Cells[1, 17].Value = "Treat Null Number As Zero";
-                        xlWorksheet.Cells[1, 18].Value = "Treat Null Number As Zero Specified";
-                        xlWorksheet.Cells[1, 19].Value = "Reference To";
-                        xlWorksheet.Cells[1, 20].Value = "Reference Target Field";
-                        xlWorksheet.Cells[1, 21].Value = "Relationship Name";
-                        xlWorksheet.Cells[1, 22].Value = "External ID";
-                        xlWorksheet.Cells[1, 23].Value = "Encrypted";
-                        xlWorksheet.Cells[1, 24].Value = "Picklist Values";
-                        xlWorksheet.Cells[1, 25].Value = "Dependent Picklist";
-                        xlWorksheet.Cells[1, 26].Value = "Dependent Picklist Specified";
-                        xlWorksheet.Cells[1, 27].Value = "Multi-Select Picklist Values";
-                        xlWorksheet.Cells[1, 28].Value = "Createable";
-                        xlWorksheet.Cells[1, 29].Value = "Updateable";
-                        xlWorksheet.Cells[1, 30].Value = "Aggregateable";
-                        xlWorksheet.Cells[1, 31].Value = "Groupable";
-                        xlWorksheet.Cells[1, 32].Value = "Sortable";
-
-                        Microsoft.Office.Interop.Excel.Range rng;
-                        rng = xlWorksheet.Range[xlWorksheet.Cells[1, 1], xlWorksheet.Cells[1, 32]];
-                        rng.Font.Bold = true;
-                        rng.Font.Size = 14;
-                        rng.Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbFloralWhite;
-                        rng.Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbRoyalBlue;
-
-                        Int32 i = 0;
-                        Int32 rowNumber = 2;
-                        foreach (Field cf in dsr.fields)
+                        String referenceToObjects = "";
+                        if (cf.referenceTo != null)
                         {
-                            String referenceToObjects = "";
-                            if (cf.referenceTo != null)
-                            {
-                                referenceToObjects = getReferenceToObjects(cf.referenceTo.ToList());
-                            }
+                            referenceToObjects = getReferenceToObjects(cf.referenceTo.ToList());
+                        }
 
-                            String fieldDataType = getFieldDataTypes(cf, cf.type);
-                            String picklistValues = "";
-                            String multiselectValues = "";
+                        String fieldDataType = getFieldDataTypes(cf, cf.type);
+                        String picklistValues = "";
+                        String multiselectValues = "";
 
-                            if (fieldDataType == "Picklist" && cf.picklistValues != null)
-                            {
-                                picklistValues = getPicklistValues(cf);
-                            }
+                        if (fieldDataType == "Picklist" && cf.picklistValues != null)
+                        {
+                            picklistValues = getPicklistValues(cf);
+                        }
 
-                            if (fieldDataType == "Multi-Select Picklist" && cf.picklistValues != null)
-                            {
-                                multiselectValues = getPicklistValues(cf);
-                            }
+                        if (fieldDataType == "Multi-Select Picklist" && cf.picklistValues != null)
+                        {
+                            multiselectValues = getPicklistValues(cf);
+                        }
 
-                            if (i == 0)
-                            {
-                                xlWorksheet.Cells[rowNumber, 1].Value = cf.name;
-                                xlWorksheet.Cells[rowNumber, 2].Value = cf.label;
-                                xlWorksheet.Cells[rowNumber, 3].Value = fieldDataType;
-                                xlWorksheet.Cells[rowNumber, 4].Value = cf.length.ToString();
-                                xlWorksheet.Cells[rowNumber, 5].Value = cf.precision.ToString();
-                                xlWorksheet.Cells[rowNumber, 6].Value = cf.scale.ToString();
-                                xlWorksheet.Cells[rowNumber, 7].Value = cf.custom.ToString();
-                                xlWorksheet.Cells[rowNumber, 8].Value = cf.unique.ToString();
-                                xlWorksheet.Cells[rowNumber, 9].Value = cf.nillable.ToString();
-                                xlWorksheet.Cells[rowNumber, 10].Value = cf.autoNumber.ToString();
-                                xlWorksheet.Cells[rowNumber, 11].Value = cf.defaultValue;
-                                xlWorksheet.Cells[rowNumber, 12].Value = cf.defaultValueFormula;
-                                xlWorksheet.Cells[rowNumber, 13].Value = cf.cascadeDelete;
-                                xlWorksheet.Cells[rowNumber, 14].Value = cf.cascadeDeleteSpecified;
-                                xlWorksheet.Cells[rowNumber, 15].Value = cf.calculated.ToString();
-                                xlWorksheet.Cells[rowNumber, 16].Value = cf.calculatedFormula;
-                                xlWorksheet.Cells[rowNumber, 17].Value = cf.formulaTreatNullNumberAsZero;
-                                xlWorksheet.Cells[rowNumber, 18].Value = cf.formulaTreatNullNumberAsZeroSpecified;
-                                xlWorksheet.Cells[rowNumber, 19].Value = referenceToObjects;
-                                xlWorksheet.Cells[rowNumber, 20].Value = cf.referenceTargetField;
-                                xlWorksheet.Cells[rowNumber, 21].Value = cf.relationshipName;
-                                xlWorksheet.Cells[rowNumber, 22].Value = cf.externalId.ToString();
-                                xlWorksheet.Cells[rowNumber, 23].Value = cf.encrypted.ToString();
-                                xlWorksheet.Cells[rowNumber, 24].Value = picklistValues;
-                                xlWorksheet.Cells[rowNumber, 25].Value = cf.dependentPicklist;
-                                xlWorksheet.Cells[rowNumber, 26].Value = cf.dependentPicklistSpecified;
-                                xlWorksheet.Cells[rowNumber, 27].Value = multiselectValues;
-                                xlWorksheet.Cells[rowNumber, 28].Value = cf.createable.ToString();
-                                xlWorksheet.Cells[rowNumber, 29].Value = cf.updateable.ToString();
-                                xlWorksheet.Cells[rowNumber, 30].Value = cf.aggregatable.ToString();
-                                xlWorksheet.Cells[rowNumber, 31].Value = cf.groupable.ToString();
-                                xlWorksheet.Cells[rowNumber, 32].Value = cf.sortable.ToString();
+                        if (i == 0)
+                        {
+                            xlWorksheet.Cells[rowNumber, 1].Value = cf.name;
+                            xlWorksheet.Cells[rowNumber, 2].Value = cf.label;
+                            xlWorksheet.Cells[rowNumber, 3].Value = fieldDataType;
+                            xlWorksheet.Cells[rowNumber, 4].Value = cf.length.ToString();
+                            xlWorksheet.Cells[rowNumber, 5].Value = cf.precision.ToString();
+                            xlWorksheet.Cells[rowNumber, 6].Value = cf.scale.ToString();
+                            xlWorksheet.Cells[rowNumber, 7].Value = cf.custom.ToString();
+                            xlWorksheet.Cells[rowNumber, 8].Value = cf.unique.ToString();
+                            xlWorksheet.Cells[rowNumber, 9].Value = cf.nillable.ToString();
+                            xlWorksheet.Cells[rowNumber, 10].Value = cf.autoNumber.ToString();
+                            xlWorksheet.Cells[rowNumber, 11].Value = cf.defaultValue;
+                            xlWorksheet.Cells[rowNumber, 12].Value = cf.defaultValueFormula;
+                            xlWorksheet.Cells[rowNumber, 13].Value = cf.cascadeDelete;
+                            xlWorksheet.Cells[rowNumber, 14].Value = cf.cascadeDeleteSpecified;
+                            xlWorksheet.Cells[rowNumber, 15].Value = cf.calculated.ToString();
+                            xlWorksheet.Cells[rowNumber, 16].Value = cf.calculatedFormula;
+                            xlWorksheet.Cells[rowNumber, 17].Value = cf.formulaTreatNullNumberAsZero;
+                            xlWorksheet.Cells[rowNumber, 18].Value = cf.formulaTreatNullNumberAsZeroSpecified;
+                            xlWorksheet.Cells[rowNumber, 19].Value = referenceToObjects;
+                            xlWorksheet.Cells[rowNumber, 20].Value = cf.referenceTargetField;
+                            xlWorksheet.Cells[rowNumber, 21].Value = cf.relationshipName;
+                            xlWorksheet.Cells[rowNumber, 22].Value = cf.externalId.ToString();
+                            xlWorksheet.Cells[rowNumber, 23].Value = cf.encrypted.ToString();
+                            xlWorksheet.Cells[rowNumber, 24].Value = picklistValues;
+                            xlWorksheet.Cells[rowNumber, 25].Value = cf.dependentPicklist;
+                            xlWorksheet.Cells[rowNumber, 26].Value = cf.dependentPicklistSpecified;
+                            xlWorksheet.Cells[rowNumber, 27].Value = multiselectValues;
+                            xlWorksheet.Cells[rowNumber, 28].Value = cf.createable.ToString();
+                            xlWorksheet.Cells[rowNumber, 29].Value = cf.updateable.ToString();
+                            xlWorksheet.Cells[rowNumber, 30].Value = cf.aggregatable.ToString();
+                            xlWorksheet.Cells[rowNumber, 31].Value = cf.groupable.ToString();
+                            xlWorksheet.Cells[rowNumber, 32].Value = cf.sortable.ToString();
 
-                                rng = xlWorksheet.Range[xlWorksheet.Cells[rowNumber, 1], xlWorksheet.Cells[rowNumber, 32]];
-                                rng.Font.Size = 11;
+                            //if (fieldDataType == "Lookup" || fieldDataType == "Master-Detail")
+                            //{
+                            //    // Run the tooling query
+                            //    String relationshipQuery = ToolingApiHelper.RelationshipDomainQuery(dsr.name, cf.name);
+                            //    SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
+                            //    SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
 
-                                Microsoft.Office.Interop.Excel.Borders border = rng.Borders;
-                                border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
-                                border.Weight = 1d;
-                                border.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbLightGray;
+                            //    toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(relationshipQuery);
 
-                                i++;
-                                rowNumber++;
-                            }
-                            else if (i == 1)
-                            {
-                                xlWorksheet.Cells[rowNumber, 1].Value = cf.name;
-                                xlWorksheet.Cells[rowNumber, 2].Value = cf.label;
-                                xlWorksheet.Cells[rowNumber, 3].Value = fieldDataType;
-                                xlWorksheet.Cells[rowNumber, 4].Value = cf.length.ToString();
-                                xlWorksheet.Cells[rowNumber, 5].Value = cf.precision.ToString();
-                                xlWorksheet.Cells[rowNumber, 6].Value = cf.scale.ToString();
-                                xlWorksheet.Cells[rowNumber, 7].Value = cf.custom.ToString();
-                                xlWorksheet.Cells[rowNumber, 8].Value = cf.unique.ToString();
-                                xlWorksheet.Cells[rowNumber, 9].Value = cf.nillable.ToString();
-                                xlWorksheet.Cells[rowNumber, 10].Value = cf.autoNumber.ToString();
-                                xlWorksheet.Cells[rowNumber, 11].Value = cf.defaultValue;
-                                xlWorksheet.Cells[rowNumber, 12].Value = cf.defaultValueFormula;
-                                xlWorksheet.Cells[rowNumber, 13].Value = cf.cascadeDelete;
-                                xlWorksheet.Cells[rowNumber, 14].Value = cf.cascadeDeleteSpecified;
-                                xlWorksheet.Cells[rowNumber, 15].Value = cf.calculated.ToString();
-                                xlWorksheet.Cells[rowNumber, 16].Value = cf.calculatedFormula;
-                                xlWorksheet.Cells[rowNumber, 17].Value = cf.formulaTreatNullNumberAsZero;
-                                xlWorksheet.Cells[rowNumber, 18].Value = cf.formulaTreatNullNumberAsZeroSpecified;
-                                xlWorksheet.Cells[rowNumber, 19].Value = referenceToObjects;
-                                xlWorksheet.Cells[rowNumber, 20].Value = cf.referenceTargetField;
-                                xlWorksheet.Cells[rowNumber, 21].Value = cf.relationshipName;
-                                xlWorksheet.Cells[rowNumber, 22].Value = cf.externalId.ToString();
-                                xlWorksheet.Cells[rowNumber, 23].Value = cf.encrypted.ToString();
-                                xlWorksheet.Cells[rowNumber, 24].Value = picklistValues;
-                                xlWorksheet.Cells[rowNumber, 25].Value = cf.dependentPicklist;
-                                xlWorksheet.Cells[rowNumber, 26].Value = cf.dependentPicklistSpecified;
-                                xlWorksheet.Cells[rowNumber, 27].Value = multiselectValues;
-                                xlWorksheet.Cells[rowNumber, 28].Value = cf.createable.ToString();
-                                xlWorksheet.Cells[rowNumber, 29].Value = cf.updateable.ToString();
-                                xlWorksheet.Cells[rowNumber, 30].Value = cf.aggregatable.ToString();
-                                xlWorksheet.Cells[rowNumber, 31].Value = cf.groupable.ToString();
-                                xlWorksheet.Cells[rowNumber, 32].Value = cf.sortable.ToString();
+                            //    if (toolingQr.records != null)
+                            //    {
+                            //        toolingRecords = toolingQr.records;
 
-                                rng = xlWorksheet.Range[xlWorksheet.Cells[rowNumber, 1], xlWorksheet.Cells[rowNumber, 32]];
-                                rng.Font.Size = 11;
+                            //    }
+                            //}
 
-                                Microsoft.Office.Interop.Excel.Borders border = rng.Borders;
-                                border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
-                                border.Weight = 1d;
-                                border.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbLightGray;
+                            rng = xlWorksheet.Range[xlWorksheet.Cells[rowNumber, 1], xlWorksheet.Cells[rowNumber, 32]];
+                            rng.Font.Size = 11;
 
-                                i = 0;
-                                rowNumber++;
-                            }
+                            Microsoft.Office.Interop.Excel.Borders border = rng.Borders;
+                            border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                            border.Weight = 1d;
+                            border.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbLightGray;
+
+                            i++;
+                            rowNumber++;
+                        }
+                        else if (i == 1)
+                        {
+                            xlWorksheet.Cells[rowNumber, 1].Value = cf.name;
+                            xlWorksheet.Cells[rowNumber, 2].Value = cf.label;
+                            xlWorksheet.Cells[rowNumber, 3].Value = fieldDataType;
+                            xlWorksheet.Cells[rowNumber, 4].Value = cf.length.ToString();
+                            xlWorksheet.Cells[rowNumber, 5].Value = cf.precision.ToString();
+                            xlWorksheet.Cells[rowNumber, 6].Value = cf.scale.ToString();
+                            xlWorksheet.Cells[rowNumber, 7].Value = cf.custom.ToString();
+                            xlWorksheet.Cells[rowNumber, 8].Value = cf.unique.ToString();
+                            xlWorksheet.Cells[rowNumber, 9].Value = cf.nillable.ToString();
+                            xlWorksheet.Cells[rowNumber, 10].Value = cf.autoNumber.ToString();
+                            xlWorksheet.Cells[rowNumber, 11].Value = cf.defaultValue;
+                            xlWorksheet.Cells[rowNumber, 12].Value = cf.defaultValueFormula;
+                            xlWorksheet.Cells[rowNumber, 13].Value = cf.cascadeDelete;
+                            xlWorksheet.Cells[rowNumber, 14].Value = cf.cascadeDeleteSpecified;
+                            xlWorksheet.Cells[rowNumber, 15].Value = cf.calculated.ToString();
+                            xlWorksheet.Cells[rowNumber, 16].Value = cf.calculatedFormula;
+                            xlWorksheet.Cells[rowNumber, 17].Value = cf.formulaTreatNullNumberAsZero;
+                            xlWorksheet.Cells[rowNumber, 18].Value = cf.formulaTreatNullNumberAsZeroSpecified;
+                            xlWorksheet.Cells[rowNumber, 19].Value = referenceToObjects;
+                            xlWorksheet.Cells[rowNumber, 20].Value = cf.referenceTargetField;
+                            xlWorksheet.Cells[rowNumber, 21].Value = cf.relationshipName;
+                            xlWorksheet.Cells[rowNumber, 22].Value = cf.externalId.ToString();
+                            xlWorksheet.Cells[rowNumber, 23].Value = cf.encrypted.ToString();
+                            xlWorksheet.Cells[rowNumber, 24].Value = picklistValues;
+                            xlWorksheet.Cells[rowNumber, 25].Value = cf.dependentPicklist;
+                            xlWorksheet.Cells[rowNumber, 26].Value = cf.dependentPicklistSpecified;
+                            xlWorksheet.Cells[rowNumber, 27].Value = multiselectValues;
+                            xlWorksheet.Cells[rowNumber, 28].Value = cf.createable.ToString();
+                            xlWorksheet.Cells[rowNumber, 29].Value = cf.updateable.ToString();
+                            xlWorksheet.Cells[rowNumber, 30].Value = cf.aggregatable.ToString();
+                            xlWorksheet.Cells[rowNumber, 31].Value = cf.groupable.ToString();
+                            xlWorksheet.Cells[rowNumber, 32].Value = cf.sortable.ToString();
+
+                            rng = xlWorksheet.Range[xlWorksheet.Cells[rowNumber, 1], xlWorksheet.Cells[rowNumber, 32]];
+                            rng.Font.Size = 11;
+
+                            Microsoft.Office.Interop.Excel.Borders border = rng.Borders;
+                            border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                            border.Weight = 1d;
+                            border.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbLightGray;
+
+                            i = 0;
+                            rowNumber++;
                         }
                     }
-                    catch (Exception exc)
-                    {
-                        //Console.WriteLine(exc.Message);
-                    }
-
+                }
+                catch (Exception exc)
+                {
+                    //Console.WriteLine(exc.Message);
                 }
 
-                xlapp.Visible = true;
             }
+
+            xlapp.Visible = true;
         }
 
         private void cmbUserName_SelectedIndexChanged(object sender, EventArgs e)
@@ -1306,7 +1338,16 @@ namespace SalesforceMetadata
 
         private void cmbSalesforceSObjects_SelectedValueChanged(object sender, EventArgs e)
         {
-            populateListView(this.cmbSalesforceSObjects.SelectedItem.ToString());
+            populateListView(this.cmbSalesforceSObjects.Text);
+
+            if (this.cmbSalesforceSObjects.Text != "")
+            {
+                this.btnExportSelected.Enabled = true;
+            }
+            else
+            {
+                this.btnExportSelected.Enabled= false;
+            }
         }
 
         private void listViewSobjectFields_SelectedIndexChanged(object sender, EventArgs e)
@@ -1348,5 +1389,6 @@ namespace SalesforceMetadata
             System.Windows.Forms.ListView lv = (System.Windows.Forms.ListView)sender;
             Clipboard.SetText(lv.FocusedItem.Text);
         }
+
     }
 }

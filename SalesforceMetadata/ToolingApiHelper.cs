@@ -1611,11 +1611,13 @@ namespace SalesforceMetadata
             return query;
         }
 
-        public static String RelationshipDomainQuery()
+        public static String RelationshipDomainQuery(String parentObject, String fieldName)
         {
-            String query = "SELECT Id, " +
-            "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
-            "FROM RelationshipDomain";
+            String query = "SELECT Id, ChildSobjectId, ChildSobject.DeveloperName, DurableId, FieldId, Field.DeveloperName, " + 
+                           "IsCascadeDelete, IsDeprecatedAndHidden, IsRestrictedDelete, JunctionIdListNames, ParentSobjectId, " + 
+                           "ParentSobject.DeveloperName, RelationshipInfoId, RelationshipName " +
+                           "FROM RelationshipDomain " +
+                           "WHERE ParentSobject.DeveloperName = '" + parentObject + "'";
 
             return query;
         }

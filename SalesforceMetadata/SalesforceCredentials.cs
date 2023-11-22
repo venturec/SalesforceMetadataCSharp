@@ -72,7 +72,7 @@ namespace SalesforceMetadata
             }
 
             // Create a new Salesforce login object
-            if(reqOrg == UtilityClass.REQUESTINGORG.FROMORG
+            if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG
                && fromOrgUsername != null
                && fromOrgUsername != "")
             {
@@ -173,7 +173,7 @@ namespace SalesforceMetadata
                 {
                 }
             }
-            
+
             return loginSuccess;
         }
 
@@ -314,7 +314,6 @@ namespace SalesforceMetadata
             return ms;
 
         }
-
 
     }
 

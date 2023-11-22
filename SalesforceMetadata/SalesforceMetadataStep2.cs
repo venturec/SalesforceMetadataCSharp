@@ -138,23 +138,23 @@ namespace SalesforceMetadata
 
                 target_dir = target_dir + '\\' + extractToFolder;
             }
-            else if (reqOrg == UtilityClass.REQUESTINGORG.TOORG)
-            {
-                String[] urlParsed = SalesforceCredentials.toOrgLR.serverUrl.Split('/');
-                urlParsed = urlParsed[2].Split('.');
-                extractToFolder = urlParsed[0];
+            //else if (reqOrg == UtilityClass.REQUESTINGORG.TOORG)
+            //{
+            //    String[] urlParsed = SalesforceCredentials.toOrgLR.serverUrl.Split('/');
+            //    urlParsed = urlParsed[2].Split('.');
+            //    extractToFolder = urlParsed[0];
 
-                if (extractToFolder.Contains("--"))
-                {
-                    extractToFolder = extractToFolder.Replace("--", "__");
-                }
-                else
-                {
-                    extractToFolder = extractToFolder + "__production";
-                }
+            //    if (extractToFolder.Contains("--"))
+            //    {
+            //        extractToFolder = extractToFolder.Replace("--", "__");
+            //    }
+            //    else
+            //    {
+            //        extractToFolder = extractToFolder + "__production";
+            //    }
 
-                target_dir = target_dir + '\\' + extractToFolder;
-            }
+            //    target_dir = target_dir + '\\' + extractToFolder;
+            //}
 
             if (!Directory.Exists(target_dir))
             {

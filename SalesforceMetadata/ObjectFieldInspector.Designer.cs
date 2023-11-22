@@ -52,6 +52,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbFilterManagedPkg = new System.Windows.Forms.CheckBox();
             this.cbCustomObjectsOnly = new System.Windows.Forms.CheckBox();
+            this.btnExportSelected = new System.Windows.Forms.Button();
             this.salesforceOrgCredentials.SuspendLayout();
             this.grpSaveToExcel.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -286,6 +287,7 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.groupBox1.Controls.Add(this.btnExportSelected);
             this.groupBox1.Controls.Add(this.cbFilterManagedPkg);
             this.groupBox1.Controls.Add(this.cbCustomObjectsOnly);
             this.groupBox1.Controls.Add(this.btnSaveFieldsToFile);
@@ -322,6 +324,17 @@
             this.cbCustomObjectsOnly.Text = "Filter Custom Objects";
             this.cbCustomObjectsOnly.UseVisualStyleBackColor = true;
             this.cbCustomObjectsOnly.CheckedChanged += new System.EventHandler(this.cbCustomObjectsOnly_CheckedChanged);
+            // 
+            // btnExportSelected
+            // 
+            this.btnExportSelected.Enabled = false;
+            this.btnExportSelected.Location = new System.Drawing.Point(253, 114);
+            this.btnExportSelected.Name = "btnExportSelected";
+            this.btnExportSelected.Size = new System.Drawing.Size(138, 23);
+            this.btnExportSelected.TabIndex = 6;
+            this.btnExportSelected.Text = "Export Selected to Excel";
+            this.btnExportSelected.UseVisualStyleBackColor = true;
+            this.btnExportSelected.Click += new System.EventHandler(this.btnExportSelected_Click);
             // 
             // ObjectFieldInspector
             // 
@@ -371,5 +384,6 @@
         private System.Windows.Forms.CheckBox cbSelectAll;
         private System.Windows.Forms.CheckBox cbCustomObjectsOnly;
         private System.Windows.Forms.CheckBox cbFilterManagedPkg;
+        private System.Windows.Forms.Button btnExportSelected;
     }
 }

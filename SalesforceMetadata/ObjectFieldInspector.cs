@@ -74,19 +74,13 @@ namespace SalesforceMetadata
             this.sObjectsList = new List<string>();
             this.sObjGlobalResultList = new List<DescribeGlobalSObjectResult>();
 
-            if (this.cmbUserName.Text == "" || this.tbPassword.Text == "")
+            if (String.IsNullOrEmpty(this.cmbUserName.Text))
             {
                 MessageBox.Show("Please enter your credentials before continuing");
                 return;
             }
-            else
-            {
-                SalesforceCredentials.fromOrgUsername = this.cmbUserName.Text;
-                SalesforceCredentials.fromOrgPassword = this.tbPassword.Text;
-                SalesforceCredentials.fromOrgSecurityToken = this.tbSecurityToken.Text;
-                sfLoginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG);
-            }
 
+            sfLoginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
             if (sfLoginSuccess == false) return;
 
             DescribeGlobalResult dgr = SalesforceCredentials.fromOrgSS.describeGlobal();
@@ -110,7 +104,7 @@ namespace SalesforceMetadata
         private void populateListView(String sobjectName)
         {
             this.listViewSobjectFields.Clear();
-            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG);
+            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
             if (loginSuccess == false)
             {
                 MessageBox.Show("Please check username, password and/or security token");
@@ -857,8 +851,8 @@ namespace SalesforceMetadata
 
         private void saveSelectedToExcel(List<String> sobjList)
         {
-            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG);
-            Boolean toolingLoginSuccess = SalesforceCredentials.salesforceToolingLogin();
+            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
+            //Boolean toolingLoginSuccess = SalesforceCredentials.salesforceToolingLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
 
             if (loginSuccess == false)
             {
@@ -1071,22 +1065,29 @@ namespace SalesforceMetadata
 
         private void cmbUserName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.tbSecurityToken.Text = "";
-            if (this.usernameToSecurityToken.ContainsKey(this.cmbUserName.Text))
-            {
-                this.tbSecurityToken.Text = this.usernameToSecurityToken[cmbUserName.Text];
-            }
-
             this.btnGetSobjects.Enabled = true;
             this.cmbSalesforceSObjects.Items.Clear();
             this.sobjectListBox.Items.Clear();
+
+            this.Text = "Object Field Inspector";
+
+            if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
+            {
+                this.Text = "Object Field Inspector - PRODUCTION";
+            }
+            else
+            {
+                String[] userNamesplit = this.cmbUserName.Text.Split('.');
+                String orgName = userNamesplit[userNamesplit.Length - 1].ToUpper();
+                this.Text = "Object Field Inspector - " + orgName;
+            }
         }
 
         private void btnGetReferenceFields_Click(object sender, EventArgs e)
         {
             if (sobjectListBox.CheckedItems.Count > 0)
             {
-                Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG);
+                Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
 
                 if (loginSuccess == false)
                 {

@@ -106,12 +106,13 @@ namespace SalesforceMetadata
                 Properties.Settings.Default.DefaultAPI = this.cmbDefaultAPI.Text;
                 Properties.Settings.Default.DefaultTextEditorPath = this.tbDefaultTextEditor.Text;
                 Properties.Settings.Default.Save();
+
+                SalesforceCredentials.populateUsernameMaps();
             }
             else
             {
                 MessageBox.Show("Please populate the Credentials file location, Shared Secret Location and Salt first before continuing");
             }
-
 
             return error;
         }

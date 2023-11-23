@@ -9,6 +9,8 @@ using SalesforceMetadata.PartnerWSDL;
 using SalesforceMetadata.MetadataWSDL;
 using SalesforceMetadata.ToolingWSDL;
 using System.Runtime.CompilerServices;
+using System.IO;
+using System.Xml;
 
 namespace SalesforceMetadata
 {
@@ -20,24 +22,19 @@ namespace SalesforceMetadata
         public static Dictionary<String, List<String>> defaultWsdlObjects;
         public static Dictionary<String, Boolean> isProduction;
 
-        public static String fromOrgUsername;
-        public static String fromOrgPassword;
-        public static String fromOrgSecurityToken;
-        public static SforceService fromOrgSS;
         public static SalesforceMetadata.PartnerWSDL.LoginResult fromOrgLR;
-        public static MetadataService fromOrgMS;
-
+        public static SalesforceMetadata.PartnerWSDL.SforceService fromOrgSS;
+        public static SalesforceMetadata.MetadataWSDL.MetadataService fromOrgMS;
         public static SalesforceMetadata.ToolingWSDL.SforceServiceService fromOrgToolingSvc;
         public static SalesforceMetadata.ToolingWSDL.LoginResult fromOrgToolingLR;
 
-        public static String toOrgUsername;
-        public static String toOrgPassword;
-        public static String toOrgSecurityToken;
-        public static SforceService toOrgSS;
         public static SalesforceMetadata.PartnerWSDL.LoginResult toOrgLR;
-        public static MetadataService toOrgMS;
+        public static SalesforceMetadata.PartnerWSDL.SforceService toOrgSS;
+        public static SalesforceMetadata.MetadataWSDL.MetadataService toOrgMS;
+        public static SalesforceMetadata.ToolingWSDL.SforceServiceService toOrgToolingSvc;
+        public static SalesforceMetadata.ToolingWSDL.LoginResult toOrgToolingLR;
 
-        public static Boolean salesforceLogin(UtilityClass.REQUESTINGORG reqOrg)
+        public static Boolean salesforceLogin(UtilityClass.REQUESTINGORG reqOrg, String userName)
         {
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
@@ -72,25 +69,23 @@ namespace SalesforceMetadata
             }
 
             // Create a new Salesforce login object
-            if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG
-               && fromOrgUsername != null
-               && fromOrgUsername != "")
+            if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
                 fromOrgSS = new SforceService();
                 fromOrgLR = new SalesforceMetadata.PartnerWSDL.LoginResult();
-                fromOrgMS = new MetadataService();
+                fromOrgMS = new SalesforceMetadata.MetadataWSDL.MetadataService();
 
                 try
                 {
-                    if (isProduction[fromOrgUsername] == false)
+                    if (isProduction[userName] == false)
                     {
-                        fromOrgSS.Url = usernamePartnerUrl[fromOrgUsername];
+                        fromOrgSS.Url = usernamePartnerUrl[userName];
                         fromOrgLR.sandbox = true;
                     }
 
                     if (fromOrgSecurityToken != null && fromOrgSecurityToken != "")
                     {
-                        fromOrgLR = fromOrgSS.login(fromOrgUsername, fromOrgPassword + fromOrgSecurityToken);
+                        fromOrgLR = fromOrgSS.login(userName, fromOrgPassword + fromOrgSecurityToken);
                         if (fromOrgLR.sessionId != null && fromOrgLR.passwordExpired == false)
                         {
                             loginSuccess = true;
@@ -98,7 +93,7 @@ namespace SalesforceMetadata
                     }
                     else
                     {
-                        fromOrgLR = fromOrgSS.login(fromOrgUsername, fromOrgPassword);
+                        fromOrgLR = fromOrgSS.login(userName, fromOrgPassword);
                         if (fromOrgLR.sessionId != null && fromOrgLR.passwordExpired == false)
                         {
                             loginSuccess = true;
@@ -125,26 +120,25 @@ namespace SalesforceMetadata
 
             ///* TOORG Login Credentials */
             if (reqOrg == UtilityClass.REQUESTINGORG.TOORG
-               && toOrgUsername != null
-               && toOrgUsername != "")
+               && String.IsNullOrEmpty(userName) == false)
             {
                 toOrgSS = new SforceService();
                 toOrgLR = new SalesforceMetadata.PartnerWSDL.LoginResult();
-                toOrgMS = new MetadataService();
+                toOrgMS = new SalesforceMetadata.MetadataWSDL.MetadataService();
 
                 try
                 {
-                    toOrgLR.metadataServerUrl = usernamePartnerUrl[toOrgUsername];
+                    toOrgLR.metadataServerUrl = usernamePartnerUrl[userName];
 
-                    if (isProduction[toOrgUsername] == false)
+                    if (isProduction[userName] == false)
                     {
-                        toOrgSS.Url = usernamePartnerUrl[toOrgUsername];
+                        toOrgSS.Url = usernamePartnerUrl[userName];
                         toOrgLR.sandbox = true;
                     }
 
                     if (toOrgSecurityToken != null && toOrgSecurityToken != "")
                     {
-                        toOrgLR = toOrgSS.login(toOrgUsername, toOrgPassword + toOrgSecurityToken);
+                        toOrgLR = toOrgSS.login(userName, toOrgPassword + toOrgSecurityToken);
                         if (toOrgLR.sessionId != null && toOrgLR.passwordExpired == false)
                         {
                             loginSuccess = true;
@@ -177,7 +171,7 @@ namespace SalesforceMetadata
             return loginSuccess;
         }
 
-        public static Boolean salesforceToolingLogin()
+        public static Boolean salesforceToolingLogin(UtilityClass.REQUESTINGORG reqOrg, String userName)
         {
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
@@ -188,14 +182,13 @@ namespace SalesforceMetadata
 
             try
             {
-                if (isProduction[fromOrgUsername] == false)
+                if (isProduction[userName] == false)
                 {
-                    fromOrgToolingSvc.Url = usernameToolingWsdlUrl[fromOrgUsername];
+                    fromOrgToolingSvc.Url = usernameToolingWsdlUrl[userName];
                     fromOrgToolingLR.sandbox = true;
                 }
 
-                if (fromOrgSecurityToken != null 
-                    && fromOrgSecurityToken != "")
+                if (String.IsNullOrEmpty(fromOrgSecurityToken) == false)
                 {
                     fromOrgToolingLR = fromOrgToolingSvc.login(fromOrgUsername, fromOrgPassword + fromOrgSecurityToken);
                     if (fromOrgToolingLR.sessionId != null && fromOrgToolingLR.passwordExpired == false)
@@ -229,6 +222,7 @@ namespace SalesforceMetadata
             try
             {
                 if(fromOrgSS != null) fromOrgSS.logout();
+                
             }
             catch (Exception e) { }
 
@@ -269,6 +263,7 @@ namespace SalesforceMetadata
 
             return descrTabs;
         }
+        
         public static DescribeMetadataResult getDescribeMetadataResult(UtilityClass.REQUESTINGORG reqOrg)
         {
             DescribeMetadataResult dmd = new DescribeMetadataResult();
@@ -299,9 +294,9 @@ namespace SalesforceMetadata
             return dmd;
         }
 
-        public static MetadataService getMetadataService(UtilityClass.REQUESTINGORG reqOrg)
+        public static SalesforceMetadata.MetadataWSDL.MetadataService getMetadataService(UtilityClass.REQUESTINGORG reqOrg)
         {
-            MetadataService ms = new MetadataService();
+            SalesforceMetadata.MetadataWSDL.MetadataService ms = new SalesforceMetadata.MetadataWSDL.MetadataService();
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
                 ms = fromOrgMS;
@@ -315,6 +310,108 @@ namespace SalesforceMetadata
 
         }
 
+        public static void populateUsernameMaps()
+        {
+            usernamePartnerUrl = new Dictionary<String, String>();
+            usernameMetadataUrl = new Dictionary<String, String>();
+            usernameToolingWsdlUrl = new Dictionary<String, String>();
+            isProduction = new Dictionary<String, Boolean>();
+            defaultWsdlObjects = new Dictionary<String, List<String>>();
+
+            // Decrypt the contents of the file and place in an XML Document format
+            StreamReader encryptedContents = new StreamReader(Properties.Settings.Default.UserAndAPIFileLocation);
+            StreamReader sharedSecret = new StreamReader(Properties.Settings.Default.SharedSecretLocation);
+            String decryptedContents = Crypto.DecryptString(encryptedContents.ReadToEnd(),
+                                                            sharedSecret.ReadToEnd(),
+                                                            Properties.Settings.Default.Salt);
+
+            encryptedContents.Close();
+            sharedSecret.Close();
+
+            XmlDocument sfUser = new XmlDocument();
+            sfUser.LoadXml(decryptedContents);
+
+            XmlNodeList documentNodes = sfUser.GetElementsByTagName("usersetting");
+
+            for (int i = 0; i < documentNodes.Count; i++)
+            {
+                String username = "";
+                String partnerWsdlUrl = "";
+                String metadataWdldUrl = "";
+                String toolingWsdlUrl = "";
+                Boolean isProd = false;
+                List<String> defaultWsdlObjectList = new List<String>();
+                foreach (XmlNode childNode in documentNodes[i].ChildNodes)
+                {
+                    if (childNode.Name == "username")
+                    {
+                        username = childNode.InnerText;
+                    }
+
+                    if (childNode.Name == "isproduction")
+                    {
+                        isProd = Convert.ToBoolean(childNode.InnerText);
+                    }
+
+                    if (childNode.Name == "partnerwsdlurl")
+                    {
+                        partnerWsdlUrl = childNode.InnerText;
+                    }
+
+                    if (childNode.Name == "metadatawsdlurl")
+                    {
+                        metadataWdldUrl = childNode.InnerText;
+                    }
+
+                    if (childNode.Name == "toolingwsdlurl")
+                    {
+                        toolingWsdlUrl = childNode.InnerText;
+                    }
+
+                    if (childNode.Name == "defaultpackages" && childNode.HasChildNodes)
+                    {
+                        XmlNodeList defObjects = childNode.ChildNodes;
+                        foreach (XmlNode obj in defObjects)
+                        {
+                            defaultWsdlObjectList.Add(obj.InnerText);
+                        }
+                    }
+                }
+
+                SalesforceCredentials.usernamePartnerUrl.Add(username, partnerWsdlUrl);
+                SalesforceCredentials.usernameMetadataUrl.Add(username, metadataWdldUrl);
+                SalesforceCredentials.isProduction.Add(username, isProd);
+
+                if (defaultWsdlObjectList.Count > 0)
+                {
+                    SalesforceCredentials.defaultWsdlObjects.Add(username, defaultWsdlObjectList);
+                }
+
+                if (toolingWsdlUrl != "")
+                {
+                    SalesforceCredentials.usernameToolingWsdlUrl.Add(username, toolingWsdlUrl);
+                }
+            }
+        }
+
+        private static Dictionary<String, String> getUsernameCredentials(String userName)
+        {
+            StreamReader encryptedContents = new StreamReader(Properties.Settings.Default.UserAndAPIFileLocation);
+            StreamReader sharedSecret = new StreamReader(Properties.Settings.Default.SharedSecretLocation);
+            String decryptedContents = Crypto.DecryptString(encryptedContents.ReadToEnd(),
+                                                            sharedSecret.ReadToEnd(),
+                                                            Properties.Settings.Default.Salt);
+
+            encryptedContents.Close();
+            sharedSecret.Close();
+
+            XmlDocument sfUser = new XmlDocument();
+            sfUser.LoadXml(decryptedContents);
+
+            XmlNodeList documentNodes = sfUser.GetElementsByTagName("usersetting");
+
+
+        }
     }
 
 }

@@ -229,26 +229,6 @@ namespace SalesforceMetadata
                 }
             }
         }
-
-        private void cmbUserName_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.tbSecurityToken.Text = "";
-            if (this.cmbUserName.Text == "")
-            {
-                this.tbPassword.Text = "";
-                this.tbSecurityToken.Text = "";
-            }
-            else if (this.usernameToSecurityToken.ContainsKey(this.cmbUserName.Text))
-            {
-                this.tbSecurityToken.Text = this.usernameToSecurityToken[cmbUserName.Text];
-            }
-
-            if (this.bypassTextChange == false)
-            {
-                this.projectValuesChanged = true;
-            }
-        }
-
         private void treeViewMetadata_AfterCheck(object sender, TreeViewEventArgs e)
         {
             treeViewNodeAfterCheck(e.Node);
@@ -940,22 +920,16 @@ namespace SalesforceMetadata
                 return;
             }
 
-            //if (this.cmbUserName.Text == "" || this.tbPassword.Text == "" || tbSecurityToken.Text == "")
-            //{
-            //    MessageBox.Show("Please add your credentials first and then try the deployment again");
-            //    return;
-            //}
+            if (String.IsNullOrEmpty(this.cmbUserName.Text))
+            {
+                MessageBox.Show("Please select a Username first and then try the deployment again");
+                return;
+            }
 
             String zipFilePath = buildZipFileWithPackageXml();
 
             DeployMetadata dm = new DeployMetadata();
             dm.cmbUserName.SelectedItem = this.cmbUserName.Text;
-            dm.tbPassword.Text = this.tbPassword.Text;
-            dm.tbSecurityToken.Text = this.tbSecurityToken.Text;
-            if (SalesforceCredentials.isProduction.ContainsKey(this.cmbUserName.Text))
-            {
-                dm.isProduction = SalesforceCredentials.isProduction[this.cmbUserName.Text];
-            }
             dm.tbZipFileLocation.Text = zipFilePath;
             dm.cbCheckOnly.CheckState = CheckState.Unchecked;
             dm.cbCheckOnly.Checked = false;
@@ -1117,17 +1091,15 @@ namespace SalesforceMetadata
         {
             ObjectFieldInspector ofi = new ObjectFieldInspector();
             ofi.cmbUserName.SelectedItem = this.cmbUserName.Text;
-            ofi.tbPassword.Text = this.tbPassword.Text;
-            ofi.tbSecurityToken.Text = this.tbSecurityToken.Text;
 
             ofi.Show();
         }
 
         private void btnRetrieveFromOrg_Click(object sender, EventArgs e)
         {
-            if (this.cmbUserName.Text == "" || this.tbPassword.Text == "" || tbSecurityToken.Text == "")
+            if (String.IsNullOrEmpty(this.cmbUserName.Text))
             {
-                MessageBox.Show("Please add your credentials first and then try the deployment again");
+                MessageBox.Show("Please select a Username first and then try the deployment again");
                 return;
             }
 
@@ -1163,11 +1135,8 @@ namespace SalesforceMetadata
             if (packageXmlMembers.Count > 0
                 && this.tbRootFolder.Text != null)
             {
-                SalesforceCredentials.fromOrgUsername = this.cmbUserName.Text;
-                SalesforceCredentials.fromOrgPassword = this.tbPassword.Text;
-                SalesforceCredentials.fromOrgSecurityToken = this.tbSecurityToken.Text;
-
                 SalesforceMetadataStep2 sfMetadataStep2 = new SalesforceMetadataStep2();
+                sfMetadataStep2.userName = this.cmbUserName.Text;
                 sfMetadataStep2.selectedItems = packageXmlMembers;
                 sfMetadataStep2.requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, this.tbRootFolder.Text, false);
             }
@@ -1551,19 +1520,13 @@ namespace SalesforceMetadata
 
         private void delMyDebugLogs_Click(object sender, EventArgs e)
         {
-            if (this.cmbUserName.Text == "" || this.tbPassword.Text == "")
+            if (String.IsNullOrEmpty(this.cmbUserName.Text))
             {
                 MessageBox.Show("Please select a username and enter the password first before continuing");
                 return;
             }
-            else
-            {
-                SalesforceCredentials.fromOrgUsername = this.cmbUserName.Text;
-                SalesforceCredentials.fromOrgPassword = this.tbPassword.Text;
-                SalesforceCredentials.fromOrgSecurityToken = this.tbSecurityToken.Text;
-            }
 
-            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG);
+            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
             if (loginSuccess == false)
             {
                 MessageBox.Show("Please check username, password and/or security token");
@@ -1686,6 +1649,22 @@ namespace SalesforceMetadata
             }
 
             MessageBox.Show("Debug log delete process completed");
+        }
+
+        private void cmbUserName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.Text = "DevelopmentEnvironment";
+
+            if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
+            {
+                this.Text = "DevelopmentEnvironment - PRODUCTION";
+            }
+            else
+            {
+                String[] userNamesplit = this.cmbUserName.Text.Split('.');
+                String orgName = userNamesplit[userNamesplit.Length - 1].ToUpper();
+                this.Text = "DevelopmentEnvironment - " + orgName;
+            }
         }
     }
 }

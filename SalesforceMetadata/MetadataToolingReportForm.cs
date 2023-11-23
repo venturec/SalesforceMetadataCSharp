@@ -15,9 +15,6 @@ namespace SalesforceMetadata
     public partial class MetadataToolingReportForm : Form
     {
         public String userName;
-        public String password;
-        public String securityToken;
-
 
         public MetadataToolingReportForm()
         {
@@ -47,11 +44,7 @@ namespace SalesforceMetadata
             }
             else
             {
-                SalesforceCredentials.fromOrgUsername = userName;
-                SalesforceCredentials.fromOrgPassword = password;
-                SalesforceCredentials.fromOrgSecurityToken = securityToken;
-
-                Boolean loginSuccess = SalesforceCredentials.salesforceToolingLogin();
+                Boolean loginSuccess = SalesforceCredentials.salesforceToolingLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
 
                 if (loginSuccess == false)
                 {

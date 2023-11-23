@@ -27,6 +27,8 @@ namespace SalesforceMetadata
         private int ONE_SECOND = 1000;
         private int MAX_NUM_POLL_REQUESTS = 50;
 
+        public String userName;
+
         // Key = metadata name, Values = members
         // Values can = * if allowed by the metadata api
         public Dictionary<String, List<String>> selectedItems;
@@ -109,7 +111,8 @@ namespace SalesforceMetadata
 
         public async Task requestZipFile(UtilityClass.REQUESTINGORG reqOrg, String target_dir, Boolean rebuildFolder)
         {
-            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(reqOrg);
+            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(reqOrg, userName);
+
             if (loginSuccess == false)
             {
                 MessageBox.Show("Please check username, password and/or security token");

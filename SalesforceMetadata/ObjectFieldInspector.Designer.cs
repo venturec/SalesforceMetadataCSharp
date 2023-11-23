@@ -38,10 +38,6 @@
             this.salesforceOrgCredentials = new System.Windows.Forms.GroupBox();
             this.lblSFUsername = new System.Windows.Forms.Label();
             this.btnSaveObjectsToFile = new System.Windows.Forms.Button();
-            this.tbPassword = new System.Windows.Forms.TextBox();
-            this.tbSecurityToken = new System.Windows.Forms.TextBox();
-            this.lblPassword = new System.Windows.Forms.Label();
-            this.lblSecurityToken = new System.Windows.Forms.Label();
             this.cmbUserName = new System.Windows.Forms.ComboBox();
             this.btnSaveSelectedToExcel = new System.Windows.Forms.Button();
             this.sobjectListBox = new System.Windows.Forms.CheckedListBox();
@@ -50,9 +46,9 @@
             this.cbSelectAll = new System.Windows.Forms.CheckBox();
             this.btnGetReferenceFields = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnExportSelected = new System.Windows.Forms.Button();
             this.cbFilterManagedPkg = new System.Windows.Forms.CheckBox();
             this.cbCustomObjectsOnly = new System.Windows.Forms.CheckBox();
-            this.btnExportSelected = new System.Windows.Forms.Button();
             this.salesforceOrgCredentials.SuspendLayout();
             this.grpSaveToExcel.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -87,7 +83,7 @@
             // 
             // btnGetSobjects
             // 
-            this.btnGetSobjects.Location = new System.Drawing.Point(437, 30);
+            this.btnGetSobjects.Location = new System.Drawing.Point(530, 30);
             this.btnGetSobjects.Name = "btnGetSobjects";
             this.btnGetSobjects.Size = new System.Drawing.Size(115, 25);
             this.btnGetSobjects.TabIndex = 6;
@@ -128,10 +124,6 @@
             this.salesforceOrgCredentials.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.salesforceOrgCredentials.Controls.Add(this.lblSFUsername);
             this.salesforceOrgCredentials.Controls.Add(this.btnSaveObjectsToFile);
-            this.salesforceOrgCredentials.Controls.Add(this.tbPassword);
-            this.salesforceOrgCredentials.Controls.Add(this.tbSecurityToken);
-            this.salesforceOrgCredentials.Controls.Add(this.lblPassword);
-            this.salesforceOrgCredentials.Controls.Add(this.lblSecurityToken);
             this.salesforceOrgCredentials.Controls.Add(this.cmbUserName);
             this.salesforceOrgCredentials.Controls.Add(this.btnGetSobjects);
             this.salesforceOrgCredentials.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
@@ -147,17 +139,18 @@
             // lblSFUsername
             // 
             this.lblSFUsername.AutoSize = true;
-            this.lblSFUsername.Location = new System.Drawing.Point(55, 30);
+            this.lblSFUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSFUsername.Location = new System.Drawing.Point(14, 31);
             this.lblSFUsername.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSFUsername.Name = "lblSFUsername";
-            this.lblSFUsername.Size = new System.Drawing.Size(104, 13);
+            this.lblSFUsername.Size = new System.Drawing.Size(143, 17);
             this.lblSFUsername.TabIndex = 0;
             this.lblSFUsername.Text = "Username (from Org)";
             // 
             // btnSaveObjectsToFile
             // 
             this.btnSaveObjectsToFile.Enabled = false;
-            this.btnSaveObjectsToFile.Location = new System.Drawing.Point(437, 67);
+            this.btnSaveObjectsToFile.Location = new System.Drawing.Point(530, 67);
             this.btnSaveObjectsToFile.Margin = new System.Windows.Forms.Padding(2);
             this.btnSaveObjectsToFile.Name = "btnSaveObjectsToFile";
             this.btnSaveObjectsToFile.Size = new System.Drawing.Size(115, 25);
@@ -166,50 +159,13 @@
             this.btnSaveObjectsToFile.UseVisualStyleBackColor = true;
             this.btnSaveObjectsToFile.Click += new System.EventHandler(this.btnSaveObjectsToFile_Click);
             // 
-            // tbPassword
-            // 
-            this.tbPassword.Location = new System.Drawing.Point(176, 53);
-            this.tbPassword.Margin = new System.Windows.Forms.Padding(2);
-            this.tbPassword.Name = "tbPassword";
-            this.tbPassword.PasswordChar = '*';
-            this.tbPassword.Size = new System.Drawing.Size(215, 20);
-            this.tbPassword.TabIndex = 3;
-            // 
-            // tbSecurityToken
-            // 
-            this.tbSecurityToken.Location = new System.Drawing.Point(176, 81);
-            this.tbSecurityToken.Margin = new System.Windows.Forms.Padding(2);
-            this.tbSecurityToken.Name = "tbSecurityToken";
-            this.tbSecurityToken.Size = new System.Drawing.Size(215, 20);
-            this.tbSecurityToken.TabIndex = 5;
-            this.tbSecurityToken.UseSystemPasswordChar = true;
-            // 
-            // lblPassword
-            // 
-            this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(55, 56);
-            this.lblPassword.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(102, 13);
-            this.lblPassword.TabIndex = 2;
-            this.lblPassword.Text = "Password (from Org)";
-            // 
-            // lblSecurityToken
-            // 
-            this.lblSecurityToken.AutoSize = true;
-            this.lblSecurityToken.Location = new System.Drawing.Point(31, 84);
-            this.lblSecurityToken.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblSecurityToken.Name = "lblSecurityToken";
-            this.lblSecurityToken.Size = new System.Drawing.Size(128, 13);
-            this.lblSecurityToken.TabIndex = 4;
-            this.lblSecurityToken.Text = "Security Token (from Org)";
-            // 
             // cmbUserName
             // 
-            this.cmbUserName.Location = new System.Drawing.Point(176, 24);
+            this.cmbUserName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbUserName.Location = new System.Drawing.Point(176, 28);
             this.cmbUserName.Margin = new System.Windows.Forms.Padding(2);
             this.cmbUserName.Name = "cmbUserName";
-            this.cmbUserName.Size = new System.Drawing.Size(215, 21);
+            this.cmbUserName.Size = new System.Drawing.Size(312, 24);
             this.cmbUserName.TabIndex = 1;
             this.cmbUserName.SelectedIndexChanged += new System.EventHandler(this.cmbUserName_SelectedIndexChanged);
             // 
@@ -303,6 +259,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
             // 
+            // btnExportSelected
+            // 
+            this.btnExportSelected.Enabled = false;
+            this.btnExportSelected.Location = new System.Drawing.Point(253, 114);
+            this.btnExportSelected.Name = "btnExportSelected";
+            this.btnExportSelected.Size = new System.Drawing.Size(138, 23);
+            this.btnExportSelected.TabIndex = 6;
+            this.btnExportSelected.Text = "Export Selected to Excel";
+            this.btnExportSelected.UseVisualStyleBackColor = true;
+            this.btnExportSelected.Click += new System.EventHandler(this.btnExportSelected_Click);
+            // 
             // cbFilterManagedPkg
             // 
             this.cbFilterManagedPkg.AutoSize = true;
@@ -324,17 +291,6 @@
             this.cbCustomObjectsOnly.Text = "Filter Custom Objects";
             this.cbCustomObjectsOnly.UseVisualStyleBackColor = true;
             this.cbCustomObjectsOnly.CheckedChanged += new System.EventHandler(this.cbCustomObjectsOnly_CheckedChanged);
-            // 
-            // btnExportSelected
-            // 
-            this.btnExportSelected.Enabled = false;
-            this.btnExportSelected.Location = new System.Drawing.Point(253, 114);
-            this.btnExportSelected.Name = "btnExportSelected";
-            this.btnExportSelected.Size = new System.Drawing.Size(138, 23);
-            this.btnExportSelected.TabIndex = 6;
-            this.btnExportSelected.Text = "Export Selected to Excel";
-            this.btnExportSelected.UseVisualStyleBackColor = true;
-            this.btnExportSelected.Click += new System.EventHandler(this.btnExportSelected_Click);
             // 
             // ObjectFieldInspector
             // 
@@ -361,11 +317,7 @@
         }
 
         #endregion
-        public System.Windows.Forms.TextBox tbPassword;
-        public System.Windows.Forms.TextBox tbSecurityToken;
         private System.Windows.Forms.Label lblSFUsername;
-        private System.Windows.Forms.Label lblPassword;
-        private System.Windows.Forms.Label lblSecurityToken;
         public System.Windows.Forms.ComboBox cmbUserName;
         private System.Windows.Forms.ComboBox cmbSalesforceSObjects;
         private System.Windows.Forms.Label lblSalesforceSobjects;

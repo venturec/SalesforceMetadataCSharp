@@ -17,20 +17,8 @@ namespace SalesforceMetadata
 {
     public partial class DeployMetadata : System.Windows.Forms.Form
     {
-        public Boolean isProduction;
-
-        //public String salesforceUserName;
-        //public String salesforcePassword;
-        //public String salesforceSecurityToken;
-
         private int ONE_SECOND = 1000;
         private int MAX_NUM_POLL_REQUESTS = 50;
-
-        private Dictionary<String, String> usernameToSecurityToken;
-
-        //private UtilityClass.REQUESTINGORG reqOrg;
-
-        private String orgName;
 
         public DeployMetadata()
         {
@@ -50,7 +38,7 @@ namespace SalesforceMetadata
 
         private void btnDeployMetadata_Click(object sender, EventArgs e)
         {
-            if (this.cmbUserName.Text == "" || this.tbPassword.Text == "")
+            if (String.IsNullOrEmpty(this.cmbUserName.Text))
             {
                 MessageBox.Show("Please enter your credentials before continuing");
                 return;
@@ -59,15 +47,7 @@ namespace SalesforceMetadata
             Boolean quickDeploySuccessful = false;
             this.rtMessages.Text = "";
 
-            SalesforceCredentials.fromOrgUsername = null;
-            SalesforceCredentials.fromOrgPassword = null;
-            SalesforceCredentials.fromOrgSecurityToken = null;
-
-            SalesforceCredentials.toOrgUsername = this.cmbUserName.Text;
-            SalesforceCredentials.toOrgPassword = this.tbPassword.Text;
-            SalesforceCredentials.toOrgSecurityToken = this.tbSecurityToken.Text;
-
-            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.TOORG);
+            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.TOORG, this.cmbUserName.Text);
             if (loginSuccess == false)
             {
                 MessageBox.Show("Please check username, password and/or security token");
@@ -83,7 +63,7 @@ namespace SalesforceMetadata
                 && this.tbDeploymentValidationId.Text != "")
             {
                 String asyncResultId = "";
-                if (this.isProduction == true)
+                if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
                 {
                     try
                     {
@@ -129,7 +109,7 @@ namespace SalesforceMetadata
                     dopt.purgeOnDelete = true;
                 }
 
-                if (this.isProduction == true)
+                if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
                 {
                     dopt.rollbackOnError = true;
                     dopt.testLevel = TestLevel.RunLocalTests;
@@ -180,7 +160,7 @@ namespace SalesforceMetadata
                 byte[] byteArray = File.ReadAllBytes(this.tbZipFileLocation.Text);
 
                 AsyncResult ar = new AsyncResult();
-                if (this.isProduction == true)
+                if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
                 {
                     ar = SalesforceCredentials.toOrgMS.deploy(byteArray, dopt);
                 }
@@ -258,33 +238,20 @@ namespace SalesforceMetadata
 
         private void cmbUserName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this.cmbUserName.Text == "")
+            this.lblSalesforce.Text = "";
+            this.Text = "Deploy Salesforce Metadata";
+
+            if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
             {
-                this.tbPassword.Text = "";
-                this.tbSecurityToken.Text = "";
-            }
-            else if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
-            {
-                this.lblSalesforce.Text = "Salesforce";
-                this.Text = "Salesforce Metadata - Production";
-                this.orgName = "Production";
-                this.tbSecurityToken.Text = "";
-                if (this.usernameToSecurityToken.ContainsKey(this.cmbUserName.Text))
-                {
-                    this.tbSecurityToken.Text = this.usernameToSecurityToken[cmbUserName.Text];
-                }
+                this.lblSalesforce.Text = "Deploy to Salesforce Production";
+                this.Text = "Deploy Salesforce Metadata - PRODUCTION";
             }
             else
             {
-                this.lblSalesforce.Text = "Salesforce Sandbox";
+                this.lblSalesforce.Text = "Deploy to Salesforce Sandbox";
                 String[] userNamesplit = this.cmbUserName.Text.Split('.');
-                this.orgName = userNamesplit[userNamesplit.Length - 1].ToUpper();
-                this.Text = "Salesforce Metadata - " + this.orgName;
-                this.tbSecurityToken.Text = "";
-                if (this.usernameToSecurityToken.ContainsKey(this.cmbUserName.Text))
-                {
-                    this.tbSecurityToken.Text = this.usernameToSecurityToken[cmbUserName.Text];
-                }
+                String orgName = userNamesplit[userNamesplit.Length - 1].ToUpper();
+                this.Text = "Deploy Salesforce Metadata - " + orgName;
             }
         }
 
@@ -303,94 +270,6 @@ namespace SalesforceMetadata
                 return;
             }
 
-            SalesforceCredentials.usernamePartnerUrl = new Dictionary<String, String>();
-            SalesforceCredentials.usernameMetadataUrl = new Dictionary<String, String>();
-            SalesforceCredentials.usernameToolingWsdlUrl = new Dictionary<String, String>();
-            SalesforceCredentials.isProduction = new Dictionary<String, Boolean>();
-            SalesforceCredentials.defaultWsdlObjects = new Dictionary<String, List<String>>();
-
-            // Decrypt the contents of the file and place in an XML Document format
-            StreamReader encryptedContents = new StreamReader(Properties.Settings.Default.UserAndAPIFileLocation);
-            StreamReader sharedSecret = new StreamReader(Properties.Settings.Default.SharedSecretLocation);
-            String decryptedContents = Crypto.DecryptString(encryptedContents.ReadToEnd(),
-                                                            sharedSecret.ReadToEnd(),
-                                                            Properties.Settings.Default.Salt);
-
-            encryptedContents.Close();
-            sharedSecret.Close();
-
-            XmlDocument sfUser = new XmlDocument();
-            sfUser.LoadXml(decryptedContents);
-
-            XmlNodeList documentNodes = sfUser.GetElementsByTagName("usersetting");
-
-            this.usernameToSecurityToken = new Dictionary<string, string>();
-
-            for (int i = 0; i < documentNodes.Count; i++)
-            {
-                String username = "";
-                String partnerWsdlUrl = "";
-                String metadataWdldUrl = "";
-                String toolingWsdlUrl = "";
-                Boolean isProd = false;
-                List<String> defaultWsdlObjectList = new List<String>();
-                foreach (XmlNode childNode in documentNodes[i].ChildNodes)
-                {
-                    if (childNode.Name == "username")
-                    {
-                        username = childNode.InnerText;
-                    }
-
-                    if (childNode.Name == "securitytoken")
-                    {
-                        usernameToSecurityToken.Add(username, childNode.InnerText);
-                    }
-
-                    if (childNode.Name == "isproduction")
-                    {
-                        isProd = Convert.ToBoolean(childNode.InnerText);
-                    }
-
-                    if (childNode.Name == "partnerwsdlurl")
-                    {
-                        partnerWsdlUrl = childNode.InnerText;
-                    }
-
-                    if (childNode.Name == "metadatawsdlurl")
-                    {
-                        metadataWdldUrl = childNode.InnerText;
-                    }
-
-                    if (childNode.Name == "toolingwsdlurl")
-                    {
-                        toolingWsdlUrl = childNode.InnerText;
-                    }
-
-                    if (childNode.Name == "defaultpackages" && childNode.HasChildNodes)
-                    {
-                        XmlNodeList defObjects = childNode.ChildNodes;
-                        foreach (XmlNode obj in defObjects)
-                        {
-                            defaultWsdlObjectList.Add(obj.InnerText);
-                        }
-                    }
-                }
-
-                SalesforceCredentials.usernamePartnerUrl.Add(username, partnerWsdlUrl);
-                SalesforceCredentials.usernameMetadataUrl.Add(username, metadataWdldUrl);
-                SalesforceCredentials.isProduction.Add(username, isProd);
-
-                if (defaultWsdlObjectList.Count > 0)
-                {
-                    SalesforceCredentials.defaultWsdlObjects.Add(username, defaultWsdlObjectList);
-                }
-
-                if (toolingWsdlUrl != "")
-                {
-                    SalesforceCredentials.usernameToolingWsdlUrl.Add(username, toolingWsdlUrl);
-                }
-            }
-
             populateUserNames();
         }
 
@@ -402,6 +281,5 @@ namespace SalesforceMetadata
                 this.cmbUserName.Items.Add(un);
             }
         }
-
     }
 }

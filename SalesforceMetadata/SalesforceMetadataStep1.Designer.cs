@@ -32,11 +32,7 @@
             this.btnGetMetadataTypes = new System.Windows.Forms.Button();
             this.lblSFMetadataPackage = new System.Windows.Forms.Label();
             this.lbMetadataTypes = new System.Windows.Forms.CheckedListBox();
-            this.tbPassword = new System.Windows.Forms.TextBox();
-            this.tbSecurityToken = new System.Windows.Forms.TextBox();
             this.lblSFUsername = new System.Windows.Forms.Label();
-            this.lblPassword = new System.Windows.Forms.Label();
-            this.lblSecurityToken = new System.Windows.Forms.Label();
             this.lblSalesforce = new System.Windows.Forms.Label();
             this.cmbUserName = new System.Windows.Forms.ComboBox();
             this.btnRetrieveMetadata = new System.Windows.Forms.Button();
@@ -91,53 +87,16 @@
             this.lbMetadataTypes.Size = new System.Drawing.Size(725, 499);
             this.lbMetadataTypes.TabIndex = 9;
             // 
-            // tbPassword
-            // 
-            this.tbPassword.Location = new System.Drawing.Point(176, 53);
-            this.tbPassword.Margin = new System.Windows.Forms.Padding(2);
-            this.tbPassword.Name = "tbPassword";
-            this.tbPassword.PasswordChar = '*';
-            this.tbPassword.Size = new System.Drawing.Size(215, 20);
-            this.tbPassword.TabIndex = 4;
-            // 
-            // tbSecurityToken
-            // 
-            this.tbSecurityToken.Location = new System.Drawing.Point(176, 80);
-            this.tbSecurityToken.Margin = new System.Windows.Forms.Padding(2);
-            this.tbSecurityToken.Name = "tbSecurityToken";
-            this.tbSecurityToken.Size = new System.Drawing.Size(215, 20);
-            this.tbSecurityToken.TabIndex = 6;
-            this.tbSecurityToken.UseSystemPasswordChar = true;
-            // 
             // lblSFUsername
             // 
             this.lblSFUsername.AutoSize = true;
-            this.lblSFUsername.Location = new System.Drawing.Point(55, 30);
+            this.lblSFUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSFUsername.Location = new System.Drawing.Point(5, 34);
             this.lblSFUsername.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSFUsername.Name = "lblSFUsername";
-            this.lblSFUsername.Size = new System.Drawing.Size(104, 13);
+            this.lblSFUsername.Size = new System.Drawing.Size(143, 17);
             this.lblSFUsername.TabIndex = 1;
             this.lblSFUsername.Text = "Username (from Org)";
-            // 
-            // lblPassword
-            // 
-            this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(55, 56);
-            this.lblPassword.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(102, 13);
-            this.lblPassword.TabIndex = 3;
-            this.lblPassword.Text = "Password (from Org)";
-            // 
-            // lblSecurityToken
-            // 
-            this.lblSecurityToken.AutoSize = true;
-            this.lblSecurityToken.Location = new System.Drawing.Point(31, 84);
-            this.lblSecurityToken.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblSecurityToken.Name = "lblSecurityToken";
-            this.lblSecurityToken.Size = new System.Drawing.Size(128, 13);
-            this.lblSecurityToken.TabIndex = 5;
-            this.lblSecurityToken.Text = "Security Token (from Org)";
             // 
             // lblSalesforce
             // 
@@ -153,11 +112,12 @@
             // cmbUserName
             // 
             this.cmbUserName.DropDownWidth = 325;
+            this.cmbUserName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbUserName.FormattingEnabled = true;
-            this.cmbUserName.Location = new System.Drawing.Point(176, 27);
+            this.cmbUserName.Location = new System.Drawing.Point(152, 33);
             this.cmbUserName.Margin = new System.Windows.Forms.Padding(2);
             this.cmbUserName.Name = "cmbUserName";
-            this.cmbUserName.Size = new System.Drawing.Size(324, 21);
+            this.cmbUserName.Size = new System.Drawing.Size(346, 24);
             this.cmbUserName.TabIndex = 2;
             this.cmbUserName.SelectedIndexChanged += new System.EventHandler(this.cmbUserName_SelectedIndexChanged);
             // 
@@ -200,15 +160,11 @@
             // 
             this.fromOrgGroup.BackColor = System.Drawing.SystemColors.Control;
             this.fromOrgGroup.Controls.Add(this.lblSFUsername);
-            this.fromOrgGroup.Controls.Add(this.tbPassword);
-            this.fromOrgGroup.Controls.Add(this.tbSecurityToken);
-            this.fromOrgGroup.Controls.Add(this.lblPassword);
-            this.fromOrgGroup.Controls.Add(this.lblSecurityToken);
             this.fromOrgGroup.Controls.Add(this.cmbUserName);
             this.fromOrgGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.fromOrgGroup.Location = new System.Drawing.Point(26, 45);
             this.fromOrgGroup.Name = "fromOrgGroup";
-            this.fromOrgGroup.Size = new System.Drawing.Size(523, 115);
+            this.fromOrgGroup.Size = new System.Drawing.Size(523, 91);
             this.fromOrgGroup.TabIndex = 1;
             this.fromOrgGroup.TabStop = false;
             this.fromOrgGroup.Text = "From Org";
@@ -360,11 +316,7 @@
         private System.Windows.Forms.Button btnGetMetadataTypes;
         private System.Windows.Forms.Label lblSFMetadataPackage;
         private System.Windows.Forms.CheckedListBox lbMetadataTypes;
-        private System.Windows.Forms.TextBox tbPassword;
-        private System.Windows.Forms.TextBox tbSecurityToken;
         private System.Windows.Forms.Label lblSFUsername;
-        private System.Windows.Forms.Label lblPassword;
-        private System.Windows.Forms.Label lblSecurityToken;
         private System.Windows.Forms.Label lblSalesforce;
         private System.Windows.Forms.ComboBox cmbUserName;
         private System.Windows.Forms.Button btnRetrieveMetadata;

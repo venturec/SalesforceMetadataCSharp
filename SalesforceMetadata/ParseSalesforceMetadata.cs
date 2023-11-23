@@ -27,8 +27,8 @@ namespace SalesforceMetadata
 
             //String folderPath = this.tbMetadataFolderPath.Text;
 
-            SalesforceMetadataStep2 sfm = new SalesforceMetadataStep2();
-            sfm.addVSCodeFileExtension(this.tbMetadataFolderPath.Text);
+            SalesforceMetadataStep2 sfMetadataStep2 = new SalesforceMetadataStep2();
+            sfMetadataStep2.addVSCodeFileExtension(this.tbMetadataFolderPath.Text);
         }
 
         private void tbMetadataFolderPath_DoubleClick(object sender, EventArgs e)

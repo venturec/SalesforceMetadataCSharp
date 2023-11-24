@@ -138,7 +138,7 @@
             this.btnSaveEncryptedText.Name = "btnSaveEncryptedText";
             this.btnSaveEncryptedText.Size = new System.Drawing.Size(149, 23);
             this.btnSaveEncryptedText.TabIndex = 11;
-            this.btnSaveEncryptedText.Text = "Save Encrypted To File";
+            this.btnSaveEncryptedText.Text = "Save Encrypted Contents";
             this.btnSaveEncryptedText.UseVisualStyleBackColor = true;
             this.btnSaveEncryptedText.Click += new System.EventHandler(this.btnSaveResults_Click);
             // 

@@ -11,6 +11,7 @@ using SalesforceMetadata.ToolingWSDL;
 using System.Runtime.CompilerServices;
 using System.IO;
 using System.Xml;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace SalesforceMetadata
 {
@@ -82,10 +83,13 @@ namespace SalesforceMetadata
                         fromOrgSS.Url = usernamePartnerUrl[userName];
                         fromOrgLR.sandbox = true;
                     }
+                    
+                    Dictionary<String, String> passwordSecurityToken = new Dictionary<String, String>();
+                    passwordSecurityToken = getUsernameCredentials(userName);
 
-                    if (fromOrgSecurityToken != null && fromOrgSecurityToken != "")
+                    if (passwordSecurityToken.ContainsKey("password") && passwordSecurityToken.ContainsKey("securitytoken"))
                     {
-                        fromOrgLR = fromOrgSS.login(userName, fromOrgPassword + fromOrgSecurityToken);
+                        fromOrgLR = fromOrgSS.login(userName, passwordSecurityToken["password"] + passwordSecurityToken["securitytoken"]);
                         if (fromOrgLR.sessionId != null && fromOrgLR.passwordExpired == false)
                         {
                             loginSuccess = true;
@@ -93,7 +97,7 @@ namespace SalesforceMetadata
                     }
                     else
                     {
-                        fromOrgLR = fromOrgSS.login(userName, fromOrgPassword);
+                        fromOrgLR = fromOrgSS.login(userName, passwordSecurityToken["password"]);
                         if (fromOrgLR.sessionId != null && fromOrgLR.passwordExpired == false)
                         {
                             loginSuccess = true;
@@ -136,9 +140,12 @@ namespace SalesforceMetadata
                         toOrgLR.sandbox = true;
                     }
 
-                    if (toOrgSecurityToken != null && toOrgSecurityToken != "")
+                    Dictionary<String, String> passwordSecurityToken = new Dictionary<String, String>();
+                    passwordSecurityToken = getUsernameCredentials(userName);
+
+                    if (passwordSecurityToken.ContainsKey("password") && passwordSecurityToken.ContainsKey("securitytoken"))
                     {
-                        toOrgLR = toOrgSS.login(userName, toOrgPassword + toOrgSecurityToken);
+                        toOrgLR = toOrgSS.login(userName, passwordSecurityToken["password"] + passwordSecurityToken["securitytoken"]);
                         if (toOrgLR.sessionId != null && toOrgLR.passwordExpired == false)
                         {
                             loginSuccess = true;
@@ -146,7 +153,7 @@ namespace SalesforceMetadata
                     }
                     else
                     {
-                        toOrgLR = toOrgSS.login(toOrgUsername, toOrgPassword);
+                        toOrgLR = toOrgSS.login(userName, passwordSecurityToken["password"]);
                         if (toOrgLR.sessionId != null && toOrgLR.passwordExpired == false)
                         {
                             loginSuccess = true;
@@ -188,9 +195,12 @@ namespace SalesforceMetadata
                     fromOrgToolingLR.sandbox = true;
                 }
 
-                if (String.IsNullOrEmpty(fromOrgSecurityToken) == false)
+                Dictionary<String, String> passwordSecurityToken = new Dictionary<String, String>();
+                passwordSecurityToken = getUsernameCredentials(userName);
+
+                if (passwordSecurityToken.ContainsKey("password") && passwordSecurityToken.ContainsKey("securitytoken"))
                 {
-                    fromOrgToolingLR = fromOrgToolingSvc.login(fromOrgUsername, fromOrgPassword + fromOrgSecurityToken);
+                    fromOrgToolingLR = fromOrgToolingSvc.login(userName, passwordSecurityToken["password"] + passwordSecurityToken["securitytoken"]);
                     if (fromOrgToolingLR.sessionId != null && fromOrgToolingLR.passwordExpired == false)
                     {
                         loginSuccess = true;
@@ -198,7 +208,7 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    fromOrgToolingLR = fromOrgToolingSvc.login(fromOrgUsername, fromOrgPassword);
+                    fromOrgToolingLR = fromOrgToolingSvc.login(userName, passwordSecurityToken["password"]);
                     if (fromOrgToolingLR.sessionId != null && fromOrgToolingLR.passwordExpired == false)
                     {
                         loginSuccess = true;
@@ -396,6 +406,8 @@ namespace SalesforceMetadata
 
         private static Dictionary<String, String> getUsernameCredentials(String userName)
         {
+            Dictionary<String, String> passwordSecurityToken = new Dictionary<String, String>();
+
             StreamReader encryptedContents = new StreamReader(Properties.Settings.Default.UserAndAPIFileLocation);
             StreamReader sharedSecret = new StreamReader(Properties.Settings.Default.SharedSecretLocation);
             String decryptedContents = Crypto.DecryptString(encryptedContents.ReadToEnd(),
@@ -410,7 +422,34 @@ namespace SalesforceMetadata
 
             XmlNodeList documentNodes = sfUser.GetElementsByTagName("usersetting");
 
+            Boolean usernameFound = false;
+            for (int i = 0; i < documentNodes.Count; i++)
+            {
+                foreach (XmlNode childNode in documentNodes[i].ChildNodes)
+                {
+                    if (childNode.Name == "username")
+                    {
+                        if (childNode.InnerText == userName)
+                        {
+                            usernameFound = true;
+                        }
+                    }
 
+                    if (usernameFound == true && childNode.Name == "password")
+                    {
+                        passwordSecurityToken.Add("password", childNode.InnerText);
+                    }
+
+                    if (usernameFound == true && childNode.Name == "securitytoken")
+                    {
+                        passwordSecurityToken.Add("securitytoken", childNode.InnerText);
+                    }
+                }
+
+                if (usernameFound == true) break;
+            }
+
+            return passwordSecurityToken;
         }
     }
 

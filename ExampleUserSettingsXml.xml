@@ -1,11 +1,12 @@
 <usersettings>
 	<usersetting>
 		<username>marcus.harikian@slalom.com</username>
+		<password>YourPasswordHere</password>
 		<isproduction>true</isproduction>
 		<enterprisewsdlurl>https://login.salesforce.com/services/Soap/u/52.0</enterprisewsdlurl>
 		<partnerwsdlurl>https://login.salesforce.com/services/Soap/u/52.0</partnerwsdlurl>
 		<toolingwsdlurl></toolingwsdlurl>
-		<securitytoken></securitytoken>
+		<securitytoken>xyz123456abcetcetcetc</securitytoken>
 		<defaultpackages>
 			<packagetype>ApexClass</packagetype>
 			<packagetype>ApexComponent</packagetype>
@@ -24,11 +25,12 @@
 	</usersetting>
 	<usersetting>
 		<username>marcus.harikian@slalom.com.dev</username>
+		<password>YourPasswordHere</password>
 		<isproduction>false</isproduction>
 		<enterprisewsdlurl></enterprisewsdlurl>
 		<partnerwsdlurl>https://test.salesforce.com/services/Soap/u/52.0</partnerwsdlurl>
 		<toolingwsdlurl>https://test.salesforce.com/services/Soap/T/52.0</toolingwsdlurl>
-		<securitytoken></securitytoken>
+		<securitytoken>xyz123456abcetcetcetc</securitytoken>
 		<defaultpackages>
 			<packagetype>ApexClass</packagetype>
 			<packagetype>ApexComponent</packagetype>

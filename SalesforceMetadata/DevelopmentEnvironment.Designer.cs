@@ -215,6 +215,7 @@
             // treeViewMetadata
             // 
             this.treeViewMetadata.CheckBoxes = true;
+            this.treeViewMetadata.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeViewMetadata.Location = new System.Drawing.Point(14, 288);
             this.treeViewMetadata.Name = "treeViewMetadata";
             this.treeViewMetadata.Size = new System.Drawing.Size(880, 639);
@@ -335,9 +336,9 @@
             // btnObjectFieldInspector
             // 
             this.btnObjectFieldInspector.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnObjectFieldInspector.Location = new System.Drawing.Point(1304, 172);
+            this.btnObjectFieldInspector.Location = new System.Drawing.Point(1291, 172);
             this.btnObjectFieldInspector.Name = "btnObjectFieldInspector";
-            this.btnObjectFieldInspector.Size = new System.Drawing.Size(159, 34);
+            this.btnObjectFieldInspector.Size = new System.Drawing.Size(172, 34);
             this.btnObjectFieldInspector.TabIndex = 13;
             this.btnObjectFieldInspector.Text = "Object Field Inspector";
             this.btnObjectFieldInspector.UseVisualStyleBackColor = true;
@@ -366,9 +367,9 @@
             // btnBuildERD
             // 
             this.btnBuildERD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBuildERD.Location = new System.Drawing.Point(1304, 250);
+            this.btnBuildERD.Location = new System.Drawing.Point(1291, 250);
             this.btnBuildERD.Name = "btnBuildERD";
-            this.btnBuildERD.Size = new System.Drawing.Size(159, 34);
+            this.btnBuildERD.Size = new System.Drawing.Size(171, 34);
             this.btnBuildERD.TabIndex = 15;
             this.btnBuildERD.Text = "Build ERD";
             this.btnBuildERD.UseVisualStyleBackColor = true;
@@ -396,9 +397,9 @@
             // btnSearchMetadata
             // 
             this.btnSearchMetadata.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearchMetadata.Location = new System.Drawing.Point(1304, 212);
+            this.btnSearchMetadata.Location = new System.Drawing.Point(1291, 212);
             this.btnSearchMetadata.Name = "btnSearchMetadata";
-            this.btnSearchMetadata.Size = new System.Drawing.Size(158, 32);
+            this.btnSearchMetadata.Size = new System.Drawing.Size(171, 32);
             this.btnSearchMetadata.TabIndex = 14;
             this.btnSearchMetadata.Text = "Search Metadata";
             this.btnSearchMetadata.UseVisualStyleBackColor = true;
@@ -407,9 +408,9 @@
             // btnDebugLogs
             // 
             this.btnDebugLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDebugLogs.Location = new System.Drawing.Point(1304, 290);
+            this.btnDebugLogs.Location = new System.Drawing.Point(1291, 290);
             this.btnDebugLogs.Name = "btnDebugLogs";
-            this.btnDebugLogs.Size = new System.Drawing.Size(160, 32);
+            this.btnDebugLogs.Size = new System.Drawing.Size(173, 32);
             this.btnDebugLogs.TabIndex = 16;
             this.btnDebugLogs.Text = "Debug Log Parsing";
             this.btnDebugLogs.UseVisualStyleBackColor = true;
@@ -418,9 +419,9 @@
             // delMyDebugLogs
             // 
             this.delMyDebugLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.delMyDebugLogs.Location = new System.Drawing.Point(1304, 328);
+            this.delMyDebugLogs.Location = new System.Drawing.Point(1291, 328);
             this.delMyDebugLogs.Name = "delMyDebugLogs";
-            this.delMyDebugLogs.Size = new System.Drawing.Size(158, 32);
+            this.delMyDebugLogs.Size = new System.Drawing.Size(171, 32);
             this.delMyDebugLogs.TabIndex = 17;
             this.delMyDebugLogs.Text = "Delete My Debug Logs";
             this.delMyDebugLogs.UseVisualStyleBackColor = true;

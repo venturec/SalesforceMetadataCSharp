@@ -36,6 +36,7 @@
             this.btnDebugReplay = new System.Windows.Forms.Button();
             this.tvDebugReplay = new System.Windows.Forms.TreeView();
             this.cbIncludeHierarchy = new System.Windows.Forms.CheckBox();
+            this.btnParseCodeUnits = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // tbDebugFile
@@ -64,11 +65,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.horizontalLine1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.horizontalLine1.Location = new System.Drawing.Point(0, 94);
+            this.horizontalLine1.Location = new System.Drawing.Point(0, 152);
             this.horizontalLine1.MaxLength = 0;
             this.horizontalLine1.Name = "horizontalLine1";
             this.horizontalLine1.Size = new System.Drawing.Size(1163, 20);
-            this.horizontalLine1.TabIndex = 4;
+            this.horizontalLine1.TabIndex = 5;
             // 
             // btnParseDebugLogFile
             // 
@@ -84,10 +85,10 @@
             // btnDebugReplay
             // 
             this.btnDebugReplay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDebugReplay.Location = new System.Drawing.Point(1030, 120);
+            this.btnDebugReplay.Location = new System.Drawing.Point(1030, 179);
             this.btnDebugReplay.Name = "btnDebugReplay";
-            this.btnDebugReplay.Size = new System.Drawing.Size(121, 23);
-            this.btnDebugReplay.TabIndex = 6;
+            this.btnDebugReplay.Size = new System.Drawing.Size(121, 30);
+            this.btnDebugReplay.TabIndex = 7;
             this.btnDebugReplay.Text = "Debug Replay";
             this.btnDebugReplay.UseVisualStyleBackColor = true;
             this.btnDebugReplay.Click += new System.EventHandler(this.btnDebugReplay_Click);
@@ -97,10 +98,10 @@
             this.tvDebugReplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tvDebugReplay.Location = new System.Drawing.Point(12, 120);
+            this.tvDebugReplay.Location = new System.Drawing.Point(12, 179);
             this.tvDebugReplay.Name = "tvDebugReplay";
-            this.tvDebugReplay.Size = new System.Drawing.Size(995, 760);
-            this.tvDebugReplay.TabIndex = 5;
+            this.tvDebugReplay.Size = new System.Drawing.Size(995, 701);
+            this.tvDebugReplay.TabIndex = 6;
             this.tvDebugReplay.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.tvDebugReplay_AfterExpand);
             // 
             // cbIncludeHierarchy
@@ -115,11 +116,22 @@
             this.cbIncludeHierarchy.Text = "Include Hierarchy Number";
             this.cbIncludeHierarchy.UseVisualStyleBackColor = true;
             // 
-            // frmParseDebugLogs
+            // btnParseCodeUnits
+            // 
+            this.btnParseCodeUnits.Location = new System.Drawing.Point(1030, 85);
+            this.btnParseCodeUnits.Name = "btnParseCodeUnits";
+            this.btnParseCodeUnits.Size = new System.Drawing.Size(121, 33);
+            this.btnParseCodeUnits.TabIndex = 4;
+            this.btnParseCodeUnits.Text = "Parse Code Units";
+            this.btnParseCodeUnits.UseVisualStyleBackColor = true;
+            this.btnParseCodeUnits.Click += new System.EventHandler(this.btnParseCodeUnits_Click);
+            // 
+            // ParseDebugLogs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1163, 884);
+            this.Controls.Add(this.btnParseCodeUnits);
             this.Controls.Add(this.cbIncludeHierarchy);
             this.Controls.Add(this.tvDebugReplay);
             this.Controls.Add(this.btnDebugReplay);
@@ -128,7 +140,7 @@
             this.Controls.Add(this.lblFileToParse);
             this.Controls.Add(this.tbDebugFile);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "frmParseDebugLogs";
+            this.Name = "ParseDebugLogs";
             this.Text = "Parse Debug Logs";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -144,5 +156,6 @@
         private System.Windows.Forms.Button btnDebugReplay;
         private System.Windows.Forms.TreeView tvDebugReplay;
         private System.Windows.Forms.CheckBox cbIncludeHierarchy;
+        private System.Windows.Forms.Button btnParseCodeUnits;
     }
 }

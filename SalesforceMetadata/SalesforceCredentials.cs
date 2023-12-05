@@ -12,6 +12,8 @@ using System.Runtime.CompilerServices;
 using System.IO;
 using System.Xml;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.Runtime.Remoting.Messaging;
+using System.Windows.Forms;
 
 namespace SalesforceMetadata
 {
@@ -35,11 +37,15 @@ namespace SalesforceMetadata
         public static SalesforceMetadata.ToolingWSDL.SforceServiceService toOrgToolingSvc;
         public static SalesforceMetadata.ToolingWSDL.LoginResult toOrgToolingLR;
 
+        private static int ONE_SECOND = 1000;
+        private static int MAX_NUM_POLL_REQUESTS = 50;
         public static Boolean salesforceLogin(UtilityClass.REQUESTINGORG reqOrg, String userName)
         {
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
             Boolean loginSuccess = false;
+            int poll = 0;
+            int waitTimeMilliSecs = ONE_SECOND;
 
             if (fromOrgSS != null)
             {
@@ -78,6 +84,8 @@ namespace SalesforceMetadata
 
                 try
                 {
+                    fromOrgSS.Timeout = 5000;
+
                     if (isProduction[userName] == false)
                     {
                         fromOrgSS.Url = usernamePartnerUrl[userName];
@@ -89,7 +97,9 @@ namespace SalesforceMetadata
 
                     if (passwordSecurityToken.ContainsKey("password") && passwordSecurityToken.ContainsKey("securitytoken"))
                     {
-                        fromOrgLR = fromOrgSS.login(userName, passwordSecurityToken["password"] + passwordSecurityToken["securitytoken"]);
+                        String pwdSecToken = passwordSecurityToken["password"] + passwordSecurityToken["securitytoken"];
+
+                        fromOrgLR = fromOrgSS.login(userName, pwdSecToken);
                         if (fromOrgLR.sessionId != null && fromOrgLR.passwordExpired == false)
                         {
                             loginSuccess = true;
@@ -111,13 +121,12 @@ namespace SalesforceMetadata
 
                     // Set up the Metadata Service connection including the All Or None Header
                     fromOrgMS.Url = fromOrgLR.metadataServerUrl;
-                    //fromOrgMS.Url = usernameMetadataUrl[fromOrgUsername];
                     fromOrgMS.SessionHeaderValue = new MetadataWSDL.SessionHeader();
                     fromOrgMS.SessionHeaderValue.sessionId = fromOrgLR.sessionId;
                 }
                 catch (Exception loginFromExc1)
                 {
-
+                    Console.WriteLine("loginFromExc1: " + loginFromExc1.Message);
                 }
             }
 
@@ -170,8 +179,9 @@ namespace SalesforceMetadata
                     toOrgMS.SessionHeaderValue = new MetadataWSDL.SessionHeader();
                     toOrgMS.SessionHeaderValue.sessionId = toOrgLR.sessionId;
                 }
-                catch (Exception loginFromExc2)
+                catch (Exception loginToExc2)
                 {
+                    Console.WriteLine("loginToExc2: " + loginToExc2.Message);
                 }
             }
 

@@ -20,9 +20,6 @@
           <xsd:pattern value="[a-zA-Z0-9]{18}" />
         </xsd:restriction>
       </xsd:simpleType>
-      <xsd:simpleType name="json">
-        <xsd:restriction base="xsd:string" />
-      </xsd:simpleType>
       <xsd:complexType name="address">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:location">
@@ -4319,7 +4316,6 @@
           <xsd:enumeration value="location" />
           <xsd:enumeration value="address" />
           <xsd:enumeration value="anyType" />
-          <xsd:enumeration value="json" />
           <xsd:enumeration value="complexvalue" />
           <xsd:enumeration value="long" />
         </xsd:restriction>
@@ -6847,6 +6843,7 @@
           <xsd:enumeration value="OCR_INVALID_REQUEST" />
           <xsd:enumeration value="OPERATION_TOO_LARGE" />
           <xsd:enumeration value="ORDER_MANAGEMENT_ACTION_NOT_ALLOWED" />
+          <xsd:enumeration value="ORG_ADMIN_LOCKED" />
           <xsd:enumeration value="ORG_IN_MAINTENANCE" />
           <xsd:enumeration value="ORG_IS_DOT_ORG" />
           <xsd:enumeration value="ORG_IS_SIGNING_UP" />
@@ -7114,6 +7111,7 @@
           <xsd:enumeration value="fns:OCR_INVALID_REQUEST" />
           <xsd:enumeration value="fns:OPERATION_TOO_LARGE" />
           <xsd:enumeration value="fns:ORDER_MANAGEMENT_ACTION_NOT_ALLOWED" />
+          <xsd:enumeration value="fns:ORG_ADMIN_LOCKED" />
           <xsd:enumeration value="fns:ORG_IN_MAINTENANCE" />
           <xsd:enumeration value="fns:ORG_IS_DOT_ORG" />
           <xsd:enumeration value="fns:ORG_IS_SIGNING_UP" />
@@ -9350,7 +9348,7 @@
   <service name="SforceService">
     <documentation>Sforce SOAP API</documentation>
     <port name="Soap" binding="tns:SoapBinding">
-      <soap:address location="https://login.salesforce.com/services/Soap/u/59.0" />
+      <soap:address location="https://test.salesforce.com/services/Soap/u/59.0" />
     </port>
   </service>
 </definitions>

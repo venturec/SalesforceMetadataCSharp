@@ -1828,7 +1828,6 @@ namespace SalesforceMetadata
             // Get the left side of the equation
             // Find the distance between the = sign or what is in flarraystart
             String triggerObject = "";
-            String leftSide = "";
             String triggerVar = "";
             for (Int32 i = arraystart - 1; i >= 0; i--)
             {

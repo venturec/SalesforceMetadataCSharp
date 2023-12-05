@@ -62,7 +62,7 @@ namespace SalesforceMetadata.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://login.salesforce.com/services/Soap/u/59.0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://test.salesforce.com/services/Soap/u/59.0")]
         public string SalesforceMetadata_PartnerWSDL_SforceService {
             get {
                 return ((string)(this["SalesforceMetadata_PartnerWSDL_SforceService"]));

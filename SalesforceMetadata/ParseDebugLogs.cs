@@ -79,8 +79,8 @@ namespace SalesforceMetadata
 
             Boolean firstCodeUnitReached = true;
             Int32 tabCount = 0;
-            String milSecStart = "";
-            String milSecEnd = "";
+            //String milSecStart = "";
+            //String milSecEnd = "";
 
             StreamWriter debugSW = new StreamWriter(folderSaveLocation + "DebugLog_Aggregations.txt");
 
@@ -422,7 +422,6 @@ namespace SalesforceMetadata
                         writeHierarchy(debugSW, tabCount + 1, columnElements[0].ToString());
                         writeDebugLineDetail(debugSW, 1, "VALIDATION_FAIL", columnElements);
                     }
-
                     else if (columnElements[1] == DebugEventTags.VALIDATION_PASS)
                     {
                         writeHierarchy(debugSW, tabCount + 1, columnElements[0].ToString());
@@ -509,6 +508,178 @@ namespace SalesforceMetadata
 
         }
 
+        private void btnParseCodeUnits_Click(object sender, EventArgs e)
+        {
+            if (this.tbDebugFile.Text == null || this.tbDebugFile.Text == "")
+            {
+                MessageBox.Show("Please select a debug file to parse to continue");
+                return;
+            }
+
+            String[] fileNameSplit = this.tbDebugFile.Text.Split(char.Parse("\\"));
+            String folderSaveLocation = "";
+
+            for (Int32 i = 0; i < fileNameSplit.Length - 1; i++)
+            {
+                folderSaveLocation += fileNameSplit[i] + "\\";
+            }
+
+
+            //Boolean firstCodeUnitReached = true;
+            //String milSecStart = "";
+            //String milSecEnd = "";
+
+            StreamWriter debugSW = new StreamWriter(folderSaveLocation + "DebugLog_CodeUnits.txt");
+
+            // Open file for reading
+            StreamReader debugSR = new StreamReader(this.tbDebugFile.Text);
+
+            while (debugSR.EndOfStream == false)
+            {
+                String line = debugSR.ReadLine();
+                String[] columnElements = line.Split(char.Parse("|"));
+
+                if (columnElements.Length > 1)
+                {
+
+                    if (columnElements[1] == DebugEventTags.CODE_UNIT_STARTED)
+                    {
+                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+
+                        debugSW.Write("CODE_UNIT_STARTED: ");
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if (ce > 2) debugSW.Write(columnElements[ce] + " ");
+                        }
+
+                        debugSW.Write(Environment.NewLine);
+                    }
+                    else if (columnElements[1] == DebugEventTags.CODE_UNIT_FINISHED)
+                    {
+                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+
+                        debugSW.Write("CODE_UNIT_FINISHED");
+                        debugSW.Write(Environment.NewLine);
+                        debugSW.Write(Environment.NewLine);
+                    }
+                    else if (columnElements[1] == DebugEventTags.DML_BEGIN)
+                    {
+                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        writeDebugLineDetail(debugSW, 1, "DML_BEGIN", columnElements);
+                    }
+                    else if (columnElements[1] == DebugEventTags.ENTERING_MANAGED_PKG)
+                    {
+                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        debugSW.Write("ENTERING_MANAGED_PKG: " + columnElements[2] + Environment.NewLine);
+                    }
+                    else if (columnElements[1] == DebugEventTags.EXCEPTION_THROWN)
+                    {
+                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        writeDebugLineDetail(debugSW, 2, "EXCEPTION_THROWN", columnElements);
+                    }
+                    else if (columnElements[1] == DebugEventTags.FATAL_ERROR)
+                    {
+                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+
+                        debugSW.Write("FATAL_ERROR: " + columnElements[2] + Environment.NewLine);
+
+                        line = debugSR.ReadLine();
+                        columnElements = line.Split(char.Parse("|"));
+                        while (columnElements.Length == 1)
+                        {
+                            if (line != "")
+                            {
+                                debugSW.WriteLine(line);
+                            }
+
+                            line = debugSR.ReadLine();
+                            columnElements = line.Split(char.Parse("|"));
+                        }
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_BULK_ELEMENT_BEGIN)
+                    {
+                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        writeDebugLineDetail(debugSW, 2, "FLOW_BULK_ELEMENT_BEGIN", columnElements);
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_BULK_ELEMENT_END)
+                    {
+                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        debugSW.Write("FLOW_BULK_ELEMENT_END");
+                        debugSW.Write(Environment.NewLine);
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_ELEMENT_BEGIN)
+                    {
+                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        debugSW.Write("FLOW_ELEMENT_BEGIN: " + columnElements[2] + Environment.NewLine);
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_CREATE_INTERVIEW_ERROR)
+                    {
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_ELEMENT_ERROR)
+                    {
+                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+
+                        debugSW.Write("FLOW_ELEMENT_ERROR: " + columnElements[2] + Environment.NewLine);
+
+                        line = debugSR.ReadLine();
+                        columnElements = line.Split(char.Parse("|"));
+                        while (columnElements.Length == 1)
+                        {
+                            if (line != "")
+                            {
+                                debugSW.WriteLine(line);
+                            }
+
+                            line = debugSR.ReadLine();
+                            columnElements = line.Split(char.Parse("|"));
+                        }
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_ELEMENT_FAULT)
+                    {
+                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        debugSW.Write("FLOW_ELEMENT_FAULT");
+                        debugSW.Write(Environment.NewLine);
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_START_INTERVIEW_BEGIN)
+                    {
+                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        writeDebugLineDetail(debugSW, 2, "FLOW_START_INTERVIEW_BEGIN", columnElements);
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_START_INTERVIEW_END)
+                    {
+                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        debugSW.Write("FLOW_START_INTERVIEW_END");
+                        debugSW.Write(Environment.NewLine);
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_START_INTERVIEWS_ERROR)
+                    {
+                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        debugSW.Write("FLOW_START_INTERVIEWS_ERROR");
+                        debugSW.Write(Environment.NewLine);
+                    }
+                    else if (columnElements[1] == DebugEventTags.USER_DEBUG)
+                    {
+                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+
+                        debugSW.Write("USER_DEBUG: ");
+
+                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        {
+                            if (ce == 2) debugSW.Write(columnElements[ce] + " ");
+                            if (ce > 3) debugSW.Write(columnElements[ce] + " ");
+                        }
+
+                        debugSW.Write(Environment.NewLine);
+                    }
+                }
+            }
+
+            debugSR.Close();
+            if (debugSW != null) debugSW.Close();
+
+            MessageBox.Show("Debug Parsing Complete");
+        }
         private void writeHierarchy(StreamWriter debugSW, Int32 tabCount, String columnElements)
         {
             debugSW.Write(tabCount.ToString() + " | ");
@@ -557,8 +728,8 @@ namespace SalesforceMetadata
 
             //allocateEventTagsToDictinary();
 
-            String milSecStart = "";
-            String milSecEnd = "";
+            //String milSecStart = "";
+            //String milSecEnd = "";
 
             StreamReader debugSR = new StreamReader(this.tbDebugFile.Text);
 
@@ -871,5 +1042,6 @@ namespace SalesforceMetadata
         {
             this.tbDebugFile.Text = Properties.Settings.Default.DebugLogPath;
         }
+
     }
 }

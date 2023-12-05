@@ -939,6 +939,14 @@ namespace SalesforceMetadata
 
         public String buildZipFileWithPackageXml()
         {
+            String codeArchiveRootPath = this.tbRootFolder.Text + "\\Code Archive";
+            String logFile = this.tbRootFolder.Text + "\\Code Archive\\LogFile.txt";
+
+            if (!Directory.Exists(codeArchiveRootPath))
+            {
+                Directory.CreateDirectory(codeArchiveRootPath);
+            }
+
             Dictionary<String, HashSet<String>> packageXml = new Dictionary<String, HashSet<String>>();
             HashSet<String> directoryFilesDeleted = new HashSet<String>();
 
@@ -949,6 +957,7 @@ namespace SalesforceMetadata
             DirectoryInfo cdDi = Directory.CreateDirectory(folderPath);
 
             // We want to track the directory and files which will be deployed so we can build the package.xml properly
+            List<String> filesDeployed = new List<string>();
             foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
             {
                 if (tnd1.Nodes.Count > 0)
@@ -958,6 +967,7 @@ namespace SalesforceMetadata
                         if (tnd2.Checked == true)
                         {
                             String[] nodeFullPath = tnd2.FullPath.Split('\\');
+                            filesDeployed.Add(tnd1.Text + "\\" + tnd2.Text);
 
                             DirectoryInfo di;
                             if (!Directory.Exists(folderPath + "\\" + tnd1.Text))
@@ -1043,6 +1053,20 @@ namespace SalesforceMetadata
 
             // Zip up the contents of the folders and package.xml file
             String zipPathAndName = zipUpContents(packageXml, folderPath);
+
+            StreamWriter sw = new StreamWriter(logFile, true);
+            foreach (String objName in filesDeployed)
+            {
+                sw.Write(objName + "\t" +
+                         dtt.Year.ToString() + "\t" +
+                         dtt.Month.ToString() + "\t" +
+                         dtt.Day.ToString() + "\t" +
+                         dtt.Hour.ToString() + "\t" +
+                         dtt.Minute.ToString() + "\t" +
+                         dtt.Second.ToString() + "\t" +
+                         "Deployed" + Environment.NewLine);
+            }
+            sw.Close();
 
             return zipPathAndName;
         }
@@ -1138,7 +1162,7 @@ namespace SalesforceMetadata
                 SalesforceMetadataStep2 sfMetadataStep2 = new SalesforceMetadataStep2();
                 sfMetadataStep2.userName = this.cmbUserName.Text;
                 sfMetadataStep2.selectedItems = packageXmlMembers;
-                sfMetadataStep2.requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, this.tbRootFolder.Text, false);
+                sfMetadataStep2.requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, this.tbRootFolder.Text, false, true);
             }
         }
 
@@ -1157,7 +1181,12 @@ namespace SalesforceMetadata
 
                 StreamReader sr = new StreamReader(ofd.FileName);
 
-                this.cmbUserName.Text = sr.ReadLine();
+                String username = sr.ReadLine();
+                if (this.cmbUserName.Items.Contains(username))
+                {
+                    this.cmbUserName.Text = username;
+                }
+                
                 this.tbProjectFolder.Text = sr.ReadLine();
                 this.tbDeployFrom.Text = sr.ReadLine();
                 this.tbRepository.Text = sr.ReadLine();
@@ -1305,6 +1334,7 @@ namespace SalesforceMetadata
         {
             String[] fileToCopySplit = fileToCopy.Split('\\');
             String codeArchiveRootPath = this.tbRootFolder.Text + "\\Code Archive";
+            String logFile = this.tbRootFolder.Text + "\\Code Archive\\LogFile.txt";
 
             // Confirm if Directory exists
             if (!Directory.Exists(codeArchiveRootPath))
@@ -1339,8 +1369,20 @@ namespace SalesforceMetadata
                                                                currDtTime.Second.ToString() + "." + fileNameSplit[1];
 
             File.Copy(fileToCopy, copiedFileName);
-        }
 
+            StreamWriter sw = new StreamWriter(logFile, true);
+            sw.Write(fileNameSplit[0] + "\t" +
+                     fileNameSplit[1] + "\t" +
+                     currDtTime.Year.ToString() + "\t" +
+                     currDtTime.Month.ToString() + "\t" +
+                     currDtTime.Day.ToString() + "\t" +
+                     currDtTime.Hour.ToString() + "\t" +
+                     currDtTime.Minute.ToString() + "\t" +
+                     currDtTime.Second.ToString() + "\t" +
+                     "Opened" + Environment.NewLine);
+            sw.Close();
+
+        }
         private void btnBuildERD_Click(object sender, EventArgs e)
         {
 

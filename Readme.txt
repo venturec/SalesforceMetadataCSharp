@@ -1,3 +1,7 @@
+NOTES:
+I have built this on the fly as needed and have not implemented a lot of asynchronous processes (I know). This is something I'm going to be working on and will enhance the forms to utilize asynchronous processes during long retrievals allowing the use of the app while tasks are running in the background.
+
+
 /************ Setting up the security structure, selecting your default Metadata folders to be selected and encrypting the credentials to be stored on your machine ************/
 
 The SalesforceMetadata application uses AES-2048 encryption to encrypt the user settings file and requires:
@@ -32,7 +36,7 @@ Click the Save Encrypted To File button to save the encrypted text to the SFLogi
 
 Click Save.
 
-To confirm whether the encrypted text is decrypting successfully, on the Landing Page form, click Metadata Form. You should see your username(s) in the drop down and when you select one, the Security Token field should also be populated if you filled that value in the security token xml element.
+To confirm whether the encrypted text is decrypting successfully, on the Landing Page form, click Metadata Form. You should see your username(s) in the drop down. Click the Get Metadata Types button to see if a list of available metadata types is returned.
 
 
 

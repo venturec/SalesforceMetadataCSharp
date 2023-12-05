@@ -1162,7 +1162,10 @@ namespace SalesforceMetadata
                 SalesforceMetadataStep2 sfMetadataStep2 = new SalesforceMetadataStep2();
                 sfMetadataStep2.userName = this.cmbUserName.Text;
                 sfMetadataStep2.selectedItems = packageXmlMembers;
-                sfMetadataStep2.requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, this.tbRootFolder.Text, false, true);
+                sfMetadataStep2.tbFromOrgSaveLocation.Text = this.tbProjectFolder.Text;
+
+                Action act = () => sfMetadataStep2.requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, this.tbRootFolder.Text, false, true, sfMetadataStep2);
+                Task tsk = Task.Run(act);
             }
         }
 

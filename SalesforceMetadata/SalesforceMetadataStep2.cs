@@ -20,6 +20,7 @@ using System.Text.RegularExpressions;
 using System.Web.UI.MobileControls.Adapters;
 using System.Security.Cryptography;
 using System.Web.Services.Protocols;
+using System.Web.UI.MobileControls;
 
 namespace SalesforceMetadata
 {
@@ -36,7 +37,6 @@ namespace SalesforceMetadata
 
         private HashSet<String> alreadyAdded;
 
-        //private String packageXMLFile = "";
         private String zipFile = "";
         private String extractToFolder = "";
         
@@ -58,7 +58,8 @@ namespace SalesforceMetadata
                 this.extractToFolder = "";
                 String target_dir = this.tbFromOrgSaveLocation.Text;
 
-                requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, this.cbRebuildFolder.Checked, true);
+                Action act = () => requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, this.cbRebuildFolder.Checked, true, this);
+                Task tsk = Task.Run(act);
             }
         }
 
@@ -106,24 +107,32 @@ namespace SalesforceMetadata
                     }
                 }
 
-                requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, this.cbRebuildFolder.Checked, false);
+                Action act = () => requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, this.cbRebuildFolder.Checked, true, this);
+                Task tsk = Task.Run(act);
             }
         }
 
-        public async Task requestZipFile(UtilityClass.REQUESTINGORG reqOrg, String target_dir, Boolean rebuildFolder, Boolean buildPackageXml)
+        public void requestZipFile(UtilityClass.REQUESTINGORG reqOrg, String target_dir, Boolean rebuildFolder, Boolean buildPackageXml, SalesforceMetadataStep2 sfMDFrm)
         {
             Boolean loginSuccess = SalesforceCredentials.salesforceLogin(reqOrg, userName);
 
             if (loginSuccess == false)
             {
                 MessageBox.Show("Please check username, password and/or security token");
+                return;
             }
+
+            String processingMsg = "";
+
+            DateTime dt = DateTime.Now;
+            processingMsg = "Metadta Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
+            var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
+            var thread2 = new System.Threading.Thread(threadParameters);
+            thread2.Start();
 
             MetadataService ms = null;
 
             alreadyAdded.Clear();
-
-            List<Task> tasks = new List<Task>();
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
@@ -440,28 +449,43 @@ namespace SalesforceMetadata
                     retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
                     retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
 
-                    this.rtMessages.Text = this.rtMessages.Text + selected + ": Retrieving Metadata " + Environment.NewLine;
+                    dt = DateTime.Now;
+                    processingMsg = selected + ": Metadta Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
+                    threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
+                    thread2 = new System.Threading.Thread(threadParameters);
+                    thread2.Start();
 
-                    await retrieveZipFile(target_dir, ms, reqOrg, retrieveRequest, selected);
+                    retrieveZipFile(target_dir, ms, reqOrg, retrieveRequest, selected, sfMDFrm);
                 }
 
-                this.rtMessages.Text = this.rtMessages.Text + "Metadata Extract Completed Successfully";
+                dt = DateTime.Now;
+                processingMsg = "Metadata Extract Completed Successfully at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
+                threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
+                thread2 = new System.Threading.Thread(threadParameters);
+                thread2.Start();
+
             }
             else
             {
                 RetrieveRequest retrieveRequest = new RetrieveRequest();
                 retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
-                String packageXmlStr = File.ReadAllText(this.tbExistingPackageXml.Text);
+                String packageXmlStr = File.ReadAllText(sfMDFrm.tbExistingPackageXml.Text);
                 retrieveRequest.unpackaged = parsePackageManifest(packageXmlStr.ToString());
 
-                this.rtMessages.Text = this.rtMessages.Text + ": Retrieving Metadata " + Environment.NewLine;
+                dt = DateTime.Now;
+                processingMsg = ": Metadta Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
+                threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
+                thread2 = new System.Threading.Thread(threadParameters);
+                thread2.Start();
 
-                await retrieveZipFile(target_dir, ms, reqOrg, retrieveRequest, "CustomPackageXml");
+                retrieveZipFile(target_dir, ms, reqOrg, retrieveRequest, "CustomPackageXml", sfMDFrm);
             }
         }
-        
 
-        private async Task retrieveZipFile(String target_dir, MetadataService ms, UtilityClass.REQUESTINGORG reqOrg, RetrieveRequest retrieveRequest, String metdataObject)
+
+        //private async Task retrieveZipFile(String target_dir, MetadataService ms, UtilityClass.REQUESTINGORG reqOrg, RetrieveRequest retrieveRequest, String metdataObject)
+        //private void retrieveZipFile(String target_dir, MetadataService ms, UtilityClass.REQUESTINGORG reqOrg, RetrieveRequest retrieveRequest, String metdataObject)
+        private void retrieveZipFile(String target_dir, MetadataService ms, UtilityClass.REQUESTINGORG reqOrg, RetrieveRequest retrieveRequest, String metdataObject, SalesforceMetadataStep2 frm)
         {
             AsyncResult asyncResult = new AsyncResult();
 
@@ -482,7 +506,7 @@ namespace SalesforceMetadata
             {
                 if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
                 {
-                    zipFile = this.tbFromOrgSaveLocation.Text + "\\components_" + extractToFolder + "_" + metdataObject + "_" + timestamp + ".zip";
+                    zipFile = frm.tbFromOrgSaveLocation.Text + "\\components_" + extractToFolder + "_" + metdataObject + "_" + timestamp + ".zip";
                 }
 
                 try
@@ -512,7 +536,7 @@ namespace SalesforceMetadata
 
                         // If cbConvertToVSCodeStyle == true then add the -meta.xml to the end of the file for each file in the directories, except for LWC and Aura
                         // Objects will need to be reworked as well as their folder structure is different
-                        if (this.cbConvertToVSCodeStyle.Checked == true)
+                        if (frm.cbConvertToVSCodeStyle.Checked == true)
                         {
                             addVSCodeFileExtension(target_dir);
                         }
@@ -520,15 +544,15 @@ namespace SalesforceMetadata
                 }
                 catch (System.IO.IOException ioExc)
                 {
-                    this.rtMessages.Text = this.rtMessages.Text + metdataObject + ": IO Exception: " + ioExc.Message + Environment.NewLine;
+                    //frm.rtMessages.Text = frm.rtMessages.Text + metdataObject + ": IO Exception: " + ioExc.Message + Environment.NewLine;
                 }
                 catch (Exception exc)
                 {
-                    this.rtMessages.Text = this.rtMessages.Text + metdataObject + ": There was an error saving the package.zip file to the location specified: " + exc.Message + Environment.NewLine;
+                    //frm.rtMessages.Text = frm.rtMessages.Text + metdataObject + ": There was an error saving the package.zip file to the location specified: " + exc.Message + Environment.NewLine;
                 }
                 finally
                 {
-                    this.rtMessages.Text = this.rtMessages.Text + metdataObject + ": Metadata Extract Completed Successfully" + Environment.NewLine + Environment.NewLine;
+                    //frm.rtMessages.Text = frm.rtMessages.Text + metdataObject + ": Metadata Extract Completed Successfully" + Environment.NewLine + Environment.NewLine;
                 }
             }
         }
@@ -1187,5 +1211,20 @@ namespace SalesforceMetadata
                 this.btnRetrieveMetadataFromSelected.Enabled = true;
             }
         }
+
+        // Threadsafe way to write back to the form's textbox
+        public void tsWriteToTextbox(String tbValue)
+        {
+            if (this.rtMessages.InvokeRequired)
+            {
+                Action safeWrite = delegate { tsWriteToTextbox($"{tbValue}"); };
+                this.rtMessages.Invoke(safeWrite);
+            }
+            else
+            {
+                this.rtMessages.Text = this.rtMessages.Text + tbValue;
+            }
+        }
+
     }
 }

@@ -1,5 +1,5 @@
 NOTES:
-I have built this on the fly as needed and have not implemented a lot of asynchronous processes (I know). This is something I'm going to be working on and will enhance the forms to utilize asynchronous processes during long retrievals allowing the use of the app while tasks are running in the background.
+I have built this on the fly as needed and have not implemented a lot of asynchronous processes (I know. You can lecture me later). This is something I'm going to be working on and will enhance the forms to utilize asynchronous processes during long retrievals allowing the use of the app while tasks are running in the background.
 
 
 /************ Setting up the security structure, selecting your default Metadata folders to be selected and encrypting the credentials to be stored on your machine ************/
@@ -12,9 +12,9 @@ Create the first initial encrypted text file
     Create an XML file called SFLogins.xml but leave it empty.
     
     Create a text file in another location either on the current machine or a network drive called SharedSecret.txt and type in a password of your choosing.
-    The value here will be used as the master password
+    The value here will be used as the master password.
     
-    Generate a Salt and hold onto this. You will need it to encrypt / decrypt the XML file. If you lose it, you will need to regenerate your XML file. You can use a random           password generator for this or one of your choosing.
+    Generate a Salt and hold onto this. You will need it to encrypt / decrypt the XML file. If you lose it, you will need to regenerate your XML file. You can use a random password generator for this or one of your choosing.
     
 
 When you first run the tool, it will open up the User Settings form.
@@ -26,7 +26,7 @@ Click the Encrypt / Decrypt button
 
 Copy and paste the text in the ExampleUserSettings.xml file into the Decrypted text field.
 
-You will need update the username and possibly add a security token.
+You will need update the username, password and, depending on the IP address, whether it is trusted or in the trusted IP range, possibly a security token.
 
 The other items are related to what the default Metadata types selected will be when downloading the package.xml. Add/Remove any you don't necessary need as defaults.
 

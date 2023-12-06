@@ -58,6 +58,15 @@ namespace SalesforceMetadata
                 this.extractToFolder = "";
                 String target_dir = this.tbFromOrgSaveLocation.Text;
 
+                this.rtMessages.Text = this.rtMessages.Text + "Metadata Components to Retrieve:" + Environment.NewLine;
+
+                foreach (String comp in selectedItems.Keys)
+                {
+                    this.rtMessages.Text = this.rtMessages.Text + "    " + comp + Environment.NewLine;
+                }
+
+                this.rtMessages.Text = this.rtMessages.Text + Environment.NewLine;
+
                 Action act = () => requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, this.cbRebuildFolder.Checked, true, this);
                 Task tsk = Task.Run(act);
             }
@@ -125,7 +134,7 @@ namespace SalesforceMetadata
             String processingMsg = "";
 
             DateTime dt = DateTime.Now;
-            processingMsg = "Metadata Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
+            processingMsg = "Metadata Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
             var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
             var thread2 = new System.Threading.Thread(threadParameters);
             thread2.Start();
@@ -450,7 +459,7 @@ namespace SalesforceMetadata
                     retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
 
                     dt = DateTime.Now;
-                    processingMsg = selected + ": Metadta Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
+                    processingMsg = "    " + selected + ": Metadata Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
                     threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
                     thread2 = new System.Threading.Thread(threadParameters);
                     thread2.Start();
@@ -471,12 +480,6 @@ namespace SalesforceMetadata
                 retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
                 String packageXmlStr = File.ReadAllText(sfMDFrm.tbExistingPackageXml.Text);
                 retrieveRequest.unpackaged = parsePackageManifest(packageXmlStr.ToString());
-
-                dt = DateTime.Now;
-                processingMsg = ": Metadata Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
-                threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
-                thread2 = new System.Threading.Thread(threadParameters);
-                thread2.Start();
 
                 retrieveZipFile(target_dir, ms, reqOrg, retrieveRequest, "CustomPackageXml", sfMDFrm);
             }
@@ -541,6 +544,14 @@ namespace SalesforceMetadata
                             addVSCodeFileExtension(target_dir);
                         }
                     }
+
+                    String processingMsg = "";
+
+                    DateTime dt = DateTime.Now;
+                    processingMsg = "    " + metdataObject + ": Metadata Retrieval Completed at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
+                    var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
+                    var thread2 = new System.Threading.Thread(threadParameters);
+                    thread2.Start();
                 }
                 catch (System.IO.IOException ioExc)
                 {

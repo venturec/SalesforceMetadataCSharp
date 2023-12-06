@@ -125,7 +125,7 @@ namespace SalesforceMetadata
             String processingMsg = "";
 
             DateTime dt = DateTime.Now;
-            processingMsg = "Metadta Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
+            processingMsg = "Metadata Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
             var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
             var thread2 = new System.Threading.Thread(threadParameters);
             thread2.Start();
@@ -473,7 +473,7 @@ namespace SalesforceMetadata
                 retrieveRequest.unpackaged = parsePackageManifest(packageXmlStr.ToString());
 
                 dt = DateTime.Now;
-                processingMsg = ": Metadta Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
+                processingMsg = ": Metadata Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
                 threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
                 thread2 = new System.Threading.Thread(threadParameters);
                 thread2.Start();

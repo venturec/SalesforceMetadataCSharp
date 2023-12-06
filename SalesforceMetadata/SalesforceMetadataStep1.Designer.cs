@@ -39,7 +39,6 @@
             this.btnDeleteDebugLogs = new System.Windows.Forms.Button();
             this.btnDeploy = new System.Windows.Forms.Button();
             this.fromOrgGroup = new System.Windows.Forms.GroupBox();
-            this.btnDevSBSeeding = new System.Windows.Forms.Button();
             this.btnSobjectFieldInspector = new System.Windows.Forms.Button();
             this.btnFromGenerateToolingChangeReport = new System.Windows.Forms.Button();
             this.btnConfigurationWorkbook = new System.Windows.Forms.Button();
@@ -50,6 +49,7 @@
             this.btnSelectDefaults = new System.Windows.Forms.Button();
             this.lblSelectDefaults = new System.Windows.Forms.Label();
             this.cbAllDebugLogs = new System.Windows.Forms.CheckBox();
+            this.btnExportMetadataTypes = new System.Windows.Forms.Button();
             this.fromOrgGroup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -140,7 +140,7 @@
             this.btnDeleteDebugLogs.Margin = new System.Windows.Forms.Padding(2);
             this.btnDeleteDebugLogs.Name = "btnDeleteDebugLogs";
             this.btnDeleteDebugLogs.Size = new System.Drawing.Size(165, 28);
-            this.btnDeleteDebugLogs.TabIndex = 11;
+            this.btnDeleteDebugLogs.TabIndex = 17;
             this.btnDeleteDebugLogs.Text = "Delete Debug Logs";
             this.btnDeleteDebugLogs.UseVisualStyleBackColor = false;
             this.btnDeleteDebugLogs.Click += new System.EventHandler(this.btnDeleteDebugLogs_Click);
@@ -151,7 +151,7 @@
             this.btnDeploy.Location = new System.Drawing.Point(821, 441);
             this.btnDeploy.Name = "btnDeploy";
             this.btnDeploy.Size = new System.Drawing.Size(165, 23);
-            this.btnDeploy.TabIndex = 15;
+            this.btnDeploy.TabIndex = 16;
             this.btnDeploy.Text = "Deploy";
             this.btnDeploy.UseVisualStyleBackColor = false;
             this.btnDeploy.Click += new System.EventHandler(this.btnDeploy_Click);
@@ -168,18 +168,6 @@
             this.fromOrgGroup.TabIndex = 1;
             this.fromOrgGroup.TabStop = false;
             this.fromOrgGroup.Text = "From Org";
-            // 
-            // btnDevSBSeeding
-            // 
-            this.btnDevSBSeeding.BackColor = System.Drawing.SystemColors.Control;
-            this.btnDevSBSeeding.Location = new System.Drawing.Point(1012, 441);
-            this.btnDevSBSeeding.Margin = new System.Windows.Forms.Padding(2);
-            this.btnDevSBSeeding.Name = "btnDevSBSeeding";
-            this.btnDevSBSeeding.Size = new System.Drawing.Size(165, 24);
-            this.btnDevSBSeeding.TabIndex = 16;
-            this.btnDevSBSeeding.Text = "Open Dev Sandbox Seeding Form";
-            this.btnDevSBSeeding.UseVisualStyleBackColor = false;
-            this.btnDevSBSeeding.Click += new System.EventHandler(this.btnDevSBSeeding_Click);
             // 
             // btnSobjectFieldInspector
             // 
@@ -272,9 +260,20 @@
             this.cbAllDebugLogs.Location = new System.Drawing.Point(1012, 692);
             this.cbAllDebugLogs.Name = "cbAllDebugLogs";
             this.cbAllDebugLogs.Size = new System.Drawing.Size(132, 17);
-            this.cbAllDebugLogs.TabIndex = 17;
+            this.cbAllDebugLogs.TabIndex = 18;
             this.cbAllDebugLogs.Text = "Delete All Debug Logs";
             this.cbAllDebugLogs.UseVisualStyleBackColor = true;
+            // 
+            // btnExportMetadataTypes
+            // 
+            this.btnExportMetadataTypes.Enabled = false;
+            this.btnExportMetadataTypes.Location = new System.Drawing.Point(821, 339);
+            this.btnExportMetadataTypes.Name = "btnExportMetadataTypes";
+            this.btnExportMetadataTypes.Size = new System.Drawing.Size(165, 23);
+            this.btnExportMetadataTypes.TabIndex = 15;
+            this.btnExportMetadataTypes.Text = "Export Metadata Types";
+            this.btnExportMetadataTypes.UseVisualStyleBackColor = true;
+            this.btnExportMetadataTypes.Click += new System.EventHandler(this.btnExportMetadataTypes_Click);
             // 
             // SalesforceMetadataStep1
             // 
@@ -282,6 +281,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.ClientSize = new System.Drawing.Size(1221, 733);
+            this.Controls.Add(this.btnExportMetadataTypes);
             this.Controls.Add(this.cbAllDebugLogs);
             this.Controls.Add(this.lblSelectDefaults);
             this.Controls.Add(this.btnSelectDefaults);
@@ -292,7 +292,6 @@
             this.Controls.Add(this.btnConfigurationWorkbook);
             this.Controls.Add(this.btnFromGenerateToolingChangeReport);
             this.Controls.Add(this.btnSobjectFieldInspector);
-            this.Controls.Add(this.btnDevSBSeeding);
             this.Controls.Add(this.fromOrgGroup);
             this.Controls.Add(this.btnDeploy);
             this.Controls.Add(this.btnDeleteDebugLogs);
@@ -323,7 +322,6 @@
         private System.Windows.Forms.Button btnDeleteDebugLogs;
         private System.Windows.Forms.Button btnDeploy;
         private System.Windows.Forms.GroupBox fromOrgGroup;
-        private System.Windows.Forms.Button btnDevSBSeeding;
         private System.Windows.Forms.Button btnSobjectFieldInspector;
         private System.Windows.Forms.Button btnFromGenerateToolingChangeReport;
         private System.Windows.Forms.Button btnConfigurationWorkbook;
@@ -334,6 +332,7 @@
         private System.Windows.Forms.Button btnSelectDefaults;
         private System.Windows.Forms.Label lblSelectDefaults;
         private System.Windows.Forms.CheckBox cbAllDebugLogs;
+        private System.Windows.Forms.Button btnExportMetadataTypes;
     }
 }
 

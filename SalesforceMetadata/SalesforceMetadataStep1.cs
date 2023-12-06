@@ -11,6 +11,7 @@ using System.Xml.Linq;
 using SalesforceMetadata.PartnerWSDL;
 using SalesforceMetadata.MetadataWSDL;
 using SalesforceMetadata.ToolingWSDL;
+using System.Runtime.CompilerServices;
 
 namespace SalesforceMetadata
 {
@@ -97,6 +98,7 @@ namespace SalesforceMetadata
 
             SalesforceCredentials.salesforceLogout();
             btnGetMetadataTypes.Enabled = false;
+            btnExportMetadataTypes.Enabled = true;
         }
 
 
@@ -540,6 +542,53 @@ namespace SalesforceMetadata
                     }
                 }
             }
+        }
+
+        private void btnExportMetadataTypes_Click(object sender, EventArgs e)
+        {
+            Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
+            xlapp.Visible = false;
+
+            Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlapp.Workbooks.Add();
+
+            Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
+                                                        (System.Reflection.Missing.Value,
+                                                            xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
+                                                            System.Reflection.Missing.Value,
+                                                            System.Reflection.Missing.Value);
+
+            xlWorksheet.Name = "MetadataTypes";
+
+            xlWorksheet.Cells[1, 1].Value = "MetadataType";
+            xlWorksheet.Cells[1, 2].Value = "Selected";
+
+            Int32 rowNumber = 2;
+
+            CheckedListBox.ObjectCollection allItems = this.lbMetadataTypes.Items;
+            CheckedListBox.CheckedItemCollection checkedItems = this.lbMetadataTypes.CheckedItems;
+
+            HashSet<String> itemsChecked = new HashSet<string>();
+            foreach (String ci in checkedItems)
+            {
+                itemsChecked.Add(ci);
+
+                xlWorksheet.Cells[rowNumber, 1].Value = ci;
+                xlWorksheet.Cells[rowNumber, 2].Value = "True";
+
+                rowNumber++;
+            }
+
+            foreach (String ci in allItems)
+            {
+                if (!itemsChecked.Contains(ci))
+                {
+                    xlWorksheet.Cells[rowNumber, 1].Value = ci;
+                    xlWorksheet.Cells[rowNumber, 2].Value = "False";
+                    rowNumber++;
+                }
+            }
+
+            xlapp.Visible = true;
         }
     }
 }

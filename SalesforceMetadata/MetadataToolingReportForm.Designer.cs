@@ -81,7 +81,6 @@
             "ApexEmailNotification",
             "ApexPage",
             "ApexTrigger",
-            "AssignmentRule",
             "AuraDefinition",
             "AuradefinitionBundle",
             "AutoResponseRule",
@@ -125,6 +124,9 @@
             // 
             // rtStatus
             // 
+            this.rtStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.rtStatus.Location = new System.Drawing.Point(471, 99);
             this.rtStatus.Name = "rtStatus";
             this.rtStatus.Size = new System.Drawing.Size(639, 484);

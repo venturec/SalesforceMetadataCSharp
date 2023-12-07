@@ -101,9 +101,9 @@ namespace SalesforceMetadata
             Dictionary<String, String> customObjIdToName = new Dictionary<String, String>();
             Dictionary<String, String> classIdToClassName = new Dictionary<String, String>();
 
-            getCustomObject(xlWorkbook, customObjIdToName);
-            getCustomField(xlWorkbook, customObjIdToName, objectFieldNameToLabel);
-            getApexClass(xlWorkbook, customObjIdToName, retrieveCodeCoverage);
+            //getCustomObject(xlWorkbook, customObjIdToName);
+            //getCustomField(xlWorkbook, customObjIdToName, objectFieldNameToLabel);
+            //getApexClass(xlWorkbook, customObjIdToName, retrieveCodeCoverage);
 
             // Run a new Thread for the rest of the objects
             foreach (String objType in selectedItems)
@@ -223,6 +223,11 @@ namespace SalesforceMetadata
             {
                 query = ToolingApiHelper.CompactLayoutQuery("");
                 ToolingApiHelper.compactLayoutToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+            }
+            else if (toolingObject == "CustomTab")
+            {
+                query = ToolingApiHelper.CustomTabQuery();
+                ToolingApiHelper.customTabToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "EmailTemplate")
             {

@@ -45,13 +45,19 @@ namespace SalesforceMetadata
             }
             else
             {
+                HashSet<String> selectedItems = new HashSet<string>();
+                foreach (String itm in this.lbToolingObjects.CheckedItems)
+                {
+                    selectedItems.Add(itm);
+                }
+
                 // Run a thread for obtaining the custom objects and classes
-                Action act = () => buildToolingReport(this);
+                Action act = () => buildToolingReport(selectedItems, this.cbRetrieveApexClassCoverage.Checked);
                 Task tsk = Task.Run(act);
             }
         }
 
-        private void buildToolingReport(MetadataToolingReportForm mtrFrm)
+        private void buildToolingReport(HashSet<String> selectedItems, Boolean retrieveCodeCoverage)
         {
             HashSet<String> bypassObjects = new HashSet<String> {"ApexClass", "CustomObject"};
 
@@ -97,10 +103,10 @@ namespace SalesforceMetadata
 
             getCustomObject(xlWorkbook, customObjIdToName);
             getCustomField(xlWorkbook, customObjIdToName, objectFieldNameToLabel);
-            getApexClass(xlWorkbook, customObjIdToName, mtrFrm.cbRetrieveApexClassCoverage.Checked);
+            getApexClass(xlWorkbook, customObjIdToName, retrieveCodeCoverage);
 
             // Run a new Thread for the rest of the objects
-            foreach (String objType in mtrFrm.lbToolingObjects.SelectedItems)
+            foreach (String objType in selectedItems)
             {
                 if (!bypassObjects.Contains(objType))
                 {
@@ -110,7 +116,7 @@ namespace SalesforceMetadata
                                      classIdToClassName,
                                      workflowRules,
                                      workflowFieldUpdatesByName,
-                                     mtrFrm.cbRetrieveApexClassCoverage.Checked);
+                                     retrieveCodeCoverage);
                 }
             }
 

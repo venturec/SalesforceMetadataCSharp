@@ -32,7 +32,11 @@
             this.tbMetadataFolderLocation = new System.Windows.Forms.TextBox();
             this.btnGenerateToolingReport = new System.Windows.Forms.Button();
             this.lblMetdataFolderSelection = new System.Windows.Forms.Label();
-            this.lbToolingTypes = new System.Windows.Forms.CheckedListBox();
+            this.lbToolingObjects = new System.Windows.Forms.CheckedListBox();
+            this.lblStatus = new System.Windows.Forms.Label();
+            this.rtStatus = new System.Windows.Forms.RichTextBox();
+            this.lblToolingObject = new System.Windows.Forms.Label();
+            this.cbRetrieveApexClassCoverage = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // tbMetadataFolderLocation
@@ -49,7 +53,7 @@
             this.btnGenerateToolingReport.Location = new System.Drawing.Point(14, 609);
             this.btnGenerateToolingReport.Name = "btnGenerateToolingReport";
             this.btnGenerateToolingReport.Size = new System.Drawing.Size(158, 23);
-            this.btnGenerateToolingReport.TabIndex = 2;
+            this.btnGenerateToolingReport.TabIndex = 6;
             this.btnGenerateToolingReport.Text = "Generate Tooling Report";
             this.btnGenerateToolingReport.UseVisualStyleBackColor = true;
             this.btnGenerateToolingReport.Click += new System.EventHandler(this.btnDone_Click);
@@ -66,12 +70,12 @@
     "les from specific folders.";
             this.lblMetdataFolderSelection.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
-            // lbToolingTypes
+            // lbToolingObjects
             // 
-            this.lbToolingTypes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.lbToolingObjects.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.lbToolingTypes.FormattingEnabled = true;
-            this.lbToolingTypes.Items.AddRange(new object[] {
+            this.lbToolingObjects.FormattingEnabled = true;
+            this.lbToolingObjects.Items.AddRange(new object[] {
             "ApexClass",
             "ApexComponent",
             "ApexEmailNotification",
@@ -104,17 +108,59 @@
             "WorkflowRule",
             "WorkflowTask",
             "WorkSkillRouting"});
-            this.lbToolingTypes.Location = new System.Drawing.Point(15, 84);
-            this.lbToolingTypes.Name = "lbToolingTypes";
-            this.lbToolingTypes.Size = new System.Drawing.Size(387, 499);
-            this.lbToolingTypes.TabIndex = 3;
+            this.lbToolingObjects.Location = new System.Drawing.Point(15, 99);
+            this.lbToolingObjects.Name = "lbToolingObjects";
+            this.lbToolingObjects.Size = new System.Drawing.Size(387, 484);
+            this.lbToolingObjects.TabIndex = 3;
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus.Location = new System.Drawing.Point(468, 79);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(54, 17);
+            this.lblStatus.TabIndex = 4;
+            this.lblStatus.Text = "Status";
+            // 
+            // rtStatus
+            // 
+            this.rtStatus.Location = new System.Drawing.Point(471, 99);
+            this.rtStatus.Name = "rtStatus";
+            this.rtStatus.Size = new System.Drawing.Size(639, 484);
+            this.rtStatus.TabIndex = 5;
+            this.rtStatus.Text = "";
+            // 
+            // lblToolingObject
+            // 
+            this.lblToolingObject.AutoSize = true;
+            this.lblToolingObject.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblToolingObject.Location = new System.Drawing.Point(12, 79);
+            this.lblToolingObject.Name = "lblToolingObject";
+            this.lblToolingObject.Size = new System.Drawing.Size(122, 17);
+            this.lblToolingObject.TabIndex = 2;
+            this.lblToolingObject.Text = "Tooling Objects";
+            // 
+            // cbRetrieveApexClassCoverage
+            // 
+            this.cbRetrieveApexClassCoverage.AutoSize = true;
+            this.cbRetrieveApexClassCoverage.Location = new System.Drawing.Point(921, 40);
+            this.cbRetrieveApexClassCoverage.Name = "cbRetrieveApexClassCoverage";
+            this.cbRetrieveApexClassCoverage.Size = new System.Drawing.Size(142, 17);
+            this.cbRetrieveApexClassCoverage.TabIndex = 7;
+            this.cbRetrieveApexClassCoverage.Text = "Retrieve Apex Coverage";
+            this.cbRetrieveApexClassCoverage.UseVisualStyleBackColor = true;
             // 
             // MetadataToolingReportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(852, 667);
-            this.Controls.Add(this.lbToolingTypes);
+            this.ClientSize = new System.Drawing.Size(1122, 667);
+            this.Controls.Add(this.cbRetrieveApexClassCoverage);
+            this.Controls.Add(this.lblToolingObject);
+            this.Controls.Add(this.rtStatus);
+            this.Controls.Add(this.lblStatus);
+            this.Controls.Add(this.lbToolingObjects);
             this.Controls.Add(this.lblMetdataFolderSelection);
             this.Controls.Add(this.btnGenerateToolingReport);
             this.Controls.Add(this.tbMetadataFolderLocation);
@@ -131,6 +177,10 @@
         private System.Windows.Forms.TextBox tbMetadataFolderLocation;
         private System.Windows.Forms.Button btnGenerateToolingReport;
         private System.Windows.Forms.Label lblMetdataFolderSelection;
-        private System.Windows.Forms.CheckedListBox lbToolingTypes;
+        private System.Windows.Forms.CheckedListBox lbToolingObjects;
+        private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.RichTextBox rtStatus;
+        private System.Windows.Forms.Label lblToolingObject;
+        private System.Windows.Forms.CheckBox cbRetrieveApexClassCoverage;
     }
 }

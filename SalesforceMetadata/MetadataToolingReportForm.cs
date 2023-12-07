@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using static SalesforceMetadata.AutomationReporter;
 
 namespace SalesforceMetadata
 {
@@ -44,373 +45,251 @@ namespace SalesforceMetadata
             }
             else
             {
-                Boolean loginSuccess = SalesforceCredentials.salesforceToolingLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
-
-                if (loginSuccess == false)
-                {
-                    MessageBox.Show("Please check username, password and/or security token");
-                    return;
-                }
-
-                Dictionary<String, String> customObjIdToName18 = new Dictionary<String, String>();
-                Dictionary<String, String> customObjIdToName15 = new Dictionary<String, String>();
-                Dictionary<String, String> classIdToClassName = new Dictionary<String, String>();
-
-                // Key = ObjectName.FieldName, Value = Label, Type
-                Dictionary<String, List<String>> objectFieldNameToLabel = new Dictionary<String, List<String>>();
-
-                Dictionary<String, ToolingApiHelper.WorkflowRule> workflowRules = new Dictionary<String, ToolingApiHelper.WorkflowRule>();
-                Dictionary<String, ToolingApiHelper.WorkflowFieldUpdate> workflowFieldUpdatesByFullName = new Dictionary<String, ToolingApiHelper.WorkflowFieldUpdate>();
-                Dictionary<String, ToolingApiHelper.WorkflowFieldUpdate> workflowFieldUpdatesByName = new Dictionary<String, ToolingApiHelper.WorkflowFieldUpdate>();
-                //Dictionary<String, WorkflowAlert> workflowAlerts = new Dictionary<String, WorkflowAlert>();
-                //Dictionary<String, WorkflowOutboundMessage> workflowOutboundMsgs = new Dictionary<String, WorkflowOutboundMessage>();
-
-                // Salesforce does not return custom object and custom field api names with the __c so we can't match easily to what is in the metadata
-                // Some orgs have duplicate Case Type fields: one of them is the standard one, and the other is a custom one, but the Tooling API returns
-                // both with the same DeveloperName - Type and the custom one does not have the __c
-
-                parseObjectFiles(objectFieldNameToLabel);
-
-                Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
-                xlapp.Visible = false;
-
-                Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlapp.Workbooks.Add();
-
-                String query = "";
-
-                if (lbToolingTypes.CheckedItems.Contains("ApexClass"))
-                {
-                    query = ToolingApiHelper.ApexClassQuery("");
-                    ToolingApiHelper.getApexClasses(query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
-                    ToolingApiHelper.apexClassToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
-                }
-                
-                if (lbToolingTypes.CheckedItems.Contains("ApexComponent"))
-                {
-                    if (classIdToClassName.Count == 0)
-                    {
-                        query = ToolingApiHelper.ApexClassQuery("");
-                        ToolingApiHelper.getApexClasses(query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
-                    }
-
-                    query = ToolingApiHelper.ApexComponentQuery();
-                    ToolingApiHelper.apexComponentToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
-                }
-
-                if (lbToolingTypes.CheckedItems.Contains("ApexPage"))
-                {
-                    if (classIdToClassName.Count == 0)
-                    {
-                        query = ToolingApiHelper.ApexClassQuery("");
-                        ToolingApiHelper.getApexClasses(query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
-                    }
-
-                    query = "";
-                    query = ToolingApiHelper.ApexPageQuery();
-                    ToolingApiHelper.apexPageToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
-                }
-
-                if (lbToolingTypes.CheckedItems.Contains("ApexTrigger"))
-                {
-                    if (customObjIdToName18.Count == 0)
-                    {
-                        query = ToolingApiHelper.CustomObjectQuery();
-                        ToolingApiHelper.customObjectToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
-                    }
-
-                    query = ToolingApiHelper.ApexTriggerQuery("");
-                    ToolingApiHelper.apexTriggerToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName, customObjIdToName18, customObjIdToName15);
-                }
-
-                if (lbToolingTypes.CheckedItems.Contains("CompactLayout"))
-                {
-                    query = ToolingApiHelper.CompactLayoutQuery("");
-                    ToolingApiHelper.compactLayoutToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
-                }
-
-                if (lbToolingTypes.CheckedItems.Contains("CustomObject"))
-                {
-                    query = ToolingApiHelper.CustomObjectQuery();
-                    ToolingApiHelper.customObjectToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
-
-                    query = ToolingApiHelper.CustomFieldQuery();
-                    ToolingApiHelper.customFieldToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15, objectFieldNameToLabel);
-                }
-
-                if (lbToolingTypes.CheckedItems.Contains("EmailTemplate"))
-                {
-                    query = ToolingApiHelper.EmailTemplateQuery();
-                    ToolingApiHelper.emailTemplateToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
-                }
-
-                if (lbToolingTypes.CheckedItems.Contains("FlexiPage"))
-                {
-                    if (customObjIdToName18.Count == 0)
-                    {
-                        query = ToolingApiHelper.CustomObjectQuery();
-                        ToolingApiHelper.customObjectToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
-                    }
-
-                    query = ToolingApiHelper.FlexiPageQuery("");
-                    ToolingApiHelper.flexiPageToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
-                }
-
-                if (lbToolingTypes.CheckedItems.Contains("Flow"))
-                {
-                    query = ToolingApiHelper.FlowQuery();
-                    ToolingApiHelper.flowToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
-                }
-
-                if (lbToolingTypes.CheckedItems.Contains("Layout"))
-                {
-                    if (customObjIdToName18.Count == 0)
-                    {
-                        query = ToolingApiHelper.CustomObjectQuery();
-                        ToolingApiHelper.customObjectToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
-                    }
-
-                    query = ToolingApiHelper.LayoutQuery("");
-                    ToolingApiHelper.layoutToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
-                }
-
-                if (lbToolingTypes.CheckedItems.Contains("LightningComponentBundle"))
-                {
-                    query = ToolingApiHelper.LightningComponentBundleQuery();
-                    ToolingApiHelper.lwcToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
-                }
-
-                if (lbToolingTypes.CheckedItems.Contains("LightningComponentBundle"))
-                {
-                    query = ToolingApiHelper.LightningComponentBundleQuery();
-                    ToolingApiHelper.lwcToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
-                }
-
-                if (lbToolingTypes.CheckedItems.Contains("RecordType"))
-                {
-                    //if (customObjIdToName18.Count == 0)
-                    //{
-                    //    query = ToolingApiHelper.CustomObjectQuery();
-                    //    ToolingApiHelper.customObjectToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
-                    //}
-
-                    query = ToolingApiHelper.RecordTypeQuery();
-                    ToolingApiHelper.recordTypesToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
-                }
-
-                if (lbToolingTypes.CheckedItems.Contains("ValidationRule"))
-                {
-                    query = ToolingApiHelper.ValidationRuleQuery("", "");
-                    ToolingApiHelper.validationRuleToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15);
-                }
-
-                if (lbToolingTypes.CheckedItems.Contains("WorkflowRule"))
-                {
-                    parseWorkflowRules(workflowRules, workflowFieldUpdatesByFullName, workflowFieldUpdatesByName);
-                    query = ToolingApiHelper.WorkflowAlertQuery();
-                    ToolingApiHelper.workflowAlertToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, workflowRules);
-                }
-
-                if (lbToolingTypes.CheckedItems.Contains("WorkflowFieldUpdate"))
-                {
-                    query = ToolingApiHelper.WorkflowFieldUpdateQuery();
-                    ToolingApiHelper.workflowFieldUpdateToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName18, customObjIdToName15, workflowFieldUpdatesByName);
-                }
-
-                if (lbToolingTypes.CheckedItems.Contains("WorkflowOutboundMessage"))
-                {
-                    //query = ToolingApiHelper.WorkflowOutboundMessageQuery();
-                    //ToolingApiHelper.workflowOutboundMessageToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
-                }
-
-                if (lbToolingTypes.CheckedItems.Contains("WorkflowTask"))
-                {
-                    //query = ToolingApiHelper.WorkflowTaskQuery();
-                    //ToolingApiHelper.workflowTaskToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
-                }
-
-                if (lbToolingTypes.CheckedItems.Contains("WorkSkillRouting"))
-                {
-                    //query = ToolingApiHelper.WorkSkillRoutingQuery();
-                    //ToolingApiHelper.workSkillRoutingToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
-                }
-
-
-                // Now go through the metadata to find all configuration items and generate a lines report for each one:
-                // The main areas to focus on are:
-                // Approval Processes - active only
-                // Assignment Rules
-                // Auto Response Rules
-                // Escalation Rules
-                // Flows (active only)
-                // Object - Validation Rules
-                // Quick Actions
-                // Workflow rules (active only): with field updates, email alerts, callouts, task creation
-                // Work Skill Routing
-
-                //getLinesOfConfiguration(xlWorkbook, this.tbMetadataFolderLocation.Text, "approvalProcesses", "ApprovalProcessesLinesReport");
-                //getLinesOfConfiguration(xlWorkbook, this.tbMetadataFolderLocation.Text, "assignmentRules", "AssignmentRulesLinesReport");
-                //getLinesOfConfiguration(xlWorkbook, this.tbMetadataFolderLocation.Text, "autoResponseRules", "AutoResponseLinesReport");
-                //getLinesOfConfiguration(xlWorkbook, this.tbMetadataFolderLocation.Text, "escalationRules", "EscalationRulesLinesReport");
-                //getLinesOfConfiguration(xlWorkbook, this.tbMetadataFolderLocation.Text, "flows", "FlowsLinesReport");
-                //getLinesOfConfiguration(xlWorkbook, this.tbMetadataFolderLocation.Text, "quickActions", "QuckActionsLinesReport");
-
-                //getLinesOfConfiguration(xlWorkbook, this.tbMetadataFolderLocation.Text, "workflows", "WorkflowEvents");
-                //getLinesOfConfiguration(xlWorkbook, this.tbMetadataFolderLocation.Text, "workSkillRoutings", "SkillRoutingLinesReport");
-
-                xlapp.Visible = true;
+                // Run a thread for obtaining the custom objects and classes
+                Action act = () => buildToolingReport(this);
+                Task tsk = Task.Run(act);
             }
         }
 
-        //private void getLinesOfConfiguration(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, String directory, String folder, String tabName)
-        //{
+        private void buildToolingReport(MetadataToolingReportForm mtrFrm)
+        {
+            HashSet<String> bypassObjects = new HashSet<String> {"ApexClass", "CustomObject"};
 
-        //    String[] files = Directory.GetFiles(directory + "\\" + folder);
+            Boolean loginSuccess = SalesforceCredentials.salesforceToolingLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
 
-        //    Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
-        //                                                (System.Reflection.Missing.Value,
-        //                                                    xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
-        //                                                    System.Reflection.Missing.Value,
-        //                                                    System.Reflection.Missing.Value);
+            if (loginSuccess == false)
+            {
+                MessageBox.Show("Please check username, password and/or security token");
+                return;
+            }
 
-        //    xlWorksheet.Name = tabName;
-        //    xlWorksheet.Cells[1, 1].Value = "Name";
-        //    xlWorksheet.Cells[1, 2].Value = "LinesOfConfiguration";
+            DateTime dt = DateTime.Now;
+            String processingMsg = "Tooling Report Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
+            var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
+            var thread2 = new System.Threading.Thread(threadParameters);
+            thread2.Start();
 
-        //    Int32 rowNumber = 2;
-        //    foreach (String file in files)
-        //    {
-        //        Int32 linesOfConfiguration = 0;
+            Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
+            Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlapp.Workbooks.Add();
+            xlapp.Visible = true;
 
-        //        String[] fileNamePath = file.Split('\\');
-        //        String[] fileName = fileNamePath[fileNamePath.Length - 1].Split('.');
+            // Key = ObjectName.FieldName, Value = Label, Type
 
-        //        XmlDocument xd = new XmlDocument();
-        //        xd.Load(file);
-
-        //        XmlNodeList isActiveCheck = xd.GetElementsByTagName("active");
-
-        //        if (isActiveCheck.Count > 0 && isActiveCheck[0].InnerText == "false") continue;
-
-        //        foreach (XmlNode nd1 in xd.ChildNodes)
-        //        {
-        //            if (nd1.HasChildNodes)
-        //            {
-        //                foreach (XmlNode nd2 in nd1.ChildNodes)
-        //                {
-        //                    if (nd2.HasChildNodes)
-        //                    {
-        //                        foreach (XmlNode nd3 in nd2.ChildNodes)
-        //                        {
-        //                            if (nd3.HasChildNodes)
-        //                            {
-        //                                foreach (XmlNode nd4 in nd3.ChildNodes)
-        //                                {
-        //                                    if (nd4.HasChildNodes)
-        //                                    {
-        //                                        foreach (XmlNode nd5 in nd4.ChildNodes)
-        //                                        {
-        //                                            if (nd5.HasChildNodes)
-        //                                            {
-        //                                                foreach (XmlNode nd6 in nd5.ChildNodes)
-        //                                                {
-        //                                                    if (nd6.HasChildNodes)
-        //                                                    {
-        //                                                        foreach (XmlNode nd7 in nd6.ChildNodes)
-        //                                                        {
-        //                                                            if (nd7.HasChildNodes)
-        //                                                            {
-        //                                                                foreach (XmlNode nd8 in nd7.ChildNodes)
-        //                                                                {
-        //                                                                    if (nd8.HasChildNodes)
-        //                                                                    {
-        //                                                                        foreach (XmlNode nd9 in nd8.ChildNodes)
-        //                                                                        {
-        //                                                                            if (nd9.HasChildNodes)
-        //                                                                            {
-        //                                                                                foreach (XmlNode nd10 in nd9.ChildNodes)
-        //                                                                                {
-        //                                                                                    if (nd10.HasChildNodes)
-        //                                                                                    {
-        //                                                                                        foreach (XmlNode nd11 in nd10.ChildNodes)
-        //                                                                                        {
-        //                                                                                            if (nd11.HasChildNodes)
-        //                                                                                            {
-        //                                                                                            }
-        //                                                                                            else if (nd10.Name != "description" && nd11.Name == "#text")
-        //                                                                                            {
-        //                                                                                                linesOfConfiguration++;
-        //                                                                                            }
-        //                                                                                        }
-        //                                                                                    }
-        //                                                                                    else if (nd9.Name != "description" && nd10.Name == "#text")
-        //                                                                                    {
-        //                                                                                        linesOfConfiguration++;
-        //                                                                                    }
-        //                                                                                }
-        //                                                                            }
-        //                                                                            else if (nd8.Name != "description" && nd9.Name == "#text")
-        //                                                                            {
-        //                                                                                linesOfConfiguration++;
-        //                                                                            }
-        //                                                                        }
-        //                                                                    }
-        //                                                                    else if (nd7.Name != "description" && nd8.Name == "#text")
-        //                                                                    {
-        //                                                                        linesOfConfiguration++;
-        //                                                                    }
-        //                                                                }
-        //                                                            }
-        //                                                            else if (nd6.Name != "description" && nd7.Name == "#text")
-        //                                                            {
-        //                                                                linesOfConfiguration++;
-        //                                                            }
-        //                                                        }
-        //                                                    }
-        //                                                    else if (nd5.Name != "description" && nd6.Name == "#text")
-        //                                                    {
-        //                                                        linesOfConfiguration++;
-        //                                                    }
-        //                                                }
-        //                                            }
-        //                                            else if (nd4.Name != "description" && nd5.Name == "#text")
-        //                                            {
-        //                                                linesOfConfiguration++;
-        //                                            }
-        //                                        }
-        //                                    }
-        //                                    else if (nd3.Name != "description" && nd4.Name == "#text")
-        //                                    {
-        //                                        linesOfConfiguration++;
-        //                                    }
-        //                                }
-        //                            }
-        //                            else if (nd2.Name != "description" && nd3.Name == "#text")
-        //                            {
-        //                                linesOfConfiguration++;
-        //                            }
-        //                        }
-        //                    }
-        //                    else if (nd1.Name != "description" && nd2.Name == "#text")
-        //                    {
-        //                        linesOfConfiguration++;
-        //                    }
-        //                }
-        //            }
-        //            else if (nd1.Name == "#text")
-        //            {
-        //                linesOfConfiguration++;
-        //            }
-        //        }
-
-        //        xlWorksheet.Cells[rowNumber, 1].Value = fileName[fileName.Length - 2];
-        //        xlWorksheet.Cells[rowNumber, 2].Value = linesOfConfiguration;
-
-        //        rowNumber++;
-        //    }
+            // Salesforce does not return custom object and custom field api names with the __c so we can't match easily to what is in the metadata
+            // Some orgs have duplicate Case Type fields: one of them is the standard one, and the other is a custom one, but the Tooling API returns
+            // both with the same DeveloperName - Type and the custom one does not have the __c
 
 
-        //    //return linesOfConfiguration;
-        //}
+            Dictionary<String, List<String>> objectFieldNameToLabel = new Dictionary<String, List<String>>();
+            parseObjectFiles(objectFieldNameToLabel);
+
+
+            Dictionary<String, ToolingApiHelper.WorkflowRule> workflowRules = new Dictionary<String, ToolingApiHelper.WorkflowRule>();
+            Dictionary<String, ToolingApiHelper.WorkflowFieldUpdate> workflowFieldUpdatesByFullName = new Dictionary<String, ToolingApiHelper.WorkflowFieldUpdate>();
+            Dictionary<String, ToolingApiHelper.WorkflowFieldUpdate> workflowFieldUpdatesByName = new Dictionary<String, ToolingApiHelper.WorkflowFieldUpdate>();
+            //Dictionary<String, WorkflowAlert> workflowAlerts = new Dictionary<String, WorkflowAlert>();
+            //Dictionary<String, WorkflowOutboundMessage> workflowOutboundMsgs = new Dictionary<String, WorkflowOutboundMessage>();
+            parseWorkflowRules(workflowRules, workflowFieldUpdatesByFullName, workflowFieldUpdatesByName);
+
+
+            Dictionary<String, String> customObjIdToName = new Dictionary<String, String>();
+            Dictionary<String, String> classIdToClassName = new Dictionary<String, String>();
+
+            getCustomObject(xlWorkbook, customObjIdToName);
+            getCustomField(xlWorkbook, customObjIdToName, objectFieldNameToLabel);
+            getApexClass(xlWorkbook, customObjIdToName, mtrFrm.cbRetrieveApexClassCoverage.Checked);
+
+            // Run a new Thread for the rest of the objects
+            foreach (String objType in mtrFrm.lbToolingObjects.SelectedItems)
+            {
+                if (!bypassObjects.Contains(objType))
+                {
+                    getToolingObject(objType,
+                                     xlWorkbook,
+                                     customObjIdToName,
+                                     classIdToClassName,
+                                     workflowRules,
+                                     workflowFieldUpdatesByName,
+                                     mtrFrm.cbRetrieveApexClassCoverage.Checked);
+                }
+            }
+
+            dt = DateTime.Now;
+            processingMsg = "Tooling Retrieval Completed at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
+            threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
+            thread2 = new System.Threading.Thread(threadParameters);
+            thread2.Start();
+        }
+
+
+        private void getCustomObject(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
+                                     Dictionary<String, String> customObjIdToName)
+        {
+            DateTime dt = DateTime.Now;
+            String processingMsg = "    CustomObject: Tooling Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
+            var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
+            var thread2 = new System.Threading.Thread(threadParameters);
+            thread2.Start();
+
+            String query = ToolingApiHelper.CustomObjectQuery();
+            ToolingApiHelper.customObjectToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName);
+
+            dt = DateTime.Now;
+            processingMsg = "    CustomObject: Tooling Retrieval Completed at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
+            threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
+            thread2 = new System.Threading.Thread(threadParameters);
+            thread2.Start();
+        }
+
+        private void getCustomField(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
+                                    Dictionary<String, String> customObjIdToName, 
+                                    Dictionary<String, List<String>> objectFieldNameToLabel)
+        {
+            DateTime dt = DateTime.Now;
+            String processingMsg = "    CustomField: Tooling Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
+            var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
+            var thread2 = new System.Threading.Thread(threadParameters);
+            thread2.Start();
+
+            String query = ToolingApiHelper.CustomFieldQuery();
+            ToolingApiHelper.customFieldToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName, objectFieldNameToLabel);
+
+            dt = DateTime.Now;
+            processingMsg = "    CustomField: Tooling Retrieval Completed at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
+            threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
+            thread2 = new System.Threading.Thread(threadParameters);
+            thread2.Start();
+        }
+
+        private void getApexClass(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
+                                  Dictionary<String, String> classIdToClassName,
+                                  Boolean retrieveApexCoverage)
+        {
+            DateTime dt = DateTime.Now;
+            String processingMsg = "    ApexClass: Tooling Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
+            var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
+            var thread2 = new System.Threading.Thread(threadParameters);
+            thread2.Start();
+
+            String query = ToolingApiHelper.ApexClassQuery("");
+            ToolingApiHelper.getApexClasses(query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
+            ToolingApiHelper.apexClassToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName, retrieveApexCoverage);
+
+            dt = DateTime.Now;
+            processingMsg = "    ApexClass: Tooling Retrieval Completed at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
+            threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
+            thread2 = new System.Threading.Thread(threadParameters);
+            thread2.Start();
+        }
+
+        private void getToolingObject(String toolingObject, 
+                                      Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
+                                      Dictionary<String, String> customObjIdToName, 
+                                      Dictionary<String, String> classIdToClassName,
+                                      Dictionary<String, ToolingApiHelper.WorkflowRule> workflowRules,
+                                      Dictionary<String, ToolingApiHelper.WorkflowFieldUpdate> workflowFieldUpdatesByName,
+                                      Boolean retrieveApexCoverage)
+        {
+            DateTime dt = DateTime.Now;
+            String processingMsg = "    " + toolingObject + ": Tooling Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
+            var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
+            var thread2 = new System.Threading.Thread(threadParameters);
+            thread2.Start();
+
+            String query = "";
+
+            if (toolingObject == "ApexComponent")
+            {
+                query = ToolingApiHelper.ApexComponentQuery();
+                ToolingApiHelper.apexComponentToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
+            }
+            else if (toolingObject == "ApexPage")
+            {
+                query = ToolingApiHelper.ApexPageQuery();
+                ToolingApiHelper.apexPageToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
+            }
+            else if (toolingObject == "ApexTrigger")
+            {
+                query = ToolingApiHelper.ApexTriggerQuery("");
+                ToolingApiHelper.apexTriggerToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName, customObjIdToName, retrieveApexCoverage);
+            }
+            else if (toolingObject == "CompactLayout")
+            {
+                query = ToolingApiHelper.CompactLayoutQuery("");
+                ToolingApiHelper.compactLayoutToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+            }
+            else if (toolingObject == "EmailTemplate")
+            {
+                query = ToolingApiHelper.EmailTemplateQuery();
+                ToolingApiHelper.emailTemplateToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+            }
+            else if (toolingObject == "FlexiPage")
+            {
+                query = ToolingApiHelper.FlexiPageQuery("");
+                ToolingApiHelper.flexiPageToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName);
+            }
+            else if (toolingObject == "Flow")
+            {
+                query = ToolingApiHelper.FlowQuery();
+                ToolingApiHelper.flowToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+            }
+            else if (toolingObject == "Layout")
+            {
+                query = ToolingApiHelper.LayoutQuery("");
+                ToolingApiHelper.layoutToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName);
+            }
+            else if (toolingObject == "LightningComponentBundle")
+            {
+                query = ToolingApiHelper.LightningComponentBundleQuery();
+                ToolingApiHelper.lwcToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+            }
+            else if (toolingObject == "LightningComponentBundle")
+            {
+                query = ToolingApiHelper.LightningComponentBundleQuery();
+                ToolingApiHelper.lwcToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+            }
+            else if (toolingObject == "RecordType")
+            {
+                query = ToolingApiHelper.RecordTypeQuery();
+                ToolingApiHelper.recordTypesToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+            }
+            else if (toolingObject == "ValidationRule")
+            {
+                query = ToolingApiHelper.ValidationRuleQuery("", "");
+                ToolingApiHelper.validationRuleToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName);
+            }
+            else if (toolingObject == "WorkflowRule")
+            {
+                query = ToolingApiHelper.WorkflowAlertQuery();
+                ToolingApiHelper.workflowAlertToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, workflowRules);
+            }
+            else if (toolingObject == "WorkflowFieldUpdate")
+            {
+                query = ToolingApiHelper.WorkflowFieldUpdateQuery();
+                ToolingApiHelper.workflowFieldUpdateToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName, workflowFieldUpdatesByName);
+            }
+            else if (toolingObject == "WorkflowOutboundMessage")
+            {
+                //query = ToolingApiHelper.WorkflowOutboundMessageQuery();
+                //ToolingApiHelper.workflowOutboundMessageToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+            }
+            else if (toolingObject == "WorkflowTask")
+            {
+                //query = ToolingApiHelper.WorkflowTaskQuery();
+                //ToolingApiHelper.workflowTaskToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+            }
+            else if (toolingObject == "WorkSkillRouting")
+            {
+                //query = ToolingApiHelper.WorkSkillRoutingQuery();
+                //ToolingApiHelper.workSkillRoutingToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+            }
+
+            dt = DateTime.Now;
+            processingMsg = "    " + toolingObject + ": Tooling Retrieval Completed at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
+            threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
+            thread2 = new System.Threading.Thread(threadParameters);
+            thread2.Start();
+        }
 
 
         // To match the Tooling API Object + Field DeveloperName:
@@ -430,7 +309,6 @@ namespace SalesforceMetadata
                         String[] fileSplit = fl.Split('\\');
                         String[] fileNameSplit = fileSplit[fileSplit.Length - 1].Split('.');
                         String objectName = "";
-
 
                         if (fileNameSplit[0].EndsWith("__c"))
                         {
@@ -564,9 +442,15 @@ namespace SalesforceMetadata
                             }
 
                             workflowFieldUpdatesByFullName.Add(wrkflowFldUpdate.objectName + "|" + wrkflowFldUpdate.fullName, wrkflowFldUpdate);
-                            workflowFieldUpdatesByName.Add(wrkflowFldUpdate.objectName + "|" + wrkflowFldUpdate.name, wrkflowFldUpdate);
+                            if (workflowFieldUpdatesByName.ContainsKey(wrkflowFldUpdate.objectName + "|" + wrkflowFldUpdate.name))
+                            {
+                                workflowFieldUpdatesByName.Add(wrkflowFldUpdate.objectName + "|" + wrkflowFldUpdate.name + "(2)", wrkflowFldUpdate);
+                            }
+                            else
+                            {
+                                workflowFieldUpdatesByName.Add(wrkflowFldUpdate.objectName + "|" + wrkflowFldUpdate.name, wrkflowFldUpdate);
+                            }
                         }
-
 
                         //XmlNodeList alertNodeList = xd.GetElementsByTagName("alerts");
                         //foreach (XmlNode nd1 in alertNodeList)
@@ -651,6 +535,20 @@ namespace SalesforceMetadata
                         }
                     }
                 }
+            }
+        }
+
+        // Threadsafe way to write back to the form's textbox
+        public void tsWriteToTextbox(String tbValue)
+        {
+            if (this.rtStatus.InvokeRequired)
+            {
+                Action safeWrite = delegate { tsWriteToTextbox($"{tbValue}"); };
+                this.rtStatus.Invoke(safeWrite);
+            }
+            else
+            {
+                this.rtStatus.Text = this.rtStatus.Text + tbValue;
             }
         }
 

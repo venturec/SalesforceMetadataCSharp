@@ -485,9 +485,6 @@ namespace SalesforceMetadata
             }
         }
 
-
-        //private async Task retrieveZipFile(String target_dir, MetadataService ms, UtilityClass.REQUESTINGORG reqOrg, RetrieveRequest retrieveRequest, String metdataObject)
-        //private void retrieveZipFile(String target_dir, MetadataService ms, UtilityClass.REQUESTINGORG reqOrg, RetrieveRequest retrieveRequest, String metdataObject)
         private void retrieveZipFile(String target_dir, MetadataService ms, UtilityClass.REQUESTINGORG reqOrg, RetrieveRequest retrieveRequest, String metdataObject, SalesforceMetadataStep2 frm)
         {
             AsyncResult asyncResult = new AsyncResult();

@@ -74,6 +74,7 @@
             // 
             this.lbToolingObjects.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbToolingObjects.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbToolingObjects.FormattingEnabled = true;
             this.lbToolingObjects.Items.AddRange(new object[] {
             "ApexClass",
@@ -81,21 +82,16 @@
             "ApexEmailNotification",
             "ApexPage",
             "ApexTrigger",
-            "AuraDefinition",
-            "AuradefinitionBundle",
-            "AutoResponseRule",
+            "AuraDefinitionBundle",
             "CompactLayout",
             "CustomObject",
             "CustomTab",
             "EmailTemplate",
             "FlexiPage",
             "Flow",
-            "FlowDefinition",
             "GlobalValueSet",
             "Layout",
             "LightningComponentBundle",
-            "LightningComponentResource",
-            "LookupFilter",
             "PermissionSet",
             "PermissionSetGroup",
             "Profile",
@@ -105,8 +101,7 @@
             "WorkflowFieldUpdate",
             "WorkflowOutboundMessage",
             "WorkflowRule",
-            "WorkflowTask",
-            "WorkSkillRouting"});
+            "WorkflowTask"});
             this.lbToolingObjects.Location = new System.Drawing.Point(15, 99);
             this.lbToolingObjects.Name = "lbToolingObjects";
             this.lbToolingObjects.Size = new System.Drawing.Size(387, 484);
@@ -127,6 +122,7 @@
             this.rtStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtStatus.Location = new System.Drawing.Point(471, 99);
             this.rtStatus.Name = "rtStatus";
             this.rtStatus.Size = new System.Drawing.Size(639, 484);

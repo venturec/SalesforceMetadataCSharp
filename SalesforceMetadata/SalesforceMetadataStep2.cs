@@ -134,7 +134,7 @@ namespace SalesforceMetadata
             String processingMsg = "";
 
             DateTime dt = DateTime.Now;
-            processingMsg = "Metadata Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
+            processingMsg = "Metadata Retrieval Started at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
             var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
             var thread2 = new System.Threading.Thread(threadParameters);
             thread2.Start();
@@ -459,7 +459,7 @@ namespace SalesforceMetadata
                     retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
 
                     dt = DateTime.Now;
-                    processingMsg = "    " + selected + ": Metadata Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
+                    processingMsg = "    " + selected + ": Metadata Retrieval Started at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine;
                     threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
                     thread2 = new System.Threading.Thread(threadParameters);
                     thread2.Start();
@@ -468,11 +468,10 @@ namespace SalesforceMetadata
                 }
 
                 dt = DateTime.Now;
-                processingMsg = "Metadata Extract Completed Successfully at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
+                processingMsg = "Metadata Extract Completed at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine;
                 threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
                 thread2 = new System.Threading.Thread(threadParameters);
                 thread2.Start();
-
             }
             else
             {
@@ -499,8 +498,10 @@ namespace SalesforceMetadata
 
             RetrieveResult result = waitForRetrieveCompletion(ms, asyncResult, reqOrg);
 
-            String timestamp = DateTime.Now.Year.ToString() + "_" + DateTime.Now.Month.ToString() + "_" + DateTime.Now.Day.ToString() + "_" +
-                               DateTime.Now.Hour.ToString() + "_" + DateTime.Now.Minute.ToString() + "_" + DateTime.Now.Second.ToString() + "_" + DateTime.Now.Millisecond.ToString();
+            // Do not remove underscores. The zip file's path is dependent on this.
+            DateTime dt = DateTime.Now;
+            String timestamp = dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" +
+                               dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString();
 
             if (result.zipFile != null)
             {
@@ -544,23 +545,24 @@ namespace SalesforceMetadata
 
                     String processingMsg = "";
 
-                    DateTime dt = DateTime.Now;
-                    processingMsg = "    " + metdataObject + ": Metadata Retrieval Completed at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
+                    processingMsg = "    " + metdataObject + ": Metadata Retrieval Completed at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
                     var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
                     var thread2 = new System.Threading.Thread(threadParameters);
                     thread2.Start();
                 }
                 catch (System.IO.IOException ioExc)
                 {
-                    //frm.rtMessages.Text = frm.rtMessages.Text + metdataObject + ": IO Exception: " + ioExc.Message + Environment.NewLine;
+                    String processingMsg = "    " + metdataObject + ": IO Exception: " + ioExc.Message + Environment.NewLine + Environment.NewLine;
+                    var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
+                    var thread2 = new System.Threading.Thread(threadParameters);
+                    thread2.Start();
                 }
                 catch (Exception exc)
                 {
-                    //frm.rtMessages.Text = frm.rtMessages.Text + metdataObject + ": There was an error saving the package.zip file to the location specified: " + exc.Message + Environment.NewLine;
-                }
-                finally
-                {
-                    //frm.rtMessages.Text = frm.rtMessages.Text + metdataObject + ": Metadata Extract Completed Successfully" + Environment.NewLine + Environment.NewLine;
+                    String processingMsg = "    " + metdataObject + ": There was an error saving the package.zip file to the location specified: " + exc.Message + Environment.NewLine;
+                    var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
+                    var thread2 = new System.Threading.Thread(threadParameters);
+                    thread2.Start();
                 }
             }
         }
@@ -650,14 +652,22 @@ namespace SalesforceMetadata
                 
                 if (asyncResult.statusCodeSpecified == true)
                 {
-                    this.rtMessages.Text = this.rtMessages.Text + asyncResult.statusCode.ToString() + Environment.NewLine;
                     result.done = true;
+
+                    String processingMsg = "    " + asyncResult.statusCode.ToString() + Environment.NewLine + Environment.NewLine;
+                    var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
+                    var thread2 = new System.Threading.Thread(threadParameters);
+                    thread2.Start();
                 }
                 else if (poll++ > this.MAX_NUM_POLL_REQUESTS)
                 {
-                    this.rtMessages.Text = this.rtMessages.Text + "Request timed out.If this is a large set of metadata components, check that the time allowed by MAX_NUM_POLL_REQUESTS is sufficient." + Environment.NewLine;
                     result.status = RetrieveStatus.Failed;
                     result.done = true;
+
+                    String processingMsg = "    Request timed out.If this is a large set of metadata components, check that the time allowed by MAX_NUM_POLL_REQUESTS is sufficient." + Environment.NewLine + Environment.NewLine;
+                    var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
+                    var thread2 = new System.Threading.Thread(threadParameters);
+                    thread2.Start();
                 }
                 else
                 {

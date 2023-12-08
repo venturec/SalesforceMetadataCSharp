@@ -97,6 +97,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listViewSobjectFields.CausesValidation = false;
+            this.listViewSobjectFields.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listViewSobjectFields.HideSelection = false;
             this.listViewSobjectFields.LabelEdit = true;
             this.listViewSobjectFields.Location = new System.Drawing.Point(16, 401);
@@ -183,6 +184,7 @@
             // 
             // sobjectListBox
             // 
+            this.sobjectListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sobjectListBox.FormattingEnabled = true;
             this.sobjectListBox.Location = new System.Drawing.Point(15, 17);
             this.sobjectListBox.Margin = new System.Windows.Forms.Padding(2);

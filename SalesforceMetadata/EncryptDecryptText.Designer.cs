@@ -61,6 +61,7 @@
             this.tbEncryptedText.AcceptsReturn = true;
             this.tbEncryptedText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbEncryptedText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbEncryptedText.Location = new System.Drawing.Point(112, 127);
             this.tbEncryptedText.Multiline = true;
             this.tbEncryptedText.Name = "tbEncryptedText";
@@ -113,6 +114,7 @@
             this.tbDecryptedText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbDecryptedText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbDecryptedText.Location = new System.Drawing.Point(112, 390);
             this.tbDecryptedText.Multiline = true;
             this.tbDecryptedText.Name = "tbDecryptedText";

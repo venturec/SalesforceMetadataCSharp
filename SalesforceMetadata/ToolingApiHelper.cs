@@ -606,7 +606,7 @@ namespace SalesforceMetadata
         public static String CustomObjectQuery()
         {
             String query = "SELECT Id, DeveloperName, NamespacePrefix, ExternalName, ExternalRepository, ManageableState, SharingModel, " +
-            "LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
+            "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM CustomObject";
 
             return query;
@@ -5687,64 +5687,78 @@ namespace SalesforceMetadata
             xlWorksheet.Cells[1, 5].Value = "ExternalRepository";
             xlWorksheet.Cells[1, 6].Value = "ManageableState";
             xlWorksheet.Cells[1, 7].Value = "SharingModel";
-            xlWorksheet.Cells[1, 8].Value = "LastModifiedById";
-            xlWorksheet.Cells[1, 9].Value = "LastModifiedByName";
-            xlWorksheet.Cells[1, 10].Value = "CreatedDate";
-            xlWorksheet.Cells[1, 11].Value = "LastModifiedDate";
+            xlWorksheet.Cells[1, 8].Value = "CreatedById";
+            xlWorksheet.Cells[1, 9].Value = "CreatedByName";
+            xlWorksheet.Cells[1, 10].Value = "LastModifiedById";
+            xlWorksheet.Cells[1, 11].Value = "LastModifiedByName";
+            xlWorksheet.Cells[1, 12].Value = "CreatedDate";
+            xlWorksheet.Cells[1, 13].Value = "LastModifiedDate";
 
             Int32 rowNumber = 2;
             Boolean done = false;
-
-            List<CustomObjectClass> customObjectList = new List<CustomObjectClass>();
-
-            Int32 loopRecordNumber = 1;
 
             while (done == false)
             {
                 foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
                 {
-                    CustomObjectClass customObjClass = new CustomObjectClass();
-
                     SalesforceMetadata.ToolingWSDL.CustomObject1 customObj = (SalesforceMetadata.ToolingWSDL.CustomObject1)toolingRecord;
 
-                    customObjClass.Id = customObj.Id;
-                    customObjClass.DeveloperName = customObj.DeveloperName;
-                    customObjClass.NamespacePrefix = customObj.NamespacePrefix;
-                    customObjClass.ExternalName = customObj.ExternalName;
-                    customObjClass.ExternalRepository = customObj.ExternalRepository;
-                    customObjClass.ManageableState = customObj.ManageableState.ToString();
-                    customObjClass.SharingModel = customObj.SharingModel;
-                    customObjClass.LastModifiedById = customObj.LastModifiedById;
+                    xlWorksheet.Cells[rowNumber, 1].Value = customObj.Id;
 
-                    if (customObj.LastModifiedBy == null)
+                    if (customObj.NamespacePrefix == null)
                     {
-                        customObjClass.LastModifiedByName = "";
+                        xlWorksheet.Cells[rowNumber, 2].Value = customObj.DeveloperName;
                     }
                     else
                     {
-                        customObjClass.LastModifiedByName = customObj.LastModifiedBy.Name;
+                        xlWorksheet.Cells[rowNumber, 2].Value = customObj.NamespacePrefix + "__" + customObj.DeveloperName;
                     }
 
-                    customObjClass.CreatedDate = customObj.CreatedDate;
-                    customObjClass.LastModifiedDate = customObj.LastModifiedDate;
+                    xlWorksheet.Cells[rowNumber, 3].Value = customObj.NamespacePrefix;
+                    xlWorksheet.Cells[rowNumber, 4].Value = customObj.ExternalName;
+                    xlWorksheet.Cells[rowNumber, 5].Value = customObj.ExternalRepository;
+                    xlWorksheet.Cells[rowNumber, 6].Value = customObj.ManageableState.ToString();
+                    xlWorksheet.Cells[rowNumber, 7].Value = customObj.SharingModel;
+
+                    xlWorksheet.Cells[rowNumber, 8].Value = customObj.CreatedById;
+                    if (customObj.CreatedBy == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 9].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 9].Value = customObj.CreatedBy.Name;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 10].Value = customObj.LastModifiedById;
+
+                    if (customObj.LastModifiedBy == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 11].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber,11].Value = customObj.LastModifiedBy.Name;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 12].Value = customObj.CreatedDate;
+                    xlWorksheet.Cells[rowNumber, 13].Value = customObj.LastModifiedDate;
 
                     if (customObjIdToName.ContainsKey(customObj.Id) == false)
                     {
-                        if (customObjClass.NamespacePrefix == null)
+                        if (customObj.NamespacePrefix == null)
                         {
-                            customObjectList.Add(customObjClass);
                             customObjIdToName.Add(customObj.Id, customObj.DeveloperName);
                             customObjIdToName.Add(customObj.Id.Substring(0, customObj.Id.Length - 3), customObj.DeveloperName);
                         }
                         else
                         {
-                            customObjectList.Add(customObjClass);
                             customObjIdToName.Add(customObj.Id, customObj.NamespacePrefix + "__" + customObj.DeveloperName);
                             customObjIdToName.Add(customObj.Id.Substring(0, customObj.Id.Length - 3), customObj.NamespacePrefix + "__" + customObj.DeveloperName);
                         }
                     }
 
-                    loopRecordNumber++;
+                    rowNumber++;
                 }
 
                 if (toolingQr.done)
@@ -5754,35 +5768,6 @@ namespace SalesforceMetadata
                 else
                 {
                     toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
-                }
-            }
-
-            if (customObjectList.Count > 0)
-            {
-                foreach (CustomObjectClass custObj in customObjectList)
-                {
-                    xlWorksheet.Cells[rowNumber, 1].Value = custObj.Id;
-
-                    if (custObj.NamespacePrefix == null)
-                    {
-                        xlWorksheet.Cells[rowNumber, 2].Value = custObj.DeveloperName;
-                    }
-                    else
-                    {
-                        xlWorksheet.Cells[rowNumber, 2].Value = custObj.NamespacePrefix + "__" + custObj.DeveloperName;
-                    }
-
-                    xlWorksheet.Cells[rowNumber, 3].Value = custObj.NamespacePrefix;
-                    xlWorksheet.Cells[rowNumber, 4].Value = custObj.ExternalName;
-                    xlWorksheet.Cells[rowNumber, 5].Value = custObj.ExternalRepository;
-                    xlWorksheet.Cells[rowNumber, 6].Value = custObj.ManageableState;
-                    xlWorksheet.Cells[rowNumber, 7].Value = custObj.SharingModel;
-                    xlWorksheet.Cells[rowNumber, 8].Value = custObj.LastModifiedById;
-                    xlWorksheet.Cells[rowNumber, 9].Value = custObj.LastModifiedByName;
-                    xlWorksheet.Cells[rowNumber, 10].Value = custObj.CreatedDate;
-                    xlWorksheet.Cells[rowNumber, 11].Value = custObj.LastModifiedDate;
-
-                    rowNumber++;
                 }
             }
         }
@@ -6178,6 +6163,90 @@ namespace SalesforceMetadata
             }
         }
 
+        public static void globalValueSetToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, String query, UtilityClass.REQUESTINGORG reqOrg)
+        {
+            SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
+            SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
+
+            if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
+            {
+                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+            }
+            else
+            {
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+            }
+
+            if (toolingQr.records == null) return;
+
+            toolingRecords = toolingQr.records;
+
+            Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add
+                                                                    (System.Reflection.Missing.Value,
+                                                                        xlWorkbook.Worksheets[xlWorkbook.Worksheets.Count],
+                                                                        System.Reflection.Missing.Value,
+                                                                        System.Reflection.Missing.Value);
+
+            xlWorksheet.Name = "GlobalValueSet";
+            xlWorksheet.Cells[1, 1].Value = "Id";
+            xlWorksheet.Cells[1, 2].Value = "MasterLabel";
+            xlWorksheet.Cells[1, 3].Value = "CreatedById";
+            xlWorksheet.Cells[1, 4].Value = "CreatedByName";
+            xlWorksheet.Cells[1, 5].Value = "LastModifiedById";
+            xlWorksheet.Cells[1, 6].Value = "LastModifiedByName";
+            xlWorksheet.Cells[1, 7].Value = "CreatedDate";
+            xlWorksheet.Cells[1, 8].Value = "LastModifiedDate";
+
+            Int32 rowNumber = 2;
+            Boolean done = false;
+
+            while (done == false)
+            {
+                foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
+                {
+                    SalesforceMetadata.ToolingWSDL.GlobalValueSet1 globalValueSet = (SalesforceMetadata.ToolingWSDL.GlobalValueSet1)toolingRecord;
+
+                    xlWorksheet.Cells[rowNumber, 1].Value = globalValueSet.Id;
+                    xlWorksheet.Cells[rowNumber, 2].Value = globalValueSet.MasterLabel;
+
+                    xlWorksheet.Cells[rowNumber, 3].Value = globalValueSet.CreatedById;
+
+                    if (globalValueSet.CreatedBy == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 4].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 4].Value = globalValueSet.CreatedBy.Name;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 5].Value = globalValueSet.LastModifiedById;
+
+                    if (globalValueSet.LastModifiedBy == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 6].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 6].Value = globalValueSet.LastModifiedBy.Name;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 7].Value = globalValueSet.CreatedDate;
+                    xlWorksheet.Cells[rowNumber, 8].Value = globalValueSet.LastModifiedDate;
+
+                    rowNumber++;
+                }
+
+                if (toolingQr.done)
+                {
+                    done = true;
+                }
+                else
+                {
+                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                }
+            }
+        }
         public static void layoutToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
                                          String query, 
                                          UtilityClass.REQUESTINGORG reqOrg,
@@ -7002,20 +7071,20 @@ namespace SalesforceMetadata
 
 
 
-        public class CustomObjectClass
-        {
-            public String Id;
-            public String DeveloperName;
-            public String NamespacePrefix;
-            public String ExternalName;
-            public String ExternalRepository;
-            public String ManageableState;
-            public String SharingModel;
-            public String LastModifiedById;
-            public String LastModifiedByName;
-            public DateTime? CreatedDate;
-            public DateTime? LastModifiedDate;
-        }
+        //public class CustomObjectClass
+        //{
+        //    public String Id;
+        //    public String DeveloperName;
+        //    public String NamespacePrefix;
+        //    public String ExternalName;
+        //    public String ExternalRepository;
+        //    public String ManageableState;
+        //    public String SharingModel;
+        //    public String LastModifiedById;
+        //    public String LastModifiedByName;
+        //    public DateTime? CreatedDate;
+        //    public DateTime? LastModifiedDate;
+        //}
 
         public class WorkflowRule
         {

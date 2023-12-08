@@ -51,6 +51,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treeViewMetadata.CheckBoxes = true;
+            this.treeViewMetadata.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeViewMetadata.Location = new System.Drawing.Point(15, 174);
             this.treeViewMetadata.Name = "treeViewMetadata";
             this.treeViewMetadata.Size = new System.Drawing.Size(1082, 506);

@@ -79,6 +79,7 @@
             // 
             this.lbMetadataTypes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbMetadataTypes.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbMetadataTypes.FormattingEnabled = true;
             this.lbMetadataTypes.HorizontalScrollbar = true;
             this.lbMetadataTypes.Location = new System.Drawing.Point(26, 214);

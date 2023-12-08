@@ -101,9 +101,9 @@ namespace SalesforceMetadata
             Dictionary<String, String> customObjIdToName = new Dictionary<String, String>();
             Dictionary<String, String> classIdToClassName = new Dictionary<String, String>();
 
-            //getCustomObject(xlWorkbook, customObjIdToName);
-            //getCustomField(xlWorkbook, customObjIdToName, objectFieldNameToLabel);
-            //getApexClass(xlWorkbook, customObjIdToName, retrieveCodeCoverage);
+            getCustomObject(xlWorkbook, customObjIdToName);
+            getCustomField(xlWorkbook, customObjIdToName, objectFieldNameToLabel);
+            getApexClass(xlWorkbook, customObjIdToName, retrieveCodeCoverage);
 
             // Run a new Thread for the rest of the objects
             foreach (String objType in selectedItems)
@@ -243,6 +243,11 @@ namespace SalesforceMetadata
             {
                 query = ToolingApiHelper.FlowQuery();
                 ToolingApiHelper.flowToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+            }
+            else if (toolingObject == "GlobalValueSet")
+            {
+                query = ToolingApiHelper.GlobalValueSetQuery();
+                ToolingApiHelper.globalValueSetToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "Layout")
             {

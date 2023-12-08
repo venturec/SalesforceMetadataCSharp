@@ -2298,7 +2298,22 @@ namespace SalesforceMetadata
 
             for (Int32 i = arraystart; i < filearray.Length - 1; i++)
             {
-                //Debug.WriteLine(i + " " + filearray[i]);
+                //if (filearray[i].ToString() == "}")
+                //{
+                //    Int32 bc = braceCount - 1;
+                //    Debug.WriteLine("BraceCount: " + bc + " i: " + i.ToString() + " skipOver:" + skipOver + " skipTo:" + skipTo + " character:" + filearray[i].ToString());
+                //}
+                //else if (filearray[i].ToString() == "{")
+                //{
+                //    Int32 bc = braceCount + 1;
+                //    Debug.WriteLine("BraceCount: " + bc + " i: " + i.ToString() + " skipOver:" + skipOver + " skipTo:" + skipTo + " character:" + filearray[i].ToString());
+                //}
+                //else
+                //{
+                //    Debug.WriteLine("BraceCount: " + braceCount + " i: " + i.ToString() + " skipOver:" + skipOver + " skipTo:" + skipTo + " character:" + filearray[i].ToString());
+                //}
+
+                //Debug.WriteLine("");
 
                 // TODO: Bypass filearray values as they have been processed in sub-routines
                 if (skipOver == true && skipTo > i)
@@ -2489,10 +2504,12 @@ namespace SalesforceMetadata
                 else if (filearray[i] == "{")
                 {
                     braceCount++;
+                    //Debug.WriteLine("filearray[i] == \"{\" reached: " + braceCount + " i: " + i.ToString() + " skipOver:" + skipOver + " skipTo:" + skipTo + " character:" + filearray[i].ToString());
                 }
                 else if (filearray[i] == "}")
                 {
                     braceCount--;
+                    //Debug.WriteLine("filearray[i] == \"}\" reached: " + braceCount + " i: " + i.ToString() + " skipOver:" + skipOver + " skipTo:" + skipTo + " character:" + filearray[i].ToString());
 
                     if (braceCount == 0
                         && isMethod == true)
@@ -2548,6 +2565,8 @@ namespace SalesforceMetadata
                     || filearray[i].ToLower() == "public"
                     || filearray[i].ToLower() == "global"))
                 {
+                    // Debug stop filters:
+                    // filearray[i+1].ToLower() == "static" && filearray[i+2].ToLower() == "void" && filearray[i+3].ToLower() == "createUnitsDecrease"
                     propertyMethodQualifier = filearray[i].ToLower();
                 }
                 else if (inMethodBody == false && filearray[i].ToLower() == "virtual")
@@ -2966,7 +2985,15 @@ namespace SalesforceMetadata
                     //Debug.WriteLine(" ");
 
                     // Determine if this is a declared null variable
-                    if (filearray[i - 3] == "{"
+                    if (filearray[i - 1] == "break")
+                    {
+                        // Add nothing
+                    }
+                    else if (filearray[i - 1] == "continue")
+                    {
+                        // Add nothing
+                    }
+                    else if (filearray[i - 3] == "{"
                         || filearray[i - 3] == "}"
                         || filearray[i - 3] == "("
                         || filearray[i - 3] == ")"
@@ -3125,13 +3152,13 @@ namespace SalesforceMetadata
                 }
             }
 
-            if (filearray[lastCharLocation] == ";")
-            {
-                lastCharLocation++;
-            }
+            //if (filearray[lastCharLocation] == ";")
+            //{
+            //    lastCharLocation++;
+            //}
             // Account for the allOrNone parameter in the Database.insert/update/delete
-            else
-            {
+            //else
+            //{
                 for (Int32 i = arraystart + 1; i < filearray.Length; i++)
                 {
                     if (filearray[i] == ";")
@@ -3141,7 +3168,7 @@ namespace SalesforceMetadata
                         break;
                     }
                 }
-            }
+            //}
 
             cm.methodDmls.Add(ovt);
 

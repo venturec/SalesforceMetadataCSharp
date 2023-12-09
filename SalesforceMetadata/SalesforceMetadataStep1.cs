@@ -8,9 +8,8 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 
-using SalesforceMetadata.PartnerWSDL;
 using SalesforceMetadata.MetadataWSDL;
-using SalesforceMetadata.ToolingWSDL;
+
 using System.Runtime.CompilerServices;
 
 namespace SalesforceMetadata

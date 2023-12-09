@@ -411,5 +411,17 @@ namespace SalesforceMetadata.Properties {
                 this["RecentProjects"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int MetadataAynchrounsThreads {
+            get {
+                return ((int)(this["MetadataAynchrounsThreads"]));
+            }
+            set {
+                this["MetadataAynchrounsThreads"] = value;
+            }
+        }
     }
 }

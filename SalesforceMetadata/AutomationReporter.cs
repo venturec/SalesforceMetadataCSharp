@@ -11,18 +11,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 
-using SalesforceMetadata.PartnerWSDL;
-using SalesforceMetadata.MetadataWSDL;
-using SalesforceMetadata.ToolingWSDL;
-using static SalesforceMetadata.AutomationReporter;
-using iTextSharp.text;
-using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
-using iTextSharp.text.pdf;
-using System.Runtime.Remoting;
-using Microsoft.Office.Interop.Excel;
-using System.Web.Caching;
-
 namespace SalesforceMetadata
 {
     public partial class AutomationReporter : Form

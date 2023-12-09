@@ -11,16 +11,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 
-using System.Data.OleDb;
-
-using SalesforceMetadata.PartnerWSDL;
-using SalesforceMetadata.ToolingWSDL;
-using System.Security.Policy;
-using SalesforceMetadata.MetadataWSDL;
-using System.Drawing.Drawing2D;
-using System.Web.WebSockets;
-using System.Security.AccessControl;
-
 namespace SalesforceMetadata
 {
     // When the SandboxSeedingStep2 form opens, I want to have the XML file load, parsed, and auto-select the objects in the XML file.

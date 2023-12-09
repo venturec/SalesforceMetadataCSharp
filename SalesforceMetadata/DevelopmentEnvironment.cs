@@ -12,9 +12,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 
-using SalesforceMetadata.MetadataWSDL;
-using SalesforceMetadata.ToolingWSDL;
-
 namespace SalesforceMetadata
 {
     public partial class DevelopmentEnvironment : Form
@@ -1164,7 +1161,7 @@ namespace SalesforceMetadata
                 sfMetadataStep2.selectedItems = packageXmlMembers;
                 sfMetadataStep2.tbFromOrgSaveLocation.Text = this.tbProjectFolder.Text;
 
-                Action act = () => sfMetadataStep2.requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, this.tbRootFolder.Text, false, true, sfMetadataStep2);
+                Action act = () => sfMetadataStep2.requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, this.tbRootFolder.Text, sfMetadataStep2);
                 Task tsk = Task.Run(act);
             }
         }

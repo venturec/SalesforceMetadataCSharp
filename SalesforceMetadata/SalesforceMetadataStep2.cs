@@ -21,6 +21,7 @@ using System.Web.UI.MobileControls.Adapters;
 using System.Security.Cryptography;
 using System.Web.Services.Protocols;
 using System.Web.UI.MobileControls;
+using Org.BouncyCastle.Security;
 
 namespace SalesforceMetadata
 {
@@ -31,6 +32,7 @@ namespace SalesforceMetadata
 
         public String userName;
 
+        // This has to be left a Dictionary to allow for deploying a portion of the metadata members from the DevelopmentEnvironment
         // Key = metadata name, Values = members
         // Values can = * if allowed by the metadata api
         public Dictionary<String, List<String>> selectedItems;
@@ -54,97 +56,18 @@ namespace SalesforceMetadata
             }
             else
             {
-                this.rtMessages.Text = "";
-                this.extractToFolder = "";
-                String target_dir = this.tbFromOrgSaveLocation.Text;
-
-                this.rtMessages.Text = this.rtMessages.Text + "Metadata Components to Retrieve:" + Environment.NewLine;
-
-                foreach (String comp in selectedItems.Keys)
+                Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
+                if (loginSuccess == false)
                 {
-                    this.rtMessages.Text = this.rtMessages.Text + "    " + comp + Environment.NewLine;
+                    MessageBox.Show("Please check username, password and/or security token");
+                    return;
                 }
 
-                this.rtMessages.Text = this.rtMessages.Text + Environment.NewLine;
-
-                Action act = () => requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, this.cbRebuildFolder.Checked, true, this);
-                Task tsk = Task.Run(act);
-            }
-        }
-
-        private void btnRetrieveMetadataWithPackageXML_Click(object sender, EventArgs e)
-        {
-            if (this.tbExistingPackageXml.Text == "")
-            {
-                MessageBox.Show("Please select a package.xml file");
-            }
-            else if (!this.tbExistingPackageXml.Text.EndsWith("package.xml"))
-            {
-                MessageBox.Show("The file selected must be in XML format with the naming format of package.xml. Please select a file with the name package.xml");
-            }
-            else if (this.tbFromOrgSaveLocation.Text == "")
-            {
-                MessageBox.Show("Please select a directory to save the results to");
-            }
-            else
-            {
                 this.rtMessages.Text = "";
                 this.extractToFolder = "";
-                String target_dir = this.tbFromOrgSaveLocation.Text;
+                String target_dir = "";
 
-                // Add the package.xml contents to the selectedItems dictionary
-                selectedItems = new Dictionary<string, List<string>>();
-                XmlDocument xd = new XmlDocument();
-                xd.Load(this.tbExistingPackageXml.Text);
-
-                foreach (XmlNode xn in xd.ChildNodes)
-                {
-                    List<String> members = new List<string>();
-                    foreach (XmlNode nd2 in xn.ChildNodes)
-                    {
-                        foreach (XmlNode nd3 in nd2.ChildNodes)
-                        {
-                            if (nd3.Name == "members")
-                            {
-                                members.Add(nd3.InnerText);
-                            }
-                            else if (nd3.Name == "name")
-                            {
-                                selectedItems.Add(nd3.InnerText, members);
-                            }
-                        }
-                    }
-                }
-
-                Action act = () => requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, this.cbRebuildFolder.Checked, true, this);
-                Task tsk = Task.Run(act);
-            }
-        }
-
-        public void requestZipFile(UtilityClass.REQUESTINGORG reqOrg, String target_dir, Boolean rebuildFolder, Boolean buildPackageXml, SalesforceMetadataStep2 sfMDFrm)
-        {
-            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(reqOrg, userName);
-
-            if (loginSuccess == false)
-            {
-                MessageBox.Show("Please check username, password and/or security token");
-                return;
-            }
-
-            String processingMsg = "";
-
-            DateTime dt = DateTime.Now;
-            processingMsg = "Metadata Retrieval Started at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
-            var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
-            var thread2 = new System.Threading.Thread(threadParameters);
-            thread2.Start();
-
-            MetadataService ms = null;
-
-            alreadyAdded.Clear();
-
-            if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
-            {
+                // Now build the target_dir and extractToFolder
                 String[] urlParsed = SalesforceCredentials.fromOrgLR.serverUrl.Split('/');
                 urlParsed = urlParsed[2].Split('.');
                 extractToFolder = urlParsed[0];
@@ -159,336 +82,513 @@ namespace SalesforceMetadata
                 }
 
                 target_dir = target_dir + '\\' + extractToFolder;
-            }
-            //else if (reqOrg == UtilityClass.REQUESTINGORG.TOORG)
-            //{
-            //    String[] urlParsed = SalesforceCredentials.toOrgLR.serverUrl.Split('/');
-            //    urlParsed = urlParsed[2].Split('.');
-            //    extractToFolder = urlParsed[0];
 
-            //    if (extractToFolder.Contains("--"))
-            //    {
-            //        extractToFolder = extractToFolder.Replace("--", "__");
-            //    }
-            //    else
-            //    {
-            //        extractToFolder = extractToFolder + "__production";
-            //    }
-
-            //    target_dir = target_dir + '\\' + extractToFolder;
-            //}
-
-            if (!Directory.Exists(target_dir))
-            {
-                DirectoryInfo di = Directory.CreateDirectory(target_dir);
-            }
-            else if (rebuildFolder == true)
-            {
-                Directory.Delete(target_dir, true);
-                DirectoryInfo di = Directory.CreateDirectory(target_dir);
-            }
-
-            if (buildPackageXml == true)
-            {
-                foreach (String selected in selectedItems.Keys)
+                if (!Directory.Exists(target_dir))
                 {
+                    DirectoryInfo di = Directory.CreateDirectory(target_dir);
+                }
+                else if (this.cbRebuildFolder.Checked == true)
+                {
+                    Directory.Delete(target_dir, true);
+                    DirectoryInfo di = Directory.CreateDirectory(target_dir);
+                }
+
+                Action act = () => requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, this);
+                Task tsk = Task.Run(act);
+            }
+        }
+
+        private void btnRetrieveMetadataWithPackageXML_Click(object sender, EventArgs e)
+        {
+            //if (this.tbExistingPackageXml.Text == "")
+            //{
+            //    MessageBox.Show("Please select a package.xml file");
+            //}
+            //else if (!this.tbExistingPackageXml.Text.EndsWith("package.xml"))
+            //{
+            //    MessageBox.Show("The file selected must be in XML format with the naming format of package.xml. Please select a file with the name package.xml");
+            //}
+            //else if (this.tbFromOrgSaveLocation.Text == "")
+            //{
+            //    MessageBox.Show("Please select a directory to save the results to");
+            //}
+            //else
+            //{
+            //    this.rtMessages.Text = "";
+            //    this.extractToFolder = "";
+            //    String target_dir = this.tbFromOrgSaveLocation.Text;
+
+            //    // Add the package.xml contents to the selectedItems dictionary
+            //    selectedItems = new Dictionary<string, List<string>>();
+            //    XmlDocument xd = new XmlDocument();
+            //    xd.Load(this.tbExistingPackageXml.Text);
+
+            //    foreach (XmlNode xn in xd.ChildNodes)
+            //    {
+            //        List<String> members = new List<string>();
+            //        foreach (XmlNode nd2 in xn.ChildNodes)
+            //        {
+            //            foreach (XmlNode nd3 in nd2.ChildNodes)
+            //            {
+            //                if (nd3.Name == "members")
+            //                {
+            //                    members.Add(nd3.InnerText);
+            //                }
+            //                else if (nd3.Name == "name")
+            //                {
+            //                    selectedItems.Add(nd3.InnerText, members);
+            //                }
+            //            }
+            //        }
+            //    }
+
+            //    Action act = () => requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, this.cbRebuildFolder.Checked, true, this);
+            //    Task tsk = Task.Run(act);
+            //}
+        }
+
+        public void requestZipFile(UtilityClass.REQUESTINGORG reqOrg, String target_dir, SalesforceMetadataStep2 sfMdFrm)
+        {
+            String processingMsg1 = "Metadata Components to Retrieve:" + Environment.NewLine;
+            var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1, sfMdFrm); });
+            var thread1 = new System.Threading.Thread(threadParameters1);
+            thread1.Start();
+            while (thread1.ThreadState == System.Threading.ThreadState.Running)
+            { 
+                // do nothing. Just want for the thread to complete
+            }
+
+            String componentsToRetrieve = "";
+            foreach (String comp in selectedItems.Keys)
+            {
+                componentsToRetrieve = componentsToRetrieve + "    " + comp + Environment.NewLine;
+            }
+
+            String processingMsg2 = componentsToRetrieve + Environment.NewLine;
+            var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2, sfMdFrm); });
+            var thread2 = new System.Threading.Thread(threadParameters2);
+            thread2.Start();
+            while (thread2.ThreadState == System.Threading.ThreadState.Running)
+            {
+                // do nothing. Just want for the thread to complete
+            }
+
+            // Build the Package XML for retrieval
+            // In order to retrieve the Profiles/Permission sets, we have to include the metadata objects related to them, otherwise it only returns the system values.
+            if (sfMdFrm.selectedItems.ContainsKey("PermissionSet") || sfMdFrm.selectedItems.ContainsKey("Profile"))
+            {
+                // Build the package.xml to retrieve both the Profile and Permission Set
+                HashSet<String> selectedItemsSet1 = new HashSet<string> { "PermissionSet", "Profile" };
+                StringBuilder packageXmlSB = new StringBuilder();
+                packageXmlSB = buildPackageXml(UtilityClass.REQUESTINGORG.FROMORG, selectedItemsSet1);
+
+                RetrieveRequest retrieveRequest = new RetrieveRequest();
+                retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
+                retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
+
+                int waitTimeMilliSecs = 6000;
+                Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "ProfilesAndPermissionSets", sfMdFrm);
+                Task tsk = Task.Run(act);
+
+                while (tsk.IsCanceled == false || tsk.IsCompleted == false || tsk.IsFaulted == false)
+                {
+                    tsk.Wait(waitTimeMilliSecs);
+                }
+            }
+
+            // Retrieve the remaining if any are left
+            List<String> selectedItemsList2 = new List<string>();
+            List<String> completedItemsList = new List<String>();
+            foreach (String comp in selectedItems.Keys)
+            {
+                if (!alreadyAdded.Contains(comp))
+                {
+                    selectedItemsList2.Add(comp);
+                }
+            }
+
+            // Parallel For processing of components to see if it is faster
+            Int32 threadCount = Properties.Settings.Default.MetadataAynchrounsThreads;
+            if (selectedItemsList2.Count > 0 
+                && selectedItemsList2.Count <= threadCount)
+            {
+                foreach (String mObj in selectedItemsList2)
+                {
+                    HashSet<String> mObjSet = new HashSet<string> { mObj };
                     StringBuilder packageXmlSB = new StringBuilder();
-                    packageXmlSB.Append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine);
-                    packageXmlSB.Append("<Package xmlns = \"http://soap.sforce.com/2006/04/metadata\">" + Environment.NewLine);
-
-                    if (selected == "CustomObject" && !alreadyAdded.Contains(selected))
-                    {
-                        List<String> members = new List<String>();
-                        members.AddRange(getSObjectMembers(reqOrg));
-                        getMetadataTypes("CustomObject", packageXmlSB, members.ToArray());
-                    }
-                    else if (selected == "CustomTab")
-                    {
-                        List<String> members = new List<String>();
-                        if (!alreadyAdded.Contains("CustomTab"))
-                        {
-                            members.AddRange(getTabDescribe(reqOrg));
-                            getMetadataTypes("CustomTab", packageXmlSB, members.ToArray());
-                        }
-                    }
-                    else if (selected == "EmailTemplate" && !alreadyAdded.Contains(selected))
-                    {
-                        packageXmlSB.Append("<types>" + Environment.NewLine);
-
-                        // List all the folders using EmailFolder 
-                        // and then run another listmetadata() for each folder name and include type = 'EmailTemplate'.
-                        List<ListMetadataQuery> mdqFolderList = new List<ListMetadataQuery>();
-                        ListMetadataQuery mdqFolderQuery = new ListMetadataQuery();
-                        mdqFolderQuery.type = "EmailFolder";
-                        mdqFolderList.Add(mdqFolderQuery);
-
-                        List<FileProperties> sfEmailFolders = new List<FileProperties>();
-                        List<FileProperties> sfEmailFiles = new List<FileProperties>();
-
-                        ms = SalesforceCredentials.getMetadataService(reqOrg);
-                        FileProperties[] sfFolders = ms.listMetadata(mdqFolderList.ToArray(), Convert.ToDouble(Properties.Settings.Default.DefaultAPI));
-
-                        foreach (FileProperties fp in sfFolders)
-                        {
-                            sfEmailFolders.Add(fp);
-                        }
-
-                        QueryResult qr = new QueryResult();
-                        qr = SalesforceCredentials.fromOrgSS.query("SELECT Folder.DeveloperName, DeveloperName FROM EmailTemplate");
-
-                        sObject[] sobjRecordsToProcess = qr.records;
-
-                        foreach (sObject s in sobjRecordsToProcess)
-                        {
-                            if (s.Any == null) break;
-
-                            String emailFileName = "";
-
-                            if (s.Any[0].InnerText == "")
-                            {
-                                emailFileName = "unfiled$public";
-                            }
-                            else
-                            {
-                                emailFileName = s.Any[0].InnerText;
-                            }
-
-                            emailFileName = emailFileName + "/" + s.Any[1].InnerText;
-
-                            packageXmlSB.Append("<members>" + emailFileName + "</members>" + Environment.NewLine);
-                        }
-
-                        packageXmlSB.Append("<name>EmailTemplate</name>" + Environment.NewLine);
-                        packageXmlSB.Append("</types>" + Environment.NewLine);
-
-                        alreadyAdded.Add(selected);
-                    }
-                    else if ((selected == "PermissionSet"
-                                || selected == "Profile")
-                                && !alreadyAdded.Contains(selected))
-                    {
-                        List<String> members = new List<String>();
-                        members.Add("*");
-
-                        getMetadataTypes("ApexClass", packageXmlSB, members.ToArray());
-                        getMetadataTypes("ApexComponent", packageXmlSB, members.ToArray());
-                        getMetadataTypes("ApexPage", packageXmlSB, members.ToArray());
-                        getMetadataTypes("ApexTrigger", packageXmlSB, members.ToArray());
-                        getMetadataTypes("ConnectedApp", packageXmlSB, members.ToArray());
-                        getMetadataTypes("CustomApplication", packageXmlSB, members.ToArray());
-                        getMetadataTypes("CustomApplicationComponent", packageXmlSB, members.ToArray());
-                        getMetadataTypes("CustomMetadata", packageXmlSB, members.ToArray());
-                        getMetadataTypes("CustomPermissions", packageXmlSB, members.ToArray());
-                        getMetadataTypes("ExternalDataSource", packageXmlSB, members.ToArray());
-                        getMetadataTypes("Flow", packageXmlSB, members.ToArray());
-                        getMetadataTypes("FlowDefinition", packageXmlSB, members.ToArray());
-                        getMetadataTypes("Layout", packageXmlSB, members.ToArray());
-                        getMetadataTypes("NamedCredential", packageXmlSB, members.ToArray());
-                        getMetadataTypes("ServicePresenceStatus", packageXmlSB, members.ToArray());
-
-                        members.Clear();
-                        if (!alreadyAdded.Contains("CustomTab"))
-                        {
-                            members.AddRange(getTabDescribe(reqOrg));
-                            getMetadataTypes("CustomTab", packageXmlSB, members.ToArray());
-                        }
-
-                        // Clear the * to allow for accessing all Sobjects in the org
-                        members.Clear();
-                        if (!alreadyAdded.Contains("CustomObject"))
-                        {
-                            members = getSObjectMembers(reqOrg);
-                            getMetadataTypes("CustomObject", packageXmlSB, members.ToArray());
-                        }
-
-                        // Reset the default members to the flag for all members and add the additional types selected.
-                        members.Clear();
-                        members.Add("*");
-                        getMetadataTypes(selected, packageXmlSB, members.ToArray());
-
-                        alreadyAdded.Add(selected);
-                    }
-                    else if (selected == "Report")
-                    {
-                        packageXmlSB.Append("<types>" + Environment.NewLine);
-
-                        List<ListMetadataQuery> mdqFolderList = new List<ListMetadataQuery>();
-                        ListMetadataQuery mdqFolderQuery = new ListMetadataQuery();
-                        mdqFolderQuery.type = "ReportFolder";
-                        mdqFolderList.Add(mdqFolderQuery);
-
-                        List<FileProperties> sfReportFolders = new List<FileProperties>();
-                        List<FileProperties> sfReportFiles = new List<FileProperties>();
-
-                        ms = SalesforceCredentials.getMetadataService(reqOrg);
-                        FileProperties[] sfFolders = ms.listMetadata(mdqFolderList.ToArray(), Convert.ToDouble(Properties.Settings.Default.DefaultAPI));
-
-                        foreach (FileProperties fp in sfFolders)
-                        {
-                            sfReportFolders.Add(fp);
-                        }
-
-                        // Now loop through the sfReportFolders and retrieve the report names in those folders
-                        mdqFolderList.Clear();
-                        foreach (FileProperties fp in sfReportFolders)
-                        {
-                            // No more than 3 folders are allowed in the Folder List
-                            ListMetadataQuery mdqf = new ListMetadataQuery();
-                            mdqf.folder = fp.fullName;
-                            mdqf.type = "Report";
-                            mdqFolderList.Add(mdqf);
-
-                            FileProperties[] sfFiles = getFolderItems(mdqFolderList, ms);
-
-                            // now add these to the XML
-                            if (sfFiles != null)
-                            {
-                                foreach (FileProperties sff in sfFiles)
-                                {
-                                    packageXmlSB.Append("<members>" + sff.fullName + "</members>" + Environment.NewLine);
-                                }
-                            }
-
-                            mdqFolderList.Clear();
-                        }
-
-                        packageXmlSB.Append("<name>Report</name>" + Environment.NewLine);
-                        packageXmlSB.Append("</types>" + Environment.NewLine);
-                    }
-                    else if (selected == "StandardValueSet")
-                    {
-                        packageXmlSB.Append("<types>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>AccountContactMultiRoles</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>AccountContactRole</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>AccountOwnership</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>AccountRating</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>AccountType</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>AssetStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>CampaignMemberStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>CampaignStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>CampaignType</members>" + Environment.NewLine);
-                        //packageXmlSB.Append("<members>CareItemStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>CaseContactRole</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>CaseOrigin</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>CasePriority</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>CaseReason</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>CaseStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>CaseType</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>ContactRole</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>ContractContactRole</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>ContractStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>EntitlementType</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>EventSubject</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>EventType</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>FiscalYearPeriodName</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>FiscalYearPeriodPrefix</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>FiscalYearQuarterName</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>FiscalYearQuarterPrefix</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>FulfillmentStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>FulfillmentType</members>" + Environment.NewLine);
-                        //packageXmlSB.Append("<members>IdeaCategory</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>IdeaMultiCategory</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>IdeaStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>IdeaThemeStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>Industry</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>LeadSource</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>LeadStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>OpportunityCompetitor</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>OpportunityStage</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>OpportunityType</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>OrderItemSummaryChgRsn</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>OrderStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>OrderSummaryRoutingSchdRsn</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>OrderSummaryStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>OrderType</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>PartnerRole</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>Product2Family</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>ProcessExceptionCategory</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>ProcessExceptionPriority</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>ProcessExceptionSeverity</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>ProcessExceptionStatus</members>" + Environment.NewLine);
-                        //packageXmlSB.Append("<members>QuestionOrigin</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>QuickTextCategory</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>QuickTextChannel</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>QuoteStatus</members>" + Environment.NewLine);
-                        //packageXmlSB.Append("<members>RoleInTerritory</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>ResourceAbsenceType</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>ReturnOrderLineItemProcessPlan</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>ReturnOrderLineItemReasonForRejection</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>ReturnOrderLineItemReasonForReturn</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>ReturnOrderLineItemRepaymentMethod</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>ReturnOrderShipmentType</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>ReturnOrderStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>SalesTeamRole</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>Salutation</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>ServiceAppointmentStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>ServiceContractApprovalStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>ServTerrMemRoleType</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>SocialPostClassification</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>SocialPostEngagementLevel</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>SocialPostReviewedStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>SolutionStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>TaskPriority</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>TaskStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>TaskSubject</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>TaskType</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>WorkOrderLineItemStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>WorkOrderPriority</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>WorkOrderStatus</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>WorkTypeDefApptType</members>" + Environment.NewLine);
-                        packageXmlSB.Append("<members>WorkTypeGroupAddInfo</members>" + Environment.NewLine);
-
-                        packageXmlSB.Append("<name>StandardValueSet</name>" + Environment.NewLine);
-                        packageXmlSB.Append("</types>" + Environment.NewLine);
-
-                    }
-                    else
-                    {
-                        String[] members = new String[1];
-                        members[0] = "*";
-                        getMetadataTypes(selected, packageXmlSB, members);
-                    }
-
-                    alreadyAdded.Add(selected);
-
-                    packageXmlSB.Append("<version>" + Properties.Settings.Default.DefaultAPI + "</version>" + Environment.NewLine);
-                    packageXmlSB.Append("</Package>");
+                    packageXmlSB = buildPackageXml(UtilityClass.REQUESTINGORG.FROMORG, mObjSet);
 
                     RetrieveRequest retrieveRequest = new RetrieveRequest();
                     retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
                     retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
 
-                    dt = DateTime.Now;
-                    processingMsg = "    " + selected + ": Metadata Retrieval Started at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine;
-                    threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
-                    thread2 = new System.Threading.Thread(threadParameters);
-                    thread2.Start();
-
-                    retrieveZipFile(target_dir, ms, reqOrg, retrieveRequest, selected, sfMDFrm);
+                    Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, mObj, sfMdFrm);
+                    Task tsk = Task.Run(act);
                 }
-
-                dt = DateTime.Now;
-                processingMsg = "Metadata Extract Completed at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine;
-                threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
-                thread2 = new System.Threading.Thread(threadParameters);
-                thread2.Start();
             }
-            else
+            else if (selectedItemsList2.Count > 0
+                && selectedItemsList2.Count > threadCount)
             {
-                RetrieveRequest retrieveRequest = new RetrieveRequest();
-                retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
-                String packageXmlStr = File.ReadAllText(sfMDFrm.tbExistingPackageXml.Text);
-                retrieveRequest.unpackaged = parsePackageManifest(packageXmlStr.ToString());
+                Boolean retrieveComplete = false;
 
-                retrieveZipFile(target_dir, ms, reqOrg, retrieveRequest, "CustomPackageXml", sfMDFrm);
+                List<Task> taskArray = new List<Task>();
+
+                while (retrieveComplete == false)
+                {
+                    Boolean allThreadsComplete = false;
+
+                    //Debug.WriteLine("");
+                    // Build the threads and then as the threads complete, build the next one
+
+                    for (Int32 i = 0; i < threadCount; i++)
+                    {
+                        if (i <= selectedItemsList2.Count - 1)
+                        {
+                            // Cannot pass the metadata object in by reference, i.e. selectedItemsList2[i]
+                            // When the loop continues, the reference to selectedItemsList2[i] changes as the iterator increases throwing off the value for the other actions
+                            String metadataObject = selectedItemsList2[i];
+
+                            HashSet<String> mObjSet = new HashSet<string> { selectedItemsList2[i] };
+                            StringBuilder packageXmlSB = new StringBuilder();
+                            packageXmlSB = buildPackageXml(UtilityClass.REQUESTINGORG.FROMORG, mObjSet);
+
+                            RetrieveRequest retrieveRequest = new RetrieveRequest();
+                            retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
+                            retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
+
+                            Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, metadataObject, sfMdFrm);
+                            Task tsk = Task.Run(act);
+
+                            taskArray.Add(tsk);
+                            completedItemsList.Add(selectedItemsList2[i]);
+                        }
+                    }
+
+                    // Loop through the existing threads to determine if all are complete.
+                    // Once all threads are complete, go back to the for loop
+                    int waitTimeMilliSecs = 10000;
+                    while (allThreadsComplete == false)
+                    {
+                        Int32 completedThreads = 0;
+
+                        foreach (Task tsk in taskArray)
+                        {
+                            if (tsk.IsCanceled == true || tsk.IsCompleted == true || tsk.IsFaulted == true)
+                            {
+                                completedThreads++;
+                            }
+                        }
+
+                        if (completedThreads == taskArray.Count)
+                        {
+                            allThreadsComplete = true;
+                        }
+                    }
+
+                    taskArray.Clear();
+
+                    // Remove the items from the selectedItemsList2 based on what is in the completedItemsList
+                    foreach (String ci in completedItemsList)
+                    {
+                        selectedItemsList2.Remove(ci);
+                    }
+
+                    if (selectedItemsList2.Count == 0)
+                    {
+                        retrieveComplete = true;
+                    }
+                }
             }
         }
 
-        private void retrieveZipFile(String target_dir, MetadataService ms, UtilityClass.REQUESTINGORG reqOrg, RetrieveRequest retrieveRequest, String metdataObject, SalesforceMetadataStep2 frm)
+        // Add metadata types
+        private StringBuilder buildPackageXml(UtilityClass.REQUESTINGORG reqOrg, HashSet<String> selectedItems)
         {
+            StringBuilder packageXmlSB = new StringBuilder();
+            packageXmlSB.Append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine);
+            packageXmlSB.Append("<Package xmlns = \"http://soap.sforce.com/2006/04/metadata\">" + Environment.NewLine);
+
+            MetadataService ms = SalesforceCredentials.getMetadataService(reqOrg);
+            ms.AllowAutoRedirect = true;
+
+            foreach (String selected in selectedItems)
+            {
+                if (selected == "CustomObject" && !alreadyAdded.Contains(selected))
+                {
+                    List<String> members = new List<String>();
+                    members.AddRange(getSObjectMembers(reqOrg));
+                    getMetadataTypes("CustomObject", packageXmlSB, members.ToArray());
+                }
+                else if (selected == "CustomTab")
+                {
+                    List<String> members = new List<String>();
+                    if (!alreadyAdded.Contains("CustomTab"))
+                    {
+                        members.AddRange(getTabDescribe(reqOrg));
+                        getMetadataTypes("CustomTab", packageXmlSB, members.ToArray());
+                    }
+                }
+                else if (selected == "EmailTemplate" && !alreadyAdded.Contains(selected))
+                {
+                    packageXmlSB.Append("<types>" + Environment.NewLine);
+
+                    // List all the folders using EmailFolder 
+                    // and then run another listmetadata() for each folder name and include type = 'EmailTemplate'.
+                    List<ListMetadataQuery> mdqFolderList = new List<ListMetadataQuery>();
+                    ListMetadataQuery mdqFolderQuery = new ListMetadataQuery();
+                    mdqFolderQuery.type = "EmailFolder";
+                    mdqFolderList.Add(mdqFolderQuery);
+
+                    List<FileProperties> sfEmailFolders = new List<FileProperties>();
+                    List<FileProperties> sfEmailFiles = new List<FileProperties>();
+
+                    FileProperties[] sfFolders = ms.listMetadata(mdqFolderList.ToArray(), Convert.ToDouble(Properties.Settings.Default.DefaultAPI));
+
+                    foreach (FileProperties fp in sfFolders)
+                    {
+                        sfEmailFolders.Add(fp);
+                    }
+
+                    QueryResult qr = new QueryResult();
+                    qr = SalesforceCredentials.fromOrgSS.query("SELECT Folder.DeveloperName, DeveloperName FROM EmailTemplate");
+
+                    sObject[] sobjRecordsToProcess = qr.records;
+
+                    foreach (sObject s in sobjRecordsToProcess)
+                    {
+                        if (s.Any == null) break;
+
+                        String emailFileName = "";
+
+                        if (s.Any[0].InnerText == "")
+                        {
+                            emailFileName = "unfiled$public";
+                        }
+                        else
+                        {
+                            emailFileName = s.Any[0].InnerText;
+                        }
+
+                        emailFileName = emailFileName + "/" + s.Any[1].InnerText;
+
+                        packageXmlSB.Append("<members>" + emailFileName + "</members>" + Environment.NewLine);
+                    }
+
+                    packageXmlSB.Append("<name>EmailTemplate</name>" + Environment.NewLine);
+                    packageXmlSB.Append("</types>" + Environment.NewLine);
+
+                    alreadyAdded.Add(selected);
+                }
+                else if ((selected == "PermissionSet"
+                            || selected == "Profile")
+                            && !alreadyAdded.Contains(selected))
+                {
+                    List<String> members = new List<String>();
+                    members.Add("*");
+
+                    getMetadataTypes("ApexClass", packageXmlSB, members.ToArray());
+                    getMetadataTypes("ApexComponent", packageXmlSB, members.ToArray());
+                    getMetadataTypes("ApexPage", packageXmlSB, members.ToArray());
+                    getMetadataTypes("ApexTrigger", packageXmlSB, members.ToArray());
+                    getMetadataTypes("ConnectedApp", packageXmlSB, members.ToArray());
+                    getMetadataTypes("CustomApplication", packageXmlSB, members.ToArray());
+                    getMetadataTypes("CustomApplicationComponent", packageXmlSB, members.ToArray());
+                    getMetadataTypes("CustomMetadata", packageXmlSB, members.ToArray());
+                    getMetadataTypes("CustomPermissions", packageXmlSB, members.ToArray());
+                    getMetadataTypes("ExternalDataSource", packageXmlSB, members.ToArray());
+                    getMetadataTypes("Flow", packageXmlSB, members.ToArray());
+                    getMetadataTypes("FlowDefinition", packageXmlSB, members.ToArray());
+                    getMetadataTypes("Layout", packageXmlSB, members.ToArray());
+                    getMetadataTypes("NamedCredential", packageXmlSB, members.ToArray());
+                    getMetadataTypes("ServicePresenceStatus", packageXmlSB, members.ToArray());
+
+                    members.Clear();
+                    if (!alreadyAdded.Contains("CustomTab"))
+                    {
+                        members.AddRange(getTabDescribe(reqOrg));
+                        getMetadataTypes("CustomTab", packageXmlSB, members.ToArray());
+                    }
+
+                    // Clear the * to allow for accessing all Sobjects in the org
+                    members.Clear();
+                    if (!alreadyAdded.Contains("CustomObject"))
+                    {
+                        members = getSObjectMembers(reqOrg);
+                        getMetadataTypes("CustomObject", packageXmlSB, members.ToArray());
+                    }
+
+                    // Reset the default members to the flag for all members and add the additional types selected.
+                    members.Clear();
+                    members.Add("*");
+                    getMetadataTypes(selected, packageXmlSB, members.ToArray());
+
+                    alreadyAdded.Add(selected);
+                }
+                else if (selected == "Report")
+                {
+                    packageXmlSB.Append("<types>" + Environment.NewLine);
+
+                    List<ListMetadataQuery> mdqFolderList = new List<ListMetadataQuery>();
+                    ListMetadataQuery mdqFolderQuery = new ListMetadataQuery();
+                    mdqFolderQuery.type = "ReportFolder";
+                    mdqFolderList.Add(mdqFolderQuery);
+
+                    List<FileProperties> sfReportFolders = new List<FileProperties>();
+                    List<FileProperties> sfReportFiles = new List<FileProperties>();
+
+                    FileProperties[] sfFolders = ms.listMetadata(mdqFolderList.ToArray(), Convert.ToDouble(Properties.Settings.Default.DefaultAPI));
+
+                    foreach (FileProperties fp in sfFolders)
+                    {
+                        sfReportFolders.Add(fp);
+                    }
+
+                    // Now loop through the sfReportFolders and retrieve the report names in those folders
+                    mdqFolderList.Clear();
+                    foreach (FileProperties fp in sfReportFolders)
+                    {
+                        // No more than 3 folders are allowed in the Folder List
+                        ListMetadataQuery mdqf = new ListMetadataQuery();
+                        mdqf.folder = fp.fullName;
+                        mdqf.type = "Report";
+                        mdqFolderList.Add(mdqf);
+
+                        FileProperties[] sfFiles = getFolderItems(mdqFolderList, ms);
+
+                        // now add these to the XML
+                        if (sfFiles != null)
+                        {
+                            foreach (FileProperties sff in sfFiles)
+                            {
+                                packageXmlSB.Append("<members>" + sff.fullName + "</members>" + Environment.NewLine);
+                            }
+                        }
+
+                        mdqFolderList.Clear();
+                    }
+
+                    packageXmlSB.Append("<name>Report</name>" + Environment.NewLine);
+                    packageXmlSB.Append("</types>" + Environment.NewLine);
+                }
+                else if (selected == "StandardValueSet")
+                {
+                    packageXmlSB.Append("<types>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>AccountContactMultiRoles</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>AccountContactRole</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>AccountOwnership</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>AccountRating</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>AccountType</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>AssetStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>CampaignMemberStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>CampaignStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>CampaignType</members>" + Environment.NewLine);
+                    //packageXmlSB.Append("<members>CareItemStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>CaseContactRole</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>CaseOrigin</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>CasePriority</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>CaseReason</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>CaseStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>CaseType</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>ContactRole</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>ContractContactRole</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>ContractStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>EntitlementType</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>EventSubject</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>EventType</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>FiscalYearPeriodName</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>FiscalYearPeriodPrefix</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>FiscalYearQuarterName</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>FiscalYearQuarterPrefix</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>FulfillmentStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>FulfillmentType</members>" + Environment.NewLine);
+                    //packageXmlSB.Append("<members>IdeaCategory</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>IdeaMultiCategory</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>IdeaStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>IdeaThemeStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>Industry</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>LeadSource</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>LeadStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>OpportunityCompetitor</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>OpportunityStage</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>OpportunityType</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>OrderItemSummaryChgRsn</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>OrderStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>OrderSummaryRoutingSchdRsn</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>OrderSummaryStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>OrderType</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>PartnerRole</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>Product2Family</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>ProcessExceptionCategory</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>ProcessExceptionPriority</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>ProcessExceptionSeverity</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>ProcessExceptionStatus</members>" + Environment.NewLine);
+                    //packageXmlSB.Append("<members>QuestionOrigin</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>QuickTextCategory</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>QuickTextChannel</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>QuoteStatus</members>" + Environment.NewLine);
+                    //packageXmlSB.Append("<members>RoleInTerritory</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>ResourceAbsenceType</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>ReturnOrderLineItemProcessPlan</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>ReturnOrderLineItemReasonForRejection</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>ReturnOrderLineItemReasonForReturn</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>ReturnOrderLineItemRepaymentMethod</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>ReturnOrderShipmentType</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>ReturnOrderStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>SalesTeamRole</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>Salutation</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>ServiceAppointmentStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>ServiceContractApprovalStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>ServTerrMemRoleType</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>SocialPostClassification</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>SocialPostEngagementLevel</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>SocialPostReviewedStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>SolutionStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>TaskPriority</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>TaskStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>TaskSubject</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>TaskType</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>WorkOrderLineItemStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>WorkOrderPriority</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>WorkOrderStatus</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>WorkTypeDefApptType</members>" + Environment.NewLine);
+                    packageXmlSB.Append("<members>WorkTypeGroupAddInfo</members>" + Environment.NewLine);
+
+                    packageXmlSB.Append("<name>StandardValueSet</name>" + Environment.NewLine);
+                    packageXmlSB.Append("</types>" + Environment.NewLine);
+
+                }
+                else
+                {
+                    String[] members = new String[1];
+                    members[0] = "*";
+                    getMetadataTypes(selected, packageXmlSB, members);
+                }
+
+                alreadyAdded.Add(selected);
+            }
+
+            packageXmlSB.Append("<version>" + Properties.Settings.Default.DefaultAPI + "</version>" + Environment.NewLine);
+            packageXmlSB.Append("</Package>");
+
+            return packageXmlSB;
+        }
+
+        private void retrieveZipFile(UtilityClass.REQUESTINGORG reqOrg, String target_dir, RetrieveRequest retrieveRequest, String metdataObject, SalesforceMetadataStep2 sfMdFrm)
+        {
+            DateTime dt = DateTime.Now;
+            String processingMsg1 = "    " + metdataObject + ": Metadata Retrieval Started at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine;
+            var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1, sfMdFrm); });
+            var thread1 = new System.Threading.Thread(threadParameters1);
+            thread1.Start();
+            while (thread1.ThreadState == System.Threading.ThreadState.Running)
+            {
+                // do nothing. Just want for the thread to complete
+            }
+
+
             AsyncResult asyncResult = new AsyncResult();
 
-            ms = SalesforceCredentials.getMetadataService(reqOrg);
+            MetadataService ms = SalesforceCredentials.getMetadataService(reqOrg);
             ms.AllowAutoRedirect = true;
 
             if (ms != null)
@@ -496,78 +596,81 @@ namespace SalesforceMetadata
                 asyncResult = ms.retrieve(retrieveRequest);
             }
 
-            RetrieveResult result = waitForRetrieveCompletion(ms, asyncResult, reqOrg);
+            RetrieveResult result = waitForRetrieveCompletion(ms, asyncResult, reqOrg, sfMdFrm);
 
             // Do not remove underscores. The zip file's path is dependent on this.
-            DateTime dt = DateTime.Now;
             String timestamp = dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" +
                                dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString();
 
             if (result.zipFile != null)
             {
-                if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
-                {
-                    zipFile = frm.tbFromOrgSaveLocation.Text + "\\components_" + extractToFolder + "_" + metdataObject + "_" + timestamp + ".zip";
-                }
+                zipFile = sfMdFrm.tbFromOrgSaveLocation.Text + "\\components_" + extractToFolder + "_" + metdataObject + "_" + timestamp + ".zip";
 
                 try
                 {
                     File.WriteAllBytes(@zipFile, result.zipFile);
 
                     // Unzip the package and store it to the folder specified
-                    if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
+                    ZipArchive archive = ZipFile.Open(zipFile, ZipArchiveMode.Read);
+                    foreach (ZipArchiveEntry file in archive.Entries)
                     {
-                        ZipArchive archive = ZipFile.Open(zipFile, ZipArchiveMode.Read);
-                        foreach (ZipArchiveEntry file in archive.Entries)
+                        String completeFileName = Path.GetFullPath(Path.Combine(target_dir, file.FullName));
+                        String directoryPath = Path.GetDirectoryName(completeFileName);
+
+                        // Confirm if directory path exists and if not create the directory
+                        if (!Directory.Exists(directoryPath))
                         {
-                            String completeFileName = Path.GetFullPath(Path.Combine(target_dir, file.FullName));
-                            String directoryPath = Path.GetDirectoryName(completeFileName);
-
-                            // Confirm if directory path exists and if not create the directory
-                            if (!Directory.Exists(directoryPath))
-                            {
-                                // Assuming Empty for Directory
-                                Directory.CreateDirectory(directoryPath);
-                            }
-
-                            file.ExtractToFile(completeFileName, true);
+                            // Assuming Empty for Directory
+                            Directory.CreateDirectory(directoryPath);
                         }
 
-                        archive.Dispose();
-
-                        // If cbConvertToVSCodeStyle == true then add the -meta.xml to the end of the file for each file in the directories, except for LWC and Aura
-                        // Objects will need to be reworked as well as their folder structure is different
-                        if (frm.cbConvertToVSCodeStyle.Checked == true)
-                        {
-                            addVSCodeFileExtension(target_dir);
-                        }
+                        file.ExtractToFile(completeFileName, true);
                     }
 
-                    String processingMsg = "";
+                    archive.Dispose();
 
-                    processingMsg = "    " + metdataObject + ": Metadata Retrieval Completed at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
-                    var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
-                    var thread2 = new System.Threading.Thread(threadParameters);
+                    // If cbConvertToVSCodeStyle == true then add the -meta.xml to the end of the file for each file in the directories, except for LWC and Aura
+                    // Objects will need to be reworked as well as their folder structure is different
+                    if (sfMdFrm.cbConvertToVSCodeStyle.Checked == true)
+                    {
+                        addVSCodeFileExtension(target_dir);
+                    }
+
+                    String processingMsg2 = "    " + metdataObject + ": Metadata Retrieval Completed at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
+                    var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2, sfMdFrm); });
+                    var thread2 = new System.Threading.Thread(threadParameters2);
                     thread2.Start();
+                    while (thread2.ThreadState == System.Threading.ThreadState.Running)
+                    {
+                        // do nothing. Just want for the thread to complete
+                    }
                 }
                 catch (System.IO.IOException ioExc)
                 {
-                    String processingMsg = "    " + metdataObject + ": IO Exception: " + ioExc.Message + Environment.NewLine + Environment.NewLine;
-                    var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
-                    var thread2 = new System.Threading.Thread(threadParameters);
+                    String processingMsg2 = "    " + metdataObject + ": IO Exception: " + ioExc.Message + Environment.NewLine + Environment.NewLine;
+                    var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2, sfMdFrm); });
+                    var thread2 = new System.Threading.Thread(threadParameters2);
                     thread2.Start();
+                    while (thread2.ThreadState == System.Threading.ThreadState.Running)
+                    {
+                        // do nothing. Just want for the thread to complete
+                    }
                 }
                 catch (Exception exc)
                 {
-                    String processingMsg = "    " + metdataObject + ": There was an error saving the package.zip file to the location specified: " + exc.Message + Environment.NewLine;
-                    var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
-                    var thread2 = new System.Threading.Thread(threadParameters);
+                    String processingMsg2 = "    " + metdataObject + ": There was an error saving the package.zip file to the location specified: " + exc.Message + Environment.NewLine;
+                    var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2, sfMdFrm); });
+                    var thread2 = new System.Threading.Thread(threadParameters2);
                     thread2.Start();
+                    while (thread2.ThreadState == System.Threading.ThreadState.Running)
+                    {
+                        // do nothing. Just want for the thread to complete
+                    }
                 }
             }
         }
-            
-        // Add metadata types
+
+
         private void getMetadataTypes(String metadataObjectName, StringBuilder packageXmlSB, String[] members)
         {
             if (!alreadyAdded.Contains(metadataObjectName))
@@ -633,7 +736,7 @@ namespace SalesforceMetadata
             return packageManifest;
         }
 
-        private RetrieveResult waitForRetrieveCompletion(MetadataService ms, AsyncResult asyncResult, UtilityClass.REQUESTINGORG reqOrg)
+        private RetrieveResult waitForRetrieveCompletion(MetadataService ms, AsyncResult asyncResult, UtilityClass.REQUESTINGORG reqOrg, SalesforceMetadataStep2 sfMdFrm)
         {
             // Wait for the retrieve to complete
             int poll = 0;
@@ -654,20 +757,28 @@ namespace SalesforceMetadata
                 {
                     result.done = true;
 
-                    String processingMsg = "    " + asyncResult.statusCode.ToString() + Environment.NewLine + Environment.NewLine;
-                    var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
-                    var thread2 = new System.Threading.Thread(threadParameters);
-                    thread2.Start();
+                    String processingMsg1 = "    " + asyncResult.statusCode.ToString() + Environment.NewLine + Environment.NewLine;
+                    var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1, sfMdFrm); });
+                    var thread1 = new System.Threading.Thread(threadParameters1);
+                    thread1.Start();
+                    while (thread1.ThreadState == System.Threading.ThreadState.Running)
+                    {
+                        // do nothing. Just want for the thread to complete
+                    }
                 }
                 else if (poll++ > this.MAX_NUM_POLL_REQUESTS)
                 {
                     result.status = RetrieveStatus.Failed;
                     result.done = true;
 
-                    String processingMsg = "    Request timed out.If this is a large set of metadata components, check that the time allowed by MAX_NUM_POLL_REQUESTS is sufficient." + Environment.NewLine + Environment.NewLine;
-                    var threadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg); });
-                    var thread2 = new System.Threading.Thread(threadParameters);
+                    String processingMsg2 = "    Request timed out.If this is a large set of metadata components, check that the time allowed by MAX_NUM_POLL_REQUESTS is sufficient." + Environment.NewLine + Environment.NewLine;
+                    var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2, sfMdFrm); });
+                    var thread2 = new System.Threading.Thread(threadParameters2);
                     thread2.Start();
+                    while (thread2.ThreadState == System.Threading.ThreadState.Running)
+                    {
+                        // do nothing. Just want for the thread to complete
+                    }
                 }
                 else
                 {
@@ -1231,16 +1342,16 @@ namespace SalesforceMetadata
         }
 
         // Threadsafe way to write back to the form's textbox
-        public void tsWriteToTextbox(String tbValue)
+        public void tsWriteToTextbox(String tbValue, SalesforceMetadataStep2 sfMdFrm)
         {
-            if (this.rtMessages.InvokeRequired)
+            if (sfMdFrm.rtMessages.InvokeRequired)
             {
-                Action safeWrite = delegate { tsWriteToTextbox($"{tbValue}"); };
-                this.rtMessages.Invoke(safeWrite);
+                Action safeWrite = delegate { tsWriteToTextbox($"{tbValue}", sfMdFrm); };
+                sfMdFrm.rtMessages.Invoke(safeWrite);
             }
             else
             {
-                this.rtMessages.Text = this.rtMessages.Text + tbValue;
+                sfMdFrm.rtMessages.Text = sfMdFrm.rtMessages.Text + tbValue;
             }
         }
 

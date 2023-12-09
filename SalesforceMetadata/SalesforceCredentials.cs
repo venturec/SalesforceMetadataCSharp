@@ -1,19 +1,11 @@
 ﻿using System;
 using System.Net;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using SalesforceMetadata.PartnerWSDL;
-using SalesforceMetadata.MetadataWSDL;
-using SalesforceMetadata.ToolingWSDL;
-using System.Runtime.CompilerServices;
-using System.IO;
 using System.Xml;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
-using System.Runtime.Remoting.Messaging;
-using System.Windows.Forms;
 
 namespace SalesforceMetadata
 {
@@ -78,7 +70,7 @@ namespace SalesforceMetadata
             // Create a new Salesforce login object
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                fromOrgSS = new SforceService();
+                fromOrgSS = new SalesforceMetadata.PartnerWSDL.SforceService();
                 fromOrgLR = new SalesforceMetadata.PartnerWSDL.LoginResult();
                 fromOrgMS = new SalesforceMetadata.MetadataWSDL.MetadataService();
 
@@ -135,7 +127,7 @@ namespace SalesforceMetadata
             if (reqOrg == UtilityClass.REQUESTINGORG.TOORG
                && String.IsNullOrEmpty(userName) == false)
             {
-                toOrgSS = new SforceService();
+                toOrgSS = new SalesforceMetadata.PartnerWSDL.SforceService();
                 toOrgLR = new SalesforceMetadata.PartnerWSDL.LoginResult();
                 toOrgMS = new SalesforceMetadata.MetadataWSDL.MetadataService();
 
@@ -284,9 +276,9 @@ namespace SalesforceMetadata
             return descrTabs;
         }
         
-        public static DescribeMetadataResult getDescribeMetadataResult(UtilityClass.REQUESTINGORG reqOrg)
+        public static SalesforceMetadata.MetadataWSDL.DescribeMetadataResult getDescribeMetadataResult(UtilityClass.REQUESTINGORG reqOrg)
         {
-            DescribeMetadataResult dmd = new DescribeMetadataResult();
+            SalesforceMetadata.MetadataWSDL.DescribeMetadataResult dmd = new SalesforceMetadata.MetadataWSDL.DescribeMetadataResult();
             try
             {
                 if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
@@ -301,11 +293,11 @@ namespace SalesforceMetadata
             catch (Exception exc)
             {
 
-                DescribeMetadataObject dmo = new DescribeMetadataObject();
+                SalesforceMetadata.MetadataWSDL.DescribeMetadataObject dmo = new SalesforceMetadata.MetadataWSDL.DescribeMetadataObject();
                 dmo.xmlName = exc.Message;
                 dmo.directoryName = exc.Message;
 
-                DescribeMetadataObject[] dmoArray = new DescribeMetadataObject[1];
+                SalesforceMetadata.MetadataWSDL.DescribeMetadataObject[] dmoArray = new SalesforceMetadata.MetadataWSDL.DescribeMetadataObject[1];
                 dmoArray[0] = dmo;
 
                 dmd.metadataObjects = dmoArray;
@@ -327,7 +319,6 @@ namespace SalesforceMetadata
             }
 
             return ms;
-
         }
 
         public static void populateUsernameMaps()

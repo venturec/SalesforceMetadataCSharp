@@ -19,6 +19,7 @@ namespace SalesforceMetadata
             getCurrentUserFileLocation();
             loadDefaultApis();
             loadDefaultTextEditorPath();
+            loadOtherDefaults();
         }
 
 
@@ -87,6 +88,23 @@ namespace SalesforceMetadata
                 error = true;
             }
 
+            if (this.tbAsynchronousThreads.Text == "")
+            {
+                Properties.Settings.Default.MetadataAynchrounsThreads = 1;
+            }
+            else
+            {
+                Int32 txtToInt;
+                if (Int32.TryParse(this.tbAsynchronousThreads.Text, out txtToInt) == true)
+                {
+                    Properties.Settings.Default.MetadataAynchrounsThreads = txtToInt;
+                }
+                else
+                {
+                    error = true;
+                }
+            }
+
             if (this.tbSharedSecret.Text == "")
             {
                 error = true;
@@ -111,7 +129,7 @@ namespace SalesforceMetadata
             }
             else
             {
-                MessageBox.Show("Please populate the Credentials file location, Shared Secret Location and Salt first before continuing");
+                MessageBox.Show("Please populate the Credentials file location, Shared Secret Location and Salt OR correct the value in Metadata Retrieval Asynchronous Threads");
             }
 
             return error;
@@ -130,6 +148,11 @@ namespace SalesforceMetadata
         public void loadDefaultTextEditorPath()
         {
             this.tbDefaultTextEditor.Text = Properties.Settings.Default.DefaultTextEditorPath;
+        }
+
+        public void loadOtherDefaults()
+        {
+            this.tbAsynchronousThreads.Text = Properties.Settings.Default.MetadataAynchrounsThreads.ToString();
         }
 
         private void tbDefaultTextEditor_DoubleClick(object sender, EventArgs e)

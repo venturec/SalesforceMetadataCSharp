@@ -36,7 +36,6 @@
             this.encryptDecrypt = new System.Windows.Forms.Button();
             this.tbSharedSecret = new System.Windows.Forms.TextBox();
             this.lblSharedSecretLocation = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lblSalt = new System.Windows.Forms.Label();
             this.tbSalt = new System.Windows.Forms.TextBox();
@@ -45,6 +44,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lblDefaultTextEditor = new System.Windows.Forms.Label();
             this.tbDefaultTextEditor = new System.Windows.Forms.TextBox();
+            this.tbAsynchronousThreads = new System.Windows.Forms.TextBox();
+            this.lblMetadataRetrievalAynchronousThreads = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblSelectLocation
@@ -87,7 +88,7 @@
             // 
             // encryptDecrypt
             // 
-            this.encryptDecrypt.Location = new System.Drawing.Point(589, 153);
+            this.encryptDecrypt.Location = new System.Drawing.Point(589, 128);
             this.encryptDecrypt.Name = "encryptDecrypt";
             this.encryptDecrypt.Size = new System.Drawing.Size(126, 34);
             this.encryptDecrypt.TabIndex = 7;
@@ -113,20 +114,11 @@
             this.lblSharedSecretLocation.TabIndex = 3;
             this.lblSharedSecretLocation.Text = "Shared Secret Location";
             // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label1.Location = new System.Drawing.Point(2, 121);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(802, 10);
-            this.label1.TabIndex = 2;
-            // 
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label2.Location = new System.Drawing.Point(1, 203);
+            this.label2.Location = new System.Drawing.Point(1, 178);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(802, 10);
             this.label2.TabIndex = 8;
@@ -136,7 +128,7 @@
             // 
             this.lblSalt.AutoSize = true;
             this.lblSalt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSalt.Location = new System.Drawing.Point(12, 143);
+            this.lblSalt.Location = new System.Drawing.Point(12, 126);
             this.lblSalt.Name = "lblSalt";
             this.lblSalt.Size = new System.Drawing.Size(29, 13);
             this.lblSalt.TabIndex = 5;
@@ -144,7 +136,7 @@
             // 
             // tbSalt
             // 
-            this.tbSalt.Location = new System.Drawing.Point(15, 159);
+            this.tbSalt.Location = new System.Drawing.Point(15, 142);
             this.tbSalt.Name = "tbSalt";
             this.tbSalt.Size = new System.Drawing.Size(352, 20);
             this.tbSalt.TabIndex = 6;
@@ -153,7 +145,7 @@
             // 
             this.lblDefaultAPI.AutoSize = true;
             this.lblDefaultAPI.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDefaultAPI.Location = new System.Drawing.Point(11, 230);
+            this.lblDefaultAPI.Location = new System.Drawing.Point(11, 202);
             this.lblDefaultAPI.Name = "lblDefaultAPI";
             this.lblDefaultAPI.Size = new System.Drawing.Size(72, 13);
             this.lblDefaultAPI.TabIndex = 11;
@@ -162,7 +154,7 @@
             // cmbDefaultAPI
             // 
             this.cmbDefaultAPI.FormattingEnabled = true;
-            this.cmbDefaultAPI.Location = new System.Drawing.Point(89, 227);
+            this.cmbDefaultAPI.Location = new System.Drawing.Point(89, 199);
             this.cmbDefaultAPI.Name = "cmbDefaultAPI";
             this.cmbDefaultAPI.Size = new System.Drawing.Size(121, 21);
             this.cmbDefaultAPI.TabIndex = 12;
@@ -171,7 +163,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label3.Location = new System.Drawing.Point(1, 262);
+            this.label3.Location = new System.Drawing.Point(1, 231);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(802, 10);
             this.label3.TabIndex = 13;
@@ -181,7 +173,7 @@
             // 
             this.lblDefaultTextEditor.AutoSize = true;
             this.lblDefaultTextEditor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDefaultTextEditor.Location = new System.Drawing.Point(11, 284);
+            this.lblDefaultTextEditor.Location = new System.Drawing.Point(11, 250);
             this.lblDefaultTextEditor.Name = "lblDefaultTextEditor";
             this.lblDefaultTextEditor.Size = new System.Drawing.Size(144, 13);
             this.lblDefaultTextEditor.TabIndex = 14;
@@ -189,15 +181,34 @@
             // 
             // tbDefaultTextEditor
             // 
-            this.tbDefaultTextEditor.Location = new System.Drawing.Point(12, 300);
+            this.tbDefaultTextEditor.Location = new System.Drawing.Point(12, 266);
             this.tbDefaultTextEditor.Name = "tbDefaultTextEditor";
             this.tbDefaultTextEditor.Size = new System.Drawing.Size(703, 20);
             this.tbDefaultTextEditor.TabIndex = 15;
             this.tbDefaultTextEditor.DoubleClick += new System.EventHandler(this.tbDefaultTextEditor_DoubleClick);
             // 
+            // tbAsynchronousThreads
+            // 
+            this.tbAsynchronousThreads.Location = new System.Drawing.Point(14, 323);
+            this.tbAsynchronousThreads.Name = "tbAsynchronousThreads";
+            this.tbAsynchronousThreads.Size = new System.Drawing.Size(122, 20);
+            this.tbAsynchronousThreads.TabIndex = 16;
+            // 
+            // lblMetadataRetrievalAynchronousThreads
+            // 
+            this.lblMetadataRetrievalAynchronousThreads.AutoSize = true;
+            this.lblMetadataRetrievalAynchronousThreads.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMetadataRetrievalAynchronousThreads.Location = new System.Drawing.Point(12, 307);
+            this.lblMetadataRetrievalAynchronousThreads.Name = "lblMetadataRetrievalAynchronousThreads";
+            this.lblMetadataRetrievalAynchronousThreads.Size = new System.Drawing.Size(248, 13);
+            this.lblMetadataRetrievalAynchronousThreads.TabIndex = 17;
+            this.lblMetadataRetrievalAynchronousThreads.Text = "Metadata Retrieval Asynchronous Threads";
+            // 
             // UserSettings
             // 
             this.ClientSize = new System.Drawing.Size(805, 450);
+            this.Controls.Add(this.lblMetadataRetrievalAynchronousThreads);
+            this.Controls.Add(this.tbAsynchronousThreads);
             this.Controls.Add(this.tbDefaultTextEditor);
             this.Controls.Add(this.lblDefaultTextEditor);
             this.Controls.Add(this.label3);
@@ -206,7 +217,6 @@
             this.Controls.Add(this.tbSalt);
             this.Controls.Add(this.lblSalt);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.lblSharedSecretLocation);
             this.Controls.Add(this.tbSharedSecret);
             this.Controls.Add(this.encryptDecrypt);
@@ -231,7 +241,6 @@
         private System.Windows.Forms.Button encryptDecrypt;
         private System.Windows.Forms.TextBox tbSharedSecret;
         private System.Windows.Forms.Label lblSharedSecretLocation;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblSalt;
         private System.Windows.Forms.TextBox tbSalt;
@@ -240,5 +249,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblDefaultTextEditor;
         private System.Windows.Forms.TextBox tbDefaultTextEditor;
+        private System.Windows.Forms.TextBox tbAsynchronousThreads;
+        private System.Windows.Forms.Label lblMetadataRetrievalAynchronousThreads;
     }
 }

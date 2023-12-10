@@ -196,6 +196,174 @@ namespace SalesforceMetadata
                 }
             }
 
+            if (sfMdFrm.selectedItems.ContainsKey("EmailTemplate"))
+            {
+                // Build the package.xml to retrieve both the Profile and Permission Set
+                HashSet<String> selectedItemsSet1 = new HashSet<string> { "EmailTemplate" };
+                StringBuilder packageXmlSB = new StringBuilder();
+
+                // List all the folders using EmailFolder 
+                // and then run another listmetadata() for each folder name and include type = 'EmailTemplate'.
+                //List<ListMetadataQuery> mdqFolderList = new List<ListMetadataQuery>();
+                //ListMetadataQuery mdqFolderQuery = new ListMetadataQuery();
+                //mdqFolderQuery.type = "EmailFolder";
+                //mdqFolderList.Add(mdqFolderQuery);
+
+                //List<FileProperties> sfEmailFolders = new List<FileProperties>();
+                //List<FileProperties> sfEmailFiles = new List<FileProperties>();
+
+                //MetadataService ms = SalesforceCredentials.getMetadataService(reqOrg);
+                //ms.AllowAutoRedirect = true;
+
+                //FileProperties[] sfFolders = ms.listMetadata(mdqFolderList.ToArray(), Convert.ToDouble(Properties.Settings.Default.DefaultAPI));
+
+                //foreach (FileProperties fp in sfFolders)
+                //{
+                //    sfEmailFolders.Add(fp);
+                //}
+
+                List<String> emailMembers = new List<string>();
+
+                QueryResult qr = new QueryResult();
+                qr = SalesforceCredentials.fromOrgSS.query("SELECT Folder.DeveloperName, DeveloperName FROM EmailTemplate");
+
+                Boolean done = false;
+                while (!done)
+                {
+                    if (qr.size > 0)
+                    {
+                        sObject[] sobjRecordsToProcess = qr.records;
+
+                        foreach (sObject s in sobjRecordsToProcess)
+                        {
+                            if (s.Any == null) break;
+
+                            String emailFileName = "";
+
+                            if (s.Any[0].InnerText == "")
+                            {
+                                emailFileName = "unfiled$public";
+                            }
+                            else
+                            {
+                                emailFileName = s.Any[0].InnerText;
+                            }
+
+                            emailFileName = emailFileName + "/" + s.Any[1].InnerText;
+                            emailMembers.Add(emailFileName);
+                        }
+                    }
+
+                    if (qr.done)
+                    {
+                        done = true;
+                    }
+                    else if (qr.size == 0)
+                    {
+                        done = true;
+                    }
+                    else
+                    {
+                        qr = SalesforceCredentials.fromOrgSS.queryMore(qr.queryLocator);
+                    }
+                }
+
+                packageXmlSB = buildEmailTemplatePacageXml(emailMembers);
+
+                RetrieveRequest retrieveRequest = new RetrieveRequest();
+                retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
+                retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
+
+                int waitTimeMilliSecs = 6000;
+                Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "EmailTemplate", sfMdFrm);
+                Task tsk = Task.Run(act);
+
+                while (tsk.IsCanceled == false || tsk.IsCompleted == false || tsk.IsFaulted == false)
+                {
+                    tsk.Wait(waitTimeMilliSecs);
+                }
+            }
+
+            if (sfMdFrm.selectedItems.ContainsKey("Report"))
+            {
+                Dictionary<String, String> reportFolders = new Dictionary<string, string>();
+                List<String> reportMembers = new List<string>();
+
+                QueryResult rf = new QueryResult();
+                rf = SalesforceCredentials.fromOrgSS.query("SELECT Id, DeveloperName FROM Folder");
+
+                Boolean done = false;
+                while (!done)
+                {
+                    if (rf.size > 0)
+                    {
+                        sObject[] sobjRecordsToProcess = rf.records;
+
+                        foreach (sObject s in sobjRecordsToProcess)
+                        {
+                            reportFolders.Add(s.Any[0].InnerText, s.Any[1].InnerText);
+                        }
+                    }
+
+                    if (rf.done)
+                    {
+                        done = true;
+                    }
+                    else if (rf.size == 0)
+                    {
+                        done = true;
+                    }
+                    else
+                    {
+                        rf = SalesforceCredentials.fromOrgSS.queryMore(rf.queryLocator);
+                    }
+                }
+
+
+                QueryResult qr = new QueryResult();
+                qr = SalesforceCredentials.fromOrgSS.query("SELECT OwnerId, DeveloperName FROM Report");
+
+                done = false;
+                while (!done)
+                {
+                    if (qr.size > 0)
+                    {
+                        sObject[] sobjRecordsToProcess = qr.records;
+
+                        foreach (sObject s in sobjRecordsToProcess)
+                        {
+                            if (s.Any == null) break;
+
+                            if (reportFolders.ContainsKey(s.Any[0].InnerText))
+                            {
+                                String reportFileName = reportFolders[s.Any[0].InnerText] + "/" + s.Any[1].InnerText;
+                                reportMembers.Add(reportFileName);
+                            }
+                        }
+                    }
+
+                    if (qr.done)
+                    {
+                        done = true;
+                    }
+                    else if (qr.size == 0)
+                    {
+                        done = true;
+                    }
+                    else
+                    {
+                        qr = SalesforceCredentials.fromOrgSS.queryMore(qr.queryLocator);
+                    }
+                }
+
+                Debug.WriteLine("");
+
+                // Now build the package xml requests with only a specific number of members. The max is 10,000 reports
+
+
+            }
+
+
             // Retrieve the remaining if any are left
             List<String> selectedItemsList2 = new List<string>();
             List<String> completedItemsList = new List<String>();
@@ -209,25 +377,28 @@ namespace SalesforceMetadata
 
             // Parallel For processing of components to see if it is faster
             Int32 threadCount = Properties.Settings.Default.MetadataAynchrounsThreads;
-            if (selectedItemsList2.Count > 0 
-                && selectedItemsList2.Count <= threadCount)
-            {
-                foreach (String mObj in selectedItemsList2)
-                {
-                    HashSet<String> mObjSet = new HashSet<string> { mObj };
-                    StringBuilder packageXmlSB = new StringBuilder();
-                    packageXmlSB = buildPackageXml(UtilityClass.REQUESTINGORG.FROMORG, mObjSet);
+            //if (selectedItemsList2.Count > 0 
+            //    && selectedItemsList2.Count <= threadCount)
+            //{
+            //    foreach (String mObj in selectedItemsList2)
+            //    {
+            //        HashSet<String> mObjSet = new HashSet<string> { mObj };
+            //        StringBuilder packageXmlSB = new StringBuilder();
+            //        packageXmlSB = buildPackageXml(UtilityClass.REQUESTINGORG.FROMORG, mObjSet);
 
-                    RetrieveRequest retrieveRequest = new RetrieveRequest();
-                    retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
-                    retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
+            //        RetrieveRequest retrieveRequest = new RetrieveRequest();
+            //        retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
+            //        retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
 
-                    Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, mObj, sfMdFrm);
-                    Task tsk = Task.Run(act);
-                }
-            }
-            else if (selectedItemsList2.Count > 0
-                && selectedItemsList2.Count > threadCount)
+            //        Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, mObj, sfMdFrm);
+            //        Task tsk = Task.Run(act);
+            //    }
+            //}
+            //else if (selectedItemsList2.Count > 0
+            //    && selectedItemsList2.Count > threadCount)
+            //{
+
+            if(selectedItemsList2.Count > 0)
             {
                 Boolean retrieveComplete = false;
 
@@ -302,6 +473,85 @@ namespace SalesforceMetadata
         }
 
         // Add metadata types
+
+        private StringBuilder buildEmailTemplatePacageXml(List<String> emailMembers)
+        {
+            StringBuilder packageXmlSB = new StringBuilder();
+            packageXmlSB.Append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine);
+            packageXmlSB.Append("<Package xmlns = \"http://soap.sforce.com/2006/04/metadata\">" + Environment.NewLine);
+
+            packageXmlSB.Append("<types>" + Environment.NewLine);
+
+            foreach (String emailFileName in emailMembers)
+            {
+                packageXmlSB.Append("<members>" + emailFileName + "</members>" + Environment.NewLine);
+            }
+
+            packageXmlSB.Append("<name>EmailTemplate</name>" + Environment.NewLine);
+            packageXmlSB.Append("</types>" + Environment.NewLine);
+
+            alreadyAdded.Add("EmailTemplate");
+
+            return packageXmlSB;
+        }
+
+        private StringBuilder buildReportPackageXml()
+        {
+            StringBuilder packageXmlSB = new StringBuilder();
+            packageXmlSB.Append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine);
+            packageXmlSB.Append("<Package xmlns = \"http://soap.sforce.com/2006/04/metadata\">" + Environment.NewLine);
+
+            //MetadataService ms = SalesforceCredentials.getMetadataService(reqOrg);
+            //ms.AllowAutoRedirect = true;
+
+            //packageXmlSB.Append("<types>" + Environment.NewLine);
+
+            //List<ListMetadataQuery> mdqFolderList = new List<ListMetadataQuery>();
+            //ListMetadataQuery mdqFolderQuery = new ListMetadataQuery();
+            //mdqFolderQuery.type = "ReportFolder";
+            //mdqFolderList.Add(mdqFolderQuery);
+
+            //List<FileProperties> sfReportFolders = new List<FileProperties>();
+            //List<FileProperties> sfReportFiles = new List<FileProperties>();
+
+            //FileProperties[] sfFolders = ms.listMetadata(mdqFolderList.ToArray(), Convert.ToDouble(Properties.Settings.Default.DefaultAPI));
+
+            //foreach (FileProperties fp in sfFolders)
+            //{
+            //    sfReportFolders.Add(fp);
+            //}
+
+            //// Now loop through the sfReportFolders and retrieve the report names in those folders
+            //mdqFolderList.Clear();
+            //foreach (FileProperties fp in sfReportFolders)
+            //{
+            //    // No more than 3 folders are allowed in the Folder List
+            //    ListMetadataQuery mdqf = new ListMetadataQuery();
+            //    mdqf.folder = fp.fullName;
+            //    mdqf.type = "Report";
+            //    mdqFolderList.Add(mdqf);
+
+            //    FileProperties[] sfFiles = getFolderItems(mdqFolderList, ms);
+
+            //    // now add these to the XML
+            //    if (sfFiles != null)
+            //    {
+            //        foreach (FileProperties sff in sfFiles)
+            //        {
+            //            packageXmlSB.Append("<members>" + sff.fullName + "</members>" + Environment.NewLine);
+            //        }
+            //    }
+
+            //    mdqFolderList.Clear();
+            //}
+
+            //packageXmlSB.Append("<name>Report</name>" + Environment.NewLine);
+            //packageXmlSB.Append("</types>" + Environment.NewLine);
+
+
+            return packageXmlSB;
+        }
+
         private StringBuilder buildPackageXml(UtilityClass.REQUESTINGORG reqOrg, HashSet<String> selectedItems)
         {
             StringBuilder packageXmlSB = new StringBuilder();
@@ -327,57 +577,6 @@ namespace SalesforceMetadata
                         members.AddRange(getTabDescribe(reqOrg));
                         getMetadataTypes("CustomTab", packageXmlSB, members.ToArray());
                     }
-                }
-                else if (selected == "EmailTemplate" && !alreadyAdded.Contains(selected))
-                {
-                    packageXmlSB.Append("<types>" + Environment.NewLine);
-
-                    // List all the folders using EmailFolder 
-                    // and then run another listmetadata() for each folder name and include type = 'EmailTemplate'.
-                    List<ListMetadataQuery> mdqFolderList = new List<ListMetadataQuery>();
-                    ListMetadataQuery mdqFolderQuery = new ListMetadataQuery();
-                    mdqFolderQuery.type = "EmailFolder";
-                    mdqFolderList.Add(mdqFolderQuery);
-
-                    List<FileProperties> sfEmailFolders = new List<FileProperties>();
-                    List<FileProperties> sfEmailFiles = new List<FileProperties>();
-
-                    FileProperties[] sfFolders = ms.listMetadata(mdqFolderList.ToArray(), Convert.ToDouble(Properties.Settings.Default.DefaultAPI));
-
-                    foreach (FileProperties fp in sfFolders)
-                    {
-                        sfEmailFolders.Add(fp);
-                    }
-
-                    QueryResult qr = new QueryResult();
-                    qr = SalesforceCredentials.fromOrgSS.query("SELECT Folder.DeveloperName, DeveloperName FROM EmailTemplate");
-
-                    sObject[] sobjRecordsToProcess = qr.records;
-
-                    foreach (sObject s in sobjRecordsToProcess)
-                    {
-                        if (s.Any == null) break;
-
-                        String emailFileName = "";
-
-                        if (s.Any[0].InnerText == "")
-                        {
-                            emailFileName = "unfiled$public";
-                        }
-                        else
-                        {
-                            emailFileName = s.Any[0].InnerText;
-                        }
-
-                        emailFileName = emailFileName + "/" + s.Any[1].InnerText;
-
-                        packageXmlSB.Append("<members>" + emailFileName + "</members>" + Environment.NewLine);
-                    }
-
-                    packageXmlSB.Append("<name>EmailTemplate</name>" + Environment.NewLine);
-                    packageXmlSB.Append("</types>" + Environment.NewLine);
-
-                    alreadyAdded.Add(selected);
                 }
                 else if ((selected == "PermissionSet"
                             || selected == "Profile")
@@ -423,52 +622,6 @@ namespace SalesforceMetadata
                     getMetadataTypes(selected, packageXmlSB, members.ToArray());
 
                     alreadyAdded.Add(selected);
-                }
-                else if (selected == "Report")
-                {
-                    packageXmlSB.Append("<types>" + Environment.NewLine);
-
-                    List<ListMetadataQuery> mdqFolderList = new List<ListMetadataQuery>();
-                    ListMetadataQuery mdqFolderQuery = new ListMetadataQuery();
-                    mdqFolderQuery.type = "ReportFolder";
-                    mdqFolderList.Add(mdqFolderQuery);
-
-                    List<FileProperties> sfReportFolders = new List<FileProperties>();
-                    List<FileProperties> sfReportFiles = new List<FileProperties>();
-
-                    FileProperties[] sfFolders = ms.listMetadata(mdqFolderList.ToArray(), Convert.ToDouble(Properties.Settings.Default.DefaultAPI));
-
-                    foreach (FileProperties fp in sfFolders)
-                    {
-                        sfReportFolders.Add(fp);
-                    }
-
-                    // Now loop through the sfReportFolders and retrieve the report names in those folders
-                    mdqFolderList.Clear();
-                    foreach (FileProperties fp in sfReportFolders)
-                    {
-                        // No more than 3 folders are allowed in the Folder List
-                        ListMetadataQuery mdqf = new ListMetadataQuery();
-                        mdqf.folder = fp.fullName;
-                        mdqf.type = "Report";
-                        mdqFolderList.Add(mdqf);
-
-                        FileProperties[] sfFiles = getFolderItems(mdqFolderList, ms);
-
-                        // now add these to the XML
-                        if (sfFiles != null)
-                        {
-                            foreach (FileProperties sff in sfFiles)
-                            {
-                                packageXmlSB.Append("<members>" + sff.fullName + "</members>" + Environment.NewLine);
-                            }
-                        }
-
-                        mdqFolderList.Clear();
-                    }
-
-                    packageXmlSB.Append("<name>Report</name>" + Environment.NewLine);
-                    packageXmlSB.Append("</types>" + Environment.NewLine);
                 }
                 else if (selected == "StandardValueSet")
                 {
@@ -771,7 +924,7 @@ namespace SalesforceMetadata
                     result.status = RetrieveStatus.Failed;
                     result.done = true;
 
-                    String processingMsg2 = "    Request timed out.If this is a large set of metadata components, check that the time allowed by MAX_NUM_POLL_REQUESTS is sufficient." + Environment.NewLine + Environment.NewLine;
+                    String processingMsg2 = "    Request timed out. If this is a large set of metadata components, check that the time allowed by MAX_NUM_POLL_REQUESTS is sufficient." + Environment.NewLine + Environment.NewLine;
                     var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2, sfMdFrm); });
                     var thread2 = new System.Threading.Thread(threadParameters2);
                     thread2.Start();
@@ -807,6 +960,15 @@ namespace SalesforceMetadata
                     else if (result.status == RetrieveStatus.Failed)
                     {
                         result.done = true;
+
+                        String processingMsg2 = "    " + result.errorMessage + Environment.NewLine + Environment.NewLine;
+                        var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2, sfMdFrm); });
+                        var thread2 = new System.Threading.Thread(threadParameters2);
+                        thread2.Start();
+                        while (thread2.ThreadState == System.Threading.ThreadState.Running)
+                        {
+                            // do nothing. Just want for the thread to complete
+                        }
                     }
                 }
             }

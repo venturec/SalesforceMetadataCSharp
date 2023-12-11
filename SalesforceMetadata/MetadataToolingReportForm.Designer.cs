@@ -92,9 +92,6 @@
             "GlobalValueSet",
             "Layout",
             "LightningComponentBundle",
-            "PermissionSet",
-            "PermissionSetGroup",
-            "Profile",
             "RecordType",
             "ValidationRule",
             "WorkflowAlert",
@@ -104,7 +101,7 @@
             "WorkflowTask"});
             this.lbToolingObjects.Location = new System.Drawing.Point(15, 99);
             this.lbToolingObjects.Name = "lbToolingObjects";
-            this.lbToolingObjects.Size = new System.Drawing.Size(387, 484);
+            this.lbToolingObjects.Size = new System.Drawing.Size(387, 472);
             this.lbToolingObjects.TabIndex = 3;
             // 
             // lblStatus

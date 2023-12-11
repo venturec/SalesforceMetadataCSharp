@@ -101,9 +101,9 @@ namespace SalesforceMetadata
             Dictionary<String, String> customObjIdToName = new Dictionary<String, String>();
             Dictionary<String, String> classIdToClassName = new Dictionary<String, String>();
 
-            getCustomObject(xlWorkbook, customObjIdToName);
-            getCustomField(xlWorkbook, customObjIdToName, objectFieldNameToLabel);
-            getApexClass(xlWorkbook, customObjIdToName, retrieveCodeCoverage);
+            //getCustomObject(xlWorkbook, customObjIdToName);
+            //getCustomField(xlWorkbook, customObjIdToName, objectFieldNameToLabel);
+            //getApexClass(xlWorkbook, customObjIdToName, retrieveCodeCoverage);
 
             // Run a new Thread for the rest of the objects
             foreach (String objType in selectedItems)
@@ -263,6 +263,50 @@ namespace SalesforceMetadata
             {
                 query = ToolingApiHelper.LightningComponentBundleQuery();
                 ToolingApiHelper.lwcToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+            }
+            else if (toolingObject == "Profile")
+            {
+                //List<String> profileNames = new List<string>();
+
+                //Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
+                //SalesforceMetadata.PartnerWSDL.QueryResult qr = new SalesforceMetadata.PartnerWSDL.QueryResult();
+                //qr = SalesforceCredentials.fromOrgSS.query("SELECT Id, Name FROM Profile");
+
+                //Boolean done = false;
+                //while (!done)
+                //{
+                //    if (qr.size > 0)
+                //    {
+                //        SalesforceMetadata.PartnerWSDL.sObject[] sobjRecordsToProcess = qr.records;
+
+                //        foreach (SalesforceMetadata.PartnerWSDL.sObject s in sobjRecordsToProcess)
+                //        {
+                //            profileNames.Add(s.Any[0].InnerText);
+                //        }
+                //    }
+
+                //    if (qr.done)
+                //    {
+                //        done = true;
+                //    }
+                //    else if (qr.size == 0)
+                //    {
+                //        done = true;
+                //    }
+                //    else
+                //    {
+                //        qr = SalesforceCredentials.fromOrgSS.queryMore(qr.queryLocator);
+                //    }
+                //}
+
+                //if (profileNames.Count > 0)
+                //{
+                //    foreach (String pn in profileNames)
+                //    {
+                //        query = ToolingApiHelper.ProfileQuery(pn);
+                //        ToolingApiHelper.profileToFile(query, UtilityClass.REQUESTINGORG.FROMORG);
+                //    }
+                //}
             }
             else if (toolingObject == "RecordType")
             {

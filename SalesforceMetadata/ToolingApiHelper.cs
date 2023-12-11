@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using SalesforceMetadata.PartnerWSDL;
 using SalesforceMetadata.MetadataWSDL;
 using SalesforceMetadata.ToolingWSDL;
+using System.Security.Policy;
 
 
 namespace SalesforceMetadata
@@ -1513,7 +1514,7 @@ namespace SalesforceMetadata
 
         public static String ProfileQuery()
         {
-            String query = "SELECT Id, " +
+            String query = "SELECT Id, Name, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM Profile";
 
@@ -6452,6 +6453,46 @@ namespace SalesforceMetadata
                 }
             }
         }
+
+
+        public static void profileToFile(String query,
+                                      UtilityClass.REQUESTINGORG reqOrg)
+        {
+            // Make a call to the Tooling API to retrieve the ApexClassMember passing in the ApexClass IDs
+            SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
+            SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
+
+            if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
+            {
+                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+            }
+
+            if (toolingQr.records == null) return;
+
+            toolingRecords = toolingQr.records;
+
+            Boolean done = false;
+            while (done == false)
+            {
+                foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
+                {
+                    SalesforceMetadata.ToolingWSDL.Profile1 prof = (SalesforceMetadata.ToolingWSDL.Profile1)toolingRecord;
+
+                    Console.WriteLine();
+
+                }
+
+                if (toolingQr.done)
+                {
+                    done = true;
+                }
+                else
+                {
+                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                }
+            }
+        }
+
 
         public static void recordTypesToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                       String query,

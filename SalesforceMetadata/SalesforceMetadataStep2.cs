@@ -65,7 +65,7 @@ namespace SalesforceMetadata
 
                 this.rtMessages.Text = "";
                 this.extractToFolder = "";
-                String target_dir = "";
+                String target_dir = this.tbFromOrgSaveLocation.Text;
 
                 // Now build the target_dir and extractToFolder
                 String[] urlParsed = SalesforceCredentials.fromOrgLR.serverUrl.Split('/');
@@ -200,10 +200,67 @@ namespace SalesforceMetadata
             // In order to retrieve the Profiles/Permission sets, we have to include the metadata objects related to them, otherwise it only returns the system values.
             if (sfMdFrm.selectedItems.ContainsKey("Profile"))
             {
+                List<String> profileIds = new List<String>();
+                List<String> profileNames = new List<string>();
+
+                Boolean loginSuccess = SalesforceCredentials.salesforceToolingLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
+                SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
+                SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
+
+                String query = ToolingApiHelper.ProfileQuery();
+
+                if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
+                {
+                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                }
+
+                if (toolingQr.records == null) return;
+
+                toolingRecords = toolingQr.records;
+
+                Boolean done = false;
+                while (done == false)
+                {
+                    foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
+                    {
+                        SalesforceMetadata.ToolingWSDL.Profile1 prof = (SalesforceMetadata.ToolingWSDL.Profile1)toolingRecord;
+                        profileIds.Add(prof.Id);
+                    }
+
+                    if (toolingQr.done)
+                    {
+                        done = true;
+                    }
+                    else
+                    {
+                        toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    }
+                }
+
+                foreach(String profileId in profileIds)
+                {
+                    query = "SELECT FullName FROM Profile WHERE Id = '" + profileId + "'";
+                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                    if (toolingQr.records == null) return;
+                    toolingRecords = toolingQr.records;
+                    foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
+                    {
+                        SalesforceMetadata.ToolingWSDL.Profile1 prof = (SalesforceMetadata.ToolingWSDL.Profile1)toolingRecord;
+                        profileNames.Add(prof.FullName);
+                    }
+                }
+
+
+                List<String> selectedProfileNames = new List<String>();
+                for (Int32 i = 0; i < 5; i++)
+                {
+                    selectedProfileNames.Add(profileNames[i]);
+                }
+
                 // Build the package.xml to retrieve both the Profile and Permission Set
                 HashSet<String> selectedItemsSet1 = new HashSet<string> { "Profile" };
                 StringBuilder packageXmlSB = new StringBuilder();
-                packageXmlSB = buildPackageXml(UtilityClass.REQUESTINGORG.FROMORG, selectedItemsSet1);
+                packageXmlSB = buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG.FROMORG, "Profile", selectedProfileNames);
 
                 RetrieveRequest retrieveRequest = new RetrieveRequest();
                 retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
@@ -546,6 +603,79 @@ namespace SalesforceMetadata
             return packageXmlSB;
         }
 
+        private StringBuilder buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG reqOrg, String metadataType, List<String> profPermSetMembers)
+        {
+            StringBuilder packageXmlSB = new StringBuilder();
+            packageXmlSB.Append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine);
+            packageXmlSB.Append("<Package xmlns = \"http://soap.sforce.com/2006/04/metadata\">" + Environment.NewLine);
+
+            MetadataService ms = SalesforceCredentials.getMetadataService(reqOrg);
+            ms.AllowAutoRedirect = true;
+
+            List<String> members = new List<String>();
+            members.Add("*");
+
+            getMetadataTypes("ApexClass", packageXmlSB, members.ToArray());
+            getMetadataTypes("ApexComponent", packageXmlSB, members.ToArray());
+            getMetadataTypes("ApexPage", packageXmlSB, members.ToArray());
+            getMetadataTypes("ApexTrigger", packageXmlSB, members.ToArray());
+            getMetadataTypes("ConnectedApp", packageXmlSB, members.ToArray());
+            getMetadataTypes("CustomApplication", packageXmlSB, members.ToArray());
+            getMetadataTypes("CustomApplicationComponent", packageXmlSB, members.ToArray());
+            getMetadataTypes("CustomMetadata", packageXmlSB, members.ToArray());
+            getMetadataTypes("CustomPermissions", packageXmlSB, members.ToArray());
+            getMetadataTypes("ExternalDataSource", packageXmlSB, members.ToArray());
+            getMetadataTypes("Flow", packageXmlSB, members.ToArray());
+            getMetadataTypes("FlowDefinition", packageXmlSB, members.ToArray());
+            getMetadataTypes("Layout", packageXmlSB, members.ToArray());
+            getMetadataTypes("NamedCredential", packageXmlSB, members.ToArray());
+            getMetadataTypes("ServicePresenceStatus", packageXmlSB, members.ToArray());
+
+            members.Clear();
+            members.AddRange(getTabDescribe(reqOrg));
+            getMetadataTypes("CustomTab", packageXmlSB, members.ToArray());
+
+            // Clear the * to allow for accessing all Sobjects in the org
+            members.Clear();
+            members = getSObjectMembers(reqOrg);
+            getMetadataTypes("CustomObject", packageXmlSB, members.ToArray());
+
+            // Reset the default members to the flag for all members and add the additional types selected.
+            members.Clear();
+
+            packageXmlSB.Append("<types>" + Environment.NewLine);
+
+            foreach (String prof in profPermSetMembers)
+            {
+                packageXmlSB.Append("<members>" + prof + "</members>" + Environment.NewLine);
+            }
+
+            packageXmlSB.Append("<name>" + metadataType + "</name>" + Environment.NewLine);
+            packageXmlSB.Append("</types>" + Environment.NewLine);
+            packageXmlSB.Append("<version>" + Properties.Settings.Default.DefaultAPI + "</version>" + Environment.NewLine);
+            packageXmlSB.Append("</Package>");
+
+            alreadyAdded.Add("ApexClass");
+            alreadyAdded.Add("ApexComponent");
+            alreadyAdded.Add("ApexPage");
+            alreadyAdded.Add("ApexTrigger");
+            alreadyAdded.Add("ConnectedApp");
+            alreadyAdded.Add("CustomApplication");
+            alreadyAdded.Add("CustomApplicationComponent");
+            alreadyAdded.Add("CustomMetadata");
+            alreadyAdded.Add("CustomPermissions");
+            alreadyAdded.Add("ExternalDataSource");
+            alreadyAdded.Add("Flow");
+            alreadyAdded.Add("FlowDefinition");
+            alreadyAdded.Add("Layout");
+            alreadyAdded.Add("NamedCredential");
+            alreadyAdded.Add("ServicePresenceStatus");
+            alreadyAdded.Add("CustomTab");
+            alreadyAdded.Add("CustomObject");
+
+            return packageXmlSB;
+        }
+
         private StringBuilder buildReportPackageXml(List<String> reportMembers)
         {
             StringBuilder packageXmlSB = new StringBuilder();
@@ -584,62 +714,16 @@ namespace SalesforceMetadata
                     List<String> members = new List<String>();
                     members.AddRange(getSObjectMembers(reqOrg));
                     getMetadataTypes("CustomObject", packageXmlSB, members.ToArray());
-                }
-                else if (selected == "CustomTab")
-                {
-                    List<String> members = new List<String>();
-                    if (!alreadyAdded.Contains("CustomTab"))
-                    {
-                        members.AddRange(getTabDescribe(reqOrg));
-                        getMetadataTypes("CustomTab", packageXmlSB, members.ToArray());
-                    }
-                }
-                else if ((selected == "PermissionSet"
-                            || selected == "Profile")
-                            && !alreadyAdded.Contains(selected))
-                {
-                    List<String> members = new List<String>();
-                    members.Add("*");
-
-                    getMetadataTypes("ApexClass", packageXmlSB, members.ToArray());
-                    getMetadataTypes("ApexComponent", packageXmlSB, members.ToArray());
-                    getMetadataTypes("ApexPage", packageXmlSB, members.ToArray());
-                    getMetadataTypes("ApexTrigger", packageXmlSB, members.ToArray());
-                    getMetadataTypes("ConnectedApp", packageXmlSB, members.ToArray());
-                    getMetadataTypes("CustomApplication", packageXmlSB, members.ToArray());
-                    getMetadataTypes("CustomApplicationComponent", packageXmlSB, members.ToArray());
-                    getMetadataTypes("CustomMetadata", packageXmlSB, members.ToArray());
-                    getMetadataTypes("CustomPermissions", packageXmlSB, members.ToArray());
-                    getMetadataTypes("ExternalDataSource", packageXmlSB, members.ToArray());
-                    getMetadataTypes("Flow", packageXmlSB, members.ToArray());
-                    getMetadataTypes("FlowDefinition", packageXmlSB, members.ToArray());
-                    getMetadataTypes("Layout", packageXmlSB, members.ToArray());
-                    getMetadataTypes("NamedCredential", packageXmlSB, members.ToArray());
-                    getMetadataTypes("ServicePresenceStatus", packageXmlSB, members.ToArray());
-
-                    members.Clear();
-                    if (!alreadyAdded.Contains("CustomTab"))
-                    {
-                        members.AddRange(getTabDescribe(reqOrg));
-                        getMetadataTypes("CustomTab", packageXmlSB, members.ToArray());
-                    }
-
-                    // Clear the * to allow for accessing all Sobjects in the org
-                    members.Clear();
-                    if (!alreadyAdded.Contains("CustomObject"))
-                    {
-                        members = getSObjectMembers(reqOrg);
-                        getMetadataTypes("CustomObject", packageXmlSB, members.ToArray());
-                    }
-
-                    // Reset the default members to the flag for all members and add the additional types selected.
-                    members.Clear();
-                    members.Add("*");
-                    getMetadataTypes(selected, packageXmlSB, members.ToArray());
-
                     alreadyAdded.Add(selected);
                 }
-                else if (selected == "StandardValueSet")
+                else if (selected == "CustomTab" && !alreadyAdded.Contains(selected))
+                {
+                    List<String> members = new List<String>();
+                    members.AddRange(getTabDescribe(reqOrg));
+                    getMetadataTypes("CustomTab", packageXmlSB, members.ToArray());
+                    alreadyAdded.Add(selected);
+                }
+                else if (selected == "StandardValueSet" && !alreadyAdded.Contains(selected))
                 {
                     packageXmlSB.Append("<types>" + Environment.NewLine);
                     packageXmlSB.Append("<members>AccountContactMultiRoles</members>" + Environment.NewLine);
@@ -724,15 +808,16 @@ namespace SalesforceMetadata
 
                     packageXmlSB.Append("<name>StandardValueSet</name>" + Environment.NewLine);
                     packageXmlSB.Append("</types>" + Environment.NewLine);
+
+                    alreadyAdded.Add(selected);
                 }
-                else
+                else if (!alreadyAdded.Contains(selected))
                 {
                     String[] members = new String[1];
                     members[0] = "*";
                     getMetadataTypes(selected, packageXmlSB, members);
+                    alreadyAdded.Add(selected);
                 }
-
-                alreadyAdded.Add(selected);
             }
 
             packageXmlSB.Append("<version>" + Properties.Settings.Default.DefaultAPI + "</version>" + Environment.NewLine);
@@ -839,22 +924,17 @@ namespace SalesforceMetadata
 
         private void getMetadataTypes(String metadataObjectName, StringBuilder packageXmlSB, String[] members)
         {
-            if (!alreadyAdded.Contains(metadataObjectName))
+            packageXmlSB.Append("<types>" + Environment.NewLine);
+
+            foreach (String s in members)
             {
-                packageXmlSB.Append("<types>" + Environment.NewLine);
-
-                foreach (String s in members)
-                {
-                    packageXmlSB.Append("<members>");
-                    packageXmlSB.Append(s);
-                    packageXmlSB.Append("</members>" + Environment.NewLine);
-                }
-
-                packageXmlSB.Append("<name>" + metadataObjectName + "</name>" + Environment.NewLine);
-                packageXmlSB.Append("</types>" + Environment.NewLine);
-
-                alreadyAdded.Add(metadataObjectName);
+                packageXmlSB.Append("<members>");
+                packageXmlSB.Append(s);
+                packageXmlSB.Append("</members>" + Environment.NewLine);
             }
+
+            packageXmlSB.Append("<name>" + metadataObjectName + "</name>" + Environment.NewLine);
+            packageXmlSB.Append("</types>" + Environment.NewLine);
         }
 
         private Package parsePackageManifest(String packageXmlContents)

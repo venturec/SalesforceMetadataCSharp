@@ -190,7 +190,7 @@ namespace SalesforceMetadata
                 Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "PermissionSet", sfMdFrm);
                 Task tsk = Task.Run(act);
 
-                while (tsk.IsCanceled == false || tsk.IsCompleted == false || tsk.IsFaulted == false)
+                while (tsk.IsCanceled == false && tsk.IsCompleted == false && tsk.IsFaulted == false)
                 {
                     tsk.Wait(waitTimeMilliSecs);
                 }
@@ -270,7 +270,7 @@ namespace SalesforceMetadata
                 Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "Profile", sfMdFrm);
                 Task tsk = Task.Run(act);
 
-                while (tsk.IsCanceled == false || tsk.IsCompleted == false || tsk.IsFaulted == false)
+                while (tsk.IsCanceled == false && tsk.IsCompleted == false && tsk.IsFaulted == false)
                 {
                     tsk.Wait(waitTimeMilliSecs);
                 }
@@ -338,7 +338,7 @@ namespace SalesforceMetadata
                 Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "EmailTemplate", sfMdFrm);
                 Task tsk = Task.Run(act);
 
-                while (tsk.IsCanceled == false || tsk.IsCompleted == false || tsk.IsFaulted == false)
+                while (tsk.IsCanceled == false && tsk.IsCompleted == false && tsk.IsFaulted == false)
                 {
                     tsk.Wait(waitTimeMilliSecs);
                 }
@@ -356,6 +356,7 @@ namespace SalesforceMetadata
 
                 QueryResult rf = new QueryResult();
                 rf = SalesforceCredentials.fromOrgSS.query("SELECT Id, DeveloperName FROM Folder");
+
 
                 Boolean done = false;
                 while (!done)

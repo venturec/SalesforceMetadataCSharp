@@ -76,7 +76,7 @@ namespace SalesforceMetadata
 
                 try
                 {
-                    fromOrgSS.Timeout = 5000;
+                    fromOrgSS.Timeout = 10000;
 
                     if (isProduction[userName] == false)
                     {

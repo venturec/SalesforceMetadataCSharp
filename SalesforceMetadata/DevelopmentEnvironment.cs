@@ -1091,6 +1091,12 @@ namespace SalesforceMetadata
             }
 
             sw.WriteLine("<version>" + Properties.Settings.Default.DefaultAPI + "</version>");
+
+            if (this.tbOutboundChangeSetName.Text != "")
+            {
+                sw.WriteLine("<fullName>" + this.tbOutboundChangeSetName.Text + "</fullName>");
+            }
+
             sw.WriteLine("</Package>");
 
             sw.Close();
@@ -1191,6 +1197,7 @@ namespace SalesforceMetadata
                 this.tbDeployFrom.Text = sr.ReadLine();
                 this.tbRepository.Text = sr.ReadLine();
                 this.tbRootFolder.Text = sr.ReadLine();
+                this.tbOutboundChangeSetName.Text = sr.ReadLine();
 
                 Properties.Settings.Default.DevelopmentSelectedFolder = this.tbProjectFolder.Text;
                 Properties.Settings.Default.DevelopmentDeploymentFolder = this.tbDeployFrom.Text;
@@ -1399,6 +1406,15 @@ namespace SalesforceMetadata
                 sw.WriteLine(Properties.Settings.Default.DevelopmentDeploymentFolder);
                 sw.WriteLine(Properties.Settings.Default.RepositoryPath);
                 sw.WriteLine(Properties.Settings.Default.IDEProjectRoot);
+
+                if (this.tbOutboundChangeSetName.Text != "")
+                {
+                    sw.WriteLine(this.tbOutboundChangeSetName.Text);
+                }
+                else
+                {
+                    sw.WriteLine("");
+                }
 
                 sw.Close();
             }
@@ -1707,6 +1723,15 @@ namespace SalesforceMetadata
                 String orgName = userNamesplit[userNamesplit.Length - 1].ToUpper();
                 this.Text = "DevelopmentEnvironment - " + orgName;
             }
+        }
+
+        private void tbOutboundChangeSetName_MouseHover(object sender, EventArgs e)
+        {
+            TextBox TB = (TextBox)sender;
+            int VisibleTime = 10000;  //in milliseconds
+
+            ToolTip tt = new ToolTip();
+            tt.Show("If you have a open Salesforce Outbound Change Set, add the Change Set Name here. When deployed, your changes will be added to the change set.", TB, 0, 0, VisibleTime);
         }
     }
 }

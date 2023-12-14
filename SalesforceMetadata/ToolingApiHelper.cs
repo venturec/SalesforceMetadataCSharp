@@ -1034,7 +1034,7 @@ namespace SalesforceMetadata
 
         public static String GroupQuery()
         {
-            String query = "SELECT Id, DeveloperName, Type, OwnerId, RelatedId, " +
+            String query = "SELECT Id, Name, DeveloperName, Type, DoesIncludeBosses, OwnerId, RelatedId, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM Group";
 
@@ -6539,16 +6539,18 @@ namespace SalesforceMetadata
 
             xlWorksheet.Name = "Group";
             xlWorksheet.Cells[1, 1].Value = "Id";
-            xlWorksheet.Cells[1, 2].Value = "DeveloperName";
-            xlWorksheet.Cells[1, 3].Value = "Type";
-            xlWorksheet.Cells[1, 4].Value = "OwnerId";
-            xlWorksheet.Cells[1, 5].Value = "RelatedId";
-            xlWorksheet.Cells[1, 6].Value = "CreatedById";
-            xlWorksheet.Cells[1, 7].Value = "CreatedByName";
-            xlWorksheet.Cells[1, 8].Value = "LastModifiedById";
-            xlWorksheet.Cells[1, 9].Value = "LastModifiedByName";
-            xlWorksheet.Cells[1, 10].Value = "CreatedDate";
-            xlWorksheet.Cells[1, 11].Value = "LastModifiedDate";
+            xlWorksheet.Cells[1, 2].Value = "Name";
+            xlWorksheet.Cells[1, 3].Value = "DeveloperName";
+            xlWorksheet.Cells[1, 4].Value = "Type";
+            xlWorksheet.Cells[1, 5].Value = "DoesIncludeBosses";
+            xlWorksheet.Cells[1, 6].Value = "OwnerId";
+            xlWorksheet.Cells[1, 7].Value = "RelatedId";
+            xlWorksheet.Cells[1, 8].Value = "CreatedById";
+            xlWorksheet.Cells[1, 9].Value = "CreatedByName";
+            xlWorksheet.Cells[1, 10].Value = "LastModifiedById";
+            xlWorksheet.Cells[1, 11].Value = "LastModifiedByName";
+            xlWorksheet.Cells[1, 12].Value = "CreatedDate";
+            xlWorksheet.Cells[1, 13].Value = "LastModifiedDate";
 
             Int32 rowNumber = 2;
             Boolean done = false;
@@ -6560,34 +6562,36 @@ namespace SalesforceMetadata
                     SalesforceMetadata.ToolingWSDL.Group1 groupRes = (SalesforceMetadata.ToolingWSDL.Group1)toolingRecord;
 
                     xlWorksheet.Cells[rowNumber, 1].Value = groupRes.Id;
-                    xlWorksheet.Cells[rowNumber, 2].Value = groupRes.DeveloperName;
-                    xlWorksheet.Cells[rowNumber, 3].Value = groupRes.Type;
-                    xlWorksheet.Cells[rowNumber, 4].Value = groupRes.OwnerId;
-                    xlWorksheet.Cells[rowNumber, 5].Value = groupRes.RelatedId;
-                    xlWorksheet.Cells[rowNumber, 6].Value = groupRes.CreatedById;
+                    xlWorksheet.Cells[rowNumber, 2].Value = groupRes.Name;
+                    xlWorksheet.Cells[rowNumber, 3].Value = groupRes.DeveloperName;
+                    xlWorksheet.Cells[rowNumber, 4].Value = groupRes.Type;
+                    xlWorksheet.Cells[rowNumber, 5].Value = groupRes.DoesIncludeBosses;
+                    xlWorksheet.Cells[rowNumber, 6].Value = groupRes.OwnerId;
+                    xlWorksheet.Cells[rowNumber, 7].Value = groupRes.RelatedId;
+                    xlWorksheet.Cells[rowNumber, 8].Value = groupRes.CreatedById;
 
                     if (groupRes.CreatedBy == null)
-                    {
-                        xlWorksheet.Cells[rowNumber, 7].Value = "";
-                    }
-                    else
-                    {
-                        xlWorksheet.Cells[rowNumber, 7].Value = groupRes.CreatedBy.Name;
-                    }
-
-                    xlWorksheet.Cells[rowNumber, 8].Value = groupRes.LastModifiedById;
-
-                    if (groupRes.LastModifiedBy == null)
                     {
                         xlWorksheet.Cells[rowNumber, 9].Value = "";
                     }
                     else
                     {
-                        xlWorksheet.Cells[rowNumber, 9].Value = groupRes.LastModifiedBy.Name;
+                        xlWorksheet.Cells[rowNumber, 9].Value = groupRes.CreatedBy.Name;
                     }
 
-                    xlWorksheet.Cells[rowNumber, 10].Value = groupRes.CreatedDate;
-                    xlWorksheet.Cells[rowNumber, 11].Value = groupRes.LastModifiedDate;
+                    xlWorksheet.Cells[rowNumber, 10].Value = groupRes.LastModifiedById;
+
+                    if (groupRes.LastModifiedBy == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 11].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 11].Value = groupRes.LastModifiedBy.Name;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 12].Value = groupRes.CreatedDate;
+                    xlWorksheet.Cells[rowNumber, 13].Value = groupRes.LastModifiedDate;
 
                     rowNumber++;
                 }

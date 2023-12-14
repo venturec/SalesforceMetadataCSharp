@@ -66,6 +66,8 @@
             this.btnSearchMetadata = new System.Windows.Forms.Button();
             this.btnDebugLogs = new System.Windows.Forms.Button();
             this.delMyDebugLogs = new System.Windows.Forms.Button();
+            this.lblOutboundChangeSetName = new System.Windows.Forms.Label();
+            this.tbOutboundChangeSetName = new System.Windows.Forms.TextBox();
             msIDE = new System.Windows.Forms.MenuStrip();
             msIDE.SuspendLayout();
             this.fromOrgGroup.SuspendLayout();
@@ -84,7 +86,7 @@
             msIDE.Location = new System.Drawing.Point(0, 0);
             msIDE.Name = "msIDE";
             msIDE.Size = new System.Drawing.Size(1481, 27);
-            msIDE.TabIndex = 19;
+            msIDE.TabIndex = 20;
             msIDE.Text = "IDE Menu";
             // 
             // fileToolStripMenuItem
@@ -216,10 +218,10 @@
             // 
             this.treeViewMetadata.CheckBoxes = true;
             this.treeViewMetadata.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeViewMetadata.Location = new System.Drawing.Point(14, 288);
+            this.treeViewMetadata.Location = new System.Drawing.Point(14, 310);
             this.treeViewMetadata.Name = "treeViewMetadata";
             this.treeViewMetadata.Size = new System.Drawing.Size(880, 639);
-            this.treeViewMetadata.TabIndex = 12;
+            this.treeViewMetadata.TabIndex = 14;
             this.treeViewMetadata.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMetadata_AfterCheck);
             this.treeViewMetadata.Click += new System.EventHandler(this.treeViewMetadata_Click);
             this.treeViewMetadata.DoubleClick += new System.EventHandler(this.treeViewMetadata_DoubleClick);
@@ -267,10 +269,10 @@
             // btnRetrieveFromOrg
             // 
             this.btnRetrieveFromOrg.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRetrieveFromOrg.Location = new System.Drawing.Point(16, 240);
+            this.btnRetrieveFromOrg.Location = new System.Drawing.Point(16, 262);
             this.btnRetrieveFromOrg.Name = "btnRetrieveFromOrg";
             this.btnRetrieveFromOrg.Size = new System.Drawing.Size(159, 34);
-            this.btnRetrieveFromOrg.TabIndex = 9;
+            this.btnRetrieveFromOrg.TabIndex = 11;
             this.btnRetrieveFromOrg.Text = "Retrieve from Org";
             this.btnRetrieveFromOrg.UseVisualStyleBackColor = true;
             this.btnRetrieveFromOrg.Click += new System.EventHandler(this.btnRetrieveFromOrg_Click);
@@ -278,10 +280,10 @@
             // btnDeployToOrg
             // 
             this.btnDeployToOrg.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeployToOrg.Location = new System.Drawing.Point(192, 240);
+            this.btnDeployToOrg.Location = new System.Drawing.Point(192, 262);
             this.btnDeployToOrg.Name = "btnDeployToOrg";
             this.btnDeployToOrg.Size = new System.Drawing.Size(159, 34);
-            this.btnDeployToOrg.TabIndex = 10;
+            this.btnDeployToOrg.TabIndex = 12;
             this.btnDeployToOrg.Text = "Deploy to Org";
             this.btnDeployToOrg.UseVisualStyleBackColor = true;
             this.btnDeployToOrg.Click += new System.EventHandler(this.btnDeployToOrg_Click);
@@ -295,7 +297,7 @@
             this.fromOrgGroup.Location = new System.Drawing.Point(939, 70);
             this.fromOrgGroup.Name = "fromOrgGroup";
             this.fromOrgGroup.Size = new System.Drawing.Size(523, 81);
-            this.fromOrgGroup.TabIndex = 18;
+            this.fromOrgGroup.TabIndex = 21;
             this.fromOrgGroup.TabStop = false;
             this.fromOrgGroup.Text = "From Org";
             // 
@@ -325,10 +327,10 @@
             // btnRefresh
             // 
             this.btnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRefresh.Location = new System.Drawing.Point(744, 240);
+            this.btnRefresh.Location = new System.Drawing.Point(744, 262);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(151, 31);
-            this.btnRefresh.TabIndex = 11;
+            this.btnRefresh.TabIndex = 13;
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
@@ -339,7 +341,7 @@
             this.btnObjectFieldInspector.Location = new System.Drawing.Point(1291, 172);
             this.btnObjectFieldInspector.Name = "btnObjectFieldInspector";
             this.btnObjectFieldInspector.Size = new System.Drawing.Size(172, 34);
-            this.btnObjectFieldInspector.TabIndex = 13;
+            this.btnObjectFieldInspector.TabIndex = 15;
             this.btnObjectFieldInspector.Text = "Object Field Inspector";
             this.btnObjectFieldInspector.UseVisualStyleBackColor = true;
             this.btnObjectFieldInspector.Click += new System.EventHandler(this.btnObjectFieldInspector_Click);
@@ -370,7 +372,7 @@
             this.btnBuildERD.Location = new System.Drawing.Point(1291, 250);
             this.btnBuildERD.Name = "btnBuildERD";
             this.btnBuildERD.Size = new System.Drawing.Size(171, 34);
-            this.btnBuildERD.TabIndex = 15;
+            this.btnBuildERD.TabIndex = 17;
             this.btnBuildERD.Text = "Build ERD";
             this.btnBuildERD.UseVisualStyleBackColor = true;
             this.btnBuildERD.Click += new System.EventHandler(this.btnBuildERD_Click);
@@ -400,7 +402,7 @@
             this.btnSearchMetadata.Location = new System.Drawing.Point(1291, 212);
             this.btnSearchMetadata.Name = "btnSearchMetadata";
             this.btnSearchMetadata.Size = new System.Drawing.Size(171, 32);
-            this.btnSearchMetadata.TabIndex = 14;
+            this.btnSearchMetadata.TabIndex = 16;
             this.btnSearchMetadata.Text = "Search Metadata";
             this.btnSearchMetadata.UseVisualStyleBackColor = true;
             this.btnSearchMetadata.Click += new System.EventHandler(this.btnSearchMetadata_Click);
@@ -411,7 +413,7 @@
             this.btnDebugLogs.Location = new System.Drawing.Point(1291, 290);
             this.btnDebugLogs.Name = "btnDebugLogs";
             this.btnDebugLogs.Size = new System.Drawing.Size(173, 32);
-            this.btnDebugLogs.TabIndex = 16;
+            this.btnDebugLogs.TabIndex = 18;
             this.btnDebugLogs.Text = "Debug Log Parsing";
             this.btnDebugLogs.UseVisualStyleBackColor = true;
             this.btnDebugLogs.Click += new System.EventHandler(this.btnDebugLogs_Click);
@@ -422,16 +424,37 @@
             this.delMyDebugLogs.Location = new System.Drawing.Point(1291, 328);
             this.delMyDebugLogs.Name = "delMyDebugLogs";
             this.delMyDebugLogs.Size = new System.Drawing.Size(171, 32);
-            this.delMyDebugLogs.TabIndex = 17;
+            this.delMyDebugLogs.TabIndex = 19;
             this.delMyDebugLogs.Text = "Delete My Debug Logs";
             this.delMyDebugLogs.UseVisualStyleBackColor = true;
             this.delMyDebugLogs.Click += new System.EventHandler(this.delMyDebugLogs_Click);
+            // 
+            // lblOutboundChangeSetName
+            // 
+            this.lblOutboundChangeSetName.AutoSize = true;
+            this.lblOutboundChangeSetName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOutboundChangeSetName.Location = new System.Drawing.Point(17, 214);
+            this.lblOutboundChangeSetName.Name = "lblOutboundChangeSetName";
+            this.lblOutboundChangeSetName.Size = new System.Drawing.Size(214, 17);
+            this.lblOutboundChangeSetName.TabIndex = 9;
+            this.lblOutboundChangeSetName.Text = "Outbound Change Set Name";
+            // 
+            // tbOutboundChangeSetName
+            // 
+            this.tbOutboundChangeSetName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbOutboundChangeSetName.Location = new System.Drawing.Point(254, 211);
+            this.tbOutboundChangeSetName.Name = "tbOutboundChangeSetName";
+            this.tbOutboundChangeSetName.Size = new System.Drawing.Size(633, 23);
+            this.tbOutboundChangeSetName.TabIndex = 10;
+            this.tbOutboundChangeSetName.MouseHover += new System.EventHandler(this.tbOutboundChangeSetName_MouseHover);
             // 
             // DevelopmentEnvironment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1481, 935);
+            this.ClientSize = new System.Drawing.Size(1481, 960);
+            this.Controls.Add(this.lblOutboundChangeSetName);
+            this.Controls.Add(this.tbOutboundChangeSetName);
             this.Controls.Add(this.delMyDebugLogs);
             this.Controls.Add(this.btnDebugLogs);
             this.Controls.Add(this.btnSearchMetadata);
@@ -504,5 +527,7 @@
         private System.Windows.Forms.ToolStripMenuItem visualforcePageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem visualforceComponentToolStripMenuItem;
         private System.Windows.Forms.Button delMyDebugLogs;
+        private System.Windows.Forms.Label lblOutboundChangeSetName;
+        private System.Windows.Forms.TextBox tbOutboundChangeSetName;
     }
 }

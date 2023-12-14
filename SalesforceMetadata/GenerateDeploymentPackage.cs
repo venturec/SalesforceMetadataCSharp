@@ -15,6 +15,7 @@ using SalesforceMetadata.PartnerWSDL;
 using SalesforceMetadata.MetadataWSDL;
 using SalesforceMetadata.ToolingWSDL;
 using System.Diagnostics.Eventing.Reader;
+using System.IO.Compression;
 
 namespace SalesforceMetadata
 {
@@ -55,13 +56,13 @@ namespace SalesforceMetadata
 
             if (selectedPath != "")
             {
-                this.tbDeploymentPackageLocation.Text = selectedPath;
+                this.tbDeployFrom.Text = selectedPath;
                 Properties.Settings.Default.DeploymentPackageLastSaveLocation = selectedPath;
                 Properties.Settings.Default.Save();
 
                 Boolean isEmpty = true;
-                String[] dirs = Directory.GetDirectories(this.tbDeploymentPackageLocation.Text);
-                String[] fls = Directory.GetFiles(this.tbDeploymentPackageLocation.Text);
+                String[] dirs = Directory.GetDirectories(this.tbDeployFrom.Text);
+                String[] fls = Directory.GetFiles(this.tbDeployFrom.Text);
 
                 if (dirs.Length > 0 || fls.Length > 0) isEmpty = false;
 
@@ -82,7 +83,7 @@ namespace SalesforceMetadata
 
             if(selectedPath != "")
             {
-                this.tbMetadataFolderToReadFrom.Text = selectedPath;
+                this.tbProjectFolder.Text = selectedPath;
                 Properties.Settings.Default.DeploymentPackageLastReadLocation = selectedPath;
                 Properties.Settings.Default.Save();
                 populateMetadataTreeView();
@@ -93,7 +94,7 @@ namespace SalesforceMetadata
         {
             this.treeViewMetadata.Nodes.Clear();
 
-            String[] folders = Directory.GetDirectories(this.tbMetadataFolderToReadFrom.Text);
+            String[] folders = Directory.GetDirectories(this.tbProjectFolder.Text);
             foreach (String folderName in folders)
             {
                 String[] folderNameSplit = folderName.Split('\\');
@@ -1443,759 +1444,229 @@ namespace SalesforceMetadata
 
         private void btnBuildPackageXml_Click(object sender, EventArgs e)
         {
-            if (this.tbDeploymentPackageLocation.Text == "")
+            if (this.tbDeployFrom.Text == "")
             {
                 MessageBox.Show("Please choose a location to save the deployment package contents to");
                 return;
             }
 
             // Example: CustomObject -> Account -> fields
-            String xmlHeaderLine = "<?xml version =\"1.0\" encoding=\"UTF-8\"?>";
+            //String xmlHeaderLine = "<?xml version =\"1.0\" encoding=\"UTF-8\"?>";
 
             if (this.cmbDestructiveChange.Text == "--none--")
             {
-                buildDeploymentPackageFiles(packageXmlObjectMembers);
-                buildPackageXmlFile(packageXmlObjectMembers);
-            }
-            else if (this.cmbDestructiveChange.Text == "destructiveChanges")
-            {
-                StreamWriter swPackageXml = new StreamWriter(this.tbDeploymentPackageLocation.Text + "\\package.xml");
-                swPackageXml.WriteLine(xmlHeaderLine);
-                swPackageXml.WriteLine("<Package xmlns=\"http://soap.sforce.com/2006/04/metadata\">");
-                swPackageXml.WriteLine("<version>" + this.cmbDefaultAPI.Text + "</version>");
-                swPackageXml.WriteLine("</Package>");
-                swPackageXml.Close();
+                //buildDeploymentPackageFiles(packageXmlObjectMembers);
+                //buildPackageXmlFile(packageXmlObjectMembers);
 
-                buildPackageObjectMembers(packageXmlDestructiveChangeMembers);
-                buildDestructivePackageXmlFile(packageXmlDestructiveChangeMembers, this.cmbDestructiveChange.Text);
+                String zipFilePath = buildZipFileWithPackageXml();
+
+                DeployMetadata dm = new DeployMetadata();
+                dm.tbZipFileLocation.Text = zipFilePath;
+                dm.cbCheckOnly.CheckState = CheckState.Checked;
+                dm.cbCheckOnly.Checked = true;
+
+                dm.Show();
+
             }
-            else if (this.cmbDestructiveChange.Text == "destructiveChangesPre")
-            {
-                // Build the destructive changes first
-                // Then pre-populate the Tree View with the pre-checked related items which need to be reviewed from the
-                // selected items in the destructive changes
-                // Example: If you select a custom field to delete, then clicking Next will populate the Tree View with all
-                // Items which include that field
-                buildPackageObjectMembers(packageXmlObjectMembers);
-                buildDestructivePackageXmlFile(packageXmlDestructiveChangeMembers, this.cmbDestructiveChange.Text);
-            }
-            else if (this.cmbDestructiveChange.Text == "destructiveChangesPost")
-            {
-                // Build the destructive changes first
-                // Then pre-populate the Tree View with the pre-checked related items which need to be reviewed from the
-                // selected items in the destructive changes
-                // Example: If you select a custom field to delete, then clicking Next will populate the Tree View with all
-                // Items which include that field
-                buildPackageObjectMembers(packageXmlObjectMembers);
-                buildDestructivePackageXmlFile(packageXmlDestructiveChangeMembers, this.cmbDestructiveChange.Text);
-            }
+            //else if (this.cmbDestructiveChange.Text == "destructiveChanges")
+            //{
+            //    StreamWriter swPackageXml = new StreamWriter(this.tbDeploymentPackageLocation.Text + "\\package.xml");
+            //    swPackageXml.WriteLine(xmlHeaderLine);
+            //    swPackageXml.WriteLine("<Package xmlns=\"http://soap.sforce.com/2006/04/metadata\">");
+            //    swPackageXml.WriteLine("<version>" + this.cmbDefaultAPI.Text + "</version>");
+            //    swPackageXml.WriteLine("</Package>");
+            //    swPackageXml.Close();
+
+            //    buildPackageObjectMembers(packageXmlDestructiveChangeMembers);
+            //    buildDestructivePackageXmlFile(packageXmlDestructiveChangeMembers, this.cmbDestructiveChange.Text);
+            //}
+            //else if (this.cmbDestructiveChange.Text == "destructiveChangesPre")
+            //{
+            //    // Build the destructive changes first
+            //    // Then pre-populate the Tree View with the pre-checked related items which need to be reviewed from the
+            //    // selected items in the destructive changes
+            //    // Example: If you select a custom field to delete, then clicking Next will populate the Tree View with all
+            //    // Items which include that field
+            //    buildPackageObjectMembers(packageXmlObjectMembers);
+            //    buildDestructivePackageXmlFile(packageXmlDestructiveChangeMembers, this.cmbDestructiveChange.Text);
+            //}
+            //else if (this.cmbDestructiveChange.Text == "destructiveChangesPost")
+            //{
+            //    // Build the destructive changes first
+            //    // Then pre-populate the Tree View with the pre-checked related items which need to be reviewed from the
+            //    // selected items in the destructive changes
+            //    // Example: If you select a custom field to delete, then clicking Next will populate the Tree View with all
+            //    // Items which include that field
+            //    buildPackageObjectMembers(packageXmlObjectMembers);
+            //    buildDestructivePackageXmlFile(packageXmlDestructiveChangeMembers, this.cmbDestructiveChange.Text);
+            //}
 
             MessageBox.Show("Package XML File Built");
         }
 
-        public void buildDeploymentPackageFiles(Dictionary<String, HashSet<String>> packageXmlObjectMembers)
+        public String buildZipFileWithPackageXml()
         {
-            String xmlHeaderLine = "<?xml version =\"1.0\" encoding=\"UTF-8\"?>";
+            Dictionary<String, HashSet<String>> packageXml = new Dictionary<String, HashSet<String>>();
+            HashSet<String> directoryFilesDeleted = new HashSet<String>();
 
-            Boolean writeClosingTag = false;
-            String parentNode = "";
-            String directoryName = "";
-            String objectFileName = "";
+            DateTime dtt = DateTime.Now;
+            String directoryName = dtt.Year + "_" + dtt.Month + "_" + dtt.Day + "_" + dtt.Hour + "_" + dtt.Minute + "_" + dtt.Second + "_" + dtt.Millisecond;
+            String folderPath = this.tbDeployFrom.Text + "\\" + directoryName;
 
+            DirectoryInfo cdDi = Directory.CreateDirectory(folderPath);
+
+            // We want to track the directory and files which will be deployed so we can build the package.xml properly
+            List<String> filesDeployed = new List<string>();
             foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
             {
-                if (tnd1.Text == "aura")
+                if (tnd1.Nodes.Count > 0)
                 {
                     foreach (TreeNode tnd2 in tnd1.Nodes)
                     {
                         if (tnd2.Checked == true)
                         {
-                            if (!Directory.Exists(this.tbDeploymentPackageLocation.Text + "\\aura"))
-                            {
-                                Directory.CreateDirectory(this.tbDeploymentPackageLocation.Text + "\\aura");
-                            }
+                            String[] nodeFullPath = tnd2.FullPath.Split('\\');
+                            filesDeployed.Add(tnd1.Text + "\\" + tnd2.Text);
 
-                            Directory.CreateDirectory(this.tbDeploymentPackageLocation.Text + "\\aura\\" + tnd2.Text);
-                            DirectoryInfo dirInfo = new DirectoryInfo(this.tbMetadataFolderToReadFrom.Text + "\\aura\\" + tnd2.Text);
-                            FileInfo[] auraSubdirFiles = dirInfo.GetFiles();
-
-                            foreach (FileInfo file in auraSubdirFiles)
+                            DirectoryInfo di;
+                            if (!Directory.Exists(folderPath + "\\" + tnd1.Text))
                             {
-                                file.CopyTo(this.tbDeploymentPackageLocation.Text + "\\aura\\" + tnd2.Text + "\\" + file.Name, true);
-                            }
-
-                            if (packageXmlObjectMembers.ContainsKey("AuraDefinitionBundle"))
-                            {
-                                packageXmlObjectMembers["AuraDefinitionBundle"].Add(tnd2.Text);
+                                di = Directory.CreateDirectory(folderPath + "\\" + tnd1.Text);
                             }
                             else
                             {
-                                packageXmlObjectMembers.Add("AuraDefinitionBundle", new HashSet<string> { tnd2.Text });
-                            }
-                        }
-                    }
-                }
-                else if (tnd1.Text == "certs")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        if (tnd2.Checked == true)
-                        {
-                            String[] objectNameSplit = tnd2.Text.Split('.');
-
-                            if (!Directory.Exists(this.tbDeploymentPackageLocation.Text + "\\certs"))
-                            {
-                                Directory.CreateDirectory(this.tbDeploymentPackageLocation.Text + "\\certs");
+                                di = new DirectoryInfo(folderPath + "\\" + tnd1.Text);
                             }
 
-                            FileInfo file = new FileInfo(this.tbMetadataFolderToReadFrom.Text + "\\certs\\" + tnd2.Text);
-                            file.CopyTo(this.tbDeploymentPackageLocation.Text + "\\certs\\" + file.Name, true);
+                            // Copy the directory
+                            if (tnd1.Text == "aura" || tnd1.Text == "lwc")
+                            {
+                                UtilityClass.copyDirectory(this.tbProjectFolder.Text + "\\" + tnd1.Text + "\\" + nodeFullPath[1],
+                                                           folderPath + "\\" + tnd1.Text + "\\" + nodeFullPath[1],
+                                                           true);
 
-                            if (packageXmlObjectMembers.ContainsKey("Certificate"))
-                            {
-                                packageXmlObjectMembers["Certificate"].Add(objectNameSplit[0]);
-                            }
-                            else
-                            {
-                                packageXmlObjectMembers.Add("Certificate", new HashSet<string> { objectNameSplit[0] });
-                            }
-                        }
-                    }
-                }
-                else if (tnd1.Text == "classes")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        if (tnd2.Checked == true)
-                        {
-                            String[] objectNameSplit = tnd2.Text.Split('.');
-
-                            if (!Directory.Exists(this.tbDeploymentPackageLocation.Text + "\\classes"))
-                            {
-                                Directory.CreateDirectory(this.tbDeploymentPackageLocation.Text + "\\classes");
-                            }
-
-                            FileInfo file = new FileInfo(this.tbMetadataFolderToReadFrom.Text + "\\classes\\" + tnd2.Text);
-                            file.CopyTo(this.tbDeploymentPackageLocation.Text + "\\classes\\" + file.Name, true);
-
-                            if (packageXmlObjectMembers.ContainsKey("ApexClass"))
-                            {
-                                packageXmlObjectMembers["ApexClass"].Add(objectNameSplit[0]);
-                            }
-                            else
-                            {
-                                packageXmlObjectMembers.Add("ApexClass", new HashSet<string> { objectNameSplit[0] });
-                            }
-                        }
-                    }
-                }
-                else if (tnd1.Text == "components")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        if (tnd2.Checked == true)
-                        {
-                            String[] objectNameSplit = tnd2.Text.Split('.');
-
-                            if (!Directory.Exists(this.tbDeploymentPackageLocation.Text + "\\components"))
-                            {
-                                Directory.CreateDirectory(this.tbDeploymentPackageLocation.Text + "\\components");
-                            }
-
-                            FileInfo file = new FileInfo(this.tbMetadataFolderToReadFrom.Text + "\\components\\" + tnd2.Text);
-                            file.CopyTo(this.tbDeploymentPackageLocation.Text + "\\components\\" + file.Name, true);
-
-                            if (packageXmlObjectMembers.ContainsKey("ApexComponent"))
-                            {
-                                packageXmlObjectMembers["ApexComponent"].Add(objectNameSplit[0]);
-                            }
-                            else
-                            {
-                                packageXmlObjectMembers.Add("ApexComponent", new HashSet<string> { objectNameSplit[0] });
-                            }
-                        }
-                    }
-                }
-                else if (tnd1.Text == "contentassets")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        if (tnd2.Checked == true)
-                        {
-                            String[] objectNameSplit = tnd2.Text.Split('.');
-
-                            if (!Directory.Exists(this.tbDeploymentPackageLocation.Text + "\\contentassets"))
-                            {
-                                Directory.CreateDirectory(this.tbDeploymentPackageLocation.Text + "\\contentassets");
-                            }
-
-                            FileInfo file = new FileInfo(this.tbMetadataFolderToReadFrom.Text + "\\contentassets\\" + tnd2.Text);
-                            file.CopyTo(this.tbDeploymentPackageLocation.Text + "\\contentassets\\" + file.Name, true);
-
-                            if (packageXmlObjectMembers.ContainsKey("ContentAsset"))
-                            {
-                                packageXmlObjectMembers["ContentAsset"].Add(objectNameSplit[0]);
-                            }
-                            else
-                            {
-                                packageXmlObjectMembers.Add("ContentAsset", new HashSet<string> { objectNameSplit[0] });
-                            }
-                        }
-                    }
-                }
-                else if (tnd1.Text == "customMetadata")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        foreach (TreeNode tnd3 in tnd2.Nodes)
-                        {
-                            if (tnd3.Checked == true)
-                            {
-                                String[] objectNameSplit = tnd2.Text.Split('.');
-                                String[] fileNameSplit = tnd3.Text.Split('.');
-
-                                if (!Directory.Exists(this.tbDeploymentPackageLocation.Text + "\\customMetadata"))
+                                if (packageXml.ContainsKey(tnd1.Text))
                                 {
-                                    Directory.CreateDirectory(this.tbDeploymentPackageLocation.Text + "\\customMetadata");
-                                }
-
-                                FileInfo file = new FileInfo(this.tbMetadataFolderToReadFrom.Text + "\\customMetadata\\" + tnd2.Text + "." + tnd3.Text);
-                                file.CopyTo(this.tbDeploymentPackageLocation.Text + "\\customMetadata\\" + file.Name, true);
-
-                                if (packageXmlObjectMembers.ContainsKey("CustomMetadata"))
-                                {
-                                    packageXmlObjectMembers["CustomMetadata"].Add(objectNameSplit[0] + "." + fileNameSplit[0]);
+                                    packageXml[tnd1.Text].Add(nodeFullPath[1]);
                                 }
                                 else
                                 {
-                                    packageXmlObjectMembers.Add("CustomMetadata", new HashSet<string> { objectNameSplit[0] + "." + fileNameSplit[0] });
+                                    packageXml.Add(tnd1.Text, new HashSet<String> { nodeFullPath[1] });
                                 }
                             }
-                        }
-                    }
-                }
-                else if (tnd1.Text == "lwc")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        if (tnd2.Checked == true)
-                        {
-                            if (tnd2.Checked == true)
+                            else if (tnd1.Text == "objects" || tnd1.Text == "objectTranslations")
                             {
-                                if (!Directory.Exists(this.tbDeploymentPackageLocation.Text + "\\lwc"))
+                                // Create the file and write the selected values to the file
+                                //Debug.Write("tnd1.Text == \"objects\" || tnd1.Text == \"objectTranslations\"");
+                                StreamWriter objSw = new StreamWriter(di.FullName + "\\" + nodeFullPath[1]);
+
+                                objSw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+                                objSw.WriteLine("<CustomObject xmlns=\"http://soap.sforce.com/2006/04/metadata\">");
+
+                                foreach (TreeNode tnd3 in tnd2.Nodes)
                                 {
-                                    Directory.CreateDirectory(this.tbDeploymentPackageLocation.Text + "\\lwc");
+                                    if (tnd3.Checked == true)
+                                    {
+                                        objSw.WriteLine(tnd3.Text);
+                                    }
                                 }
 
-                                Directory.CreateDirectory(this.tbDeploymentPackageLocation.Text + "\\lwc\\" + tnd2.Text);
-                                DirectoryInfo dirInfo = new DirectoryInfo(this.tbMetadataFolderToReadFrom.Text + "\\lwc\\" + tnd2.Text);
-                                FileInfo[] lwcSubdirFiles = dirInfo.GetFiles();
-
-                                foreach (FileInfo file in lwcSubdirFiles)
-                                {
-                                    file.CopyTo(this.tbDeploymentPackageLocation.Text + "\\lwc\\" + tnd2.Text + "\\" + file.Name, true);
-                                }
-
-                                if (packageXmlObjectMembers.ContainsKey("LightningComponentBundle"))
-                                {
-                                    packageXmlObjectMembers["LightningComponentBundle"].Add(tnd2.Text);
-                                }
-                                else
-                                {
-                                    packageXmlObjectMembers.Add("LightningComponentBundle", new HashSet<string> { tnd2.Text });
-                                }
+                                objSw.WriteLine("</CustomObject>");
+                                objSw.Close();
                             }
-                        }
-                    }
-                }
-                else if (tnd1.Text == "pages")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        if (tnd2.Checked == true)
-                        {
-                            String[] objectNameSplit = tnd2.Text.Split('.');
-
-                            if (!Directory.Exists(this.tbDeploymentPackageLocation.Text + "\\pages"))
+                            else if (tnd1.Text == "profiles")
                             {
-                                Directory.CreateDirectory(this.tbDeploymentPackageLocation.Text + "\\pages");
+                                //Debug.Write("tnd1.Text == \"profiles\"");
                             }
-
-                            FileInfo file = new FileInfo(this.tbMetadataFolderToReadFrom.Text + "\\pages\\" + tnd2.Text);
-                            file.CopyTo(this.tbDeploymentPackageLocation.Text + "\\pages\\" + file.Name, true);
-
-                            if (packageXmlObjectMembers.ContainsKey("ApexPage"))
+                            else if (tnd1.Text == "permissionsets")
                             {
-                                packageXmlObjectMembers["ApexPage"].Add(objectNameSplit[0]);
+                                //Debug.Write("tnd1.Text == \"permissionsets\"");
+                            }
+                            else if (tnd1.Text == "reports")
+                            {
+                                //Debug.Write("tnd1.Text == \"reports\"");
                             }
                             else
                             {
-                                packageXmlObjectMembers.Add("ApexPage", new HashSet<string> { objectNameSplit[0] });
+                                File.Copy(this.tbProjectFolder.Text + "\\" + tnd1.Text + "\\" + nodeFullPath[1],
+                                          folderPath + "\\" + tnd1.Text + "\\" + nodeFullPath[1]);
+                            }
+
+                            // Build the packageXml dictionary for writing out the actual package.xml file
+                            if (!tnd2.Text.EndsWith("-meta.xml")
+                                && packageXml.ContainsKey(tnd1.Text))
+                            {
+                                packageXml[tnd1.Text].Add(nodeFullPath[1]);
+                            }
+                            else if (!tnd2.Text.EndsWith("-meta.xml"))
+                            {
+                                packageXml.Add(tnd1.Text, new HashSet<String> { nodeFullPath[1] });
                             }
                         }
                     }
                 }
-                else if (tnd1.Text == "staticresources")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        if (tnd2.Checked == true)
-                        {
-                            String[] objectNameSplit = tnd2.Text.Split('.');
-
-                            if (!Directory.Exists(this.tbDeploymentPackageLocation.Text + "\\staticresources"))
-                            {
-                                Directory.CreateDirectory(this.tbDeploymentPackageLocation.Text + "\\staticresources");
-                            }
-
-                            FileInfo file = new FileInfo(this.tbMetadataFolderToReadFrom.Text + "\\staticresources\\" + tnd2.Text);
-                            file.CopyTo(this.tbDeploymentPackageLocation.Text + "\\staticresources\\" + file.Name, true);
-
-                            if (packageXmlObjectMembers.ContainsKey("StaticResource"))
-                            {
-                                packageXmlObjectMembers["StaticResource"].Add(objectNameSplit[0]);
-                            }
-                            else
-                            {
-                                packageXmlObjectMembers.Add("StaticResource", new HashSet<string> { objectNameSplit[0] });
-                            }
-                        }
-                    }
-                }
-                else if (tnd1.Text == "triggers")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        if (tnd2.Checked == true)
-                        {
-                            String[] objectNameSplit = tnd2.Text.Split('.');
-
-                            if (!Directory.Exists(this.tbDeploymentPackageLocation.Text + "\\triggers"))
-                            {
-                                Directory.CreateDirectory(this.tbDeploymentPackageLocation.Text + "\\triggers");
-                            }
-
-                            FileInfo file = new FileInfo(this.tbMetadataFolderToReadFrom.Text + "\\triggers\\" + tnd2.Text);
-                            file.CopyTo(this.tbDeploymentPackageLocation.Text + "\\triggers\\" + file.Name, true);
-
-                            if (packageXmlObjectMembers.ContainsKey("ApexTrigger"))
-                            {
-                                packageXmlObjectMembers["ApexTrigger"].Add(objectNameSplit[0]);
-                            }
-                            else
-                            {
-                                packageXmlObjectMembers.Add("ApexTrigger", new HashSet<string> { objectNameSplit[0] });
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        foreach (TreeNode tnd3 in tnd2.Nodes)
-                        {
-                            if (tnd3.Checked == true)
-                            {
-                                writeClosingTag = true;
-
-                                String[] parsedFullPath = tnd3.FullPath.Split('\\');
-                                directoryName = parsedFullPath[0];
-                                objectFileName = parsedFullPath[1];
-
-                                String[] objectNameSplit = parsedFullPath[1].Split('.');
-
-                                // Handle Fields and Objects differently as you will need to list out the fields and objects in 
-                                // the packageXml file since you are generating those individually along with the permission sets and profiles.
-
-                                // Write the XML to the object file
-                                if (parsedFullPath.Length == 3)
-                                {
-                                    // Package XML Dictionary build
-                                    parentNode = MetadataDifferenceProcessing.folderToType(parsedFullPath[0], "");
-
-                                    if (parsedFullPath[0] == "objects"
-                                        && parsedFullPath[2].StartsWith("<fields"))
-                                    {
-                                        String xmlString = "<document>" + parsedFullPath[2] + "</document>";
-                                        XmlDocument xd = new XmlDocument();
-                                        xd.LoadXml(xmlString);
-
-                                        String objectFieldCombo = objectNameSplit[0] + "." + xd.ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
-
-                                        // Add the custom field to the dictionary
-                                        if (packageXmlObjectMembers.ContainsKey("CustomField"))
-                                        {
-                                            packageXmlObjectMembers["CustomField"].Add(objectFieldCombo);
-                                        }
-                                        else
-                                        {
-                                            packageXmlObjectMembers.Add("CustomField", new HashSet<string> { objectFieldCombo });
-                                        }
-
-                                        // Add the custom object 
-                                        if (packageXmlObjectMembers.ContainsKey(parentNode))
-                                        {
-                                            packageXmlObjectMembers[parentNode].Add(objectNameSplit[0]);
-                                        }
-                                        else
-                                        {
-                                            packageXmlObjectMembers.Add(parentNode, new HashSet<string> { objectNameSplit[0] });
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        if (packageXmlObjectMembers.ContainsKey(parentNode))
-                                        {
-                                            packageXmlObjectMembers[parentNode].Add(objectNameSplit[0]);
-                                        }
-                                        else
-                                        {
-                                            packageXmlObjectMembers.Add(parentNode, new HashSet<string> { objectNameSplit[0] });
-                                        }
-                                    }
-
-                                    // Write selected contents to deployable xml file
-                                    if (Directory.Exists(this.tbDeploymentPackageLocation.Text + "\\" + parsedFullPath[0]))
-                                    {
-                                        if (File.Exists(this.tbDeploymentPackageLocation.Text + "\\" + parsedFullPath[0] + "\\" + parsedFullPath[1]))
-                                        {
-                                            StreamWriter sw = new StreamWriter(this.tbDeploymentPackageLocation.Text + "\\" + parsedFullPath[0] + "\\" + parsedFullPath[1], true);
-                                            sw.WriteLine(parsedFullPath[2]);
-                                            sw.Close();
-                                        }
-                                        else
-                                        {
-                                            StreamWriter sw = new StreamWriter(this.tbDeploymentPackageLocation.Text + "\\" + parsedFullPath[0] + "\\" + parsedFullPath[1], false);
-                                            sw.WriteLine(xmlHeaderLine);
-                                            sw.WriteLine("<" + parentNode + ">");
-
-                                            sw.WriteLine(parsedFullPath[2]);
-                                            sw.Close();
-                                        }
-                                    }
-                                    else
-                                    {
-                                        Directory.CreateDirectory(this.tbDeploymentPackageLocation.Text + "\\" + parsedFullPath[0]);
-                                        StreamWriter sw = new StreamWriter(this.tbDeploymentPackageLocation.Text + "\\" + parsedFullPath[0] + "\\" + parsedFullPath[1], false);
-                                        sw.WriteLine(xmlHeaderLine);
-                                        sw.WriteLine("<" + parentNode + ">");
-
-                                        sw.WriteLine(parsedFullPath[2]);
-                                        sw.Close();
-                                    }
-                                }
-                            }
-                        }
-
-                        if (writeClosingTag == true)
-                        {
-                            StreamWriter sw = new StreamWriter(this.tbDeploymentPackageLocation.Text + "\\" + directoryName + "\\" + objectFileName, true);
-                            sw.WriteLine("</" + parentNode + ">");
-                            sw.Close();
-
-                            writeClosingTag = false;
-                            parentNode = "";
-                            directoryName = "";
-                            objectFileName = "";
-                        }
-                    }
-                }
-
-                parentNode = "";
-                directoryName = "";
-                objectFileName = "";
             }
+
+            // Write out the package.xml file and then build the zip file
+            buildPackageXmlFile(packageXml, folderPath);
+
+            // Zip up the contents of the folders and package.xml file
+            String zipPathAndName = zipUpContents(packageXml, folderPath);
+
+            return zipPathAndName;
         }
 
-        public void buildPackageObjectMembers(Dictionary<String, HashSet<String>> packageXmlObjectMembers)
+        private void buildPackageXmlFile(Dictionary<String, HashSet<String>> packageXml, String folderPath)
         {
-            String parentNode = "";
-            String directoryName = "";
-            String objectFileName = "";
+            StreamWriter sw = new StreamWriter(folderPath + "\\package.xml", false);
 
-            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+            sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            sw.WriteLine("<Package xmlns=\"http://soap.sforce.com/2006/04/metadata\">");
+
+            foreach (String typeName in packageXml.Keys)
             {
-                if (tnd1.Text == "aura")
+                sw.WriteLine("<types>");
+
+                foreach (String memberName in packageXml[typeName])
                 {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        if (tnd2.Checked == true)
-                        {
-                            if (packageXmlObjectMembers.ContainsKey("AuraDefinitionBundle"))
-                            {
-                                packageXmlObjectMembers["AuraDefinitionBundle"].Add(tnd2.Text);
-                            }
-                            else
-                            {
-                                packageXmlObjectMembers.Add("AuraDefinitionBundle", new HashSet<string> { tnd2.Text });
-                            }
-                        }
-                    }
-                }
-                else if (tnd1.Text == "certs")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        if (tnd2.Checked == true)
-                        {
-                            String[] objectNameSplit = tnd2.Text.Split('.');
+                    String[] objName = memberName.Split('.');
 
-                            if (packageXmlObjectMembers.ContainsKey("Certificate"))
-                            {
-                                packageXmlObjectMembers["Certificate"].Add(objectNameSplit[0]);
-                            }
-                            else
-                            {
-                                packageXmlObjectMembers.Add("Certificate", new HashSet<string> { objectNameSplit[0] });
-                            }
-                        }
-                    }
-                }
-                else if (tnd1.Text == "classes")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        if (tnd2.Checked == true)
-                        {
-                            String[] objectNameSplit = tnd2.Text.Split('.');
-
-                            if (packageXmlObjectMembers.ContainsKey("ApexClass"))
-                            {
-                                packageXmlObjectMembers["ApexClass"].Add(objectNameSplit[0]);
-                            }
-                            else
-                            {
-                                packageXmlObjectMembers.Add("ApexClass", new HashSet<string> { objectNameSplit[0] });
-                            }
-                        }
-                    }
-                }
-                else if (tnd1.Text == "components")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        if (tnd2.Checked == true)
-                        {
-                            String[] objectNameSplit = tnd2.Text.Split('.');
-
-                            if (packageXmlObjectMembers.ContainsKey("ApexComponent"))
-                            {
-                                packageXmlObjectMembers["ApexComponent"].Add(objectNameSplit[0]);
-                            }
-                            else
-                            {
-                                packageXmlObjectMembers.Add("ApexComponent", new HashSet<string> { objectNameSplit[0] });
-                            }
-                        }
-                    }
-                }
-                else if (tnd1.Text == "contentassets")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        if (tnd2.Checked == true)
-                        {
-                            String[] objectNameSplit = tnd2.Text.Split('.');
-
-                            if (packageXmlObjectMembers.ContainsKey("ContentAsset"))
-                            {
-                                packageXmlObjectMembers["ContentAsset"].Add(objectNameSplit[0]);
-                            }
-                            else
-                            {
-                                packageXmlObjectMembers.Add("ContentAsset", new HashSet<string> { objectNameSplit[0] });
-                            }
-                        }
-                    }
-                }
-                else if (tnd1.Text == "lwc")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        if (tnd2.Checked == true)
-                        {
-                            if (tnd2.Checked == true)
-                            {
-                                if (packageXmlObjectMembers.ContainsKey("LightningComponentBundle"))
-                                {
-                                    packageXmlObjectMembers["LightningComponentBundle"].Add(tnd2.Text);
-                                }
-                                else
-                                {
-                                    packageXmlObjectMembers.Add("LightningComponentBundle", new HashSet<string> { tnd2.Text });
-                                }
-                            }
-                        }
-                    }
-                }
-                else if (tnd1.Text == "pages")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        if (tnd2.Checked == true)
-                        {
-                            String[] objectNameSplit = tnd2.Text.Split('.');
-
-                            if (packageXmlObjectMembers.ContainsKey("ApexPage"))
-                            {
-                                packageXmlObjectMembers["ApexPage"].Add(objectNameSplit[0]);
-                            }
-                            else
-                            {
-                                packageXmlObjectMembers.Add("ApexPage", new HashSet<string> { objectNameSplit[0] });
-                            }
-                        }
-                    }
-                }
-                else if (tnd1.Text == "staticresources")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        if (tnd2.Checked == true)
-                        {
-                            String[] objectNameSplit = tnd2.Text.Split('.');
-
-                            if (packageXmlObjectMembers.ContainsKey("StaticResource"))
-                            {
-                                packageXmlObjectMembers["StaticResource"].Add(objectNameSplit[0]);
-                            }
-                            else
-                            {
-                                packageXmlObjectMembers.Add("StaticResource", new HashSet<string> { objectNameSplit[0] });
-                            }
-                        }
-                    }
-                }
-                else if (tnd1.Text == "triggers")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        if (tnd2.Checked == true)
-                        {
-                            String[] objectNameSplit = tnd2.Text.Split('.');
-
-                            if (packageXmlObjectMembers.ContainsKey("ApexTrigger"))
-                            {
-                                packageXmlObjectMembers["ApexTrigger"].Add(objectNameSplit[0]);
-                            }
-                            else
-                            {
-                                packageXmlObjectMembers.Add("ApexTrigger", new HashSet<string> { objectNameSplit[0] });
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        foreach (TreeNode tnd3 in tnd2.Nodes)
-                        {
-                            if (tnd3.Checked == true)
-                            {
-                                String[] parsedFullPath = tnd3.FullPath.Split('\\');
-                                directoryName = parsedFullPath[0];
-                                objectFileName = parsedFullPath[1];
-
-                                String[] objectNameParsed = parsedFullPath[1].Split('.');
-
-                                // Handle Fields and Objects differently as you will need to list out the fields and objects in 
-                                // the packageXml file since you are generating those individually along with the permission sets and profiles.
-
-                                // Write the XML to the object file
-                                if (parsedFullPath.Length == 3)
-                                {
-                                    // Package XML Dictionary build
-                                    parentNode = MetadataDifferenceProcessing.folderToType(parsedFullPath[0], "");
-
-                                    if (parsedFullPath[0] == "objects"
-                                        && parsedFullPath[2].StartsWith("<fields"))
-                                    {
-                                        String xmlString = "<document>" + parsedFullPath[2] + "</document>";
-                                        XmlDocument xd = new XmlDocument();
-                                        xd.LoadXml(xmlString);
-
-                                        String objectFieldCombo = objectNameParsed[0] + "." + xd.ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
-
-                                        // Add the custom field to the dictionary
-                                        if (packageXmlObjectMembers.ContainsKey("CustomField"))
-                                        {
-                                            packageXmlObjectMembers["CustomField"].Add(objectFieldCombo);
-                                        }
-                                        else
-                                        {
-                                            packageXmlObjectMembers.Add("CustomField", new HashSet<string> { objectFieldCombo });
-                                        }
-
-                                        // Add the custom object 
-                                        if (packageXmlObjectMembers.ContainsKey(parentNode))
-                                        {
-                                            packageXmlObjectMembers[parentNode].Add(objectNameParsed[0]);
-                                        }
-                                        else
-                                        {
-                                            packageXmlObjectMembers.Add(parentNode, new HashSet<string> { objectNameParsed[0] });
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        if (packageXmlObjectMembers.ContainsKey(parentNode))
-                                        {
-                                            packageXmlObjectMembers[parentNode].Add(objectNameParsed[0]);
-                                        }
-                                        else
-                                        {
-                                            packageXmlObjectMembers.Add(parentNode, new HashSet<string> { objectNameParsed[0] });
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    sw.WriteLine("<members>" + objName[0] + "</members>");
                 }
 
-                parentNode = "";
-                directoryName = "";
-                objectFileName = "";
+                sw.WriteLine("<name>" + MetadataDifferenceProcessing.folderToType(typeName, "") + "</name>");
+                sw.WriteLine("</types>");
             }
+
+            sw.WriteLine("<version>" + Properties.Settings.Default.DefaultAPI + "</version>");
+
+            if (this.tbOutboundChangeSetName.Text != "")
+            {
+                sw.WriteLine("<fullName>" + this.tbOutboundChangeSetName.Text + "</fullName>");
+            }
+
+            sw.WriteLine("</Package>");
+
+            sw.Close();
         }
 
-        public void buildPackageXmlFile(Dictionary<String, HashSet<String>> packageXmlObjectMembers)
+        private String zipUpContents(Dictionary<String, HashSet<String>> packageXml, String folderPath)
         {
-            String xmlHeaderLine = "<?xml version =\"1.0\" encoding=\"UTF-8\"?>";
+            String[] folderPathSplit = folderPath.Split('\\');
 
-            StreamWriter swPackageXml = new StreamWriter(this.tbDeploymentPackageLocation.Text + "\\package.xml");
+            String zipFileName = folderPathSplit[folderPathSplit.Length - 1] + ".zip";
+            String zipPathAndName = this.tbDeployFrom.Text + "\\" + zipFileName;
 
-            swPackageXml.WriteLine(xmlHeaderLine);
-            swPackageXml.WriteLine("<Package xmlns=\"http://soap.sforce.com/2006/04/metadata\">");
+            ZipFile.CreateFromDirectory(folderPath, zipPathAndName, CompressionLevel.Fastest, false);
 
-            foreach (String objectType in packageXmlObjectMembers.Keys)
-            {
-                swPackageXml.WriteLine("<types>");
-
-                foreach (String memberType in packageXmlObjectMembers[objectType])
-                {
-                    swPackageXml.WriteLine("<members>" + memberType + "</members>");
-                }
-
-                swPackageXml.WriteLine("<name>" + objectType + "</name>");
-                swPackageXml.WriteLine("</types>");
-            }
-
-            swPackageXml.WriteLine("<version>" + this.cmbDefaultAPI.Text + "</version>");
-            swPackageXml.WriteLine("</Package>");
-
-            swPackageXml.Close();
+            return zipPathAndName;
         }
 
         public void buildDestructivePackageXmlFile(Dictionary<String, HashSet<String>> packageXmlObjectMembers, String destructivePackageType)
         {
             String xmlHeaderLine = "<?xml version =\"1.0\" encoding=\"UTF-8\"?>";
 
-            StreamWriter swDestructivePackageXml = new StreamWriter(this.tbDeploymentPackageLocation.Text + "\\" + destructivePackageType + ".xml");
+            StreamWriter swDestructivePackageXml = new StreamWriter(this.tbDeployFrom.Text + "\\" + destructivePackageType + ".xml");
             swDestructivePackageXml.WriteLine(xmlHeaderLine);
             swDestructivePackageXml.WriteLine("<Package xmlns=\"http://soap.sforce.com/2006/04/metadata\">");
 
@@ -2214,14 +1685,6 @@ namespace SalesforceMetadata
 
             swDestructivePackageXml.WriteLine("</Package>");
             swDestructivePackageXml.Close();
-
-        }
-
-        public class ObjectFieldWithXML
-        {
-            public String objectName;
-            public String fieldApiName;
-            public String fieldXml;
         }
 
         private void cmbDestructiveChange_SelectedIndexChanged(object sender, EventArgs e)
@@ -2230,7 +1693,7 @@ namespace SalesforceMetadata
             {
                 this.lblDestructiveChangesFirst.Visible = false;
                 this.btnBuildProfilesAndPermissionSets.Visible = true;
-                this.btnBuildPackageXml.Visible = true;
+                this.btnBuildZipFile.Visible = true;
                 this.btnNext.Visible = false;
                 this.runTreeNodeSelector = true;
             }
@@ -2238,7 +1701,7 @@ namespace SalesforceMetadata
             {
                 this.lblDestructiveChangesFirst.Visible = false;
                 this.btnBuildProfilesAndPermissionSets.Visible = false;
-                this.btnBuildPackageXml.Visible = true;
+                this.btnBuildZipFile.Visible = true;
                 this.btnNext.Visible = false;
                 this.runTreeNodeSelector = false;
             }
@@ -2246,7 +1709,7 @@ namespace SalesforceMetadata
             {
                 this.lblDestructiveChangesFirst.Visible = true;
                 this.btnBuildProfilesAndPermissionSets.Visible = false;
-                this.btnBuildPackageXml.Visible = false;
+                this.btnBuildZipFile.Visible = false;
                 this.btnNext.Visible = true;
                 this.runTreeNodeSelector = false;
             }
@@ -2254,19 +1717,19 @@ namespace SalesforceMetadata
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            this.runTreeNodeSelector = true;
+        //    this.runTreeNodeSelector = true;
 
-            // Build the destructive changes first
-            // Then pre-populate the Tree View with the pre-checked related items which need to be reviewed from the
-            // selected items in the destructive changes
-            // Example: If you select a custom field to delete, then clicking Next will populate the Tree View with all
-            // Items which include that field
+        //    // Build the destructive changes first
+        //    // Then pre-populate the Tree View with the pre-checked related items which need to be reviewed from the
+        //    // selected items in the destructive changes
+        //    // Example: If you select a custom field to delete, then clicking Next will populate the Tree View with all
+        //    // Items which include that field
 
-            // Loop through the selected items and build the Dictionary / HashSet list
+        //    // Loop through the selected items and build the Dictionary / HashSet list
 
-            buildPackageObjectMembers(packageXmlDestructiveChangeMembers);
+        //    buildPackageObjectMembers(packageXmlDestructiveChangeMembers);
 
-            populateMetadataTreeView();
+        //    populateMetadataTreeView();
         }
 
         public void loadDefaultApis()
@@ -2285,5 +1748,13 @@ namespace SalesforceMetadata
             public Color color { get; set; }
         }
 
+        private void tbOutboundChangeSetName_MouseHover(object sender, EventArgs e)
+        {
+            TextBox TB = (TextBox)sender;
+            int VisibleTime = 10000;  //in milliseconds
+
+            ToolTip tt = new ToolTip();
+            tt.Show("If you have a open Salesforce Outbound Change Set, add the Change Set Name here. When deployed, your changes will be added to the change set.", TB, 0, 0, VisibleTime);
+        }
     }
 }

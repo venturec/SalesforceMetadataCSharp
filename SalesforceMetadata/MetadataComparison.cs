@@ -1396,11 +1396,10 @@ namespace SalesforceMetadata
             {
                 foreach (TreeNode tnd2 in tnd1.Nodes)
                 {
-                    Microsoft.Office.Interop.Excel.Range rng;
-                    rng = xlWorksheetGeneral.Range[xlWorksheetGeneral.Cells[generalRowStart, 1], xlWorksheetGeneral.Cells[generalRowStart, 10]];
-                    rng.Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbAliceBlue;
-
-                    generalRowStart++;
+                    //Microsoft.Office.Interop.Excel.Range rng;
+                    //rng = xlWorksheetGeneral.Range[xlWorksheetGeneral.Cells[generalRowStart, 1], xlWorksheetGeneral.Cells[generalRowStart, 10]];
+                    //rng.Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbAliceBlue;
+                    //generalRowStart++;
 
                     // Use the object variable as the Key
                     // Exceptions will be Aura and LWC Components
@@ -1510,6 +1509,13 @@ namespace SalesforceMetadata
                                                     foreach (TreeNode tnd6 in tnd5.Nodes)
                                                     {
                                                         xlWorksheetGeneral.Cells[generalRowStart, generalColStart].Value = generalRowStart;
+                                                        xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 1].Value = key;
+                                                        xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 2].Value = tnd1.Text;               // tnd1.Text - Folder Name
+                                                        xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 3].Value = tnd3.Text;               // tnd3: Metadata Type
+                                                        xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 4].Value = tnd2ObjectNewOrUpdated;  // File Name [New] / [Updated]
+                                                        xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 5].Value = tnd2ObjectName;          // File Name
+                                                        xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 6].Value = tnd4.Text;               // tnd4: Metadata sub-type (Metadata Field)
+                                                        xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 7].Value = tnd5ObjectVarNewOrUpdated;
                                                         xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 8].Value = tnd5ObjectVar;
                                                         xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 9].Value = tnd6.Text;
                                                         generalRowStart++;
@@ -1917,7 +1923,7 @@ namespace SalesforceMetadata
 
             GenerateDeploymentPackage gdp = new GenerateDeploymentPackage();
 
-            gdp.tbMetadataFolderToReadFrom.Text = this.tbFromFolder.Text;
+            gdp.tbProjectFolder.Text = this.tbFromFolder.Text;
             gdp.treeNodeCollFromDiff = this.treeViewDifferences.Nodes;
             
             gdp.populateMetadataTreeViewFromDiff();

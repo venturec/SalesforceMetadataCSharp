@@ -29,15 +29,13 @@ namespace SalesforceMetadata
         public static SalesforceMetadata.ToolingWSDL.SforceServiceService toOrgToolingSvc;
         public static SalesforceMetadata.ToolingWSDL.LoginResult toOrgToolingLR;
 
-        private static int ONE_SECOND = 1000;
-        private static int MAX_NUM_POLL_REQUESTS = 50;
+        //private static int ONE_SECOND = 1000;
+        //private static int MAX_NUM_POLL_REQUESTS = 50;
         public static Boolean salesforceLogin(UtilityClass.REQUESTINGORG reqOrg, String userName)
         {
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
             Boolean loginSuccess = false;
-            int poll = 0;
-            int waitTimeMilliSecs = ONE_SECOND;
 
             if (fromOrgSS != null)
             {
@@ -76,7 +74,7 @@ namespace SalesforceMetadata
 
                 try
                 {
-                    fromOrgSS.Timeout = 10000;
+                    fromOrgSS.Timeout = 15000;
 
                     if (isProduction[userName] == false)
                     {

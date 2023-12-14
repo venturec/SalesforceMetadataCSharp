@@ -37,7 +37,6 @@
             this.lblToFolder = new System.Windows.Forms.Label();
             this.GenerateDeploymentPackage = new System.Windows.Forms.Button();
             this.treeViewDifferences = new System.Windows.Forms.TreeView();
-            this.btnFindUnusedApexItems = new System.Windows.Forms.Button();
             this.cbExportXML = new System.Windows.Forms.CheckBox();
             this.btnExport = new System.Windows.Forms.Button();
             this.cmbExportType = new System.Windows.Forms.ComboBox();
@@ -102,7 +101,7 @@
             // GenerateDeploymentPackage
             // 
             this.GenerateDeploymentPackage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.GenerateDeploymentPackage.Location = new System.Drawing.Point(902, 129);
+            this.GenerateDeploymentPackage.Location = new System.Drawing.Point(1123, 164);
             this.GenerateDeploymentPackage.Name = "GenerateDeploymentPackage";
             this.GenerateDeploymentPackage.Size = new System.Drawing.Size(182, 23);
             this.GenerateDeploymentPackage.TabIndex = 11;
@@ -123,22 +122,12 @@
             this.treeViewDifferences.TabIndex = 10;
             this.treeViewDifferences.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewDifference_AfterCheck);
             // 
-            // btnFindUnusedApexItems
-            // 
-            this.btnFindUnusedApexItems.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFindUnusedApexItems.Location = new System.Drawing.Point(902, 164);
-            this.btnFindUnusedApexItems.Margin = new System.Windows.Forms.Padding(2);
-            this.btnFindUnusedApexItems.Name = "btnFindUnusedApexItems";
-            this.btnFindUnusedApexItems.Size = new System.Drawing.Size(182, 24);
-            this.btnFindUnusedApexItems.TabIndex = 12;
-            this.btnFindUnusedApexItems.Text = "Find Unused Apex Items";
-            this.btnFindUnusedApexItems.UseVisualStyleBackColor = true;
-            this.btnFindUnusedApexItems.Click += new System.EventHandler(this.btnFindUnusedApexItems_Click);
-            // 
             // cbExportXML
             // 
             this.cbExportXML.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbExportXML.AutoSize = true;
+            this.cbExportXML.Checked = true;
+            this.cbExportXML.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbExportXML.Enabled = false;
             this.cbExportXML.Location = new System.Drawing.Point(401, 168);
             this.cbExportXML.Name = "cbExportXML";
@@ -165,15 +154,16 @@
             this.cmbExportType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbExportType.FormattingEnabled = true;
             this.cmbExportType.Items.AddRange(new object[] {
-            "Export All to CSV",
             "Export All to Excel",
+            "Export All to HTML",
+            "Export All to CSV",
             "Export Selected to CSV",
             "Export Selected to Excel"});
             this.cmbExportType.Location = new System.Drawing.Point(197, 163);
             this.cmbExportType.Name = "cmbExportType";
             this.cmbExportType.Size = new System.Drawing.Size(182, 21);
             this.cmbExportType.TabIndex = 13;
-            this.cmbExportType.Text = "Export All to CSV";
+            this.cmbExportType.Text = "Export All to Excel";
             // 
             // MetadataComparison
             // 
@@ -183,7 +173,6 @@
             this.Controls.Add(this.cmbExportType);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.cbExportXML);
-            this.Controls.Add(this.btnFindUnusedApexItems);
             this.Controls.Add(this.treeViewDifferences);
             this.Controls.Add(this.GenerateDeploymentPackage);
             this.Controls.Add(this.lblToFolder);
@@ -209,7 +198,6 @@
         public System.Windows.Forms.TextBox tbFromFolder;
         public System.Windows.Forms.TextBox tbToFolder;
         private System.Windows.Forms.TreeView treeViewDifferences;
-        private System.Windows.Forms.Button btnFindUnusedApexItems;
         private System.Windows.Forms.CheckBox cbExportXML;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.ComboBox cmbExportType;

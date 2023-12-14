@@ -23,8 +23,6 @@ namespace SalesforceMetadata
         private List<DescribeGlobalSObjectResult> sObjGlobalResultList;
         private ListViewColumnSorter lvwColumnSorter;
 
-        Boolean isFromXml = false;
-
         public ObjectFieldInspector()
         {
             InitializeComponent();

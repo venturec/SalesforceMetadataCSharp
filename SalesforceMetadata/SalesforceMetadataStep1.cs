@@ -18,7 +18,6 @@ namespace SalesforceMetadata
     {
         // Key = the Metadata Name. Value = the folder the metadata file comes from
         private Dictionary<String, String> metadataXmlNameToFolder;
-        Boolean isProd = false;
         private UserSettings userSetting;
         private List<String> metadataObjectsList;
 

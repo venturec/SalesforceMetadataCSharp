@@ -175,113 +175,196 @@ namespace SalesforceMetadata
 
             // Build the Package XML for retrieval
             // In order to retrieve the Profiles/Permission sets, we have to include the metadata objects related to them, otherwise it only returns the system values.
-            if (sfMdFrm.selectedItems.ContainsKey("PermissionSet"))
-            {
-                // Build the package.xml to retrieve both the Profile and Permission Set
-                HashSet<String> selectedItemsSet1 = new HashSet<string> { "PermissionSet" };
-                StringBuilder packageXmlSB = new StringBuilder();
-                packageXmlSB = buildPackageXml(UtilityClass.REQUESTINGORG.FROMORG, selectedItemsSet1);
-
-                RetrieveRequest retrieveRequest = new RetrieveRequest();
-                retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
-                retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
-
-                int waitTimeMilliSecs = 6000;
-                Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "PermissionSet", sfMdFrm);
-                Task tsk = Task.Run(act);
-
-                while (tsk.IsCanceled == false && tsk.IsCompleted == false && tsk.IsFaulted == false)
-                {
-                    tsk.Wait(waitTimeMilliSecs);
-                }
-            }
-
-            // Build the Package XML for retrieval
-            // In order to retrieve the Profiles/Permission sets, we have to include the metadata objects related to them, otherwise it only returns the system values.
             if (sfMdFrm.selectedItems.ContainsKey("Profile"))
             {
-                List<String> profileIds = new List<String>();
-                List<String> profileNames = new List<string>();
+                List<String> allProfileNames = new List<string>();
 
-                Boolean loginSuccess = SalesforceCredentials.salesforceToolingLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
-                SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
-                SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
-
-                String query = ToolingApiHelper.ProfileQuery();
-
-                if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
-                {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
-                }
-
-                if (toolingQr.records == null) return;
-
-                toolingRecords = toolingQr.records;
+                Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
+                QueryResult qr = new QueryResult();
+                qr = SalesforceCredentials.fromOrgSS.query("SELECT Id, Name FROM Profile");
 
                 Boolean done = false;
                 while (done == false)
                 {
-                    foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
+                    if (qr.size > 0)
                     {
-                        SalesforceMetadata.ToolingWSDL.Profile1 prof = (SalesforceMetadata.ToolingWSDL.Profile1)toolingRecord;
-                        profileIds.Add(prof.Id);
+                        sObject[] sobjRecordsToProcess = qr.records;
+
+                        foreach (sObject s in sobjRecordsToProcess)
+                        {
+                            if (s.Any == null)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                               allProfileNames.Add(replaceStringValue(s.Any[1].InnerText));
+                            }
+                        }
                     }
 
-                    if (toolingQr.done)
+                    if (qr.done)
+                    {
+                        done = true;
+                    }
+                    else if (qr.size == 0)
                     {
                         done = true;
                     }
                     else
                     {
-                        toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                        qr = SalesforceCredentials.fromOrgSS.queryMore(qr.queryLocator);
                     }
                 }
 
-                foreach(String profileId in profileIds)
+                while (allProfileNames.Count > 0)
                 {
-                    query = "SELECT FullName FROM Profile WHERE Id = '" + profileId + "'";
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
-                    if (toolingQr.records == null) return;
-                    toolingRecords = toolingQr.records;
-                    foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
+                    String profileProcessingMsg = "    Profiles Remaining: " + allProfileNames.Count.ToString() + Environment.NewLine;
+                    var profThreadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(profileProcessingMsg, sfMdFrm); });
+                    var profThread = new System.Threading.Thread(profThreadParameters);
+                    profThread.Start();
+                    while (profThread.ThreadState == System.Threading.ThreadState.Running)
                     {
-                        SalesforceMetadata.ToolingWSDL.Profile1 prof = (SalesforceMetadata.ToolingWSDL.Profile1)toolingRecord;
-                        profileNames.Add(prof.FullName);
+                        // do nothing. Just want for the thread to complete
+                    }
+
+                    List<String> selectedProfileNames = new List<String>();
+                    foreach (String profName in allProfileNames)
+                    {
+                        selectedProfileNames.Add(profName);
+
+                        if (selectedProfileNames.Count == 10)
+                        {
+                            break;
+                        }
+                    }
+
+                    // Build the package.xml to retrieve both the Profile and Permission Set
+                    StringBuilder packageXmlSB = new StringBuilder();
+                    packageXmlSB = buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG.FROMORG, "Profile", selectedProfileNames);
+
+                    RetrieveRequest retrieveRequest = new RetrieveRequest();
+                    retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
+                    retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
+
+                    int waitTimeMilliSecs = 6000;
+                    Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "Profile", sfMdFrm);
+                    Task tsk = Task.Run(act);
+
+                    while (tsk.IsCanceled == false && tsk.IsCompleted == false && tsk.IsFaulted == false)
+                    {
+                        tsk.Wait(waitTimeMilliSecs);
+                    }
+
+                    foreach (String profSelected in selectedProfileNames)
+                    {
+                        allProfileNames.Remove(profSelected);
+                    }
+
+                    selectedProfileNames.Clear();
+                }
+
+                alreadyAdded.Add("Profile");
+            }
+
+            // Build the Package XML for retrieval
+            // In order to retrieve the Profiles/Permission sets, we have to include the metadata objects related to them, otherwise it only returns the system values.
+            if (sfMdFrm.selectedItems.ContainsKey("PermissionSet"))
+            {
+                List<String> allProfileNames = new List<string>();
+
+                Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
+                QueryResult qr = new QueryResult();
+                qr = SalesforceCredentials.fromOrgSS.query("SELECT Id, Name FROM PermissionSet");
+
+                Boolean done = false;
+                while (done == false)
+                {
+                    if (qr.size > 0)
+                    {
+                        sObject[] sobjRecordsToProcess = qr.records;
+
+                        foreach (sObject s in sobjRecordsToProcess)
+                        {
+                            if (s.Any == null)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                allProfileNames.Add(replaceStringValue(s.Any[1].InnerText));
+                            }
+                        }
+                    }
+
+                    if (qr.done)
+                    {
+                        done = true;
+                    }
+                    else if (qr.size == 0)
+                    {
+                        done = true;
+                    }
+                    else
+                    {
+                        qr = SalesforceCredentials.fromOrgSS.queryMore(qr.queryLocator);
                     }
                 }
 
-
-                List<String> selectedProfileNames = new List<String>();
-                for (Int32 i = 0; i < 5; i++)
+                while (allProfileNames.Count > 0)
                 {
-                    selectedProfileNames.Add(profileNames[i]);
+                    String profileProcessingMsg = "    Permission Sets Remaining: " + allProfileNames.Count.ToString() + Environment.NewLine;
+                    var profThreadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(profileProcessingMsg, sfMdFrm); });
+                    var profThread = new System.Threading.Thread(profThreadParameters);
+                    profThread.Start();
+                    while (profThread.ThreadState == System.Threading.ThreadState.Running)
+                    {
+                        // do nothing. Just want for the thread to complete
+                    }
+
+                    List<String> selectedProfileNames = new List<String>();
+                    foreach (String profName in allProfileNames)
+                    {
+                        selectedProfileNames.Add(profName);
+
+                        if (selectedProfileNames.Count == 10)
+                        {
+                            break;
+                        }
+                    }
+
+                    // Build the package.xml to retrieve both the Profile and Permission Set
+                    StringBuilder packageXmlSB = new StringBuilder();
+                    packageXmlSB = buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG.FROMORG, "PermissionSet", selectedProfileNames);
+
+                    RetrieveRequest retrieveRequest = new RetrieveRequest();
+                    retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
+                    retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
+
+                    int waitTimeMilliSecs = 6000;
+                    Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "PermissionSet", sfMdFrm);
+                    Task tsk = Task.Run(act);
+
+                    while (tsk.IsCanceled == false && tsk.IsCompleted == false && tsk.IsFaulted == false)
+                    {
+                        tsk.Wait(waitTimeMilliSecs);
+                    }
+
+                    foreach (String profSelected in selectedProfileNames)
+                    {
+                        allProfileNames.Remove(profSelected);
+                    }
+
+                    selectedProfileNames.Clear();
                 }
 
-                // Build the package.xml to retrieve both the Profile and Permission Set
-                HashSet<String> selectedItemsSet1 = new HashSet<string> { "Profile" };
-                StringBuilder packageXmlSB = new StringBuilder();
-                packageXmlSB = buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG.FROMORG, "Profile", selectedProfileNames);
-
-                RetrieveRequest retrieveRequest = new RetrieveRequest();
-                retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
-                retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
-
-                int waitTimeMilliSecs = 6000;
-                Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "Profile", sfMdFrm);
-                Task tsk = Task.Run(act);
-
-                while (tsk.IsCanceled == false && tsk.IsCompleted == false && tsk.IsFaulted == false)
-                {
-                    tsk.Wait(waitTimeMilliSecs);
-                }
+                alreadyAdded.Add("PermissionSet");
             }
+
 
             if (sfMdFrm.selectedItems.ContainsKey("EmailTemplate"))
             {
                 // Build the package.xml to retrieve both the Profile and Permission Set
-                HashSet<String> selectedItemsSet1 = new HashSet<string> { "EmailTemplate" };
-                StringBuilder packageXmlSB = new StringBuilder();
-
                 List<String> emailMembers = new List<string>();
 
                 QueryResult qr = new QueryResult();
@@ -328,6 +411,7 @@ namespace SalesforceMetadata
                     }
                 }
 
+                StringBuilder packageXmlSB = new StringBuilder();
                 packageXmlSB = buildEmailTemplatePacageXml(emailMembers);
 
                 RetrieveRequest retrieveRequest = new RetrieveRequest();
@@ -348,15 +432,12 @@ namespace SalesforceMetadata
 
             if (sfMdFrm.selectedItems.ContainsKey("Report"))
             {
-                StringBuilder packageXmlSB = new StringBuilder();
-
                 Dictionary<String, String> reportFolders = new Dictionary<string, string>();
                 List<String> allReportMembers = new List<string>();
                 List<String> selectedReportMembers = new List<string>();
 
                 QueryResult rf = new QueryResult();
                 rf = SalesforceCredentials.fromOrgSS.query("SELECT Id, DeveloperName FROM Folder");
-
 
                 Boolean done = false;
                 while (!done)
@@ -432,18 +513,17 @@ namespace SalesforceMetadata
 
                     // We can only have 10,000 reports requested in the package.xml file
                     // Setting the default size to 5000 reports for now.
-                    Int32 rmCount = 0;
                     foreach (String rms in allReportMembers)
                     {
                         selectedReportMembers.Add(rms);
-                        rmCount++;
 
-                        if (rmCount == 5000)
+                        if (selectedReportMembers.Count == 5000)
                         {
                             break;
                         }
                     }
 
+                    StringBuilder packageXmlSB = new StringBuilder();
                     packageXmlSB = buildReportPackageXml(selectedReportMembers);
 
                     RetrieveRequest retrieveRequest = new RetrieveRequest();
@@ -578,6 +658,15 @@ namespace SalesforceMetadata
                         retrieveComplete = true;
                     }
                 }
+            }
+
+            String processingMsg3 = "Metadata Components Retrieval Complete:" + Environment.NewLine;
+            var threadParameters3 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg3, sfMdFrm); });
+            var thread3 = new System.Threading.Thread(threadParameters3);
+            thread3.Start();
+            while (thread3.ThreadState == System.Threading.ThreadState.Running)
+            {
+                // do nothing. Just want for the thread to complete
             }
         }
 
@@ -889,7 +978,8 @@ namespace SalesforceMetadata
                         addVSCodeFileExtension(target_dir);
                     }
 
-                    String processingMsg2 = "    " + metdataObject + ": Metadata Retrieval Completed at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
+                    DateTime dt2 = DateTime.Now;
+                    String processingMsg2 = "    " + metdataObject + ": Metadata Retrieval Completed at: " + dt2.Year.ToString() + "-" + dt2.Month.ToString() + "-" + dt2.Day.ToString() + " " + dt2.Hour.ToString() + ":" + dt2.Minute.ToString() + ":" + dt2.Second.ToString() + "." + dt2.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
                     var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2, sfMdFrm); });
                     var thread2 = new System.Threading.Thread(threadParameters2);
                     thread2.Start();
@@ -1609,6 +1699,15 @@ namespace SalesforceMetadata
             {
                 sfMdFrm.rtMessages.Text = sfMdFrm.rtMessages.Text + tbValue;
             }
+        }
+
+        public String replaceStringValue(String strValue)
+        {
+            strValue = strValue.Replace("(", "%28");
+            strValue = strValue.Replace(")", "%29");
+            strValue = strValue.Replace("&", "%26");
+
+            return strValue;
         }
 
     }

@@ -1323,8 +1323,45 @@ namespace SalesforceMetadata
 
 
         /*******************************************************************************************************************************/
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            if (this.tbFromFolder.Text == "") return;
+
+            if (this.cmbExportType.Text == "Export All to HTML")
+            {
+                exportFolderAndTypesToHTML();
+            }
+            else if (this.cmbExportType.Text == "Export All to CSV")
+            {
+                exportToCSV(false);
+            }
+            else if (this.cmbExportType.Text == "Export All to Excel")
+            {
+                DialogResult mbOkOrCancel = MessageBox.Show("Exporting to Excel can be a very long process. Would you like to continue?", "Continue", MessageBoxButtons.OKCancel);
+
+                if (mbOkOrCancel == DialogResult.OK)
+                {
+                    exportFolderAndTypesToExcel();
+                }
+            }
+            else if (this.cmbExportType.Text == "Export Selected to CSV")
+            {
+                exportToCSV(true);
+            }
+            else if (this.cmbExportType.Text == "Export Selected to Excel")
+            {
+
+            }
+        }
+
         private void exportFolderAndTypesToExcel()
         {
+            // TODO: Come back to this
+            //Key               //Folder           //Metadata Type
+            //Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>>>>>>
+            //    diffDictionary = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>>>>>>>>();
+
             HashSet<String> alreadyAdded = new HashSet<string>();
 
             Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
@@ -1345,9 +1382,9 @@ namespace SalesforceMetadata
             xlWorksheetGeneral.Cells[generalRowStart, generalColStart].Value = "ID";
             xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 1].Value = "KeyId";
             xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 2].Value = "Folder Name";             // tnd1.Text
-            xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 3].Value = "Object New Or Updated";   // tnd1.Text Split
-            xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 4].Value = "Object Name";             // tnd2.Text
-            xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 5].Value = "Metadata Type";           // tnd3.Text
+            xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 3].Value = "Metadata Type";           // tnd3.Text
+            xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 4].Value = "Object New Or Updated";   // tnd1.Text Split
+            xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 5].Value = "Object Name";             // tnd2.Text
             xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 6].Value = "Metadata Field";          // tnd4.Text
             xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 7].Value = "Object Variable New Or Updated";  // tn5.Text Split
             xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 8].Value = "Object Variable";         // tn5.Text
@@ -1359,6 +1396,12 @@ namespace SalesforceMetadata
             {
                 foreach (TreeNode tnd2 in tnd1.Nodes)
                 {
+                    Microsoft.Office.Interop.Excel.Range rng;
+                    rng = xlWorksheetGeneral.Range[xlWorksheetGeneral.Cells[generalRowStart, 1], xlWorksheetGeneral.Cells[generalRowStart, 10]];
+                    rng.Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbAliceBlue;
+
+                    generalRowStart++;
+
                     // Use the object variable as the Key
                     // Exceptions will be Aura and LWC Components
                     String tnd2ObjectNewOrUpdated = "";
@@ -1449,16 +1492,17 @@ namespace SalesforceMetadata
                                                 key = tnd1.Text + "_" + tnd3.Text + "_" + tnd2ObjectName + "_" + tnd4.Text + "_" + tnd5ObjectVar;
                                             }
 
+
                                             if (!alreadyAdded.Contains(key))
                                             {
                                                 xlWorksheetGeneral.Cells[generalRowStart, generalColStart].Value = generalRowStart;
                                                 xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 1].Value = key;
                                                 xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 2].Value = tnd1.Text;               // tnd1.Text - Folder Name
-                                                xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 3].Value = tnd2ObjectNewOrUpdated;  // File Name [New] / [Updated]
-                                                xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 4].Value = tnd2ObjectName;          // File Name
-                                                xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 5].Value = tnd3.Text;               // tnd3: Metadata Type
-                                                xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 6].Value = tnd4.Text;               // tnd4: Metadata sub-type
-                                                xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 7].Value = tnd5ObjectVarNewOrUpdated; 
+                                                xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 3].Value = tnd3.Text;               // tnd3: Metadata Type
+                                                xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 4].Value = tnd2ObjectNewOrUpdated;  // File Name [New] / [Updated]
+                                                xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 5].Value = tnd2ObjectName;          // File Name
+                                                xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 6].Value = tnd4.Text;               // tnd4: Metadata sub-type (Metadata Field)
+                                                xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 7].Value = tnd5ObjectVarNewOrUpdated;
                                                 xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 8].Value = tnd5ObjectVar;
 
                                                 if (this.cbExportXML.Checked == true)
@@ -1509,8 +1553,9 @@ namespace SalesforceMetadata
                                     xlWorksheetGeneral.Cells[generalRowStart, generalColStart].Value = generalRowStart;
                                     xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 1].Value = key;
                                     xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 2].Value = tnd1.Text;
-                                    xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 3].Value = tnd2ObjectNewOrUpdated;
-                                    xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 4].Value = tnd2ObjectName;
+                                    xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 3].Value = MetadataDifferenceProcessing.folderToType(tnd1.Text, "");
+                                    xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 4].Value = tnd2ObjectNewOrUpdated;
+                                    xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 5].Value = tnd2ObjectName;
                                     xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 7].Value = tnd3ObjectNewOrUpdated;
                                     xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 8].Value = tnd3FileName;
 
@@ -1529,8 +1574,9 @@ namespace SalesforceMetadata
                             xlWorksheetGeneral.Cells[generalRowStart, generalColStart].Value = generalRowStart;
                             xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 1].Value = key;
                             xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 2].Value = tnd1.Text;
-                            xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 3].Value = tnd2ObjectNewOrUpdated;
-                            xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 4].Value = tnd2ObjectName;
+                            xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 3].Value = MetadataDifferenceProcessing.folderToType(tnd1.Text, "");
+                            xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 4].Value = tnd2ObjectNewOrUpdated;
+                            xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 5].Value = tnd2ObjectName;
                             xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 7].Value = tnd2ObjectNewOrUpdated;
                             xlWorksheetGeneral.Cells[generalRowStart, generalColStart + 8].Value = tnd2FileName;
 
@@ -1546,127 +1592,9 @@ namespace SalesforceMetadata
             MessageBox.Show("Export of Folders and Types to Excel Complete");
         }
 
-
-        public void formatExcelRange(Microsoft.Office.Interop.Excel.Worksheet xlWorksheet, 
-                                     Int32 startRowNumber, 
-                                     Int32 startColNumber, 
-                                     Int32 endRowNumber, 
-                                     Int32 endColNumber,
-                                     Boolean boldText,
-                                     Boolean italicText,
-                                     Int32 fontSize,
-                                     Int32 interiorColorRed,
-                                     Int32 interiorColorGreen,
-                                     Int32 interiorColorBlue)
+        private void exportFolderAndTypesToHTML()
         {
-            Microsoft.Office.Interop.Excel.Range rng;
-            rng = xlWorksheet.Range[xlWorksheet.Cells[startRowNumber, startColNumber], xlWorksheet.Cells[endRowNumber, endColNumber]];
-            rng.Font.Bold = boldText;
-            rng.Font.Italic = italicText;
-            rng.Font.Size = fontSize;
-            //rng.Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbFloralWhite;
-            //rng.Font.Color = System.Drawing.Color.FromArgb(erf.fontColorRed, erf.fontColorGreen, erf.fontColorBlue);
-
-            rng.Interior.Color = System.Drawing.Color.FromArgb(interiorColorRed, interiorColorGreen, interiorColorBlue);
-
-        }
-
-
-        public class ExcelRangeFormat
-        {
-            public Microsoft.Office.Interop.Excel.Worksheet xlWorksheet;
-            public Int32 startRowNumber;
-            public Int32 endRowNumber;
-            public Int32 startColNumber;
-            public Int32 endColNumber;
-            public Int32 fontSize;
-            public Int32 fontColorRed;
-            public Int32 fontColorGreen;
-            public Int32 fontColorBlue;
-            public Int32 interiorColorRed;
-            public Int32 interiorColorGreen;
-            public Int32 interiorColorBlue;
-            public Boolean boldText;
-            public Boolean italicText;
-            public String fieldValues;
-        }
-
-
-        /*******************************************************************************************************************************/
-
-        // Use Tooling API
-        private void btnFindUnusedApexItems_Click(object sender, EventArgs e)
-        {
-            Dictionary<String, SalesforceMetadata.ToolingWSDL.ApexTrigger1> apexTriggers = new Dictionary<String, SalesforceMetadata.ToolingWSDL.ApexTrigger1>();
-            Dictionary<String, SalesforceMetadata.ToolingWSDL.ApexClass1> apexClasses = new Dictionary<String, SalesforceMetadata.ToolingWSDL.ApexClass1>();
-            Dictionary<String, SalesforceMetadata.ToolingWSDL.Flow1> flows = new Dictionary<String, SalesforceMetadata.ToolingWSDL.Flow1>();
-            Dictionary<String, SalesforceMetadata.ToolingWSDL.ApexPage1> apexPage = new Dictionary<String, SalesforceMetadata.ToolingWSDL.ApexPage1>();
-            Dictionary<String, SalesforceMetadata.ToolingWSDL.AuraDefinition1> auraDefinition = new Dictionary<String, SalesforceMetadata.ToolingWSDL.AuraDefinition1>();
-
-            Dictionary<String, SalesforceMetadata.ToolingWSDL.SymbolTable> symbolDefinition = new Dictionary<String, SalesforceMetadata.ToolingWSDL.SymbolTable>();
-
-            // Items to consider
-            // Triggers
-            // Flows with Apex actions
-            // Classes
-            // CLass Properties
-            // Class Methods
-            // Visualforce Pages
-            // Lightning Web Components
-            // Aura Components
-
-            //    Find out if the trigger call is commented out
-
-            // Next sift through the SOQL statements to determine if any can be consolidated into the SobjectQueries class
-
-
-            // Log in with the Partner WSDL to retrieve all of the Triggers, Classes, VF Pages, Flows etc.
-        }
-
-        private void GenerateDeploymentPackage_Click(object sender, EventArgs e)
-        {
-            if (this.tbFromFolder.Text == "")
-            {
-                MessageBox.Show("Please select a Read-From folder", "Missing Read-From Folder", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            GenerateDeploymentPackage gdp = new GenerateDeploymentPackage();
-
-            gdp.tbMetadataFolderToReadFrom.Text = this.tbFromFolder.Text;
-            gdp.treeNodeCollFromDiff = this.treeViewDifferences.Nodes;
             
-            gdp.populateMetadataTreeViewFromDiff();
-            gdp.Show();
-        }
-
-        private void btnExport_Click(object sender, EventArgs e)
-        {
-            if (this.tbFromFolder.Text == "") return;
-
-            if (this.cmbExportType.Text == "Export All to CSV")
-            {
-                exportToCSV(false);
-            }
-            else if (this.cmbExportType.Text == "Export All to Excel")
-            {
-                DialogResult mbOkOrCancel = MessageBox.Show("Exporting to Excel can be a very long process. Would you like to continue?", "Continue", MessageBoxButtons.OKCancel );
-
-                if (mbOkOrCancel == DialogResult.OK)
-                {
-                    exportFolderAndTypesToExcel();
-                }
-            }
-            else if (this.cmbExportType.Text == "Export Selected to CSV")
-            {
-                exportToCSV(true);
-            }
-            else if (this.cmbExportType.Text == "Export Selected to Excel")
-            {
-                
-            }
-
-            MessageBox.Show("Export of Folders and Types to CSV Complete");
         }
 
         private void exportToCSV(Boolean exportSelected)
@@ -1931,6 +1859,69 @@ namespace SalesforceMetadata
             }
 
             sw.Close();
+        }
+
+        //public void formatExcelRange(Microsoft.Office.Interop.Excel.Worksheet xlWorksheet, 
+        //                             Int32 startRowNumber, 
+        //                             Int32 startColNumber, 
+        //                             Int32 endRowNumber, 
+        //                             Int32 endColNumber,
+        //                             Boolean boldText,
+        //                             Boolean italicText,
+        //                             Int32 fontSize,
+        //                             Int32 interiorColorRed,
+        //                             Int32 interiorColorGreen,
+        //                             Int32 interiorColorBlue)
+        //{
+        //    Microsoft.Office.Interop.Excel.Range rng;
+        //    rng = xlWorksheet.Range[xlWorksheet.Cells[startRowNumber, startColNumber], xlWorksheet.Cells[endRowNumber, endColNumber]];
+        //    rng.Font.Bold = boldText;
+        //    rng.Font.Italic = italicText;
+        //    rng.Font.Size = fontSize;
+        //    //rng.Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbFloralWhite;
+        //    //rng.Font.Color = System.Drawing.Color.FromArgb(erf.fontColorRed, erf.fontColorGreen, erf.fontColorBlue);
+
+        //    rng.Interior.Color = System.Drawing.Color.FromArgb(interiorColorRed, interiorColorGreen, interiorColorBlue);
+
+        //}
+
+
+        //public class ExcelRangeFormat
+        //{
+        //    public Microsoft.Office.Interop.Excel.Worksheet xlWorksheet;
+        //    public Int32 startRowNumber;
+        //    public Int32 endRowNumber;
+        //    public Int32 startColNumber;
+        //    public Int32 endColNumber;
+        //    public Int32 fontSize;
+        //    public Int32 fontColorRed;
+        //    public Int32 fontColorGreen;
+        //    public Int32 fontColorBlue;
+        //    public Int32 interiorColorRed;
+        //    public Int32 interiorColorGreen;
+        //    public Int32 interiorColorBlue;
+        //    public Boolean boldText;
+        //    public Boolean italicText;
+        //    public String fieldValues;
+        //}
+
+        /*******************************************************************************************************************************/
+
+        private void GenerateDeploymentPackage_Click(object sender, EventArgs e)
+        {
+            if (this.tbFromFolder.Text == "")
+            {
+                MessageBox.Show("Please select a Read-From folder", "Missing Read-From Folder", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            GenerateDeploymentPackage gdp = new GenerateDeploymentPackage();
+
+            gdp.tbMetadataFolderToReadFrom.Text = this.tbFromFolder.Text;
+            gdp.treeNodeCollFromDiff = this.treeViewDifferences.Nodes;
+            
+            gdp.populateMetadataTreeViewFromDiff();
+            gdp.Show();
         }
 
     }

@@ -38,11 +38,6 @@ namespace SalesforceMetadata
             {
                 addUserAndSOAPAPIAddress_Click(null, null);
             }
-            else
-            {
-                // populate the Salesforce credentials maps
-                SalesforceCredentials.populateUsernameMaps();
-            }
         }
 
         private void addUserAndSOAPAPIAddress_Click(object sender, EventArgs e)

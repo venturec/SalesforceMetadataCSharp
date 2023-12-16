@@ -17,6 +17,7 @@ namespace SalesforceMetadata
 {
     public partial class ObjectFieldInspector : System.Windows.Forms.Form
     {
+        private SalesforceCredentials sc;
         private Dictionary<String, String> usernameToSecurityToken;
 
         private List<String> sObjectsList;
@@ -26,6 +27,7 @@ namespace SalesforceMetadata
         public ObjectFieldInspector()
         {
             InitializeComponent();
+            sc = new SalesforceCredentials();
             lvwColumnSorter = new ListViewColumnSorter();
             this.listViewSobjectFields.ListViewItemSorter = lvwColumnSorter;
             populateCredentialsFile();
@@ -67,7 +69,6 @@ namespace SalesforceMetadata
 
         private void getSobjects()
         {
-            Boolean sfLoginSuccess = false;
             this.listViewSobjectFields.Items.Clear();
             this.sObjectsList = new List<string>();
             this.sObjGlobalResultList = new List<DescribeGlobalSObjectResult>();
@@ -78,10 +79,23 @@ namespace SalesforceMetadata
                 return;
             }
 
-            sfLoginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
-            if (sfLoginSuccess == false) return;
+            try
+            {
+                sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+                return;
+            }
 
-            DescribeGlobalResult dgr = SalesforceCredentials.fromOrgSS.describeGlobal();
+            if (sc.loginSuccess == false)
+            {
+                MessageBox.Show("Please check username, password and/or security token");
+                return;
+            }
+
+            DescribeGlobalResult dgr = sc.fromOrgSS.describeGlobal();
             DescribeGlobalSObjectResult[] sObjGlobalResult = dgr.sobjects;
 
             foreach (DescribeGlobalSObjectResult dgsr in sObjGlobalResult)
@@ -102,8 +116,18 @@ namespace SalesforceMetadata
         private void populateListView(String sobjectName)
         {
             this.listViewSobjectFields.Clear();
-            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
-            if (loginSuccess == false)
+
+            try
+            {
+                sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+                return;
+            }
+
+            if (sc.loginSuccess == false)
             {
                 MessageBox.Show("Please check username, password and/or security token");
                 return;
@@ -116,7 +140,7 @@ namespace SalesforceMetadata
             {
                 String[] sObjType = new String[1];
                 sObjType[0] = sobjectName;
-                dsrList = SalesforceCredentials.fromOrgSS.describeSObjects(sObjType);
+                dsrList = sc.fromOrgSS.describeSObjects(sObjType);
 
                 dsr = dsrList[0];
             }
@@ -372,7 +396,7 @@ namespace SalesforceMetadata
 
         private Metadata[] readMetadata(String metadataFolderName, String[] sobjectArray)
         {
-            Metadata[] sobjMetadata = SalesforceCredentials.fromOrgMS.readMetadata(metadataFolderName, sobjectArray);
+            Metadata[] sobjMetadata = sc.fromOrgMS.readMetadata(metadataFolderName, sobjectArray);
 
             return sobjMetadata;
         }
@@ -588,101 +612,12 @@ namespace SalesforceMetadata
                 return;
             }
 
-            SalesforceCredentials.usernamePartnerUrl = new Dictionary<String, String>();
-            SalesforceCredentials.usernameMetadataUrl = new Dictionary<String, String>();
-            SalesforceCredentials.usernameToolingWsdlUrl = new Dictionary<String, String>();
-            SalesforceCredentials.isProduction = new Dictionary<String, Boolean>();
-            SalesforceCredentials.defaultWsdlObjects = new Dictionary<String, List<String>>();
-
-            // Decrypt the contents of the file and place in an XML Document format
-            StreamReader encryptedContents = new StreamReader(Properties.Settings.Default.UserAndAPIFileLocation);
-            StreamReader sharedSecret = new StreamReader(Properties.Settings.Default.SharedSecretLocation);
-            String decryptedContents = Crypto.DecryptString(encryptedContents.ReadToEnd(),
-                                                            sharedSecret.ReadToEnd(),
-                                                            Properties.Settings.Default.Salt);
-
-            encryptedContents.Close();
-            sharedSecret.Close();
-
-            XmlDocument sfUser = new XmlDocument();
-            sfUser.LoadXml(decryptedContents);
-
-            XmlNodeList documentNodes = sfUser.GetElementsByTagName("usersetting");
-
-            this.usernameToSecurityToken = new Dictionary<string, string>();
-
-            for (int i = 0; i < documentNodes.Count; i++)
-            {
-                String username = "";
-                //String enterpriseWsdlUrl = "";
-                String partnerWsdlUrl = "";
-                String metadataWdldUrl = "";
-                String toolingWsdlUrl = "";
-                Boolean isProd = false;
-                List<String> defaultWsdlObjectList = new List<String>();
-                foreach (XmlNode childNode in documentNodes[i].ChildNodes)
-                {
-                    if (childNode.Name == "username")
-                    {
-                        username = childNode.InnerText;
-                    }
-
-                    if (childNode.Name == "securitytoken")
-                    {
-                        usernameToSecurityToken.Add(username, childNode.InnerText);
-                    }
-
-                    if (childNode.Name == "isproduction")
-                    {
-                        isProd = Convert.ToBoolean(childNode.InnerText);
-                    }
-
-                    if (childNode.Name == "partnerwsdlurl")
-                    {
-                        partnerWsdlUrl = childNode.InnerText;
-                    }
-
-                    if (childNode.Name == "metadatawsdlurl")
-                    {
-                        metadataWdldUrl = childNode.InnerText;
-                    }
-
-                    if (childNode.Name == "toolingwsdlurl")
-                    {
-                        toolingWsdlUrl = childNode.InnerText;
-                    }
-
-                    if (childNode.Name == "defaultpackages" && childNode.HasChildNodes)
-                    {
-                        XmlNodeList defObjects = childNode.ChildNodes;
-                        foreach (XmlNode obj in defObjects)
-                        {
-                            defaultWsdlObjectList.Add(obj.InnerText);
-                        }
-                    }
-                }
-
-                SalesforceCredentials.usernamePartnerUrl.Add(username, partnerWsdlUrl);
-                SalesforceCredentials.usernameMetadataUrl.Add(username, metadataWdldUrl);
-                SalesforceCredentials.isProduction.Add(username, isProd);
-
-                if (defaultWsdlObjectList.Count > 0)
-                {
-                    SalesforceCredentials.defaultWsdlObjects.Add(username, defaultWsdlObjectList);
-                }
-
-                if (toolingWsdlUrl != "")
-                {
-                    SalesforceCredentials.usernameToolingWsdlUrl.Add(username, toolingWsdlUrl);
-                }
-            }
-
             populateUserNames();
         }
 
         private void populateUserNames()
         {
-            foreach (String un in SalesforceCredentials.usernamePartnerUrl.Keys)
+            foreach (String un in sc.usernamePartnerUrl.Keys)
             {
                 this.cmbUserName.Items.Add(un);
             }
@@ -849,10 +784,17 @@ namespace SalesforceMetadata
 
         private void saveSelectedToExcel(List<String> sobjList)
         {
-            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
-            //Boolean toolingLoginSuccess = SalesforceCredentials.salesforceToolingLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
+            try
+            {
+                sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+                return;
+            }
 
-            if (loginSuccess == false)
+            if (sc.loginSuccess == false)
             {
                 MessageBox.Show("Please check username, password and/or security token");
                 return;
@@ -864,7 +806,7 @@ namespace SalesforceMetadata
             Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlapp.Workbooks.Add();
 
             DescribeSObjectResult[] dsrList = new DescribeSObjectResult[sobjList.Count];
-            dsrList = SalesforceCredentials.fromOrgSS.describeSObjects(sobjList.ToArray());
+            dsrList = sc.fromOrgSS.describeSObjects(sobjList.ToArray());
 
             foreach (DescribeSObjectResult dsr in dsrList)
             {
@@ -1069,7 +1011,7 @@ namespace SalesforceMetadata
 
             this.Text = "Object Field Inspector";
 
-            if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
+            if (sc.isProduction[this.cmbUserName.Text] == true)
             {
                 this.Text = "Object Field Inspector - PRODUCTION";
             }
@@ -1085,9 +1027,17 @@ namespace SalesforceMetadata
         {
             if (sobjectListBox.CheckedItems.Count > 0)
             {
-                Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
+                try
+                {
+                    sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                    return;
+                }
 
-                if (loginSuccess == false)
+                if (sc.loginSuccess == false)
                 {
                     MessageBox.Show("Please check username, password and/or security token");
                     return;
@@ -1133,7 +1083,7 @@ namespace SalesforceMetadata
                 }
 
                 DescribeSObjectResult[] dsrList = new DescribeSObjectResult[sobjList.Count];
-                dsrList = SalesforceCredentials.fromOrgSS.describeSObjects(sobjList.ToArray());
+                dsrList = sc.fromOrgSS.describeSObjects(sobjList.ToArray());
 
                 foreach (DescribeSObjectResult dsr in dsrList)
                 {

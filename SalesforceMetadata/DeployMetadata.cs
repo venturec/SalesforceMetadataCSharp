@@ -16,12 +16,14 @@ namespace SalesforceMetadata
 {
     public partial class DeployMetadata : System.Windows.Forms.Form
     {
+        private SalesforceCredentials sc;
         private int ONE_SECOND = 1000;
         private int MAX_NUM_POLL_REQUESTS = 50;
 
         public DeployMetadata()
         {
             InitializeComponent();
+            sc = new SalesforceCredentials();
             populateCredentialsFile();
         }
 
@@ -46,8 +48,17 @@ namespace SalesforceMetadata
             Boolean quickDeploySuccessful = false;
             this.rtMessages.Text = "";
 
-            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.TOORG, this.cmbUserName.Text);
-            if (loginSuccess == false)
+            try
+            {
+                sc.salesforceLogin(UtilityClass.REQUESTINGORG.TOORG, this.cmbUserName.Text);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+                return;
+            }
+
+            if (sc.loginSuccess == false)
             {
                 MessageBox.Show("Please check username, password and/or security token");
                 return;
@@ -62,11 +73,11 @@ namespace SalesforceMetadata
                 && this.tbDeploymentValidationId.Text != "")
             {
                 String asyncResultId = "";
-                if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
+                if (sc.isProduction[this.cmbUserName.Text] == true)
                 {
                     try
                     {
-                        asyncResultId = SalesforceCredentials.toOrgMS.deployRecentValidation(this.tbDeploymentValidationId.Text);
+                        asyncResultId = sc.toOrgMS.deployRecentValidation(this.tbDeploymentValidationId.Text);
                         quickDeploySuccessful = true;
                     }
                     catch (Exception exc1)
@@ -78,7 +89,7 @@ namespace SalesforceMetadata
                 {
                     try
                     {
-                        asyncResultId = SalesforceCredentials.toOrgMS.deployRecentValidation(this.tbDeploymentValidationId.Text);
+                        asyncResultId = sc.toOrgMS.deployRecentValidation(this.tbDeploymentValidationId.Text);
                         quickDeploySuccessful = true;
                     }
                     catch (Exception exc2)
@@ -108,7 +119,7 @@ namespace SalesforceMetadata
                     dopt.purgeOnDelete = true;
                 }
 
-                if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
+                if (sc.isProduction[this.cmbUserName.Text] == true)
                 {
                     dopt.rollbackOnError = true;
                     dopt.testLevel = TestLevel.RunLocalTests;
@@ -159,13 +170,13 @@ namespace SalesforceMetadata
                 byte[] byteArray = File.ReadAllBytes(this.tbZipFileLocation.Text);
 
                 AsyncResult ar = new AsyncResult();
-                if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
+                if (sc.isProduction[this.cmbUserName.Text] == true)
                 {
-                    ar = SalesforceCredentials.toOrgMS.deploy(byteArray, dopt);
+                    ar = sc.toOrgMS.deploy(byteArray, dopt);
                 }
                 else
                 {
-                    ar = SalesforceCredentials.toOrgMS.deploy(byteArray, dopt);
+                    ar = sc.toOrgMS.deploy(byteArray, dopt);
                 }
 
                 DeployResult result = waitForDeployCompletion(ar.id);
@@ -181,7 +192,7 @@ namespace SalesforceMetadata
             //String asyncResultId = asyncResult.id;
             DeployResult result = new DeployResult();
 
-            result = SalesforceCredentials.toOrgMS.checkDeployStatus(asyncResultId, true);
+            result = sc.toOrgMS.checkDeployStatus(asyncResultId, true);
 
             while (!result.done)
             {
@@ -194,7 +205,7 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    result = SalesforceCredentials.toOrgMS.checkDeployStatus(asyncResultId, true);
+                    result = sc.toOrgMS.checkDeployStatus(asyncResultId, true);
                 }
             }
 
@@ -240,7 +251,7 @@ namespace SalesforceMetadata
             this.lblSalesforce.Text = "";
             this.Text = "Deploy Salesforce Metadata";
 
-            if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
+            if (sc.isProduction[this.cmbUserName.Text] == true)
             {
                 this.lblSalesforce.Text = "Deploy to Salesforce Production";
                 this.Text = "Deploy Salesforce Metadata - PRODUCTION";
@@ -275,7 +286,7 @@ namespace SalesforceMetadata
 
         private void populateUserNames()
         {
-            foreach (String un in SalesforceCredentials.usernamePartnerUrl.Keys)
+            foreach (String un in sc.usernamePartnerUrl.Keys)
             {
                 this.cmbUserName.Items.Add(un);
             }

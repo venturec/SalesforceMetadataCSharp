@@ -27,6 +27,8 @@ namespace SalesforceMetadata
 {
     public partial class SalesforceMetadataStep2 : System.Windows.Forms.Form
     {
+        private SalesforceCredentials sc;
+
         private int ONE_SECOND = 1000;
         private int MAX_NUM_POLL_REQUESTS = 150;
 
@@ -45,6 +47,7 @@ namespace SalesforceMetadata
         public SalesforceMetadataStep2()
         {
             InitializeComponent();
+            sc = new SalesforceCredentials();
             alreadyAdded = new HashSet<String>();
         }
 
@@ -56,8 +59,17 @@ namespace SalesforceMetadata
             }
             else
             {
-                Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
-                if (loginSuccess == false)
+                try
+                {
+                    sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                    return;
+                }
+
+                if (sc.loginSuccess == false)
                 {
                     MessageBox.Show("Please check username, password and/or security token");
                     return;
@@ -68,7 +80,7 @@ namespace SalesforceMetadata
                 String target_dir = this.tbFromOrgSaveLocation.Text;
 
                 // Now build the target_dir and extractToFolder
-                String[] urlParsed = SalesforceCredentials.fromOrgLR.serverUrl.Split('/');
+                String[] urlParsed = sc.fromOrgLR.serverUrl.Split('/');
                 urlParsed = urlParsed[2].Split('.');
                 extractToFolder = urlParsed[0];
 
@@ -179,9 +191,18 @@ namespace SalesforceMetadata
             {
                 List<String> allProfileNames = new List<string>();
 
-                Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
+                try
+                {
+                    sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                    return;
+                }
+
                 QueryResult qr = new QueryResult();
-                qr = SalesforceCredentials.fromOrgSS.query("SELECT Id, Name FROM Profile");
+                qr = sc.fromOrgSS.query("SELECT Id, Name FROM Profile");
 
                 Boolean done = false;
                 while (done == false)
@@ -213,7 +234,7 @@ namespace SalesforceMetadata
                     }
                     else
                     {
-                        qr = SalesforceCredentials.fromOrgSS.queryMore(qr.queryLocator);
+                        qr = sc.fromOrgSS.queryMore(qr.queryLocator);
                     }
                 }
 
@@ -273,9 +294,18 @@ namespace SalesforceMetadata
             {
                 List<String> allProfileNames = new List<string>();
 
-                Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
+                try
+                {
+                    sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                    return;
+                }
+
                 QueryResult qr = new QueryResult();
-                qr = SalesforceCredentials.fromOrgSS.query("SELECT Id, Name FROM PermissionSet");
+                qr = sc.fromOrgSS.query("SELECT Id, Name FROM PermissionSet");
 
                 Boolean done = false;
                 while (done == false)
@@ -307,7 +337,7 @@ namespace SalesforceMetadata
                     }
                     else
                     {
-                        qr = SalesforceCredentials.fromOrgSS.queryMore(qr.queryLocator);
+                        qr = sc.fromOrgSS.queryMore(qr.queryLocator);
                     }
                 }
 
@@ -368,7 +398,7 @@ namespace SalesforceMetadata
                 List<String> emailMembers = new List<string>();
 
                 QueryResult qr = new QueryResult();
-                qr = SalesforceCredentials.fromOrgSS.query("SELECT Folder.DeveloperName, DeveloperName FROM EmailTemplate");
+                qr = sc.fromOrgSS.query("SELECT Folder.DeveloperName, DeveloperName FROM EmailTemplate");
 
                 Boolean done = false;
                 while (!done)
@@ -407,7 +437,7 @@ namespace SalesforceMetadata
                     }
                     else
                     {
-                        qr = SalesforceCredentials.fromOrgSS.queryMore(qr.queryLocator);
+                        qr = sc.fromOrgSS.queryMore(qr.queryLocator);
                     }
                 }
 
@@ -437,7 +467,7 @@ namespace SalesforceMetadata
                 List<String> selectedReportMembers = new List<string>();
 
                 QueryResult rf = new QueryResult();
-                rf = SalesforceCredentials.fromOrgSS.query("SELECT Id, DeveloperName FROM Folder");
+                rf = sc.fromOrgSS.query("SELECT Id, DeveloperName FROM Folder");
 
                 Boolean done = false;
                 while (!done)
@@ -462,12 +492,12 @@ namespace SalesforceMetadata
                     }
                     else
                     {
-                        rf = SalesforceCredentials.fromOrgSS.queryMore(rf.queryLocator);
+                        rf = sc.fromOrgSS.queryMore(rf.queryLocator);
                     }
                 }
 
                 QueryResult qr = new QueryResult();
-                qr = SalesforceCredentials.fromOrgSS.query("SELECT OwnerId, DeveloperName FROM Report");
+                qr = sc.fromOrgSS.query("SELECT OwnerId, DeveloperName FROM Report");
 
                 done = false;
                 while (!done)
@@ -498,7 +528,7 @@ namespace SalesforceMetadata
                     }
                     else
                     {
-                        qr = SalesforceCredentials.fromOrgSS.queryMore(qr.queryLocator);
+                        qr = sc.fromOrgSS.queryMore(qr.queryLocator);
                     }
                 }
 
@@ -699,7 +729,7 @@ namespace SalesforceMetadata
             packageXmlSB.Append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine);
             packageXmlSB.Append("<Package xmlns = \"http://soap.sforce.com/2006/04/metadata\">" + Environment.NewLine);
 
-            MetadataService ms = SalesforceCredentials.getMetadataService(reqOrg);
+            MetadataService ms = sc.getMetadataService(reqOrg);
             ms.AllowAutoRedirect = true;
 
             List<String> members = new List<String>();
@@ -794,7 +824,7 @@ namespace SalesforceMetadata
             packageXmlSB.Append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine);
             packageXmlSB.Append("<Package xmlns = \"http://soap.sforce.com/2006/04/metadata\">" + Environment.NewLine);
 
-            MetadataService ms = SalesforceCredentials.getMetadataService(reqOrg);
+            MetadataService ms = sc.getMetadataService(reqOrg);
             ms.AllowAutoRedirect = true;
 
             foreach (String selected in selectedItems)
@@ -930,7 +960,7 @@ namespace SalesforceMetadata
 
             AsyncResult asyncResult = new AsyncResult();
 
-            MetadataService ms = SalesforceCredentials.getMetadataService(reqOrg);
+            MetadataService ms = sc.getMetadataService(reqOrg);
             ms.AllowAutoRedirect = true;
 
             if (ms != null)
@@ -1162,7 +1192,7 @@ namespace SalesforceMetadata
 
         private List<String> getTabDescribe(UtilityClass.REQUESTINGORG reqOrg)
         {
-            DescribeTab[] descrTabs = SalesforceCredentials.getDescribeTab(reqOrg);
+            DescribeTab[] descrTabs = sc.getDescribeTab(reqOrg);
 
             List<String> members = new List<String>();
             for (Int32 i = 0; i < descrTabs.Length; i++)
@@ -1175,7 +1205,7 @@ namespace SalesforceMetadata
 
         private List<String> getSObjectMembers(UtilityClass.REQUESTINGORG reqOrg)
         {
-            DescribeGlobalResult dgr = SalesforceCredentials.getDescribeGlobalResult(reqOrg);
+            DescribeGlobalResult dgr = sc.getDescribeGlobalResult(reqOrg);
 
             List<String> members = new List<string>();
             for (Int32 i = 0; i < dgr.sobjects.Length; i++)

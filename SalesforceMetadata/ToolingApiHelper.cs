@@ -58,11 +58,11 @@ namespace SalesforceMetadata
         }
 
 
-        public static void getAllRecordTypes()
+        public static void getAllRecordTypes(SalesforceCredentials sc)
         {
             recordTypes = new Dictionary<String, PartnerWSDL.sObject>();
 
-            PartnerWSDL.QueryResult recordTypeQueryResults = SalesforceCredentials.fromOrgSS.query("SELECT Id, Name, SobjectType, DeveloperName FROM RecordType");
+            PartnerWSDL.QueryResult recordTypeQueryResults = sc.fromOrgSS.query("SELECT Id, Name, SobjectType, DeveloperName FROM RecordType");
 
             foreach (PartnerWSDL.sObject s in recordTypeQueryResults.records)
             {
@@ -4763,7 +4763,7 @@ namespace SalesforceMetadata
         }
 
 
-        public static void getApexClasses(String query, UtilityClass.REQUESTINGORG reqOrg, Dictionary<String, String> classIdToClassName)
+        public static void getApexClasses(SalesforceCredentials sc, String query, UtilityClass.REQUESTINGORG reqOrg, Dictionary<String, String> classIdToClassName)
         {
             // Make a call to the Tooling API to retrieve the ApexClassMember passing in the ApexClass IDs
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
@@ -4771,7 +4771,7 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
@@ -4798,12 +4798,13 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
-        public static void apexClassToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
+        public static void apexClassToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                            SalesforceCredentials sc,
                                             String query, 
                                             UtilityClass.REQUESTINGORG reqOrg, 
                                             Dictionary<String, String> classIdToClassName, 
@@ -4817,7 +4818,7 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
@@ -4947,7 +4948,7 @@ namespace SalesforceMetadata
                     if (retrieveAggregateCoverage && isTestClass == false)
                     {
                         SalesforceMetadata.ToolingWSDL.QueryResult toolingAggregateCoverageQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
-                        toolingAggregateCoverageQr = SalesforceCredentials.fromOrgToolingSvc.query(ApexCodeCoverageAggregateQuery(apexClass.Id));
+                        toolingAggregateCoverageQr = sc.fromOrgToolingSvc.query(ApexCodeCoverageAggregateQuery(apexClass.Id));
 
                         // Skip Test Classes
                         if (toolingAggregateCoverageQr.records != null)
@@ -4972,7 +4973,7 @@ namespace SalesforceMetadata
 
                             // Get Test Classes and Test Methods
                             apexTestClassesAndMethods = new SalesforceMetadata.ToolingWSDL.QueryResult();
-                            apexTestClassesAndMethods = SalesforceCredentials.fromOrgToolingSvc.query(ApexCodeCoverageQuery(apexClass.Id));
+                            apexTestClassesAndMethods = sc.fromOrgToolingSvc.query(ApexCodeCoverageQuery(apexClass.Id));
 
                             SalesforceMetadata.ToolingWSDL.sObject[] apexTestClassesAndMethodsRecords = apexTestClassesAndMethods.records;
 
@@ -5007,12 +5008,13 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
-        public static void apexComponentToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
+        public static void apexComponentToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                                SalesforceCredentials sc,
                                                 String query, 
                                                 UtilityClass.REQUESTINGORG reqOrg, 
                                                 Dictionary<String, String> classIdToClassName) 
@@ -5022,7 +5024,7 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
@@ -5105,12 +5107,13 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
-        public static void apexPageToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
+        public static void apexPageToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                           SalesforceCredentials sc,
                                            String query, 
                                            UtilityClass.REQUESTINGORG reqOrg, 
                                            Dictionary<String, String> classIdToClassName) 
@@ -5120,7 +5123,7 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
@@ -5202,12 +5205,13 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
         public static void apexTriggerToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                              SalesforceCredentials sc,
                                               String query,
                                               UtilityClass.REQUESTINGORG reqOrg,
                                               Dictionary<String, String> classIdToClassName,
@@ -5221,7 +5225,7 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
@@ -5337,7 +5341,7 @@ namespace SalesforceMetadata
                     if (retrieveAggregateCoverage)
                     {
                         SalesforceMetadata.ToolingWSDL.QueryResult toolingAggregateCoverageQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
-                        toolingAggregateCoverageQr = SalesforceCredentials.fromOrgToolingSvc.query(ApexCodeCoverageAggregateQuery(apexTrigger.Id));
+                        toolingAggregateCoverageQr = sc.fromOrgToolingSvc.query(ApexCodeCoverageAggregateQuery(apexTrigger.Id));
 
                         if (toolingAggregateCoverageQr.records != null)
                         {
@@ -5361,7 +5365,7 @@ namespace SalesforceMetadata
 
                             // Get Test Classes and Test Methods
                             apexTestClassesAndMethods = new SalesforceMetadata.ToolingWSDL.QueryResult();
-                            apexTestClassesAndMethods = SalesforceCredentials.fromOrgToolingSvc.query(ApexCodeCoverageQuery(apexTrigger.Id));
+                            apexTestClassesAndMethods = sc.fromOrgToolingSvc.query(ApexCodeCoverageQuery(apexTrigger.Id));
 
                             SalesforceMetadata.ToolingWSDL.sObject[] apexTestClassesAndMethodsRecords = apexTestClassesAndMethods.records;
 
@@ -5400,23 +5404,26 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
-        public static void auraDefinitionBundleToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, String query, UtilityClass.REQUESTINGORG reqOrg)
+        public static void auraDefinitionBundleToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                                      SalesforceCredentials sc,
+                                                      String query, 
+                                                      UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
             SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = sc.toOrgToolingSvc.query(query);
             }
 
             if (toolingQr.records == null) return;
@@ -5488,23 +5495,26 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
-        public static void compactLayoutToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, String query, UtilityClass.REQUESTINGORG reqOrg)
+        public static void compactLayoutToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                                SalesforceCredentials sc,
+                                                String query, 
+                                                UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
             SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = sc.toOrgToolingSvc.query(query);
             }
 
             if (toolingQr.records == null) return;
@@ -5567,23 +5577,26 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
-        public static void customApplicationToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, String query, UtilityClass.REQUESTINGORG reqOrg)
+        public static void customApplicationToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                                    SalesforceCredentials sc,
+                                                    String query, 
+                                                    UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
             SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = sc.toOrgToolingSvc.query(query);
             }
 
             if (toolingQr.records == null) return;
@@ -5657,23 +5670,26 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
-        public static void fieldSetToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, String query, UtilityClass.REQUESTINGORG reqOrg)
+        public static void fieldSetToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                           SalesforceCredentials sc,
+                                           String query, 
+                                           UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
             SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = sc.toOrgToolingSvc.query(query);
             }
 
             if (toolingQr.records == null) return;
@@ -5745,12 +5761,13 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
-        public static void customFieldToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
+        public static void customFieldToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                              SalesforceCredentials sc,
                                               String query, 
                                               UtilityClass.REQUESTINGORG reqOrg, 
                                               Dictionary<String, String> customObjIdToName, 
@@ -5761,11 +5778,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = sc.toOrgToolingSvc.query(query);
             }
 
             if (toolingQr.records == null) return;
@@ -5910,12 +5927,13 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
         public static void customObjectToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                               SalesforceCredentials sc,
                                                String query,
                                                UtilityClass.REQUESTINGORG reqOrg,
                                                Dictionary<String, String> customObjIdToName)
@@ -5925,11 +5943,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = sc.toOrgToolingSvc.query(query);
             }
 
             if (toolingQr.records == null) return;
@@ -6032,12 +6050,13 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
         public static void customTabToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                            SalesforceCredentials sc,
                                             String query,
                                             UtilityClass.REQUESTINGORG reqOrg)
         {
@@ -6046,11 +6065,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = sc.toOrgToolingSvc.query(query);
             }
 
             if (toolingQr.records == null) return;
@@ -6130,23 +6149,26 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
-        public static void emailTemplateToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, String query, UtilityClass.REQUESTINGORG reqOrg)
+        public static void emailTemplateToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                                SalesforceCredentials sc,
+                                                String query, 
+                                                UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
             SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = sc.toOrgToolingSvc.query(query);
             }
 
             if (toolingQr.records == null) return;
@@ -6218,12 +6240,13 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
-        public static void flexiPageToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
+        public static void flexiPageToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                            SalesforceCredentials sc,
                                             String query, 
                                             UtilityClass.REQUESTINGORG reqOrg,
                                             Dictionary<String, String> customObjIdToName)
@@ -6233,11 +6256,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = sc.toOrgToolingSvc.query(query);
             }
 
             if (toolingQr.records == null) return;
@@ -6304,12 +6327,15 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
-        public static void flowToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, String query, UtilityClass.REQUESTINGORG reqOrg)
+        public static void flowToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                       SalesforceCredentials sc,
+                                       String query, 
+                                       UtilityClass.REQUESTINGORG reqOrg)
         {
             // Make a call to the Tooling API to retrieve the ApexClassMember passing in the ApexClass IDs
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
@@ -6317,7 +6343,7 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
@@ -6423,19 +6449,22 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
-        public static void globalValueSetToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, String query, UtilityClass.REQUESTINGORG reqOrg)
+        public static void globalValueSetToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                                 SalesforceCredentials sc,
+                                                 String query, 
+                                                 UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
             SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
@@ -6507,20 +6536,23 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
 
         }
 
-        public static void groupToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, String query, UtilityClass.REQUESTINGORG reqOrg)
+        public static void groupToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                        SalesforceCredentials sc,
+                                        String query, 
+                                        UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
             SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
@@ -6602,12 +6634,13 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
-        public static void layoutToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
+        public static void layoutToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                         SalesforceCredentials sc,
                                          String query, 
                                          UtilityClass.REQUESTINGORG reqOrg,
                                          Dictionary<String, String> customObjIdToName)
@@ -6618,7 +6651,7 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
@@ -6716,13 +6749,14 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
 
         public static void lwcToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                      SalesforceCredentials sc,
                                       String query,
                                       UtilityClass.REQUESTINGORG reqOrg)
         {
@@ -6732,7 +6766,7 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
 
             if (toolingQr.records == null) return;
@@ -6808,20 +6842,23 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
 
-        public static void permissionSetToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, String query, UtilityClass.REQUESTINGORG reqOrg)
+        public static void permissionSetToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                                SalesforceCredentials sc,
+                                                String query, 
+                                                UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
             SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
@@ -6903,21 +6940,22 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
         public static void profileToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
-                                      String query,
-                                      UtilityClass.REQUESTINGORG reqOrg)
+                                          SalesforceCredentials sc,
+                                          String query,
+                                          UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
             SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
@@ -6989,19 +7027,22 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
-        public static void quickActionDefinitionToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, String query, UtilityClass.REQUESTINGORG reqOrg)
+        public static void quickActionDefinitionToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                                        SalesforceCredentials sc,
+                                                        String query, 
+                                                        UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
             SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
@@ -7109,14 +7150,15 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
         public static void recordTypesToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
-                                      String query,
-                                      UtilityClass.REQUESTINGORG reqOrg)
+                                              SalesforceCredentials sc,
+                                              String query,
+                                              UtilityClass.REQUESTINGORG reqOrg)
         {
             // Make a call to the Tooling API to retrieve the ApexClassMember passing in the ApexClass IDs
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
@@ -7124,7 +7166,7 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
 
             if (toolingQr.records == null) return;
@@ -7199,21 +7241,24 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
 
             }
         }
 
 
-        public static void tabDefinitionToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, String query, UtilityClass.REQUESTINGORG reqOrg)
+        public static void tabDefinitionToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                                SalesforceCredentials sc,
+                                                String query, 
+                                                UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
             SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
@@ -7263,12 +7308,13 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
-        public static void validationRuleToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
+        public static void validationRuleToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                                 SalesforceCredentials sc,
                                                  String query, 
                                                  UtilityClass.REQUESTINGORG reqOrg, 
                                                  Dictionary<String, String> customObjIdToName)
@@ -7278,7 +7324,7 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
@@ -7367,7 +7413,7 @@ namespace SalesforceMetadata
                     String queryByName = ValidationRuleQuery(validationRule.ValidationName, validationRule.EntityDefinitionId);
                     SalesforceMetadata.ToolingWSDL.QueryResult toolingQrByName = new SalesforceMetadata.ToolingWSDL.QueryResult();
                     SalesforceMetadata.ToolingWSDL.sObject[] toolingRecordsByName;
-                    toolingQrByName = SalesforceCredentials.fromOrgToolingSvc.query(queryByName);
+                    toolingQrByName = sc.fromOrgToolingSvc.query(queryByName);
 
                     if (toolingQr.records == null) return;
                     toolingRecordsByName = toolingQrByName.records;
@@ -7391,19 +7437,23 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
-        public static void workflowRuleToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, String query, UtilityClass.REQUESTINGORG reqOrg, Dictionary<String, String> customObjIdToName)
+        public static void workflowRuleToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                               SalesforceCredentials sc,
+                                               String query, 
+                                               UtilityClass.REQUESTINGORG reqOrg, 
+                                               Dictionary<String, String> customObjIdToName)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
             SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
@@ -7488,12 +7538,13 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
-        public static void workflowAlertToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
+        public static void workflowAlertToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                                SalesforceCredentials sc,
                                                 String query, 
                                                 UtilityClass.REQUESTINGORG reqOrg,
                                                 Dictionary<String, WorkflowRule> workflowRules)
@@ -7503,7 +7554,7 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
@@ -7588,12 +7639,13 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
-        public static void workflowFieldUpdateToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
+        public static void workflowFieldUpdateToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                                      SalesforceCredentials sc,
                                                       String query, 
                                                       UtilityClass.REQUESTINGORG reqOrg, 
                                                       Dictionary<String, String> customObjIdToName,
@@ -7604,7 +7656,7 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
@@ -7741,23 +7793,23 @@ namespace SalesforceMetadata
                 }
                 else
                 {
-                    toolingQr = SalesforceCredentials.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
             }
         }
 
 
-
-
-
-        public static void apexClassMemberToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, String query, UtilityClass.REQUESTINGORG reqOrg)
+        public static void apexClassMemberToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
+                                                  SalesforceCredentials sc,
+                                                  String query, 
+                                                  UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
             SalesforceMetadata.ToolingWSDL.sObject[] toolingRecords;
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = SalesforceCredentials.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(query);
             }
             else
             {
@@ -7770,6 +7822,7 @@ namespace SalesforceMetadata
 
             Boolean worksheetExists = false;
             Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = new Microsoft.Office.Interop.Excel.Worksheet();
+
             Int32 rowNumber = 2;
 
             foreach (Microsoft.Office.Interop.Excel.Worksheet sheet in xlWorkbook.Worksheets)
@@ -7817,78 +7870,74 @@ namespace SalesforceMetadata
                 xlWorksheet.Cells[1, 12].Value = "LastModifiedDate";
             }
 
+            Boolean done = false;
 
-            foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
+            while (done == false)
             {
-                SalesforceMetadata.ToolingWSDL.ApexClassMember apexClsMbr = (SalesforceMetadata.ToolingWSDL.ApexClassMember)toolingRecord;
-
-                SalesforceMetadata.ToolingWSDL.SymbolTable symbTbl = apexClsMbr.SymbolTable;
-
-                if (symbTbl != null)
+                foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
                 {
-                    SalesforceMetadata.ToolingWSDL.Constructor[] constrs = symbTbl.constructors;
-                    SalesforceMetadata.ToolingWSDL.ExternalReference[] extRefs = symbTbl.externalReferences;
-                    SalesforceMetadata.ToolingWSDL.SymbolTable[] innerCls = symbTbl.innerClasses;
-                    String[] interfcs = symbTbl.interfaces;
-                    SalesforceMetadata.ToolingWSDL.Method[] methds = symbTbl.methods;
-                    String parentCls = symbTbl.parentClass;
-                    SalesforceMetadata.ToolingWSDL.VisibilitySymbol[] proptys = symbTbl.properties;
-                    SalesforceMetadata.ToolingWSDL.Symbol tblDecl = symbTbl.tableDeclaration;
-                    SalesforceMetadata.ToolingWSDL.Symbol[] vars = symbTbl.variables;
+                    SalesforceMetadata.ToolingWSDL.ApexClassMember apexClsMbr = (SalesforceMetadata.ToolingWSDL.ApexClassMember)toolingRecord;
+
+                    SalesforceMetadata.ToolingWSDL.SymbolTable symbTbl = apexClsMbr.SymbolTable;
+
+                    if (symbTbl != null)
+                    {
+                        SalesforceMetadata.ToolingWSDL.Constructor[] constrs = symbTbl.constructors;
+                        SalesforceMetadata.ToolingWSDL.ExternalReference[] extRefs = symbTbl.externalReferences;
+                        SalesforceMetadata.ToolingWSDL.SymbolTable[] innerCls = symbTbl.innerClasses;
+                        String[] interfcs = symbTbl.interfaces;
+                        SalesforceMetadata.ToolingWSDL.Method[] methds = symbTbl.methods;
+                        String parentCls = symbTbl.parentClass;
+                        SalesforceMetadata.ToolingWSDL.VisibilitySymbol[] proptys = symbTbl.properties;
+                        SalesforceMetadata.ToolingWSDL.Symbol tblDecl = symbTbl.tableDeclaration;
+                        SalesforceMetadata.ToolingWSDL.Symbol[] vars = symbTbl.variables;
+                    }
+
+
+                    xlWorksheet.Cells[rowNumber, 1].Value = apexClsMbr.Id;
+                    xlWorksheet.Cells[rowNumber, 2].Value = apexClsMbr.FullName;
+                    xlWorksheet.Cells[rowNumber, 3].Value = apexClsMbr.Content;
+                    xlWorksheet.Cells[rowNumber, 4].Value = apexClsMbr.ContentEntity;
+                    xlWorksheet.Cells[rowNumber, 5].Value = apexClsMbr.ContentEntityId;
+                    xlWorksheet.Cells[rowNumber, 6].Value = apexClsMbr.Metadata;
+                    xlWorksheet.Cells[rowNumber, 7].Value = apexClsMbr.CreatedById;
+
+                    if (apexClsMbr.CreatedBy == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 8].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 8].Value = apexClsMbr.CreatedBy.Name;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 9].Value = apexClsMbr.LastModifiedById;
+
+                    if (apexClsMbr.LastModifiedBy == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 10].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 10].Value = apexClsMbr.LastModifiedBy.Name;
+                    }
+
+                    xlWorksheet.Cells[rowNumber, 11].Value = apexClsMbr.CreatedDate;
+                    xlWorksheet.Cells[rowNumber, 12].Value = apexClsMbr.LastModifiedDate;
+
+                    rowNumber++;
                 }
 
-
-                xlWorksheet.Cells[rowNumber, 1].Value = apexClsMbr.Id;
-                xlWorksheet.Cells[rowNumber, 2].Value = apexClsMbr.FullName;
-                xlWorksheet.Cells[rowNumber, 3].Value = apexClsMbr.Content;
-                xlWorksheet.Cells[rowNumber, 4].Value = apexClsMbr.ContentEntity;
-                xlWorksheet.Cells[rowNumber, 5].Value = apexClsMbr.ContentEntityId;
-                xlWorksheet.Cells[rowNumber, 6].Value = apexClsMbr.Metadata;
-                xlWorksheet.Cells[rowNumber, 7].Value = apexClsMbr.CreatedById;
-
-                if (apexClsMbr.CreatedBy == null)
+                if (toolingQr.done)
                 {
-                    xlWorksheet.Cells[rowNumber, 8].Value = "";
+                    done = true;
                 }
                 else
                 {
-                    xlWorksheet.Cells[rowNumber, 8].Value = apexClsMbr.CreatedBy.Name;
+                    toolingQr = sc.fromOrgToolingSvc.queryMore(toolingQr.queryLocator);
                 }
-
-                xlWorksheet.Cells[rowNumber, 9].Value = apexClsMbr.LastModifiedById;
-
-                if (apexClsMbr.LastModifiedBy == null)
-                {
-                    xlWorksheet.Cells[rowNumber, 10].Value = "";
-                }
-                else
-                {
-                    xlWorksheet.Cells[rowNumber, 10].Value = apexClsMbr.LastModifiedBy.Name;
-                }
-
-                xlWorksheet.Cells[rowNumber, 11].Value = apexClsMbr.CreatedDate;
-                xlWorksheet.Cells[rowNumber, 12].Value = apexClsMbr.LastModifiedDate;
-
-                rowNumber++;
             }
         }
-
-
-
-        //public class CustomObjectClass
-        //{
-        //    public String Id;
-        //    public String DeveloperName;
-        //    public String NamespacePrefix;
-        //    public String ExternalName;
-        //    public String ExternalRepository;
-        //    public String ManageableState;
-        //    public String SharingModel;
-        //    public String LastModifiedById;
-        //    public String LastModifiedByName;
-        //    public DateTime? CreatedDate;
-        //    public DateTime? LastModifiedDate;
-        //}
 
         public class WorkflowRule
         {
@@ -7956,6 +8005,5 @@ namespace SalesforceMetadata
             public String status;
             public String subject;
         }
-
     }
 }

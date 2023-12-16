@@ -12,7 +12,6 @@ namespace SalesforceMetadata
 {
     public partial class UserSettings : System.Windows.Forms.Form
     {
-
         public UserSettings()
         {
             InitializeComponent();
@@ -21,7 +20,6 @@ namespace SalesforceMetadata
             loadDefaultTextEditorPath();
             loadOtherDefaults();
         }
-
 
         private void tbXmlFileLocation_DoubleClick(object sender, EventArgs e)
         {
@@ -124,8 +122,6 @@ namespace SalesforceMetadata
                 Properties.Settings.Default.DefaultAPI = this.cmbDefaultAPI.Text;
                 Properties.Settings.Default.DefaultTextEditorPath = this.tbDefaultTextEditor.Text;
                 Properties.Settings.Default.Save();
-
-                SalesforceCredentials.populateUsernameMaps();
             }
             else
             {

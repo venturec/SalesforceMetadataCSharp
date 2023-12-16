@@ -23,8 +23,8 @@ namespace SalesforceMetadata
     {
         private Boolean runTreeNodeSelector = true;
 
-        private Dictionary<String, HashSet<String>> packageXmlObjectMembers = new Dictionary<String, HashSet<String>>();
-        private Dictionary<String, HashSet<String>> packageXmlDestructiveChangeMembers = new Dictionary<String, HashSet<String>>();
+        //private Dictionary<String, HashSet<String>> packageXmlObjectMembers = new Dictionary<String, HashSet<String>>();
+        //private Dictionary<String, HashSet<String>> packageXmlDestructiveChangeMembers = new Dictionary<String, HashSet<String>>();
 
         private HashSet<String> standardValueSets = new HashSet<string>();
 
@@ -402,6 +402,8 @@ namespace SalesforceMetadata
                 else if (nodeFullPath.Length > 2
                     && nodeFullPath[0] == "customMetadata")
                 {
+                    e.Node.Parent.Checked = true;
+
                     if (nodeFullPath.Length == 3
                         || nodeFullPath.Length == 4)
                     {
@@ -436,6 +438,7 @@ namespace SalesforceMetadata
                     && nodeFullPath[0] == "objects"
                     && nodeFullPath[1].Contains("__c"))
                 {
+                    e.Node.Parent.Checked = true;
                     selectRequiredObjectFields(nodeFullPath[1]);
                 }
                 else if (nodeFullPath.Length > 2
@@ -479,6 +482,8 @@ namespace SalesforceMetadata
                 else if (nodeFullPath.Length > 2
                         && nodeFullPath[0] == "objects")
                 {
+                    e.Node.Parent.Checked = true;
+
                     if (e.Node.Text.StartsWith("<fields"))
                     {
                         String tnd3XmlString = "<document>" + e.Node.Text + "</document>";
@@ -728,6 +733,8 @@ namespace SalesforceMetadata
                     {
                         if (tnd2.Text == objectName)
                         {
+                            tnd2.Checked = true;
+
                             foreach (TreeNode tnd3 in tnd2.Nodes)
                             {
                                 if (tnd3.Text.StartsWith("<deploymentStatus"))
@@ -795,6 +802,7 @@ namespace SalesforceMetadata
                                     if (objectFields.Contains(fieldXd.ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText))
                                     {
                                         tnd3.Checked = true;
+                                        tnd3.Parent.Checked = true;
 
                                         if (objectName.EndsWith("__c"))
                                         {
@@ -1519,13 +1527,15 @@ namespace SalesforceMetadata
             List<String> filesDeployed = new List<string>();
             foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
             {
+                String metadataType = MetadataDifferenceProcessing.folderToType(tnd1.Text, "");
+
                 if (tnd1.Nodes.Count > 0)
                 {
                     foreach (TreeNode tnd2 in tnd1.Nodes)
                     {
                         if (tnd2.Checked == true)
                         {
-                            String[] nodeFullPath = tnd2.FullPath.Split('\\');
+                            String[] tnd2NodeFullPath = tnd2.FullPath.Split('\\');
                             filesDeployed.Add(tnd1.Text + "\\" + tnd2.Text);
 
                             DirectoryInfo di;
@@ -1539,26 +1549,51 @@ namespace SalesforceMetadata
                             }
 
                             // Copy the directory
-                            if (tnd1.Text == "aura" || tnd1.Text == "lwc")
+                            if (metadataType == "AuraDefinitionBundle" || metadataType == "LightningComponentBundle")
                             {
-                                UtilityClass.copyDirectory(this.tbProjectFolder.Text + "\\" + tnd1.Text + "\\" + nodeFullPath[1],
-                                                           folderPath + "\\" + tnd1.Text + "\\" + nodeFullPath[1],
+                                UtilityClass.copyDirectory(this.tbProjectFolder.Text + "\\" + tnd1.Text + "\\" + tnd2NodeFullPath[1],
+                                                           folderPath + "\\" + tnd1.Text + "\\" + tnd2NodeFullPath[1],
                                                            true);
 
-                                if (packageXml.ContainsKey(tnd1.Text))
+                                if (packageXml.ContainsKey(metadataType))
                                 {
-                                    packageXml[tnd1.Text].Add(nodeFullPath[1]);
+                                    packageXml[metadataType].Add(tnd2NodeFullPath[1]);
                                 }
                                 else
                                 {
-                                    packageXml.Add(tnd1.Text, new HashSet<String> { nodeFullPath[1] });
+                                    packageXml.Add(metadataType, new HashSet<String> { tnd2NodeFullPath[1] });
                                 }
                             }
-                            else if (tnd1.Text == "objects" || tnd1.Text == "objectTranslations")
+                            else if (metadataType == "CustomMetadata")
+                            {
+                                // Loop through the child nodes, get the CMT names and then add an .md before copying to the deployment folder
+                                if (tnd2.Checked == true)
+                                {
+                                    foreach (TreeNode tnd3 in tnd2.Nodes)
+                                    {
+                                        if (tnd3.Checked == true)
+                                        {
+                                            String[] cmtRecordSplit = tnd3.Text.Split('.');
+
+                                            File.Copy(this.tbProjectFolder.Text + "\\" + tnd1.Text + "\\" + tnd2.Text + "." + tnd3.Text,
+                                                folderPath + "\\" + tnd1.Text + "\\" + tnd2.Text + "." + tnd3.Text);
+
+                                            if (packageXml.ContainsKey(metadataType))
+                                            {
+                                                packageXml[metadataType].Add(tnd2.Text + '.' + cmtRecordSplit[0]);
+                                            }
+                                            else
+                                            {
+                                                packageXml.Add(metadataType, new HashSet<string> { tnd2.Text + '.' + cmtRecordSplit[0] });
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else if (metadataType == "CustomObject" || metadataType == "CustomObjectTranslation")
                             {
                                 // Create the file and write the selected values to the file
-                                //Debug.Write("tnd1.Text == \"objects\" || tnd1.Text == \"objectTranslations\"");
-                                StreamWriter objSw = new StreamWriter(di.FullName + "\\" + nodeFullPath[1]);
+                                StreamWriter objSw = new StreamWriter(di.FullName + "\\" + tnd2NodeFullPath[1]);
 
                                 objSw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
                                 objSw.WriteLine("<CustomObject xmlns=\"http://soap.sforce.com/2006/04/metadata\">");
@@ -1568,39 +1603,154 @@ namespace SalesforceMetadata
                                     if (tnd3.Checked == true)
                                     {
                                         objSw.WriteLine(tnd3.Text);
+
+                                        String[] tnd3NodeFullPath = tnd3.FullPath.Split('\\');
+                                        directoryName = tnd3NodeFullPath[0];
+
+                                        String[] objectNameSplit = tnd3NodeFullPath[1].Split('.');
+
+                                        //String parentNode = MetadataDifferenceProcessing.folderToType(tnd3NodeFullPath[0], "");
+
+                                        // Add the custom field to the dictionary
+                                        if (tnd3NodeFullPath.Length == 3)
+                                        {
+                                            if (tnd3NodeFullPath[0] == "objects"
+                                                && tnd3NodeFullPath[2].StartsWith("<fields"))
+                                            {
+                                                String xmlString = "<document>" + tnd3NodeFullPath[2] + "</document>";
+                                                XmlDocument xd = new XmlDocument();
+                                                xd.LoadXml(xmlString);
+                                                
+                                                String objectFieldCombo = objectNameSplit[0] + "." + xd.ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
+
+                                                // Add the custom field to the packagexml dictionary
+                                                if (packageXml.ContainsKey("CustomField"))
+                                                {
+                                                    packageXml["CustomField"].Add(objectFieldCombo);
+                                                }
+                                                else
+                                                {
+                                                    packageXml.Add("CustomField", new HashSet<string> { objectFieldCombo });
+                                                }
+
+                                                // Add the custom object to the packagexml dictionary
+                                                if (packageXml.ContainsKey(metadataType))
+                                                {
+                                                    packageXml[metadataType].Add(objectNameSplit[0]);
+                                                }
+                                                else
+                                                {
+                                                    packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] });
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (packageXml.ContainsKey(metadataType))
+                                            {
+                                                packageXml[metadataType].Add(objectNameSplit[0]);
+                                            }
+                                            else
+                                            {
+                                                packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] });
+                                            }
+                                        }
                                     }
                                 }
 
                                 objSw.WriteLine("</CustomObject>");
                                 objSw.Close();
                             }
-                            else if (tnd1.Text == "profiles")
+                            else if (metadataType == "Profile")
                             {
                                 //Debug.Write("tnd1.Text == \"profiles\"");
                             }
-                            else if (tnd1.Text == "permissionsets")
+                            else if (metadataType == "PermissionSet")
                             {
                                 //Debug.Write("tnd1.Text == \"permissionsets\"");
                             }
-                            else if (tnd1.Text == "reports")
+                            else if (metadataType == "Report")
                             {
                                 //Debug.Write("tnd1.Text == \"reports\"");
                             }
                             else
                             {
-                                File.Copy(this.tbProjectFolder.Text + "\\" + tnd1.Text + "\\" + nodeFullPath[1],
-                                          folderPath + "\\" + tnd1.Text + "\\" + nodeFullPath[1]);
-                            }
+                                File.Copy(this.tbProjectFolder.Text + "\\" + tnd1.Text + "\\" + tnd2NodeFullPath[1],
+                                          folderPath + "\\" + tnd1.Text + "\\" + tnd2NodeFullPath[1]);
 
-                            // Build the packageXml dictionary for writing out the actual package.xml file
-                            if (!tnd2.Text.EndsWith("-meta.xml")
-                                && packageXml.ContainsKey(tnd1.Text))
-                            {
-                                packageXml[tnd1.Text].Add(nodeFullPath[1]);
-                            }
-                            else if (!tnd2.Text.EndsWith("-meta.xml"))
-                            {
-                                packageXml.Add(tnd1.Text, new HashSet<String> { nodeFullPath[1] });
+                                String[] objectNameSplit = tnd2NodeFullPath[1].Split('.');
+
+                                if (metadataType == "ApprovalProcess")
+                                {
+                                    if (packageXml.ContainsKey(metadataType))
+                                    {
+                                        packageXml[metadataType].Add(objectNameSplit[0] + "." + objectNameSplit[1]);
+                                    }
+                                    else
+                                    {
+                                        packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] + "." + objectNameSplit[1] });
+                                    }
+                                }
+                                else if (metadataType == "ApexClass")
+                                {
+                                    if (packageXml.ContainsKey(metadataType)
+                                        && !tnd2.Text.EndsWith("-meta.xml"))
+                                    {
+                                        packageXml[metadataType].Add(objectNameSplit[0]);
+                                    }
+                                    else if (!tnd2.Text.EndsWith("-meta.xml"))
+                                    {
+                                        packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] });
+                                    }
+                                }
+                                else if (metadataType == "ApexTrigger")
+                                {
+                                    if (packageXml.ContainsKey(metadataType)
+                                        && !tnd2.Text.EndsWith("-meta.xml"))
+                                    {
+                                        packageXml[metadataType].Add(objectNameSplit[0]);
+                                    }
+                                    else if (!tnd2.Text.EndsWith("-meta.xml"))
+                                    {
+                                        packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] });
+                                    }
+                                }
+                                else if (metadataType == "QuickAction")
+                                {
+                                    if (objectNameSplit.Length == 2)
+                                    {
+                                        if (packageXml.ContainsKey(metadataType))
+                                        {
+                                            packageXml[metadataType].Add(objectNameSplit[0]);
+                                        }
+                                        else
+                                        {
+                                            packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] });
+                                        }
+                                    }
+                                    else if (objectNameSplit.Length == 3)
+                                    {
+                                        if (packageXml.ContainsKey(metadataType))
+                                        {
+                                            packageXml[metadataType].Add(objectNameSplit[0] + "." + objectNameSplit[1]);
+                                        }
+                                        else
+                                        {
+                                            packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] + "." + objectNameSplit[1] });
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if (packageXml.ContainsKey(metadataType))
+                                    {
+                                        packageXml[metadataType].Add(objectNameSplit[0]);
+                                    }
+                                    else
+                                    {
+                                        packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] });
+                                    }
+                                }
                             }
                         }
                     }
@@ -1629,12 +1779,13 @@ namespace SalesforceMetadata
 
                 foreach (String memberName in packageXml[typeName])
                 {
-                    String[] objName = memberName.Split('.');
-
-                    sw.WriteLine("<members>" + objName[0] + "</members>");
+                    //String[] objName = memberName.Split('.');
+                    //sw.WriteLine("<members>" + objName[0] + "</members>");
+                    sw.WriteLine("<members>" + memberName + "</members>");
                 }
 
-                sw.WriteLine("<name>" + MetadataDifferenceProcessing.folderToType(typeName, "") + "</name>");
+                //sw.WriteLine("<name>" + MetadataDifferenceProcessing.folderToType(typeName, "") + "</name>");
+                sw.WriteLine("<name>" + typeName + "</name>");
                 sw.WriteLine("</types>");
             }
 

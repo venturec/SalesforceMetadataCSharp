@@ -3067,10 +3067,10 @@ namespace SalesforceMetadata
             {
                 typeName = "EmailServicesFunction";
             }
-            //else if (folderName == "")
-            //{
-            //    typeName = "EmailTemplate";
-            //}
+            else if (folderName == "email")
+            {
+                typeName = "EmailTemplate";
+            }
             else if (folderName == "EmbeddedServiceBranding")
             {
                 typeName = "EmbeddedServiceBranding";
@@ -3399,10 +3399,10 @@ namespace SalesforceMetadata
             {
                 typeName = "RemoteSiteSetting";
             }
-            //else if (folderName == "reports")
-            //{
-            //    typeName = "Report";
-            //}
+            else if (folderName == "reports")
+            {
+                typeName = "Report";
+            }
             else if (folderName == "reportTypes")
             {
                 typeName = "ReportType";

@@ -16,12 +16,14 @@ namespace SalesforceMetadata
 {
     public partial class SalesforceMetadataStep1 : System.Windows.Forms.Form
     {
+        private SalesforceCredentials sc;
+
         // Key = the Metadata Name. Value = the folder the metadata file comes from
         private Dictionary<String, String> metadataXmlNameToFolder;
         private UserSettings userSetting;
         private List<String> metadataObjectsList;
 
-        private UtilityClass.REQUESTINGORG reqOrg;
+        //private UtilityClass.REQUESTINGORG reqOrg;
 
         private String orgName;
 
@@ -29,14 +31,13 @@ namespace SalesforceMetadata
         {
             InitializeComponent();
             this.orgName = "";
+            sc = new SalesforceCredentials();
             populateCredentialsFile();
         }
-
 
         private void btnGetMetadataTypes_Click(object sender, EventArgs e)
         {
             this.lbMetadataTypes.Items.Clear();
-            this.reqOrg = UtilityClass.REQUESTINGORG.FROMORG;
 
             if (String.IsNullOrEmpty(this.cmbUserName.Text))
             {
@@ -50,15 +51,24 @@ namespace SalesforceMetadata
 
         private void getMetadataTypes(String userName)
         {
-            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(reqOrg, this.cmbUserName.Text);
-            if (loginSuccess == false)
+            try
+            {
+                sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+                return;
+            }
+
+            if (sc.loginSuccess == false)
             {
                 MessageBox.Show("Please check username, password and/or security token");
                 return;
             }
 
             DescribeMetadataResult dmd = new DescribeMetadataResult();
-            dmd = SalesforceCredentials.getDescribeMetadataResult(reqOrg);
+            dmd = sc.getDescribeMetadataResult(UtilityClass.REQUESTINGORG.FROMORG);
 
             DescribeMetadataObject[] dmdObjects = dmd.metadataObjects;
 
@@ -74,27 +84,24 @@ namespace SalesforceMetadata
             metadataObjectsList.Sort();
 
             List<String> defObjectList = new List<String>();
-            if (SalesforceCredentials.defaultWsdlObjects.ContainsKey(userName))
+            if (sc.defaultWsdlObjects.ContainsKey(userName))
             {
-                defObjectList = SalesforceCredentials.defaultWsdlObjects[userName];
+                defObjectList = sc.defaultWsdlObjects[userName];
             }
 
-            if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
+            foreach (String s in metadataObjectsList)
             {
-                foreach (String s in metadataObjectsList)
+                if (defObjectList.Contains(s))
                 {
-                    if (defObjectList.Contains(s))
-                    {
-                        lbMetadataTypes.Items.Add(s, true);
-                    }
-                    else
-                    {
-                        lbMetadataTypes.Items.Add(s, false);
-                    }
+                    lbMetadataTypes.Items.Add(s, true);
+                }
+                else
+                {
+                    lbMetadataTypes.Items.Add(s, false);
                 }
             }
 
-            SalesforceCredentials.salesforceLogout();
+            sc.salesforceLogout();
             btnGetMetadataTypes.Enabled = false;
             btnExportMetadataTypes.Enabled = true;
         }
@@ -104,7 +111,7 @@ namespace SalesforceMetadata
         {
             this.Text = "Salesforce Metadata";
 
-            if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
+            if (sc.isProduction[this.cmbUserName.Text] == true)
             {
                 this.lblSalesforce.Text = "Salesforce";
                 this.Text = "Salesforce Metadata - Production";
@@ -134,8 +141,6 @@ namespace SalesforceMetadata
                 MessageBox.Show("Please select a Username before continuing");
                 return;
             }
-
-            this.reqOrg = UtilityClass.REQUESTINGORG.FROMORG;
 
             CheckedListBox.CheckedItemCollection selItems = this.lbMetadataTypes.CheckedItems;
 
@@ -231,7 +236,7 @@ namespace SalesforceMetadata
 
         private void populateUserNames()
         {
-            foreach (String un in SalesforceCredentials.usernamePartnerUrl.Keys)
+            foreach (String un in sc.usernamePartnerUrl.Keys)
             {
                 this.cmbUserName.Items.Add(un);
             }
@@ -245,8 +250,17 @@ namespace SalesforceMetadata
                 return;
             }
 
-            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
-            if (loginSuccess == false)
+            try
+            {
+                sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+                return;
+            }
+
+            if (sc.loginSuccess == false)
             {
                 MessageBox.Show("Please check username, password and/or security token");
                 return;
@@ -262,7 +276,7 @@ namespace SalesforceMetadata
             else
             {
                 String userId = "";
-                userId = SalesforceCredentials.fromOrgLR.userId;
+                userId = sc.fromOrgLR.userId;
 
                 selectStatement = "SELECT Id FROM ApexLog WHERE LogUserId = \'" + userId + "\'";
             }
@@ -271,7 +285,7 @@ namespace SalesforceMetadata
 
             try
             {
-                qr = SalesforceCredentials.fromOrgSS.query(selectStatement);
+                qr = sc.fromOrgSS.query(selectStatement);
                 
                 if (qr.size > 2000)
                 {
@@ -318,13 +332,13 @@ namespace SalesforceMetadata
                             {
                                 if (recordIdsToDelete[rtd].Count > 0)
                                 {
-                                    PartnerWSDL.DeleteResult[] dr = SalesforceCredentials.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
+                                    PartnerWSDL.DeleteResult[] dr = sc.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
                                 }
                             }
 
                             if (!qr.done)
                             {
-                                qr = SalesforceCredentials.fromOrgSS.queryMore(qr.queryLocator);
+                                qr = sc.fromOrgSS.queryMore(qr.queryLocator);
                             }
                             else
                             {
@@ -366,7 +380,7 @@ namespace SalesforceMetadata
                     {
                         if (recordIdsToDelete[rtd].Count > 0)
                         {
-                            PartnerWSDL.DeleteResult[] dr = SalesforceCredentials.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
+                            PartnerWSDL.DeleteResult[] dr = sc.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
                         }
                     }
                 }
@@ -521,23 +535,20 @@ namespace SalesforceMetadata
             lbMetadataTypes.Items.Clear();
 
             List<String> defObjectList = new List<String>();
-            if (SalesforceCredentials.defaultWsdlObjects.ContainsKey(this.cmbUserName.Text))
+            if (sc.defaultWsdlObjects.ContainsKey(this.cmbUserName.Text))
             {
-                defObjectList = SalesforceCredentials.defaultWsdlObjects[this.cmbUserName.Text];
+                defObjectList = sc.defaultWsdlObjects[this.cmbUserName.Text];
             }
 
-            if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
+            foreach (String s in metadataObjectsList)
             {
-                foreach (String s in metadataObjectsList)
+                if (defObjectList.Contains(s))
                 {
-                    if (defObjectList.Contains(s))
-                    {
-                        lbMetadataTypes.Items.Add(s, true);
-                    }
-                    else
-                    {
-                        lbMetadataTypes.Items.Add(s, false);
-                    }
+                    lbMetadataTypes.Items.Add(s, true);
+                }
+                else
+                {
+                    lbMetadataTypes.Items.Add(s, false);
                 }
             }
         }

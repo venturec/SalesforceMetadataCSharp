@@ -16,6 +16,8 @@ namespace SalesforceMetadata
 {
     public partial class DevelopmentEnvironment : Form
     {
+        private SalesforceCredentials sc;
+
         private Dictionary<String, String> usernameToSecurityToken;
         HashSet<String> mainFolderNames;
         Dictionary<String, TreeNode> tnListAddDependencies;
@@ -31,6 +33,7 @@ namespace SalesforceMetadata
         public DevelopmentEnvironment()
         {
             InitializeComponent();
+            sc = new SalesforceCredentials();
             populateCredentialsFile();
         }
 
@@ -49,100 +52,12 @@ namespace SalesforceMetadata
                 return;
             }
 
-            SalesforceCredentials.usernamePartnerUrl = new Dictionary<String, String>();
-            SalesforceCredentials.usernameMetadataUrl = new Dictionary<String, String>();
-            SalesforceCredentials.usernameToolingWsdlUrl = new Dictionary<String, String>();
-            SalesforceCredentials.isProduction = new Dictionary<String, Boolean>();
-            SalesforceCredentials.defaultWsdlObjects = new Dictionary<String, List<String>>();
-
-            // Decrypt the contents of the file and place in an XML Document format
-            StreamReader encryptedContents = new StreamReader(Properties.Settings.Default.UserAndAPIFileLocation);
-            StreamReader sharedSecret = new StreamReader(Properties.Settings.Default.SharedSecretLocation);
-            String decryptedContents = Crypto.DecryptString(encryptedContents.ReadToEnd(),
-                                                            sharedSecret.ReadToEnd(),
-                                                            Properties.Settings.Default.Salt);
-
-            encryptedContents.Close();
-            sharedSecret.Close();
-
-            XmlDocument sfUser = new XmlDocument();
-            sfUser.LoadXml(decryptedContents);
-
-            XmlNodeList documentNodes = sfUser.GetElementsByTagName("usersetting");
-
-            this.usernameToSecurityToken = new Dictionary<string, string>();
-
-            for (int i = 0; i < documentNodes.Count; i++)
-            {
-                String username = "";
-                String partnerWsdlUrl = "";
-                String metadataWdldUrl = "";
-                String toolingWsdlUrl = "";
-                Boolean isProd = false;
-                List<String> defaultWsdlObjectList = new List<String>();
-                foreach (XmlNode childNode in documentNodes[i].ChildNodes)
-                {
-                    if (childNode.Name == "username")
-                    {
-                        username = childNode.InnerText;
-                    }
-
-                    if (childNode.Name == "securitytoken")
-                    {
-                        usernameToSecurityToken.Add(username, childNode.InnerText);
-                    }
-
-                    if (childNode.Name == "isproduction")
-                    {
-                        isProd = Convert.ToBoolean(childNode.InnerText);
-                    }
-
-                    if (childNode.Name == "partnerwsdlurl")
-                    {
-                        partnerWsdlUrl = childNode.InnerText;
-                    }
-
-                    if (childNode.Name == "metadatawsdlurl")
-                    {
-                        metadataWdldUrl = childNode.InnerText;
-                    }
-
-                    if (childNode.Name == "toolingwsdlurl")
-                    {
-                        toolingWsdlUrl = childNode.InnerText;
-                    }
-
-                    if (childNode.Name == "defaultpackages" && childNode.HasChildNodes)
-                    {
-                        XmlNodeList defObjects = childNode.ChildNodes;
-                        foreach (XmlNode obj in defObjects)
-                        {
-                            defaultWsdlObjectList.Add(obj.InnerText);
-                        }
-                    }
-                }
-
-                SalesforceCredentials.usernamePartnerUrl.Add(username, partnerWsdlUrl);
-                SalesforceCredentials.usernameMetadataUrl.Add(username, metadataWdldUrl);
-                SalesforceCredentials.isProduction.Add(username, isProd);
-
-                if (defaultWsdlObjectList.Count > 0)
-                {
-                    SalesforceCredentials.defaultWsdlObjects.Add(username, defaultWsdlObjectList);
-                }
-
-                if (toolingWsdlUrl != "")
-                {
-                    SalesforceCredentials.usernameToolingWsdlUrl.Add(username, toolingWsdlUrl);
-                }
-            }
-
             populateUserNames();
         }
 
         private void populateUserNames()
         {
-            foreach (String un in SalesforceCredentials.usernamePartnerUrl.Keys)
+            foreach (String un in sc.usernamePartnerUrl.Keys)
             {
                 this.cmbUserName.Items.Add(un);
             }
@@ -957,13 +872,15 @@ namespace SalesforceMetadata
             List<String> filesDeployed = new List<string>();
             foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
             {
+                String metadataType = MetadataDifferenceProcessing.folderToType(tnd1.Text, "");
+
                 if (tnd1.Nodes.Count > 0)
                 {
                     foreach (TreeNode tnd2 in tnd1.Nodes)
                     {
                         if (tnd2.Checked == true)
                         {
-                            String[] nodeFullPath = tnd2.FullPath.Split('\\');
+                            String[] tnd2NodeFullPath = tnd2.FullPath.Split('\\');
                             filesDeployed.Add(tnd1.Text + "\\" + tnd2.Text);
 
                             DirectoryInfo di;
@@ -977,26 +894,52 @@ namespace SalesforceMetadata
                             }
 
                             // Copy the directory
-                            if (tnd1.Text == "aura" || tnd1.Text == "lwc")
+                            if (metadataType == "AuraDefinitionBundle" || metadataType == "LightningComponentBundle")
                             {
-                                UtilityClass.copyDirectory(this.tbProjectFolder.Text + "\\" + tnd1.Text + "\\" + nodeFullPath[1],
-                                                           folderPath + "\\" + tnd1.Text + "\\" + nodeFullPath[1],
+                                UtilityClass.copyDirectory(this.tbProjectFolder.Text + "\\" + tnd1.Text + "\\" + tnd2NodeFullPath[1],
+                                                           folderPath + "\\" + tnd1.Text + "\\" + tnd2NodeFullPath[1],
                                                            true);
 
-                                if (packageXml.ContainsKey(tnd1.Text))
+                                if (packageXml.ContainsKey(metadataType))
                                 {
-                                    packageXml[tnd1.Text].Add(nodeFullPath[1]);
+                                    packageXml[metadataType].Add(tnd2NodeFullPath[1]);
                                 }
                                 else
                                 {
-                                    packageXml.Add(tnd1.Text, new HashSet<String> { nodeFullPath[1] });
+                                    packageXml.Add(metadataType, new HashSet<String> { tnd2NodeFullPath[1] });
                                 }
                             }
-                            else if (tnd1.Text == "objects" || tnd1.Text == "objectTranslations")
+                            else if (metadataType == "CustomMetadata")
+                            {
+                                // Loop through the child nodes, get the CMT names and then add an .md before copying to the deployment folder
+                                if (tnd2.Checked == true)
+                                {
+                                    foreach (TreeNode tnd3 in tnd2.Nodes)
+                                    {
+                                        if (tnd3.Checked == true)
+                                        {
+                                            String[] cmtRecordSplit = tnd3.Text.Split('.');
+
+                                            File.Copy(this.tbProjectFolder.Text + "\\" + tnd1.Text + "\\" + tnd2.Text + "." + tnd3.Text,
+                                                folderPath + "\\" + tnd1.Text + "\\" + tnd2.Text + "." + tnd3.Text);
+
+                                            if (packageXml.ContainsKey(metadataType))
+                                            {
+                                                packageXml[metadataType].Add(tnd2.Text + '.' + cmtRecordSplit[0]);
+                                            }
+                                            else
+                                            {
+                                                packageXml.Add(metadataType, new HashSet<string> { tnd2.Text + '.' + cmtRecordSplit[0] });
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else if (metadataType == "CustomObject" || metadataType == "CustomObjectTranslation")
                             {
                                 // Create the file and write the selected values to the file
-                                //Debug.Write("tnd1.Text == \"objects\" || tnd1.Text == \"objectTranslations\"");
-                                StreamWriter objSw = new StreamWriter(di.FullName + "\\" + nodeFullPath[1]);
+
+                                StreamWriter objSw = new StreamWriter(di.FullName + "\\" + tnd2NodeFullPath[1]);
 
                                 objSw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
                                 objSw.WriteLine("<CustomObject xmlns=\"http://soap.sforce.com/2006/04/metadata\">");
@@ -1006,39 +949,155 @@ namespace SalesforceMetadata
                                     if (tnd3.Checked == true)
                                     {
                                         objSw.WriteLine(tnd3.Text);
+
+                                        String[] tnd3NodeFullPath = tnd3.FullPath.Split('\\');
+                                        directoryName = tnd3NodeFullPath[0];
+
+                                        String[] objectNameSplit = tnd3NodeFullPath[1].Split('.');
+
+                                        //String parentNode = MetadataDifferenceProcessing.folderToType(tnd3NodeFullPath[0], "");
+
+                                        // Add the custom field to the dictionary
+                                        if (tnd3NodeFullPath.Length == 3)
+                                        {
+                                            if (tnd3NodeFullPath[0] == "objects"
+                                                && tnd3NodeFullPath[2].StartsWith("<fields"))
+                                            {
+                                                String xmlString = "<document>" + tnd3NodeFullPath[2] + "</document>";
+                                                XmlDocument xd = new XmlDocument();
+                                                xd.LoadXml(xmlString);
+
+                                                String objectFieldCombo = objectNameSplit[0] + "." + xd.ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
+
+                                                // Add the custom field to the packagexml dictionary
+                                                if (packageXml.ContainsKey("CustomField"))
+                                                {
+                                                    packageXml["CustomField"].Add(objectFieldCombo);
+                                                }
+                                                else
+                                                {
+                                                    packageXml.Add("CustomField", new HashSet<string> { objectFieldCombo });
+                                                }
+
+                                                // Add the custom object to the packagexml dictionary
+                                                if (packageXml.ContainsKey(metadataType))
+                                                {
+                                                    packageXml[metadataType].Add(objectNameSplit[0]);
+                                                }
+                                                else
+                                                {
+                                                    packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] });
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (packageXml.ContainsKey(metadataType))
+                                            {
+                                                packageXml[metadataType].Add(objectNameSplit[0]);
+                                            }
+                                            else
+                                            {
+                                                packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] });
+                                            }
+                                        }
                                     }
                                 }
 
                                 objSw.WriteLine("</CustomObject>");
                                 objSw.Close();
                             }
-                            else if (tnd1.Text == "profiles")
+                            else if (metadataType == "Profile")
                             {
                                 //Debug.Write("tnd1.Text == \"profiles\"");
                             }
-                            else if (tnd1.Text == "permissionsets")
+                            else if (metadataType == "PermissionSet")
                             {
                                 //Debug.Write("tnd1.Text == \"permissionsets\"");
                             }
-                            else if (tnd1.Text == "reports")
+                            else if (metadataType == "Report")
                             {
                                 //Debug.Write("tnd1.Text == \"reports\"");
                             }
                             else
                             {
-                                File.Copy(this.tbProjectFolder.Text + "\\" + tnd1.Text + "\\" + nodeFullPath[1],
-                                          folderPath + "\\" + tnd1.Text + "\\" + nodeFullPath[1]);
-                            }
+                                File.Copy(this.tbProjectFolder.Text + "\\" + tnd1.Text + "\\" + tnd2NodeFullPath[1],
+                                          folderPath + "\\" + tnd1.Text + "\\" + tnd2NodeFullPath[1]);
 
-                            // Build the packageXml dictionary for writing out the actual package.xml file
-                            if (!tnd2.Text.EndsWith("-meta.xml")
-                                && packageXml.ContainsKey(tnd1.Text))
-                            {
-                                packageXml[tnd1.Text].Add(nodeFullPath[1]);
-                            }
-                            else if(!tnd2.Text.EndsWith("-meta.xml"))
-                            {
-                                packageXml.Add(tnd1.Text, new HashSet<String> { nodeFullPath[1] });
+
+                                String[] objectNameSplit = tnd2NodeFullPath[1].Split('.');
+
+                                if (metadataType == "ApprovalProcess")
+                                {
+                                    if (packageXml.ContainsKey(metadataType))
+                                    {
+                                        packageXml[metadataType].Add(objectNameSplit[0] + "." + objectNameSplit[1]);
+                                    }
+                                    else
+                                    {
+                                        packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] + "." + objectNameSplit[1] });
+                                    }
+                                }
+                                else if (metadataType == "ApexClass")
+                                {
+                                    if (packageXml.ContainsKey(metadataType)
+                                        && !tnd2.Text.EndsWith("-meta.xml"))
+                                    {
+                                        packageXml[metadataType].Add(objectNameSplit[0]);
+                                    }
+                                    else if (!tnd2.Text.EndsWith("-meta.xml"))
+                                    {
+                                        packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] });
+                                    }
+                                }
+                                else if (metadataType == "ApexTrigger")
+                                {
+                                    if (packageXml.ContainsKey(metadataType)
+                                        && !tnd2.Text.EndsWith("-meta.xml"))
+                                    {
+                                        packageXml[metadataType].Add(objectNameSplit[0]);
+                                    }
+                                    else if (!tnd2.Text.EndsWith("-meta.xml"))
+                                    {
+                                        packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] });
+                                    }
+                                }
+                                else if (metadataType == "QuickAction")
+                                {
+                                    if (objectNameSplit.Length == 2)
+                                    {
+                                        if (packageXml.ContainsKey(metadataType))
+                                        {
+                                            packageXml[metadataType].Add(objectNameSplit[0]);
+                                        }
+                                        else
+                                        {
+                                            packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] });
+                                        }
+                                    }
+                                    else if (objectNameSplit.Length == 3)
+                                    {
+                                        if (packageXml.ContainsKey(metadataType))
+                                        {
+                                            packageXml[metadataType].Add(objectNameSplit[0] + "." + objectNameSplit[1]);
+                                        }
+                                        else
+                                        {
+                                            packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] + "." + objectNameSplit[1] });
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if (packageXml.ContainsKey(metadataType))
+                                    {
+                                        packageXml[metadataType].Add(objectNameSplit[0]);
+                                    }
+                                    else
+                                    {
+                                        packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] });
+                                    }
+                                }
                             }
                         }
                     }
@@ -1584,8 +1643,17 @@ namespace SalesforceMetadata
                 return;
             }
 
-            Boolean loginSuccess = SalesforceCredentials.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
-            if (loginSuccess == false)
+            try
+            {
+                sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+                return;
+            }
+
+            if (sc.loginSuccess == false)
             {
                 MessageBox.Show("Please check username, password and/or security token");
                 return;
@@ -1593,7 +1661,7 @@ namespace SalesforceMetadata
 
             String selectStatement = "";
             String userId = "";
-            userId = SalesforceCredentials.fromOrgLR.userId;
+            userId = sc.fromOrgLR.userId;
 
             selectStatement = "SELECT Id FROM ApexLog WHERE LogUserId = \'" + userId + "\'";
 
@@ -1601,7 +1669,7 @@ namespace SalesforceMetadata
 
             try
             {
-                qr = SalesforceCredentials.fromOrgSS.query(selectStatement);
+                qr = sc.fromOrgSS.query(selectStatement);
 
                 if (qr.size > 2000)
                 {
@@ -1648,13 +1716,13 @@ namespace SalesforceMetadata
                             {
                                 if (recordIdsToDelete[rtd].Count > 0)
                                 {
-                                    PartnerWSDL.DeleteResult[] dr = SalesforceCredentials.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
+                                    PartnerWSDL.DeleteResult[] dr = sc.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
                                 }
                             }
 
                             if (!qr.done)
                             {
-                                qr = SalesforceCredentials.fromOrgSS.queryMore(qr.queryLocator);
+                                qr = sc.fromOrgSS.queryMore(qr.queryLocator);
                             }
                             else
                             {
@@ -1696,7 +1764,7 @@ namespace SalesforceMetadata
                     {
                         if (recordIdsToDelete[rtd].Count > 0)
                         {
-                            PartnerWSDL.DeleteResult[] dr = SalesforceCredentials.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
+                            PartnerWSDL.DeleteResult[] dr = sc.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
                         }
                     }
                 }
@@ -1713,7 +1781,7 @@ namespace SalesforceMetadata
         {
             this.Text = "DevelopmentEnvironment";
 
-            if (SalesforceCredentials.isProduction[this.cmbUserName.Text] == true)
+            if (sc.isProduction[this.cmbUserName.Text] == true)
             {
                 this.Text = "DevelopmentEnvironment - PRODUCTION";
             }

@@ -3203,10 +3203,10 @@ namespace SalesforceMetadata
             {
                 typeName = "LeadConvertSettings";
             }
-            //else if (folderName == "")
-            //{
-            //    typeName = "Letterhead";
-            //}
+            else if (folderName == "letterhead")
+            {
+                typeName = "Letterhead";
+            }
             else if (folderName == "lightningBolts")
             {
                 typeName = "LightningBolt";
@@ -3439,7 +3439,7 @@ namespace SalesforceMetadata
             //{
             //    typeName = "SharedTo";
             //}
-            //else if (folderName == "sharingRules")
+            //else if (folderName == "")
             //{
             //    typeName = "SharingBaseRule";
             //}
@@ -3451,10 +3451,10 @@ namespace SalesforceMetadata
             {
                 typeName = "SharingSet";
             }
-            //else if (folderName == "siteDotComSites")
-            //{
-            //    typeName = "SiteDotCom";
-            //}
+            else if (folderName == "siteDotComSites")
+            {
+                typeName = "SiteDotCom";
+            }
             else if (folderName == "skills")
             {
                 typeName = "Skill";

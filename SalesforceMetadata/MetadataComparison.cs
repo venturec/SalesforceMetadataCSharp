@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -263,6 +264,7 @@ namespace SalesforceMetadata
                                     // Check if the file is in XML format and can be loaded as an XmlDocument
                                     Boolean isXmlDocument = true;
 
+                                    // Add master document to mstrFileComparison
                                     XmlDocument mDoc = new XmlDocument();
                                     if (mDir == "aura")
                                     {
@@ -274,9 +276,12 @@ namespace SalesforceMetadata
                                     }
                                     else
                                     {
+                                        // Using this structure because for some reason when I load an XML file where the file name contains %2E, it is replacing it with a . and then can't find the file
+                                        String mstrFileContents = File.ReadAllText(masterFile);
+
                                         try
                                         {
-                                            mDoc.Load(masterFile);
+                                            mDoc.LoadXml(mstrFileContents);
                                         }
                                         catch (Exception exc)
                                         {
@@ -286,7 +291,8 @@ namespace SalesforceMetadata
                                         if(isXmlDocument == true) parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
                                     }
 
-
+                                    // Add comparison document to compFileComparison
+                                    isXmlDocument = true;
                                     XmlDocument cDoc = new XmlDocument();
                                     if (mDir == "aura")
                                     {
@@ -298,9 +304,11 @@ namespace SalesforceMetadata
                                     }
                                     else
                                     {
+                                        String compFileContents = File.ReadAllText(comparisonFile);
+
                                         try
                                         {
-                                            cDoc.Load(comparisonFile);
+                                            cDoc.LoadXml(compFileContents);
                                         }
                                         catch (Exception exc)
                                         {
@@ -382,11 +390,13 @@ namespace SalesforceMetadata
                                     {
                                         if (appendDirectory)
                                         {
-                                            mDoc.Load(this.tbFromFolder.Text + '\\' + mDir + '\\' + mFile);
+                                            String mstrFileContents = File.ReadAllText(this.tbFromFolder.Text + '\\' + mDir + '\\' + mFile);
+                                            mDoc.LoadXml(mstrFileContents);
                                         }
                                         else 
                                         {
-                                            mDoc.Load(this.tbFromFolder.Text + '\\' + mFile);
+                                            String mstrFileContents = File.ReadAllText(this.tbFromFolder.Text + '\\' + mFile);
+                                            mDoc.LoadXml(mstrFileContents);
                                         }
                                     }
                                     catch (Exception exc)
@@ -442,11 +452,13 @@ namespace SalesforceMetadata
                                 {
                                     if (appendDirectory)
                                     {
-                                        mDoc.Load(this.tbFromFolder.Text + '\\' + mDir + '\\' + mFile);
+                                        String mstrFileContents = File.ReadAllText(this.tbFromFolder.Text + '\\' + mDir + '\\' + mFile);
+                                        mDoc.LoadXml(mstrFileContents);
                                     }
                                     else
                                     {
-                                        mDoc.Load(this.tbFromFolder.Text + '\\' + mFile);
+                                        String mstrFileContents = File.ReadAllText(this.tbFromFolder.Text + '\\' + mFile);
+                                        mDoc.LoadXml(mstrFileContents);
                                     }
                                 }
                                 catch (Exception exc)
@@ -875,7 +887,6 @@ namespace SalesforceMetadata
                                                         Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> compFileComparison,
                                                         Boolean fileIsNew)
         {
-            
             String fileNamePrependedVlaue = "";
 
             if (fileIsNew == true)
@@ -932,11 +943,11 @@ namespace SalesforceMetadata
                                                 {
                                                     if (compFileComparison[directoryName][fileName][nd1Name][nd2Name].ContainsKey(nameKey))
                                                     {
-                                                        foreach (String elemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
+                                                        foreach (String mstrElemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
                                                         {
                                                             try
                                                             {
-                                                                if (!compFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey].Contains(elemValue))
+                                                                if (!compFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey].Contains(mstrElemValue))
                                                                 {
                                                                     // Add to the comparedValuesWithNameValue
                                                                     addToComparedValuesWithNameValueDictionary(directoryName,
@@ -944,7 +955,7 @@ namespace SalesforceMetadata
                                                                                                                nd1Name,
                                                                                                                nd2Name,
                                                                                                                "[Updated] " + mstrNameWithValue[0],
-                                                                                                               elemValue);
+                                                                                                               mstrElemValue);
                                                                 }
                                                             }
                                                             catch (Exception exc)
@@ -955,12 +966,12 @@ namespace SalesforceMetadata
                                                     }
                                                     else 
                                                     {
-                                                        foreach (String elemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
+                                                        foreach (String mstrElemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
                                                         {
                                                             try
                                                             {
                                                                 if (compFileComparison[directoryName][fileName][nd1Name][nd2Name].ContainsKey(nameKey)
-                                                                    && !compFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey].Contains(elemValue))
+                                                                    && !compFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey].Contains(mstrElemValue))
                                                                 {
                                                                     // Add to the comparedValuesWithNameValue
                                                                     addToComparedValuesWithNameValueDictionary(directoryName,
@@ -968,7 +979,7 @@ namespace SalesforceMetadata
                                                                                                                nd1Name,
                                                                                                                nd2Name,
                                                                                                                "[Updated] " + mstrNameWithValue[0],
-                                                                                                               elemValue);
+                                                                                                               mstrElemValue);
                                                                 }
                                                                 else if (!compFileComparison[directoryName][fileName][nd1Name][nd2Name].ContainsKey(nameKey))
                                                                 {
@@ -977,7 +988,7 @@ namespace SalesforceMetadata
                                                                                                                nd1Name,
                                                                                                                nd2Name,
                                                                                                                "[Updated] " + mstrNameWithValue[0],
-                                                                                                               elemValue);
+                                                                                                               mstrElemValue);
                                                                 }
                                                             }
                                                             catch (Exception exc)
@@ -989,14 +1000,14 @@ namespace SalesforceMetadata
                                                 }
                                                 else
                                                 {
-                                                    foreach (String elemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
+                                                    foreach (String mstrElemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
                                                     {
                                                         addToComparedValuesWithNameValueDictionary(directoryName, 
                                                                                                    fileNamePrependedVlaue + fileName, 
                                                                                                    nd1Name, 
                                                                                                    nd2Name, 
                                                                                                    "[New] " + mstrNameWithValue[0], 
-                                                                                                   elemValue);
+                                                                                                   mstrElemValue);
                                                     }
                                                 }
                                             }
@@ -1005,14 +1016,14 @@ namespace SalesforceMetadata
                                         {
                                             foreach (String nameKey in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name].Keys)
                                             {
-                                                foreach (String elemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
+                                                foreach (String mstrElemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
                                                 {
                                                     addToComparedValuesWithNameValueDictionary(directoryName, 
                                                                                                fileNamePrependedVlaue + fileName, 
                                                                                                nd1Name, 
                                                                                                nd2Name, 
                                                                                                nameKey, 
-                                                                                               elemValue);
+                                                                                               mstrElemValue);
                                                 }
                                             }
                                         }
@@ -1024,14 +1035,14 @@ namespace SalesforceMetadata
                                     {
                                         foreach (String nameKey in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name].Keys)
                                         {
-                                            foreach (String elemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
+                                            foreach (String mstrElemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
                                             {
                                                 addToComparedValuesWithNameValueDictionary(directoryName, 
                                                                                            fileNamePrependedVlaue + fileName, 
                                                                                            nd1Name, 
                                                                                            nd2Name, 
                                                                                            nameKey, 
-                                                                                           elemValue);
+                                                                                           mstrElemValue);
                                             }
                                         }
                                     }
@@ -1050,14 +1061,14 @@ namespace SalesforceMetadata
                                     {
                                         String[] mstrNameWithValue = parseNodeNameAndValue(nameKey);
 
-                                        foreach (String elemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
+                                        foreach (String mstrElemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
                                         {
                                                 addToComparedValuesWithNameValueDictionary(directoryName, 
                                                                                        fileNamePrependedVlaue + fileName, 
                                                                                        nd1Name, 
                                                                                        nd2Name,
                                                                                        mstrNameWithValue[0], 
-                                                                                       elemValue);
+                                                                                       mstrElemValue);
                                         }
                                     }
                                 }
@@ -1079,14 +1090,14 @@ namespace SalesforceMetadata
                                 {
                                     String[] mstrNameWithValue = parseNodeNameAndValue(nameKey);
 
-                                    foreach (String elemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
+                                    foreach (String mstrElemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
                                     {
                                         addToComparedValuesWithNameValueDictionary(directoryName, 
                                                                                    fileNamePrependedVlaue + fileName, 
                                                                                    nd1Name, 
                                                                                    nd2Name,
                                                                                    mstrNameWithValue[0], 
-                                                                                   elemValue);
+                                                                                   mstrElemValue);
                                     }
                                 }
                             }
@@ -1110,8 +1121,118 @@ namespace SalesforceMetadata
                                                                 String nd1Name, 
                                                                 String nd2Name, 
                                                                 String nameKey, 
-                                                                String elemValue)
+                                                                String mstrElemValue)
         {
+
+            String mstrElemValueString = "<document>" + mstrElemValue + "</document>";
+            XmlDocument mstrElemXd = new XmlDocument();
+            mstrElemXd.LoadXml(mstrElemValueString);
+
+            List<String> mstrElemNodeValues = new List<String>();
+
+            foreach (XmlNode nd1 in mstrElemXd)
+            {
+                // Skip the document node as we know this is already a part of the XmlDocument just created above
+                // The skip of one parent node element when adding the values to the list is to bypass the parent node name we are already on
+                // Example: mstrElemNodeValues.Add(nd2.Name + " - " + nd3.Name + " - " + nd5.ParentNode.OuterXml);
+                // nd5.ParentNode.OuterXml includes the nd4 Node Name already, so we don't need to add this.
+                foreach (XmlNode nd2 in nd1.ChildNodes)
+                {
+                    if (nd2.HasChildNodes == false)
+                    {
+                        Debug.WriteLine("");
+                    }
+                    else
+                    {
+                        foreach (XmlNode nd3 in nd2.ChildNodes)
+                        {
+                            if (nd3.HasChildNodes == false)
+                            {
+                                mstrElemNodeValues.Add(nd2.Name + " - <" + nd3.Name + ">" + nd3.InnerText + "</" + nd3.Name + ">");
+                            }
+                            else
+                            {
+                                foreach (XmlNode nd4 in nd3.ChildNodes)
+                                {
+                                    if (nd4.HasChildNodes == false)
+                                    {
+                                        mstrElemNodeValues.Add(nd2.Name + " - <" + nd3.Name + ">" + nd4.InnerText + "</" + nd3.Name + ">");
+                                    }
+                                    else
+                                    {
+                                        foreach (XmlNode nd5 in nd4.ChildNodes)
+                                        {
+                                            if (nd5.HasChildNodes == false)
+                                            {
+                                                mstrElemNodeValues.Add(nd2.Name + " - " + nd3.Name + " - <" + nd4.Name + ">" + nd5.InnerText + "</" + nd4.Name + ">");
+                                            }
+                                            else
+                                            {
+                                                foreach (XmlNode nd6 in nd5.ChildNodes)
+                                                {
+                                                    if (nd6.HasChildNodes == false)
+                                                    {
+                                                        mstrElemNodeValues.Add(nd2.Name + " - " + nd3.Name + " - " + nd4.Name + " - <" + nd5.Name + ">" + nd6.InnerText + "</" + nd5.Name + ">");
+                                                    }
+                                                    else
+                                                    {
+                                                        foreach (XmlNode nd7 in nd6.ChildNodes)
+                                                        {
+                                                            if (nd7.HasChildNodes == false)
+                                                            {
+                                                                mstrElemNodeValues.Add(nd2.Name + " - " + nd3.Name + " - " + nd4.Name + " - " + nd5.Name + " - <" + nd6.Name + ">" + nd7.InnerText + "</" + nd6.Name + ">");
+                                                            }
+                                                            else
+                                                            {
+                                                                foreach (XmlNode nd8 in nd7.ChildNodes)
+                                                                {
+                                                                    if (nd8.HasChildNodes == false)
+                                                                    {
+                                                                        mstrElemNodeValues.Add(nd2.Name + " - " + nd3.Name + " - " + nd4.Name + " - " + nd5.Name + " - " + nd6.Name + " - <" + nd7.Name + ">" + nd8.InnerText + "</" + nd7.Name + ">");
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        foreach (XmlNode nd9 in nd8.ChildNodes)
+                                                                        {
+                                                                            if (nd9.HasChildNodes == false)
+                                                                            {
+                                                                                mstrElemNodeValues.Add(nd2.Name + " - " + nd3.Name + " - " + nd4.Name + " - " + nd5.Name + " - " + nd6.Name + " - " + nd7.Name + " - <" + nd8.Name + ">" + nd9.InnerText + "</" + nd8.Name + ">");
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                foreach (XmlNode nd10 in nd9.ChildNodes)
+                                                                                {
+                                                                                    if (nd10.HasChildNodes == false)
+                                                                                    {
+                                                                                        mstrElemNodeValues.Add(nd2.Name + " - " + nd3.Name + " - " + nd4.Name + " - " + nd5.Name + " - " + nd6.Name + " - " + nd7.Name + " - " + nd8.Name + " - <" + nd9.Name + ">" + nd10.InnerText + "</" + nd9.Name + ">");
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        foreach (XmlNode nd11 in nd10.ChildNodes)
+                                                                                        {
+                                                                                            mstrElemNodeValues.Add(nd2.Name + " - " + nd3.Name + " - " + nd4.Name + " - " + nd5.Name + " - " + nd6.Name + " - " + nd7.Name + " - " + nd8.Name + " - " + nd9.Name + " - <" + nd10.Name + ">" + nd11.InnerText + "</" + nd10.Name + ">");
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
             if (comparedValuesWithNameValue.ContainsKey(directoryName))
             {
                 if (comparedValuesWithNameValue[directoryName].ContainsKey(fileName))
@@ -1122,24 +1243,27 @@ namespace SalesforceMetadata
                         {
                             if (comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].ContainsKey(nameKey))
                             {
-                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].Add(elemValue);
+                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].AddRange(mstrElemNodeValues);
                             }
                             else
                             {
-                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string> { elemValue });
+                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string>());
+                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].AddRange(mstrElemNodeValues);
                             }
                         }
                         else
                         {
                             comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
-                            comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string> { elemValue });
+                            comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string>());
+                            comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].AddRange(mstrElemNodeValues);
                         }
                     }
                     else
                     {
                         comparedValuesWithNameValue[directoryName][fileName].Add(nd1Name, new Dictionary<string, Dictionary<string, List<string>>>());
                         comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
-                        comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string> { elemValue });
+                        comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string>());
+                        comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].AddRange(mstrElemNodeValues);
                     }
                 }
                 else
@@ -1147,7 +1271,8 @@ namespace SalesforceMetadata
                     comparedValuesWithNameValue[directoryName].Add(fileName, new Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>());
                     comparedValuesWithNameValue[directoryName][fileName].Add(nd1Name, new Dictionary<string, Dictionary<string, List<string>>>());
                     comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
-                    comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string> { elemValue });
+                    comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string>());
+                    comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].AddRange(mstrElemNodeValues);
                 }
             }
             else
@@ -1156,7 +1281,8 @@ namespace SalesforceMetadata
                 comparedValuesWithNameValue[directoryName].Add(fileName, new Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>());
                 comparedValuesWithNameValue[directoryName][fileName].Add(nd1Name, new Dictionary<string, Dictionary<string, List<string>>>());
                 comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
-                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string> { elemValue });
+                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string>());
+                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].AddRange(mstrElemNodeValues);
             }
         }
 

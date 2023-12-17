@@ -818,6 +818,9 @@ namespace SalesforceMetadata
             return packageXmlSB;
         }
 
+        // TODO:
+        // Document - This metadata type doesn’t support the wildcard character * in the package.xml manifest file
+        // Letterhead - This metadata type doesn’t support the wildcard character * in the package.xml manifest file
         private StringBuilder buildPackageXml(UtilityClass.REQUESTINGORG reqOrg, HashSet<String> selectedItems)
         {
             StringBuilder packageXmlSB = new StringBuilder();

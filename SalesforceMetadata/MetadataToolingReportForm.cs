@@ -80,7 +80,7 @@ namespace SalesforceMetadata
             }
 
             DateTime dt = DateTime.Now;
-            String processingMsg1 = "Tooling Report Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
+            String processingMsg1 = "Tooling Report Started at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
             var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1); });
             var thread1 = new System.Threading.Thread(threadParameters1);
             thread1.Start();
@@ -116,7 +116,7 @@ namespace SalesforceMetadata
 
             if (this.cbDefaultCoreObjects.Checked == true || selectedItems.Contains("ApexClass"))
             {
-                getApexClass(xlWorkbook, customObjIdToName, retrieveCodeCoverage);
+                getApexClass(xlWorkbook, classIdToClassName, retrieveCodeCoverage);
             }
 
             // Run a new Thread for the rest of the objects
@@ -135,7 +135,7 @@ namespace SalesforceMetadata
             }
 
             dt = DateTime.Now;
-            String processingMsg2 = "Tooling Retrieval Completed at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
+            String processingMsg2 = "Tooling Retrieval Completed at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
             var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2); });
             var thread2 = new System.Threading.Thread(threadParameters2);
             thread2.Start();
@@ -146,7 +146,7 @@ namespace SalesforceMetadata
                                      Dictionary<String, String> customObjIdToName)
         {
             DateTime dt = DateTime.Now;
-            String processingMsg1 = "    CustomObject: Tooling Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
+            String processingMsg1 = "    CustomObject: Tooling Retrieval Started at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine;
             var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1); });
             var thread1 = new System.Threading.Thread(threadParameters1);
             thread1.Start();
@@ -155,7 +155,7 @@ namespace SalesforceMetadata
             ToolingApiHelper.customObjectToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName);
 
             dt = DateTime.Now;
-            String processingMsg2 = "    CustomObject: Tooling Retrieval Completed at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
+            String processingMsg2 = "    CustomObject: Tooling Retrieval Completed at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
             var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2); });
             var thread2 = new System.Threading.Thread(threadParameters2);
             thread2.Start();
@@ -166,7 +166,7 @@ namespace SalesforceMetadata
                                     Dictionary<String, List<String>> objectFieldNameToLabel)
         {
             DateTime dt = DateTime.Now;
-            String processingMsg1 = "    CustomField: Tooling Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
+            String processingMsg1 = "    CustomField: Tooling Retrieval Started at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine;
             var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1); });
             var thread1 = new System.Threading.Thread(threadParameters1);
             thread1.Start();
@@ -175,7 +175,7 @@ namespace SalesforceMetadata
             ToolingApiHelper.customFieldToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName, objectFieldNameToLabel);
 
             dt = DateTime.Now;
-            String processingMsg2 = "    CustomField: Tooling Retrieval Completed at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
+            String processingMsg2 = "    CustomField: Tooling Retrieval Completed at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
             var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2); });
             var thread2 = new System.Threading.Thread(threadParameters2);
             thread2.Start();
@@ -186,7 +186,7 @@ namespace SalesforceMetadata
                                   Boolean retrieveApexCoverage)
         {
             DateTime dt = DateTime.Now;
-            String processingMsg1 = "    ApexClass: Tooling Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
+            String processingMsg1 = "    ApexClass: Tooling Retrieval Started at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine;
             var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1); });
             var thread1 = new System.Threading.Thread(threadParameters1);
             thread1.Start();
@@ -196,7 +196,7 @@ namespace SalesforceMetadata
             ToolingApiHelper.apexClassToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName, retrieveApexCoverage);
 
             dt = DateTime.Now;
-            String processingMsg2 = "    ApexClass: Tooling Retrieval Completed at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
+            String processingMsg2 = "    ApexClass: Tooling Retrieval Completed at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
             var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2); });
             var thread2 = new System.Threading.Thread(threadParameters2);
             thread2.Start();
@@ -211,7 +211,7 @@ namespace SalesforceMetadata
                                       Boolean retrieveApexCoverage)
         {
             DateTime dt = DateTime.Now;
-            String processingMsg1 = "    " + toolingObject + ": Tooling Retrieval Started at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine;
+            String processingMsg1 = "    " + toolingObject + ": Tooling Retrieval Started at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine;
             var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1); });
             var thread1 = new System.Threading.Thread(threadParameters1);
             thread1.Start();
@@ -410,7 +410,7 @@ namespace SalesforceMetadata
             //}
 
             dt = DateTime.Now;
-            String processingMsg2 = "    " + toolingObject + ": Tooling Retrieval Completed at: " + dt.Year.ToString() + "_" + dt.Month.ToString() + "_" + dt.Day.ToString() + "_" + dt.Hour.ToString() + "_" + dt.Minute.ToString() + "_" + dt.Second.ToString() + "_" + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
+            String processingMsg2 = "    " + toolingObject + ": Tooling Retrieval Completed at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
             var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2); });
             var thread2 = new System.Threading.Thread(threadParameters2);
             thread2.Start();

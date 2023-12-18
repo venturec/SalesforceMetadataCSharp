@@ -4789,7 +4789,10 @@ namespace SalesforceMetadata
                 foreach (SalesforceMetadata.ToolingWSDL.sObject toolingRecord in toolingRecords)
                 {
                     SalesforceMetadata.ToolingWSDL.ApexClass1 apexClass = (SalesforceMetadata.ToolingWSDL.ApexClass1)toolingRecord;
-                    classIdToClassName.Add(apexClass.Id, apexClass.Name);
+                    if (!classIdToClassName.ContainsKey(apexClass.Id))
+                    {
+                        classIdToClassName.Add(apexClass.Id, apexClass.Name);
+                    }
                 }
 
                 if (toolingQr.done)

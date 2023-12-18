@@ -112,51 +112,58 @@ namespace SalesforceMetadata
 
         private void btnRetrieveMetadataWithPackageXML_Click(object sender, EventArgs e)
         {
-            //if (this.tbExistingPackageXml.Text == "")
-            //{
-            //    MessageBox.Show("Please select a package.xml file");
-            //}
-            //else if (!this.tbExistingPackageXml.Text.EndsWith("package.xml"))
-            //{
-            //    MessageBox.Show("The file selected must be in XML format with the naming format of package.xml. Please select a file with the name package.xml");
-            //}
-            //else if (this.tbFromOrgSaveLocation.Text == "")
-            //{
-            //    MessageBox.Show("Please select a directory to save the results to");
-            //}
-            //else
-            //{
-            //    this.rtMessages.Text = "";
-            //    this.extractToFolder = "";
-            //    String target_dir = this.tbFromOrgSaveLocation.Text;
+            if (this.tbExistingPackageXml.Text == "")
+            {
+                MessageBox.Show("Please select a package.xml file");
+            }
+            else if (!this.tbExistingPackageXml.Text.EndsWith("package.xml"))
+            {
+                MessageBox.Show("The file selected must be in XML format with the naming format of package.xml. Please select a file with the name package.xml");
+            }
+            else if (this.tbFromOrgSaveLocation.Text == "")
+            {
+                MessageBox.Show("Please select a directory to save the results to");
+            }
+            else
+            {
+                this.rtMessages.Text = "";
+                this.extractToFolder = "";
+                String target_dir = this.tbFromOrgSaveLocation.Text;
 
-            //    // Add the package.xml contents to the selectedItems dictionary
-            //    selectedItems = new Dictionary<string, List<string>>();
-            //    XmlDocument xd = new XmlDocument();
-            //    xd.Load(this.tbExistingPackageXml.Text);
+                sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
 
-            //    foreach (XmlNode xn in xd.ChildNodes)
-            //    {
-            //        List<String> members = new List<string>();
-            //        foreach (XmlNode nd2 in xn.ChildNodes)
-            //        {
-            //            foreach (XmlNode nd3 in nd2.ChildNodes)
-            //            {
-            //                if (nd3.Name == "members")
-            //                {
-            //                    members.Add(nd3.InnerText);
-            //                }
-            //                else if (nd3.Name == "name")
-            //                {
-            //                    selectedItems.Add(nd3.InnerText, members);
-            //                }
-            //            }
-            //        }
-            //    }
+                String[] urlParsed = sc.fromOrgLR.serverUrl.Split('/');
+                urlParsed = urlParsed[2].Split('.');
+                extractToFolder = urlParsed[0];
 
-            //    Action act = () => requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, this.cbRebuildFolder.Checked, true, this);
-            //    Task tsk = Task.Run(act);
-            //}
+                if (extractToFolder.Contains("--"))
+                {
+                    extractToFolder = extractToFolder.Replace("--", "__");
+                }
+                else
+                {
+                    extractToFolder = extractToFolder + "__production";
+                }
+
+                target_dir = target_dir + '\\' + extractToFolder;
+
+                if (!Directory.Exists(target_dir))
+                {
+                    DirectoryInfo di = Directory.CreateDirectory(target_dir);
+                }
+                else if (this.cbRebuildFolder.Checked == true)
+                {
+                    Directory.Delete(target_dir, true);
+                    DirectoryInfo di = Directory.CreateDirectory(target_dir);
+                }
+
+                RetrieveRequest retrieveRequest = new RetrieveRequest();
+                retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
+                retrieveRequest.unpackaged = parsePackageManifest(File.ReadAllText(this.tbFromOrgSaveLocation.Text + "\\package.xml"));
+
+                Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "Existing Package XML", this);
+                Task tsk = Task.Run(act);
+            }
         }
 
         public void requestZipFile(UtilityClass.REQUESTINGORG reqOrg, String target_dir, SalesforceMetadataStep2 sfMdFrm)
@@ -202,7 +209,7 @@ namespace SalesforceMetadata
                 }
 
                 QueryResult qr = new QueryResult();
-                qr = sc.fromOrgSS.query("SELECT Id, Name FROM Profile");
+                qr = sc.fromOrgSS.query("SELECT Id, Name FROM Profile ORDER BY Name");
 
                 Boolean done = false;
                 while (done == false)
@@ -238,61 +245,68 @@ namespace SalesforceMetadata
                     }
                 }
 
-                while (allProfileNames.Count > 0)
-                {
-                    String profileProcessingMsg = "    Profiles Remaining: " + allProfileNames.Count.ToString() + Environment.NewLine;
-                    var profThreadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(profileProcessingMsg, sfMdFrm); });
-                    var profThread = new System.Threading.Thread(profThreadParameters);
-                    profThread.Start();
-                    while (profThread.ThreadState == System.Threading.ThreadState.Running)
-                    {
-                        // do nothing. Just want for the thread to complete
-                    }
+                StringBuilder packageXmlSB = new StringBuilder();
+                packageXmlSB = buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG.FROMORG, "PermissionSet", allProfileNames);
 
-                    List<String> selectedProfileNames = new List<String>();
-                    foreach (String profName in allProfileNames)
-                    {
-                        selectedProfileNames.Add(profName);
+                File.WriteAllText(this.tbFromOrgSaveLocation.Text + "\\package.xml", packageXmlSB.ToString());
 
-                        if (selectedProfileNames.Count == 10)
-                        {
-                            break;
-                        }
-                    }
+                MessageBox.Show("The Profile Package XML has been built. Please adjust the Package XML to include only those you are interested in and then set the Existing Package Xml field in the Metadata Retrieval Step for processing");
 
-                    // Build the package.xml to retrieve both the Profile and Permission Set
-                    StringBuilder packageXmlSB = new StringBuilder();
-                    packageXmlSB = buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG.FROMORG, "Profile", selectedProfileNames);
+                //while (allProfileNames.Count > 0)
+                //{
+                //    String profileProcessingMsg = "    Profiles Remaining: " + allProfileNames.Count.ToString() + Environment.NewLine;
+                //    var profThreadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(profileProcessingMsg, sfMdFrm); });
+                //    var profThread = new System.Threading.Thread(profThreadParameters);
+                //    profThread.Start();
+                //    while (profThread.ThreadState == System.Threading.ThreadState.Running)
+                //    {
+                //        // do nothing. Just want for the thread to complete
+                //    }
 
-                    RetrieveRequest retrieveRequest = new RetrieveRequest();
-                    retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
-                    retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
+                //    List<String> selectedProfileNames = new List<String>();
+                //    foreach (String profName in allProfileNames)
+                //    {
+                //        selectedProfileNames.Add(profName);
 
-                    int waitTimeMilliSecs = 6000;
-                    Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "Profile", sfMdFrm);
-                    Task tsk = Task.Run(act);
+                //        if (selectedProfileNames.Count == 10)
+                //        {
+                //            break;
+                //        }
+                //    }
 
-                    while (tsk.IsCanceled == false && tsk.IsCompleted == false && tsk.IsFaulted == false)
-                    {
-                        tsk.Wait(waitTimeMilliSecs);
-                    }
+                //    // Build the package.xml to retrieve both the Profile and Permission Set
+                //    StringBuilder packageXmlSB = new StringBuilder();
+                //    packageXmlSB = buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG.FROMORG, "Profile", selectedProfileNames);
 
-                    foreach (String profSelected in selectedProfileNames)
-                    {
-                        allProfileNames.Remove(profSelected);
-                    }
+                //    RetrieveRequest retrieveRequest = new RetrieveRequest();
+                //    retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
+                //    retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
 
-                    selectedProfileNames.Clear();
-                }
+                //    int waitTimeMilliSecs = 6000;
+                //    Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "Profile", sfMdFrm);
+                //    Task tsk = Task.Run(act);
 
-                alreadyAdded.Add("Profile");
+                //    while (tsk.IsCanceled == false && tsk.IsCompleted == false && tsk.IsFaulted == false)
+                //    {
+                //        tsk.Wait(waitTimeMilliSecs);
+                //    }
+
+                //    foreach (String profSelected in selectedProfileNames)
+                //    {
+                //        allProfileNames.Remove(profSelected);
+                //    }
+
+                //    selectedProfileNames.Clear();
+                //}
+
+                //alreadyAdded.Add("Profile");
             }
 
             // Build the Package XML for retrieval
             // In order to retrieve the Profiles/Permission sets, we have to include the metadata objects related to them, otherwise it only returns the system values.
             if (sfMdFrm.selectedItems.ContainsKey("PermissionSet"))
             {
-                List<String> allProfileNames = new List<string>();
+                List<String> allPermSetNames = new List<string>();
 
                 try
                 {
@@ -305,7 +319,7 @@ namespace SalesforceMetadata
                 }
 
                 QueryResult qr = new QueryResult();
-                qr = sc.fromOrgSS.query("SELECT Id, Name FROM PermissionSet");
+                qr = sc.fromOrgSS.query("SELECT Id, Name FROM PermissionSet ORDER BY Name");
 
                 Boolean done = false;
                 while (done == false)
@@ -322,7 +336,7 @@ namespace SalesforceMetadata
                             }
                             else
                             {
-                                allProfileNames.Add(replaceStringValue(s.Any[1].InnerText));
+                                allPermSetNames.Add(replaceStringValue(s.Any[1].InnerText));
                             }
                         }
                     }
@@ -341,57 +355,64 @@ namespace SalesforceMetadata
                     }
                 }
 
-                while (allProfileNames.Count > 0)
-                {
-                    String profileProcessingMsg = "    Permission Sets Remaining: " + allProfileNames.Count.ToString() + Environment.NewLine;
-                    var profThreadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(profileProcessingMsg, sfMdFrm); });
-                    var profThread = new System.Threading.Thread(profThreadParameters);
-                    profThread.Start();
-                    while (profThread.ThreadState == System.Threading.ThreadState.Running)
-                    {
-                        // do nothing. Just want for the thread to complete
-                    }
+                StringBuilder packageXmlSB = new StringBuilder();
+                packageXmlSB = buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG.FROMORG, "PermissionSet", allPermSetNames);
 
-                    List<String> selectedProfileNames = new List<String>();
-                    foreach (String profName in allProfileNames)
-                    {
-                        selectedProfileNames.Add(profName);
+                File.WriteAllText(this.tbFromOrgSaveLocation.Text + "\\package.xml", packageXmlSB.ToString());
 
-                        if (selectedProfileNames.Count == 10)
-                        {
-                            break;
-                        }
-                    }
+                MessageBox.Show("The Permission Set Package XML has been built. Please adjust the Package XML to include only those you are interested in and then set the Existing Package Xml field in the Metadata Retrieval Step for processing");
 
-                    // Build the package.xml to retrieve both the Profile and Permission Set
-                    StringBuilder packageXmlSB = new StringBuilder();
-                    packageXmlSB = buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG.FROMORG, "PermissionSet", selectedProfileNames);
+                //    while (allProfileNames.Count > 0)
+                //    {
+                //        String profileProcessingMsg = "    Permission Sets Remaining: " + allProfileNames.Count.ToString() + Environment.NewLine;
+                //        var profThreadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(profileProcessingMsg, sfMdFrm); });
+                //        var profThread = new System.Threading.Thread(profThreadParameters);
+                //        profThread.Start();
+                //        while (profThread.ThreadState == System.Threading.ThreadState.Running)
+                //        {
+                //            // do nothing. Just want for the thread to complete
+                //        }
 
-                    RetrieveRequest retrieveRequest = new RetrieveRequest();
-                    retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
-                    retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
+                //        List<String> selectedProfileNames = new List<String>();
+                //        foreach (String profName in allProfileNames)
+                //        {
+                //            selectedProfileNames.Add(profName);
 
-                    int waitTimeMilliSecs = 6000;
-                    Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "PermissionSet", sfMdFrm);
-                    Task tsk = Task.Run(act);
+                //            if (selectedProfileNames.Count == 10)
+                //            {
+                //                break;
+                //            }
+                //        }
 
-                    while (tsk.IsCanceled == false && tsk.IsCompleted == false && tsk.IsFaulted == false)
-                    {
-                        tsk.Wait(waitTimeMilliSecs);
-                    }
+                //        // Build the package.xml to retrieve both the Profile and Permission Set
+                //        StringBuilder packageXmlSB = new StringBuilder();
+                //        packageXmlSB = buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG.FROMORG, "PermissionSet", selectedProfileNames);
 
-                    foreach (String profSelected in selectedProfileNames)
-                    {
-                        allProfileNames.Remove(profSelected);
-                    }
+                //        RetrieveRequest retrieveRequest = new RetrieveRequest();
+                //        retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
+                //        retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
 
-                    selectedProfileNames.Clear();
-                }
+                //        int waitTimeMilliSecs = 6000;
+                //        Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "PermissionSet", sfMdFrm);
+                //        Task tsk = Task.Run(act);
 
-                alreadyAdded.Add("PermissionSet");
+                //        while (tsk.IsCanceled == false && tsk.IsCompleted == false && tsk.IsFaulted == false)
+                //        {
+                //            tsk.Wait(waitTimeMilliSecs);
+                //        }
+
+                //        foreach (String profSelected in selectedProfileNames)
+                //        {
+                //            allProfileNames.Remove(profSelected);
+                //        }
+
+                //        selectedProfileNames.Clear();
+                //    }
+
+                //    alreadyAdded.Add("PermissionSet");
+                //}
             }
-
-
+            
             if (sfMdFrm.selectedItems.ContainsKey("EmailTemplate"))
             {
                 // Build the package.xml to retrieve both the Profile and Permission Set

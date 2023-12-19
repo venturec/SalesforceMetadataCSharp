@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using System.Diagnostics;
 
 namespace SalesforceMetadata
 {
@@ -75,16 +76,6 @@ namespace SalesforceMetadata
                 return;
             }
 
-            // Bypass Aura and LWC folders
-            String[] folders = Directory.GetDirectories(tbSelectedFolder.Text);
-
-            // Build the folder structure and use these as part of the hyperlinks
-            foreach (String fldr in folders)
-            {
-                String[] splitFldrName = fldr.Split('\\');
-                Directory.CreateDirectory(tbSaveResultsTo.Text + "\\" + splitFldrName[splitFldrName.Length - 1]);
-            }
-
             Directory.CreateDirectory(tbSaveResultsTo.Text + "\\styles");
 
             // Build the stylesheet
@@ -121,9 +112,28 @@ namespace SalesforceMetadata
                                 "</colgroup>" + Environment.NewLine +
                                 "<tbody>" + Environment.NewLine);
 
+            // Bypass Aura and LWC folders
+            String[] folders = Directory.GetDirectories(tbSelectedFolder.Text);
+
             foreach (String fldr in folders)
             {
-                buildHTMLMetadataStructure(fldr, swSummary);
+                String[] splitFldrName = fldr.Split('\\');
+
+                if (splitFldrName[splitFldrName.Length - 1] == "profiles" || splitFldrName[splitFldrName.Length - 1] == "permissionsets")
+                {
+                    // Build the dictionary for the related items to Profiles and Permission Sets
+                    // We will get all of the metadata parsed and then pass this into the 
+                    // We'll do this once since it can be a long process
+                    // If the Profile/Permission Set contains a key in the Dictionary, then will use the permissions provided in the Profile/Perm Set XML
+                    // If not, then will add 
+
+                    //         MetadataType
+                    Dictionary<String, List<MetadataObjectInfo>> typesToName = new Dictionary<String, List<MetadataObjectInfo>>();
+                    typesToName = getMetadataTypesToName(tbSelectedFolder.Text);
+
+                    Directory.CreateDirectory(tbSaveResultsTo.Text + "\\" + splitFldrName[splitFldrName.Length - 1]);
+                    buildProfilePermSetHTMLReport(fldr, swSummary, typesToName);
+                }
             }
             
             swSummary.WriteLine("</tbody>" + Environment.NewLine);
@@ -288,6 +298,159 @@ namespace SalesforceMetadata
             return fileExt;
         }
 
+        private Dictionary<String, List<MetadataObjectInfo>> getMetadataTypesToName(String metadataFolder)
+        {
+            Dictionary<String, List<MetadataObjectInfo>> typeToName = new Dictionary<string, List<MetadataObjectInfo>>();
+
+            String[] folders = Directory.GetDirectories(tbSelectedFolder.Text);
+
+            foreach (String folderName in folders)
+            {
+                String directoryName = directoryNameExtract(folderName);
+
+                if (directoryName == "applications"
+                    || directoryName == "classes"
+                    || directoryName == "components"
+                    || directoryName == "connectedApps"
+                    || directoryName == "flowDefinitions"
+                    || directoryName == "flows"
+                    || directoryName == "layouts"
+                    || directoryName == "pages"
+                    || directoryName == "tabs"
+                    || directoryName == "triggers")
+                {
+                    String[] files = Directory.GetFiles(folderName);
+
+                    foreach (String file in files)
+                    {
+                        String[] splitFileName = file.Split('\\');
+                        String[] fileName = splitFileName[splitFileName.Length - 1].Split('.');
+                        String dirNameFileName = directoryName + "." + fileName[0];
+
+                        MetadataObjectInfo moi = new MetadataObjectInfo();
+                        moi.metadataObject = directoryName;
+                        moi.objectName = fileName[0];
+
+                        if (typeToName.ContainsKey(dirNameFileName))
+                        {
+                            typeToName[dirNameFileName].Add(moi);
+                        }
+                        else
+                        {
+                            typeToName.Add(dirNameFileName, new List<MetadataObjectInfo> { moi });
+                        }
+                    }
+                }
+                else if (directoryName == "objects")
+                {
+                    // We'll actually need to open the Xml file up to get the following:
+                    // Fields
+                    // Record Types
+
+                    String[] files = Directory.GetFiles(folderName);
+
+                    foreach (String file in files)
+                    {
+                        String[] splitFileName = file.Split('\\');
+                        String[] fileName = splitFileName[splitFileName.Length - 1].Split('.');
+                        String dirNameFileName = directoryName + "." + fileName[0];
+
+                        XmlDocument xmlDoc = new XmlDocument();
+                        xmlDoc.Load(file);
+
+                        XmlNodeList customSetting = xmlDoc.GetElementsByTagName("customSettingsType");
+                        XmlNodeList objVisibility = xmlDoc.GetElementsByTagName("visibility");
+                        XmlNodeList fieldNodeList = xmlDoc.GetElementsByTagName("fields");
+                        XmlNodeList rtNodeList = xmlDoc.GetElementsByTagName("recordTypes");
+
+                        MetadataObjectInfo moi = new MetadataObjectInfo();
+                        moi.metadataObject = directoryName;
+                        moi.objectName = fileName[0];
+
+                        if (objVisibility != null)
+                        {
+                            foreach (XmlNode nd in objVisibility)
+                            {
+                                moi.objectVisibility = nd.InnerText;
+                            }
+                        }
+
+                        if (customSetting != null)
+                        {
+                            if (fileName[0].EndsWith("__mdt"))
+                            {
+                                moi.isCustomMetadataType = true;
+                            }
+                            else
+                            {
+                                moi.isCustomSetting = true;
+                            }
+                        }
+
+                        //if (typeToName.ContainsKey(dirNameFileName))
+                        //{
+                        //    typeToName[dirNameFileName].Add(moi);
+                        //}
+
+                        // Get the field references in the object
+                        foreach (XmlNode fldNode in fieldNodeList)
+                        {
+                            if (fldNode.ParentNode.Name == "CustomObject")
+                            {
+                                Debug.WriteLine("");
+                                ObjectFieldInfo ofi = new ObjectFieldInfo();
+                                foreach (XmlNode fld in fldNode.ChildNodes)
+                                {
+                                    if (fld.Name == "fullName")
+                                    {
+                                        ofi.fieldName = fld.InnerText;
+                                    }
+                                    else if (fld.Name == "required")
+                                    {
+                                        ofi.fieldIsRequired = Convert.ToBoolean(fld.InnerText);
+                                    }
+                                }
+
+                                String objFieldName = fileName[0] + "." + ofi.fieldName;
+                                moi.objFieldInfo.Add(objFieldName, ofi);
+                            }
+                        }
+
+                        // Get the record type info
+                        foreach (XmlNode rtNode in rtNodeList)
+                        {
+                            if (rtNode.ParentNode.Name == "CustomObject")
+                            {
+                                Debug.WriteLine("");
+                                ObjectRecordTypInfo orti = new ObjectRecordTypInfo();
+                                foreach (XmlNode rt in rtNode.ChildNodes)
+                                {
+                                    if (rt.Name == "fullName")
+                                    {
+                                        orti.recordType = rt.InnerText;
+                                    }
+                                }
+
+                                String objRtName = fileName[0] + "." + orti.recordType;
+                                moi.objRecordTypeInfo.Add(objRtName, orti);
+                            }
+                        }
+
+                        if (typeToName.ContainsKey(dirNameFileName))
+                        {
+                            typeToName[dirNameFileName].Add(moi);
+                        }
+                        else
+                        {
+                            typeToName.Add(dirNameFileName, new List<MetadataObjectInfo> { moi });
+                        }
+                    }
+                }
+            }
+
+            return typeToName;
+        }
+
         public String stringColumnPosition(Int32 colNumber, String value)
         {
             String stringValue = "";
@@ -302,7 +465,7 @@ namespace SalesforceMetadata
             return stringValue;
         }
 
-        public void buildHTMLMetadataStructure(String folderName, StreamWriter swSummary)
+        public void buildProfilePermSetHTMLReport(String folderName, StreamWriter swSummary, Dictionary<String, List<MetadataObjectInfo>> metadataObjInfo)
         {
             String[] files = Directory.GetFiles(folderName);
             String directoryName = directoryNameExtract(folderName);
@@ -323,12 +486,11 @@ namespace SalesforceMetadata
                                     "</a></td></tr>");
 
                 // Build the configuration files themselves
-
-                writeFieldsAndValuesToHTML(fn, directoryName, fileName[0]);
+                writeFieldsAndValuesToHTML(fn, directoryName, fileName[0], metadataObjInfo);
             }
         }
 
-        private void writeFieldsAndValuesToHTML(String fileName, String directoryName, String fullObjectName)
+        private void writeFieldsAndValuesToHTML(String fileName, String directoryName, String fullObjectName, Dictionary<String, List<MetadataObjectInfo>> metadataObjInfo)
         {
             XmlDocument xd = new XmlDocument();
             Boolean isXmlDocument = true;
@@ -365,11 +527,11 @@ namespace SalesforceMetadata
 
                 if (nd1.Name == "PermissionSet")
                 {
-                    writeProfilePermissionSetsToHtml(xd, sw);
+                    writeProfilePermissionSetsToHtml(xd, sw, metadataObjInfo);
                 }
                 else if (nd1.Name == "Profile")
                 {
-                    writeProfilePermissionSetsToHtml(xd, sw);
+                    writeProfilePermissionSetsToHtml(xd, sw, metadataObjInfo);
                 }
             }
 
@@ -382,7 +544,7 @@ namespace SalesforceMetadata
             sw.Close();
         }
 
-        private void writeProfilePermissionSetsToHtml(XmlDocument xd, StreamWriter sw)
+        private void writeProfilePermissionSetsToHtml(XmlDocument xd, StreamWriter sw, Dictionary<String, List<MetadataObjectInfo>> metadataObjInfo)
         {
             XmlNodeList description = xd.GetElementsByTagName("description");
             if (description.Count > 0)
@@ -611,10 +773,12 @@ namespace SalesforceMetadata
 
                     if (!objectTitleWritten.Contains(objectFieldSplit[0]))
                     {
+                        sw.WriteLine("<button class=\"accordion\">" + objectFieldSplit[0] + "</button>");
+                        sw.WriteLine("<div class=\"panel\">");
                         sw.WriteLine("<div>");
-                        sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth400\">");
-                        sw.WriteLine(objectFieldSplit[0]);
-                        sw.WriteLine("</span>");
+                        //sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth400\">");
+                        //sw.WriteLine(objectFieldSplit[0]);
+                        //sw.WriteLine("</span>");
                         sw.WriteLine("<span class=\"objectTitles fieldBackgroundGreen columnWidth400\">");
                         sw.WriteLine("Field Name");
                         sw.WriteLine("</span>");
@@ -1880,5 +2044,37 @@ namespace SalesforceMetadata
             sw.WriteLine("</div>");
         }
 
+
+        public class MetadataObjectInfo
+        {
+            public String metadataObject = "";
+            public String objectName = "";
+            public String objectVisibility = "";
+            public Boolean isCustomSetting = false;
+            public Boolean isCustomMetadataType = false;
+
+            // Key = object name + '.' + field name
+            public Dictionary<String, ObjectFieldInfo> objFieldInfo;
+
+            // Key = object name + '.' + record type name
+            public Dictionary<String, ObjectRecordTypInfo> objRecordTypeInfo;
+
+            public MetadataObjectInfo()
+            {
+                objFieldInfo = new Dictionary<string, ObjectFieldInfo>();
+                objRecordTypeInfo = new Dictionary<string, ObjectRecordTypInfo>();
+            }
+        }
+
+        public class ObjectFieldInfo
+        {
+            public String fieldName = "";
+            public Boolean fieldIsRequired = false;
+        }
+
+        public class ObjectRecordTypInfo
+        {
+            public String recordType = "";
+        }
     }
 }

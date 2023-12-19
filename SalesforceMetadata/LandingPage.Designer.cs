@@ -141,7 +141,7 @@
             this.btnGenerateConfigWorkbook.Name = "btnGenerateConfigWorkbook";
             this.btnGenerateConfigWorkbook.Size = new System.Drawing.Size(190, 35);
             this.btnGenerateConfigWorkbook.TabIndex = 9;
-            this.btnGenerateConfigWorkbook.Text = "Generate Config Workbook";
+            this.btnGenerateConfigWorkbook.Text = "Generate Configuration Workbook";
             this.btnGenerateConfigWorkbook.UseVisualStyleBackColor = true;
             this.btnGenerateConfigWorkbook.Click += new System.EventHandler(this.btnGenerateConfigWorkbook_Click);
             // 

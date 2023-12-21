@@ -1145,7 +1145,7 @@ namespace SalesforceMetadata
                     sw.WriteLine("<members>" + objName[0] + "</members>");
                 }
 
-                sw.WriteLine("<name>" + MetadataDifferenceProcessing.folderToType(typeName, "") + "</name>");
+                sw.WriteLine("<name>" + typeName + "</name>");
                 sw.WriteLine("</types>");
             }
 

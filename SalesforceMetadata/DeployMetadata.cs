@@ -111,6 +111,16 @@ namespace SalesforceMetadata
                 String zipFileLocation = this.tbZipFileLocation.Text;
 
                 DeployOptions dopt = new DeployOptions();
+
+                if (this.cbAutoUpdatePackage.Checked)
+                {
+                    dopt.autoUpdatePackage = true;
+                }
+                else
+                {
+                    dopt.autoUpdatePackage = false;
+                }
+
                 dopt.ignoreWarnings = true;
                 dopt.singlePackage = true;
 

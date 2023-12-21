@@ -529,6 +529,9 @@ namespace SalesforceMetadata
             //String milSecStart = "";
             //String milSecEnd = "";
 
+            Boolean firstCodeUnitReached = true;
+            Int32 tabCount = 0;
+
             StreamWriter debugSW = new StreamWriter(folderSaveLocation + "DebugLog_CodeUnits.txt");
 
             // Open file for reading
@@ -541,23 +544,46 @@ namespace SalesforceMetadata
 
                 if (columnElements.Length > 1)
                 {
-
                     if (columnElements[1] == DebugEventTags.CODE_UNIT_STARTED)
                     {
-                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
-
-                        debugSW.Write("CODE_UNIT_STARTED: ");
-
-                        for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                        if (firstCodeUnitReached == true)
                         {
-                            if (ce > 2) debugSW.Write(columnElements[ce] + " ");
-                        }
+                            firstCodeUnitReached = false;
 
-                        debugSW.Write(Environment.NewLine);
+                            writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+
+                            debugSW.Write("CODE_UNIT_STARTED: ");
+
+                            for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                            {
+                                if (ce > 2) debugSW.Write(columnElements[ce] + " ");
+                            }
+
+                            debugSW.Write(Environment.NewLine);
+
+                            tabCount++;
+                        }
+                        else
+                        {
+                            writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+
+                            debugSW.Write("CODE_UNIT_STARTED: ");
+
+                            for (Int32 ce = 0; ce < columnElements.Length; ce++)
+                            {
+                                if (ce > 2) debugSW.Write(columnElements[ce] + " ");
+                            }
+
+                            debugSW.Write(Environment.NewLine);
+
+                            tabCount++;
+                        }
                     }
                     else if (columnElements[1] == DebugEventTags.CODE_UNIT_FINISHED)
                     {
-                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        if (tabCount > 0) tabCount--;
+
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
 
                         debugSW.Write("CODE_UNIT_FINISHED");
                         debugSW.Write(Environment.NewLine);
@@ -565,22 +591,27 @@ namespace SalesforceMetadata
                     }
                     else if (columnElements[1] == DebugEventTags.DML_BEGIN)
                     {
-                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
                         writeDebugLineDetail(debugSW, 1, "DML_BEGIN", columnElements);
+                        tabCount++;
                     }
-                    else if (columnElements[1] == DebugEventTags.ENTERING_MANAGED_PKG)
+                    else if (columnElements[1] == DebugEventTags.DML_END)
                     {
-                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
-                        debugSW.Write("ENTERING_MANAGED_PKG: " + columnElements[2] + Environment.NewLine);
+                        if (tabCount > 0) tabCount--;
                     }
+                    //else if (columnElements[1] == DebugEventTags.ENTERING_MANAGED_PKG)
+                    //{
+                    //    writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                    //    debugSW.Write("ENTERING_MANAGED_PKG: " + columnElements[2] + Environment.NewLine);
+                    //}
                     else if (columnElements[1] == DebugEventTags.EXCEPTION_THROWN)
                     {
-                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
                         writeDebugLineDetail(debugSW, 2, "EXCEPTION_THROWN", columnElements);
                     }
                     else if (columnElements[1] == DebugEventTags.FATAL_ERROR)
                     {
-                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
 
                         debugSW.Write("FATAL_ERROR: " + columnElements[2] + Environment.NewLine);
 
@@ -590,6 +621,11 @@ namespace SalesforceMetadata
                         {
                             if (line != "")
                             {
+                                for (Int32 tc = 0; tc < tabCount + 9; tc++)
+                                {
+                                    debugSW.Write("\t");
+                                }
+
                                 debugSW.WriteLine(line);
                             }
 
@@ -599,26 +635,36 @@ namespace SalesforceMetadata
                     }
                     else if (columnElements[1] == DebugEventTags.FLOW_BULK_ELEMENT_BEGIN)
                     {
-                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
                         writeDebugLineDetail(debugSW, 2, "FLOW_BULK_ELEMENT_BEGIN", columnElements);
+                        tabCount++;
                     }
                     else if (columnElements[1] == DebugEventTags.FLOW_BULK_ELEMENT_END)
                     {
-                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        if (tabCount > 0) tabCount--;
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
                         debugSW.Write("FLOW_BULK_ELEMENT_END");
                         debugSW.Write(Environment.NewLine);
                     }
                     else if (columnElements[1] == DebugEventTags.FLOW_ELEMENT_BEGIN)
                     {
-                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
-                        debugSW.Write("FLOW_ELEMENT_BEGIN: " + columnElements[2] + Environment.NewLine);
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+                        writeDebugLineDetail(debugSW, 2, "FLOW_ELEMENT_BEGIN", columnElements);
+                        tabCount++;
+                    }
+                    else if (columnElements[1] == DebugEventTags.FLOW_ELEMENT_END)
+                    {
+                        if (tabCount > 0) tabCount--;
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+                        debugSW.Write("FLOW_ELEMENT_END");
+                        debugSW.Write(Environment.NewLine);
                     }
                     else if (columnElements[1] == DebugEventTags.FLOW_CREATE_INTERVIEW_ERROR)
                     {
                     }
                     else if (columnElements[1] == DebugEventTags.FLOW_ELEMENT_ERROR)
                     {
-                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
 
                         debugSW.Write("FLOW_ELEMENT_ERROR: " + columnElements[2] + Environment.NewLine);
 
@@ -628,6 +674,11 @@ namespace SalesforceMetadata
                         {
                             if (line != "")
                             {
+                                for (Int32 tc = 0; tc < tabCount + 9; tc++)
+                                {
+                                    debugSW.Write("\t");
+                                }
+
                                 debugSW.WriteLine(line);
                             }
 
@@ -637,30 +688,67 @@ namespace SalesforceMetadata
                     }
                     else if (columnElements[1] == DebugEventTags.FLOW_ELEMENT_FAULT)
                     {
-                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
                         debugSW.Write("FLOW_ELEMENT_FAULT");
                         debugSW.Write(Environment.NewLine);
                     }
                     else if (columnElements[1] == DebugEventTags.FLOW_START_INTERVIEW_BEGIN)
                     {
-                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
                         writeDebugLineDetail(debugSW, 2, "FLOW_START_INTERVIEW_BEGIN", columnElements);
+                        tabCount++;
                     }
                     else if (columnElements[1] == DebugEventTags.FLOW_START_INTERVIEW_END)
                     {
-                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        if (tabCount > 0) tabCount--;
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
                         debugSW.Write("FLOW_START_INTERVIEW_END");
                         debugSW.Write(Environment.NewLine);
                     }
                     else if (columnElements[1] == DebugEventTags.FLOW_START_INTERVIEWS_ERROR)
                     {
-                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
                         debugSW.Write("FLOW_START_INTERVIEWS_ERROR");
+                        debugSW.Write(Environment.NewLine);
+                    }
+                    else if (columnElements[1] == DebugEventTags.METHOD_ENTRY)
+                    {
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+                        writeDebugLineDetail(debugSW, 1, "METHOD_ENTRY", columnElements);
+                        tabCount++;
+                    }
+                    else if (columnElements[1] == DebugEventTags.METHOD_EXIT)
+                    {
+                        if (tabCount > 0) tabCount--;
+
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+
+                        debugSW.Write("METHOD_EXIT");
+                        debugSW.Write(Environment.NewLine);
+                    }
+                    else if (columnElements[1] == DebugEventTags.SOQL_EXECUTE_BEGIN)
+                    {
+                        debugSW.Write(Environment.NewLine);
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+                        writeDebugLineDetail(debugSW, 1, "SOQL_EXECUTE_BEGIN", columnElements);
+
+                        // Keep this additional NewLine. Makes reading and extracting the SOQL Statements a lot easier
+                        debugSW.Write(Environment.NewLine);
+
+                        tabCount++;
+                    }
+                    else if (columnElements[1] == DebugEventTags.SOQL_EXECUTE_END)
+                    {
+                        if (tabCount > 0) tabCount--;
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
+                        writeDebugLineDetail(debugSW, 1, "SOQL_EXECUTE_END", columnElements);
+
+                        // Keep this additional NewLine. Makes reading and extracting the SOQL Statements a lot easier
                         debugSW.Write(Environment.NewLine);
                     }
                     else if (columnElements[1] == DebugEventTags.USER_DEBUG)
                     {
-                        writeHierarchy(debugSW, 1, columnElements[0].ToString());
+                        writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
 
                         debugSW.Write("USER_DEBUG: ");
 

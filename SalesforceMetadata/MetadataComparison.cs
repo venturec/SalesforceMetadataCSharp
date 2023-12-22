@@ -2047,6 +2047,62 @@ namespace SalesforceMetadata
                 return;
             }
 
+            HashSet<String> diff = new HashSet<String>();
+
+            foreach (TreeNode tndDiff1 in this.treeViewDifferences.Nodes)
+            {
+                if (tndDiff1.Checked == true)
+                {
+                    
+                }
+
+                foreach (TreeNode tndDiff2 in tndDiff1.Nodes)
+                {
+                    if (tndDiff2.Nodes.Count > 0)
+                    {
+                        foreach (TreeNode tndDiff3 in tndDiff2.Nodes)
+                        {
+                            if (tndDiff3.Nodes.Count > 0)
+                            {
+                                foreach (TreeNode tndDiff4 in tndDiff3.Nodes)
+                                {
+                                    if (tndDiff4.Nodes.Count > 0)
+                                    {
+                                        foreach (TreeNode tndDiff5 in tndDiff4.Nodes)
+                                        {
+                                            if (tndDiff5.Nodes.Count > 0)
+                                            {
+                                                foreach (TreeNode tndDiff6 in tndDiff5.Nodes)
+                                                {
+                                                    diff.Add(tndDiff5.FullPath);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                diff.Add(tndDiff5.FullPath);
+                                            }
+
+                                        }
+                                    }
+                                    else
+                                    {
+                                        diff.Add(tndDiff4.FullPath);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                diff.Add(tndDiff3.FullPath);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        diff.Add(tndDiff2.FullPath);
+                    }
+                }
+            }
+
             GenerateDeploymentPackage gdp = new GenerateDeploymentPackage();
 
             gdp.tbProjectFolder.Text = this.tbFromFolder.Text;

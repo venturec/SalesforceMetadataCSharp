@@ -29,6 +29,7 @@ namespace SalesforceMetadata
         private HashSet<String> standardValueSets = new HashSet<string>();
 
         public TreeNodeCollection treeNodeCollFromDiff;
+        public HashSet<String> treeNodeSetFromDiff;
 
         public GenerateDeploymentPackage()
         {
@@ -212,90 +213,13 @@ namespace SalesforceMetadata
 
         public void populateMetadataTreeViewFromDiff()
         {
-            this.treeViewMetadata.Nodes.Clear();
+            //this.treeViewMetadata.Nodes.Clear();
 
-            foreach (TreeNode tndDiff1 in this.treeNodeCollFromDiff)
+
+
+            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
             {
-                // Commented out to allow for updating PermissionSets and Profiles
-                //if (tndDiff1.Text == "permissionsets"
-                //    || tndDiff1.Text == "profiles")
-                //{
-                //    continue;
-                //}
-
-                TreeNode tnd1 = new TreeNode();
-                tnd1.Text = tndDiff1.Text;
-                tnd1.Checked = tndDiff1.Checked;
-
-                foreach (TreeNode tndDiff2 in tndDiff1.Nodes)
-                {
-                    TreeNode tnd2 = new TreeNode();
-                    TextToColor tcc2 = removeNewUpdatedFromNodeText(tndDiff2.Text);
-                    tnd2.Text = tcc2.textValue;
-                    tnd2.BackColor = tcc2.color;
-                    tnd2.Checked = tndDiff2.Checked;
-
-                    if (tndDiff2.Nodes.Count > 0)
-                    {
-                        foreach (TreeNode tndDiff3 in tndDiff2.Nodes)
-                        {
-                            TreeNode tnd3 = new TreeNode();
-                            TextToColor tcc3 = removeNewUpdatedFromNodeText(tndDiff3.Text);
-                            tnd3.Text = tcc3.textValue;
-                            tnd3.BackColor = tcc3.color;
-                            tnd3.Checked = tndDiff3.Checked;
-
-                            if (tndDiff3.Nodes.Count > 0)
-                            {
-                                foreach (TreeNode tndDiff4 in tndDiff3.Nodes)
-                                {
-                                    TreeNode tnd4 = new TreeNode();
-                                    TextToColor tcc4 = removeNewUpdatedFromNodeText(tndDiff4.Text);
-                                    tnd4.Text = tcc4.textValue;
-                                    tnd4.BackColor = tcc4.color;
-                                    tnd4.Checked = tndDiff2.Checked;
-
-                                    if (tndDiff4.Nodes.Count > 0)
-                                    {
-                                        foreach (TreeNode tndDiff5 in tndDiff4.Nodes)
-                                        {
-                                            TreeNode tnd5 = new TreeNode();
-                                            TextToColor tcc5 = removeNewUpdatedFromNodeText(tndDiff5.Text);
-                                            tnd5.Text = tcc5.textValue;
-                                            tnd5.BackColor = tcc5.color;
-                                            tnd5.Checked = tndDiff2.Checked;
-
-                                            if (tndDiff5.Nodes.Count > 0)
-                                            {
-                                                foreach (TreeNode tndDiff6 in tndDiff5.Nodes)
-                                                {
-                                                    TreeNode tnd6 = new TreeNode();
-                                                    TextToColor tcc6 = removeNewUpdatedFromNodeText(tndDiff6.Text);
-                                                    tnd6.Text = tcc6.textValue;
-                                                    tnd6.BackColor = tcc6.color;
-                                                    tnd6.Checked = tndDiff2.Checked;
-
-                                                    tnd5.Nodes.Add(tnd6);
-                                                }
-                                            }
-
-                                            tnd4.Nodes.Add(tnd5);
-                                        }
-                                    }
-
-                                    tnd3.Nodes.Add(tnd4);
-                                }
-                            }
-
-                            tnd2.Nodes.Add(tnd3);
-                        }
-                    }
-
-                    tnd1.Nodes.Add(tnd2);
-
-                }
-
-                this.treeViewMetadata.Nodes.Add(tnd1);
+                
             }
         }
 

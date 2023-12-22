@@ -7107,8 +7107,22 @@ namespace SalesforceMetadata
                     xlWorksheet.Cells[rowNumber, 7].Value = quickAction.StandardLabel;
 
                     xlWorksheet.Cells[rowNumber, 8].Value = quickAction.Type;
-                    xlWorksheet.Cells[rowNumber, 9].Value = quickAction.Height;
-                    xlWorksheet.Cells[rowNumber, 10].Value = quickAction.Width;
+                    if (quickAction.Height == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 9].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 9].Value = quickAction.Height;
+                    }
+                    if (quickAction.Height == null)
+                    {
+                        xlWorksheet.Cells[rowNumber, 10].Value = "";
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 10].Value = quickAction.Width;
+                    }
                     xlWorksheet.Cells[rowNumber, 11].Value = quickAction.IconId;
                     xlWorksheet.Cells[rowNumber, 12].Value = quickAction.Language;
                     xlWorksheet.Cells[rowNumber, 13].Value = quickAction.OptionsCreateFeedItem;

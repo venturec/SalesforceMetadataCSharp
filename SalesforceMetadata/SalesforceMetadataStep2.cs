@@ -589,6 +589,10 @@ namespace SalesforceMetadata
 
             // Parallel For processing of components to see if it is faster
             Int32 threadCount = Properties.Settings.Default.MetadataAynchrounsThreads;
+            if (threadCount == 0)
+            {
+                threadCount = 1;
+            }
 
             if(selectedItemsList2.Count > 0)
             {
@@ -603,7 +607,7 @@ namespace SalesforceMetadata
                     // Debug.WriteLine("");
                     // Build the threads and then as the threads complete, build the next one
 
-                    for (Int32 i = 0; i < threadCount; i++)
+                    for (Int32 i = 0; i <= threadCount - 1; i++)
                     {
                         if (i <= selectedItemsList2.Count - 1)
                         {

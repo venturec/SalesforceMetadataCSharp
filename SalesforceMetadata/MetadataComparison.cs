@@ -2053,52 +2053,113 @@ namespace SalesforceMetadata
             {
                 if (tndDiff1.Checked == true)
                 {
-                    
+                    diff.Add(tndDiff1.FullPath);
                 }
 
                 foreach (TreeNode tndDiff2 in tndDiff1.Nodes)
                 {
+                    if (tndDiff1.Checked == true)
+                    {
+                        if (tndDiff2.FullPath.Contains("[New]"))
+                        {
+                            diff.Add(tndDiff2.FullPath.Replace("[New] ", ""));
+                        }
+                        else if (tndDiff2.FullPath.Contains("[Updated]"))
+                        {
+                            diff.Add(tndDiff2.FullPath.Replace("[Updated] ", ""));
+                        }
+                        else
+                        {
+                            diff.Add(tndDiff2.FullPath);
+                        }
+                    }
+
                     if (tndDiff2.Nodes.Count > 0)
                     {
                         foreach (TreeNode tndDiff3 in tndDiff2.Nodes)
                         {
+                            if (tndDiff3.Checked == true)
+                            {
+                                if (tndDiff3.FullPath.Contains("[New]"))
+                                {
+                                    diff.Add(tndDiff3.FullPath.Replace("[New] ", ""));
+                                }
+                                else if (tndDiff3.FullPath.Contains("[Updated]"))
+                                {
+                                    diff.Add(tndDiff3.FullPath.Replace("[Updated] ", ""));
+                                }
+                                else
+                                {
+                                    diff.Add(tndDiff3.FullPath);
+                                }
+                            }
+
                             if (tndDiff3.Nodes.Count > 0)
                             {
                                 foreach (TreeNode tndDiff4 in tndDiff3.Nodes)
                                 {
+                                    if (tndDiff4.Checked == true)
+                                    {
+                                        if (tndDiff4.FullPath.Contains("[New]"))
+                                        {
+                                            diff.Add(tndDiff4.FullPath.Replace("[New] ", ""));
+                                        }
+                                        else if (tndDiff4.FullPath.Contains("[Updated]"))
+                                        {
+                                            diff.Add(tndDiff4.FullPath.Replace("[Updated] ", ""));
+                                        }
+                                        else
+                                        {
+                                            diff.Add(tndDiff4.FullPath);
+                                        }
+                                    }
+
                                     if (tndDiff4.Nodes.Count > 0)
                                     {
                                         foreach (TreeNode tndDiff5 in tndDiff4.Nodes)
                                         {
-                                            if (tndDiff5.Nodes.Count > 0)
+                                            if (tndDiff5.Checked == true)
                                             {
-                                                foreach (TreeNode tndDiff6 in tndDiff5.Nodes)
+                                                if (tndDiff5.FullPath.Contains("[New]"))
+                                                {
+                                                    diff.Add(tndDiff5.FullPath.Replace("[New] ", ""));
+                                                }
+                                                else if (tndDiff5.FullPath.Contains("[Updated]"))
+                                                {
+                                                    diff.Add(tndDiff5.FullPath.Replace("[Updated] ", ""));
+                                                }
+                                                else
                                                 {
                                                     diff.Add(tndDiff5.FullPath);
                                                 }
                                             }
-                                            else
-                                            {
-                                                diff.Add(tndDiff5.FullPath);
-                                            }
 
+                                            if (tndDiff5.Nodes.Count > 0)
+                                            {
+                                                foreach (TreeNode tndDiff6 in tndDiff5.Nodes)
+                                                {
+                                                    if (tndDiff6.Checked == true)
+                                                    {
+                                                        if (tndDiff6.FullPath.Contains("[New]"))
+                                                        {
+                                                            diff.Add(tndDiff6.FullPath.Replace("[New] ", ""));
+                                                        }
+                                                        else if (tndDiff6.FullPath.Contains("[Updated]"))
+                                                        {
+                                                            diff.Add(tndDiff6.FullPath.Replace("[Updated] ", ""));
+                                                        }
+                                                        else
+                                                        {
+                                                            diff.Add(tndDiff6.FullPath);
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
-                                    }
-                                    else
-                                    {
-                                        diff.Add(tndDiff4.FullPath);
                                     }
                                 }
                             }
-                            else
-                            {
-                                diff.Add(tndDiff3.FullPath);
-                            }
                         }
-                    }
-                    else
-                    {
-                        diff.Add(tndDiff2.FullPath);
                     }
                 }
             }
@@ -2106,7 +2167,7 @@ namespace SalesforceMetadata
             GenerateDeploymentPackage gdp = new GenerateDeploymentPackage();
 
             gdp.tbProjectFolder.Text = this.tbFromFolder.Text;
-            gdp.treeNodeCollFromDiff = this.treeViewDifferences.Nodes;
+            gdp.treeNodeSetFromDiff = diff;
             
             gdp.populateMetadataTreeViewFromDiff();
             gdp.Show();

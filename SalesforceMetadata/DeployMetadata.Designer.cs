@@ -52,7 +52,9 @@
             this.cbRollbackOnError = new System.Windows.Forms.CheckBox();
             this.cbAllowMissingFiles = new System.Windows.Forms.CheckBox();
             this.cbAutoUpdatePackage = new System.Windows.Forms.CheckBox();
+            this.gbDeploymentOptions = new System.Windows.Forms.GroupBox();
             this.fromOrgGroup.SuspendLayout();
+            this.gbDeploymentOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblRunSpecificTests
@@ -98,7 +100,7 @@
             this.cbCheckOnly.AutoSize = true;
             this.cbCheckOnly.Checked = true;
             this.cbCheckOnly.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbCheckOnly.Location = new System.Drawing.Point(855, 154);
+            this.cbCheckOnly.Location = new System.Drawing.Point(18, 18);
             this.cbCheckOnly.Margin = new System.Windows.Forms.Padding(2);
             this.cbCheckOnly.Name = "cbCheckOnly";
             this.cbCheckOnly.Size = new System.Drawing.Size(160, 17);
@@ -159,10 +161,10 @@
             // cbPurgeOnDelete
             // 
             this.cbPurgeOnDelete.AutoSize = true;
-            this.cbPurgeOnDelete.Location = new System.Drawing.Point(1080, 220);
+            this.cbPurgeOnDelete.Location = new System.Drawing.Point(338, 116);
             this.cbPurgeOnDelete.Name = "cbPurgeOnDelete";
             this.cbPurgeOnDelete.Size = new System.Drawing.Size(103, 17);
-            this.cbPurgeOnDelete.TabIndex = 14;
+            this.cbPurgeOnDelete.TabIndex = 15;
             this.cbPurgeOnDelete.Text = "Purge on Delete";
             this.cbPurgeOnDelete.UseVisualStyleBackColor = true;
             // 
@@ -185,7 +187,7 @@
             // cbRunTests
             // 
             this.cbRunTests.AutoSize = true;
-            this.cbRunTests.Location = new System.Drawing.Point(855, 177);
+            this.cbRunTests.Location = new System.Drawing.Point(18, 41);
             this.cbRunTests.Name = "cbRunTests";
             this.cbRunTests.Size = new System.Drawing.Size(104, 17);
             this.cbRunTests.TabIndex = 9;
@@ -240,10 +242,12 @@
             // cbIgnoreWarnings
             // 
             this.cbIgnoreWarnings.AutoSize = true;
-            this.cbIgnoreWarnings.Location = new System.Drawing.Point(1080, 197);
+            this.cbIgnoreWarnings.Checked = true;
+            this.cbIgnoreWarnings.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbIgnoreWarnings.Location = new System.Drawing.Point(338, 93);
             this.cbIgnoreWarnings.Name = "cbIgnoreWarnings";
             this.cbIgnoreWarnings.Size = new System.Drawing.Size(104, 17);
-            this.cbIgnoreWarnings.TabIndex = 13;
+            this.cbIgnoreWarnings.TabIndex = 14;
             this.cbIgnoreWarnings.Text = "Ignore Warnings";
             this.cbIgnoreWarnings.UseVisualStyleBackColor = true;
             // 
@@ -252,27 +256,27 @@
             this.cbSinglePackage.AutoSize = true;
             this.cbSinglePackage.Checked = true;
             this.cbSinglePackage.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbSinglePackage.Location = new System.Drawing.Point(1080, 243);
+            this.cbSinglePackage.Location = new System.Drawing.Point(18, 64);
             this.cbSinglePackage.Name = "cbSinglePackage";
             this.cbSinglePackage.Size = new System.Drawing.Size(101, 17);
-            this.cbSinglePackage.TabIndex = 15;
+            this.cbSinglePackage.TabIndex = 10;
             this.cbSinglePackage.Text = "Single Package";
             this.cbSinglePackage.UseVisualStyleBackColor = true;
             // 
             // cbRollbackOnError
             // 
             this.cbRollbackOnError.AutoSize = true;
-            this.cbRollbackOnError.Location = new System.Drawing.Point(855, 200);
+            this.cbRollbackOnError.Location = new System.Drawing.Point(338, 64);
             this.cbRollbackOnError.Name = "cbRollbackOnError";
             this.cbRollbackOnError.Size = new System.Drawing.Size(110, 17);
-            this.cbRollbackOnError.TabIndex = 10;
+            this.cbRollbackOnError.TabIndex = 13;
             this.cbRollbackOnError.Text = "Rollback On Error";
             this.cbRollbackOnError.UseVisualStyleBackColor = true;
             // 
             // cbAllowMissingFiles
             // 
             this.cbAllowMissingFiles.AutoSize = true;
-            this.cbAllowMissingFiles.Location = new System.Drawing.Point(1080, 151);
+            this.cbAllowMissingFiles.Location = new System.Drawing.Point(338, 18);
             this.cbAllowMissingFiles.Name = "cbAllowMissingFiles";
             this.cbAllowMissingFiles.Size = new System.Drawing.Size(113, 17);
             this.cbAllowMissingFiles.TabIndex = 11;
@@ -282,36 +286,46 @@
             // cbAutoUpdatePackage
             // 
             this.cbAutoUpdatePackage.AutoSize = true;
-            this.cbAutoUpdatePackage.Location = new System.Drawing.Point(1080, 174);
+            this.cbAutoUpdatePackage.Location = new System.Drawing.Point(338, 41);
             this.cbAutoUpdatePackage.Name = "cbAutoUpdatePackage";
             this.cbAutoUpdatePackage.Size = new System.Drawing.Size(132, 17);
             this.cbAutoUpdatePackage.TabIndex = 12;
             this.cbAutoUpdatePackage.Text = "Auto Update Package";
             this.cbAutoUpdatePackage.UseVisualStyleBackColor = true;
             // 
+            // gbDeploymentOptions
+            // 
+            this.gbDeploymentOptions.Controls.Add(this.cbCheckOnly);
+            this.gbDeploymentOptions.Controls.Add(this.cbAutoUpdatePackage);
+            this.gbDeploymentOptions.Controls.Add(this.cbPurgeOnDelete);
+            this.gbDeploymentOptions.Controls.Add(this.cbAllowMissingFiles);
+            this.gbDeploymentOptions.Controls.Add(this.cbRunTests);
+            this.gbDeploymentOptions.Controls.Add(this.cbRollbackOnError);
+            this.gbDeploymentOptions.Controls.Add(this.cbIgnoreWarnings);
+            this.gbDeploymentOptions.Controls.Add(this.cbSinglePackage);
+            this.gbDeploymentOptions.Location = new System.Drawing.Point(838, 141);
+            this.gbDeploymentOptions.Name = "gbDeploymentOptions";
+            this.gbDeploymentOptions.Size = new System.Drawing.Size(523, 164);
+            this.gbDeploymentOptions.TabIndex = 21;
+            this.gbDeploymentOptions.TabStop = false;
+            this.gbDeploymentOptions.Text = "Deployment Options";
+            // 
             // DeployMetadata
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1379, 694);
-            this.Controls.Add(this.cbAutoUpdatePackage);
-            this.Controls.Add(this.cbAllowMissingFiles);
-            this.Controls.Add(this.cbRollbackOnError);
-            this.Controls.Add(this.cbSinglePackage);
-            this.Controls.Add(this.cbIgnoreWarnings);
+            this.Controls.Add(this.gbDeploymentOptions);
             this.Controls.Add(this.lblSalesforce);
             this.Controls.Add(this.fromOrgGroup);
-            this.Controls.Add(this.cbRunTests);
             this.Controls.Add(this.tbDeploymentValidationId);
             this.Controls.Add(this.lblDeploymentID);
-            this.Controls.Add(this.cbPurgeOnDelete);
             this.Controls.Add(this.lblDeploymentMessage);
             this.Controls.Add(this.rtMessages);
             this.Controls.Add(this.lblRunSpecificTests);
             this.Controls.Add(this.tbTestsToRun);
             this.Controls.Add(this.tbDeploymentName);
             this.Controls.Add(this.lblDeploymentName);
-            this.Controls.Add(this.cbCheckOnly);
             this.Controls.Add(this.btnDeployMetadata);
             this.Controls.Add(this.lblZipFileLocation);
             this.Controls.Add(this.tbZipFileLocation);
@@ -320,6 +334,8 @@
             this.Text = "DeployMetadata";
             this.fromOrgGroup.ResumeLayout(false);
             this.fromOrgGroup.PerformLayout();
+            this.gbDeploymentOptions.ResumeLayout(false);
+            this.gbDeploymentOptions.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -350,5 +366,6 @@
         private System.Windows.Forms.CheckBox cbRollbackOnError;
         private System.Windows.Forms.CheckBox cbAllowMissingFiles;
         private System.Windows.Forms.CheckBox cbAutoUpdatePackage;
+        private System.Windows.Forms.GroupBox gbDeploymentOptions;
     }
 }

@@ -28,7 +28,7 @@ namespace SalesforceMetadata
 
         private HashSet<String> standardValueSets = new HashSet<string>();
 
-        public TreeNodeCollection treeNodeCollFromDiff;
+        //public TreeNodeCollection treeNodeCollFromDiff;
         public HashSet<String> treeNodeSetFromDiff;
 
         public GenerateDeploymentPackage()

@@ -112,6 +112,15 @@ namespace SalesforceMetadata
 
                 DeployOptions dopt = new DeployOptions();
 
+                if (this.cbCheckOnly.Checked == true)
+                {
+                    dopt.checkOnly = true;
+                }
+                else
+                {
+                    dopt.checkOnly = false;
+                }
+
                 if (this.cbAutoUpdatePackage.Checked)
                 {
                     dopt.autoUpdatePackage = true;
@@ -121,25 +130,61 @@ namespace SalesforceMetadata
                     dopt.autoUpdatePackage = false;
                 }
 
-                dopt.ignoreWarnings = true;
-                dopt.singlePackage = true;
+                if (this.cbAllowMissingFiles.Checked)
+                {
+                    dopt.allowMissingFiles = true;
+                }
+                else
+                {
+                    dopt.allowMissingFiles = false;
+                }
+
+                if (this.cbRollbackOnError.Checked
+                    || sc.isProduction[this.cmbUserName.Text] == true)
+                {
+                    dopt.rollbackOnError = true;
+                }
+                else
+                {
+                    dopt.rollbackOnError = false;
+                }
+
+                if (this.cbIgnoreWarnings.Checked)
+                {
+                    dopt.ignoreWarnings = true;
+                }
+                else
+                {
+                    dopt.ignoreWarnings = false;
+                }
+
+                if (this.cbSinglePackage.Checked)
+                {
+                    dopt.singlePackage = true;
+                }
+                else
+                {
+                    dopt.singlePackage = false;
+                }
 
                 if (this.cbPurgeOnDelete.Checked == true)
                 {
                     dopt.purgeOnDelete = true;
                 }
+                else
+                {
+                    dopt.purgeOnDelete = false;
+                }
 
+                // Quick additional check for production deployment
                 if (sc.isProduction[this.cmbUserName.Text] == true)
                 {
-                    dopt.rollbackOnError = true;
+                    dopt.allowMissingFiles = false;
+                    dopt.autoUpdatePackage = false;
                     dopt.testLevel = TestLevel.RunLocalTests;
                 }
                 else
                 {
-                    dopt.allowMissingFiles = false;
-                    dopt.autoUpdatePackage = false;
-                    dopt.rollbackOnError = false;
-
                     if (this.cbRunTests.Checked)
                     {
                         dopt.testLevel = TestLevel.RunLocalTests;
@@ -166,14 +211,7 @@ namespace SalesforceMetadata
                     dopt.testLevel = TestLevel.RunSpecifiedTests;
                 }
 
-                if (this.cbCheckOnly.Checked == true)
-                {
-                    dopt.checkOnly = true;
-                }
-                else
-                {
-                    dopt.checkOnly = false;
-                }
+
 
                 // Is the zip file base64?
                 // Encode the folder selected as base64 binary data. This folder should include a package.xml file as well

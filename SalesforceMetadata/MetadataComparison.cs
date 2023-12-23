@@ -2058,7 +2058,7 @@ namespace SalesforceMetadata
 
                 foreach (TreeNode tndDiff2 in tndDiff1.Nodes)
                 {
-                    if (tndDiff1.Checked == true)
+                    if (tndDiff2.Checked == true)
                     {
                         if (tndDiff2.FullPath.Contains("[New]"))
                         {

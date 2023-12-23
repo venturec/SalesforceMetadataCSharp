@@ -16,6 +16,7 @@ using SalesforceMetadata.MetadataWSDL;
 using SalesforceMetadata.ToolingWSDL;
 using System.Diagnostics.Eventing.Reader;
 using System.IO.Compression;
+using System.Runtime.CompilerServices;
 
 namespace SalesforceMetadata
 {
@@ -213,13 +214,39 @@ namespace SalesforceMetadata
 
         public void populateMetadataTreeViewFromDiff()
         {
-            //this.treeViewMetadata.Nodes.Clear();
-
-
+            this.treeViewMetadata.Nodes.Clear();
+            this.populateMetadataTreeView();
 
             foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
             {
-                
+                if (this.treeNodeSetFromDiff.Contains(tnd1.FullPath))
+                {
+                    tnd1.Checked = true;
+                }
+
+                foreach(TreeNode tnd2 in tnd1.Nodes)
+                {
+                    if (this.treeNodeSetFromDiff.Contains(tnd2.FullPath))
+                    {
+                        tnd2.Checked = true;
+                    }
+
+                    foreach (TreeNode tnd3 in tnd2.Nodes)
+                    {
+                        if (this.treeNodeSetFromDiff.Contains(tnd3.FullPath))
+                        {
+                            tnd3.Checked = true;
+                        }
+
+                        foreach (TreeNode tnd4 in tnd3.Nodes)
+                        {
+                            if (this.treeNodeSetFromDiff.Contains(tnd4.FullPath))
+                            {
+                                tnd4.Checked = true;
+                            }
+                        }
+                    }
+                }
             }
         }
 

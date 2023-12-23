@@ -313,56 +313,6 @@ namespace SalesforceMetadata
                 File.WriteAllText(this.tbFromOrgSaveLocation.Text + "\\package.xml", packageXmlSB.ToString());
 
                 MessageBox.Show("The Permission Set Package XML has been built. Please adjust the Package XML to include only those you are interested in and then set the Existing Package Xml field in the Metadata Retrieval Step for processing");
-
-                //    while (allProfileNames.Count > 0)
-                //    {
-                //        String profileProcessingMsg = "    Permission Sets Remaining: " + allProfileNames.Count.ToString() + Environment.NewLine;
-                //        var profThreadParameters = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(profileProcessingMsg, sfMdFrm); });
-                //        var profThread = new System.Threading.Thread(profThreadParameters);
-                //        profThread.Start();
-                //        while (profThread.ThreadState == System.Threading.ThreadState.Running)
-                //        {
-                //            // do nothing. Just want for the thread to complete
-                //        }
-
-                //        List<String> selectedProfileNames = new List<String>();
-                //        foreach (String profName in allProfileNames)
-                //        {
-                //            selectedProfileNames.Add(profName);
-
-                //            if (selectedProfileNames.Count == 10)
-                //            {
-                //                break;
-                //            }
-                //        }
-
-                //        // Build the package.xml to retrieve both the Profile and Permission Set
-                //        StringBuilder packageXmlSB = new StringBuilder();
-                //        packageXmlSB = buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG.FROMORG, "PermissionSet", selectedProfileNames);
-
-                //        RetrieveRequest retrieveRequest = new RetrieveRequest();
-                //        retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
-                //        retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
-
-                //        int waitTimeMilliSecs = 6000;
-                //        Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "PermissionSet", sfMdFrm);
-                //        Task tsk = Task.Run(act);
-
-                //        while (tsk.IsCanceled == false && tsk.IsCompleted == false && tsk.IsFaulted == false)
-                //        {
-                //            tsk.Wait(waitTimeMilliSecs);
-                //        }
-
-                //        foreach (String profSelected in selectedProfileNames)
-                //        {
-                //            allProfileNames.Remove(profSelected);
-                //        }
-
-                //        selectedProfileNames.Clear();
-                //    }
-
-                //    alreadyAdded.Add("PermissionSet");
-                //}
             }
             
             if (sfMdFrm.selectedItems.ContainsKey("EmailTemplate"))

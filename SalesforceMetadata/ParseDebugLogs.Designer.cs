@@ -128,8 +128,7 @@
             // 
             // ParseDebugLogs
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1163, 884);
             this.Controls.Add(this.btnParseCodeUnits);
             this.Controls.Add(this.cbIncludeHierarchy);

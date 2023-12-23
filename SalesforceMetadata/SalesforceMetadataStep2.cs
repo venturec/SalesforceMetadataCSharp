@@ -106,7 +106,7 @@ namespace SalesforceMetadata
                 }
 
                 Action act = () => requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, this);
-                Task tsk = Task.Run(act);
+                System.Threading.Tasks.Task tsk = System.Threading.Tasks.Task.Run(act);
             }
         }
 
@@ -162,7 +162,7 @@ namespace SalesforceMetadata
                 retrieveRequest.unpackaged = parsePackageManifest(File.ReadAllText(this.tbFromOrgSaveLocation.Text + "\\package.xml"));
 
                 Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "Existing Package XML", this);
-                Task tsk = Task.Run(act);
+                System.Threading.Tasks.Task tsk = System.Threading.Tasks.Task.Run(act);
             }
         }
 
@@ -181,6 +181,7 @@ namespace SalesforceMetadata
             foreach (String comp in selectedItems.Keys)
             {
                 componentsToRetrieve = componentsToRetrieve + "    " + comp + Environment.NewLine;
+                
             }
 
             String processingMsg2 = componentsToRetrieve + Environment.NewLine;
@@ -422,7 +423,7 @@ namespace SalesforceMetadata
 
                 int waitTimeMilliSecs = 6000;
                 Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "EmailTemplate", sfMdFrm);
-                Task tsk = Task.Run(act);
+                System.Threading.Tasks.Task tsk = System.Threading.Tasks.Task.Run(act);
 
                 while (tsk.IsCanceled == false && tsk.IsCompleted == false && tsk.IsFaulted == false)
                 {
@@ -534,7 +535,7 @@ namespace SalesforceMetadata
 
                     //int waitTimeMilliSecs = 6000;
                     Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "Report", sfMdFrm);
-                    Task tsk = Task.Run(act);
+                    System.Threading.Tasks.Task tsk = System.Threading.Tasks.Task.Run(act);
                     taskArray.Add(tsk);
 
                     while (allThreadsComplete == false)
@@ -624,7 +625,7 @@ namespace SalesforceMetadata
                             retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
 
                             Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, metadataObject, sfMdFrm);
-                            Task tsk = Task.Run(act);
+                            System.Threading.Tasks.Task tsk = System.Threading.Tasks.Task.Run(act);
 
                             taskArray.Add(tsk);
                             completedItemsList.Add(selectedItemsList2[i]);

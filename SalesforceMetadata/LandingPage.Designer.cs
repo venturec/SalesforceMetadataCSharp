@@ -55,7 +55,7 @@
             // btnMetadataForm
             // 
             this.btnMetadataForm.Location = new System.Drawing.Point(9, 46);
-            this.btnMetadataForm.Margin = new System.Windows.Forms.Padding(2);
+            this.btnMetadataForm.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnMetadataForm.Name = "btnMetadataForm";
             this.btnMetadataForm.Size = new System.Drawing.Size(190, 35);
             this.btnMetadataForm.TabIndex = 2;
@@ -71,7 +71,7 @@
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
             this.mainMenuStrip.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.mainMenuStrip.Size = new System.Drawing.Size(707, 24);
+            this.mainMenuStrip.Size = new System.Drawing.Size(707, 27);
             this.mainMenuStrip.TabIndex = 0;
             this.mainMenuStrip.Text = "Main Menu";
             // 
@@ -79,15 +79,15 @@
             // 
             this.settingsMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.usernameAndSOAPXmlFile});
-            this.settingsMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.settingsMenuItem.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.settingsMenuItem.Name = "settingsMenuItem";
-            this.settingsMenuItem.Size = new System.Drawing.Size(65, 20);
+            this.settingsMenuItem.Size = new System.Drawing.Size(74, 23);
             this.settingsMenuItem.Text = "Settings";
             // 
             // usernameAndSOAPXmlFile
             // 
             this.usernameAndSOAPXmlFile.Name = "usernameAndSOAPXmlFile";
-            this.usernameAndSOAPXmlFile.Size = new System.Drawing.Size(276, 22);
+            this.usernameAndSOAPXmlFile.Size = new System.Drawing.Size(325, 24);
             this.usernameAndSOAPXmlFile.Text = "User and SOAP Address File Location";
             this.usernameAndSOAPXmlFile.Click += new System.EventHandler(this.addUserAndSOAPAPIAddress_Click);
             // 
@@ -96,7 +96,7 @@
             this.horizontalRule.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.horizontalRule.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.horizontalRule.Location = new System.Drawing.Point(0, 23);
+            this.horizontalRule.Location = new System.Drawing.Point(0, 27);
             this.horizontalRule.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.horizontalRule.Name = "horizontalRule";
             this.horizontalRule.Size = new System.Drawing.Size(707, 8);
@@ -105,7 +105,7 @@
             // btnSearchMetadata
             // 
             this.btnSearchMetadata.Location = new System.Drawing.Point(253, 46);
-            this.btnSearchMetadata.Margin = new System.Windows.Forms.Padding(2);
+            this.btnSearchMetadata.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSearchMetadata.Name = "btnSearchMetadata";
             this.btnSearchMetadata.Size = new System.Drawing.Size(190, 35);
             this.btnSearchMetadata.TabIndex = 7;
@@ -126,7 +126,7 @@
             // btnRESTService
             // 
             this.btnRESTService.Location = new System.Drawing.Point(12, 396);
-            this.btnRESTService.Margin = new System.Windows.Forms.Padding(2);
+            this.btnRESTService.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnRESTService.Name = "btnRESTService";
             this.btnRESTService.Size = new System.Drawing.Size(187, 32);
             this.btnRESTService.TabIndex = 17;
@@ -137,7 +137,7 @@
             // btnGenerateConfigWorkbook
             // 
             this.btnGenerateConfigWorkbook.Location = new System.Drawing.Point(253, 127);
-            this.btnGenerateConfigWorkbook.Margin = new System.Windows.Forms.Padding(2);
+            this.btnGenerateConfigWorkbook.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnGenerateConfigWorkbook.Name = "btnGenerateConfigWorkbook";
             this.btnGenerateConfigWorkbook.Size = new System.Drawing.Size(190, 35);
             this.btnGenerateConfigWorkbook.TabIndex = 9;
@@ -148,7 +148,7 @@
             // btnOpenObjectFieldInspector
             // 
             this.btnOpenObjectFieldInspector.Location = new System.Drawing.Point(253, 86);
-            this.btnOpenObjectFieldInspector.Margin = new System.Windows.Forms.Padding(2);
+            this.btnOpenObjectFieldInspector.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnOpenObjectFieldInspector.Name = "btnOpenObjectFieldInspector";
             this.btnOpenObjectFieldInspector.Size = new System.Drawing.Size(190, 35);
             this.btnOpenObjectFieldInspector.TabIndex = 8;
@@ -159,7 +159,7 @@
             // btnOpenObjectModification
             // 
             this.btnOpenObjectModification.Location = new System.Drawing.Point(12, 358);
-            this.btnOpenObjectModification.Margin = new System.Windows.Forms.Padding(2);
+            this.btnOpenObjectModification.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnOpenObjectModification.Name = "btnOpenObjectModification";
             this.btnOpenObjectModification.Size = new System.Drawing.Size(188, 32);
             this.btnOpenObjectModification.TabIndex = 16;
@@ -170,7 +170,7 @@
             // btnExtractHTMLPages
             // 
             this.btnExtractHTMLPages.Location = new System.Drawing.Point(508, 207);
-            this.btnExtractHTMLPages.Margin = new System.Windows.Forms.Padding(2);
+            this.btnExtractHTMLPages.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnExtractHTMLPages.Name = "btnExtractHTMLPages";
             this.btnExtractHTMLPages.Size = new System.Drawing.Size(190, 35);
             this.btnExtractHTMLPages.TabIndex = 15;
@@ -261,8 +261,7 @@
             // 
             // LandingPage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(707, 441);
             this.Controls.Add(this.btnParseMetadataXml);
             this.Controls.Add(this.btnDeployments);
@@ -284,7 +283,7 @@
             this.Controls.Add(this.btnMetadataForm);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mainMenuStrip;
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "LandingPage";
             this.Text = "Landing Page";
             this.mainMenuStrip.ResumeLayout(false);

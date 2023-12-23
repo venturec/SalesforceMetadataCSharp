@@ -82,11 +82,11 @@
             // lblSearchText
             // 
             this.lblSearchText.AutoSize = true;
-            this.lblSearchText.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSearchText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSearchText.Location = new System.Drawing.Point(9, 62);
             this.lblSearchText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSearchText.Name = "lblSearchText";
-            this.lblSearchText.Size = new System.Drawing.Size(76, 13);
+            this.lblSearchText.Size = new System.Drawing.Size(95, 17);
             this.lblSearchText.TabIndex = 3;
             this.lblSearchText.Text = "Search Text";
             // 
@@ -102,22 +102,22 @@
             // lblLocation
             // 
             this.lblLocation.AutoSize = true;
-            this.lblLocation.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLocation.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLocation.Location = new System.Drawing.Point(9, 14);
             this.lblLocation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblLocation.Name = "lblLocation";
-            this.lblLocation.Size = new System.Drawing.Size(56, 13);
+            this.lblLocation.Size = new System.Drawing.Size(70, 17);
             this.lblLocation.TabIndex = 0;
             this.lblLocation.Text = "Location";
             // 
             // lblResults
             // 
             this.lblResults.AutoSize = true;
-            this.lblResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblResults.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblResults.Location = new System.Drawing.Point(6, 190);
             this.lblResults.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblResults.Name = "lblResults";
-            this.lblResults.Size = new System.Drawing.Size(49, 13);
+            this.lblResults.Size = new System.Drawing.Size(62, 17);
             this.lblResults.TabIndex = 12;
             this.lblResults.Text = "Results";
             // 
@@ -134,10 +134,10 @@
             // lblSearchFileExtension
             // 
             this.lblSearchFileExtension.AutoSize = true;
-            this.lblSearchFileExtension.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSearchFileExtension.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSearchFileExtension.Location = new System.Drawing.Point(9, 109);
             this.lblSearchFileExtension.Name = "lblSearchFileExtension";
-            this.lblSearchFileExtension.Size = new System.Drawing.Size(142, 13);
+            this.lblSearchFileExtension.Size = new System.Drawing.Size(182, 17);
             this.lblSearchFileExtension.TabIndex = 7;
             this.lblSearchFileExtension.Text = "Search File Names Only";
             // 
@@ -202,8 +202,7 @@
             // 
             // frmSearch
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1178, 819);
             this.Controls.Add(this.cbSearchAll);
             this.Controls.Add(this.lblSearchFilter);

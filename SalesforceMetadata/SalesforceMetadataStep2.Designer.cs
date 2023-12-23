@@ -48,26 +48,28 @@
             // lblSaveResultsTo
             // 
             this.lblSaveResultsTo.AutoSize = true;
+            this.lblSaveResultsTo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSaveResultsTo.Location = new System.Drawing.Point(4, 70);
             this.lblSaveResultsTo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSaveResultsTo.Name = "lblSaveResultsTo";
-            this.lblSaveResultsTo.Size = new System.Drawing.Size(152, 13);
+            this.lblSaveResultsTo.Size = new System.Drawing.Size(200, 17);
             this.lblSaveResultsTo.TabIndex = 4;
             this.lblSaveResultsTo.Text = "Retrieve and Save Zip File To:";
             // 
             // tbFromOrgSaveLocation
             // 
-            this.tbFromOrgSaveLocation.Location = new System.Drawing.Point(168, 64);
-            this.tbFromOrgSaveLocation.Margin = new System.Windows.Forms.Padding(2);
+            this.tbFromOrgSaveLocation.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbFromOrgSaveLocation.Location = new System.Drawing.Point(208, 70);
+            this.tbFromOrgSaveLocation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbFromOrgSaveLocation.Name = "tbFromOrgSaveLocation";
-            this.tbFromOrgSaveLocation.Size = new System.Drawing.Size(760, 20);
+            this.tbFromOrgSaveLocation.Size = new System.Drawing.Size(760, 23);
             this.tbFromOrgSaveLocation.TabIndex = 5;
             this.tbFromOrgSaveLocation.DoubleClick += new System.EventHandler(this.tbPackageXMLLocation_DoubleClick);
             // 
             // btnRetrieveMetadataFromSelected
             // 
             this.btnRetrieveMetadataFromSelected.Location = new System.Drawing.Point(296, 224);
-            this.btnRetrieveMetadataFromSelected.Margin = new System.Windows.Forms.Padding(2);
+            this.btnRetrieveMetadataFromSelected.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnRetrieveMetadataFromSelected.Name = "btnRetrieveMetadataFromSelected";
             this.btnRetrieveMetadataFromSelected.Size = new System.Drawing.Size(241, 24);
             this.btnRetrieveMetadataFromSelected.TabIndex = 6;
@@ -81,9 +83,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtMessages.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rtMessages.Location = new System.Drawing.Point(7, 336);
+            this.rtMessages.Location = new System.Drawing.Point(7, 316);
             this.rtMessages.Name = "rtMessages";
-            this.rtMessages.Size = new System.Drawing.Size(946, 489);
+            this.rtMessages.Size = new System.Drawing.Size(1376, 429);
             this.rtMessages.TabIndex = 12;
             this.rtMessages.Text = "";
             // 
@@ -95,23 +97,25 @@
             this.horizontalLine2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.horizontalLine2.Location = new System.Drawing.Point(-4, 108);
             this.horizontalLine2.Name = "horizontalLine2";
-            this.horizontalLine2.Size = new System.Drawing.Size(971, 10);
+            this.horizontalLine2.Size = new System.Drawing.Size(1732, 10);
             this.horizontalLine2.TabIndex = 7;
             // 
             // lblExistingPackageXml
             // 
             this.lblExistingPackageXml.AutoSize = true;
+            this.lblExistingPackageXml.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblExistingPackageXml.Location = new System.Drawing.Point(4, 147);
             this.lblExistingPackageXml.Name = "lblExistingPackageXml";
-            this.lblExistingPackageXml.Size = new System.Drawing.Size(128, 13);
+            this.lblExistingPackageXml.Size = new System.Drawing.Size(168, 17);
             this.lblExistingPackageXml.TabIndex = 8;
             this.lblExistingPackageXml.Text = "Existing Package Xml File";
             // 
             // tbExistingPackageXml
             // 
-            this.tbExistingPackageXml.Location = new System.Drawing.Point(168, 144);
+            this.tbExistingPackageXml.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbExistingPackageXml.Location = new System.Drawing.Point(208, 147);
             this.tbExistingPackageXml.Name = "tbExistingPackageXml";
-            this.tbExistingPackageXml.Size = new System.Drawing.Size(760, 20);
+            this.tbExistingPackageXml.Size = new System.Drawing.Size(760, 23);
             this.tbExistingPackageXml.TabIndex = 9;
             this.tbExistingPackageXml.TextChanged += new System.EventHandler(this.tbExistingPackageXml_TextChanged);
             this.tbExistingPackageXml.DoubleClick += new System.EventHandler(this.tbExistingPackageXml_DoubleClick);
@@ -124,7 +128,7 @@
             this.horizontalLine3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.horizontalLine3.Location = new System.Drawing.Point(-4, 192);
             this.horizontalLine3.Name = "horizontalLine3";
-            this.horizontalLine3.Size = new System.Drawing.Size(971, 23);
+            this.horizontalLine3.Size = new System.Drawing.Size(1732, 23);
             this.horizontalLine3.TabIndex = 11;
             // 
             // btnRetrieveMetadata
@@ -150,10 +154,10 @@
             // cbConvertToVSCodeStyle
             // 
             this.cbConvertToVSCodeStyle.AutoSize = true;
-            this.cbConvertToVSCodeStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbConvertToVSCodeStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbConvertToVSCodeStyle.Location = new System.Drawing.Point(8, 248);
             this.cbConvertToVSCodeStyle.Name = "cbConvertToVSCodeStyle";
-            this.cbConvertToVSCodeStyle.Size = new System.Drawing.Size(185, 19);
+            this.cbConvertToVSCodeStyle.Size = new System.Drawing.Size(215, 21);
             this.cbConvertToVSCodeStyle.TabIndex = 2;
             this.cbConvertToVSCodeStyle.Text = "Convert Files to VSCode Style";
             this.cbConvertToVSCodeStyle.UseVisualStyleBackColor = true;
@@ -166,7 +170,7 @@
             this.horizontalLine1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.horizontalLine1.Location = new System.Drawing.Point(-4, 32);
             this.horizontalLine1.Name = "horizontalLine1";
-            this.horizontalLine1.Size = new System.Drawing.Size(971, 10);
+            this.horizontalLine1.Size = new System.Drawing.Size(1732, 10);
             this.horizontalLine1.TabIndex = 1;
             // 
             // cbRebuildFolder
@@ -183,7 +187,7 @@
             // 
             this.lblMessages.AutoSize = true;
             this.lblMessages.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMessages.Location = new System.Drawing.Point(8, 312);
+            this.lblMessages.Location = new System.Drawing.Point(8, 296);
             this.lblMessages.Name = "lblMessages";
             this.lblMessages.Size = new System.Drawing.Size(218, 17);
             this.lblMessages.TabIndex = 14;
@@ -191,9 +195,8 @@
             // 
             // SalesforceMetadataStep2
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(963, 836);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(1395, 757);
             this.Controls.Add(this.lblMessages);
             this.Controls.Add(this.cbRebuildFolder);
             this.Controls.Add(this.horizontalLine1);
@@ -209,7 +212,7 @@
             this.Controls.Add(this.tbFromOrgSaveLocation);
             this.Controls.Add(this.btnRetrieveMetadataFromSelected);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "SalesforceMetadataStep2";
             this.Text = "Retrieve Metadata";
             this.ResumeLayout(false);

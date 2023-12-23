@@ -50,7 +50,7 @@
             // 
             // lblSelectLocation
             // 
-            this.lblSelectLocation.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSelectLocation.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSelectLocation.Location = new System.Drawing.Point(12, 9);
             this.lblSelectLocation.Name = "lblSelectLocation";
             this.lblSelectLocation.Size = new System.Drawing.Size(703, 23);
@@ -107,10 +107,10 @@
             // lblSharedSecretLocation
             // 
             this.lblSharedSecretLocation.AutoSize = true;
-            this.lblSharedSecretLocation.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSharedSecretLocation.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSharedSecretLocation.Location = new System.Drawing.Point(12, 70);
             this.lblSharedSecretLocation.Name = "lblSharedSecretLocation";
-            this.lblSharedSecretLocation.Size = new System.Drawing.Size(141, 13);
+            this.lblSharedSecretLocation.Size = new System.Drawing.Size(179, 17);
             this.lblSharedSecretLocation.TabIndex = 3;
             this.lblSharedSecretLocation.Text = "Shared Secret Location";
             // 
@@ -127,16 +127,16 @@
             // lblSalt
             // 
             this.lblSalt.AutoSize = true;
-            this.lblSalt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSalt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSalt.Location = new System.Drawing.Point(12, 126);
             this.lblSalt.Name = "lblSalt";
-            this.lblSalt.Size = new System.Drawing.Size(29, 13);
+            this.lblSalt.Size = new System.Drawing.Size(36, 17);
             this.lblSalt.TabIndex = 5;
             this.lblSalt.Text = "Salt";
             // 
             // tbSalt
             // 
-            this.tbSalt.Location = new System.Drawing.Point(15, 142);
+            this.tbSalt.Location = new System.Drawing.Point(15, 146);
             this.tbSalt.Name = "tbSalt";
             this.tbSalt.Size = new System.Drawing.Size(352, 20);
             this.tbSalt.TabIndex = 6;
@@ -144,17 +144,17 @@
             // lblDefaultAPI
             // 
             this.lblDefaultAPI.AutoSize = true;
-            this.lblDefaultAPI.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDefaultAPI.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDefaultAPI.Location = new System.Drawing.Point(11, 202);
             this.lblDefaultAPI.Name = "lblDefaultAPI";
-            this.lblDefaultAPI.Size = new System.Drawing.Size(72, 13);
+            this.lblDefaultAPI.Size = new System.Drawing.Size(89, 17);
             this.lblDefaultAPI.TabIndex = 11;
             this.lblDefaultAPI.Text = "Default API";
             // 
             // cmbDefaultAPI
             // 
             this.cmbDefaultAPI.FormattingEnabled = true;
-            this.cmbDefaultAPI.Location = new System.Drawing.Point(89, 199);
+            this.cmbDefaultAPI.Location = new System.Drawing.Point(106, 201);
             this.cmbDefaultAPI.Name = "cmbDefaultAPI";
             this.cmbDefaultAPI.Size = new System.Drawing.Size(121, 21);
             this.cmbDefaultAPI.TabIndex = 12;
@@ -172,16 +172,16 @@
             // lblDefaultTextEditor
             // 
             this.lblDefaultTextEditor.AutoSize = true;
-            this.lblDefaultTextEditor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDefaultTextEditor.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDefaultTextEditor.Location = new System.Drawing.Point(11, 250);
             this.lblDefaultTextEditor.Name = "lblDefaultTextEditor";
-            this.lblDefaultTextEditor.Size = new System.Drawing.Size(144, 13);
+            this.lblDefaultTextEditor.Size = new System.Drawing.Size(182, 17);
             this.lblDefaultTextEditor.TabIndex = 14;
             this.lblDefaultTextEditor.Text = "Default Text Edtior Path";
             // 
             // tbDefaultTextEditor
             // 
-            this.tbDefaultTextEditor.Location = new System.Drawing.Point(12, 266);
+            this.tbDefaultTextEditor.Location = new System.Drawing.Point(12, 270);
             this.tbDefaultTextEditor.Name = "tbDefaultTextEditor";
             this.tbDefaultTextEditor.Size = new System.Drawing.Size(703, 20);
             this.tbDefaultTextEditor.TabIndex = 15;
@@ -189,7 +189,7 @@
             // 
             // tbAsynchronousThreads
             // 
-            this.tbAsynchronousThreads.Location = new System.Drawing.Point(14, 323);
+            this.tbAsynchronousThreads.Location = new System.Drawing.Point(14, 327);
             this.tbAsynchronousThreads.Name = "tbAsynchronousThreads";
             this.tbAsynchronousThreads.Size = new System.Drawing.Size(122, 20);
             this.tbAsynchronousThreads.TabIndex = 16;
@@ -197,15 +197,16 @@
             // lblMetadataRetrievalAynchronousThreads
             // 
             this.lblMetadataRetrievalAynchronousThreads.AutoSize = true;
-            this.lblMetadataRetrievalAynchronousThreads.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMetadataRetrievalAynchronousThreads.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMetadataRetrievalAynchronousThreads.Location = new System.Drawing.Point(12, 307);
             this.lblMetadataRetrievalAynchronousThreads.Name = "lblMetadataRetrievalAynchronousThreads";
-            this.lblMetadataRetrievalAynchronousThreads.Size = new System.Drawing.Size(248, 13);
+            this.lblMetadataRetrievalAynchronousThreads.Size = new System.Drawing.Size(317, 17);
             this.lblMetadataRetrievalAynchronousThreads.TabIndex = 17;
             this.lblMetadataRetrievalAynchronousThreads.Text = "Metadata Retrieval Asynchronous Threads";
             // 
             // UserSettings
             // 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(805, 450);
             this.Controls.Add(this.lblMetadataRetrievalAynchronousThreads);
             this.Controls.Add(this.tbAsynchronousThreads);

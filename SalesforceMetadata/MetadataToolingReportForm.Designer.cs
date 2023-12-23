@@ -69,10 +69,10 @@
             // lblMetdataFolderSelection
             // 
             this.lblMetdataFolderSelection.AutoSize = true;
-            this.lblMetdataFolderSelection.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMetdataFolderSelection.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMetdataFolderSelection.Location = new System.Drawing.Point(12, 21);
             this.lblMetdataFolderSelection.Name = "lblMetdataFolderSelection";
-            this.lblMetdataFolderSelection.Size = new System.Drawing.Size(608, 13);
+            this.lblMetdataFolderSelection.Size = new System.Drawing.Size(777, 17);
             this.lblMetdataFolderSelection.TabIndex = 0;
             this.lblMetdataFolderSelection.Text = "Select Folder where the Salesforce Metadata Resides. This will be used to read fi" +
     "les from specific folders.";
@@ -220,8 +220,7 @@
             // 
             // MetadataToolingReportForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1122, 677);
             this.Controls.Add(this.cbDefaultCoreObjects);
             this.Controls.Add(this.lblSelectNone);

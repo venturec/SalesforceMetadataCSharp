@@ -63,8 +63,7 @@
             // 
             // VersionUpdater
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1131, 541);
             this.Controls.Add(this.btnUpdateAPI);
             this.Controls.Add(this.cmbDefaultAPI);

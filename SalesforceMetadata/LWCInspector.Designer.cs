@@ -86,7 +86,7 @@ namespace SalesforceMetadata
             // btnConsolidateAll
             // 
             this.btnConsolidateAll.Location = new System.Drawing.Point(120, 167);
-            this.btnConsolidateAll.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnConsolidateAll.Margin = new System.Windows.Forms.Padding(2);
             this.btnConsolidateAll.Name = "btnConsolidateAll";
             this.btnConsolidateAll.Size = new System.Drawing.Size(143, 23);
             this.btnConsolidateAll.TabIndex = 4;
@@ -96,8 +96,7 @@ namespace SalesforceMetadata
             // 
             // LWCInspector
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1293, 604);
             this.Controls.Add(this.btnConsolidateAll);
             this.Controls.Add(this.lblSaveTo);

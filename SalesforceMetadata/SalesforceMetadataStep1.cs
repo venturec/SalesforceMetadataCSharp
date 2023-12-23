@@ -472,7 +472,7 @@ namespace SalesforceMetadata
         }
 
 
-        private void btnFromGenerateToolingChangeReport_Click(object sender, EventArgs e)
+        private void btnGenerateToolingReport_Click(object sender, EventArgs e)
         {
             if (String.IsNullOrEmpty(this.cmbUserName.Text))
             {

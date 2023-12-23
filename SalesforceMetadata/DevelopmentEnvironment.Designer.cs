@@ -293,7 +293,7 @@
             this.fromOrgGroup.BackColor = System.Drawing.SystemColors.Control;
             this.fromOrgGroup.Controls.Add(this.lblSFUsername);
             this.fromOrgGroup.Controls.Add(this.cmbUserName);
-            this.fromOrgGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fromOrgGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.fromOrgGroup.Location = new System.Drawing.Point(939, 70);
             this.fromOrgGroup.Name = "fromOrgGroup";
             this.fromOrgGroup.Size = new System.Drawing.Size(523, 81);
@@ -338,7 +338,7 @@
             // btnObjectFieldInspector
             // 
             this.btnObjectFieldInspector.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnObjectFieldInspector.Location = new System.Drawing.Point(1291, 172);
+            this.btnObjectFieldInspector.Location = new System.Drawing.Point(1285, 214);
             this.btnObjectFieldInspector.Name = "btnObjectFieldInspector";
             this.btnObjectFieldInspector.Size = new System.Drawing.Size(172, 34);
             this.btnObjectFieldInspector.TabIndex = 15;
@@ -369,7 +369,7 @@
             // btnBuildERD
             // 
             this.btnBuildERD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBuildERD.Location = new System.Drawing.Point(1291, 250);
+            this.btnBuildERD.Location = new System.Drawing.Point(1285, 292);
             this.btnBuildERD.Name = "btnBuildERD";
             this.btnBuildERD.Size = new System.Drawing.Size(171, 34);
             this.btnBuildERD.TabIndex = 17;
@@ -399,7 +399,7 @@
             // btnSearchMetadata
             // 
             this.btnSearchMetadata.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearchMetadata.Location = new System.Drawing.Point(1291, 212);
+            this.btnSearchMetadata.Location = new System.Drawing.Point(1285, 254);
             this.btnSearchMetadata.Name = "btnSearchMetadata";
             this.btnSearchMetadata.Size = new System.Drawing.Size(171, 32);
             this.btnSearchMetadata.TabIndex = 16;
@@ -410,7 +410,7 @@
             // btnDebugLogs
             // 
             this.btnDebugLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDebugLogs.Location = new System.Drawing.Point(1291, 290);
+            this.btnDebugLogs.Location = new System.Drawing.Point(1285, 332);
             this.btnDebugLogs.Name = "btnDebugLogs";
             this.btnDebugLogs.Size = new System.Drawing.Size(173, 32);
             this.btnDebugLogs.TabIndex = 18;
@@ -421,7 +421,7 @@
             // delMyDebugLogs
             // 
             this.delMyDebugLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.delMyDebugLogs.Location = new System.Drawing.Point(1291, 328);
+            this.delMyDebugLogs.Location = new System.Drawing.Point(1285, 370);
             this.delMyDebugLogs.Name = "delMyDebugLogs";
             this.delMyDebugLogs.Size = new System.Drawing.Size(171, 32);
             this.delMyDebugLogs.TabIndex = 19;

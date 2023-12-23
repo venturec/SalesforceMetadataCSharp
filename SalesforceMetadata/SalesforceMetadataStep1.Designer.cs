@@ -40,7 +40,7 @@
             this.btnDeploy = new System.Windows.Forms.Button();
             this.fromOrgGroup = new System.Windows.Forms.GroupBox();
             this.btnSobjectFieldInspector = new System.Windows.Forms.Button();
-            this.btnFromGenerateToolingChangeReport = new System.Windows.Forms.Button();
+            this.btnGenerateToolingReport = new System.Windows.Forms.Button();
             this.btnConfigurationWorkbook = new System.Windows.Forms.Button();
             this.btnSelectAll = new System.Windows.Forms.Button();
             this.lblSelectAll = new System.Windows.Forms.Label();
@@ -56,10 +56,11 @@
             // btnGetMetadataTypes
             // 
             this.btnGetMetadataTypes.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.btnGetMetadataTypes.Location = new System.Drawing.Point(821, 214);
-            this.btnGetMetadataTypes.Margin = new System.Windows.Forms.Padding(2);
+            this.btnGetMetadataTypes.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGetMetadataTypes.Location = new System.Drawing.Point(813, 312);
+            this.btnGetMetadataTypes.Margin = new System.Windows.Forms.Padding(4);
             this.btnGetMetadataTypes.Name = "btnGetMetadataTypes";
-            this.btnGetMetadataTypes.Size = new System.Drawing.Size(165, 25);
+            this.btnGetMetadataTypes.Size = new System.Drawing.Size(194, 46);
             this.btnGetMetadataTypes.TabIndex = 10;
             this.btnGetMetadataTypes.Text = "Get Metadata Types";
             this.btnGetMetadataTypes.UseVisualStyleBackColor = false;
@@ -68,10 +69,11 @@
             // lblSFMetadataPackage
             // 
             this.lblSFMetadataPackage.AutoSize = true;
-            this.lblSFMetadataPackage.Location = new System.Drawing.Point(23, 192);
-            this.lblSFMetadataPackage.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSFMetadataPackage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSFMetadataPackage.Location = new System.Drawing.Point(49, 237);
+            this.lblSFMetadataPackage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSFMetadataPackage.Name = "lblSFMetadataPackage";
-            this.lblSFMetadataPackage.Size = new System.Drawing.Size(243, 13);
+            this.lblSFMetadataPackage.Size = new System.Drawing.Size(369, 17);
             this.lblSFMetadataPackage.TabIndex = 2;
             this.lblSFMetadataPackage.Text = "Select the Salesforce Metadata Types to Retrieve";
             // 
@@ -82,18 +84,18 @@
             this.lbMetadataTypes.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbMetadataTypes.FormattingEnabled = true;
             this.lbMetadataTypes.HorizontalScrollbar = true;
-            this.lbMetadataTypes.Location = new System.Drawing.Point(26, 214);
-            this.lbMetadataTypes.Margin = new System.Windows.Forms.Padding(2);
+            this.lbMetadataTypes.Location = new System.Drawing.Point(52, 312);
+            this.lbMetadataTypes.Margin = new System.Windows.Forms.Padding(4);
             this.lbMetadataTypes.Name = "lbMetadataTypes";
-            this.lbMetadataTypes.Size = new System.Drawing.Size(725, 499);
+            this.lbMetadataTypes.Size = new System.Drawing.Size(720, 436);
             this.lbMetadataTypes.TabIndex = 9;
             // 
             // lblSFUsername
             // 
             this.lblSFUsername.AutoSize = true;
             this.lblSFUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSFUsername.Location = new System.Drawing.Point(5, 34);
-            this.lblSFUsername.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSFUsername.Location = new System.Drawing.Point(10, 44);
+            this.lblSFUsername.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSFUsername.Name = "lblSFUsername";
             this.lblSFUsername.Size = new System.Drawing.Size(143, 17);
             this.lblSFUsername.TabIndex = 1;
@@ -103,8 +105,8 @@
             // 
             this.lblSalesforce.AutoSize = true;
             this.lblSalesforce.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSalesforce.Location = new System.Drawing.Point(11, 13);
-            this.lblSalesforce.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSalesforce.Location = new System.Drawing.Point(22, 25);
+            this.lblSalesforce.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSalesforce.Name = "lblSalesforce";
             this.lblSalesforce.Size = new System.Drawing.Size(133, 29);
             this.lblSalesforce.TabIndex = 0;
@@ -115,20 +117,21 @@
             this.cmbUserName.DropDownWidth = 325;
             this.cmbUserName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbUserName.FormattingEnabled = true;
-            this.cmbUserName.Location = new System.Drawing.Point(152, 33);
-            this.cmbUserName.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbUserName.Location = new System.Drawing.Point(161, 41);
+            this.cmbUserName.Margin = new System.Windows.Forms.Padding(4);
             this.cmbUserName.Name = "cmbUserName";
-            this.cmbUserName.Size = new System.Drawing.Size(346, 24);
+            this.cmbUserName.Size = new System.Drawing.Size(499, 24);
             this.cmbUserName.TabIndex = 2;
             this.cmbUserName.SelectedIndexChanged += new System.EventHandler(this.cmbUserName_SelectedIndexChanged);
             // 
             // btnRetrieveMetadata
             // 
             this.btnRetrieveMetadata.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.btnRetrieveMetadata.Location = new System.Drawing.Point(1012, 214);
-            this.btnRetrieveMetadata.Margin = new System.Windows.Forms.Padding(2);
+            this.btnRetrieveMetadata.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRetrieveMetadata.Location = new System.Drawing.Point(1045, 312);
+            this.btnRetrieveMetadata.Margin = new System.Windows.Forms.Padding(4);
             this.btnRetrieveMetadata.Name = "btnRetrieveMetadata";
-            this.btnRetrieveMetadata.Size = new System.Drawing.Size(165, 25);
+            this.btnRetrieveMetadata.Size = new System.Drawing.Size(194, 46);
             this.btnRetrieveMetadata.TabIndex = 11;
             this.btnRetrieveMetadata.Text = "Retrieve Metadata Package";
             this.btnRetrieveMetadata.UseVisualStyleBackColor = false;
@@ -137,10 +140,11 @@
             // btnDeleteDebugLogs
             // 
             this.btnDeleteDebugLogs.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.btnDeleteDebugLogs.Location = new System.Drawing.Point(821, 685);
-            this.btnDeleteDebugLogs.Margin = new System.Windows.Forms.Padding(2);
+            this.btnDeleteDebugLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeleteDebugLogs.Location = new System.Drawing.Point(813, 702);
+            this.btnDeleteDebugLogs.Margin = new System.Windows.Forms.Padding(4);
             this.btnDeleteDebugLogs.Name = "btnDeleteDebugLogs";
-            this.btnDeleteDebugLogs.Size = new System.Drawing.Size(165, 28);
+            this.btnDeleteDebugLogs.Size = new System.Drawing.Size(194, 46);
             this.btnDeleteDebugLogs.TabIndex = 17;
             this.btnDeleteDebugLogs.Text = "Delete Debug Logs";
             this.btnDeleteDebugLogs.UseVisualStyleBackColor = false;
@@ -149,9 +153,11 @@
             // btnDeploy
             // 
             this.btnDeploy.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.btnDeploy.Location = new System.Drawing.Point(821, 441);
+            this.btnDeploy.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeploy.Location = new System.Drawing.Point(813, 481);
+            this.btnDeploy.Margin = new System.Windows.Forms.Padding(6);
             this.btnDeploy.Name = "btnDeploy";
-            this.btnDeploy.Size = new System.Drawing.Size(165, 23);
+            this.btnDeploy.Size = new System.Drawing.Size(194, 46);
             this.btnDeploy.TabIndex = 16;
             this.btnDeploy.Text = "Deploy";
             this.btnDeploy.UseVisualStyleBackColor = false;
@@ -162,10 +168,12 @@
             this.fromOrgGroup.BackColor = System.Drawing.SystemColors.Control;
             this.fromOrgGroup.Controls.Add(this.lblSFUsername);
             this.fromOrgGroup.Controls.Add(this.cmbUserName);
-            this.fromOrgGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fromOrgGroup.Location = new System.Drawing.Point(26, 45);
+            this.fromOrgGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fromOrgGroup.Location = new System.Drawing.Point(52, 60);
+            this.fromOrgGroup.Margin = new System.Windows.Forms.Padding(6);
             this.fromOrgGroup.Name = "fromOrgGroup";
-            this.fromOrgGroup.Size = new System.Drawing.Size(523, 91);
+            this.fromOrgGroup.Padding = new System.Windows.Forms.Padding(6);
+            this.fromOrgGroup.Size = new System.Drawing.Size(731, 106);
             this.fromOrgGroup.TabIndex = 1;
             this.fromOrgGroup.TabStop = false;
             this.fromOrgGroup.Text = "From Org";
@@ -173,39 +181,47 @@
             // btnSobjectFieldInspector
             // 
             this.btnSobjectFieldInspector.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.btnSobjectFieldInspector.Location = new System.Drawing.Point(821, 244);
+            this.btnSobjectFieldInspector.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSobjectFieldInspector.Location = new System.Drawing.Point(1045, 368);
+            this.btnSobjectFieldInspector.Margin = new System.Windows.Forms.Padding(6);
             this.btnSobjectFieldInspector.Name = "btnSobjectFieldInspector";
-            this.btnSobjectFieldInspector.Size = new System.Drawing.Size(165, 27);
-            this.btnSobjectFieldInspector.TabIndex = 12;
+            this.btnSobjectFieldInspector.Size = new System.Drawing.Size(194, 46);
+            this.btnSobjectFieldInspector.TabIndex = 13;
             this.btnSobjectFieldInspector.Text = "Sobject Field Inspector";
             this.btnSobjectFieldInspector.UseVisualStyleBackColor = false;
             this.btnSobjectFieldInspector.Click += new System.EventHandler(this.btnSobjectFieldInspector_Click);
             // 
-            // btnFromGenerateToolingChangeReport
+            // btnGenerateToolingReport
             // 
-            this.btnFromGenerateToolingChangeReport.Location = new System.Drawing.Point(821, 277);
-            this.btnFromGenerateToolingChangeReport.Name = "btnFromGenerateToolingChangeReport";
-            this.btnFromGenerateToolingChangeReport.Size = new System.Drawing.Size(165, 25);
-            this.btnFromGenerateToolingChangeReport.TabIndex = 13;
-            this.btnFromGenerateToolingChangeReport.Text = "Generate Tooling Report";
-            this.btnFromGenerateToolingChangeReport.UseVisualStyleBackColor = true;
-            this.btnFromGenerateToolingChangeReport.Click += new System.EventHandler(this.btnFromGenerateToolingChangeReport_Click);
+            this.btnGenerateToolingReport.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGenerateToolingReport.Location = new System.Drawing.Point(813, 423);
+            this.btnGenerateToolingReport.Margin = new System.Windows.Forms.Padding(6);
+            this.btnGenerateToolingReport.Name = "btnGenerateToolingReport";
+            this.btnGenerateToolingReport.Size = new System.Drawing.Size(194, 46);
+            this.btnGenerateToolingReport.TabIndex = 14;
+            this.btnGenerateToolingReport.Text = "Generate Tooling Report";
+            this.btnGenerateToolingReport.UseVisualStyleBackColor = true;
+            this.btnGenerateToolingReport.Click += new System.EventHandler(this.btnGenerateToolingReport_Click);
             // 
             // btnConfigurationWorkbook
             // 
-            this.btnConfigurationWorkbook.Location = new System.Drawing.Point(821, 308);
+            this.btnConfigurationWorkbook.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConfigurationWorkbook.Location = new System.Drawing.Point(1045, 423);
+            this.btnConfigurationWorkbook.Margin = new System.Windows.Forms.Padding(6);
             this.btnConfigurationWorkbook.Name = "btnConfigurationWorkbook";
-            this.btnConfigurationWorkbook.Size = new System.Drawing.Size(165, 25);
-            this.btnConfigurationWorkbook.TabIndex = 14;
+            this.btnConfigurationWorkbook.Size = new System.Drawing.Size(194, 46);
+            this.btnConfigurationWorkbook.TabIndex = 15;
             this.btnConfigurationWorkbook.Text = "Configuration Workbook";
             this.btnConfigurationWorkbook.UseVisualStyleBackColor = true;
             this.btnConfigurationWorkbook.Click += new System.EventHandler(this.btnConfigurationWorkbook_Click);
             // 
             // btnSelectAll
             // 
-            this.btnSelectAll.Location = new System.Drawing.Point(311, 188);
+            this.btnSelectAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelectAll.Location = new System.Drawing.Point(46, 269);
+            this.btnSelectAll.Margin = new System.Windows.Forms.Padding(6);
             this.btnSelectAll.Name = "btnSelectAll";
-            this.btnSelectAll.Size = new System.Drawing.Size(18, 17);
+            this.btnSelectAll.Size = new System.Drawing.Size(36, 33);
             this.btnSelectAll.TabIndex = 3;
             this.btnSelectAll.UseVisualStyleBackColor = true;
             this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
@@ -213,17 +229,21 @@
             // lblSelectAll
             // 
             this.lblSelectAll.AutoSize = true;
-            this.lblSelectAll.Location = new System.Drawing.Point(335, 192);
+            this.lblSelectAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSelectAll.Location = new System.Drawing.Point(94, 277);
+            this.lblSelectAll.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblSelectAll.Name = "lblSelectAll";
-            this.lblSelectAll.Size = new System.Drawing.Size(51, 13);
+            this.lblSelectAll.Size = new System.Drawing.Size(66, 17);
             this.lblSelectAll.TabIndex = 4;
             this.lblSelectAll.Text = "Select All";
             // 
             // btnSelectNone
             // 
-            this.btnSelectNone.Location = new System.Drawing.Point(428, 188);
+            this.btnSelectNone.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelectNone.Location = new System.Drawing.Point(213, 269);
+            this.btnSelectNone.Margin = new System.Windows.Forms.Padding(6);
             this.btnSelectNone.Name = "btnSelectNone";
-            this.btnSelectNone.Size = new System.Drawing.Size(18, 17);
+            this.btnSelectNone.Size = new System.Drawing.Size(36, 33);
             this.btnSelectNone.TabIndex = 5;
             this.btnSelectNone.UseVisualStyleBackColor = true;
             this.btnSelectNone.Click += new System.EventHandler(this.btnSelectNone_Click);
@@ -231,17 +251,21 @@
             // lblSelectNone
             // 
             this.lblSelectNone.AutoSize = true;
-            this.lblSelectNone.Location = new System.Drawing.Point(452, 192);
+            this.lblSelectNone.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSelectNone.Location = new System.Drawing.Point(261, 277);
+            this.lblSelectNone.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblSelectNone.Name = "lblSelectNone";
-            this.lblSelectNone.Size = new System.Drawing.Size(66, 13);
+            this.lblSelectNone.Size = new System.Drawing.Size(85, 17);
             this.lblSelectNone.TabIndex = 6;
             this.lblSelectNone.Text = "Select None";
             // 
             // btnSelectDefaults
             // 
-            this.btnSelectDefaults.Location = new System.Drawing.Point(565, 188);
+            this.btnSelectDefaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelectDefaults.Location = new System.Drawing.Point(401, 269);
+            this.btnSelectDefaults.Margin = new System.Windows.Forms.Padding(6);
             this.btnSelectDefaults.Name = "btnSelectDefaults";
-            this.btnSelectDefaults.Size = new System.Drawing.Size(18, 17);
+            this.btnSelectDefaults.Size = new System.Drawing.Size(36, 33);
             this.btnSelectDefaults.TabIndex = 7;
             this.btnSelectDefaults.UseVisualStyleBackColor = true;
             this.btnSelectDefaults.Click += new System.EventHandler(this.btnSelectDefaults_Click);
@@ -249,16 +273,19 @@
             // lblSelectDefaults
             // 
             this.lblSelectDefaults.AutoSize = true;
-            this.lblSelectDefaults.Location = new System.Drawing.Point(589, 192);
+            this.lblSelectDefaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSelectDefaults.Location = new System.Drawing.Point(449, 277);
+            this.lblSelectDefaults.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblSelectDefaults.Name = "lblSelectDefaults";
-            this.lblSelectDefaults.Size = new System.Drawing.Size(79, 13);
+            this.lblSelectDefaults.Size = new System.Drawing.Size(103, 17);
             this.lblSelectDefaults.TabIndex = 8;
             this.lblSelectDefaults.Text = "Select Defaults";
             // 
             // cbAllDebugLogs
             // 
             this.cbAllDebugLogs.AutoSize = true;
-            this.cbAllDebugLogs.Location = new System.Drawing.Point(1012, 692);
+            this.cbAllDebugLogs.Location = new System.Drawing.Point(1071, 718);
+            this.cbAllDebugLogs.Margin = new System.Windows.Forms.Padding(6);
             this.cbAllDebugLogs.Name = "cbAllDebugLogs";
             this.cbAllDebugLogs.Size = new System.Drawing.Size(132, 17);
             this.cbAllDebugLogs.TabIndex = 18;
@@ -268,20 +295,21 @@
             // btnExportMetadataTypes
             // 
             this.btnExportMetadataTypes.Enabled = false;
-            this.btnExportMetadataTypes.Location = new System.Drawing.Point(821, 339);
+            this.btnExportMetadataTypes.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExportMetadataTypes.Location = new System.Drawing.Point(813, 365);
+            this.btnExportMetadataTypes.Margin = new System.Windows.Forms.Padding(6);
             this.btnExportMetadataTypes.Name = "btnExportMetadataTypes";
-            this.btnExportMetadataTypes.Size = new System.Drawing.Size(165, 23);
-            this.btnExportMetadataTypes.TabIndex = 15;
+            this.btnExportMetadataTypes.Size = new System.Drawing.Size(194, 46);
+            this.btnExportMetadataTypes.TabIndex = 12;
             this.btnExportMetadataTypes.Text = "Export Metadata Types";
             this.btnExportMetadataTypes.UseVisualStyleBackColor = true;
             this.btnExportMetadataTypes.Click += new System.EventHandler(this.btnExportMetadataTypes_Click);
             // 
             // SalesforceMetadataStep1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.ClientSize = new System.Drawing.Size(1221, 733);
+            this.ClientSize = new System.Drawing.Size(1254, 771);
             this.Controls.Add(this.btnExportMetadataTypes);
             this.Controls.Add(this.cbAllDebugLogs);
             this.Controls.Add(this.lblSelectDefaults);
@@ -291,7 +319,7 @@
             this.Controls.Add(this.lblSelectAll);
             this.Controls.Add(this.btnSelectAll);
             this.Controls.Add(this.btnConfigurationWorkbook);
-            this.Controls.Add(this.btnFromGenerateToolingChangeReport);
+            this.Controls.Add(this.btnGenerateToolingReport);
             this.Controls.Add(this.btnSobjectFieldInspector);
             this.Controls.Add(this.fromOrgGroup);
             this.Controls.Add(this.btnDeploy);
@@ -302,7 +330,7 @@
             this.Controls.Add(this.lblSFMetadataPackage);
             this.Controls.Add(this.btnGetMetadataTypes);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "SalesforceMetadataStep1";
             this.Text = "Salesforce Metadata";
             this.fromOrgGroup.ResumeLayout(false);
@@ -324,7 +352,7 @@
         private System.Windows.Forms.Button btnDeploy;
         private System.Windows.Forms.GroupBox fromOrgGroup;
         private System.Windows.Forms.Button btnSobjectFieldInspector;
-        private System.Windows.Forms.Button btnFromGenerateToolingChangeReport;
+        private System.Windows.Forms.Button btnGenerateToolingReport;
         private System.Windows.Forms.Button btnConfigurationWorkbook;
         private System.Windows.Forms.Button btnSelectAll;
         private System.Windows.Forms.Label lblSelectAll;

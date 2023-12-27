@@ -44,21 +44,22 @@
             // 
             // lblPackageDifferences
             // 
+            this.lblPackageDifferences.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPackageDifferences.AutoSize = true;
             this.lblPackageDifferences.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPackageDifferences.Location = new System.Drawing.Point(12, 172);
             this.lblPackageDifferences.Name = "lblPackageDifferences";
             this.lblPackageDifferences.Size = new System.Drawing.Size(72, 13);
-            this.lblPackageDifferences.TabIndex = 9;
+            this.lblPackageDifferences.TabIndex = 4;
             this.lblPackageDifferences.Text = "Differences";
             // 
             // RunComparison
             // 
             this.RunComparison.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.RunComparison.Location = new System.Drawing.Point(218, 105);
+            this.RunComparison.Location = new System.Drawing.Point(104, 159);
             this.RunComparison.Name = "RunComparison";
             this.RunComparison.Size = new System.Drawing.Size(225, 39);
-            this.RunComparison.TabIndex = 4;
+            this.RunComparison.TabIndex = 5;
             this.RunComparison.Text = "Run Comparison";
             this.RunComparison.UseVisualStyleBackColor = true;
             this.RunComparison.Click += new System.EventHandler(this.RunComparison_Click);
@@ -104,10 +105,10 @@
             // GenerateDeploymentPackage
             // 
             this.GenerateDeploymentPackage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.GenerateDeploymentPackage.Location = new System.Drawing.Point(1713, 155);
+            this.GenerateDeploymentPackage.Location = new System.Drawing.Point(1545, 155);
             this.GenerateDeploymentPackage.Name = "GenerateDeploymentPackage";
             this.GenerateDeploymentPackage.Size = new System.Drawing.Size(199, 46);
-            this.GenerateDeploymentPackage.TabIndex = 11;
+            this.GenerateDeploymentPackage.TabIndex = 10;
             this.GenerateDeploymentPackage.Text = "Generate Deployment Package";
             this.GenerateDeploymentPackage.UseVisualStyleBackColor = true;
             this.GenerateDeploymentPackage.Click += new System.EventHandler(this.GenerateDeploymentPackage_Click);
@@ -121,8 +122,8 @@
             this.treeViewDifferences.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeViewDifferences.Location = new System.Drawing.Point(12, 210);
             this.treeViewDifferences.Name = "treeViewDifferences";
-            this.treeViewDifferences.Size = new System.Drawing.Size(1900, 839);
-            this.treeViewDifferences.TabIndex = 10;
+            this.treeViewDifferences.Size = new System.Drawing.Size(1732, 523);
+            this.treeViewDifferences.TabIndex = 6;
             this.treeViewDifferences.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewDifference_AfterCheck);
             // 
             // cbExportXML
@@ -132,10 +133,10 @@
             this.cbExportXML.Checked = true;
             this.cbExportXML.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbExportXML.Enabled = false;
-            this.cbExportXML.Location = new System.Drawing.Point(1153, 168);
+            this.cbExportXML.Location = new System.Drawing.Point(985, 168);
             this.cbExportXML.Name = "cbExportXML";
             this.cbExportXML.Size = new System.Drawing.Size(73, 17);
-            this.cbExportXML.TabIndex = 7;
+            this.cbExportXML.TabIndex = 8;
             this.cbExportXML.Text = "With XML";
             this.cbExportXML.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.cbExportXML.UseVisualStyleBackColor = true;
@@ -144,10 +145,10 @@
             // 
             this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExport.Enabled = false;
-            this.btnExport.Location = new System.Drawing.Point(1290, 152);
+            this.btnExport.Location = new System.Drawing.Point(1090, 152);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(182, 46);
-            this.btnExport.TabIndex = 5;
+            this.btnExport.TabIndex = 9;
             this.btnExport.Text = "Export";
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
@@ -162,16 +163,16 @@
             "Export All to CSV",
             "Export Selected to CSV",
             "Export Selected to Excel"});
-            this.cmbExportType.Location = new System.Drawing.Point(846, 164);
+            this.cmbExportType.Location = new System.Drawing.Point(678, 164);
             this.cmbExportType.Name = "cmbExportType";
             this.cmbExportType.Size = new System.Drawing.Size(274, 21);
-            this.cmbExportType.TabIndex = 13;
+            this.cmbExportType.TabIndex = 7;
             this.cmbExportType.Text = "Export All to Excel";
             // 
             // MetadataComparison
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1924, 1061);
+            this.ClientSize = new System.Drawing.Size(1756, 745);
             this.Controls.Add(this.cmbExportType);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.cbExportXML);

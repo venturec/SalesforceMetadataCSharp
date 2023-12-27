@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace SalesforceMetadata
     {
         // List if inner classes which hold all of the values needed for each item in the XML file
         // Then loop through the inner class list to determine what section these belong to within the Tree View
-
+        private Boolean runTreeNodeSelector = true;
 
         // Directory Name ->  SubfolderName (if applicable) OR File Name -> FileName -> Files which are different or do not exist
         private Dictionary<String, Dictionary<String, List<String>>> comparedValuesWithFolderAndNameOnly;
@@ -1124,114 +1125,113 @@ namespace SalesforceMetadata
                                                                 String mstrElemValue)
         {
 
-            String mstrElemValueString = "<document>" + mstrElemValue + "</document>";
-            XmlDocument mstrElemXd = new XmlDocument();
-            mstrElemXd.LoadXml(mstrElemValueString);
+            //String mstrElemValueString = "<document>" + mstrElemValue + "</document>";
+            //XmlDocument mstrElemXd = new XmlDocument();
+            //mstrElemXd.LoadXml(mstrElemValueString);
 
-            List<String> mstrElemNodeValues = new List<String>();
+            //List<String> mstrElemNodeValues = new List<String>();
 
-            foreach (XmlNode nd1 in mstrElemXd)
-            {
-                // Skip the document node as we know this is already a part of the XmlDocument just created above
-                // The skip of one parent node element when adding the values to the list is to bypass the parent node name we are already on
-                // Example: mstrElemNodeValues.Add(nd2.Name + " - " + nd3.Name + " - " + nd5.ParentNode.OuterXml);
-                // nd5.ParentNode.OuterXml includes the nd4 Node Name already, so we don't need to add this.
-                foreach (XmlNode nd2 in nd1.ChildNodes)
-                {
-                    if (nd2.HasChildNodes == false)
-                    {
-                        Debug.WriteLine("");
-                    }
-                    else
-                    {
-                        foreach (XmlNode nd3 in nd2.ChildNodes)
-                        {
-                            if (nd3.HasChildNodes == false)
-                            {
-                                mstrElemNodeValues.Add(nd2.Name + " - <" + nd3.Name + ">" + nd3.InnerText + "</" + nd3.Name + ">");
-                            }
-                            else
-                            {
-                                foreach (XmlNode nd4 in nd3.ChildNodes)
-                                {
-                                    if (nd4.HasChildNodes == false)
-                                    {
-                                        mstrElemNodeValues.Add(nd2.Name + " - <" + nd3.Name + ">" + nd4.InnerText + "</" + nd3.Name + ">");
-                                    }
-                                    else
-                                    {
-                                        foreach (XmlNode nd5 in nd4.ChildNodes)
-                                        {
-                                            if (nd5.HasChildNodes == false)
-                                            {
-                                                mstrElemNodeValues.Add(nd2.Name + " - " + nd3.Name + " - <" + nd4.Name + ">" + nd5.InnerText + "</" + nd4.Name + ">");
-                                            }
-                                            else
-                                            {
-                                                foreach (XmlNode nd6 in nd5.ChildNodes)
-                                                {
-                                                    if (nd6.HasChildNodes == false)
-                                                    {
-                                                        mstrElemNodeValues.Add(nd2.Name + " - " + nd3.Name + " - " + nd4.Name + " - <" + nd5.Name + ">" + nd6.InnerText + "</" + nd5.Name + ">");
-                                                    }
-                                                    else
-                                                    {
-                                                        foreach (XmlNode nd7 in nd6.ChildNodes)
-                                                        {
-                                                            if (nd7.HasChildNodes == false)
-                                                            {
-                                                                mstrElemNodeValues.Add(nd2.Name + " - " + nd3.Name + " - " + nd4.Name + " - " + nd5.Name + " - <" + nd6.Name + ">" + nd7.InnerText + "</" + nd6.Name + ">");
-                                                            }
-                                                            else
-                                                            {
-                                                                foreach (XmlNode nd8 in nd7.ChildNodes)
-                                                                {
-                                                                    if (nd8.HasChildNodes == false)
-                                                                    {
-                                                                        mstrElemNodeValues.Add(nd2.Name + " - " + nd3.Name + " - " + nd4.Name + " - " + nd5.Name + " - " + nd6.Name + " - <" + nd7.Name + ">" + nd8.InnerText + "</" + nd7.Name + ">");
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        foreach (XmlNode nd9 in nd8.ChildNodes)
-                                                                        {
-                                                                            if (nd9.HasChildNodes == false)
-                                                                            {
-                                                                                mstrElemNodeValues.Add(nd2.Name + " - " + nd3.Name + " - " + nd4.Name + " - " + nd5.Name + " - " + nd6.Name + " - " + nd7.Name + " - <" + nd8.Name + ">" + nd9.InnerText + "</" + nd8.Name + ">");
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                foreach (XmlNode nd10 in nd9.ChildNodes)
-                                                                                {
-                                                                                    if (nd10.HasChildNodes == false)
-                                                                                    {
-                                                                                        mstrElemNodeValues.Add(nd2.Name + " - " + nd3.Name + " - " + nd4.Name + " - " + nd5.Name + " - " + nd6.Name + " - " + nd7.Name + " - " + nd8.Name + " - <" + nd9.Name + ">" + nd10.InnerText + "</" + nd9.Name + ">");
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        foreach (XmlNode nd11 in nd10.ChildNodes)
-                                                                                        {
-                                                                                            mstrElemNodeValues.Add(nd2.Name + " - " + nd3.Name + " - " + nd4.Name + " - " + nd5.Name + " - " + nd6.Name + " - " + nd7.Name + " - " + nd8.Name + " - " + nd9.Name + " - <" + nd10.Name + ">" + nd11.InnerText + "</" + nd10.Name + ">");
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
+            //foreach (XmlNode nd1 in mstrElemXd)
+            //{
+            //    // Skip the document node as we know this is already a part of the XmlDocument just created above
+            //    // The skip of one parent node element when adding the values to the list is to bypass the parent node name we are already on
+            //    // Example: mstrElemNodeValues.Add(nd2.Name + " - " + nd3.Name + " - " + nd5.ParentNode.OuterXml);
+            //    // nd5.ParentNode.OuterXml includes the nd4 Node Name already, so we don't need to add this.
+            //    foreach (XmlNode nd2 in nd1.ChildNodes)
+            //    {
+            //        if (nd2.HasChildNodes == false)
+            //        {
+            //            //Debug.WriteLine("");
+            //        }
+            //        else
+            //        {
+            //            foreach (XmlNode nd3 in nd2.ChildNodes)
+            //            {
+            //                if (nd3.HasChildNodes == false)
+            //                {
+            //                    mstrElemNodeValues.Add("<" + nd2.Name + ">" + nd3.InnerText + "</" + nd2.Name + ">");
+            //                }
+            //                else
+            //                {
+            //                    foreach (XmlNode nd4 in nd3.ChildNodes)
+            //                    {
+            //                        if (nd4.HasChildNodes == false)
+            //                        {
+            //                            mstrElemNodeValues.Add("<" + nd2.Name + "><" + nd3.Name + ">" + nd4.InnerText + "</" + nd3.Name + "></" + nd2.Name + ">");
+            //                        }
+            //                        else
+            //                        {
+            //                            foreach (XmlNode nd5 in nd4.ChildNodes)
+            //                            {
+            //                                if (nd5.HasChildNodes == false)
+            //                                {
+            //                                    mstrElemNodeValues.Add("<" + nd2.Name + "><" + nd3.Name + "><" + nd4.Name + ">" + nd5.InnerText + "</" + nd4.Name + "></" + nd3.Name + "></" + nd2.Name + ">");
+            //                                }
+            //                                else
+            //                                {
+            //                                    foreach (XmlNode nd6 in nd5.ChildNodes)
+            //                                    {
+            //                                        if (nd6.HasChildNodes == false)
+            //                                        {
+            //                                            mstrElemNodeValues.Add("<" + nd2.Name + "><" + nd3.Name + "><" + nd4.Name + "><" + nd5.Name + ">" + nd6.InnerText + "</" + nd5.Name + "></" + nd4.Name + "></" + nd3.Name + "></" + nd2.Name + ">");
+            //                                        }
+            //                                        else
+            //                                        {
+            //                                            foreach (XmlNode nd7 in nd6.ChildNodes)
+            //                                            {
+            //                                                if (nd7.HasChildNodes == false)
+            //                                                {
+            //                                                    mstrElemNodeValues.Add("<" + nd2.Name + "><" + nd3.Name + "><" + nd4.Name + "><" + nd5.Name + "><" + nd6.Name + ">" + nd7.InnerText + "</" + nd6.Name + "></" + nd5.Name + "></" + nd4.Name + "></" + nd3.Name + "></" + nd2.Name + ">");
+            //                                                }
+            //                                                else
+            //                                                {
+            //                                                    foreach (XmlNode nd8 in nd7.ChildNodes)
+            //                                                    {
+            //                                                        if (nd8.HasChildNodes == false)
+            //                                                        {
+            //                                                            mstrElemNodeValues.Add("<" + nd2.Name + "><" + nd3.Name + "><" + nd4.Name + "><" + nd5.Name + "><" + nd6.Name + "><" + nd7.Name + ">" + nd8.InnerText + "</" + nd7.Name +"></" + nd6.Name + "></" + nd5.Name + "></" + nd4.Name + "></" + nd3.Name + "></" + nd2.Name + ">");
+            //                                                        }
+            //                                                        else
+            //                                                        {
+            //                                                            foreach (XmlNode nd9 in nd8.ChildNodes)
+            //                                                            {
+            //                                                                if (nd9.HasChildNodes == false)
+            //                                                                {
+            //                                                                    mstrElemNodeValues.Add("<" + nd2.Name + "><" + nd3.Name + "><" + nd4.Name + "><" + nd5.Name + "><" + nd6.Name + "><" + nd7.Name + "><" + nd8.Name + "><" + nd9.InnerText + "</" + nd8.Name +  "></" + nd7.Name + "></" + nd6.Name + "></" + nd5.Name + "></" + nd4.Name + "></" + nd3.Name + "></" + nd2.Name + ">");
+            //                                                                }
+            //                                                                else
+            //                                                                {
+            //                                                                    foreach (XmlNode nd10 in nd9.ChildNodes)
+            //                                                                    {
+            //                                                                        if (nd10.HasChildNodes == false)
+            //                                                                        {
+            //                                                                            mstrElemNodeValues.Add("<" + nd2.Name + "><" + nd3.Name + "><" + nd4.Name + "><" + nd5.Name + "><" + nd6.Name + "><" + nd7.Name + "><" + nd8.Name + "><" + nd9.Name + ">" + nd10.InnerText + "</" + nd9.Name + "></" + nd8.Name + "></" + nd7.Name + "></" + nd6.Name + "></" + nd5.Name + "></" + nd4.Name + "></" + nd3.Name + "></" + nd2.Name + ">");
+            //                                                                        }
+            //                                                                        else
+            //                                                                        {
+            //                                                                            foreach (XmlNode nd11 in nd10.ChildNodes)
+            //                                                                            {
+            //                                                                                mstrElemNodeValues.Add("<" + nd2.Name + "><" + nd3.Name + "><" + nd4.Name + "><" + nd5.Name + "><" + nd6.Name + "><" + nd7.Name + "><" + nd8.Name + "><" + nd9.Name + "><" + nd10.Name + "><" + nd11.InnerText + "</" + nd10.Name + "></" + nd9.Name + "></" + nd8.Name + "></" + nd7.Name + "></" + nd6.Name + "></" + nd5.Name + "></" + nd4.Name + "></" + nd3.Name + "></" + nd2.Name + ">");
+            //                                                                            }
+            //                                                                        }
+            //                                                                    }
+            //                                                                }
+            //                                                            }
+            //                                                        }
+            //                                                    }
+            //                                                }
+            //                                            }
+            //                                        }
+            //                                    }
+            //                                }
+            //                            }
+            //                        }
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
 
             if (comparedValuesWithNameValue.ContainsKey(directoryName))
             {
@@ -1243,19 +1243,19 @@ namespace SalesforceMetadata
                         {
                             if (comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].ContainsKey(nameKey))
                             {
-                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].AddRange(mstrElemNodeValues);
+                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].Add(mstrElemValue);
                             }
                             else
                             {
                                 comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string>());
-                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].AddRange(mstrElemNodeValues);
+                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].Add(mstrElemValue);
                             }
                         }
                         else
                         {
                             comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
                             comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string>());
-                            comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].AddRange(mstrElemNodeValues);
+                            comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].Add(mstrElemValue);
                         }
                     }
                     else
@@ -1263,7 +1263,7 @@ namespace SalesforceMetadata
                         comparedValuesWithNameValue[directoryName][fileName].Add(nd1Name, new Dictionary<string, Dictionary<string, List<string>>>());
                         comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
                         comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string>());
-                        comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].AddRange(mstrElemNodeValues);
+                        comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].Add(mstrElemValue);
                     }
                 }
                 else
@@ -1272,7 +1272,7 @@ namespace SalesforceMetadata
                     comparedValuesWithNameValue[directoryName][fileName].Add(nd1Name, new Dictionary<string, Dictionary<string, List<string>>>());
                     comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
                     comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string>());
-                    comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].AddRange(mstrElemNodeValues);
+                    comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].Add(mstrElemValue);
                 }
             }
             else
@@ -1282,7 +1282,7 @@ namespace SalesforceMetadata
                 comparedValuesWithNameValue[directoryName][fileName].Add(nd1Name, new Dictionary<string, Dictionary<string, List<string>>>());
                 comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
                 comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string>());
-                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].AddRange(mstrElemNodeValues);
+                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].Add(mstrElemValue);
             }
         }
 
@@ -1399,22 +1399,127 @@ namespace SalesforceMetadata
 
         private void treeViewDifference_AfterCheck(object sender, TreeViewEventArgs e)
         {
+            if (runTreeNodeSelector == true)
+            {
+                runTreeNodeSelector = false;
+            }
+            else
+            {
+                return;
+            }
+
             TreeNode tn = e.Node;
 
-            if (tn.Checked == true && tn.Nodes.Count > 0)
+            if (tn.Checked == true)
             {
-                foreach (TreeNode cNode in tn.Nodes)
+                if (tn.Nodes.Count > 0)
                 {
-                    cNode.Checked = true;
+                    foreach (TreeNode cNode in tn.Nodes)
+                    {
+                        cNode.Checked = true;
+                    }
                 }
+
+                // Now go up the chain to the parent
+                if (tn.Parent != null)
+                {
+                    tn.Parent.Checked = true;
+
+                    if (tn.Parent.Parent != null)
+                    {
+                        tn.Parent.Parent.Checked = true;
+
+                        if (tn.Parent.Parent.Parent != null)
+                        {
+                            tn.Parent.Parent.Parent.Checked = true;
+
+                            if (tn.Parent.Parent.Parent.Parent != null)
+                            {
+                                tn.Parent.Parent.Parent.Parent.Checked = true;
+
+                                if (tn.Parent.Parent.Parent.Parent.Parent != null)
+                                {
+                                    tn.Parent.Parent.Parent.Parent.Parent.Checked = true;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (tn.Nodes.Count > 0)
+                {
+                    foreach (TreeNode cnd1 in tn.Nodes)
+                    {
+                        cnd1.Checked = true;
+
+                        if (cnd1.Nodes.Count > 0)
+                        {
+                            foreach (TreeNode cnd2 in cnd1.Nodes)
+                            {
+                                cnd2.Checked = true;
+
+                                if (cnd2.Nodes.Count > 0)
+                                {
+                                    foreach (TreeNode cnd3 in cnd2.Nodes)
+                                    {
+                                        cnd3.Checked = true;
+
+                                        if (cnd3.Nodes.Count > 0)
+                                        {
+                                            foreach (TreeNode cnd4 in cnd3.Nodes)
+                                            {
+                                                cnd4.Checked = true;
+
+                                                if (cnd4.Nodes.Count > 0)
+                                                {
+                                                    foreach (TreeNode cnd5 in cnd4.Nodes)
+                                                    {
+                                                        cnd5.Checked = true;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
             else if (tn.Checked == false && tn.Nodes.Count > 0)
             {
-                foreach (TreeNode cNode in tn.Nodes)
+                foreach (TreeNode cnd1 in tn.Nodes)
                 {
-                    cNode.Checked = false;
+                    cnd1.Checked = false;
+
+                    if (cnd1.Nodes.Count > 0)
+                    {
+                        foreach (TreeNode cnd2 in cnd1.Nodes)
+                        {
+                            cnd2.Checked = false;
+
+                            if (cnd2.Nodes.Count > 0)
+                            {
+                                foreach (TreeNode cnd3 in cnd2.Nodes)
+                                {
+                                    cnd3.Checked = false;
+
+                                    if (cnd3.Nodes.Count > 0)
+                                    {
+                                        foreach (TreeNode cnd4 in cnd3.Nodes)
+                                        {
+                                            cnd4.Checked = false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
+
+            runTreeNodeSelector = true;
         }
 
         private void tbFromFolder_DoubleClick(object sender, EventArgs e)
@@ -2047,127 +2152,105 @@ namespace SalesforceMetadata
                 return;
             }
 
-            HashSet<String> diff = new HashSet<String>();
+            HashSet<String> treeNodeDiffs = new HashSet<string>();
 
             foreach (TreeNode tndDiff1 in this.treeViewDifferences.Nodes)
             {
-                if (tndDiff1.Checked == true)
+                if (tndDiff1.Checked == true && tndDiff1.Nodes.Count > 0)
                 {
-                    diff.Add(tndDiff1.FullPath);
-                }
-
-                foreach (TreeNode tndDiff2 in tndDiff1.Nodes)
-                {
-                    if (tndDiff2.Checked == true)
+                    foreach (TreeNode tndDiff2 in tndDiff1.Nodes)
                     {
-                        if (tndDiff2.FullPath.Contains("[New]"))
+                        if (tndDiff2.Checked == true && tndDiff2.Nodes.Count > 0)
                         {
-                            diff.Add(tndDiff2.FullPath.Replace("[New] ", ""));
-                        }
-                        else if (tndDiff2.FullPath.Contains("[Updated]"))
-                        {
-                            diff.Add(tndDiff2.FullPath.Replace("[Updated] ", ""));
-                        }
-                        else
-                        {
-                            diff.Add(tndDiff2.FullPath);
-                        }
-                    }
-
-                    if (tndDiff2.Nodes.Count > 0)
-                    {
-                        foreach (TreeNode tndDiff3 in tndDiff2.Nodes)
-                        {
-                            if (tndDiff3.Checked == true)
+                            foreach (TreeNode tndDiff3 in tndDiff2.Nodes)
                             {
-                                if (tndDiff3.FullPath.Contains("[New]"))
+                                if (tndDiff3.Checked == true && tndDiff3.Nodes.Count > 0)
                                 {
-                                    diff.Add(tndDiff3.FullPath.Replace("[New] ", ""));
-                                }
-                                else if (tndDiff3.FullPath.Contains("[Updated]"))
-                                {
-                                    diff.Add(tndDiff3.FullPath.Replace("[Updated] ", ""));
-                                }
-                                else
-                                {
-                                    diff.Add(tndDiff3.FullPath);
-                                }
-                            }
-
-                            if (tndDiff3.Nodes.Count > 0)
-                            {
-                                foreach (TreeNode tndDiff4 in tndDiff3.Nodes)
-                                {
-                                    if (tndDiff4.Checked == true)
+                                    foreach (TreeNode tndDiff4 in tndDiff3.Nodes)
                                     {
-                                        if (tndDiff4.FullPath.Contains("[New]"))
+                                        if (tndDiff4.Checked == true && tndDiff4.Nodes.Count > 0)
                                         {
-                                            diff.Add(tndDiff4.FullPath.Replace("[New] ", ""));
-                                        }
-                                        else if (tndDiff4.FullPath.Contains("[Updated]"))
-                                        {
-                                            diff.Add(tndDiff4.FullPath.Replace("[Updated] ", ""));
-                                        }
-                                        else
-                                        {
-                                            diff.Add(tndDiff4.FullPath);
-                                        }
-                                    }
-
-                                    if (tndDiff4.Nodes.Count > 0)
-                                    {
-                                        foreach (TreeNode tndDiff5 in tndDiff4.Nodes)
-                                        {
-                                            if (tndDiff5.Checked == true)
+                                            foreach (TreeNode tndDiff5 in tndDiff4.Nodes)
                                             {
-                                                if (tndDiff5.FullPath.Contains("[New]"))
+                                                if (tndDiff5.Checked == true)
                                                 {
-                                                    diff.Add(tndDiff5.FullPath.Replace("[New] ", ""));
-                                                }
-                                                else if (tndDiff5.FullPath.Contains("[Updated]"))
-                                                {
-                                                    diff.Add(tndDiff5.FullPath.Replace("[Updated] ", ""));
-                                                }
-                                                else
-                                                {
-                                                    diff.Add(tndDiff5.FullPath);
-                                                }
-                                            }
-
-                                            if (tndDiff5.Nodes.Count > 0)
-                                            {
-                                                foreach (TreeNode tndDiff6 in tndDiff5.Nodes)
-                                                {
-                                                    if (tndDiff6.Checked == true)
+                                                    if (tndDiff5.FullPath.Contains("[New]"))
                                                     {
-                                                        if (tndDiff6.FullPath.Contains("[New]"))
-                                                        {
-                                                            diff.Add(tndDiff6.FullPath.Replace("[New] ", ""));
-                                                        }
-                                                        else if (tndDiff6.FullPath.Contains("[Updated]"))
-                                                        {
-                                                            diff.Add(tndDiff6.FullPath.Replace("[Updated] ", ""));
-                                                        }
-                                                        else
-                                                        {
-                                                            diff.Add(tndDiff6.FullPath);
-                                                        }
+                                                        treeNodeDiffs.Add(tndDiff5.FullPath.Replace("[New] ", ""));
+                                                    }
+                                                    else if (tndDiff5.FullPath.Contains("[Updated]"))
+                                                    {
+                                                        treeNodeDiffs.Add(tndDiff5.FullPath.Replace("[Updated] ", ""));
+                                                    }
+                                                    else
+                                                    {
+                                                        treeNodeDiffs.Add(tndDiff5.FullPath);
                                                     }
                                                 }
                                             }
                                         }
+                                        else if (tndDiff4.Checked == true)
+                                        {
+                                            if (tndDiff4.FullPath.Contains("[New]"))
+                                            {
+                                                treeNodeDiffs.Add(tndDiff4.FullPath.Replace("[New] ", ""));
+                                            }
+                                            else if (tndDiff4.FullPath.Contains("[Updated]"))
+                                            {
+                                                treeNodeDiffs.Add(tndDiff4.FullPath.Replace("[Updated] ", ""));
+                                            }
+                                            else
+                                            {
+                                                treeNodeDiffs.Add(tndDiff4.FullPath);
+                                            }
+                                        }
+                                    }
+                                }
+                                else if (tndDiff3.Checked == true)
+                                {
+                                    if (tndDiff3.FullPath.Contains("[New]"))
+                                    {
+                                        treeNodeDiffs.Add(tndDiff3.FullPath.Replace("[New] ", ""));
+                                    }
+                                    else if (tndDiff3.FullPath.Contains("[Updated]"))
+                                    {
+                                        treeNodeDiffs.Add(tndDiff3.FullPath.Replace("[Updated] ", ""));
+                                    }
+                                    else
+                                    {
+                                        treeNodeDiffs.Add(tndDiff3.FullPath);
                                     }
                                 }
                             }
                         }
+                        else if (tndDiff2.Checked == true)
+                        {
+                            if (tndDiff2.FullPath.Contains("[New]"))
+                            {
+                                treeNodeDiffs.Add(tndDiff2.FullPath.Replace("[New] ", ""));
+                            }
+                            else if (tndDiff2.FullPath.Contains("[Updated]"))
+                            {
+                                treeNodeDiffs.Add(tndDiff2.FullPath.Replace("[Updated] ", ""));
+                            }
+                            else
+                            {
+                                treeNodeDiffs.Add(tndDiff2.FullPath);
+                            }
+                        }
                     }
                 }
+                else if (tndDiff1.Checked == true)
+                {
+                    treeNodeDiffs.Add(tndDiff1.FullPath);
+                }
             }
+
 
             GenerateDeploymentPackage gdp = new GenerateDeploymentPackage();
 
             gdp.tbProjectFolder.Text = this.tbFromFolder.Text;
-            gdp.treeNodeSetFromDiff = diff;
+            gdp.treeNodeFromDiff = treeNodeDiffs;
             
             gdp.populateMetadataTreeViewFromDiff();
             gdp.Show();

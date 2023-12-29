@@ -58,7 +58,7 @@
             this.RunComparison.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.RunComparison.Location = new System.Drawing.Point(104, 159);
             this.RunComparison.Name = "RunComparison";
-            this.RunComparison.Size = new System.Drawing.Size(225, 39);
+            this.RunComparison.Size = new System.Drawing.Size(199, 39);
             this.RunComparison.TabIndex = 5;
             this.RunComparison.Text = "Run Comparison";
             this.RunComparison.UseVisualStyleBackColor = true;
@@ -105,10 +105,10 @@
             // GenerateDeploymentPackage
             // 
             this.GenerateDeploymentPackage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.GenerateDeploymentPackage.Location = new System.Drawing.Point(1545, 155);
+            this.GenerateDeploymentPackage.Location = new System.Drawing.Point(309, 159);
             this.GenerateDeploymentPackage.Name = "GenerateDeploymentPackage";
-            this.GenerateDeploymentPackage.Size = new System.Drawing.Size(199, 46);
-            this.GenerateDeploymentPackage.TabIndex = 10;
+            this.GenerateDeploymentPackage.Size = new System.Drawing.Size(199, 39);
+            this.GenerateDeploymentPackage.TabIndex = 6;
             this.GenerateDeploymentPackage.Text = "Generate Deployment Package";
             this.GenerateDeploymentPackage.UseVisualStyleBackColor = true;
             this.GenerateDeploymentPackage.Click += new System.EventHandler(this.GenerateDeploymentPackage_Click);
@@ -123,7 +123,7 @@
             this.treeViewDifferences.Location = new System.Drawing.Point(12, 210);
             this.treeViewDifferences.Name = "treeViewDifferences";
             this.treeViewDifferences.Size = new System.Drawing.Size(1732, 523);
-            this.treeViewDifferences.TabIndex = 6;
+            this.treeViewDifferences.TabIndex = 7;
             this.treeViewDifferences.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewDifference_AfterCheck);
             // 
             // cbExportXML
@@ -133,10 +133,10 @@
             this.cbExportXML.Checked = true;
             this.cbExportXML.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbExportXML.Enabled = false;
-            this.cbExportXML.Location = new System.Drawing.Point(985, 168);
+            this.cbExportXML.Location = new System.Drawing.Point(1367, 173);
             this.cbExportXML.Name = "cbExportXML";
             this.cbExportXML.Size = new System.Drawing.Size(73, 17);
-            this.cbExportXML.TabIndex = 8;
+            this.cbExportXML.TabIndex = 9;
             this.cbExportXML.Text = "With XML";
             this.cbExportXML.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.cbExportXML.UseVisualStyleBackColor = true;
@@ -145,10 +145,10 @@
             // 
             this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExport.Enabled = false;
-            this.btnExport.Location = new System.Drawing.Point(1090, 152);
+            this.btnExport.Location = new System.Drawing.Point(1472, 157);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(182, 46);
-            this.btnExport.TabIndex = 9;
+            this.btnExport.TabIndex = 10;
             this.btnExport.Text = "Export";
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
@@ -163,10 +163,10 @@
             "Export All to CSV",
             "Export Selected to CSV",
             "Export Selected to Excel"});
-            this.cmbExportType.Location = new System.Drawing.Point(678, 164);
+            this.cmbExportType.Location = new System.Drawing.Point(1060, 169);
             this.cmbExportType.Name = "cmbExportType";
             this.cmbExportType.Size = new System.Drawing.Size(274, 21);
-            this.cmbExportType.TabIndex = 7;
+            this.cmbExportType.TabIndex = 8;
             this.cmbExportType.Text = "Export All to Excel";
             // 
             // MetadataComparison

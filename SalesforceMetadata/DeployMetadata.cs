@@ -17,8 +17,8 @@ namespace SalesforceMetadata
     public partial class DeployMetadata : System.Windows.Forms.Form
     {
         private SalesforceCredentials sc;
-        private int ONE_SECOND = 1000;
-        private int MAX_NUM_POLL_REQUESTS = 50;
+        private int ONE_SECOND = 20000;
+        private int MAX_NUM_POLL_REQUESTS = 250;
 
         public DeployMetadata()
         {
@@ -245,7 +245,6 @@ namespace SalesforceMetadata
             while (!result.done)
             {
                 System.Threading.Thread.Sleep(waitTimeMilliSecs);
-                waitTimeMilliSecs *= 2;
 
                 if (poll++ > this.MAX_NUM_POLL_REQUESTS)
                 {

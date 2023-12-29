@@ -29,8 +29,8 @@ namespace SalesforceMetadata
     {
         private SalesforceCredentials sc;
 
-        private int ONE_SECOND = 1000;
-        private int MAX_NUM_POLL_REQUESTS = 150;
+        private int ONE_SECOND = 20000;
+        private int MAX_NUM_POLL_REQUESTS = 500;
 
         public String userName;
 
@@ -1098,7 +1098,6 @@ namespace SalesforceMetadata
                     else if (result.status == RetrieveStatus.Pending
                         || result.status == RetrieveStatus.InProgress)
                     {
-                        waitTimeMilliSecs += 1000;
                         //Debug.WriteLine(result.status.ToString() + ": " + waitTimeMilliSecs.ToString());
                     }
                     else if (result.status == RetrieveStatus.Failed)

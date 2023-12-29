@@ -218,10 +218,10 @@
             // btnSelectAll
             // 
             this.btnSelectAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSelectAll.Location = new System.Drawing.Point(46, 269);
+            this.btnSelectAll.Location = new System.Drawing.Point(65, 273);
             this.btnSelectAll.Margin = new System.Windows.Forms.Padding(6);
             this.btnSelectAll.Name = "btnSelectAll";
-            this.btnSelectAll.Size = new System.Drawing.Size(36, 33);
+            this.btnSelectAll.Size = new System.Drawing.Size(26, 25);
             this.btnSelectAll.TabIndex = 3;
             this.btnSelectAll.UseVisualStyleBackColor = true;
             this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
@@ -230,7 +230,7 @@
             // 
             this.lblSelectAll.AutoSize = true;
             this.lblSelectAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSelectAll.Location = new System.Drawing.Point(94, 277);
+            this.lblSelectAll.Location = new System.Drawing.Point(103, 277);
             this.lblSelectAll.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblSelectAll.Name = "lblSelectAll";
             this.lblSelectAll.Size = new System.Drawing.Size(66, 17);
@@ -240,10 +240,10 @@
             // btnSelectNone
             // 
             this.btnSelectNone.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSelectNone.Location = new System.Drawing.Point(213, 269);
+            this.btnSelectNone.Location = new System.Drawing.Point(211, 273);
             this.btnSelectNone.Margin = new System.Windows.Forms.Padding(6);
             this.btnSelectNone.Name = "btnSelectNone";
-            this.btnSelectNone.Size = new System.Drawing.Size(36, 33);
+            this.btnSelectNone.Size = new System.Drawing.Size(23, 25);
             this.btnSelectNone.TabIndex = 5;
             this.btnSelectNone.UseVisualStyleBackColor = true;
             this.btnSelectNone.Click += new System.EventHandler(this.btnSelectNone_Click);
@@ -252,7 +252,7 @@
             // 
             this.lblSelectNone.AutoSize = true;
             this.lblSelectNone.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSelectNone.Location = new System.Drawing.Point(261, 277);
+            this.lblSelectNone.Location = new System.Drawing.Point(246, 277);
             this.lblSelectNone.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblSelectNone.Name = "lblSelectNone";
             this.lblSelectNone.Size = new System.Drawing.Size(85, 17);
@@ -262,10 +262,10 @@
             // btnSelectDefaults
             // 
             this.btnSelectDefaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSelectDefaults.Location = new System.Drawing.Point(401, 269);
+            this.btnSelectDefaults.Location = new System.Drawing.Point(367, 273);
             this.btnSelectDefaults.Margin = new System.Windows.Forms.Padding(6);
             this.btnSelectDefaults.Name = "btnSelectDefaults";
-            this.btnSelectDefaults.Size = new System.Drawing.Size(36, 33);
+            this.btnSelectDefaults.Size = new System.Drawing.Size(26, 25);
             this.btnSelectDefaults.TabIndex = 7;
             this.btnSelectDefaults.UseVisualStyleBackColor = true;
             this.btnSelectDefaults.Click += new System.EventHandler(this.btnSelectDefaults_Click);
@@ -274,7 +274,7 @@
             // 
             this.lblSelectDefaults.AutoSize = true;
             this.lblSelectDefaults.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSelectDefaults.Location = new System.Drawing.Point(449, 277);
+            this.lblSelectDefaults.Location = new System.Drawing.Point(405, 277);
             this.lblSelectDefaults.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblSelectDefaults.Name = "lblSelectDefaults";
             this.lblSelectDefaults.Size = new System.Drawing.Size(103, 17);

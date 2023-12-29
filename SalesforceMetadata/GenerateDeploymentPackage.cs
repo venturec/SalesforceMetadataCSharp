@@ -17,6 +17,7 @@ using SalesforceMetadata.ToolingWSDL;
 using System.Diagnostics.Eventing.Reader;
 using System.IO.Compression;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace SalesforceMetadata
 {
@@ -192,7 +193,9 @@ namespace SalesforceMetadata
                             {
                                 foreach (XmlNode nd2 in nd1.ChildNodes)
                                 {
-                                    TreeNode tnd3 = new TreeNode(nd2.OuterXml);
+                                    String nd2OuterXml = nd2.OuterXml.Replace(" xmlns=\"http://soap.sforce.com/2006/04/metadata\"", "");
+
+                                    TreeNode tnd3 = new TreeNode(nd2OuterXml);
                                     tnd2.Nodes.Add(tnd3);
                                 }
                             }
@@ -217,37 +220,41 @@ namespace SalesforceMetadata
             this.treeViewMetadata.Nodes.Clear();
             this.populateMetadataTreeView();
 
-            //foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
-            //{
-            //    if (this.treeNodeSetFromDiff.Contains(tnd1.FullPath))
-            //    {
-            //        tnd1.Checked = true;
-            //    }
+            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+            {
+                if (this.treeNodeFromDiff.Contains(tnd1.FullPath))
+                {
+                    tnd1.Checked = true;
+                    treeNodeAfterCheckUncheck(tnd1);
+                }
 
-            //    foreach(TreeNode tnd2 in tnd1.Nodes)
-            //    {
-            //        if (this.treeNodeSetFromDiff.Contains(tnd2.FullPath))
-            //        {
-            //            tnd2.Checked = true;
-            //        }
+                foreach(TreeNode tnd2 in tnd1.Nodes)
+                {
+                    if (this.treeNodeFromDiff.Contains(tnd2.FullPath))
+                    {
+                        tnd2.Checked = true;
+                        treeNodeAfterCheckUncheck(tnd2);
+                    }
 
-            //        foreach (TreeNode tnd3 in tnd2.Nodes)
-            //        {
-            //            if (this.treeNodeSetFromDiff.Contains(tnd3.FullPath))
-            //            {
-            //                tnd3.Checked = true;
-            //            }
+                    foreach (TreeNode tnd3 in tnd2.Nodes)
+                    {
+                        if (this.treeNodeFromDiff.Contains(tnd3.FullPath))
+                        {
+                            tnd3.Checked = true;
+                            treeNodeAfterCheckUncheck(tnd3);
+                        }
 
-            //            foreach (TreeNode tnd4 in tnd3.Nodes)
-            //            {
-            //                if (this.treeNodeSetFromDiff.Contains(tnd4.FullPath))
-            //                {
-            //                    tnd4.Checked = true;
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
+                        foreach (TreeNode tnd4 in tnd3.Nodes)
+                        {
+                            if (this.treeNodeFromDiff.Contains(tnd4.FullPath))
+                            {
+                                tnd4.Checked = true;
+                                treeNodeAfterCheckUncheck(tnd4);
+                            }
+                        }
+                    }
+                }
+            }
 
             this.runTreeNodeSelector = true;
         }

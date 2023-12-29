@@ -4877,6 +4877,7 @@ namespace SalesforceMetadata
                     xlWorksheet.Cells[rowNumber, 1].Value = apexClass.Id;
                     xlWorksheet.Cells[rowNumber, 2].Value = apexClass.Name;
                     xlWorksheet.Cells[rowNumber, 3].Value = apexClass.NamespacePrefix;
+
                     xlWorksheet.Cells[rowNumber, 4].Value = apexClass.ApiVersion;
                     xlWorksheet.Cells[rowNumber, 5].Value = apexClass.IsValid;
                     xlWorksheet.Cells[rowNumber, 6].Value = apexClass.Status;
@@ -4948,7 +4949,9 @@ namespace SalesforceMetadata
                     }
 
                     // Number of Lines, Number of Lines Covered, Uncovered, and Percentage Covered
-                    if (retrieveAggregateCoverage && isTestClass == false)
+                    if (retrieveAggregateCoverage
+                        && isTestClass == false
+                        && (apexClass.NamespacePrefix == null || apexClass.NamespacePrefix == ""))
                     {
                         SalesforceMetadata.ToolingWSDL.QueryResult toolingAggregateCoverageQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
                         toolingAggregateCoverageQr = sc.fromOrgToolingSvc.query(ApexCodeCoverageAggregateQuery(apexClass.Id));
@@ -5341,7 +5344,8 @@ namespace SalesforceMetadata
                     xlWorksheet.Cells[rowNumber, 26].Value = apexTrigger.CreatedDate;
                     xlWorksheet.Cells[rowNumber, 27].Value = apexTrigger.LastModifiedDate;
 
-                    if (retrieveAggregateCoverage)
+                    if (retrieveAggregateCoverage
+                        && (apexTrigger.NamespacePrefix == null || apexTrigger.NamespacePrefix == ""))
                     {
                         SalesforceMetadata.ToolingWSDL.QueryResult toolingAggregateCoverageQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
                         toolingAggregateCoverageQr = sc.fromOrgToolingSvc.query(ApexCodeCoverageAggregateQuery(apexTrigger.Id));

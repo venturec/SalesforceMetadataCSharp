@@ -1376,7 +1376,6 @@ namespace SalesforceMetadata
                         }
                     }
                 }
-
             }
             else if (tn.Checked == false && tn.Nodes.Count > 0)
             {

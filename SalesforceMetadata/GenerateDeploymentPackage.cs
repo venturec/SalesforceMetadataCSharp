@@ -108,19 +108,38 @@ namespace SalesforceMetadata
 
                 TreeNode tnd1 = new TreeNode(folderNameSplit[folderNameSplit.Length - 1]);
 
-                foreach (String fileName in fileNames) 
+                if (folderNameSplit[folderNameSplit.Length - 1] == "aura" 
+                    || folderNameSplit[folderNameSplit.Length - 1] == "lwc")
                 {
-                    String[] fileNameSplit = fileName.Split('\\');
+                    String[] subDirFolders = Directory.GetDirectories(this.tbProjectFolder.Text + "\\" + folderNameSplit[folderNameSplit.Length - 1]);
+
+                    foreach (String subFolderName in subDirFolders)
+                    {
+                        String[] subFolderSplit = subFolderName.Split('\\');
+
+                        TreeNode tnd2 = new TreeNode(subFolderSplit[subFolderSplit.Length - 1]);
                     
-                    Boolean isXmlDocument = true;
-                    XmlDocument xmlDoc = new XmlDocument();
-                    if (folderName == "aura" || folderName == "lwc")
-                    {
-                        // TODO
-                        //checkAndAddFileNamesToDictionary(mDir, mObjFile, mFile, false);
+                        String[] subDirFileNames = Directory.GetFiles(subFolderName);
+
+                        foreach (String subFileName in subDirFileNames)
+                        {
+                            String[] subFileNameSplit = subFileName.Split('\\');
+                            TreeNode tnd3 = new TreeNode(subFileNameSplit[subFileNameSplit.Length - 1]);
+                            tnd2.Nodes.Add(tnd3);
+                        }
+
+                        tnd1.Nodes.Add(tnd2);
                     }
-                    else
+                }
+                else
+                {
+                    foreach (String fileName in fileNames)
                     {
+                        String[] fileNameSplit = fileName.Split('\\');
+
+                        Boolean isXmlDocument = true;
+                        XmlDocument xmlDoc = new XmlDocument();
+
                         // Using this structure because for some reason when I load an XML file where the file name contains %2E, it is replacing it with a . and then can't find the file
                         String fileContents = File.ReadAllText(fileName);
 
@@ -141,7 +160,8 @@ namespace SalesforceMetadata
                         }
                         else if (isXmlDocument == false)
                         {
-                            // TODO
+                            TreeNode tnd2 = new TreeNode(fileNameSplit[fileNameSplit.Length - 1]);
+                            tnd1.Nodes.Add(tnd2);
                         }
                     }
                 }
@@ -426,47 +446,53 @@ namespace SalesforceMetadata
                 return;
             }
 
-            TreeNode tn = e.Node;
+            treeNodeSelectParentChildNodes(e.Node);
+            treeNodeAfterCheckUncheck(e.Node);
 
-            if (tn.Checked == true)
+            runTreeNodeSelector = true;
+        }
+
+        public void treeNodeSelectParentChildNodes(TreeNode tnd)
+        {
+            if (tnd.Checked == true)
             {
-                if (tn.Nodes.Count > 0)
+                if (tnd.Nodes.Count > 0)
                 {
-                    foreach (TreeNode cNode in tn.Nodes)
+                    foreach (TreeNode cNode in tnd.Nodes)
                     {
                         cNode.Checked = true;
                     }
                 }
 
                 // Now go up the chain to the parent
-                if (tn.Parent != null)
+                if (tnd.Parent != null)
                 {
-                    tn.Parent.Checked = true;
+                    tnd.Parent.Checked = true;
 
-                    if (tn.Parent.Parent != null)
+                    if (tnd.Parent.Parent != null)
                     {
-                        tn.Parent.Parent.Checked = true;
+                        tnd.Parent.Parent.Checked = true;
 
-                        if (tn.Parent.Parent.Parent != null)
+                        if (tnd.Parent.Parent.Parent != null)
                         {
-                            tn.Parent.Parent.Parent.Checked = true;
+                            tnd.Parent.Parent.Parent.Checked = true;
 
-                            if (tn.Parent.Parent.Parent.Parent != null)
+                            if (tnd.Parent.Parent.Parent.Parent != null)
                             {
-                                tn.Parent.Parent.Parent.Parent.Checked = true;
+                                tnd.Parent.Parent.Parent.Parent.Checked = true;
 
-                                if (tn.Parent.Parent.Parent.Parent.Parent != null)
+                                if (tnd.Parent.Parent.Parent.Parent.Parent != null)
                                 {
-                                    tn.Parent.Parent.Parent.Parent.Parent.Checked = true;
+                                    tnd.Parent.Parent.Parent.Parent.Parent.Checked = true;
                                 }
                             }
                         }
                     }
                 }
 
-                if (tn.Nodes.Count > 0)
+                if (tnd.Nodes.Count > 0)
                 {
-                    foreach (TreeNode cnd1 in tn.Nodes)
+                    foreach (TreeNode cnd1 in tnd.Nodes)
                     {
                         cnd1.Checked = true;
 
@@ -504,9 +530,9 @@ namespace SalesforceMetadata
                     }
                 }
             }
-            else if (tn.Checked == false && tn.Nodes.Count > 0)
+            else if (tnd.Checked == false && tnd.Nodes.Count > 0)
             {
-                foreach (TreeNode cnd1 in tn.Nodes)
+                foreach (TreeNode cnd1 in tnd.Nodes)
                 {
                     cnd1.Checked = false;
 
@@ -535,27 +561,23 @@ namespace SalesforceMetadata
                     }
                 }
             }
-
-            treeNodeAfterCheckUncheck(tn);
-
-            runTreeNodeSelector = true;
         }
 
         public void treeNodeAfterCheckUncheck(TreeNode tnd)
         {
             String[] nodeFullPath = tnd.FullPath.Split('\\');
+            String[] fileNameSplit = new string[3];
             String[] objectName = new string[2];
-            String[] fileNameSplit = nodeFullPath[1].Split('.');
 
             if (nodeFullPath.Length > 1)
             {
                 objectName = nodeFullPath[1].Split('.');
+                fileNameSplit = nodeFullPath[1].Split('.');
             }
 
             // TODO:
             // If a standard picklist field is selected, make sure to also select the related StandardValueSet. You will need a separate method for determining
             //      if a field selected translates to a StandardValueSet
-
             if (nodeFullPath.Length > 2
                 && nodeFullPath[0] == "customMetadata")
             {
@@ -735,20 +757,22 @@ namespace SalesforceMetadata
                                         {
                                             if (tnd4.Nodes.Count > 0)
                                             {
-                                                xmlNodes = xmlNodes + "<" + tnd4.Text + ">";
+                                                String[] tnd4TextSplit = tnd4.Text.Split('|');
+                                                xmlNodes = xmlNodes + "<" + tnd4TextSplit[0].Trim() + ">";
 
                                                 foreach (TreeNode tnd5 in tnd4.Nodes)
                                                 {
                                                     if (tnd5.Nodes.Count > 0)
                                                     {
-                                                        xmlNodes = xmlNodes + "<" + tnd5.Text + ">";
+                                                        String[] tnd5TextSplit = tnd5.Text.Split('|');
+                                                        xmlNodes = xmlNodes + "<" + tnd5TextSplit[0].Trim() + ">";
 
                                                         foreach (TreeNode tnd6 in tnd5.Nodes)
                                                         {
                                                             xmlNodes = xmlNodes + tnd6.Text;
                                                         }
 
-                                                        xmlNodes = xmlNodes + "</" + tnd5.Text + ">";
+                                                        xmlNodes = xmlNodes + "</" + tnd5TextSplit[0].Trim() + ">";
                                                     }
                                                     else
                                                     {
@@ -756,7 +780,7 @@ namespace SalesforceMetadata
                                                     }
                                                 }
 
-                                                xmlNodes = xmlNodes + "</" + tnd4.Text + ">";
+                                                xmlNodes = xmlNodes + "</" + tnd4TextSplit[0].Trim() + ">";
                                             }
                                             else
                                             {
@@ -884,29 +908,38 @@ namespace SalesforceMetadata
 
                             foreach (TreeNode tnd3 in tnd2.Nodes)
                             {
-                                if (tnd3.Text.StartsWith("deploymentStatus"))
+                                foreach (TreeNode tnd4 in tnd3.Nodes)
                                 {
-                                    tnd3.Checked = true;
-                                }
-                                else if (tnd3.Text.StartsWith("description"))
-                                {
-                                    tnd3.Checked = true;
-                                }
-                                else if (tnd3.Text.StartsWith("label"))
-                                {
-                                    tnd3.Checked = true;
-                                }
-                                else if (tnd3.Text.StartsWith("nameField"))
-                                {
-                                    tnd3.Checked = true;
-                                }
-                                else if (tnd3.Text.StartsWith("pluralLabel"))
-                                {
-                                    tnd3.Checked = true;
-                                }
-                                else if (tnd3.Text.StartsWith("sharingModel"))
-                                {
-                                    tnd3.Checked = true;
+                                    if (tnd4.Text.StartsWith("deploymentStatus"))
+                                    {
+                                        tnd4.Checked = true;
+                                        treeNodeSelectParentChildNodes(tnd4);
+                                    }
+                                    else if (tnd4.Text.StartsWith("description"))
+                                    {
+                                        tnd4.Checked = true;
+                                        treeNodeSelectParentChildNodes(tnd4);
+                                    }
+                                    else if (tnd4.Text.StartsWith("label"))
+                                    {
+                                        tnd4.Checked = true;
+                                        treeNodeSelectParentChildNodes(tnd4);
+                                    }
+                                    else if (tnd4.Text.StartsWith("nameField"))
+                                    {
+                                        tnd4.Checked = true;
+                                        treeNodeSelectParentChildNodes(tnd4);
+                                    }
+                                    else if (tnd4.Text.StartsWith("pluralLabel"))
+                                    {
+                                        tnd4.Checked = true;
+                                        treeNodeSelectParentChildNodes(tnd4);
+                                    }
+                                    else if (tnd4.Text.StartsWith("sharingModel"))
+                                    {
+                                        tnd4.Checked = true;
+                                        treeNodeSelectParentChildNodes(tnd4);
+                                    }
                                 }
                             }
                         }
@@ -940,23 +973,26 @@ namespace SalesforceMetadata
                         {
                             foreach (TreeNode tnd3 in tnd2.Nodes)
                             {
-                                if (tnd3.Text.StartsWith("fields"))
+                                foreach (TreeNode tnd4 in tnd3.Nodes)
                                 {
-                                    String[] fieldSplit = tnd3.Text.Split('|');
-
-                                    if (objectFields.Contains(fieldSplit[1].Trim()))
+                                    if (tnd4.Text.StartsWith("fields"))
                                     {
-                                        tnd3.Checked = true;
-                                        tnd3.Parent.Checked = true;
+                                        String[] fieldSplit = tnd4.Text.Split('|');
 
-                                        if (objectName.EndsWith("__c"))
+                                        if (objectFields.Contains(fieldSplit[1].Trim()))
                                         {
-                                            selectRequiredObjectFields(objectName + ".object");
-                                        }
+                                            tnd4.Checked = true;
+                                            treeNodeSelectParentChildNodes(tnd4);
 
-                                        // If a standard value set is available on the page layout, make sure to include it in the HashSet to add to the deployment package
-                                        String objectFieldCombo = objectName + "." + fieldSplit[1].Trim();
-                                        populateStandardValueSetHashSet(objectFieldCombo);
+                                            if (objectName.EndsWith("__c"))
+                                            {
+                                                selectRequiredObjectFields(objectName + ".object");
+                                            }
+
+                                            // If a standard value set is available on the page layout, make sure to include it in the HashSet to add to the deployment package
+                                            String objectFieldCombo = objectName + "." + fieldSplit[1].Trim();
+                                            populateStandardValueSetHashSet(objectFieldCombo);
+                                        }
                                     }
                                 }
                             }
@@ -1042,11 +1078,7 @@ namespace SalesforceMetadata
                         if (standardValueSets.Contains(objectNameSplit[0]))
                         {
                             tnd2.Checked = true;
-
-                            foreach (TreeNode tnd3 in tnd2.Nodes)
-                            {
-                                tnd3.Checked = true;
-                            }
+                            treeNodeSelectParentChildNodes(tnd2);
                         }
                     }
                 }
@@ -1984,7 +2016,7 @@ namespace SalesforceMetadata
                 this.lblDestructiveChangesFirst.Visible = false;
                 this.btnBuildProfilesAndPermissionSets.Visible = true;
                 this.btnBuildZipFile.Visible = true;
-                this.btnNext.Visible = false;
+                //this.btnNext.Visible = false;
                 this.runTreeNodeSelector = true;
             }
             else if (this.cmbDestructiveChange.Text == "destructiveChanges")
@@ -1992,7 +2024,7 @@ namespace SalesforceMetadata
                 this.lblDestructiveChangesFirst.Visible = false;
                 this.btnBuildProfilesAndPermissionSets.Visible = false;
                 this.btnBuildZipFile.Visible = true;
-                this.btnNext.Visible = false;
+                //this.btnNext.Visible = false;
                 this.runTreeNodeSelector = false;
             }
             else
@@ -2000,27 +2032,27 @@ namespace SalesforceMetadata
                 this.lblDestructiveChangesFirst.Visible = true;
                 this.btnBuildProfilesAndPermissionSets.Visible = false;
                 this.btnBuildZipFile.Visible = false;
-                this.btnNext.Visible = true;
+                //this.btnNext.Visible = true;
                 this.runTreeNodeSelector = false;
             }
         }
 
-        private void btnNext_Click(object sender, EventArgs e)
-        {
-        //    this.runTreeNodeSelector = true;
+        //private void btnNext_Click(object sender, EventArgs e)
+        //{
+        ////    this.runTreeNodeSelector = true;
 
-        //    // Build the destructive changes first
-        //    // Then pre-populate the Tree View with the pre-checked related items which need to be reviewed from the
-        //    // selected items in the destructive changes
-        //    // Example: If you select a custom field to delete, then clicking Next will populate the Tree View with all
-        //    // Items which include that field
+        ////    // Build the destructive changes first
+        ////    // Then pre-populate the Tree View with the pre-checked related items which need to be reviewed from the
+        ////    // selected items in the destructive changes
+        ////    // Example: If you select a custom field to delete, then clicking Next will populate the Tree View with all
+        ////    // Items which include that field
 
-        //    // Loop through the selected items and build the Dictionary / HashSet list
+        ////    // Loop through the selected items and build the Dictionary / HashSet list
 
-        //    buildPackageObjectMembers(packageXmlDestructiveChangeMembers);
+        ////    buildPackageObjectMembers(packageXmlDestructiveChangeMembers);
 
-        //    populateMetadataTreeView();
-        }
+        ////    populateMetadataTreeView();
+        //}
 
         public void loadDefaultApis()
         {

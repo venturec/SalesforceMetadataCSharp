@@ -40,7 +40,7 @@
             this.cmbDestructiveChange = new System.Windows.Forms.ComboBox();
             this.lblDestructiveChangeType = new System.Windows.Forms.Label();
             this.lblDestructiveChangesFirst = new System.Windows.Forms.Label();
-            this.btnNext = new System.Windows.Forms.Button();
+            //this.btnNext = new System.Windows.Forms.Button();
             this.lblDefaultAPI = new System.Windows.Forms.Label();
             this.cmbDefaultAPI = new System.Windows.Forms.ComboBox();
             this.tbOutboundChangeSetName = new System.Windows.Forms.TextBox();
@@ -169,14 +169,14 @@
             // 
             // btnNext
             // 
-            this.btnNext.Location = new System.Drawing.Point(880, 176);
-            this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(215, 23);
-            this.btnNext.TabIndex = 14;
-            this.btnNext.Text = "Next";
-            this.btnNext.UseVisualStyleBackColor = true;
-            this.btnNext.Visible = false;
-            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            //this.btnNext.Location = new System.Drawing.Point(880, 176);
+            //this.btnNext.Name = "btnNext";
+            //this.btnNext.Size = new System.Drawing.Size(215, 23);
+            //this.btnNext.TabIndex = 14;
+            //this.btnNext.Text = "Next";
+            //this.btnNext.UseVisualStyleBackColor = true;
+            //this.btnNext.Visible = false;
+            //this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // lblDefaultAPI
             // 
@@ -224,7 +224,7 @@
             this.Controls.Add(this.tbOutboundChangeSetName);
             this.Controls.Add(this.cmbDefaultAPI);
             this.Controls.Add(this.lblDefaultAPI);
-            this.Controls.Add(this.btnNext);
+            //this.Controls.Add(this.btnNext);
             this.Controls.Add(this.lblDestructiveChangesFirst);
             this.Controls.Add(this.lblDestructiveChangeType);
             this.Controls.Add(this.cmbDestructiveChange);
@@ -256,7 +256,7 @@
         private System.Windows.Forms.ComboBox cmbDestructiveChange;
         private System.Windows.Forms.Label lblDestructiveChangeType;
         private System.Windows.Forms.Label lblDestructiveChangesFirst;
-        private System.Windows.Forms.Button btnNext;
+        //private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Label lblDefaultAPI;
         private System.Windows.Forms.ComboBox cmbDefaultAPI;
         private System.Windows.Forms.TextBox tbOutboundChangeSetName;

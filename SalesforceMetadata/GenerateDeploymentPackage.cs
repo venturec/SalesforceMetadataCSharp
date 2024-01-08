@@ -20,6 +20,7 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Microsoft.Office.Interop.Excel;
 using System.Security.Cryptography;
+using System.Xml.Linq;
 
 namespace SalesforceMetadata
 {
@@ -95,11 +96,6 @@ namespace SalesforceMetadata
         {
             this.treeViewMetadata.Nodes.Clear();
 
-            //Dictionary<String, Dictionary<String, List<String>>> nonXmlFile = new Dictionary<String, Dictionary<String, List<String>>>();
-
-            //Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> xmlFileDictionary 
-            //    = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>();
-
             String[] folders = Directory.GetDirectories(this.tbProjectFolder.Text);
             foreach (String folderName in folders)
             {
@@ -108,7 +104,7 @@ namespace SalesforceMetadata
 
                 TreeNode tnd1 = new TreeNode(folderNameSplit[folderNameSplit.Length - 1]);
 
-                if (folderNameSplit[folderNameSplit.Length - 1] == "aura" 
+                if (folderNameSplit[folderNameSplit.Length - 1] == "aura"
                     || folderNameSplit[folderNameSplit.Length - 1] == "lwc")
                 {
                     String[] subDirFolders = Directory.GetDirectories(this.tbProjectFolder.Text + "\\" + folderNameSplit[folderNameSplit.Length - 1]);
@@ -118,7 +114,7 @@ namespace SalesforceMetadata
                         String[] subFolderSplit = subFolderName.Split('\\');
 
                         TreeNode tnd2 = new TreeNode(subFolderSplit[subFolderSplit.Length - 1]);
-                    
+
                         String[] subDirFileNames = Directory.GetFiles(subFolderName);
 
                         foreach (String subFileName in subDirFileNames)
@@ -131,6 +127,51 @@ namespace SalesforceMetadata
                         tnd1.Nodes.Add(tnd2);
                     }
                 }
+                //else if (folderNameSplit[folderNameSplit.Length - 1] == "customMetadata")
+                //{
+                //    String priorCMTFileName = "";
+
+                //    TreeNode tnd2 = new TreeNode();
+                //    foreach (String fileName in fileNames)
+                //    {
+                //        String[] fileNameSplit = fileName.Split('\\');
+                //        String[] objectNameSplit = fileNameSplit[fileNameSplit.Length - 1].Split('.');
+
+                //        if (priorCMTFileName != objectNameSplit[0])
+                //        {
+                //            if (tnd2.Text != "")
+                //            {
+                //                tnd1.Nodes.Add(tnd2);
+                //            }
+
+                //            tnd2 = new TreeNode(objectNameSplit[0]);
+                //            priorCMTFileName = objectNameSplit[0];
+                //        }
+
+                //        TreeNode tnd3 = new TreeNode(objectNameSplit[1] + "." + objectNameSplit[2]);
+                //        tnd2.Nodes.Add(tnd3);
+
+                //        try
+                //        {
+                //            XmlDocument xd = new XmlDocument();
+                //            xd.Load(fileName);
+
+                //            foreach (XmlNode nd1 in xd.ChildNodes)
+                //            {
+                //                foreach (XmlNode nd2 in nd1.ChildNodes)
+                //                {
+                //                    TreeNode tnd4 = new TreeNode(nd2.OuterXml);
+                //                    tnd3.Nodes.Add(tnd4);
+                //                }
+                //            }
+                //        }
+                //        catch (Exception e)
+                //        {
+                //        }
+                //    }
+
+                //    this.treeViewMetadata.Nodes.Add(tnd1);
+                //}
                 else
                 {
                     foreach (String fileName in fileNames)
@@ -249,8 +290,6 @@ namespace SalesforceMetadata
                                 tnd4.Text = nd4.Name + " | " + nodeBlockNameValue;
                             }
 
-                            //TreeNode tnd4 = new TreeNode(nd4.Name);
-
                             foreach (XmlNode nd5 in nd4.ChildNodes)
                             {
                                 if (nd5.HasChildNodes)
@@ -259,125 +298,8 @@ namespace SalesforceMetadata
 
                                     foreach (XmlNode nd6 in nd5.ChildNodes)
                                     {
-                                        //Debug.WriteLine("");
-
                                         TreeNode tnd6 = new TreeNode(nd6.OuterXml);
                                         tnd5.Nodes.Add(tnd6);
-
-                                        //if (nd6.HasChildNodes)
-                                        //{
-                                        //    TreeNode tnd6 = new TreeNode(nd6.Name);
-
-                                        //    foreach (XmlNode nd7 in nd6.ChildNodes)
-                                        //    {
-                                        //        if (nd7.HasChildNodes)
-                                        //        {
-                                        //            TreeNode tnd7 = new TreeNode(nd7.Name);
-
-                                        //            foreach (XmlNode nd8 in nd7.ChildNodes)
-                                        //            {
-                                        //                if (nd8.HasChildNodes)
-                                        //                {
-                                        //                    TreeNode tnd8 = new TreeNode(nd8.Name);
-
-                                        //                    foreach (XmlNode nd9 in nd8.ChildNodes)
-                                        //                    {
-                                        //                        if (nd9.HasChildNodes)
-                                        //                        {
-                                        //                            TreeNode tnd9 = new TreeNode(nd9.Name);
-
-                                        //                            foreach (XmlNode nd10 in nd9.ChildNodes)
-                                        //                            {
-                                        //                                if (nd10.HasChildNodes)
-                                        //                                {
-                                        //                                    TreeNode tnd10 = new TreeNode(nd10.Name);
-
-                                        //                                    foreach (XmlNode nd11 in nd10.ChildNodes)
-                                        //                                    {
-                                        //                                        if (nd11.HasChildNodes)
-                                        //                                        {
-                                        //                                            TreeNode tnd11 = new TreeNode(nd11.Name);
-
-                                        //                                            foreach (XmlNode nd12 in nd11.ChildNodes)
-                                        //                                            {
-                                        //                                                if (nd12.HasChildNodes)
-                                        //                                                {
-                                        //                                                    TreeNode tnd12 = new TreeNode(nd12.Name);
-
-                                        //                                                    foreach (XmlNode nd13 in nd12.ChildNodes)
-                                        //                                                    {
-                                        //                                                        if (nd13.HasChildNodes)
-                                        //                                                        {
-                                        //                                                            Debug.WriteLine("nd13.HasChildNodes");
-                                        //                                                        }
-                                        //                                                        else if (nd13.Name == "#text")
-                                        //                                                        {
-                                        //                                                            TreeNode tnd13 = new TreeNode(nd13.Value);
-                                        //                                                            tnd12.Nodes.Add(tnd13);
-                                        //                                                        }
-                                        //                                                    }
-
-                                        //                                                    tnd11.Nodes.Add(tnd12);
-                                        //                                                }
-                                        //                                                else if (nd12.Name == "#text")
-                                        //                                                {
-                                        //                                                    TreeNode tnd12 = new TreeNode(nd12.Value);
-                                        //                                                    tnd11.Nodes.Add(tnd12);
-                                        //                                                }
-                                        //                                            }
-
-                                        //                                            tnd10.Nodes.Add(tnd11);
-                                        //                                        }
-                                        //                                        else if (nd11.Name == "#text")
-                                        //                                        {
-                                        //                                            TreeNode tnd11 = new TreeNode(nd11.Value);
-                                        //                                            tnd10.Nodes.Add(tnd11);
-                                        //                                        }
-                                        //                                    }
-
-                                        //                                    tnd9.Nodes.Add(tnd10);
-                                        //                                }
-                                        //                                else if (nd10.Name == "#text")
-                                        //                                {
-                                        //                                    TreeNode tnd10 = new TreeNode(nd10.Value);
-                                        //                                    tnd9.Nodes.Add(tnd10);
-                                        //                                }
-                                        //                            }
-
-                                        //                            tnd8.Nodes.Add(tnd9);
-                                        //                        }
-                                        //                        else if (nd9.Name == "#text")
-                                        //                        {
-                                        //                            TreeNode tnd9 = new TreeNode(nd9.Value);
-                                        //                            tnd8.Nodes.Add(tnd9);
-                                        //                        }
-                                        //                    }
-
-                                        //                    tnd7.Nodes.Add(tnd8);
-                                        //                }
-                                        //                else if (nd8.Name == "#text")
-                                        //                {
-                                        //                    TreeNode tnd8 = new TreeNode(nd8.Value);
-                                        //                    tnd7.Nodes.Add(tnd8);
-                                        //                }
-                                        //            }
-
-                                        //            tnd6.Nodes.Add(tnd7);
-                                        //        }
-                                        //        else if (nd7.Name == "#text")
-                                        //        {
-                                        //            TreeNode tnd7 = new TreeNode(nd7.Value);
-                                        //            tnd6.Nodes.Add(tnd7);
-                                        //        }
-                                        //    }
-
-                                        //    tnd5.Nodes.Add(tnd6);
-                                        //}
-                                        //else if (nd6.Name == "#text")
-                                        //{
-                                        //    TreeNode tnd6 = new TreeNode(nd6.Value);
-                                        //    tnd5.Nodes.Add(tnd6);
-                                        //}
                                     }
 
                                     tnd4.Nodes.Add(tnd5);
@@ -402,28 +324,6 @@ namespace SalesforceMetadata
                 tnd2.Nodes.Add(tnd3);
             }
         }
-
-        //private TextToColor removeNewUpdatedFromNodeText(String currentTextValue)
-        //{
-        //    TextToColor ttc = new TextToColor();
-
-        //    if (currentTextValue.StartsWith("[New]"))
-        //    {
-        //        ttc.textValue = currentTextValue.Substring(6, currentTextValue.Length - 6);
-        //        ttc.color = Color.LightBlue;
-        //    }
-        //    else if (currentTextValue.StartsWith("[Updated]"))
-        //    {
-        //        ttc.textValue = currentTextValue.Substring(10, currentTextValue.Length - 10);
-        //        ttc.color = Color.LightGoldenrodYellow;
-        //    }
-        //    else
-        //    {
-        //        ttc.textValue = currentTextValue;
-        //    }
-
-        //    return ttc;
-        //}
 
         public void defaultSelectedFromMetadataComp()
         {
@@ -736,73 +636,11 @@ namespace SalesforceMetadata
             {
                 String[] objectNameSplit = nodeFullPath[1].Split('-');
 
-                String xmlNodes = "";
-
-                // First, make sure the entire layout is included
-                foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
-                {
-                    if (tnd1.Text == "layouts")
-                    {
-                        foreach (TreeNode tnd2 in tnd1.Nodes)
-                        {
-                            if (tnd2.Text == nodeFullPath[1])
-                            {
-                                foreach (TreeNode tnd3 in tnd2.Nodes)
-                                {
-                                    if (tnd3.Nodes.Count > 0)
-                                    {
-                                        xmlNodes = xmlNodes + "<" + tnd3.Text + ">";
-
-                                        foreach (TreeNode tnd4 in tnd3.Nodes)
-                                        {
-                                            if (tnd4.Nodes.Count > 0)
-                                            {
-                                                String[] tnd4TextSplit = tnd4.Text.Split('|');
-                                                xmlNodes = xmlNodes + "<" + tnd4TextSplit[0].Trim() + ">";
-
-                                                foreach (TreeNode tnd5 in tnd4.Nodes)
-                                                {
-                                                    if (tnd5.Nodes.Count > 0)
-                                                    {
-                                                        String[] tnd5TextSplit = tnd5.Text.Split('|');
-                                                        xmlNodes = xmlNodes + "<" + tnd5TextSplit[0].Trim() + ">";
-
-                                                        foreach (TreeNode tnd6 in tnd5.Nodes)
-                                                        {
-                                                            xmlNodes = xmlNodes + tnd6.Text;
-                                                        }
-
-                                                        xmlNodes = xmlNodes + "</" + tnd5TextSplit[0].Trim() + ">";
-                                                    }
-                                                    else
-                                                    {
-                                                        xmlNodes = xmlNodes + tnd5.Text;
-                                                    }
-                                                }
-
-                                                xmlNodes = xmlNodes + "</" + tnd4TextSplit[0].Trim() + ">";
-                                            }
-                                            else
-                                            {
-                                                xmlNodes = xmlNodes + tnd4.Text;
-                                            }
-                                        }
-                                        
-                                        xmlNodes = xmlNodes + "</" + tnd3.Text + ">";
-                                    }
-                                    else
-                                    {
-                                        Debug.WriteLine("");
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                String xmlFile = buildXmlFile(nodeFullPath[0], nodeFullPath[1]);
 
                 // Second, get the related object and fields from the layout
                 // Third, go back to the object in the Tree View and select all fields which are on the layout based on the object selected
-                selectObjectFieldsFromLayout(objectNameSplit[0], xmlNodes);
+                selectObjectFieldsFromLayout(objectNameSplit[0], xmlFile);
             }
             else if (nodeFullPath.Length == 2
                     && nodeFullPath[0] == "pages")
@@ -883,10 +721,10 @@ namespace SalesforceMetadata
                     }
                 }
             }
-            else if (nodeFullPath[0] == "flexipages")
-            {
-                //String objectType =
-            }
+            //else if (nodeFullPath[0] == "flexipages")
+            //{
+            //    Debug.WriteLine("");
+            //}
 
             if (standardValueSets.Count > 0)
             {
@@ -1709,6 +1547,8 @@ namespace SalesforceMetadata
                         if (tnd2.Checked == true)
                         {
                             String[] tnd2NodeFullPath = tnd2.FullPath.Split('\\');
+                            String[] objectNameSplit = tnd2NodeFullPath[1].Split('.');
+
                             filesDeployed.Add(tnd1.Text + "\\" + tnd2.Text);
 
                             DirectoryInfo di;
@@ -1721,9 +1561,9 @@ namespace SalesforceMetadata
                                 di = new DirectoryInfo(folderPath + "\\" + tnd1.Text);
                             }
 
-                            // Copy the directory
                             if (metadataType == "AuraDefinitionBundle" || metadataType == "LightningComponentBundle")
                             {
+                                // Copy the sub- Aura or LWC directory
                                 UtilityClass.copyDirectory(this.tbProjectFolder.Text + "\\" + tnd1.Text + "\\" + tnd2NodeFullPath[1],
                                                            folderPath + "\\" + tnd1.Text + "\\" + tnd2NodeFullPath[1],
                                                            true);
@@ -1746,18 +1586,18 @@ namespace SalesforceMetadata
                                     {
                                         if (tnd3.Checked == true)
                                         {
-                                            String[] cmtRecordSplit = tnd3.Text.Split('.');
+                                            String[] cmtRecordSplit = tnd2.Text.Split('.');
 
-                                            File.Copy(this.tbProjectFolder.Text + "\\" + tnd1.Text + "\\" + tnd2.Text + "." + tnd3.Text,
-                                                folderPath + "\\" + tnd1.Text + "\\" + tnd2.Text + "." + tnd3.Text);
+                                            File.Copy(this.tbProjectFolder.Text + "\\" + tnd1.Text + "\\" + tnd2.Text,
+                                                folderPath + "\\" + tnd1.Text + "\\" + tnd2.Text);
 
                                             if (packageXml.ContainsKey(metadataType))
                                             {
-                                                packageXml[metadataType].Add(tnd2.Text + '.' + cmtRecordSplit[0]);
+                                                packageXml[metadataType].Add(cmtRecordSplit[0] + '.' + cmtRecordSplit[1]);
                                             }
                                             else
                                             {
-                                                packageXml.Add(metadataType, new HashSet<string> { tnd2.Text + '.' + cmtRecordSplit[0] });
+                                                packageXml.Add(metadataType, new HashSet<string> { cmtRecordSplit[0] + '.' + cmtRecordSplit[1] });
                                             }
                                         }
                                     }
@@ -1765,34 +1605,22 @@ namespace SalesforceMetadata
                             }
                             else if (metadataType == "CustomObject" || metadataType == "CustomObjectTranslation")
                             {
-                                // Create the file and write the selected values to the file
-                                StreamWriter objSw = new StreamWriter(di.FullName + "\\" + tnd2NodeFullPath[1]);
+                                //objSw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+                                //objSw.WriteLine("<CustomObject xmlns=\"http://soap.sforce.com/2006/04/metadata\">");
 
-                                objSw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-                                objSw.WriteLine("<CustomObject xmlns=\"http://soap.sforce.com/2006/04/metadata\">");
+                                String xmlFile = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+                                xmlFile = xmlFile + "<CustomObject xmlns=\"http://soap.sforce.com/2006/04/metadata\">";
 
                                 foreach (TreeNode tnd3 in tnd2.Nodes)
                                 {
-                                    if (tnd3.Checked == true)
+                                    foreach (TreeNode tnd4 in tnd3.Nodes)
                                     {
-                                        objSw.WriteLine(tnd3.Text);
-
-                                        String[] tnd3NodeFullPath = tnd3.FullPath.Split('\\');
-                                        directoryName = tnd3NodeFullPath[0];
-
-                                        String[] objectNameSplit = tnd3NodeFullPath[1].Split('.');
-
-                                        //String parentNode = MetadataDifferenceProcessing.folderToType(tnd3NodeFullPath[0], "");
-
-                                        // Add the custom field to the dictionary
-                                        if (tnd3NodeFullPath.Length == 3)
+                                        if (tnd4.Checked == true)
                                         {
-                                            if (tnd3NodeFullPath[0] == "objects"
-                                                && tnd3NodeFullPath[2].StartsWith("fields"))
+                                            if (tnd4.Nodes.Count > 0)
                                             {
-                                                String[] fieldSplit = tnd3.Text.Split('|');
-
-                                                String objectFieldCombo = objectNameSplit[0] + "." + fieldSplit[1].Trim();
+                                                String[] tnd4TextSplit = tnd4.Text.Split('|');
+                                                String objectFieldCombo = objectNameSplit[0] + "." + tnd4TextSplit[1].Trim();
 
                                                 // Add the custom field to the packagexml dictionary
                                                 if (packageXml.ContainsKey("CustomField"))
@@ -1813,23 +1641,46 @@ namespace SalesforceMetadata
                                                 {
                                                     packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] });
                                                 }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            if (packageXml.ContainsKey(metadataType))
-                                            {
-                                                packageXml[metadataType].Add(objectNameSplit[0]);
+
+                                                xmlFile = xmlFile + "<" + tnd4TextSplit[0].Trim() + ">";
+
+                                                foreach (TreeNode tnd5 in tnd4.Nodes)
+                                                {
+                                                    if (tnd5.Nodes.Count > 0)
+                                                    {
+                                                        String[] tnd5TextSplit = tnd5.Text.Split('|');
+                                                        xmlFile = xmlFile + "<" + tnd5TextSplit[0].Trim() + ">";
+
+                                                        foreach (TreeNode tnd6 in tnd5.Nodes)
+                                                        {
+                                                            xmlFile = xmlFile + tnd6.Text;
+                                                        }
+
+                                                        xmlFile = xmlFile + "</" + tnd5TextSplit[0].Trim() + ">";
+                                                    }
+                                                    else
+                                                    {
+                                                        xmlFile = xmlFile + tnd5.Text;
+                                                    }
+                                                }
+
+                                                xmlFile = xmlFile + "</" + tnd4TextSplit[0].Trim() + ">";
                                             }
                                             else
                                             {
-                                                packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] });
+                                                xmlFile = xmlFile + tnd4.Text;
                                             }
                                         }
                                     }
+
+                                    xmlFile = xmlFile + "</CustomObject>";
                                 }
 
-                                objSw.WriteLine("</CustomObject>");
+                                // Create the file and write the selected values to the file
+                                StreamWriter objSw = new StreamWriter(di.FullName + "\\" + tnd2NodeFullPath[1]);
+
+                                XDocument doc = XDocument.Parse(xmlFile);
+                                objSw.Write(doc.ToString());
                                 objSw.Close();
                             }
                             else if (metadataType == "Profile")
@@ -1846,10 +1697,10 @@ namespace SalesforceMetadata
                             }
                             else
                             {
+                                // Assumes the entire object is selected i.e. Layouts, Custom Metadata Types, etc. 
+                                // We cannot run a partial deploy of an object which is not one of the above
                                 File.Copy(this.tbProjectFolder.Text + "\\" + tnd1.Text + "\\" + tnd2NodeFullPath[1],
                                           folderPath + "\\" + tnd1.Text + "\\" + tnd2NodeFullPath[1]);
-
-                                String[] objectNameSplit = tnd2NodeFullPath[1].Split('.');
 
                                 if (metadataType == "ApprovalProcess")
                                 {
@@ -1937,6 +1788,74 @@ namespace SalesforceMetadata
             return zipPathAndName;
         }
 
+        public String buildXmlFile(String topNodeName, String nodeFullPath)
+        {
+            String xmlFile = "";
+
+            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+            {
+                if (tnd1.Text == topNodeName)
+                {
+                    foreach (TreeNode tnd2 in tnd1.Nodes)
+                    {
+                        if (tnd2.Text == nodeFullPath)
+                        {
+                            foreach (TreeNode tnd3 in tnd2.Nodes)
+                            {
+                                if (tnd3.Nodes.Count > 0)
+                                {
+                                    xmlFile = xmlFile + "<" + tnd3.Text + ">";
+
+                                    foreach (TreeNode tnd4 in tnd3.Nodes)
+                                    {
+                                        if (tnd4.Nodes.Count > 0)
+                                        {
+                                            String[] tnd4TextSplit = tnd4.Text.Split('|');
+                                            xmlFile = xmlFile + "<" + tnd4TextSplit[0].Trim() + ">";
+
+                                            foreach (TreeNode tnd5 in tnd4.Nodes)
+                                            {
+                                                if (tnd5.Nodes.Count > 0)
+                                                {
+                                                    String[] tnd5TextSplit = tnd5.Text.Split('|');
+                                                    xmlFile = xmlFile + "<" + tnd5TextSplit[0].Trim() + ">";
+
+                                                    foreach (TreeNode tnd6 in tnd5.Nodes)
+                                                    {
+                                                        xmlFile = xmlFile + tnd6.Text;
+                                                    }
+
+                                                    xmlFile = xmlFile + "</" + tnd5TextSplit[0].Trim() + ">";
+                                                }
+                                                else
+                                                {
+                                                    xmlFile = xmlFile + tnd5.Text;
+                                                }
+                                            }
+
+                                            xmlFile = xmlFile + "</" + tnd4TextSplit[0].Trim() + ">";
+                                        }
+                                        else
+                                        {
+                                            xmlFile = xmlFile + tnd4.Text;
+                                        }
+                                    }
+
+                                    xmlFile = xmlFile + "</" + tnd3.Text + ">";
+                                }
+                                else
+                                {
+                                    Debug.WriteLine("");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return xmlFile;
+        }
+
         private void buildPackageXmlFile(Dictionary<String, HashSet<String>> packageXml, String folderPath)
         {
             StreamWriter sw = new StreamWriter(folderPath + "\\package.xml", false);
@@ -1950,12 +1869,9 @@ namespace SalesforceMetadata
 
                 foreach (String memberName in packageXml[typeName])
                 {
-                    //String[] objName = memberName.Split('.');
-                    //sw.WriteLine("<members>" + objName[0] + "</members>");
                     sw.WriteLine("<members>" + memberName + "</members>");
                 }
 
-                //sw.WriteLine("<name>" + MetadataDifferenceProcessing.folderToType(typeName, "") + "</name>");
                 sw.WriteLine("<name>" + typeName + "</name>");
                 sw.WriteLine("</types>");
             }
@@ -2062,12 +1978,6 @@ namespace SalesforceMetadata
             }
 
             this.cmbDefaultAPI.Text = Properties.Settings.Default.DefaultAPI;
-        }
-
-        private class TextToColor
-        {
-            public String textValue { get; set; }
-            public Color color { get; set; }
         }
 
         private void tbOutboundChangeSetName_MouseHover(object sender, EventArgs e)

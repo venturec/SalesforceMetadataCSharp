@@ -30,7 +30,6 @@ namespace SalesforceMetadata
         // Example:        objects ->         Account.object ->  CustomObject       fields ->          Account_Status__c -> tag name -> values
         private Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> comparedValuesWithNameValue;
 
-
         //                 Directory Name ->  File Name ->       nd1.Name ->        nd2.Name ->        nameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name + "|" + nd8.Name -> List of node values
         private Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> mstrFileComparison;
         private Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> compFileComparison;

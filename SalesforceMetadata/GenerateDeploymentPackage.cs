@@ -224,6 +224,7 @@ namespace SalesforceMetadata
                 if (this.treeNodeFromDiff.Contains(tnd1.FullPath))
                 {
                     tnd1.Checked = true;
+                    treeNodeSelectParentChildNodes(tnd1);
                     treeNodeAfterCheckUncheck(tnd1);
                 }
 
@@ -232,6 +233,7 @@ namespace SalesforceMetadata
                     if (this.treeNodeFromDiff.Contains(tnd2.FullPath))
                     {
                         tnd2.Checked = true;
+                        treeNodeSelectParentChildNodes(tnd2);
                         treeNodeAfterCheckUncheck(tnd2);
                     }
 
@@ -240,6 +242,7 @@ namespace SalesforceMetadata
                         if (this.treeNodeFromDiff.Contains(tnd3.FullPath))
                         {
                             tnd3.Checked = true;
+                            treeNodeSelectParentChildNodes(tnd3);
                             treeNodeAfterCheckUncheck(tnd3);
                         }
 
@@ -248,7 +251,28 @@ namespace SalesforceMetadata
                             if (this.treeNodeFromDiff.Contains(tnd4.FullPath))
                             {
                                 tnd4.Checked = true;
+                                treeNodeSelectParentChildNodes(tnd4);
                                 treeNodeAfterCheckUncheck(tnd4);
+                            }
+
+                            foreach (TreeNode tnd5 in tnd4.Nodes)
+                            {
+                                if (this.treeNodeFromDiff.Contains(tnd5.FullPath))
+                                {
+                                    tnd5.Checked = true;
+                                    treeNodeSelectParentChildNodes(tnd5);
+                                    treeNodeAfterCheckUncheck(tnd5);
+                                }
+
+                                foreach (TreeNode tnd6 in tnd5.Nodes)
+                                {
+                                    if (this.treeNodeFromDiff.Contains(tnd6.FullPath))
+                                    {
+                                        tnd6.Checked = true;
+                                        treeNodeSelectParentChildNodes(tnd6);
+                                        treeNodeAfterCheckUncheck(tnd6);
+                                    }
+                                }
                             }
                         }
                     }
@@ -537,6 +561,7 @@ namespace SalesforceMetadata
                             if (splitTND2Node[0] == splitObjectFileName[0])
                             {
                                 tnd2.Checked = true;
+                                tnd1.Checked = true;
 
                                 foreach (TreeNode tnd3 in tnd2.Nodes)
                                 {
@@ -575,6 +600,7 @@ namespace SalesforceMetadata
                             if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
                             {
                                 tnd2.Checked = true;
+                                tnd1.Checked = true;
                             }
                         }
                     }
@@ -593,6 +619,7 @@ namespace SalesforceMetadata
                             if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
                             {
                                 tnd2.Checked = true;
+                                tnd1.Checked = true;
                             }
                         }
                     }
@@ -611,6 +638,7 @@ namespace SalesforceMetadata
                             if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
                             {
                                 tnd2.Checked = true;
+                                tnd1.Checked = true;
                             }
                         }
                     }
@@ -628,6 +656,7 @@ namespace SalesforceMetadata
                             if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
                             {
                                 tnd2.Checked = true;
+                                tnd1.Checked = true;
                             }
                         }
                     }
@@ -656,6 +685,7 @@ namespace SalesforceMetadata
                             if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
                             {
                                 tnd2.Checked = true;
+                                tnd1.Checked = true;
                             }
                         }
                     }
@@ -699,6 +729,7 @@ namespace SalesforceMetadata
                                 && tnd2.Text.EndsWith("-meta.xml"))
                             {
                                 tnd2.Checked = true;
+                                tnd1.Checked = true;
                             }
                         }
                     }
@@ -717,6 +748,7 @@ namespace SalesforceMetadata
                             if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
                             {
                                 tnd2.Checked = true;
+                                tnd1.Checked = true;
                             }
                         }
                     }

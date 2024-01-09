@@ -127,6 +127,7 @@ namespace SalesforceMetadata
                         tnd1.Nodes.Add(tnd2);
                     }
                 }
+                // TODO: Create a top Custom Metadata Type parent node with the Custom Metadata Types related to this.
                 //else if (folderNameSplit[folderNameSplit.Length - 1] == "customMetadata")
                 //{
                 //    String priorCMTFileName = "";
@@ -1474,9 +1475,6 @@ namespace SalesforceMetadata
 
             if (this.cmbDestructiveChange.Text == "--none--")
             {
-                //buildDeploymentPackageFiles(packageXmlObjectMembers);
-                //buildPackageXmlFile(packageXmlObjectMembers);
-
                 String zipFilePath = buildZipFileWithPackageXml();
 
                 DeployMetadata dm = new DeployMetadata();

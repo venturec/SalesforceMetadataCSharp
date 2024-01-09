@@ -7,6 +7,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,16 +24,10 @@ namespace SalesforceMetadata
         // Then loop through the inner class list to determine what section these belong to within the Tree View
         private Boolean runTreeNodeSelector = true;
 
-        // Directory Name ->  SubfolderName (if applicable) OR File Name -> FileName -> Files which are different or do not exist
-        private Dictionary<String, Dictionary<String, List<String>>> comparedValuesWithFolderAndNameOnly;
+        private HashSet<String> mstrFileComparison;
+        private HashSet<String> compFileComparison;
 
-        //                 Directory Name ->  File Name ->       nd1.Name ->        nd2.Name ->        Name Value (may be noName) -> Tag Name -> node values which are different or do not exist
-        // Example:        objects ->         Account.object ->  CustomObject       fields ->          Account_Status__c -> tag name -> values
-        private Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> comparedValuesWithNameValue;
-
-        //                 Directory Name ->  File Name ->       nd1.Name ->        nd2.Name ->        nameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name + "|" + nd8.Name -> List of node values
-        private Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> mstrFileComparison;
-        private Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> compFileComparison;
+        private HashSet<String> comparisonResults;
 
         public MetadataComparison()
         {
@@ -218,8 +213,10 @@ namespace SalesforceMetadata
             // Add this to the List View - Differences
             // If the file exists, but is different, then add it to the List View - Differences
 
-            comparedValuesWithFolderAndNameOnly = new Dictionary<String, Dictionary<String, List<String>>>();
-            comparedValuesWithNameValue = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>();
+            mstrFileComparison = new HashSet<string>();
+            compFileComparison = new HashSet<string>();
+
+            comparisonResults = new HashSet<string>();
 
             foreach (String mDir in mDirAndFiles.Keys)
             {
@@ -258,21 +255,19 @@ namespace SalesforceMetadata
                                     // The nameValue can be the unique name provided such as an Object API field name or it can be "noName"
                                     // If the nameValue key is noName, then check this first before parsing the differences betweeen the two files
                                     // If key startsWith("noName") then...
-                                    mstrFileComparison = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>();
-                                    compFileComparison = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>();
 
                                     // Check if the file is in XML format and can be loaded as an XmlDocument
                                     Boolean isXmlDocument = true;
 
-                                    // Add master document to mstrFileComparison
+                                    // Add MASTER document to mstrFileComparison
                                     XmlDocument mDoc = new XmlDocument();
-                                    if (mDir == "aura")
+                                    if (mDir == "aura" || mDir == "lwc")
                                     {
-                                        checkAndAddFileNamesToDictionary(mDir, mObjFile, mFile, false);
+                                        comparisonResults.Add(mDir + "\\" + mObjFile + "\\[Updated] " + mFile);
                                     }
-                                    else if (mDir == "lwc")
+                                    else if (mDir == "classes" || mDir == "components" || mDir == "pages" || mDir == "triggers")
                                     {
-                                        checkAndAddFileNamesToDictionary(mDir, mObjFile, mFile, false);
+                                        comparisonResults.Add(mDir + "\\[Updated] " + mFile);
                                     }
                                     else
                                     {
@@ -288,17 +283,16 @@ namespace SalesforceMetadata
                                             isXmlDocument = false;
                                         }
 
-                                        if(isXmlDocument == true) parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
+                                        if (isXmlDocument == true)
+                                        {
+                                            parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
+                                        }
                                     }
 
-                                    // Add comparison document to compFileComparison
+                                    // Add COMPARISON document to compFileComparison
                                     isXmlDocument = true;
                                     XmlDocument cDoc = new XmlDocument();
-                                    if (mDir == "aura")
-                                    {
-                                        // Do nothing. We've already confirmed the files are different and added them previously.
-                                    }
-                                    else if (mDir == "lwc")
+                                    if (mDir == "aura" || mDir == "classes" || mDir == "lwc" || mDir == "triggers")
                                     {
                                         // Do nothing. We've already confirmed the files are different and added them previously.
                                     }
@@ -316,22 +310,9 @@ namespace SalesforceMetadata
                                             isXmlDocument = false;
                                         }
 
-                                        if (isXmlDocument == true) parseXmlDocument(mDir, mFile, cDoc, compFileComparison);
-                                    }
-
-
-                                    // Loop through mstrFileComparison and compFileComparison to determine the differences and add to the comparedValuesWithNameValue
-                                    // if the mstrFileComparison and compFileComparison contain values
-                                    if (isXmlDocument == true && mstrFileComparison.Count > 0)
-                                    {
-                                        try
+                                        if (isXmlDocument == true)
                                         {
-                                            checkAndAddDifferencesToDictionary(mstrFileComparison, compFileComparison, false);
-                                        }
-                                        catch (Exception exc)
-                                        {
-                                            //MessageBox.Show(exc.Message + '\n' + exc.StackTrace);
-                                            //Console.WriteLine(exc.Message + '\n' + exc.StackTrace);
+                                            parseXmlDocument(mDir, mFile, cDoc, compFileComparison);
                                         }
                                     }
 
@@ -360,7 +341,7 @@ namespace SalesforceMetadata
 
                                         if (masterContents != comparisonContents)
                                         {
-                                            checkAndAddFileNamesToDictionary(mDir, "", mFile, false);
+                                            comparisonResults.Add(mDir + "\\" + mObjFile + "\\[Updated] " + mFile);
                                         }
                                     }
                                 }
@@ -368,21 +349,18 @@ namespace SalesforceMetadata
                             // Comparison Directory Exists in both the Master and Compare To paths, but the File does not exist in the Compare To path
                             else
                             {
-                                mstrFileComparison = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>();
-                                compFileComparison = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>();
-
                                 // TODO: Move the XML Parsing to a separate method and parse out the entire XML file adding it to the tree view instead of just adding the name of the file
                                 // Add the file since it does not exist
                                 Boolean isXmlDocument = true;
 
                                 XmlDocument mDoc = new XmlDocument();
-                                if (mDir == "aura")
+                                if (mDir == "aura" || mDir == "lwc")
                                 {
-                                    checkAndAddFileNamesToDictionary(mDir, mObjFile, mFile, true);
+                                    comparisonResults.Add(mDir + "\\" + mObjFile + "\\[New] " + mFile);
                                 }
-                                else if (mDir == "lwc")
+                                else if (mDir == "classes" || mDir == "components" || mDir == "pages" || mDir == "triggers")
                                 {
-                                    checkAndAddFileNamesToDictionary(mDir, mObjFile, mFile, true);
+                                    comparisonResults.Add(mDir + "\\[New] " + mFile);
                                 }
                                 else
                                 {
@@ -393,7 +371,7 @@ namespace SalesforceMetadata
                                             String mstrFileContents = File.ReadAllText(this.tbFromFolder.Text + '\\' + mDir + '\\' + mFile);
                                             mDoc.LoadXml(mstrFileContents);
                                         }
-                                        else 
+                                        else
                                         {
                                             String mstrFileContents = File.ReadAllText(this.tbFromFolder.Text + '\\' + mFile);
                                             mDoc.LoadXml(mstrFileContents);
@@ -405,18 +383,15 @@ namespace SalesforceMetadata
                                         isXmlDocument = false;
                                     }
 
-                                    if (isXmlDocument == true)  parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
-                                }
-
-                                // Loop through mstrFileComparison and compFileComparison to determine the differences
-                                if (isXmlDocument == true && mstrFileComparison.Count > 0)
-                                {
-                                    checkAndAddDifferencesToDictionary(mstrFileComparison, compFileComparison, true);
+                                    if (isXmlDocument == true)
+                                    {
+                                        parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
+                                    }
                                 }
 
                                 if (isXmlDocument == false)
                                 {
-                                    checkAndAddFileNamesToDictionary(mDir, "", mFile, true);
+                                    comparisonResults.Add(mDir + "\\" + mObjFile + "\\[New] " + mFile);
                                 }
                             }
                         }
@@ -426,9 +401,6 @@ namespace SalesforceMetadata
                 // Therefore, add all files in the directory
                 else
                 {
-                    mstrFileComparison = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>();
-                    compFileComparison = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>();
-
                     // add directory from the master and all related files
                     // Add the entire block to the Difference Tree View: folder name + all files in that folder as subnodes of the parent
                     foreach (String mObjFile in mDirAndFiles[mDir].Keys)
@@ -438,13 +410,13 @@ namespace SalesforceMetadata
                             Boolean isXmlDocument = true;
 
                             XmlDocument mDoc = new XmlDocument();
-                            if (mDir == "aura")
+                            if (mDir == "aura" || mDir == "lwc")
                             {
-                                checkAndAddFileNamesToDictionary(mDir, mObjFile, mFile, true);
+                                comparisonResults.Add(mDir + "\\" + mObjFile + "\\[New] " + mFile);
                             }
-                            else if (mDir == "lwc")
+                            else if (mDir == "classes" || mDir == "components" || mDir == "pages" || mDir == "triggers")
                             {
-                                checkAndAddFileNamesToDictionary(mDir, mObjFile, mFile, true);
+                                comparisonResults.Add(mDir + "\\[New] " + mFile);
                             }
                             else
                             {
@@ -467,76 +439,39 @@ namespace SalesforceMetadata
                                     isXmlDocument = false;
                                 }
 
-                                if(isXmlDocument == true) parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
-                            }
-
-                            // Loop through mstrFileComparison and compFileComparison to determine the differences
-                            if (isXmlDocument == true && mstrFileComparison.Count > 0)
-                            {
-                                checkAndAddDifferencesToDictionary(mstrFileComparison, compFileComparison, true);
+                                if (isXmlDocument == true)
+                                {
+                                    parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
+                                }
                             }
 
                             if (isXmlDocument == false)
                             {
-                                checkAndAddFileNamesToDictionary(mDir, "", mFile, true);
+                                comparisonResults.Add(mDir + "\\" + mObjFile + "\\[New] " + mFile);
                             }
                         }
                     }
                 }
             }
 
+            foreach (String mstrValue in mstrFileComparison)
+            {
+                if (!compFileComparison.Contains(mstrValue))
+                {
+                    comparisonResults.Add(mstrValue);
+                }
+            }
 
             // Now loop through the Maps and add the values to the TreeNode
-            //
-            // This adds the Apex Classes, Triggers, LWCs and Aura components which are not XML based, but came up different between the 
-            // two orgs
-            if (comparedValuesWithFolderAndNameOnly.Count > 0)
-            {
-                foreach (String folderName in this.comparedValuesWithFolderAndNameOnly.Keys)
-                {
-                    TreeNode tnd1 = new TreeNode();
-                    tnd1.Text = folderName;
-
-                    foreach (String subFolderName in this.comparedValuesWithFolderAndNameOnly[folderName].Keys)
-                    {
-                        if (subFolderName == "")
-                        {
-                            foreach (String listValue in this.comparedValuesWithFolderAndNameOnly[folderName][subFolderName])
-                            {
-                                TreeNode tnd2 = new TreeNode();
-                                tnd2.Text = listValue;
-                                tnd1.Nodes.Add(tnd2);
-                            }
-                        }
-                        else
-                        {
-                            TreeNode tnd2 = new TreeNode();
-                            tnd2.Text = subFolderName;
-
-                            foreach (String listValue in this.comparedValuesWithFolderAndNameOnly[folderName][subFolderName])
-                            {
-                                TreeNode tnd3 = new TreeNode();
-                                tnd3.Text = listValue;
-                                tnd2.Nodes.Add(tnd3);
-                            }
-
-                            tnd1.Nodes.Add(tnd2);
-                        }
-                    }
-
-                    treeViewDifferences.Nodes.Add(tnd1);
-                }
-
-                comparedValuesWithFolderAndNameOnly.Clear();
-            }
-
-
             // Directory Name -> File Name -> Nd1Name -> Nd2Name -> Name Value (may be noName) -> node values which are different or do not exist
             // This adds everything which is XML based
-            if (comparedValuesWithNameValue.Count > 0)
+            if (this.comparisonResults.Count > 0)
             {
-                foreach (String directoryName in this.comparedValuesWithNameValue.Keys)
+                foreach (String stringValue in this.comparisonResults)
                 {
+                    String[] stringValueSplit = stringValue.Split('\\');
+
+                    /*
                     TreeNode tnd1 = new TreeNode();
                     tnd1.Text = directoryName;
 
@@ -595,15 +530,17 @@ namespace SalesforceMetadata
                     }
 
                     treeViewDifferences.Nodes.Add(tnd1);
+                    
+                    */
                 }
 
-                comparedValuesWithNameValue.Clear();
+                mstrFileComparison.Clear();
+                compFileComparison.Clear();
+                comparisonResults.Clear();
             }
-
 
             this.btnExport.Enabled = true;
             this.cbExportXML.Enabled = true;
-
         }
 
 
@@ -612,181 +549,56 @@ namespace SalesforceMetadata
 
         // Directory Name -> File Name -> nd1.Name -> nd2.Name -> nameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name + "|" + nd8.Name -> List of node values
         private void parseXmlDocument(String directoryName, String fileName, XmlDocument xmlDoc,
-                                      Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> comparisonDictionary)
+                                      HashSet<String> comparisonDictionary)
         {
-            //Console.WriteLine("parseXmlDocument" + Environment.NewLine);
-
             // First find the #text node values to determine if there are changes to those vlaues.
             // Use the parent node names up the chain to be the keys with the #text value being the value
+
             String nodeBlockNameValue = "";
-            foreach (XmlNode nd1 in xmlDoc.ChildNodes)
+            foreach (XmlNode nd3 in xmlDoc.ChildNodes)
             {
-                if (nd1.HasChildNodes)
+                if (nd3.OuterXml == "<?xml version=\"1.0\" encoding=\"UTF-8\"?>")
                 {
-                    foreach (XmlNode nd2 in nd1.ChildNodes)
+                    continue;
+                }
+
+                if (nd3.HasChildNodes)
+                {
+                    foreach (XmlNode nd4 in nd3.ChildNodes)
                     {
                         /****************************************************************/
-
-                        nodeBlockNameValue = MetadataDifferenceProcessing.getNameField(nd1.Name, nd2.Name, nd2.OuterXml);
-
+                        nodeBlockNameValue = MetadataDifferenceProcessing.getNameField(nd3.Name, nd4.Name, nd4.OuterXml);
                         /****************************************************************/
-                        if (nodeBlockNameValue == "")
+
+                        if (nd4.HasChildNodes)
                         {
-                            // Just add the entire block to the dictionary
-                            //nodeBlockNameValue = "--noName--";
-                            nodeBlockNameValue = nd2.Name;
-
-                            String nd2OuterXml = nd2.OuterXml.Replace(" xmlns=\"http://soap.sforce.com/2006/04/metadata\"", "");
-
-                            if (comparisonDictionary.ContainsKey(directoryName))
+                            if (nodeBlockNameValue == "")
                             {
-                                if (comparisonDictionary[directoryName].ContainsKey(fileName))
+                                nodeBlockNameValue = nd4.Name;
+                            }
+                            else
+                            {
+                                nodeBlockNameValue = nd4.Name + " | " + nodeBlockNameValue;
+                            }
+
+                            foreach (XmlNode nd5 in nd4.ChildNodes)
+                            {
+                                if (nd5.HasChildNodes)
                                 {
-                                    if (comparisonDictionary[directoryName][fileName].ContainsKey(nd1.Name))
+                                    foreach (XmlNode nd6 in nd5.ChildNodes)
                                     {
-                                        if (comparisonDictionary[directoryName][fileName][nd1.Name].ContainsKey(nd2.Name))
-                                        {
-                                            if (comparisonDictionary[directoryName][fileName][nd1.Name][nd2.Name].ContainsKey(nodeBlockNameValue))
-                                            {
-                                                comparisonDictionary[directoryName][fileName][nd1.Name][nd2.Name][nodeBlockNameValue].Add(nd2OuterXml);
-                                            }
-                                            else
-                                            {
-                                                comparisonDictionary[directoryName][fileName][nd1.Name][nd2.Name].Add(nodeBlockNameValue, new List<string> { nd2OuterXml });
-                                            }
-                                        }
-                                        else
-                                        {
-                                            comparisonDictionary[directoryName][fileName][nd1.Name].Add(nd2.Name, new Dictionary<string, List<string>>());
-                                            comparisonDictionary[directoryName][fileName][nd1.Name][nd2.Name].Add(nodeBlockNameValue, new List<string> { nd2OuterXml });
-                                        }
-                                    }
-                                    else
-                                    {
-                                        comparisonDictionary[directoryName][fileName].Add(nd1.Name, new Dictionary<string, Dictionary<string, List<string>>>());
-                                        comparisonDictionary[directoryName][fileName][nd1.Name].Add(nd2.Name, new Dictionary<string, List<string>>());
-                                        comparisonDictionary[directoryName][fileName][nd1.Name][nd2.Name].Add(nodeBlockNameValue, new List<string> { nd2OuterXml });
+                                        comparisonDictionary.Add(directoryName + "\\" + fileName + "\\" + nd3.Name + "\\" + nodeBlockNameValue + "\\" + nd5.Name + "\\" + nd6.OuterXml);
                                     }
                                 }
                                 else
                                 {
-                                    comparisonDictionary[directoryName].Add(fileName, new Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>());
-                                    comparisonDictionary[directoryName][fileName].Add(nd1.Name, new Dictionary<string, Dictionary<string, List<string>>>());
-                                    comparisonDictionary[directoryName][fileName][nd1.Name].Add(nd2.Name, new Dictionary<string, List<string>>());
-                                    comparisonDictionary[directoryName][fileName][nd1.Name][nd2.Name].Add(nodeBlockNameValue, new List<string> { nd2OuterXml });
+                                    comparisonDictionary.Add(directoryName + "\\" + fileName + "\\" + nd3.Name + "\\" + nodeBlockNameValue + "\\" + nd5.OuterXml);
                                 }
-                            }
-                            else
-                            {
-                                comparisonDictionary.Add(directoryName, new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>>());
-                                comparisonDictionary[directoryName].Add(fileName, new Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>());
-                                comparisonDictionary[directoryName][fileName].Add(nd1.Name, new Dictionary<string, Dictionary<string, List<string>>>());
-                                comparisonDictionary[directoryName][fileName][nd1.Name].Add(nd2.Name, new Dictionary<string, List<string>>());
-                                comparisonDictionary[directoryName][fileName][nd1.Name][nd2.Name].Add(nodeBlockNameValue, new List<string> { nd2OuterXml });
                             }
                         }
-                        else if (nd2.HasChildNodes)
+                        else
                         {
-                            foreach (XmlNode nd3 in nd2.ChildNodes)
-                            {
-                                if (nd3.HasChildNodes)
-                                {
-                                    foreach (XmlNode nd4 in nd3.ChildNodes)
-                                    {
-                                        if (nd4.HasChildNodes)
-                                        {
-                                            foreach (XmlNode nd5 in nd4.ChildNodes)
-                                            {
-                                                if (nd5.HasChildNodes)
-                                                {
-                                                    foreach (XmlNode nd6 in nd5.ChildNodes)
-                                                    {
-                                                        if (nd6.HasChildNodes)
-                                                        {
-                                                            foreach (XmlNode nd7 in nd6.ChildNodes)
-                                                            {
-                                                                if (nd7.HasChildNodes)
-                                                                {
-                                                                    foreach (XmlNode nd8 in nd7.ChildNodes)
-                                                                    {
-                                                                        if (nd8.HasChildNodes)
-                                                                        {
-                                                                            foreach (XmlNode nd9 in nd8.ChildNodes)
-                                                                            {
-                                                                                if (nd9.HasChildNodes)
-                                                                                {
-                                                                                    foreach (XmlNode nd10 in nd9.ChildNodes)
-                                                                                    {
-                                                                                        if (nd10.HasChildNodes)
-                                                                                        {
-                                                                                            foreach (XmlNode nd11 in nd10.ChildNodes)
-                                                                                            {
-                                                                                                if (nd11.HasChildNodes)
-                                                                                                {
-
-                                                                                                }
-                                                                                                else if (nd11.Name == "#text")
-                                                                                                {
-                                                                                                    String nodeBlockKeys = nodeBlockNameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name + "|" + nd8.Name + "|" + nd9.Name + "|" + nd10.Name;
-                                                                                                    addValuesToDictionary(directoryName, fileName, nd1.Name, nd2.Name, nodeBlockKeys, nd10.OuterXml, comparisonDictionary);
-                                                                                                }
-                                                                                            }
-                                                                                        }
-                                                                                        else if (nd10.Name == "#text")
-                                                                                        {
-                                                                                            String nodeBlockKeys = nodeBlockNameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name + "|" + nd8.Name + "|" + nd9.Name;
-                                                                                            addValuesToDictionary(directoryName, fileName, nd1.Name, nd2.Name, nodeBlockKeys, nd9.OuterXml, comparisonDictionary);
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                                else if (nd9.Name == "#text")
-                                                                                {
-                                                                                    String nodeBlockKeys = nodeBlockNameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name + "|" + nd8.Name;
-                                                                                    addValuesToDictionary(directoryName, fileName, nd1.Name, nd2.Name, nodeBlockKeys, nd8.OuterXml, comparisonDictionary);
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                        else if (nd8.Name == "#text")
-                                                                        {
-                                                                            String nodeBlockKeys = nodeBlockNameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name;
-                                                                            addValuesToDictionary(directoryName, fileName, nd1.Name, nd2.Name, nodeBlockKeys, nd7.OuterXml, comparisonDictionary);
-                                                                        }
-                                                                    }
-                                                                }
-                                                                else if (nd7.Name == "#text")
-                                                                {
-                                                                    String nodeBlockKeys = nodeBlockNameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name;
-                                                                    addValuesToDictionary(directoryName, fileName, nd1.Name, nd2.Name, nodeBlockKeys, nd6.OuterXml, comparisonDictionary);
-                                                                }
-                                                            }
-                                                        }
-                                                        else if (nd6.Name == "#text")
-                                                        {
-                                                            String nodeBlockKeys = nodeBlockNameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name;
-                                                            addValuesToDictionary(directoryName, fileName, nd1.Name, nd2.Name, nodeBlockKeys, nd5.OuterXml, comparisonDictionary);
-                                                        }
-                                                    }
-                                                }
-                                                else if (nd5.Name == "#text")
-                                                {
-                                                    String nodeBlockKeys = nodeBlockNameValue + "|" + nd3.Name + "|" + nd4.Name;
-                                                    addValuesToDictionary(directoryName, fileName, nd1.Name, nd2.Name, nodeBlockKeys, nd4.OuterXml, comparisonDictionary);
-                                                }
-                                            }
-                                        }
-                                        else if (nd4.Name == "#text")
-                                        {
-                                            String nodeBlockKeys = nodeBlockNameValue + "|" + nd3.Name;
-                                            addValuesToDictionary(directoryName, fileName, nd1.Name, nd2.Name, nodeBlockKeys, nd3.OuterXml, comparisonDictionary);
-                                        }
-                                    }
-                                }
-                                else if (nd3.Name == "#text")
-                                {
-                                    String nodeBlockKeys = nodeBlockNameValue;
-                                    addValuesToDictionary(directoryName, fileName, nd1.Name, nd2.Name, nodeBlockKeys, nd2.OuterXml, comparisonDictionary);
-                                }
-                            }
+                            comparisonDictionary.Add(directoryName + "\\" + fileName + "\\" + nd3.Name + "\\" + nd4.OuterXml);
                         }
                     }
                 }
@@ -794,8 +606,9 @@ namespace SalesforceMetadata
         }
 
         // Directory/Folder Name -> File Name -> nd1.Name -> nd2.Name -> nameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name + "|" + nd8.Name -> List of node values
+        /*
         private void addValuesToDictionary(String directoryName, String fileName, String node1Name, String node2Name, String nodeBlockKeys, String value,
-                                           Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> comparisonDictionary)
+                                           HashSet<String> comparisonDictionary)
         {
             value = value.Replace(" xmlns=\"http://soap.sforce.com/2006/04/metadata\"", "");
 
@@ -851,40 +664,13 @@ namespace SalesforceMetadata
                 comparisonDictionary[directoryName][fileName][node1Name][node2Name][nodeBlockKeys].Add(value);
             }
         }
-
-        private void checkAndAddFileNamesToDictionary(String directoryName, String subDirectoryName, String fileName, Boolean fileIsNew)
-        {
-            if (fileIsNew == true)
-            {
-                fileName = "[New] " + fileName;
-            }
-            else
-            {
-                fileName = "[Updated] " + fileName;
-            }
-
-            if (comparedValuesWithFolderAndNameOnly.ContainsKey(directoryName))
-            {
-                if (comparedValuesWithFolderAndNameOnly[directoryName].ContainsKey(subDirectoryName))
-                {
-                    comparedValuesWithFolderAndNameOnly[directoryName][subDirectoryName].Add(fileName);
-                }
-                else
-                {
-                    comparedValuesWithFolderAndNameOnly[directoryName].Add(subDirectoryName, new List<string> { fileName });
-                }
-            }
-            else
-            {
-                comparedValuesWithFolderAndNameOnly.Add(directoryName, new Dictionary<string, List<string>>());
-                comparedValuesWithFolderAndNameOnly[directoryName].Add(subDirectoryName, new List<string> { fileName });
-            }
-        }
+        */
 
 
         // Directory Name -> File Name -> nd1.Name -> nd2.Name -> nameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name + "|" + nd8.Name -> List of node values
-        private void checkAndAddDifferencesToDictionary(Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> mstrFileComparison,
-                                                        Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> compFileComparison,
+        /*
+        private void checkAndAddDifferencesToDictionary(HashSet<String> mstrFileComparison,
+                                                        HashSet<String> compFileComparison,
                                                         Boolean fileIsNew)
         {
             String fileNamePrependedVlaue = "";
@@ -1106,7 +892,7 @@ namespace SalesforceMetadata
                 }
             }
         }
-
+        */
 
         private String[] parseNodeNameAndValue(String nodeNameWithValue)
         {
@@ -1116,6 +902,7 @@ namespace SalesforceMetadata
 
 
         // Directory Name -> File Name -> Nd1Name -> Nd2Name -> Name Value (may be noName) -> tagName -> node values which are different or do not exist
+        /*
         private void addToComparedValuesWithNameValueDictionary(String directoryName, 
                                                                 String fileName, 
                                                                 String nd1Name, 
@@ -1175,7 +962,7 @@ namespace SalesforceMetadata
                 comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].Add(mstrElemValue);
             }
         }
-
+        */
 
         /**********************************************************************************************************************/
 

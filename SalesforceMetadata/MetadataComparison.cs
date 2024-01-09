@@ -7,6 +7,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,17 +24,10 @@ namespace SalesforceMetadata
         // Then loop through the inner class list to determine what section these belong to within the Tree View
         private Boolean runTreeNodeSelector = true;
 
-        // Directory Name ->  SubfolderName (if applicable) OR File Name -> FileName -> Files which are different or do not exist
-        private Dictionary<String, Dictionary<String, List<String>>> comparedValuesWithFolderAndNameOnly;
+        private HashSet<String> mstrFileComparison;
+        private HashSet<String> compFileComparison;
 
-        //                 Directory Name ->  File Name ->       nd1.Name ->        nd2.Name ->        Name Value (may be noName) -> Tag Name -> node values which are different or do not exist
-        // Example:        objects ->         Account.object ->  CustomObject       fields ->          Account_Status__c -> tag name -> values
-        private Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> comparedValuesWithNameValue;
-
-
-        //                 Directory Name ->  File Name ->       nd1.Name ->        nd2.Name ->        nameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name + "|" + nd8.Name -> List of node values
-        private Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> mstrFileComparison;
-        private Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> compFileComparison;
+        private HashSet<String> comparisonResults;
 
         public MetadataComparison()
         {
@@ -219,8 +213,10 @@ namespace SalesforceMetadata
             // Add this to the List View - Differences
             // If the file exists, but is different, then add it to the List View - Differences
 
-            comparedValuesWithFolderAndNameOnly = new Dictionary<String, Dictionary<String, List<String>>>();
-            comparedValuesWithNameValue = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>();
+            mstrFileComparison = new HashSet<string>();
+            compFileComparison = new HashSet<string>();
+
+            comparisonResults = new HashSet<string>();
 
             foreach (String mDir in mDirAndFiles.Keys)
             {
@@ -259,21 +255,19 @@ namespace SalesforceMetadata
                                     // The nameValue can be the unique name provided such as an Object API field name or it can be "noName"
                                     // If the nameValue key is noName, then check this first before parsing the differences betweeen the two files
                                     // If key startsWith("noName") then...
-                                    mstrFileComparison = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>();
-                                    compFileComparison = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>();
 
                                     // Check if the file is in XML format and can be loaded as an XmlDocument
                                     Boolean isXmlDocument = true;
 
-                                    // Add master document to mstrFileComparison
+                                    // Add MASTER document to mstrFileComparison
                                     XmlDocument mDoc = new XmlDocument();
-                                    if (mDir == "aura")
+                                    if (mDir == "aura" || mDir == "lwc")
                                     {
-                                        checkAndAddFileNamesToDictionary(mDir, mObjFile, mFile, false);
+                                        comparisonResults.Add(mDir + "\\" + mObjFile + "\\[Updated] " + mFile);
                                     }
-                                    else if (mDir == "lwc")
+                                    else if (mDir == "classes" || mDir == "components" || mDir == "pages" || mDir == "triggers")
                                     {
-                                        checkAndAddFileNamesToDictionary(mDir, mObjFile, mFile, false);
+                                        comparisonResults.Add(mDir + "\\[Updated] " + mFile);
                                     }
                                     else
                                     {
@@ -289,17 +283,16 @@ namespace SalesforceMetadata
                                             isXmlDocument = false;
                                         }
 
-                                        if(isXmlDocument == true) parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
+                                        if (isXmlDocument == true)
+                                        {
+                                            parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
+                                        }
                                     }
 
-                                    // Add comparison document to compFileComparison
+                                    // Add COMPARISON document to compFileComparison
                                     isXmlDocument = true;
                                     XmlDocument cDoc = new XmlDocument();
-                                    if (mDir == "aura")
-                                    {
-                                        // Do nothing. We've already confirmed the files are different and added them previously.
-                                    }
-                                    else if (mDir == "lwc")
+                                    if (mDir == "aura" || mDir == "classes" || mDir == "lwc" || mDir == "triggers")
                                     {
                                         // Do nothing. We've already confirmed the files are different and added them previously.
                                     }
@@ -317,22 +310,9 @@ namespace SalesforceMetadata
                                             isXmlDocument = false;
                                         }
 
-                                        if (isXmlDocument == true) parseXmlDocument(mDir, mFile, cDoc, compFileComparison);
-                                    }
-
-
-                                    // Loop through mstrFileComparison and compFileComparison to determine the differences and add to the comparedValuesWithNameValue
-                                    // if the mstrFileComparison and compFileComparison contain values
-                                    if (isXmlDocument == true && mstrFileComparison.Count > 0)
-                                    {
-                                        try
+                                        if (isXmlDocument == true)
                                         {
-                                            checkAndAddDifferencesToDictionary(mstrFileComparison, compFileComparison, false);
-                                        }
-                                        catch (Exception exc)
-                                        {
-                                            //MessageBox.Show(exc.Message + '\n' + exc.StackTrace);
-                                            //Console.WriteLine(exc.Message + '\n' + exc.StackTrace);
+                                            parseXmlDocument(mDir, mFile, cDoc, compFileComparison);
                                         }
                                     }
 
@@ -361,7 +341,7 @@ namespace SalesforceMetadata
 
                                         if (masterContents != comparisonContents)
                                         {
-                                            checkAndAddFileNamesToDictionary(mDir, "", mFile, false);
+                                            comparisonResults.Add(mDir + "\\" + mObjFile + "\\[Updated] " + mFile);
                                         }
                                     }
                                 }
@@ -369,21 +349,18 @@ namespace SalesforceMetadata
                             // Comparison Directory Exists in both the Master and Compare To paths, but the File does not exist in the Compare To path
                             else
                             {
-                                mstrFileComparison = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>();
-                                compFileComparison = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>();
-
                                 // TODO: Move the XML Parsing to a separate method and parse out the entire XML file adding it to the tree view instead of just adding the name of the file
                                 // Add the file since it does not exist
                                 Boolean isXmlDocument = true;
 
                                 XmlDocument mDoc = new XmlDocument();
-                                if (mDir == "aura")
+                                if (mDir == "aura" || mDir == "lwc")
                                 {
-                                    checkAndAddFileNamesToDictionary(mDir, mObjFile, mFile, true);
+                                    comparisonResults.Add(mDir + "\\" + mObjFile + "\\[New] " + mFile);
                                 }
-                                else if (mDir == "lwc")
+                                else if (mDir == "classes" || mDir == "components" || mDir == "pages" || mDir == "triggers")
                                 {
-                                    checkAndAddFileNamesToDictionary(mDir, mObjFile, mFile, true);
+                                    comparisonResults.Add(mDir + "\\[New] " + mFile);
                                 }
                                 else
                                 {
@@ -394,7 +371,7 @@ namespace SalesforceMetadata
                                             String mstrFileContents = File.ReadAllText(this.tbFromFolder.Text + '\\' + mDir + '\\' + mFile);
                                             mDoc.LoadXml(mstrFileContents);
                                         }
-                                        else 
+                                        else
                                         {
                                             String mstrFileContents = File.ReadAllText(this.tbFromFolder.Text + '\\' + mFile);
                                             mDoc.LoadXml(mstrFileContents);
@@ -406,18 +383,15 @@ namespace SalesforceMetadata
                                         isXmlDocument = false;
                                     }
 
-                                    if (isXmlDocument == true)  parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
-                                }
-
-                                // Loop through mstrFileComparison and compFileComparison to determine the differences
-                                if (isXmlDocument == true && mstrFileComparison.Count > 0)
-                                {
-                                    checkAndAddDifferencesToDictionary(mstrFileComparison, compFileComparison, true);
+                                    if (isXmlDocument == true)
+                                    {
+                                        parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
+                                    }
                                 }
 
                                 if (isXmlDocument == false)
                                 {
-                                    checkAndAddFileNamesToDictionary(mDir, "", mFile, true);
+                                    comparisonResults.Add(mDir + "\\" + mObjFile + "\\[New] " + mFile);
                                 }
                             }
                         }
@@ -427,9 +401,6 @@ namespace SalesforceMetadata
                 // Therefore, add all files in the directory
                 else
                 {
-                    mstrFileComparison = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>();
-                    compFileComparison = new Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>>();
-
                     // add directory from the master and all related files
                     // Add the entire block to the Difference Tree View: folder name + all files in that folder as subnodes of the parent
                     foreach (String mObjFile in mDirAndFiles[mDir].Keys)
@@ -439,13 +410,13 @@ namespace SalesforceMetadata
                             Boolean isXmlDocument = true;
 
                             XmlDocument mDoc = new XmlDocument();
-                            if (mDir == "aura")
+                            if (mDir == "aura" || mDir == "lwc")
                             {
-                                checkAndAddFileNamesToDictionary(mDir, mObjFile, mFile, true);
+                                comparisonResults.Add(mDir + "\\" + mObjFile + "\\[New] " + mFile);
                             }
-                            else if (mDir == "lwc")
+                            else if (mDir == "classes" || mDir == "components" || mDir == "pages" || mDir == "triggers")
                             {
-                                checkAndAddFileNamesToDictionary(mDir, mObjFile, mFile, true);
+                                comparisonResults.Add(mDir + "\\[New] " + mFile);
                             }
                             else
                             {
@@ -468,143 +439,35 @@ namespace SalesforceMetadata
                                     isXmlDocument = false;
                                 }
 
-                                if(isXmlDocument == true) parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
-                            }
-
-                            // Loop through mstrFileComparison and compFileComparison to determine the differences
-                            if (isXmlDocument == true && mstrFileComparison.Count > 0)
-                            {
-                                checkAndAddDifferencesToDictionary(mstrFileComparison, compFileComparison, true);
+                                if (isXmlDocument == true)
+                                {
+                                    parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
+                                }
                             }
 
                             if (isXmlDocument == false)
                             {
-                                checkAndAddFileNamesToDictionary(mDir, "", mFile, true);
+                                comparisonResults.Add(mDir + "\\" + mObjFile + "\\[New] " + mFile);
                             }
                         }
                     }
                 }
             }
 
-
-            // Now loop through the Maps and add the values to the TreeNode
-            //
-            // This adds the Apex Classes, Triggers, LWCs and Aura components which are not XML based, but came up different between the 
-            // two orgs
-            if (comparedValuesWithFolderAndNameOnly.Count > 0)
+            foreach (String mstrValue in mstrFileComparison)
             {
-                foreach (String folderName in this.comparedValuesWithFolderAndNameOnly.Keys)
+                if (!compFileComparison.Contains(mstrValue))
                 {
-                    TreeNode tnd1 = new TreeNode();
-                    tnd1.Text = folderName;
-
-                    foreach (String subFolderName in this.comparedValuesWithFolderAndNameOnly[folderName].Keys)
-                    {
-                        if (subFolderName == "")
-                        {
-                            foreach (String listValue in this.comparedValuesWithFolderAndNameOnly[folderName][subFolderName])
-                            {
-                                TreeNode tnd2 = new TreeNode();
-                                tnd2.Text = listValue;
-                                tnd1.Nodes.Add(tnd2);
-                            }
-                        }
-                        else
-                        {
-                            TreeNode tnd2 = new TreeNode();
-                            tnd2.Text = subFolderName;
-
-                            foreach (String listValue in this.comparedValuesWithFolderAndNameOnly[folderName][subFolderName])
-                            {
-                                TreeNode tnd3 = new TreeNode();
-                                tnd3.Text = listValue;
-                                tnd2.Nodes.Add(tnd3);
-                            }
-
-                            tnd1.Nodes.Add(tnd2);
-                        }
-                    }
-
-                    treeViewDifferences.Nodes.Add(tnd1);
+                    comparisonResults.Add(mstrValue);
                 }
-
-                comparedValuesWithFolderAndNameOnly.Clear();
             }
 
-
-            // Directory Name -> File Name -> Nd1Name -> Nd2Name -> Name Value (may be noName) -> node values which are different or do not exist
+            // Now loop through the HashSet and add the values to the TreeNode
             // This adds everything which is XML based
-            if (comparedValuesWithNameValue.Count > 0)
+            if (this.comparisonResults.Count > 0)
             {
-                foreach (String directoryName in this.comparedValuesWithNameValue.Keys)
-                {
-                    TreeNode tnd1 = new TreeNode();
-                    tnd1.Text = directoryName;
-
-                    foreach (String fileName in this.comparedValuesWithNameValue[directoryName].Keys)
-                    {
-                        TreeNode tnd2 = new TreeNode();
-                        tnd2.Text = fileName;
-
-                        if (fileName.StartsWith("[New] "))
-                        {
-                            tnd2.BackColor = Color.LightBlue;
-                        }
-
-                        foreach (String nd1Name in this.comparedValuesWithNameValue[directoryName][fileName].Keys)
-                        {
-                            TreeNode tnd3 = new TreeNode();
-                            tnd3.Text = nd1Name;
-
-                            foreach (String nd2Name in this.comparedValuesWithNameValue[directoryName][fileName][nd1Name].Keys)
-                            {
-                                TreeNode tnd4 = new TreeNode();
-                                tnd4.Text = nd2Name;
-
-                                foreach (String nameValue in this.comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Keys)
-                                {
-                                    TreeNode tnd5 = new TreeNode();
-                                    tnd5.Text = nameValue;
-
-                                    if (nameValue.StartsWith("[New] "))
-                                    {
-                                        tnd5.BackColor = Color.LightBlue;
-                                    }
-                                    else
-                                    {
-                                        tnd5.BackColor = Color.LightGoldenrodYellow;
-                                    }
-
-                                    foreach (String listValue in this.comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameValue])
-                                    {
-                                        TreeNode tnd6 = new TreeNode();
-                                        tnd6.Text = listValue;
-
-                                        tnd5.Nodes.Add(tnd6);
-                                    }
-                                    
-                                    tnd4.Nodes.Add(tnd5);
-                                }
-
-                                tnd3.Nodes.Add(tnd4);
-                            }
-
-                            tnd2.Nodes.Add(tnd3);
-                        }
-
-                        tnd1.Nodes.Add(tnd2);
-                    }
-
-                    treeViewDifferences.Nodes.Add(tnd1);
-                }
-
-                comparedValuesWithNameValue.Clear();
+                populateTreeView();
             }
-
-
-            this.btnExport.Enabled = true;
-            this.cbExportXML.Enabled = true;
-
         }
 
 
@@ -613,501 +476,61 @@ namespace SalesforceMetadata
 
         // Directory Name -> File Name -> nd1.Name -> nd2.Name -> nameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name + "|" + nd8.Name -> List of node values
         private void parseXmlDocument(String directoryName, String fileName, XmlDocument xmlDoc,
-                                      Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> comparisonDictionary)
+                                      HashSet<String> comparisonDictionary)
         {
-            //Console.WriteLine("parseXmlDocument" + Environment.NewLine);
-
             // First find the #text node values to determine if there are changes to those vlaues.
             // Use the parent node names up the chain to be the keys with the #text value being the value
+
             String nodeBlockNameValue = "";
-            foreach (XmlNode nd1 in xmlDoc.ChildNodes)
+            foreach (XmlNode nd3 in xmlDoc.ChildNodes)
             {
-                if (nd1.HasChildNodes)
+                if (nd3.OuterXml == "<?xml version=\"1.0\" encoding=\"UTF-8\"?>")
                 {
-                    foreach (XmlNode nd2 in nd1.ChildNodes)
+                    continue;
+                }
+
+                if (nd3.HasChildNodes)
+                {
+                    foreach (XmlNode nd4 in nd3.ChildNodes)
                     {
                         /****************************************************************/
-
-                        nodeBlockNameValue = MetadataDifferenceProcessing.getNameField(nd1.Name, nd2.Name, nd2.OuterXml);
-
+                        nodeBlockNameValue = MetadataDifferenceProcessing.getNameField(nd3.Name, nd4.Name, nd4.OuterXml);
                         /****************************************************************/
-                        if (nodeBlockNameValue == "")
+
+                        if (nd4.HasChildNodes)
                         {
-                            // Just add the entire block to the dictionary
-                            //nodeBlockNameValue = "--noName--";
-                            nodeBlockNameValue = nd2.Name;
-
-                            String nd2OuterXml = nd2.OuterXml.Replace(" xmlns=\"http://soap.sforce.com/2006/04/metadata\"", "");
-
-                            if (comparisonDictionary.ContainsKey(directoryName))
+                            if (nodeBlockNameValue == "")
                             {
-                                if (comparisonDictionary[directoryName].ContainsKey(fileName))
+                                nodeBlockNameValue = nd4.Name;
+                            }
+                            else
+                            {
+                                nodeBlockNameValue = nd4.Name + " | " + nodeBlockNameValue;
+                            }
+
+                            foreach (XmlNode nd5 in nd4.ChildNodes)
+                            {
+                                if (nd5.HasChildNodes)
                                 {
-                                    if (comparisonDictionary[directoryName][fileName].ContainsKey(nd1.Name))
+                                    foreach (XmlNode nd6 in nd5.ChildNodes)
                                     {
-                                        if (comparisonDictionary[directoryName][fileName][nd1.Name].ContainsKey(nd2.Name))
-                                        {
-                                            if (comparisonDictionary[directoryName][fileName][nd1.Name][nd2.Name].ContainsKey(nodeBlockNameValue))
-                                            {
-                                                comparisonDictionary[directoryName][fileName][nd1.Name][nd2.Name][nodeBlockNameValue].Add(nd2OuterXml);
-                                            }
-                                            else
-                                            {
-                                                comparisonDictionary[directoryName][fileName][nd1.Name][nd2.Name].Add(nodeBlockNameValue, new List<string> { nd2OuterXml });
-                                            }
-                                        }
-                                        else
-                                        {
-                                            comparisonDictionary[directoryName][fileName][nd1.Name].Add(nd2.Name, new Dictionary<string, List<string>>());
-                                            comparisonDictionary[directoryName][fileName][nd1.Name][nd2.Name].Add(nodeBlockNameValue, new List<string> { nd2OuterXml });
-                                        }
-                                    }
-                                    else
-                                    {
-                                        comparisonDictionary[directoryName][fileName].Add(nd1.Name, new Dictionary<string, Dictionary<string, List<string>>>());
-                                        comparisonDictionary[directoryName][fileName][nd1.Name].Add(nd2.Name, new Dictionary<string, List<string>>());
-                                        comparisonDictionary[directoryName][fileName][nd1.Name][nd2.Name].Add(nodeBlockNameValue, new List<string> { nd2OuterXml });
+                                        comparisonDictionary.Add(directoryName + "\\" + fileName + "\\" + nd3.Name + "\\" + nodeBlockNameValue + "\\" + nd5.Name + "\\" + nd6.OuterXml);
                                     }
                                 }
                                 else
                                 {
-                                    comparisonDictionary[directoryName].Add(fileName, new Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>());
-                                    comparisonDictionary[directoryName][fileName].Add(nd1.Name, new Dictionary<string, Dictionary<string, List<string>>>());
-                                    comparisonDictionary[directoryName][fileName][nd1.Name].Add(nd2.Name, new Dictionary<string, List<string>>());
-                                    comparisonDictionary[directoryName][fileName][nd1.Name][nd2.Name].Add(nodeBlockNameValue, new List<string> { nd2OuterXml });
+                                    comparisonDictionary.Add(directoryName + "\\" + fileName + "\\" + nd3.Name + "\\" + nodeBlockNameValue + "\\" + nd5.OuterXml);
                                 }
-                            }
-                            else
-                            {
-                                comparisonDictionary.Add(directoryName, new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>>());
-                                comparisonDictionary[directoryName].Add(fileName, new Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>());
-                                comparisonDictionary[directoryName][fileName].Add(nd1.Name, new Dictionary<string, Dictionary<string, List<string>>>());
-                                comparisonDictionary[directoryName][fileName][nd1.Name].Add(nd2.Name, new Dictionary<string, List<string>>());
-                                comparisonDictionary[directoryName][fileName][nd1.Name][nd2.Name].Add(nodeBlockNameValue, new List<string> { nd2OuterXml });
-                            }
-                        }
-                        else if (nd2.HasChildNodes)
-                        {
-                            foreach (XmlNode nd3 in nd2.ChildNodes)
-                            {
-                                if (nd3.HasChildNodes)
-                                {
-                                    foreach (XmlNode nd4 in nd3.ChildNodes)
-                                    {
-                                        if (nd4.HasChildNodes)
-                                        {
-                                            foreach (XmlNode nd5 in nd4.ChildNodes)
-                                            {
-                                                if (nd5.HasChildNodes)
-                                                {
-                                                    foreach (XmlNode nd6 in nd5.ChildNodes)
-                                                    {
-                                                        if (nd6.HasChildNodes)
-                                                        {
-                                                            foreach (XmlNode nd7 in nd6.ChildNodes)
-                                                            {
-                                                                if (nd7.HasChildNodes)
-                                                                {
-                                                                    foreach (XmlNode nd8 in nd7.ChildNodes)
-                                                                    {
-                                                                        if (nd8.HasChildNodes)
-                                                                        {
-                                                                            foreach (XmlNode nd9 in nd8.ChildNodes)
-                                                                            {
-                                                                                if (nd9.HasChildNodes)
-                                                                                {
-                                                                                    foreach (XmlNode nd10 in nd9.ChildNodes)
-                                                                                    {
-                                                                                        if (nd10.HasChildNodes)
-                                                                                        {
-                                                                                            foreach (XmlNode nd11 in nd10.ChildNodes)
-                                                                                            {
-                                                                                                if (nd11.HasChildNodes)
-                                                                                                {
-
-                                                                                                }
-                                                                                                else if (nd11.Name == "#text")
-                                                                                                {
-                                                                                                    String nodeBlockKeys = nodeBlockNameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name + "|" + nd8.Name + "|" + nd9.Name + "|" + nd10.Name;
-                                                                                                    addValuesToDictionary(directoryName, fileName, nd1.Name, nd2.Name, nodeBlockKeys, nd10.OuterXml, comparisonDictionary);
-                                                                                                }
-                                                                                            }
-                                                                                        }
-                                                                                        else if (nd10.Name == "#text")
-                                                                                        {
-                                                                                            String nodeBlockKeys = nodeBlockNameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name + "|" + nd8.Name + "|" + nd9.Name;
-                                                                                            addValuesToDictionary(directoryName, fileName, nd1.Name, nd2.Name, nodeBlockKeys, nd9.OuterXml, comparisonDictionary);
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                                else if (nd9.Name == "#text")
-                                                                                {
-                                                                                    String nodeBlockKeys = nodeBlockNameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name + "|" + nd8.Name;
-                                                                                    addValuesToDictionary(directoryName, fileName, nd1.Name, nd2.Name, nodeBlockKeys, nd8.OuterXml, comparisonDictionary);
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                        else if (nd8.Name == "#text")
-                                                                        {
-                                                                            String nodeBlockKeys = nodeBlockNameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name;
-                                                                            addValuesToDictionary(directoryName, fileName, nd1.Name, nd2.Name, nodeBlockKeys, nd7.OuterXml, comparisonDictionary);
-                                                                        }
-                                                                    }
-                                                                }
-                                                                else if (nd7.Name == "#text")
-                                                                {
-                                                                    String nodeBlockKeys = nodeBlockNameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name;
-                                                                    addValuesToDictionary(directoryName, fileName, nd1.Name, nd2.Name, nodeBlockKeys, nd6.OuterXml, comparisonDictionary);
-                                                                }
-                                                            }
-                                                        }
-                                                        else if (nd6.Name == "#text")
-                                                        {
-                                                            String nodeBlockKeys = nodeBlockNameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name;
-                                                            addValuesToDictionary(directoryName, fileName, nd1.Name, nd2.Name, nodeBlockKeys, nd5.OuterXml, comparisonDictionary);
-                                                        }
-                                                    }
-                                                }
-                                                else if (nd5.Name == "#text")
-                                                {
-                                                    String nodeBlockKeys = nodeBlockNameValue + "|" + nd3.Name + "|" + nd4.Name;
-                                                    addValuesToDictionary(directoryName, fileName, nd1.Name, nd2.Name, nodeBlockKeys, nd4.OuterXml, comparisonDictionary);
-                                                }
-                                            }
-                                        }
-                                        else if (nd4.Name == "#text")
-                                        {
-                                            String nodeBlockKeys = nodeBlockNameValue + "|" + nd3.Name;
-                                            addValuesToDictionary(directoryName, fileName, nd1.Name, nd2.Name, nodeBlockKeys, nd3.OuterXml, comparisonDictionary);
-                                        }
-                                    }
-                                }
-                                else if (nd3.Name == "#text")
-                                {
-                                    String nodeBlockKeys = nodeBlockNameValue;
-                                    addValuesToDictionary(directoryName, fileName, nd1.Name, nd2.Name, nodeBlockKeys, nd2.OuterXml, comparisonDictionary);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // Directory/Folder Name -> File Name -> nd1.Name -> nd2.Name -> nameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name + "|" + nd8.Name -> List of node values
-        private void addValuesToDictionary(String directoryName, String fileName, String node1Name, String node2Name, String nodeBlockKeys, String value,
-                                           Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> comparisonDictionary)
-        {
-            value = value.Replace(" xmlns=\"http://soap.sforce.com/2006/04/metadata\"", "");
-
-            if (comparisonDictionary.ContainsKey(directoryName))
-            {
-                if (comparisonDictionary[directoryName].ContainsKey(fileName))
-                {
-                    if (comparisonDictionary[directoryName][fileName].ContainsKey(node1Name))
-                    {
-                        if (comparisonDictionary[directoryName][fileName][node1Name].ContainsKey(node2Name))
-                        {
-                            if (comparisonDictionary[directoryName][fileName][node1Name][node2Name].ContainsKey(nodeBlockKeys))
-                            {
-                                comparisonDictionary[directoryName][fileName][node1Name][node2Name][nodeBlockKeys].Add(value);
-                            }
-                            else
-                            {
-                                List<String> tempList = new List<string> { value };
-                                comparisonDictionary[directoryName][fileName][node1Name][node2Name].Add(nodeBlockKeys, tempList);
                             }
                         }
                         else
                         {
-                            comparisonDictionary[directoryName][fileName][node1Name].Add(node2Name, new Dictionary<string, List<string>>());
-                            comparisonDictionary[directoryName][fileName][node1Name][node2Name].Add(nodeBlockKeys, new List<string>());
-                            comparisonDictionary[directoryName][fileName][node1Name][node2Name][nodeBlockKeys].Add(value);
-                        }
-                    }
-                    else
-                    {
-                        comparisonDictionary[directoryName][fileName].Add(node1Name, new Dictionary<string, Dictionary<string, List<string>>>());
-                        comparisonDictionary[directoryName][fileName][node1Name].Add(node2Name, new Dictionary<string, List<string>>());
-                        comparisonDictionary[directoryName][fileName][node1Name][node2Name].Add(nodeBlockKeys, new List<string>());
-                        comparisonDictionary[directoryName][fileName][node1Name][node2Name][nodeBlockKeys].Add(value);
-                    }
-                }
-                else
-                {
-                    comparisonDictionary[directoryName].Add(fileName, new Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>());
-                    comparisonDictionary[directoryName][fileName].Add(node1Name, new Dictionary<string, Dictionary<string, List<string>>>());
-                    comparisonDictionary[directoryName][fileName][node1Name].Add(node2Name, new Dictionary<string, List<string>>());
-                    comparisonDictionary[directoryName][fileName][node1Name][node2Name].Add(nodeBlockKeys, new List<string>());
-                    comparisonDictionary[directoryName][fileName][node1Name][node2Name][nodeBlockKeys].Add(value);
-                }
-            }
-            else
-            {
-                comparisonDictionary.Add(directoryName, new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>>());
-                comparisonDictionary[directoryName].Add(fileName, new Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>());
-                comparisonDictionary[directoryName][fileName].Add(node1Name, new Dictionary<string, Dictionary<string, List<string>>>());
-                comparisonDictionary[directoryName][fileName][node1Name].Add(node2Name, new Dictionary<string, List<string>>());
-                comparisonDictionary[directoryName][fileName][node1Name][node2Name].Add(nodeBlockKeys, new List<string>());
-                comparisonDictionary[directoryName][fileName][node1Name][node2Name][nodeBlockKeys].Add(value);
-            }
-        }
-
-        private void checkAndAddFileNamesToDictionary(String directoryName, String subDirectoryName, String fileName, Boolean fileIsNew)
-        {
-            if (fileIsNew == true)
-            {
-                fileName = "[New] " + fileName;
-            }
-            else
-            {
-                fileName = "[Updated] " + fileName;
-            }
-
-            if (comparedValuesWithFolderAndNameOnly.ContainsKey(directoryName))
-            {
-                if (comparedValuesWithFolderAndNameOnly[directoryName].ContainsKey(subDirectoryName))
-                {
-                    comparedValuesWithFolderAndNameOnly[directoryName][subDirectoryName].Add(fileName);
-                }
-                else
-                {
-                    comparedValuesWithFolderAndNameOnly[directoryName].Add(subDirectoryName, new List<string> { fileName });
-                }
-            }
-            else
-            {
-                comparedValuesWithFolderAndNameOnly.Add(directoryName, new Dictionary<string, List<string>>());
-                comparedValuesWithFolderAndNameOnly[directoryName].Add(subDirectoryName, new List<string> { fileName });
-            }
-        }
-
-
-        // Directory Name -> File Name -> nd1.Name -> nd2.Name -> nameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name + "|" + nd8.Name -> List of node values
-        private void checkAndAddDifferencesToDictionary(Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> mstrFileComparison,
-                                                        Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, Dictionary<String, List<String>>>>>> compFileComparison,
-                                                        Boolean fileIsNew)
-        {
-            String fileNamePrependedVlaue = "";
-
-            if (fileIsNew == true)
-            {
-                fileNamePrependedVlaue = "[New] ";
-            }
-
-            // We only want to add the element values which have changed
-            foreach (String directoryName in mstrFileComparison.Keys)
-            {
-                if (compFileComparison.ContainsKey(directoryName))
-                {
-                    foreach (String fileName in mstrFileComparison[directoryName].Keys)
-                    {
-                        // Skip over managed packages and continue on with the next iteration
-                        //String[] splitFileName = fileName.Split(new String[] { "__" }, StringSplitOptions.None);
-                        //if (splitFileName.Length > 2) continue;
-
-                        if (compFileComparison[directoryName].ContainsKey(fileName))
-                        {
-                            foreach (String nd1Name in mstrFileComparison[directoryName][fileName].Keys)
-                            {
-                                if (compFileComparison[directoryName][fileName].ContainsKey(nd1Name))
-                                {
-                                    foreach (String nd2Name in mstrFileComparison[directoryName][fileName][nd1Name].Keys)
-                                    {
-                                        if (compFileComparison[directoryName][fileName][nd1Name].ContainsKey(nd2Name))
-                                        {
-                                            List<String> mstrKeyList = new List<string>(mstrFileComparison[directoryName][fileName][nd1Name][nd2Name].Keys);
-                                            List<String> compKeyList = new List<string>(compFileComparison[directoryName][fileName][nd1Name][nd2Name].Keys);
-
-                                            HashSet<String> mstrApiNames = new HashSet<string>();
-                                            HashSet<String> compApiNames = new HashSet<string>();
-
-                                            foreach (String nameKey in mstrKeyList)
-                                            {
-                                                String[] mstrNameWithValue = parseNodeNameAndValue(nameKey);
-                                                mstrApiNames.Add(mstrNameWithValue[0]);
-                                            }
-
-                                            foreach (String nameKey in compKeyList)
-                                            {
-                                                String[] compNameWithValue = parseNodeNameAndValue(nameKey);
-                                                compApiNames.Add(compNameWithValue[0]);
-                                            }
-
-                                            foreach (String nameKey in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name].Keys)
-                                            {
-                                                String[] mstrNameWithValue = parseNodeNameAndValue(nameKey);
-
-                                                // Now determine if the compFileComparison contains the name or not and then prepend the Updated or New
-                                                //if (compFileComparison[directoryName][fileName][nd1Name][nd2Name].ContainsKey(nameKey))
-                                                if(compApiNames.Contains(mstrNameWithValue[0]))
-                                                {
-                                                    if (compFileComparison[directoryName][fileName][nd1Name][nd2Name].ContainsKey(nameKey))
-                                                    {
-                                                        foreach (String mstrElemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
-                                                        {
-                                                            try
-                                                            {
-                                                                if (!compFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey].Contains(mstrElemValue))
-                                                                {
-                                                                    // Add to the comparedValuesWithNameValue
-                                                                    addToComparedValuesWithNameValueDictionary(directoryName,
-                                                                                                               fileNamePrependedVlaue + fileName,
-                                                                                                               nd1Name,
-                                                                                                               nd2Name,
-                                                                                                               "[Updated] " + mstrNameWithValue[0],
-                                                                                                               mstrElemValue);
-                                                                }
-                                                            }
-                                                            catch (Exception exc)
-                                                            {
-                                                                //Console.WriteLine(exc);
-                                                            }
-                                                        }
-                                                    }
-                                                    else 
-                                                    {
-                                                        foreach (String mstrElemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
-                                                        {
-                                                            try
-                                                            {
-                                                                if (compFileComparison[directoryName][fileName][nd1Name][nd2Name].ContainsKey(nameKey)
-                                                                    && !compFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey].Contains(mstrElemValue))
-                                                                {
-                                                                    // Add to the comparedValuesWithNameValue
-                                                                    addToComparedValuesWithNameValueDictionary(directoryName,
-                                                                                                               fileNamePrependedVlaue + fileName,
-                                                                                                               nd1Name,
-                                                                                                               nd2Name,
-                                                                                                               "[Updated] " + mstrNameWithValue[0],
-                                                                                                               mstrElemValue);
-                                                                }
-                                                                else if (!compFileComparison[directoryName][fileName][nd1Name][nd2Name].ContainsKey(nameKey))
-                                                                {
-                                                                    addToComparedValuesWithNameValueDictionary(directoryName,
-                                                                                                               fileNamePrependedVlaue + fileName,
-                                                                                                               nd1Name,
-                                                                                                               nd2Name,
-                                                                                                               "[Updated] " + mstrNameWithValue[0],
-                                                                                                               mstrElemValue);
-                                                                }
-                                                            }
-                                                            catch (Exception exc)
-                                                            {
-                                                                //Console.WriteLine(exc);
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    foreach (String mstrElemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
-                                                    {
-                                                        addToComparedValuesWithNameValueDictionary(directoryName, 
-                                                                                                   fileNamePrependedVlaue + fileName, 
-                                                                                                   nd1Name, 
-                                                                                                   nd2Name, 
-                                                                                                   "[New] " + mstrNameWithValue[0], 
-                                                                                                   mstrElemValue);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            foreach (String nameKey in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name].Keys)
-                                            {
-                                                foreach (String mstrElemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
-                                                {
-                                                    addToComparedValuesWithNameValueDictionary(directoryName, 
-                                                                                               fileNamePrependedVlaue + fileName, 
-                                                                                               nd1Name, 
-                                                                                               nd2Name, 
-                                                                                               nameKey, 
-                                                                                               mstrElemValue);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    foreach (String nd2Name in mstrFileComparison[directoryName][fileName][nd1Name].Keys)
-                                    {
-                                        foreach (String nameKey in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name].Keys)
-                                        {
-                                            foreach (String mstrElemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
-                                            {
-                                                addToComparedValuesWithNameValueDictionary(directoryName, 
-                                                                                           fileNamePrependedVlaue + fileName, 
-                                                                                           nd1Name, 
-                                                                                           nd2Name, 
-                                                                                           nameKey, 
-                                                                                           mstrElemValue);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        // The Source of Truth contains a file, but the destination does not. 
-                        // This is where we add the entire document to the Tree View, even if the directories exist in both orgs
-                        else
-                        {
-                            foreach (String nd1Name in mstrFileComparison[directoryName][fileName].Keys)
-                            {
-                                foreach (String nd2Name in mstrFileComparison[directoryName][fileName][nd1Name].Keys)
-                                {
-                                    foreach (String nameKey in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name].Keys)
-                                    {
-                                        String[] mstrNameWithValue = parseNodeNameAndValue(nameKey);
-
-                                        foreach (String mstrElemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
-                                        {
-                                                addToComparedValuesWithNameValueDictionary(directoryName, 
-                                                                                       fileNamePrependedVlaue + fileName, 
-                                                                                       nd1Name, 
-                                                                                       nd2Name,
-                                                                                       mstrNameWithValue[0], 
-                                                                                       mstrElemValue);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                // The Source of Truth contains a Directory or folder, but the destination does not contain the directory. 
-                // Therefore, add the directory name and all files Treeview marking them as [NEW]
-                else
-                {
-                    foreach (String fileName in mstrFileComparison[directoryName].Keys)
-                    {
-                        foreach (String nd1Name in mstrFileComparison[directoryName][fileName].Keys)
-                        {
-                            foreach (String nd2Name in mstrFileComparison[directoryName][fileName][nd1Name].Keys)
-                            {
-                                foreach (String nameKey in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name].Keys)
-                                {
-                                    String[] mstrNameWithValue = parseNodeNameAndValue(nameKey);
-
-                                    foreach (String mstrElemValue in mstrFileComparison[directoryName][fileName][nd1Name][nd2Name][nameKey])
-                                    {
-                                        addToComparedValuesWithNameValueDictionary(directoryName, 
-                                                                                   fileNamePrependedVlaue + fileName, 
-                                                                                   nd1Name, 
-                                                                                   nd2Name,
-                                                                                   mstrNameWithValue[0], 
-                                                                                   mstrElemValue);
-                                    }
-                                }
-                            }
+                            comparisonDictionary.Add(directoryName + "\\" + fileName + "\\" + nd3.Name + "\\" + nd4.OuterXml);
                         }
                     }
                 }
             }
         }
-
 
         private String[] parseNodeNameAndValue(String nodeNameWithValue)
         {
@@ -1116,68 +539,7 @@ namespace SalesforceMetadata
         }
 
 
-        // Directory Name -> File Name -> Nd1Name -> Nd2Name -> Name Value (may be noName) -> tagName -> node values which are different or do not exist
-        private void addToComparedValuesWithNameValueDictionary(String directoryName, 
-                                                                String fileName, 
-                                                                String nd1Name, 
-                                                                String nd2Name, 
-                                                                String nameKey, 
-                                                                String mstrElemValue)
-        {
-            if (comparedValuesWithNameValue.ContainsKey(directoryName))
-            {
-                if (comparedValuesWithNameValue[directoryName].ContainsKey(fileName))
-                {
-                    if (comparedValuesWithNameValue[directoryName][fileName].ContainsKey(nd1Name))
-                    {
-                        if (comparedValuesWithNameValue[directoryName][fileName][nd1Name].ContainsKey(nd2Name))
-                        {
-                            if (comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].ContainsKey(nameKey))
-                            {
-                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].Add(mstrElemValue);
-                            }
-                            else
-                            {
-                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string>());
-                                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].Add(mstrElemValue);
-                            }
-                        }
-                        else
-                        {
-                            comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
-                            comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string>());
-                            comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].Add(mstrElemValue);
-                        }
-                    }
-                    else
-                    {
-                        comparedValuesWithNameValue[directoryName][fileName].Add(nd1Name, new Dictionary<string, Dictionary<string, List<string>>>());
-                        comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
-                        comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string>());
-                        comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].Add(mstrElemValue);
-                    }
-                }
-                else
-                {
-                    comparedValuesWithNameValue[directoryName].Add(fileName, new Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>());
-                    comparedValuesWithNameValue[directoryName][fileName].Add(nd1Name, new Dictionary<string, Dictionary<string, List<string>>>());
-                    comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
-                    comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string>());
-                    comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].Add(mstrElemValue);
-                }
-            }
-            else
-            {
-                comparedValuesWithNameValue.Add(directoryName, new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>>());
-                comparedValuesWithNameValue[directoryName].Add(fileName, new Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>());
-                comparedValuesWithNameValue[directoryName][fileName].Add(nd1Name, new Dictionary<string, Dictionary<string, List<string>>>());
-                comparedValuesWithNameValue[directoryName][fileName][nd1Name].Add(nd2Name, new Dictionary<string, List<string>>());
-                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name].Add(nameKey, new List<string>());
-                comparedValuesWithNameValue[directoryName][fileName][nd1Name][nd2Name][nameKey].Add(mstrElemValue);
-            }
-        }
-
-
+        // Helper methods
         /**********************************************************************************************************************/
 
         private Boolean directoryExists(String directoryName, Boolean appendDirectoryName)
@@ -1288,6 +650,136 @@ namespace SalesforceMetadata
             return filesAreDifferent;
         }
 
+        private void populateTreeView()
+        {
+            TreeNode tnd0 = new TreeNode();
+            TreeNode tnd1 = new TreeNode();
+            TreeNode tnd2 = new TreeNode();
+            TreeNode tnd3 = new TreeNode();
+            TreeNode tnd4 = new TreeNode();
+            TreeNode tnd5 = new TreeNode();
+
+            foreach (String stringValue in this.comparisonResults)
+            {
+                String[] stringValueSplit = stringValue.Split('\\');
+
+                // This one needs to remain slightly different since the logic is confirming there is a change in the folder name
+                if (tnd0.Text != stringValueSplit[0])
+                {
+                    // Logical problem here on the initial/first loop since 
+                    if (tnd0.Text != "")
+                    {
+                        treeViewDifferences.Nodes.Add(tnd0);
+                    }
+
+                    tnd0 = new TreeNode(stringValueSplit[0]);
+                    tnd1 = new TreeNode();
+                    tnd2 = new TreeNode();
+                    tnd3 = new TreeNode();
+                    tnd4 = new TreeNode();
+                    tnd5 = new TreeNode();
+                }
+
+                if (tnd1.Text != stringValueSplit[1])
+                {
+                    if (stringValueSplit[1] != "")
+                    {
+                        tnd1 = new TreeNode(stringValueSplit[1]);
+                        tnd0.Nodes.Add(tnd1);
+                    }
+
+                    tnd2 = new TreeNode();
+                    tnd3 = new TreeNode();
+                    tnd4 = new TreeNode();
+                    tnd5 = new TreeNode();
+
+                    if (stringValueSplit[1].StartsWith("[New] "))
+                    {
+                        tnd1.BackColor = Color.LightBlue;
+                    }
+                }
+
+                if (stringValueSplit.Length > 2
+                    && tnd2.Text != stringValueSplit[2])
+                {
+                    if (stringValueSplit[1] != "")
+                    {
+                        tnd2 = new TreeNode(stringValueSplit[2]);
+                        tnd1.Nodes.Add(tnd2);
+                    }
+
+                    tnd3 = new TreeNode();
+                    tnd4 = new TreeNode();
+                    tnd5 = new TreeNode();
+
+                    if (stringValueSplit[2].StartsWith("[New] "))
+                    {
+                        tnd2.BackColor = Color.LightBlue;
+                    }
+                }
+
+                if (stringValueSplit.Length > 3
+                    && tnd3.Text != stringValueSplit[3])
+                {
+                    if (stringValueSplit[1] != "")
+                    {
+                        tnd3 = new TreeNode(stringValueSplit[3]);
+                        tnd2.Nodes.Add(tnd3);
+                    }
+
+                    tnd4 = new TreeNode();
+                    tnd5 = new TreeNode();
+
+                    if (stringValueSplit[3].StartsWith("[New] "))
+                    {
+                        tnd3.BackColor = Color.LightBlue;
+                    }
+                }
+
+                if (stringValueSplit.Length > 4
+                    && tnd4.Text != stringValueSplit[4])
+                {
+                    if (stringValueSplit[1] != "")
+                    {
+                        tnd4 = new TreeNode(stringValueSplit[4]);
+                        tnd3.Nodes.Add(tnd4);
+                    }
+
+                    tnd5 = new TreeNode();
+
+                    if (stringValueSplit[4].StartsWith("[New] "))
+                    {
+                        tnd4.BackColor = Color.LightBlue;
+                    }
+                }
+
+                if (stringValueSplit.Length > 5
+                    && tnd5.Text != stringValueSplit[5])
+                {
+                    if (stringValueSplit[1] != "")
+                    {
+                        tnd5 = new TreeNode(stringValueSplit[5]);
+                        tnd4.Nodes.Add(tnd5);
+                    }
+
+                    if (stringValueSplit[5].StartsWith("[New] "))
+                    {
+                        tnd5.BackColor = Color.LightBlue;
+                    }
+                }
+            }
+
+            treeViewDifferences.Nodes.Add(tnd0);
+
+            mstrFileComparison.Clear();
+            compFileComparison.Clear();
+            comparisonResults.Clear();
+
+            this.btnExport.Enabled = true;
+            this.cbExportXML.Enabled = true;
+        }
+
+        /**********************************************************************************************************************/
         private void treeViewDifference_AfterCheck(object sender, TreeViewEventArgs e)
         {
             if (runTreeNodeSelector == true)
@@ -1376,7 +868,6 @@ namespace SalesforceMetadata
                         }
                     }
                 }
-
             }
             else if (tn.Checked == false && tn.Nodes.Count > 0)
             {
@@ -1442,7 +933,6 @@ namespace SalesforceMetadata
                 Properties.Settings.Default.Save();
             }
         }
-
 
         /*******************************************************************************************************************************/
 
@@ -1989,50 +1479,6 @@ namespace SalesforceMetadata
             sw.Close();
         }
 
-        //public void formatExcelRange(Microsoft.Office.Interop.Excel.Worksheet xlWorksheet, 
-        //                             Int32 startRowNumber, 
-        //                             Int32 startColNumber, 
-        //                             Int32 endRowNumber, 
-        //                             Int32 endColNumber,
-        //                             Boolean boldText,
-        //                             Boolean italicText,
-        //                             Int32 fontSize,
-        //                             Int32 interiorColorRed,
-        //                             Int32 interiorColorGreen,
-        //                             Int32 interiorColorBlue)
-        //{
-        //    Microsoft.Office.Interop.Excel.Range rng;
-        //    rng = xlWorksheet.Range[xlWorksheet.Cells[startRowNumber, startColNumber], xlWorksheet.Cells[endRowNumber, endColNumber]];
-        //    rng.Font.Bold = boldText;
-        //    rng.Font.Italic = italicText;
-        //    rng.Font.Size = fontSize;
-        //    //rng.Font.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbFloralWhite;
-        //    //rng.Font.Color = System.Drawing.Color.FromArgb(erf.fontColorRed, erf.fontColorGreen, erf.fontColorBlue);
-
-        //    rng.Interior.Color = System.Drawing.Color.FromArgb(interiorColorRed, interiorColorGreen, interiorColorBlue);
-
-        //}
-
-
-        //public class ExcelRangeFormat
-        //{
-        //    public Microsoft.Office.Interop.Excel.Worksheet xlWorksheet;
-        //    public Int32 startRowNumber;
-        //    public Int32 endRowNumber;
-        //    public Int32 startColNumber;
-        //    public Int32 endColNumber;
-        //    public Int32 fontSize;
-        //    public Int32 fontColorRed;
-        //    public Int32 fontColorGreen;
-        //    public Int32 fontColorBlue;
-        //    public Int32 interiorColorRed;
-        //    public Int32 interiorColorGreen;
-        //    public Int32 interiorColorBlue;
-        //    public Boolean boldText;
-        //    public Boolean italicText;
-        //    public String fieldValues;
-        //}
-
         /*******************************************************************************************************************************/
 
         private void GenerateDeploymentPackage_Click(object sender, EventArgs e)
@@ -2059,41 +1505,18 @@ namespace SalesforceMetadata
                                 {
                                     foreach (TreeNode tndDiff4 in tndDiff3.Nodes)
                                     {
-                                        if (tndDiff4.Checked == true && tndDiff4.Nodes.Count > 0)
+                                        //Debug.WriteLine("");
+                                        if (tndDiff4.Checked == true && tndDiff4.FullPath.Contains("[New]"))
                                         {
-                                            foreach (TreeNode tndDiff5 in tndDiff4.Nodes)
-                                            {
-                                                if (tndDiff5.Checked == true)
-                                                {
-                                                    if (tndDiff5.FullPath.Contains("[New]"))
-                                                    {
-                                                        treeNodeDiffs.Add(tndDiff5.FullPath.Replace("[New] ", ""));
-                                                    }
-                                                    else if (tndDiff5.FullPath.Contains("[Updated]"))
-                                                    {
-                                                        treeNodeDiffs.Add(tndDiff5.FullPath.Replace("[Updated] ", ""));
-                                                    }
-                                                    else
-                                                    {
-                                                        treeNodeDiffs.Add(tndDiff5.FullPath);
-                                                    }
-                                                }
-                                            }
+                                            treeNodeDiffs.Add(tndDiff4.FullPath.Replace("[New] ", ""));
                                         }
-                                        else if (tndDiff4.Checked == true)
+                                        else if (tndDiff4.Checked == true && tndDiff4.FullPath.Contains("[Updated]"))
                                         {
-                                            if (tndDiff4.FullPath.Contains("[New]"))
-                                            {
-                                                treeNodeDiffs.Add(tndDiff4.FullPath.Replace("[New] ", ""));
-                                            }
-                                            else if (tndDiff4.FullPath.Contains("[Updated]"))
-                                            {
-                                                treeNodeDiffs.Add(tndDiff4.FullPath.Replace("[Updated] ", ""));
-                                            }
-                                            else
-                                            {
-                                                treeNodeDiffs.Add(tndDiff4.FullPath);
-                                            }
+                                            treeNodeDiffs.Add(tndDiff4.FullPath.Replace("[Updated] ", ""));
+                                        }
+                                        else if(tndDiff4.Checked == true)
+                                        {
+                                            treeNodeDiffs.Add(tndDiff4.FullPath);
                                         }
                                     }
                                 }

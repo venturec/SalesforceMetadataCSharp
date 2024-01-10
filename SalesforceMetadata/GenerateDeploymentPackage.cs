@@ -223,7 +223,7 @@ namespace SalesforceMetadata
             {
                 if (this.treeNodeFromDiff.Contains(tnd1.FullPath))
                 {
-                    tnd1.Checked = true;
+                    //tnd1.Checked = true;
                     treeNodeSelectParentChildNodes(tnd1);
                     treeNodeAfterCheckUncheck(tnd1);
                 }

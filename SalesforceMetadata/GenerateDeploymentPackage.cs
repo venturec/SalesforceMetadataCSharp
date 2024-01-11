@@ -223,9 +223,9 @@ namespace SalesforceMetadata
             {
                 if (this.treeNodeFromDiff.Contains(tnd1.FullPath))
                 {
-                    //tnd1.Checked = true;
+                    tnd1.Checked = true;
                     treeNodeSelectParentChildNodes(tnd1);
-                    treeNodeAfterCheckUncheck(tnd1);
+                    treeNodeAfterCheck(tnd1);
                 }
 
                 foreach(TreeNode tnd2 in tnd1.Nodes)
@@ -234,7 +234,7 @@ namespace SalesforceMetadata
                     {
                         tnd2.Checked = true;
                         treeNodeSelectParentChildNodes(tnd2);
-                        treeNodeAfterCheckUncheck(tnd2);
+                        treeNodeAfterCheck(tnd2);
                     }
 
                     foreach (TreeNode tnd3 in tnd2.Nodes)
@@ -243,7 +243,7 @@ namespace SalesforceMetadata
                         {
                             tnd3.Checked = true;
                             treeNodeSelectParentChildNodes(tnd3);
-                            treeNodeAfterCheckUncheck(tnd3);
+                            treeNodeAfterCheck(tnd3);
                         }
 
                         foreach (TreeNode tnd4 in tnd3.Nodes)
@@ -252,7 +252,7 @@ namespace SalesforceMetadata
                             {
                                 tnd4.Checked = true;
                                 treeNodeSelectParentChildNodes(tnd4);
-                                treeNodeAfterCheckUncheck(tnd4);
+                                treeNodeAfterCheck(tnd4);
                             }
 
                             foreach (TreeNode tnd5 in tnd4.Nodes)
@@ -261,7 +261,7 @@ namespace SalesforceMetadata
                                 {
                                     tnd5.Checked = true;
                                     treeNodeSelectParentChildNodes(tnd5);
-                                    treeNodeAfterCheckUncheck(tnd5);
+                                    treeNodeAfterCheck(tnd5);
                                 }
 
                                 foreach (TreeNode tnd6 in tnd5.Nodes)
@@ -270,7 +270,7 @@ namespace SalesforceMetadata
                                     {
                                         tnd6.Checked = true;
                                         treeNodeSelectParentChildNodes(tnd6);
-                                        treeNodeAfterCheckUncheck(tnd6);
+                                        treeNodeAfterCheck(tnd6);
                                     }
                                 }
                             }
@@ -372,7 +372,11 @@ namespace SalesforceMetadata
             }
 
             treeNodeSelectParentChildNodes(e.Node);
-            treeNodeAfterCheckUncheck(e.Node);
+
+            if (e.Node.Checked == true)
+            {
+                treeNodeAfterCheck(e.Node);
+            }
 
             runTreeNodeSelector = true;
         }
@@ -488,7 +492,7 @@ namespace SalesforceMetadata
             }
         }
 
-        public void treeNodeAfterCheckUncheck(TreeNode tnd)
+        public void treeNodeAfterCheck(TreeNode tnd)
         {
             String[] nodeFullPath = tnd.FullPath.Split('\\');
             String[] fileNameSplit = new string[3];
@@ -511,8 +515,6 @@ namespace SalesforceMetadata
                 {
                     foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
                     {
-                        tnd1.Checked = true;
-
                         if (tnd1.Text == "customMetadata")
                         {
                             foreach (TreeNode tnd2 in tnd1.Nodes)
@@ -520,6 +522,9 @@ namespace SalesforceMetadata
                                 String[] splitTND2Node = tnd2.Text.Split('.');
                                 if (splitTND2Node[0] == nodeFullPath[1])
                                 {
+                                    tnd2.Checked = true;
+                                    tnd1.Checked = true;
+
                                     foreach (TreeNode tnd3 in tnd2.Nodes)
                                     {
                                         if (tnd3.Text == nodeFullPath[2])

@@ -1505,7 +1505,6 @@ namespace SalesforceMetadata
                                 {
                                     foreach (TreeNode tndDiff4 in tndDiff3.Nodes)
                                     {
-                                        //Debug.WriteLine("");
                                         if (tndDiff4.Checked == true && tndDiff4.FullPath.Contains("[New]"))
                                         {
                                             treeNodeDiffs.Add(tndDiff4.FullPath.Replace("[New] ", ""));

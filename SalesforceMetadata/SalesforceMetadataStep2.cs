@@ -51,13 +51,24 @@ namespace SalesforceMetadata
             alreadyAdded = new HashSet<String>();
         }
 
-        private void btnRetrieveMetadataFromSelected_Click(object sender, EventArgs e)
+        private void btnRetrieveMetadata_Click(object sender, EventArgs e)
         {
             if (this.tbFromOrgSaveLocation.Text == "")
             {
                 MessageBox.Show("Please select a directory to save the results to");
             }
-            else
+            else if (this.tbExistingPackageXml.Text != "")
+            {
+                if (!this.tbExistingPackageXml.Text.EndsWith("package.xml"))
+                {
+                    MessageBox.Show("The file selected must be in XML format with the naming format of package.xml. Please select a file with the name package.xml");
+                }
+                else
+                {
+                    retrieveMetadataWithPackageXML();
+                }
+            }
+            else if(this.selectedItems.Count > 0)
             {
                 try
                 {
@@ -110,60 +121,45 @@ namespace SalesforceMetadata
             }
         }
 
-        private void btnRetrieveMetadataWithPackageXML_Click(object sender, EventArgs e)
+        private void retrieveMetadataWithPackageXML()
         {
-            if (this.tbExistingPackageXml.Text == "")
+            this.rtMessages.Text = "";
+            this.extractToFolder = "";
+            String target_dir = this.tbFromOrgSaveLocation.Text;
+
+            sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
+
+            String[] urlParsed = sc.fromOrgLR.serverUrl.Split('/');
+            urlParsed = urlParsed[2].Split('.');
+            extractToFolder = urlParsed[0];
+
+            if (extractToFolder.Contains("--"))
             {
-                MessageBox.Show("Please select a package.xml file");
-            }
-            else if (!this.tbExistingPackageXml.Text.EndsWith("package.xml"))
-            {
-                MessageBox.Show("The file selected must be in XML format with the naming format of package.xml. Please select a file with the name package.xml");
-            }
-            else if (this.tbFromOrgSaveLocation.Text == "")
-            {
-                MessageBox.Show("Please select a directory to save the results to");
+                extractToFolder = extractToFolder.Replace("--", "__");
             }
             else
             {
-                this.rtMessages.Text = "";
-                this.extractToFolder = "";
-                String target_dir = this.tbFromOrgSaveLocation.Text;
-
-                sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
-
-                String[] urlParsed = sc.fromOrgLR.serverUrl.Split('/');
-                urlParsed = urlParsed[2].Split('.');
-                extractToFolder = urlParsed[0];
-
-                if (extractToFolder.Contains("--"))
-                {
-                    extractToFolder = extractToFolder.Replace("--", "__");
-                }
-                else
-                {
-                    extractToFolder = extractToFolder + "__production";
-                }
-
-                target_dir = target_dir + '\\' + extractToFolder;
-
-                if (!Directory.Exists(target_dir))
-                {
-                    DirectoryInfo di = Directory.CreateDirectory(target_dir);
-                }
-                else if (this.cbRebuildFolder.Checked == true)
-                {
-                    Directory.Delete(target_dir, true);
-                    DirectoryInfo di = Directory.CreateDirectory(target_dir);
-                }
-
-                RetrieveRequest retrieveRequest = new RetrieveRequest();
-                retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
-                retrieveRequest.unpackaged = parsePackageManifest(File.ReadAllText(this.tbFromOrgSaveLocation.Text + "\\package.xml"));
-
-                Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "Existing Package XML", this);
-                System.Threading.Tasks.Task tsk = System.Threading.Tasks.Task.Run(act);
+                extractToFolder = extractToFolder + "__production";
             }
+
+            target_dir = target_dir + '\\' + extractToFolder;
+
+            if (!Directory.Exists(target_dir))
+            {
+                DirectoryInfo di = Directory.CreateDirectory(target_dir);
+            }
+            else if (this.cbRebuildFolder.Checked == true)
+            {
+                Directory.Delete(target_dir, true);
+                DirectoryInfo di = Directory.CreateDirectory(target_dir);
+            }
+
+            RetrieveRequest retrieveRequest = new RetrieveRequest();
+            retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
+            retrieveRequest.unpackaged = parsePackageManifest(File.ReadAllText(this.tbFromOrgSaveLocation.Text + "\\package.xml"));
+
+            Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "Existing Package XML", this);
+            System.Threading.Tasks.Task tsk = System.Threading.Tasks.Task.Run(act);
         }
 
         public void requestZipFile(UtilityClass.REQUESTINGORG reqOrg, String target_dir, SalesforceMetadataStep2 sfMdFrm)
@@ -1621,7 +1617,7 @@ namespace SalesforceMetadata
                 this.tbFromOrgSaveLocation.Text = selectedPath;
                 Properties.Settings.Default.MetadataLastSaveToLocation = selectedPath;
                 Properties.Settings.Default.Save();
-                this.btnRetrieveMetadataFromSelected.Enabled = true;
+                this.btnRetrieveMetadata.Enabled = true;
             }
         }
 
@@ -1634,15 +1630,13 @@ namespace SalesforceMetadata
             DialogResult dr = ofd.ShowDialog();
 
             if(dr == DialogResult.OK) this.tbExistingPackageXml.Text = ofd.FileName;
-
-            this.btnRetrieveMetadataFromSelected.Enabled = false;
         }
 
         private void tbExistingPackageXml_TextChanged(object sender, EventArgs e)
         {
             if (this.tbExistingPackageXml.Text == "")
             {
-                this.btnRetrieveMetadataFromSelected.Enabled = true;
+                this.btnRetrieveMetadata.Enabled = true;
             }
         }
 

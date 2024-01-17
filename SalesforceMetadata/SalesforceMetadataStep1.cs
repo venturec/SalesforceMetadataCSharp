@@ -163,9 +163,8 @@ namespace SalesforceMetadata
                     foreach (Control ctrl in openFrm.Controls)
                     {
                         if (ctrl.Name == "tbFromOrgSaveLocation"
-                            || ctrl.Name == "btnRetrieveMetadataFromSelected"
-                            || ctrl.Name == "tbExistingPackageXml"
-                            || ctrl.Name == "btnRetrieveMetadata")
+                            || ctrl.Name == "btnRetrieveMetadata"
+                            || ctrl.Name == "tbExistingPackageXml")
                         {
                             ctrl.Enabled = true;
                         }
@@ -186,7 +185,7 @@ namespace SalesforceMetadata
             {
                 SalesforceMetadataStep2 sfMetadataStep2 = new SalesforceMetadataStep2();
                 sfMetadataStep2.userName = this.cmbUserName.Text;
-                sfMetadataStep2.btnRetrieveMetadataFromSelected.Enabled = false;
+                sfMetadataStep2.btnRetrieveMetadata.Enabled = false;
                 sfMetadataStep2.selectedItems = new Dictionary<String, List<String>>();
                 sfMetadataStep2.tbFromOrgSaveLocation.Text = Properties.Settings.Default.MetadataLastSaveToLocation;
 
@@ -198,7 +197,6 @@ namespace SalesforceMetadata
                 foreach (Control ctrl in sfMetadataStep2.Controls)
                 {
                     if (ctrl.Name == "tbFromOrgSaveLocation"
-                        || ctrl.Name == "btnRetrieveMetadataFromSelected"
                         || ctrl.Name == "tbExistingPackageXml"
                         || ctrl.Name == "btnRetrieveMetadata")
                     {

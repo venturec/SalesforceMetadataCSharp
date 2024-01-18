@@ -74,9 +74,10 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(9, 415);
+            this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSave.Location = new System.Drawing.Point(15, 415);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.Size = new System.Drawing.Size(108, 31);
             this.btnSave.TabIndex = 21;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -84,9 +85,10 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(101, 415);
+            this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancel.Location = new System.Drawing.Point(140, 415);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(108, 31);
             this.btnCancel.TabIndex = 22;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -213,59 +215,59 @@
             // tbPhysicalProcessors
             // 
             this.tbPhysicalProcessors.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbPhysicalProcessors.Location = new System.Drawing.Point(630, 304);
+            this.tbPhysicalProcessors.Location = new System.Drawing.Point(630, 374);
             this.tbPhysicalProcessors.Name = "tbPhysicalProcessors";
             this.tbPhysicalProcessors.ReadOnly = true;
             this.tbPhysicalProcessors.Size = new System.Drawing.Size(124, 23);
-            this.tbPhysicalProcessors.TabIndex = 16;
+            this.tbPhysicalProcessors.TabIndex = 20;
             // 
             // lblPhysicalProcessors
             // 
             this.lblPhysicalProcessors.AutoSize = true;
             this.lblPhysicalProcessors.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPhysicalProcessors.Location = new System.Drawing.Point(470, 307);
+            this.lblPhysicalProcessors.Location = new System.Drawing.Point(470, 377);
             this.lblPhysicalProcessors.Name = "lblPhysicalProcessors";
             this.lblPhysicalProcessors.Size = new System.Drawing.Size(154, 17);
-            this.lblPhysicalProcessors.TabIndex = 15;
+            this.lblPhysicalProcessors.TabIndex = 19;
             this.lblPhysicalProcessors.Text = "Physical Processors";
             // 
             // lblCPUCoreCount
             // 
             this.lblCPUCoreCount.AutoSize = true;
             this.lblCPUCoreCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCPUCoreCount.Location = new System.Drawing.Point(470, 339);
+            this.lblCPUCoreCount.Location = new System.Drawing.Point(470, 319);
             this.lblCPUCoreCount.Name = "lblCPUCoreCount";
             this.lblCPUCoreCount.Size = new System.Drawing.Size(125, 17);
-            this.lblCPUCoreCount.TabIndex = 17;
+            this.lblCPUCoreCount.TabIndex = 15;
             this.lblCPUCoreCount.Text = "CPU Core Count";
             // 
             // tbCPUCoreCount
             // 
             this.tbCPUCoreCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbCPUCoreCount.Location = new System.Drawing.Point(630, 336);
+            this.tbCPUCoreCount.Location = new System.Drawing.Point(630, 316);
             this.tbCPUCoreCount.Name = "tbCPUCoreCount";
             this.tbCPUCoreCount.ReadOnly = true;
             this.tbCPUCoreCount.Size = new System.Drawing.Size(124, 23);
-            this.tbCPUCoreCount.TabIndex = 18;
+            this.tbCPUCoreCount.TabIndex = 16;
             // 
             // lblLogicalProcessors
             // 
             this.lblLogicalProcessors.AutoSize = true;
             this.lblLogicalProcessors.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLogicalProcessors.Location = new System.Drawing.Point(470, 373);
+            this.lblLogicalProcessors.Location = new System.Drawing.Point(470, 348);
             this.lblLogicalProcessors.Name = "lblLogicalProcessors";
             this.lblLogicalProcessors.Size = new System.Drawing.Size(146, 17);
-            this.lblLogicalProcessors.TabIndex = 19;
+            this.lblLogicalProcessors.TabIndex = 17;
             this.lblLogicalProcessors.Text = "Logical Processors";
             // 
             // tbLogicalProcessors
             // 
             this.tbLogicalProcessors.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbLogicalProcessors.Location = new System.Drawing.Point(630, 370);
+            this.tbLogicalProcessors.Location = new System.Drawing.Point(630, 345);
             this.tbLogicalProcessors.Name = "tbLogicalProcessors";
             this.tbLogicalProcessors.ReadOnly = true;
             this.tbLogicalProcessors.Size = new System.Drawing.Size(124, 23);
-            this.tbLogicalProcessors.TabIndex = 20;
+            this.tbLogicalProcessors.TabIndex = 18;
             // 
             // UserSettings
             // 

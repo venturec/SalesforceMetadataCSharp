@@ -38,7 +38,7 @@
             this.tbExistingPackageXml = new System.Windows.Forms.TextBox();
             this.horizontalLine3 = new System.Windows.Forms.Label();
             this.lblRetrieveFromOrg = new System.Windows.Forms.Label();
-            this.cbConvertToVSCodeStyle = new System.Windows.Forms.CheckBox();
+            this.cbMDAPISourceStyle = new System.Windows.Forms.CheckBox();
             this.horizontalLine1 = new System.Windows.Forms.Label();
             this.cbRebuildFolder = new System.Windows.Forms.CheckBox();
             this.lblMessages = new System.Windows.Forms.Label();
@@ -97,7 +97,7 @@
             this.horizontalLine2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.horizontalLine2.Location = new System.Drawing.Point(-4, 108);
             this.horizontalLine2.Name = "horizontalLine2";
-            this.horizontalLine2.Size = new System.Drawing.Size(1732, 10);
+            this.horizontalLine2.Size = new System.Drawing.Size(1398, 10);
             this.horizontalLine2.TabIndex = 4;
             // 
             // lblExistingPackageXml
@@ -128,7 +128,7 @@
             this.horizontalLine3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.horizontalLine3.Location = new System.Drawing.Point(-4, 192);
             this.horizontalLine3.Name = "horizontalLine3";
-            this.horizontalLine3.Size = new System.Drawing.Size(1732, 23);
+            this.horizontalLine3.Size = new System.Drawing.Size(1398, 23);
             this.horizontalLine3.TabIndex = 7;
             // 
             // lblRetrieveFromOrg
@@ -141,16 +141,16 @@
             this.lblRetrieveFromOrg.TabIndex = 0;
             this.lblRetrieveFromOrg.Text = "Retrieve Metadata";
             // 
-            // cbConvertToVSCodeStyle
+            // cbMDAPISourceStyle
             // 
-            this.cbConvertToVSCodeStyle.AutoSize = true;
-            this.cbConvertToVSCodeStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbConvertToVSCodeStyle.Location = new System.Drawing.Point(269, 253);
-            this.cbConvertToVSCodeStyle.Name = "cbConvertToVSCodeStyle";
-            this.cbConvertToVSCodeStyle.Size = new System.Drawing.Size(215, 21);
-            this.cbConvertToVSCodeStyle.TabIndex = 10;
-            this.cbConvertToVSCodeStyle.Text = "Convert Files to VSCode Style";
-            this.cbConvertToVSCodeStyle.UseVisualStyleBackColor = true;
+            this.cbMDAPISourceStyle.AutoSize = true;
+            this.cbMDAPISourceStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbMDAPISourceStyle.Location = new System.Drawing.Point(269, 253);
+            this.cbMDAPISourceStyle.Name = "cbMDAPISourceStyle";
+            this.cbMDAPISourceStyle.Size = new System.Drawing.Size(205, 21);
+            this.cbMDAPISourceStyle.TabIndex = 10;
+            this.cbMDAPISourceStyle.Text = "Convert to MDAPI XML Style";
+            this.cbMDAPISourceStyle.UseVisualStyleBackColor = true;
             // 
             // horizontalLine1
             // 
@@ -160,7 +160,7 @@
             this.horizontalLine1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.horizontalLine1.Location = new System.Drawing.Point(-4, 32);
             this.horizontalLine1.Name = "horizontalLine1";
-            this.horizontalLine1.Size = new System.Drawing.Size(1732, 10);
+            this.horizontalLine1.Size = new System.Drawing.Size(1398, 10);
             this.horizontalLine1.TabIndex = 1;
             // 
             // cbRebuildFolder
@@ -191,7 +191,7 @@
             this.Controls.Add(this.lblMessages);
             this.Controls.Add(this.cbRebuildFolder);
             this.Controls.Add(this.horizontalLine1);
-            this.Controls.Add(this.cbConvertToVSCodeStyle);
+            this.Controls.Add(this.cbMDAPISourceStyle);
             this.Controls.Add(this.lblRetrieveFromOrg);
             this.Controls.Add(this.horizontalLine3);
             this.Controls.Add(this.tbExistingPackageXml);
@@ -220,7 +220,7 @@
         private System.Windows.Forms.TextBox tbExistingPackageXml;
         private System.Windows.Forms.Label horizontalLine3;
         private System.Windows.Forms.Label lblRetrieveFromOrg;
-        private System.Windows.Forms.CheckBox cbConvertToVSCodeStyle;
+        private System.Windows.Forms.CheckBox cbMDAPISourceStyle;
         private System.Windows.Forms.Label horizontalLine1;
         private System.Windows.Forms.CheckBox cbRebuildFolder;
         private System.Windows.Forms.Label lblMessages;

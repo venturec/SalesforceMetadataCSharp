@@ -929,7 +929,7 @@ namespace SalesforceMetadata
 
                     // If cbConvertToVSCodeStyle == true then add the -meta.xml to the end of the file for each file in the directories, except for LWC and Aura
                     // Objects will need to be reworked as well as their folder structure is different
-                    if (sfMdFrm.cbConvertToVSCodeStyle.Checked == true)
+                    if (sfMdFrm.cbMDAPISourceStyle.Checked == true)
                     {
                         addVSCodeFileExtension(target_dir);
                     }

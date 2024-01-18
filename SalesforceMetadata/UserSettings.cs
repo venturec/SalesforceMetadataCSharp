@@ -19,6 +19,7 @@ namespace SalesforceMetadata
             loadDefaultApis();
             loadDefaultTextEditorPath();
             loadOtherDefaults();
+            populateProcessorInfo();
         }
 
         private void tbXmlFileLocation_DoubleClick(object sender, EventArgs e)
@@ -162,6 +163,14 @@ namespace SalesforceMetadata
 
             Properties.Settings.Default.DefaultTextEditorPath = ofd.FileName;
             Properties.Settings.Default.Save();
+        }
+
+
+        private void populateProcessorInfo()
+        {
+            this.tbPhysicalProcessors.Text = UtilityClass.getPhysicalProcessors().ToString();
+            this.tbCPUCoreCount.Text = UtilityClass.getCPUCoreCount().ToString();
+            this.tbLogicalProcessors.Text = UtilityClass.getLogicalProcessors().ToString();
         }
     }
 }

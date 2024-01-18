@@ -148,5 +148,35 @@ namespace SalesforceMetadata
                 dir.Delete(recursive);
             }
         }
+
+        public static Int32 getPhysicalProcessors()
+        {
+            return Environment.ProcessorCount;
+        }
+
+        public static Int32 getCPUCoreCount()
+        {
+            int coreCount = 0;
+            foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_Processor").Get())
+            {
+                coreCount += int.Parse(item["NumberOfCores"].ToString());
+            }
+
+            return coreCount;
+        }
+
+        public static Int32 getLogicalProcessors()
+        {
+            Int32 logicalProcessors = 0;
+            foreach (var item in new System.Management.ManagementObjectSearcher("Select * from Win32_ComputerSystem").Get())
+            {
+                //logicalProcessors = (Int32)item["NumberOfLogicalProcessors"];
+                UInt32 lp = (UInt32)item["NumberOfLogicalProcessors"];
+                logicalProcessors = Convert.ToInt32(lp);
+            }
+
+            return logicalProcessors;
+        }
+
     }
 }

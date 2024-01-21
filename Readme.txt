@@ -1,5 +1,14 @@
 NOTES:
-I have built this on the fly as needed and have not implemented a lot of asynchronous processes (I know. You can lecture me later). This is something I'm going to be working on and will enhance the forms to utilize asynchronous processes during long retrievals allowing the use of the app while tasks are running in the background.
+I have built this on the fly as needed and have not implemented a lot of asynchronous processes except for in the Retrieve Metadata. 
+
+The current application is built in Visual Studio using .NET 4.8 meaning you can only run this on a Windows machine with .NET 4.8 runtime currently. 
+
+It is advisable, with the different reports available, to have Microsoft Excel installed. Most of the exports will allow for CSV which you can import into a spreadsheet or database table of your choosing, but the reports are geared towards using Excel as the most effective tool.
+
+So the two items which will be my focus on in 2024 are the following:
+* Build more asynchronous processes
+* Move and test this tool in .NET 7 or .NET 8 depending on stability. Since .NET 8 is still fairly new, will need to make sure any immediate bugs are worked out. 
+* Will be generating a How-To document along with a Youtube video which walks users through the steps from initial setup to processes you can follow for handling the metadata and running the tooling reports.
 
 
 /************ Setting up the security structure, selecting your default Metadata folders to be selected and encrypting the credentials to be stored on your machine ************/
@@ -39,10 +48,3 @@ Click Save.
 To confirm whether the encrypted text is decrypting successfully, on the Landing Page form, click Metadata Form. You should see your username(s) in the drop down. Click the Get Metadata Types button to see if a list of available metadata types is returned.
 
 
-
-/************ Items to complete ************/
-There are many items which still need to be completed or updated, but the below list provides a few items which could definitely be enhanced to make this tool more user friendly.
-
-The primary one is for long running tasks such as downloading the metadata package, genereating the Excel reports, etc, spinning up a new thread for asynchronous processing needs to be implemented. Since I built this myself, I did not put the time into creating threads. However this would be nice.
-
-For the GenerateDeploymentPackage, after running the Metadata comparison, then clicking the Generate Deployment Package button, bringing over the differences, whether all or selected into the GenerateDeploymentPackage tree view would be more efficient. There are some caveats to this though which need to be considered, especially since there are required metadata items which need to be selected when another item is brought over from the difference.

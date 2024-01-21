@@ -75,7 +75,7 @@
             // btnSave
             // 
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new System.Drawing.Point(15, 415);
+            this.btnSave.Location = new System.Drawing.Point(9, 499);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(108, 31);
             this.btnSave.TabIndex = 21;
@@ -86,7 +86,7 @@
             // btnCancel
             // 
             this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.Location = new System.Drawing.Point(140, 415);
+            this.btnCancel.Location = new System.Drawing.Point(134, 499);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(108, 31);
             this.btnCancel.TabIndex = 22;
@@ -124,11 +124,12 @@
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label2.Location = new System.Drawing.Point(1, 178);
+            this.label2.Location = new System.Drawing.Point(1, 180);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(802, 10);
+            this.label2.Size = new System.Drawing.Size(949, 10);
             this.label2.TabIndex = 7;
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
@@ -153,7 +154,7 @@
             // 
             this.lblDefaultAPI.AutoSize = true;
             this.lblDefaultAPI.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDefaultAPI.Location = new System.Drawing.Point(11, 202);
+            this.lblDefaultAPI.Location = new System.Drawing.Point(11, 207);
             this.lblDefaultAPI.Name = "lblDefaultAPI";
             this.lblDefaultAPI.Size = new System.Drawing.Size(89, 17);
             this.lblDefaultAPI.TabIndex = 8;
@@ -162,18 +163,19 @@
             // cmbDefaultAPI
             // 
             this.cmbDefaultAPI.FormattingEnabled = true;
-            this.cmbDefaultAPI.Location = new System.Drawing.Point(106, 201);
+            this.cmbDefaultAPI.Location = new System.Drawing.Point(106, 206);
             this.cmbDefaultAPI.Name = "cmbDefaultAPI";
             this.cmbDefaultAPI.Size = new System.Drawing.Size(121, 21);
             this.cmbDefaultAPI.TabIndex = 9;
             // 
             // label3
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.label3.Location = new System.Drawing.Point(1, 231);
+            this.label3.Location = new System.Drawing.Point(1, 241);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(802, 10);
+            this.label3.Size = new System.Drawing.Size(949, 10);
             this.label3.TabIndex = 10;
             this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
@@ -181,7 +183,7 @@
             // 
             this.lblDefaultTextEditor.AutoSize = true;
             this.lblDefaultTextEditor.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDefaultTextEditor.Location = new System.Drawing.Point(11, 250);
+            this.lblDefaultTextEditor.Location = new System.Drawing.Point(11, 273);
             this.lblDefaultTextEditor.Name = "lblDefaultTextEditor";
             this.lblDefaultTextEditor.Size = new System.Drawing.Size(182, 17);
             this.lblDefaultTextEditor.TabIndex = 11;
@@ -189,7 +191,7 @@
             // 
             // tbDefaultTextEditor
             // 
-            this.tbDefaultTextEditor.Location = new System.Drawing.Point(12, 270);
+            this.tbDefaultTextEditor.Location = new System.Drawing.Point(12, 293);
             this.tbDefaultTextEditor.Name = "tbDefaultTextEditor";
             this.tbDefaultTextEditor.Size = new System.Drawing.Size(703, 20);
             this.tbDefaultTextEditor.TabIndex = 12;
@@ -197,7 +199,7 @@
             // 
             // tbAsynchronousThreads
             // 
-            this.tbAsynchronousThreads.Location = new System.Drawing.Point(14, 327);
+            this.tbAsynchronousThreads.Location = new System.Drawing.Point(14, 350);
             this.tbAsynchronousThreads.Name = "tbAsynchronousThreads";
             this.tbAsynchronousThreads.Size = new System.Drawing.Size(129, 20);
             this.tbAsynchronousThreads.TabIndex = 14;
@@ -206,7 +208,7 @@
             // 
             this.lblMetadataRetrievalAynchronousThreads.AutoSize = true;
             this.lblMetadataRetrievalAynchronousThreads.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMetadataRetrievalAynchronousThreads.Location = new System.Drawing.Point(12, 307);
+            this.lblMetadataRetrievalAynchronousThreads.Location = new System.Drawing.Point(12, 330);
             this.lblMetadataRetrievalAynchronousThreads.Name = "lblMetadataRetrievalAynchronousThreads";
             this.lblMetadataRetrievalAynchronousThreads.Size = new System.Drawing.Size(317, 17);
             this.lblMetadataRetrievalAynchronousThreads.TabIndex = 13;
@@ -215,7 +217,7 @@
             // tbPhysicalProcessors
             // 
             this.tbPhysicalProcessors.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbPhysicalProcessors.Location = new System.Drawing.Point(630, 374);
+            this.tbPhysicalProcessors.Location = new System.Drawing.Point(630, 397);
             this.tbPhysicalProcessors.Name = "tbPhysicalProcessors";
             this.tbPhysicalProcessors.ReadOnly = true;
             this.tbPhysicalProcessors.Size = new System.Drawing.Size(124, 23);
@@ -225,7 +227,7 @@
             // 
             this.lblPhysicalProcessors.AutoSize = true;
             this.lblPhysicalProcessors.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPhysicalProcessors.Location = new System.Drawing.Point(470, 377);
+            this.lblPhysicalProcessors.Location = new System.Drawing.Point(470, 400);
             this.lblPhysicalProcessors.Name = "lblPhysicalProcessors";
             this.lblPhysicalProcessors.Size = new System.Drawing.Size(154, 17);
             this.lblPhysicalProcessors.TabIndex = 19;
@@ -235,7 +237,7 @@
             // 
             this.lblCPUCoreCount.AutoSize = true;
             this.lblCPUCoreCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCPUCoreCount.Location = new System.Drawing.Point(470, 319);
+            this.lblCPUCoreCount.Location = new System.Drawing.Point(470, 342);
             this.lblCPUCoreCount.Name = "lblCPUCoreCount";
             this.lblCPUCoreCount.Size = new System.Drawing.Size(125, 17);
             this.lblCPUCoreCount.TabIndex = 15;
@@ -244,7 +246,7 @@
             // tbCPUCoreCount
             // 
             this.tbCPUCoreCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbCPUCoreCount.Location = new System.Drawing.Point(630, 316);
+            this.tbCPUCoreCount.Location = new System.Drawing.Point(630, 339);
             this.tbCPUCoreCount.Name = "tbCPUCoreCount";
             this.tbCPUCoreCount.ReadOnly = true;
             this.tbCPUCoreCount.Size = new System.Drawing.Size(124, 23);
@@ -254,7 +256,7 @@
             // 
             this.lblLogicalProcessors.AutoSize = true;
             this.lblLogicalProcessors.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLogicalProcessors.Location = new System.Drawing.Point(470, 348);
+            this.lblLogicalProcessors.Location = new System.Drawing.Point(470, 371);
             this.lblLogicalProcessors.Name = "lblLogicalProcessors";
             this.lblLogicalProcessors.Size = new System.Drawing.Size(146, 17);
             this.lblLogicalProcessors.TabIndex = 17;
@@ -263,7 +265,7 @@
             // tbLogicalProcessors
             // 
             this.tbLogicalProcessors.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbLogicalProcessors.Location = new System.Drawing.Point(630, 345);
+            this.tbLogicalProcessors.Location = new System.Drawing.Point(630, 368);
             this.tbLogicalProcessors.Name = "tbLogicalProcessors";
             this.tbLogicalProcessors.ReadOnly = true;
             this.tbLogicalProcessors.Size = new System.Drawing.Size(124, 23);
@@ -272,7 +274,7 @@
             // UserSettings
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(805, 450);
+            this.ClientSize = new System.Drawing.Size(952, 542);
             this.Controls.Add(this.lblLogicalProcessors);
             this.Controls.Add(this.tbLogicalProcessors);
             this.Controls.Add(this.lblCPUCoreCount);

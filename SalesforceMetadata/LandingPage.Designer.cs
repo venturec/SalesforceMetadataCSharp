@@ -172,6 +172,7 @@
             // 
             // btnExtractHTMLPages
             // 
+            this.btnExtractHTMLPages.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnExtractHTMLPages.Location = new System.Drawing.Point(736, 421);
             this.btnExtractHTMLPages.Margin = new System.Windows.Forms.Padding(2);
             this.btnExtractHTMLPages.Name = "btnExtractHTMLPages";

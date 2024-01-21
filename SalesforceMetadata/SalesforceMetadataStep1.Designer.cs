@@ -41,7 +41,6 @@
             this.fromOrgGroup = new System.Windows.Forms.GroupBox();
             this.btnSobjectFieldInspector = new System.Windows.Forms.Button();
             this.btnGenerateToolingReport = new System.Windows.Forms.Button();
-            this.btnConfigurationWorkbook = new System.Windows.Forms.Button();
             this.btnSelectAll = new System.Windows.Forms.Button();
             this.lblSelectAll = new System.Windows.Forms.Label();
             this.btnSelectNone = new System.Windows.Forms.Button();
@@ -150,19 +149,6 @@
             this.btnDeleteDebugLogs.UseVisualStyleBackColor = false;
             this.btnDeleteDebugLogs.Click += new System.EventHandler(this.btnDeleteDebugLogs_Click);
             // 
-            // btnDeploy
-            // 
-            this.btnDeploy.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.btnDeploy.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeploy.Location = new System.Drawing.Point(813, 481);
-            this.btnDeploy.Margin = new System.Windows.Forms.Padding(6);
-            this.btnDeploy.Name = "btnDeploy";
-            this.btnDeploy.Size = new System.Drawing.Size(194, 46);
-            this.btnDeploy.TabIndex = 16;
-            this.btnDeploy.Text = "Deploy";
-            this.btnDeploy.UseVisualStyleBackColor = false;
-            this.btnDeploy.Click += new System.EventHandler(this.btnDeploy_Click);
-            // 
             // fromOrgGroup
             // 
             this.fromOrgGroup.BackColor = System.Drawing.SystemColors.Control;
@@ -202,18 +188,6 @@
             this.btnGenerateToolingReport.Text = "Generate Tooling Report";
             this.btnGenerateToolingReport.UseVisualStyleBackColor = true;
             this.btnGenerateToolingReport.Click += new System.EventHandler(this.btnGenerateToolingReport_Click);
-            // 
-            // btnConfigurationWorkbook
-            // 
-            this.btnConfigurationWorkbook.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConfigurationWorkbook.Location = new System.Drawing.Point(1045, 423);
-            this.btnConfigurationWorkbook.Margin = new System.Windows.Forms.Padding(6);
-            this.btnConfigurationWorkbook.Name = "btnConfigurationWorkbook";
-            this.btnConfigurationWorkbook.Size = new System.Drawing.Size(194, 46);
-            this.btnConfigurationWorkbook.TabIndex = 15;
-            this.btnConfigurationWorkbook.Text = "Configuration Workbook";
-            this.btnConfigurationWorkbook.UseVisualStyleBackColor = true;
-            this.btnConfigurationWorkbook.Click += new System.EventHandler(this.btnConfigurationWorkbook_Click);
             // 
             // btnSelectAll
             // 
@@ -318,7 +292,6 @@
             this.Controls.Add(this.btnSelectNone);
             this.Controls.Add(this.lblSelectAll);
             this.Controls.Add(this.btnSelectAll);
-            this.Controls.Add(this.btnConfigurationWorkbook);
             this.Controls.Add(this.btnGenerateToolingReport);
             this.Controls.Add(this.btnSobjectFieldInspector);
             this.Controls.Add(this.fromOrgGroup);
@@ -353,7 +326,6 @@
         private System.Windows.Forms.GroupBox fromOrgGroup;
         private System.Windows.Forms.Button btnSobjectFieldInspector;
         private System.Windows.Forms.Button btnGenerateToolingReport;
-        private System.Windows.Forms.Button btnConfigurationWorkbook;
         private System.Windows.Forms.Button btnSelectAll;
         private System.Windows.Forms.Label lblSelectAll;
         private System.Windows.Forms.Button btnSelectNone;

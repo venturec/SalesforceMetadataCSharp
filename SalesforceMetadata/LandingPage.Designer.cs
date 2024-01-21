@@ -50,6 +50,7 @@
             this.btnDeployments = new System.Windows.Forms.Button();
             this.btnParseMetadataXml = new System.Windows.Forms.Button();
             this.verticalRule1 = new System.Windows.Forms.Label();
+            this.btnGenerateToolingReport = new System.Windows.Forms.Button();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -130,7 +131,7 @@
             this.btnRESTService.Margin = new System.Windows.Forms.Padding(2);
             this.btnRESTService.Name = "btnRESTService";
             this.btnRESTService.Size = new System.Drawing.Size(187, 32);
-            this.btnRESTService.TabIndex = 17;
+            this.btnRESTService.TabIndex = 18;
             this.btnRESTService.Text = "REST Service Form";
             this.btnRESTService.UseVisualStyleBackColor = true;
             this.btnRESTService.Click += new System.EventHandler(this.btnRetrieveRecords_Click);
@@ -138,11 +139,11 @@
             // btnGenerateConfigWorkbook
             // 
             this.btnGenerateConfigWorkbook.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnGenerateConfigWorkbook.Location = new System.Drawing.Point(736, 169);
+            this.btnGenerateConfigWorkbook.Location = new System.Drawing.Point(736, 210);
             this.btnGenerateConfigWorkbook.Margin = new System.Windows.Forms.Padding(2);
             this.btnGenerateConfigWorkbook.Name = "btnGenerateConfigWorkbook";
             this.btnGenerateConfigWorkbook.Size = new System.Drawing.Size(190, 35);
-            this.btnGenerateConfigWorkbook.TabIndex = 13;
+            this.btnGenerateConfigWorkbook.TabIndex = 14;
             this.btnGenerateConfigWorkbook.Text = "Generate Configuration Workbook";
             this.btnGenerateConfigWorkbook.UseVisualStyleBackColor = true;
             this.btnGenerateConfigWorkbook.Click += new System.EventHandler(this.btnGenerateConfigWorkbook_Click);
@@ -165,7 +166,7 @@
             this.btnOpenObjectModification.Margin = new System.Windows.Forms.Padding(2);
             this.btnOpenObjectModification.Name = "btnOpenObjectModification";
             this.btnOpenObjectModification.Size = new System.Drawing.Size(188, 32);
-            this.btnOpenObjectModification.TabIndex = 16;
+            this.btnOpenObjectModification.TabIndex = 17;
             this.btnOpenObjectModification.Text = "Object Modifications";
             this.btnOpenObjectModification.UseVisualStyleBackColor = true;
             this.btnOpenObjectModification.Click += new System.EventHandler(this.btnOpenObjectModification_Click);
@@ -177,7 +178,7 @@
             this.btnExtractHTMLPages.Margin = new System.Windows.Forms.Padding(2);
             this.btnExtractHTMLPages.Name = "btnExtractHTMLPages";
             this.btnExtractHTMLPages.Size = new System.Drawing.Size(190, 35);
-            this.btnExtractHTMLPages.TabIndex = 14;
+            this.btnExtractHTMLPages.TabIndex = 15;
             this.btnExtractHTMLPages.Text = "Extract HTML Pages";
             this.btnExtractHTMLPages.UseVisualStyleBackColor = true;
             this.btnExtractHTMLPages.Click += new System.EventHandler(this.btnExtractHTMLPages_Click);
@@ -209,7 +210,7 @@
             this.btnUpdateAPIVersion.Location = new System.Drawing.Point(213, 421);
             this.btnUpdateAPIVersion.Name = "btnUpdateAPIVersion";
             this.btnUpdateAPIVersion.Size = new System.Drawing.Size(190, 35);
-            this.btnUpdateAPIVersion.TabIndex = 18;
+            this.btnUpdateAPIVersion.TabIndex = 19;
             this.btnUpdateAPIVersion.Text = "Update API Versions";
             this.btnUpdateAPIVersion.UseVisualStyleBackColor = true;
             this.btnUpdateAPIVersion.Click += new System.EventHandler(this.btnUpdateAPIVersion_Click);
@@ -260,7 +261,7 @@
             this.btnParseMetadataXml.Location = new System.Drawing.Point(9, 421);
             this.btnParseMetadataXml.Name = "btnParseMetadataXml";
             this.btnParseMetadataXml.Size = new System.Drawing.Size(188, 32);
-            this.btnParseMetadataXml.TabIndex = 15;
+            this.btnParseMetadataXml.TabIndex = 16;
             this.btnParseMetadataXml.Text = "Parse Metadata XML";
             this.btnParseMetadataXml.UseVisualStyleBackColor = true;
             this.btnParseMetadataXml.Click += new System.EventHandler(this.btnParseMetadataXml_Click);
@@ -275,10 +276,21 @@
             this.verticalRule1.Size = new System.Drawing.Size(15, 510);
             this.verticalRule1.TabIndex = 9;
             // 
+            // btnGenerateToolingReport
+            // 
+            this.btnGenerateToolingReport.Location = new System.Drawing.Point(736, 170);
+            this.btnGenerateToolingReport.Name = "btnGenerateToolingReport";
+            this.btnGenerateToolingReport.Size = new System.Drawing.Size(189, 35);
+            this.btnGenerateToolingReport.TabIndex = 13;
+            this.btnGenerateToolingReport.Text = "Generate Tooling Report";
+            this.btnGenerateToolingReport.UseVisualStyleBackColor = true;
+            this.btnGenerateToolingReport.Click += new System.EventHandler(this.btnGenerateToolingReport_Click);
+            // 
             // LandingPage
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(937, 536);
+            this.Controls.Add(this.btnGenerateToolingReport);
             this.Controls.Add(this.verticalRule1);
             this.Controls.Add(this.btnParseMetadataXml);
             this.Controls.Add(this.btnDeployments);
@@ -333,5 +345,6 @@
         private System.Windows.Forms.Button btnDeployments;
         private System.Windows.Forms.Button btnParseMetadataXml;
         private System.Windows.Forms.Label verticalRule1;
+        private System.Windows.Forms.Button btnGenerateToolingReport;
     }
 }

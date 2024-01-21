@@ -411,35 +411,6 @@ namespace SalesforceMetadata
             }
         }
 
-        private void btnDeploy_Click(object sender, EventArgs e)
-        {
-            // Validate if the form is already opened and bring it to the front if it is.
-            Boolean isAlreadyOpen = false;
-            FormCollection fc = Application.OpenForms;
-            foreach (System.Windows.Forms.Form openFrm in fc)
-            {
-                if (openFrm.Name == "DeployMetadata")
-                {
-                    DeployMetadata dm = (DeployMetadata)openFrm.Tag;
-                    dm.cmbUserName.SelectedItem = this.cmbUserName.Text;
-                    openFrm.Show();
-                    openFrm.Location = this.Location;
-                    openFrm.BringToFront();
-                    isAlreadyOpen = true;
-                }
-            }
-
-            if (isAlreadyOpen == false)
-            {
-                DeployMetadata dm = new DeployMetadata();
-
-                dm.cmbUserName.SelectedItem = this.cmbUserName.Text;
-                dm.Show();
-                dm.Location = this.Location;
-            }
-        }
-
-
         private void btnDevSBSeeding_Click(object sender, EventArgs e)
         {
             if (String.IsNullOrEmpty(this.cmbUserName.Text))
@@ -479,7 +450,7 @@ namespace SalesforceMetadata
             }
 
             MetadataToolingReportForm mtrf = new MetadataToolingReportForm();
-            mtrf.userName = this.cmbUserName.Text;
+            mtrf.cmbUserName.Text = this.cmbUserName.Text;
             mtrf.Show();
         }
 

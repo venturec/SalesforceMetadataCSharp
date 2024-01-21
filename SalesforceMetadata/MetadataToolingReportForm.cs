@@ -16,12 +16,38 @@ namespace SalesforceMetadata
     public partial class MetadataToolingReportForm : Form
     {
         private SalesforceCredentials sc;
-        public String userName;
 
         public MetadataToolingReportForm()
         {
             InitializeComponent();
             sc = new SalesforceCredentials();
+            populateCredentialsFile();
+        }
+
+        private void populateCredentialsFile()
+        {
+            Boolean encryptionFileSettingsPopulated = true;
+            if (Properties.Settings.Default.UserAndAPIFileLocation == ""
+            || Properties.Settings.Default.SharedSecretLocation == "")
+            {
+                encryptionFileSettingsPopulated = false;
+            }
+
+            if (encryptionFileSettingsPopulated == false)
+            {
+                MessageBox.Show("Please populate the fields in the Settings from the Landing Page first, then use this form to download the Metadata.");
+                return;
+            }
+
+            populateUserNames();
+        }
+
+        private void populateUserNames()
+        {
+            foreach (String un in sc.usernamePartnerUrl.Keys)
+            {
+                this.cmbUserName.Items.Add(un);
+            }
         }
 
         private void tbMetadataFolderLocation_DoubleClick(object sender, EventArgs e)
@@ -65,7 +91,7 @@ namespace SalesforceMetadata
 
             try
             {
-                sc.salesforceToolingLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
+                sc.salesforceToolingLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
             }
             catch (Exception exc)
             {

@@ -154,5 +154,11 @@ namespace SalesforceMetadata
             ParseSalesforceMetadata psm = new ParseSalesforceMetadata();
             psm.Show();
         }
+
+        private void btnGenerateToolingReport_Click(object sender, EventArgs e)
+        {
+            MetadataToolingReportForm mtr = new MetadataToolingReportForm();
+            mtr.Show();
+        }
     }
 }

@@ -15,6 +15,8 @@ The main ares for enhancement, which will be my focus in 2024, are the following
 * Move this tool into .NET 7 or possibly .NET 8 (depending on stability) and test. Since .NET 8 is still fairly new, will need to make sure any immediate bugs are worked out. 
 * Will be generating a How-To document along with a Youtube video which walks users through the steps from initial setup to processes you can follow for handling the metadata and running the tooling reports.
 
+If you want to use the PDF Parser, make sure to have the itextsharp.dll located in the same location as the executable. This library allows you to parse a PDF file as a flat text file and there is an option to include additional PDF text type values. These text type values allow you to import the flat file as a tab-delimited CSV file into a database table and query out the titles, sub-titles, etc. This helps when parsing through the Salesforce PDF Developer Docs to funnel down to the core pieces needed to build a code library, or at least that is what I've done with it.
+
 
 /************ Setting up the security structure, selecting your default Metadata folders to be selected and encrypting the credentials to be stored on your machine ************/
 

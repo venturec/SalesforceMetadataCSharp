@@ -5,9 +5,14 @@ The current application is built in Visual Studio using .NET 4.8 meaning you can
 
 It is advisable, with the different reports available, to have Microsoft Excel installed. Most of the exports will allow for CSV which you can import into a spreadsheet or database table of your choosing, but the reports are geared towards using Excel as the most effective tool.
 
-So the two items which will be my focus on in 2024 are the following:
+This software tool also uses the following:
+* Salesforce Partner WSDL API 59.0
+* Salesforce Metadata WSDL API 59.0
+* Salesforce Tooling WSDL API 59.0
+
+The main ares for enhancement, which will be my focus in 2024, are the following:
 * Build more asynchronous processes
-* Move and test this tool in .NET 7 or .NET 8 depending on stability. Since .NET 8 is still fairly new, will need to make sure any immediate bugs are worked out. 
+* Move this tool into .NET 7 or possibly .NET 8 (depending on stability) and test. Since .NET 8 is still fairly new, will need to make sure any immediate bugs are worked out. 
 * Will be generating a How-To document along with a Youtube video which walks users through the steps from initial setup to processes you can follow for handling the metadata and running the tooling reports.
 
 

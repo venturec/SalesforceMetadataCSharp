@@ -37,7 +37,6 @@
             this.cmbUserName = new System.Windows.Forms.ComboBox();
             this.btnRetrieveMetadata = new System.Windows.Forms.Button();
             this.btnDeleteDebugLogs = new System.Windows.Forms.Button();
-            this.btnDeploy = new System.Windows.Forms.Button();
             this.fromOrgGroup = new System.Windows.Forms.GroupBox();
             this.btnSobjectFieldInspector = new System.Windows.Forms.Button();
             this.btnGenerateToolingReport = new System.Windows.Forms.Button();
@@ -295,7 +294,6 @@
             this.Controls.Add(this.btnGenerateToolingReport);
             this.Controls.Add(this.btnSobjectFieldInspector);
             this.Controls.Add(this.fromOrgGroup);
-            this.Controls.Add(this.btnDeploy);
             this.Controls.Add(this.btnDeleteDebugLogs);
             this.Controls.Add(this.btnRetrieveMetadata);
             this.Controls.Add(this.lblSalesforce);
@@ -322,7 +320,6 @@
         private System.Windows.Forms.ComboBox cmbUserName;
         private System.Windows.Forms.Button btnRetrieveMetadata;
         private System.Windows.Forms.Button btnDeleteDebugLogs;
-        private System.Windows.Forms.Button btnDeploy;
         private System.Windows.Forms.GroupBox fromOrgGroup;
         private System.Windows.Forms.Button btnSobjectFieldInspector;
         private System.Windows.Forms.Button btnGenerateToolingReport;

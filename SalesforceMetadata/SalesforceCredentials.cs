@@ -81,10 +81,10 @@ namespace SalesforceMetadata
                 try
                 {
                     this.fromOrgSS.Timeout = 15000;
+                    this.fromOrgSS.Url = this.usernamePartnerUrl[userName];
 
                     if (this.isProduction[userName] == false)
                     {
-                        this.fromOrgSS.Url = this.usernamePartnerUrl[userName];
                         this.fromOrgLR.sandbox = true;
                     }
                     

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -76,13 +77,14 @@ namespace SalesforceMetadata
                 folderSaveLocation += fileNameSplit[i] + "\\";
             }
 
+            folderSaveLocation = folderSaveLocation + "DebugLog_Aggregations.txt";
 
             Boolean firstCodeUnitReached = true;
             Int32 tabCount = 0;
             //String milSecStart = "";
             //String milSecEnd = "";
 
-            StreamWriter debugSW = new StreamWriter(folderSaveLocation + "DebugLog_Aggregations.txt");
+            StreamWriter debugSW = new StreamWriter(folderSaveLocation);
 
             // Open file for reading
             StreamReader debugSR = new StreamReader(this.tbDebugFile.Text);
@@ -504,8 +506,16 @@ namespace SalesforceMetadata
             debugSR.Close();
             if (debugSW != null) debugSW.Close();
 
-            MessageBox.Show("Debug Parsing Complete");
+            //MessageBox.Show("Debug Parsing Complete");
 
+            if (Properties.Settings.Default.DefaultTextEditorPath == "")
+            {
+                Process.Start(@"notepad.exe", folderSaveLocation);
+            }
+            else
+            {
+                Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, folderSaveLocation);
+            }
         }
 
         private void btnParseCodeUnits_Click(object sender, EventArgs e)

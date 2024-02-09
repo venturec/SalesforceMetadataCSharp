@@ -776,7 +776,16 @@ namespace SalesforceMetadata
             debugSR.Close();
             if (debugSW != null) debugSW.Close();
 
-            MessageBox.Show("Debug Parsing Complete");
+            //MessageBox.Show("Debug Parsing Complete");
+
+            if (Properties.Settings.Default.DefaultTextEditorPath == "")
+            {
+                Process.Start(@"notepad.exe", folderSaveLocation);
+            }
+            else
+            {
+                Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, folderSaveLocation);
+            }
         }
         private void writeHierarchy(StreamWriter debugSW, Int32 tabCount, String columnElements)
         {

@@ -495,60 +495,7 @@ namespace SalesforceMetadata
             sw.Close();
         }
 
-
-        private void btnPDFToText_Click(object sender, EventArgs e)
-        {
-            if (this.tbPDFFileLocation.Text == "") return;
-
-            PdfReader reader = new PdfReader(this.tbPDFFileLocation.Text);
-
-            String[] parsedFilePath = this.tbPDFFileLocation.Text.Split('\\');
-            String[] parsedFileName = parsedFilePath[parsedFilePath.Length - 1].Split('.');
-
-            String originationFilePath = "";
-            for (Int32 i = 0; i < parsedFilePath.Length - 1; i++)
-            {
-                originationFilePath = originationFilePath + parsedFilePath[i] + "\\";
-            }
-
-            StreamWriter sw;
-            if (this.tbFileSaveLocation.Text == "")
-            {
-                sw = new StreamWriter(originationFilePath + parsedFileName[0] + ".txt");
-            }
-            else
-            {
-                sw = new StreamWriter(this.tbFileSaveLocation.Text + "\\" + parsedFileName[0] + ".txt");
-            }
-
-            if (cmbIncludeTextPos.Text == "Yes")
-            {
-                iTextSharp.text.Utilities.includeTextPositionsInFile = true;
-                iTextSharp.text.Utilities.fileName = parsedFileName[0];
-                sw.WriteLine("FileName" + "\t" + "CharSpaceWidth" + "\t" + "StartLocation" + "\t" + "EndLocation" + "\t" + "DistParallelStart" + "\t" + "DistParallelEnd" + "\t" + "DistPerpendicular" + "\t" + "TextValue");
-            }
-            else
-            {
-                iTextSharp.text.Utilities.includeTextPositionsInFile = false;
-            }
-
-
-            for (int page = 1; page <= reader.NumberOfPages; page++)
-            {
-                ITextExtractionStrategy its = new LocationTextExtractionStrategy();
-                //ITextExtractionStrategy its = new SimpleTextExtractionStrategy();
-
-                String s = PdfTextExtractor.GetTextFromPage(reader, page, its);
-                s = Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(s)));
-                sw.WriteLine(s);
-            }
-
-            sw.Close();
-            reader.Close();
-
-            MessageBox.Show("PDF Text Extraction Complete");
-        }
-
+        /***** PDF File Extraction processes *****/
         private void tbPDFFileLocation_DoubleClick(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -558,6 +505,125 @@ namespace SalesforceMetadata
             {
                 this.tbPDFFileLocation.Text = ofd.FileName;
             }
+        }
+
+        private void tbSaveTextFilesTo_DoubleClick(object sender, EventArgs e)
+        {
+            this.tbSaveTextFilesTo.Text = UtilityClass.folderBrowserSelectPath("Select the folder to Save the Text Output", true, FolderEnum.SaveTo, "");
+        }
+
+        private void tbPDFFolder_DoubleClick(object sender, EventArgs e)
+        {
+            this.tbPDFFolder.Text = UtilityClass.folderBrowserSelectPath("Select the folder with the PDFs", false, FolderEnum.ReadFrom, "");
+        }
+
+        private void btnPDFToText_Click(object sender, EventArgs e)
+        {
+            if (this.tbPDFFolder.Text == "" && this.tbPDFFileLocation.Text == "") 
+            {
+                MessageBox.Show("Please select a folder with the PDF files OR a PDF file itself");
+                return;
+            }
+
+            if (this.tbPDFFileLocation.Text != "")
+            {
+                extractPDFToText(this.tbPDFFileLocation.Text, true);
+            }
+            else if (this.tbPDFFolder.Text != "")
+            {
+                String[] pdfFiles = Directory.GetFiles(this.tbPDFFolder.Text, "*.pdf");
+
+                foreach (String pdfFile in pdfFiles)
+                {
+                    extractPDFToText(pdfFile, this.cbSplitFiles.Checked);
+                }
+            }
+
+            MessageBox.Show("PDF Text Extraction Complete");
+        }
+
+
+        private void extractPDFToText(String filePath, Boolean splitFiles)
+        {
+            PdfReader reader = new PdfReader(filePath);
+
+            String[] parsedFilePath = filePath.Split('\\');
+            String[] parsedFileName = parsedFilePath[parsedFilePath.Length - 1].Split('.');
+
+            String originationFilePath = "";
+            for (Int32 i = 0; i < parsedFilePath.Length - 1; i++)
+            {
+                originationFilePath = originationFilePath + parsedFilePath[i] + "\\";
+            }
+
+
+            String saveTextFileTo = "";
+            if (this.tbSaveTextFilesTo.Text == "")
+            {
+                saveTextFileTo = originationFilePath;
+            }
+            else
+            {
+                saveTextFileTo = this.tbSaveTextFilesTo.Text;
+            }
+
+            if (splitFiles == true)
+            {
+                saveTextFileTo = saveTextFileTo + "\\" + parsedFileName[0] + ".txt";
+            }
+            else
+            {
+                saveTextFileTo = saveTextFileTo  + "\\PDFDocuments.txt";
+            }
+
+
+            StreamWriter sw;
+            if (File.Exists(saveTextFileTo))
+            {
+                sw = new StreamWriter(saveTextFileTo, true);
+            }
+            else
+            {
+                sw = new StreamWriter(saveTextFileTo, false);
+            }
+
+            if (cmbIncludeTextPos.Text == "Yes")
+            {
+                iTextSharp.text.Utilities.includeTextPositionsInFile = true;
+                iTextSharp.text.Utilities.fileName = parsedFileName[0];
+            }
+            else
+            {
+                iTextSharp.text.Utilities.includeTextPositionsInFile = false;
+            }
+
+            if (splitFiles == true)
+            {
+                sw.WriteLine("FileName" + "\t" + "CharSpaceWidth" + "\t" + "StartLocation" + "\t" + "EndLocation" + "\t" + "DistParallelStart" + "\t" + "DistParallelEnd" + "\t" + "DistPerpendicular" + "\t" + "TextValue");
+            }
+
+            for (int page = 1; page <= reader.NumberOfPages; page++)
+            {
+                ITextExtractionStrategy its = new LocationTextExtractionStrategy();
+
+                String s = PdfTextExtractor.GetTextFromPage(reader, page, its);
+                s = s.Replace('’', '\'');
+                s = s.Replace("\' ", "\'");
+                s = s.Replace("\" ", "\"");
+                s = s.Replace(" \n", "\r\n");
+
+                s = s.Replace("\r\n\r\n", "\r\n");
+                s = s.Replace("\r\n\r\n", "\r\n");
+                s = s.Replace("\r\n\r\n", "\r\n");
+                s = s.Replace("\r\n\r\n", "\r\n");
+                s = s.Replace("\r\n\r\n", "\r\n");
+
+                s = Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(s)));
+                sw.WriteLine(s);
+            }
+
+            sw.Close();
+            reader.Close();
         }
 
         private void btnPDFBookmarks_Click(object sender, EventArgs e)
@@ -633,5 +699,6 @@ namespace SalesforceMetadata
                 }
             }
         }
+
     }
 }

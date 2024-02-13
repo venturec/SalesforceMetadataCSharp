@@ -45,6 +45,11 @@
             this.cmbIncludeTextPos = new System.Windows.Forms.ComboBox();
             this.lblIncludeTextPositions = new System.Windows.Forms.Label();
             this.btnPDFBookmarks = new System.Windows.Forms.Button();
+            this.lblPDFFolder = new System.Windows.Forms.Label();
+            this.tbPDFFolder = new System.Windows.Forms.TextBox();
+            this.cbSplitFiles = new System.Windows.Forms.CheckBox();
+            this.tbSaveTextFilesTo = new System.Windows.Forms.TextBox();
+            this.lblSaveTextFilesTo = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblURL
@@ -71,7 +76,7 @@
             this.btnGetPageLinks.Margin = new System.Windows.Forms.Padding(2);
             this.btnGetPageLinks.Name = "btnGetPageLinks";
             this.btnGetPageLinks.Size = new System.Drawing.Size(116, 25);
-            this.btnGetPageLinks.TabIndex = 8;
+            this.btnGetPageLinks.TabIndex = 7;
             this.btnGetPageLinks.Text = "Get Page Links";
             this.btnGetPageLinks.UseVisualStyleBackColor = true;
             this.btnGetPageLinks.Click += new System.EventHandler(this.btnGetPageLinks_Click);
@@ -101,7 +106,7 @@
             this.btnRetrieveWebsites.Margin = new System.Windows.Forms.Padding(2);
             this.btnRetrieveWebsites.Name = "btnRetrieveWebsites";
             this.btnRetrieveWebsites.Size = new System.Drawing.Size(114, 25);
-            this.btnRetrieveWebsites.TabIndex = 9;
+            this.btnRetrieveWebsites.TabIndex = 8;
             this.btnRetrieveWebsites.Text = "Retrieve Websites";
             this.btnRetrieveWebsites.UseVisualStyleBackColor = true;
             this.btnRetrieveWebsites.Click += new System.EventHandler(this.btnRetrieveWebsites_Click);
@@ -146,7 +151,7 @@
             this.btnHTMLToText.Location = new System.Drawing.Point(276, 180);
             this.btnHTMLToText.Name = "btnHTMLToText";
             this.btnHTMLToText.Size = new System.Drawing.Size(114, 25);
-            this.btnHTMLToText.TabIndex = 10;
+            this.btnHTMLToText.TabIndex = 9;
             this.btnHTMLToText.Text = "HTML Page To Text";
             this.btnHTMLToText.UseVisualStyleBackColor = true;
             this.btnHTMLToText.Click += new System.EventHandler(this.btnHTMLToText_Click);
@@ -168,7 +173,7 @@
             this.tbPDFFileLocation.Location = new System.Drawing.Point(123, 321);
             this.tbPDFFileLocation.Name = "tbPDFFileLocation";
             this.tbPDFFileLocation.Size = new System.Drawing.Size(747, 20);
-            this.tbPDFFileLocation.TabIndex = 12;
+            this.tbPDFFileLocation.TabIndex = 15;
             this.tbPDFFileLocation.DoubleClick += new System.EventHandler(this.tbPDFFileLocation_DoubleClick);
             // 
             // lblPDFFile
@@ -177,15 +182,15 @@
             this.lblPDFFile.Location = new System.Drawing.Point(6, 324);
             this.lblPDFFile.Name = "lblPDFFile";
             this.lblPDFFile.Size = new System.Drawing.Size(47, 13);
-            this.lblPDFFile.TabIndex = 11;
+            this.lblPDFFile.TabIndex = 14;
             this.lblPDFFile.Text = "PDF File";
             // 
             // btnPDFToText
             // 
-            this.btnPDFToText.Location = new System.Drawing.Point(756, 392);
+            this.btnPDFToText.Location = new System.Drawing.Point(117, 431);
             this.btnPDFToText.Name = "btnPDFToText";
             this.btnPDFToText.Size = new System.Drawing.Size(114, 25);
-            this.btnPDFToText.TabIndex = 15;
+            this.btnPDFToText.TabIndex = 19;
             this.btnPDFToText.Text = "PDF to Text";
             this.btnPDFToText.UseVisualStyleBackColor = true;
             this.btnPDFToText.Click += new System.EventHandler(this.btnPDFToText_Click);
@@ -196,35 +201,84 @@
             this.cmbIncludeTextPos.Items.AddRange(new object[] {
             "No",
             "Yes"});
-            this.cmbIncludeTextPos.Location = new System.Drawing.Point(123, 356);
+            this.cmbIncludeTextPos.Location = new System.Drawing.Point(123, 351);
             this.cmbIncludeTextPos.Name = "cmbIncludeTextPos";
             this.cmbIncludeTextPos.Size = new System.Drawing.Size(121, 21);
-            this.cmbIncludeTextPos.TabIndex = 14;
+            this.cmbIncludeTextPos.TabIndex = 17;
             this.cmbIncludeTextPos.Text = "Yes";
             // 
             // lblIncludeTextPositions
             // 
             this.lblIncludeTextPositions.AutoSize = true;
-            this.lblIncludeTextPositions.Location = new System.Drawing.Point(6, 359);
+            this.lblIncludeTextPositions.Location = new System.Drawing.Point(6, 354);
             this.lblIncludeTextPositions.Name = "lblIncludeTextPositions";
             this.lblIncludeTextPositions.Size = new System.Drawing.Size(111, 13);
-            this.lblIncludeTextPositions.TabIndex = 13;
+            this.lblIncludeTextPositions.TabIndex = 16;
             this.lblIncludeTextPositions.Text = "Include Text Positions";
             // 
             // btnPDFBookmarks
             // 
-            this.btnPDFBookmarks.Location = new System.Drawing.Point(756, 433);
+            this.btnPDFBookmarks.Location = new System.Drawing.Point(256, 431);
             this.btnPDFBookmarks.Name = "btnPDFBookmarks";
             this.btnPDFBookmarks.Size = new System.Drawing.Size(114, 23);
-            this.btnPDFBookmarks.TabIndex = 16;
+            this.btnPDFBookmarks.TabIndex = 20;
             this.btnPDFBookmarks.Text = "Get PDF Bookmarks";
             this.btnPDFBookmarks.UseVisualStyleBackColor = true;
             this.btnPDFBookmarks.Click += new System.EventHandler(this.btnPDFBookmarks_Click);
+            // 
+            // lblPDFFolder
+            // 
+            this.lblPDFFolder.AutoSize = true;
+            this.lblPDFFolder.Location = new System.Drawing.Point(6, 297);
+            this.lblPDFFolder.Name = "lblPDFFolder";
+            this.lblPDFFolder.Size = new System.Drawing.Size(60, 13);
+            this.lblPDFFolder.TabIndex = 12;
+            this.lblPDFFolder.Text = "PDF Folder";
+            // 
+            // tbPDFFolder
+            // 
+            this.tbPDFFolder.Location = new System.Drawing.Point(123, 294);
+            this.tbPDFFolder.Name = "tbPDFFolder";
+            this.tbPDFFolder.Size = new System.Drawing.Size(747, 20);
+            this.tbPDFFolder.TabIndex = 13;
+            this.tbPDFFolder.DoubleClick += new System.EventHandler(this.tbPDFFolder_DoubleClick);
+            // 
+            // cbSplitFiles
+            // 
+            this.cbSplitFiles.AutoSize = true;
+            this.cbSplitFiles.Location = new System.Drawing.Point(123, 388);
+            this.cbSplitFiles.Name = "cbSplitFiles";
+            this.cbSplitFiles.Size = new System.Drawing.Size(70, 17);
+            this.cbSplitFiles.TabIndex = 18;
+            this.cbSplitFiles.Text = "Split Files";
+            this.cbSplitFiles.UseVisualStyleBackColor = true;
+            // 
+            // tbSaveTextFilesTo
+            // 
+            this.tbSaveTextFilesTo.Location = new System.Drawing.Point(123, 268);
+            this.tbSaveTextFilesTo.Name = "tbSaveTextFilesTo";
+            this.tbSaveTextFilesTo.Size = new System.Drawing.Size(747, 20);
+            this.tbSaveTextFilesTo.TabIndex = 11;
+            this.tbSaveTextFilesTo.DoubleClick += new System.EventHandler(this.tbSaveTextFilesTo_DoubleClick);
+            // 
+            // lblSaveTextFilesTo
+            // 
+            this.lblSaveTextFilesTo.AutoSize = true;
+            this.lblSaveTextFilesTo.Location = new System.Drawing.Point(6, 271);
+            this.lblSaveTextFilesTo.Name = "lblSaveTextFilesTo";
+            this.lblSaveTextFilesTo.Size = new System.Drawing.Size(96, 13);
+            this.lblSaveTextFilesTo.TabIndex = 10;
+            this.lblSaveTextFilesTo.Text = "Save Text Files To";
             // 
             // ExtractWebsites
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(914, 468);
+            this.Controls.Add(this.lblSaveTextFilesTo);
+            this.Controls.Add(this.tbSaveTextFilesTo);
+            this.Controls.Add(this.cbSplitFiles);
+            this.Controls.Add(this.tbPDFFolder);
+            this.Controls.Add(this.lblPDFFolder);
             this.Controls.Add(this.btnPDFBookmarks);
             this.Controls.Add(this.lblIncludeTextPositions);
             this.Controls.Add(this.cmbIncludeTextPos);
@@ -267,5 +321,10 @@
         private System.Windows.Forms.ComboBox cmbIncludeTextPos;
         private System.Windows.Forms.Label lblIncludeTextPositions;
         private System.Windows.Forms.Button btnPDFBookmarks;
+        private System.Windows.Forms.Label lblPDFFolder;
+        private System.Windows.Forms.TextBox tbPDFFolder;
+        private System.Windows.Forms.CheckBox cbSplitFiles;
+        private System.Windows.Forms.TextBox tbSaveTextFilesTo;
+        private System.Windows.Forms.Label lblSaveTextFilesTo;
     }
 }

@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Add CSS File");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Add SVG Icon");
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Add LWC Test");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddObject));
             this.tbClassName = new System.Windows.Forms.TextBox();
             this.lblClassName = new System.Windows.Forms.Label();
@@ -46,6 +49,16 @@
             this.cmbSobject = new System.Windows.Forms.ComboBox();
             this.btnSaveTrigger = new System.Windows.Forms.Button();
             this.btnSaveAndAddTrig = new System.Windows.Forms.Button();
+            this.lblLightningWebComponent = new System.Windows.Forms.Label();
+            this.lwcName = new System.Windows.Forms.Label();
+            this.tbLWCName = new System.Windows.Forms.TextBox();
+            this.btnSaveLWC = new System.Windows.Forms.Button();
+            this.lvTargets = new System.Windows.Forms.ListView();
+            this.lvAdditionalLWCFiles = new System.Windows.Forms.ListView();
+            this.lblAdditionalLWCFiles = new System.Windows.Forms.Label();
+            this.lblTargets = new System.Windows.Forms.Label();
+            this.lblMasterLabel = new System.Windows.Forms.Label();
+            this.tbMasterLabel = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // tbClassName
@@ -176,14 +189,14 @@
             this.cmbSobject.Location = new System.Drawing.Point(88, 268);
             this.cmbSobject.Name = "cmbSobject";
             this.cmbSobject.Size = new System.Drawing.Size(608, 21);
-            this.cmbSobject.TabIndex = 15;
+            this.cmbSobject.TabIndex = 14;
             // 
             // btnSaveTrigger
             // 
             this.btnSaveTrigger.Location = new System.Drawing.Point(428, 304);
             this.btnSaveTrigger.Name = "btnSaveTrigger";
             this.btnSaveTrigger.Size = new System.Drawing.Size(104, 23);
-            this.btnSaveTrigger.TabIndex = 16;
+            this.btnSaveTrigger.TabIndex = 15;
             this.btnSaveTrigger.Text = "Save Trigger";
             this.btnSaveTrigger.UseVisualStyleBackColor = true;
             this.btnSaveTrigger.Click += new System.EventHandler(this.btnSaveTrigger_Click);
@@ -193,14 +206,128 @@
             this.btnSaveAndAddTrig.Location = new System.Drawing.Point(544, 304);
             this.btnSaveAndAddTrig.Name = "btnSaveAndAddTrig";
             this.btnSaveAndAddTrig.Size = new System.Drawing.Size(152, 23);
-            this.btnSaveAndAddTrig.TabIndex = 17;
+            this.btnSaveAndAddTrig.TabIndex = 16;
             this.btnSaveAndAddTrig.Text = "Save and Add Trigger";
             this.btnSaveAndAddTrig.UseVisualStyleBackColor = true;
+            // 
+            // lblLightningWebComponent
+            // 
+            this.lblLightningWebComponent.AutoSize = true;
+            this.lblLightningWebComponent.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLightningWebComponent.Location = new System.Drawing.Point(4, 377);
+            this.lblLightningWebComponent.Name = "lblLightningWebComponent";
+            this.lblLightningWebComponent.Size = new System.Drawing.Size(198, 17);
+            this.lblLightningWebComponent.TabIndex = 17;
+            this.lblLightningWebComponent.Text = "Lightning Web Component";
+            // 
+            // lwcName
+            // 
+            this.lwcName.AutoSize = true;
+            this.lwcName.Location = new System.Drawing.Point(4, 406);
+            this.lwcName.Name = "lwcName";
+            this.lwcName.Size = new System.Drawing.Size(62, 13);
+            this.lwcName.TabIndex = 18;
+            this.lwcName.Text = "LWC Name";
+            // 
+            // tbLWCName
+            // 
+            this.tbLWCName.Location = new System.Drawing.Point(88, 406);
+            this.tbLWCName.Name = "tbLWCName";
+            this.tbLWCName.Size = new System.Drawing.Size(608, 20);
+            this.tbLWCName.TabIndex = 19;
+            // 
+            // btnSaveLWC
+            // 
+            this.btnSaveLWC.Location = new System.Drawing.Point(575, 475);
+            this.btnSaveLWC.Name = "btnSaveLWC";
+            this.btnSaveLWC.Size = new System.Drawing.Size(121, 23);
+            this.btnSaveLWC.TabIndex = 22;
+            this.btnSaveLWC.Text = "Save LWC";
+            this.btnSaveLWC.UseVisualStyleBackColor = true;
+            this.btnSaveLWC.Click += new System.EventHandler(this.btnSaveLWC_Click);
+            // 
+            // lvTargets
+            // 
+            this.lvTargets.CheckBoxes = true;
+            this.lvTargets.HideSelection = false;
+            this.lvTargets.Location = new System.Drawing.Point(926, 406);
+            this.lvTargets.Name = "lvTargets";
+            this.lvTargets.Size = new System.Drawing.Size(219, 274);
+            this.lvTargets.TabIndex = 26;
+            this.lvTargets.UseCompatibleStateImageBehavior = false;
+            // 
+            // lvAdditionalLWCFiles
+            // 
+            this.lvAdditionalLWCFiles.Alignment = System.Windows.Forms.ListViewAlignment.Left;
+            this.lvAdditionalLWCFiles.BackColor = System.Drawing.SystemColors.Window;
+            this.lvAdditionalLWCFiles.CheckBoxes = true;
+            this.lvAdditionalLWCFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lvAdditionalLWCFiles.HideSelection = false;
+            listViewItem1.StateImageIndex = 0;
+            listViewItem2.StateImageIndex = 0;
+            listViewItem3.StateImageIndex = 0;
+            this.lvAdditionalLWCFiles.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1,
+            listViewItem2,
+            listViewItem3});
+            this.lvAdditionalLWCFiles.LabelWrap = false;
+            this.lvAdditionalLWCFiles.Location = new System.Drawing.Point(744, 406);
+            this.lvAdditionalLWCFiles.Name = "lvAdditionalLWCFiles";
+            this.lvAdditionalLWCFiles.Size = new System.Drawing.Size(158, 151);
+            this.lvAdditionalLWCFiles.TabIndex = 24;
+            this.lvAdditionalLWCFiles.UseCompatibleStateImageBehavior = false;
+            this.lvAdditionalLWCFiles.View = System.Windows.Forms.View.List;
+            // 
+            // lblAdditionalLWCFiles
+            // 
+            this.lblAdditionalLWCFiles.AutoSize = true;
+            this.lblAdditionalLWCFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAdditionalLWCFiles.Location = new System.Drawing.Point(741, 381);
+            this.lblAdditionalLWCFiles.Name = "lblAdditionalLWCFiles";
+            this.lblAdditionalLWCFiles.Size = new System.Drawing.Size(124, 13);
+            this.lblAdditionalLWCFiles.TabIndex = 23;
+            this.lblAdditionalLWCFiles.Text = "Additional LWC Files";
+            // 
+            // lblTargets
+            // 
+            this.lblTargets.AutoSize = true;
+            this.lblTargets.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTargets.Location = new System.Drawing.Point(923, 379);
+            this.lblTargets.Name = "lblTargets";
+            this.lblTargets.Size = new System.Drawing.Size(50, 13);
+            this.lblTargets.TabIndex = 25;
+            this.lblTargets.Text = "Targets";
+            // 
+            // lblMasterLabel
+            // 
+            this.lblMasterLabel.AutoSize = true;
+            this.lblMasterLabel.Location = new System.Drawing.Point(4, 441);
+            this.lblMasterLabel.Name = "lblMasterLabel";
+            this.lblMasterLabel.Size = new System.Drawing.Size(68, 13);
+            this.lblMasterLabel.TabIndex = 20;
+            this.lblMasterLabel.Text = "Master Label";
+            // 
+            // tbMasterLabel
+            // 
+            this.tbMasterLabel.Location = new System.Drawing.Point(88, 438);
+            this.tbMasterLabel.Name = "tbMasterLabel";
+            this.tbMasterLabel.Size = new System.Drawing.Size(608, 20);
+            this.tbMasterLabel.TabIndex = 21;
             // 
             // AddObject
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1157, 544);
+            this.ClientSize = new System.Drawing.Size(1157, 692);
+            this.Controls.Add(this.tbMasterLabel);
+            this.Controls.Add(this.lblMasterLabel);
+            this.Controls.Add(this.lblTargets);
+            this.Controls.Add(this.lblAdditionalLWCFiles);
+            this.Controls.Add(this.lvAdditionalLWCFiles);
+            this.Controls.Add(this.lvTargets);
+            this.Controls.Add(this.btnSaveLWC);
+            this.Controls.Add(this.tbLWCName);
+            this.Controls.Add(this.lwcName);
+            this.Controls.Add(this.lblLightningWebComponent);
             this.Controls.Add(this.btnSaveAndAddTrig);
             this.Controls.Add(this.btnSaveTrigger);
             this.Controls.Add(this.cmbSobject);
@@ -239,11 +366,21 @@
         public System.Windows.Forms.Button btnSaveAndAddClass;
         private System.Windows.Forms.Label lblClassSectionHeader;
         private System.Windows.Forms.Label lblApexTriggers;
-        private System.Windows.Forms.TextBox tbTriggerName;
         private System.Windows.Forms.Label lblTriggerName;
         private System.Windows.Forms.Label lblSobject;
         private System.Windows.Forms.ComboBox cmbSobject;
         private System.Windows.Forms.Button btnSaveTrigger;
         private System.Windows.Forms.Button btnSaveAndAddTrig;
+        private System.Windows.Forms.Label lblLightningWebComponent;
+        private System.Windows.Forms.Label lwcName;
+        private System.Windows.Forms.Button btnSaveLWC;
+        private System.Windows.Forms.ListView lvTargets;
+        private System.Windows.Forms.ListView lvAdditionalLWCFiles;
+        private System.Windows.Forms.Label lblAdditionalLWCFiles;
+        private System.Windows.Forms.Label lblTargets;
+        private System.Windows.Forms.Label lblMasterLabel;
+        private System.Windows.Forms.TextBox tbMasterLabel;
+        public System.Windows.Forms.TextBox tbTriggerName;
+        public System.Windows.Forms.TextBox tbLWCName;
     }
 }

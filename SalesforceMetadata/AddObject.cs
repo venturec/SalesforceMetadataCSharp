@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Asn1.X509;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -114,6 +115,57 @@ namespace SalesforceMetadata
                 filesCreated[1] = this.tbTriggerName.Text + ".trigger-meta.xml";
 
                 refreshDevelopmentForm("triggers", filesCreated);
+            }
+        }
+
+        private void btnSaveLWC_Click(object sender, EventArgs e)
+        {
+            String[] filesCreated = new string[1];
+
+            if (this.tbLWCName.Text == "")
+            {
+                MessageBox.Show("Please make sure the LWC name field is populated");
+            }
+            else
+            {
+                if (!Directory.Exists(projectFolderPath + "\\lwc\\"))
+                {
+                    Directory.CreateDirectory(projectFolderPath + "\\lwc\\");
+                }
+
+                DirectoryInfo lwcDirecotry = Directory.CreateDirectory(projectFolderPath + "\\lwc\\" + this.tbLWCName.Text);
+
+                StreamWriter sw = new StreamWriter(lwcDirecotry.FullName + "\\" + this.tbLWCName.Text + ".html");
+                sw.WriteLine("<template>");
+                sw.Write("</template>");
+                sw.Close();
+
+                sw = new StreamWriter(lwcDirecotry.FullName + "\\" + this.tbLWCName.Text + ".js");
+                sw.WriteLine("import { LightningElement } from \'lwc\';");
+                sw.WriteLine("export default class " + this.tbLWCName.Text + " extends LightningElement {");
+                sw.Write("}");
+                sw.Close();
+
+                sw = new StreamWriter(lwcDirecotry.FullName + "\\" + this.tbLWCName.Text + ".js-meta.xml");
+                sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+                sw.WriteLine("<LightningComponentBundle xmlns=\"http://soap.sforce.com/2006/04/metadata\">");
+                sw.WriteLine("<apiVersion>" + Properties.Settings.Default.DefaultAPI + "</apiVersion>");
+                sw.WriteLine("<isExposed>false</isExposed>");
+
+                if (this.tbMasterLabel.Text != "")
+                {
+                    sw.WriteLine("<masterLabel>" + this.tbMasterLabel.Text + "</masterLabel>");
+                }
+
+                sw.WriteLine("<targets>");
+                sw.WriteLine("<target>lightning__AppPage</target>");
+                sw.WriteLine("</targets>");
+                sw.Write("</LightningComponentBundle>");
+                sw.Close();
+
+                filesCreated[0] = this.tbLWCName.Text;
+
+                refreshDevelopmentForm("lwc", filesCreated);
             }
         }
 

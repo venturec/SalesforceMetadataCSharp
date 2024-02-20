@@ -137,11 +137,11 @@ namespace SalesforceMetadata
 
                 try
                 {
-                    this.toOrgLR.metadataServerUrl = this.usernamePartnerUrl[userName];
+                    this.toOrgSS.Timeout = 15000;
+                    this.toOrgSS.Url = this.usernamePartnerUrl[userName];
 
                     if (this.isProduction[userName] == false)
                     {
-                        this.toOrgSS.Url = this.usernamePartnerUrl[userName];
                         this.toOrgLR.sandbox = true;
                     }
 
@@ -150,7 +150,9 @@ namespace SalesforceMetadata
 
                     if (passwordSecurityToken.ContainsKey("password") && passwordSecurityToken.ContainsKey("securitytoken"))
                     {
-                        this.toOrgLR = this.toOrgSS.login(userName, passwordSecurityToken["password"] + passwordSecurityToken["securitytoken"]);
+                        String pwdSecToken = passwordSecurityToken["password"] + passwordSecurityToken["securitytoken"];
+
+                        this.toOrgLR = this.toOrgSS.login(userName, pwdSecToken);
                         if (this.toOrgLR.sessionId != null && this.toOrgLR.passwordExpired == false)
                         {
                             this.loginSuccess = true;

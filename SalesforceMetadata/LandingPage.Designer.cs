@@ -278,6 +278,7 @@
             // 
             // btnGenerateToolingReport
             // 
+            this.btnGenerateToolingReport.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnGenerateToolingReport.Location = new System.Drawing.Point(736, 170);
             this.btnGenerateToolingReport.Name = "btnGenerateToolingReport";
             this.btnGenerateToolingReport.Size = new System.Drawing.Size(189, 35);

@@ -65,78 +65,81 @@ namespace SalesforceMetadata
 
         public void populateTreeView()
         {
-            mainFolderNames = new HashSet<string>();
-            tnListAddDependencies = new Dictionary<String, TreeNode>();
-            tnListRemoveDependencies = new Dictionary<String, TreeNode>();
-
-            if (this.tbProjectFolder.Text != null
-                && this.tbProjectFolder.Text != "")
+            if (Directory.Exists(this.tbProjectFolder.Text))
             {
-                this.treeViewMetadata.Nodes.Clear();
+                mainFolderNames = new HashSet<string>();
+                tnListAddDependencies = new Dictionary<String, TreeNode>();
+                tnListRemoveDependencies = new Dictionary<String, TreeNode>();
 
-                String[] folders = Directory.GetDirectories(this.tbProjectFolder.Text);
-                foreach (String folderName in folders)
+                if (this.tbProjectFolder.Text != null
+                    && this.tbProjectFolder.Text != "")
                 {
-                    String[] folderNameSplit = folderName.Split('\\');
-                    String[] fileNames = Directory.GetFiles(folderName);
+                    this.treeViewMetadata.Nodes.Clear();
 
-                    TreeNode tnd1 = new TreeNode(folderNameSplit[folderNameSplit.Length - 1]);
-                    mainFolderNames.Add(tnd1.Text);
-
-                    if (folderNameSplit[folderNameSplit.Length - 1] == "aura"
-                        || folderNameSplit[folderNameSplit.Length - 1] == "lwc")
+                    String[] folders = Directory.GetDirectories(this.tbProjectFolder.Text);
+                    foreach (String folderName in folders)
                     {
-                        String[] subFolders = Directory.GetDirectories(folderName);
-                        foreach (String subFolder in subFolders)
+                        String[] folderNameSplit = folderName.Split('\\');
+                        String[] fileNames = Directory.GetFiles(folderName);
+
+                        TreeNode tnd1 = new TreeNode(folderNameSplit[folderNameSplit.Length - 1]);
+                        mainFolderNames.Add(tnd1.Text);
+
+                        if (folderNameSplit[folderNameSplit.Length - 1] == "aura"
+                            || folderNameSplit[folderNameSplit.Length - 1] == "lwc")
                         {
-                            String[] subfolderSplit = subFolder.Split('\\');
-                            TreeNode tnd2 = new TreeNode(subfolderSplit[subfolderSplit.Length - 1]);
-
-                            String[] subFolderFiles = Directory.GetFiles(subFolder);
-                            foreach (String subFolderFile in subFolderFiles)
+                            String[] subFolders = Directory.GetDirectories(folderName);
+                            foreach (String subFolder in subFolders)
                             {
-                                String[] subFolderFileSplit = subFolderFile.Split('\\');
+                                String[] subfolderSplit = subFolder.Split('\\');
+                                TreeNode tnd2 = new TreeNode(subfolderSplit[subfolderSplit.Length - 1]);
 
-                                TreeNode tnd3 = new TreeNode(subFolderFileSplit[subFolderFileSplit.Length - 1]);
-                                tnd2.Nodes.Add(tnd3);
-                            }
-
-                            tnd1.Nodes.Add(tnd2);
-                        }
-
-                        this.treeViewMetadata.Nodes.Add(tnd1);
-                    }
-                    else
-                    {
-                        foreach (String fileName in fileNames)
-                        {
-                            String[] fileNameSplit = fileName.Split('\\');
-                            String[] objectNameSplit = fileNameSplit[fileNameSplit.Length - 1].Split('.');
-                            TreeNode tnd2 = new TreeNode(fileNameSplit[fileNameSplit.Length - 1]);
-
-                            try
-                            {
-                                XmlDocument xd = new XmlDocument();
-                                xd.Load(fileName);
-
-                                foreach (XmlNode nd1 in xd.ChildNodes)
+                                String[] subFolderFiles = Directory.GetFiles(subFolder);
+                                foreach (String subFolderFile in subFolderFiles)
                                 {
-                                    foreach (XmlNode nd2 in nd1.ChildNodes)
-                                    {
-                                        TreeNode tnd3 = new TreeNode(nd2.OuterXml);
-                                        tnd2.Nodes.Add(tnd3);
-                                    }
+                                    String[] subFolderFileSplit = subFolderFile.Split('\\');
+
+                                    TreeNode tnd3 = new TreeNode(subFolderFileSplit[subFolderFileSplit.Length - 1]);
+                                    tnd2.Nodes.Add(tnd3);
                                 }
 
                                 tnd1.Nodes.Add(tnd2);
                             }
-                            catch (Exception e)
-                            {
-                                tnd1.Nodes.Add(tnd2);
-                            }
-                        }
 
-                        this.treeViewMetadata.Nodes.Add(tnd1);
+                            this.treeViewMetadata.Nodes.Add(tnd1);
+                        }
+                        else
+                        {
+                            foreach (String fileName in fileNames)
+                            {
+                                String[] fileNameSplit = fileName.Split('\\');
+                                String[] objectNameSplit = fileNameSplit[fileNameSplit.Length - 1].Split('.');
+                                TreeNode tnd2 = new TreeNode(fileNameSplit[fileNameSplit.Length - 1]);
+
+                                try
+                                {
+                                    XmlDocument xd = new XmlDocument();
+                                    xd.Load(fileName);
+
+                                    foreach (XmlNode nd1 in xd.ChildNodes)
+                                    {
+                                        foreach (XmlNode nd2 in nd1.ChildNodes)
+                                        {
+                                            TreeNode tnd3 = new TreeNode(nd2.OuterXml);
+                                            tnd2.Nodes.Add(tnd3);
+                                        }
+                                    }
+
+                                    tnd1.Nodes.Add(tnd2);
+                                }
+                                catch (Exception e)
+                                {
+                                    tnd1.Nodes.Add(tnd2);
+                                }
+                            }
+
+                            this.treeViewMetadata.Nodes.Add(tnd1);
+                        }
                     }
                 }
             }
@@ -1536,14 +1539,39 @@ namespace SalesforceMetadata
                 this.runTreeNodeSelector = false;
 
                 // Add the new nodes to the tree view with a default of checked so the deployment function can pick up on them.
-                foreach (TreeNode tn1 in this.treeViewMetadata.Nodes)
+                foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
                 {
-                    if (tn1.Text == e.nodeType)
+                    if (tnd1.Text == e.nodeType)
                     {
-                        for (Int32 i = 0; i < e.filesCreated.Count(); i++)
+                        if (tnd1.Text == "aura")
                         {
-                            TreeNode tn2 = tn1.Nodes.Add(e.filesCreated[i]);
-                            tn2.Checked = true;
+                            break;
+                        }
+                        else if (tnd1.Text == "lwc")
+                        {
+                            TreeNode tnd2 = tnd1.Nodes.Add(e.filesCreated[0]);
+                            String[] lwcfiles = Directory.GetFiles(this.tbProjectFolder.Text + "\\lwc\\" + e.filesCreated[0]);
+
+                            foreach (String lwcfile in lwcfiles)
+                            {
+                                String[] fileNameSplit = lwcfile.Split('\\');
+                                TreeNode tnd3 = tnd2.Nodes.Add(fileNameSplit[fileNameSplit.Length - 1]);
+                                tnd3.Checked = true;
+                            }
+
+                            tnd2.Checked = true;
+
+                            break;
+                        }
+                        else
+                        {
+                            for (Int32 i = 0; i < e.filesCreated.Count(); i++)
+                            {
+                                TreeNode tnd2 = tnd1.Nodes.Add(e.filesCreated[i]);
+                                tnd2.Checked = true;
+                            }
+
+                            break;
                         }
                     }
                 }
@@ -1578,8 +1606,6 @@ namespace SalesforceMetadata
             if (evtArgs.Button == MouseButtons.Right)
             {
                 this.treeViewMetadata.SelectedNode = this.treeViewMetadata.GetNodeAt(evtArgs.X, evtArgs.Y);
-
-
             }
         }
 
@@ -1594,6 +1620,7 @@ namespace SalesforceMetadata
                 AddObject ao = new AddObject();
                 ao.projectFolderPath = this.tbProjectFolder.Text;
                 ao.loadSobjectsToCombobox();
+                ao.tbTriggerName.Select();
                 ao.ObjectAdded += AddObject_ObjectAdded;
                 ao.Show();
             }
@@ -1610,6 +1637,7 @@ namespace SalesforceMetadata
                 AddObject ao = new AddObject();
                 ao.projectFolderPath = this.tbProjectFolder.Text;
                 ao.loadSobjectsToCombobox();
+                ao.tbClassName.Select();
                 ao.ObjectAdded += AddObject_ObjectAdded;
                 ao.Show();
             }
@@ -1617,7 +1645,11 @@ namespace SalesforceMetadata
 
         private void addLightningWebComponentToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            AddObject ao = new AddObject();
+            ao.projectFolderPath = this.tbProjectFolder.Text;
+            ao.tbLWCName.Select();
+            ao.ObjectAdded += AddObject_ObjectAdded;
+            ao.Show();
         }
 
         private void customObjectToolStripMenuItem_Click(object sender, EventArgs e)

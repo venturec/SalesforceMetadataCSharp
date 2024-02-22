@@ -103,6 +103,25 @@ namespace SalesforceMetadata
                                     tnd2.Nodes.Add(tnd3);
                                 }
 
+                                // Check for a __test__ directory
+                                String[] testDirs = Directory.GetDirectories(subFolder);
+                                if (testDirs.Length > 0)
+                                {
+                                    String[] testDirsSplit = testDirs[0].Split('\\');
+                                    TreeNode tnd3 = new TreeNode(testDirsSplit[testDirsSplit.Length - 1]);
+
+                                    String[] testDirFiles = Directory.GetFiles(testDirs[0]);
+                                    foreach (String testFile in testDirFiles)
+                                    {
+                                        String[] testFileSplit = testFile.Split('\\');
+
+                                        TreeNode tnd4 = new TreeNode(testFileSplit[testFileSplit.Length - 1]);
+                                        tnd3.Nodes.Add(tnd4);
+                                    }
+
+                                    tnd2.Nodes.Add(tnd3);
+                                }
+
                                 tnd1.Nodes.Add(tnd2);
                             }
 

@@ -1421,54 +1421,66 @@ namespace SalesforceMetadata
         private void checkArchiveDirectory(String fileToCopy)
         {
             String[] fileToCopySplit = fileToCopy.Split('\\');
+            String[] fileNameSplit = fileToCopySplit[fileToCopySplit.Length - 1].Split('.');
+
             String codeArchiveRootPath = this.tbRootFolder.Text + "\\Code Archive";
             String logFile = this.tbRootFolder.Text + "\\Code Archive\\LogFile.txt";
 
-            // Confirm if Directory exists
-            if (!Directory.Exists(codeArchiveRootPath))
+            if (fileNameSplit.Length == 1)
             {
-                Directory.CreateDirectory(codeArchiveRootPath);
-            }
-
-            String[] fileNameSplit = fileToCopySplit[fileToCopySplit.Length - 1].Split('.');
-            String codeArchiveFolder = "";
-
-            if (fileToCopySplit[fileToCopySplit.Length - 3] == "aura" || fileToCopySplit[fileToCopySplit.Length - 3] == "lwc")
-            {
-                codeArchiveFolder = codeArchiveRootPath + "\\" + fileToCopySplit[fileToCopySplit.Length - 3] + "\\" + fileToCopySplit[fileToCopySplit.Length - 2];
+                String[] files = Directory.GetFiles(fileToCopy);
+                foreach (String file in files)
+                {
+                    checkArchiveDirectory(file);
+                }
             }
             else
             {
-                codeArchiveFolder = codeArchiveRootPath + "\\" + fileToCopySplit[fileToCopySplit.Length - 2];
+                // Confirm if Directory exists
+                if (!Directory.Exists(codeArchiveRootPath))
+                {
+                    Directory.CreateDirectory(codeArchiveRootPath);
+                }
+
+                String codeArchiveFolder = "";
+
+                if (fileToCopySplit[fileToCopySplit.Length - 3] == "aura" || fileToCopySplit[fileToCopySplit.Length - 3] == "lwc")
+                {
+                    codeArchiveFolder = codeArchiveRootPath + "\\" + fileToCopySplit[fileToCopySplit.Length - 3] + "\\" + fileToCopySplit[fileToCopySplit.Length - 2];
+                }
+                else
+                {
+                    codeArchiveFolder = codeArchiveRootPath + "\\" + fileToCopySplit[fileToCopySplit.Length - 2];
+                }
+
+                if (codeArchiveFolder != "" && !Directory.Exists(codeArchiveFolder))
+                {
+                    Directory.CreateDirectory(codeArchiveFolder);
+                }
+
+                DateTime currDtTime = DateTime.Now;
+                String copiedFileName = codeArchiveFolder + "\\" + fileNameSplit[0] + "_" +
+                                                                   currDtTime.Year.ToString() + "_" +
+                                                                   currDtTime.Month.ToString() + "_" +
+                                                                   currDtTime.Day.ToString() + "_" +
+                                                                   currDtTime.Hour.ToString() + "_" +
+                                                                   currDtTime.Minute.ToString() + "_" +
+                                                                   currDtTime.Second.ToString() + "." + fileNameSplit[1];
+
+                File.Copy(fileToCopy, copiedFileName);
+
+                StreamWriter sw = new StreamWriter(logFile, true);
+                sw.Write(fileNameSplit[0] + "\t" +
+                         fileNameSplit[1] + "\t" +
+                         currDtTime.Year.ToString() + "\t" +
+                         currDtTime.Month.ToString() + "\t" +
+                         currDtTime.Day.ToString() + "\t" +
+                         currDtTime.Hour.ToString() + "\t" +
+                         currDtTime.Minute.ToString() + "\t" +
+                         currDtTime.Second.ToString() + "\t" +
+                         "Opened" + Environment.NewLine);
+                sw.Close();
             }
-
-            if (codeArchiveFolder != "" && !Directory.Exists(codeArchiveFolder))
-            {
-                Directory.CreateDirectory(codeArchiveFolder);
-            }
-
-            DateTime currDtTime = DateTime.Now;
-            String copiedFileName = codeArchiveFolder + "\\" + fileNameSplit[0] + "_" +
-                                                               currDtTime.Year.ToString() + "_" +
-                                                               currDtTime.Month.ToString() + "_" +
-                                                               currDtTime.Day.ToString() + "_" +
-                                                               currDtTime.Hour.ToString() + "_" +
-                                                               currDtTime.Minute.ToString() + "_" +
-                                                               currDtTime.Second.ToString() + "." + fileNameSplit[1];
-
-            File.Copy(fileToCopy, copiedFileName);
-
-            StreamWriter sw = new StreamWriter(logFile, true);
-            sw.Write(fileNameSplit[0] + "\t" +
-                     fileNameSplit[1] + "\t" +
-                     currDtTime.Year.ToString() + "\t" +
-                     currDtTime.Month.ToString() + "\t" +
-                     currDtTime.Day.ToString() + "\t" +
-                     currDtTime.Hour.ToString() + "\t" +
-                     currDtTime.Minute.ToString() + "\t" +
-                     currDtTime.Second.ToString() + "\t" +
-                     "Opened" + Environment.NewLine);
-            sw.Close();
 
         }
         private void btnBuildERD_Click(object sender, EventArgs e)

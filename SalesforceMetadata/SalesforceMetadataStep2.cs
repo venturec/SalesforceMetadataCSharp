@@ -186,7 +186,7 @@ namespace SalesforceMetadata
             thread2.Start();
             while (thread2.ThreadState == System.Threading.ThreadState.Running)
             {
-                // do nothing. Just want for the thread to complete
+                // do nothing. Just wait for the thread to complete
             }
 
             // Build the Package XML for retrieval
@@ -748,7 +748,7 @@ namespace SalesforceMetadata
         {
             StringBuilder packageXmlSB = new StringBuilder();
             packageXmlSB.Append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine);
-            packageXmlSB.Append("<Package xmlns = \"http://soap.sforce.com/2006/04/metadata\">" + Environment.NewLine);
+            packageXmlSB.Append("<Package xmlns=\"http://soap.sforce.com/2006/04/metadata\">" + Environment.NewLine);
 
             MetadataService ms = sc.getMetadataService(reqOrg);
             ms.AllowAutoRedirect = true;
@@ -859,9 +859,10 @@ namespace SalesforceMetadata
                 }
                 else if (!alreadyAdded.Contains(selected))
                 {
-                    String[] members = new String[1];
-                    members[0] = "*";
-                    getMetadataTypes(selected, packageXmlSB, members);
+                    List<String> members = new List<String>();
+                    members.AddRange(getTabDescribe(reqOrg));
+
+                    getMetadataTypes(selected, packageXmlSB, members.ToArray());
                     alreadyAdded.Add(selected);
                 }
             }

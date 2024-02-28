@@ -149,19 +149,37 @@ namespace SalesforceMetadata
                 sw = new StreamWriter(lwcDirecotry.FullName + "\\" + this.tbLWCName.Text + ".js-meta.xml");
                 sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
                 sw.WriteLine("<LightningComponentBundle xmlns=\"http://soap.sforce.com/2006/04/metadata\">");
-                sw.WriteLine("<apiVersion>" + Properties.Settings.Default.DefaultAPI + "</apiVersion>");
-                sw.WriteLine("<isExposed>false</isExposed>");
+                sw.WriteLine("    <apiVersion>" + Properties.Settings.Default.DefaultAPI + "</apiVersion>");
+                sw.WriteLine("    <isExposed>false</isExposed>");
 
                 if (this.tbMasterLabel.Text != "")
                 {
-                    sw.WriteLine("<masterLabel>" + this.tbMasterLabel.Text + "</masterLabel>");
+                    sw.WriteLine("    <masterLabel>" + this.tbMasterLabel.Text + "</masterLabel>");
                 }
 
-                sw.WriteLine("<targets>");
-                sw.WriteLine("<target>lightning__AppPage</target>");
-                sw.WriteLine("</targets>");
                 sw.Write("</LightningComponentBundle>");
                 sw.Close();
+
+                foreach (ListViewItem lvi in this.lvAdditionalLWCFiles.Items)
+                {
+                    if (lvi.Checked == true)
+                    {
+                        if (lvi.Text == "Add CSS File")
+                        {
+                            sw = new StreamWriter(lwcDirecotry.FullName + "\\" + this.tbLWCName.Text + ".css");
+                            sw.Close();
+                        }
+                        else if (lvi.Text == "Add SVG Icon")
+                        {
+                            sw = new StreamWriter(lwcDirecotry.FullName + "\\" + this.tbLWCName.Text + ".svg");
+                            sw.Close();
+                        }
+                        else if (lvi.Text == "Add LWC Test")
+                        {
+
+                        }
+                    }
+                }
 
                 filesCreated[0] = this.tbLWCName.Text;
 

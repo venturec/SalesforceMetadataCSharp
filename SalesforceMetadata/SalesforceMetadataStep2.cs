@@ -859,9 +859,7 @@ namespace SalesforceMetadata
                 }
                 else if (!alreadyAdded.Contains(selected))
                 {
-                    List<String> members = new List<String>();
-                    members.AddRange(getTabDescribe(reqOrg));
-
+                    List<String> members = new List<String> { "*" };
                     getMetadataTypes(selected, packageXmlSB, members.ToArray());
                     alreadyAdded.Add(selected);
                 }

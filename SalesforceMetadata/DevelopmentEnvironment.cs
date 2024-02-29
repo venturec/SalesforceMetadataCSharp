@@ -1407,11 +1407,11 @@ namespace SalesforceMetadata
 
                     if (Properties.Settings.Default.DefaultTextEditorPath == "")
                     {
-                        Process.Start(@"notepad.exe", pathToFile);
+                        Process proc = Process.Start(@"notepad.exe", pathToFile);
                     }
                     else
                     {
-                        Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, pathToFile);
+                        Process proc = Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, pathToFile);
                     }
                 }
             }

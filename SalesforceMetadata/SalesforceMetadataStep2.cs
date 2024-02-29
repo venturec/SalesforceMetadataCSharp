@@ -859,7 +859,37 @@ namespace SalesforceMetadata
                 }
                 else if (!alreadyAdded.Contains(selected))
                 {
-                    List<String> members = new List<String> { "*" };
+                    SalesforceMetadata.MetadataWSDL.FileProperties[] fpList = sc.listMetadata(selected, reqOrg);
+
+                    List <String> members = new List<String>();
+                    if (fpList[0].id == null || fpList[0].id == "")
+                    {
+                        members.Add("*");
+                    }
+                    else
+                    {
+                        foreach (SalesforceMetadata.MetadataWSDL.FileProperties fp in fpList)
+                        {
+                            // TODO: I might come back to this in the far future. Not sure if filtering out the metadata FileProperties is needed or not
+                            //if (fp.manageableState == ManageableState.beta
+                            //    || fp.manageableState == ManageableState.deprecatedEditable
+                            //    || fp.manageableState == ManageableState.installedEditable 
+                            //    || fp.manageableState == ManageableState.unmanaged)
+                            //{
+
+                            //}
+
+                            if (fp.namespacePrefix == null)
+                            {
+                                members.Add(fp.fullName);
+                            }
+                            else
+                            { 
+                                members.Add(fp.namespacePrefix + "__" + fp.fullName);
+                            }
+                        }
+                    }
+                    
                     getMetadataTypes(selected, packageXmlSB, members.ToArray());
                     alreadyAdded.Add(selected);
                 }
@@ -1147,6 +1177,14 @@ namespace SalesforceMetadata
 
             return members;
         }
+
+
+        //private SalesforceMetadata.MetadataWSDL.FileProperties[] listMetadataMembers(String metadataType, UtilityClass.REQUESTINGORG reqOrg)
+        //{
+        //    SalesforceMetadata.MetadataWSDL.FileProperties[] fp = sc.listMetadata(metadataType, reqOrg);
+
+        //    return fp;
+        //}
 
         // VS Code style extensions
         public void addVSCodeFileExtension(String targetDirectory)

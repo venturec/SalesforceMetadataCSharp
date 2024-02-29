@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using SalesforceMetadata.MetadataWSDL;
 
 namespace SalesforceMetadata
 {
@@ -277,7 +278,7 @@ namespace SalesforceMetadata
 
             return descrTabs;
         }
-        
+
         public SalesforceMetadata.MetadataWSDL.DescribeMetadataResult getDescribeMetadataResult(UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.MetadataWSDL.DescribeMetadataResult dmd = new SalesforceMetadata.MetadataWSDL.DescribeMetadataResult();
@@ -322,6 +323,38 @@ namespace SalesforceMetadata
 
             return ms;
         }
+
+        public SalesforceMetadata.MetadataWSDL.FileProperties[] listMetadata(String metadataType, UtilityClass.REQUESTINGORG reqOrg)
+        {
+            SalesforceMetadata.MetadataWSDL.FileProperties[] fp;
+
+            try
+            {
+                SalesforceMetadata.MetadataWSDL.ListMetadataQuery query = new SalesforceMetadata.MetadataWSDL.ListMetadataQuery();
+                query.type = metadataType;
+
+                //query.setFolder(null);
+                Double asOfVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
+                // Assuming that the SOAP binding has already been established.
+                SalesforceMetadata.MetadataWSDL.FileProperties[] fpList = this.fromOrgMS.listMetadata( new ListMetadataQuery[] { query }, asOfVersion);
+                if (fpList != null)
+                {
+                    fp = fpList;
+                }
+                else
+                {
+                    fp = new SalesforceMetadata.MetadataWSDL.FileProperties[1];
+                }
+            }
+            catch (Exception exc)
+            {
+                // Return an empty list
+                fp = new SalesforceMetadata.MetadataWSDL.FileProperties[1];
+            }
+
+            return fp;
+        }
+
 
         public void populateUsernameMaps()
         {

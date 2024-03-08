@@ -862,7 +862,11 @@ namespace SalesforceMetadata
                     SalesforceMetadata.MetadataWSDL.FileProperties[] fpList = sc.listMetadata(selected, reqOrg);
 
                     List <String> members = new List<String>();
-                    if (fpList[0].id == null || fpList[0].id == "")
+                    if (fpList[0] == null)
+                    {
+                        members.Add("*");
+                    }
+                    else if (fpList[0].id == null || fpList[0].id == "")
                     {
                         members.Add("*");
                     }

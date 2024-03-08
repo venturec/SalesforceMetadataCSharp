@@ -3,15 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|c:\\users\\marcu\\documents\\github\\salesforcemetadatacsharp\\salesforcemetadata\\salesforcemetadatastep2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\salesforcemetadatastep2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|SalesforceMetadata||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\salesforcemetadata\\salesforcecredentials.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\salesforcecredentials.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|c:\\users\\marcu\\documents\\github\\salesforcemetadatacsharp\\salesforcemetadata\\generatedeploymentpackage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\generatedeploymentpackage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -21,43 +14,20 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SalesforceMetadata",
-              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\SalesforceMetadata.csproj",
-              "RelativeDocumentMoniker": "SalesforceMetadata\\SalesforceMetadata.csproj",
-              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\SalesforceMetadata.csproj",
-              "RelativeToolTip": "SalesforceMetadata\\SalesforceMetadata.csproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-02-28T23:52:43.85Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "SalesforceMetadataStep2.cs",
-              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\SalesforceMetadataStep2.cs",
-              "RelativeDocumentMoniker": "SalesforceMetadata\\SalesforceMetadataStep2.cs",
-              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\SalesforceMetadataStep2.cs",
-              "RelativeToolTip": "SalesforceMetadata\\SalesforceMetadataStep2.cs",
-              "ViewState": "AQIAAPcCAAAAAAAAAAAewGQDAABIAAAA",
+              "Title": "GenerateDeploymentPackage.cs",
+              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\GenerateDeploymentPackage.cs",
+              "RelativeDocumentMoniker": "SalesforceMetadata\\GenerateDeploymentPackage.cs",
+              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\GenerateDeploymentPackage.cs",
+              "RelativeToolTip": "SalesforceMetadata\\GenerateDeploymentPackage.cs",
+              "ViewState": "AQIAAGYGAAAAAAAAAAAIwHsGAAAxAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-28T23:16:20.736Z",
+              "WhenOpened": "2024-03-08T20:50:34.131Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "SalesforceCredentials.cs",
-              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\SalesforceCredentials.cs",
-              "RelativeDocumentMoniker": "SalesforceMetadata\\SalesforceCredentials.cs",
-              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\SalesforceCredentials.cs",
-              "RelativeToolTip": "SalesforceMetadata\\SalesforceCredentials.cs",
-              "ViewState": "AQIAACEAAAAAAAAAAADwv0YBAABMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-28T23:20:39.971Z"
             }
           ]
         }

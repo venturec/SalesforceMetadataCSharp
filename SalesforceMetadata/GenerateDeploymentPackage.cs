@@ -1655,16 +1655,20 @@ namespace SalesforceMetadata
                                             if (tnd4.Nodes.Count > 0)
                                             {
                                                 String[] tnd4TextSplit = tnd4.Text.Split('|');
-                                                String objectFieldCombo = objectNameSplit[0] + "." + tnd4TextSplit[1].Trim();
 
-                                                // Add the custom field to the packagexml dictionary
-                                                if (packageXml.ContainsKey("CustomField"))
+                                                if (tnd4.Text.StartsWith("fields"))
                                                 {
-                                                    packageXml["CustomField"].Add(objectFieldCombo);
-                                                }
-                                                else
-                                                {
-                                                    packageXml.Add("CustomField", new HashSet<string> { objectFieldCombo });
+                                                    String objectFieldCombo = objectNameSplit[0] + "." + tnd4TextSplit[1].Trim();
+
+                                                    // Add the custom field to the packagexml dictionary
+                                                    if (packageXml.ContainsKey("CustomField"))
+                                                    {
+                                                        packageXml["CustomField"].Add(objectFieldCombo);
+                                                    }
+                                                    else
+                                                    {
+                                                        packageXml.Add("CustomField", new HashSet<string> { objectFieldCombo });
+                                                    }
                                                 }
 
                                                 // Add the custom object to the packagexml dictionary

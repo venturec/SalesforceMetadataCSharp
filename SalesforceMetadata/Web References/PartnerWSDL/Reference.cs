@@ -3035,6 +3035,9 @@ namespace SalesforceMetadata.PartnerWSDL {
     public enum ExceptionCode {
         
         /// <remarks/>
+        ACCOUNT_NOT_SUPPORTED,
+        
+        /// <remarks/>
         ADAPTER_ERROR,
         
         /// <remarks/>
@@ -3251,6 +3254,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         ENVIRONMENT_HUB_MEMBERSHIP_CONFLICT,
         
         /// <remarks/>
+        ERROR_CREATING_BUYER_GROUP_MEMBER,
+        
+        /// <remarks/>
+        ERROR_ENABLING_BUYER,
+        
+        /// <remarks/>
         EXCEEDED_ID_LIMIT,
         
         /// <remarks/>
@@ -3321,6 +3330,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         GONE,
+        
+        /// <remarks/>
+        GUEST_BUYER_PROFILE_NOT_SET,
+        
+        /// <remarks/>
+        GUEST_CHECKOUT_NOT_SUPPORTED,
         
         /// <remarks/>
         IAS_NOT_FOUND,
@@ -3591,6 +3606,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         NO_ACTIVE_DUPLICATE_RULE,
+        
+        /// <remarks/>
+        NO_BUYER_GROUPS_FOUND,
         
         /// <remarks/>
         NO_DEFINITION_ASSOCIATED,
@@ -3964,6 +3982,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         ASSIGNEE_AUTOPROC,
         
         /// <remarks/>
+        ASSIGNEE_REQUIRED_WHEN_SPECIFYING_RUN_AS_USER,
+        
+        /// <remarks/>
         ASSIGNEE_USER_USERNAME,
         
         /// <remarks/>
@@ -4126,6 +4147,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         CONDITIONAL_SCREENFIELD_VISIBILITY_NOT_SUPPORTED_FOR_ENVIRONMENT,
         
         /// <remarks/>
+        CONDITIONAL_SCREEN_FIELD_VISIBILITY_NOT_SUPPORTED_FOR_SCREEN_FIELD,
+        
+        /// <remarks/>
         CONDITION_BUILDER_MISSING_FLOW_VARIABLE,
         
         /// <remarks/>
@@ -4261,6 +4285,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         ELEMENT_NOT_SUPPORTED_IN_SUBFLOW_FOR_TRIGGER_TYPE,
         
         /// <remarks/>
+        ELEMENT_REQUIRES_PERM,
+        
+        /// <remarks/>
         ELEMENT_SCALE_SMALLER_THAN_DEFAULTVALUE,
         
         /// <remarks/>
@@ -4325,6 +4352,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         FIELD_RELATIONSHIP_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FIELD_REQUIRES_PERM,
         
         /// <remarks/>
         FIELD_TYPE_NOT_SUPPORTED_AS_CHILD_OF_SCREENFIELD_REGION_OR_REGIONCONTAINER,
@@ -4406,6 +4436,21 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         FLOW_ALREADY_OVERRIDDEN,
+        
+        /// <remarks/>
+        FLOW_CAPABILITY_INPUT_DATA_TYPE_INVALID,
+        
+        /// <remarks/>
+        FLOW_CAPABILITY_INPUT_INVALID,
+        
+        /// <remarks/>
+        FLOW_CAPABILITY_INPUT_MISSING,
+        
+        /// <remarks/>
+        FLOW_CAPABILITY_INVALID,
+        
+        /// <remarks/>
+        FLOW_CAPABILITY_MISSING,
         
         /// <remarks/>
         FLOW_COMPLEX_VALUE_COLLECTION_TYPE_EXPECTED,
@@ -4523,6 +4568,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         FLOW_NAME_USED_IN_OTHER_CLIENT,
+        
+        /// <remarks/>
+        FLOW_ORCHESTRATOR_FREEMIUM_PRODUCT,
         
         /// <remarks/>
         FLOW_OVERRIDABLE_CANNOT_BE_OVERRIDE,
@@ -4711,6 +4759,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_TEST_RIGHTVALUE_INVALID,
         
         /// <remarks/>
+        FLOW_TRANSFORM_AGGR_COLL_NUM_OF_REF,
+        
+        /// <remarks/>
+        FLOW_TRANSFORM_AGGR_SOURCE_INVALID,
+        
+        /// <remarks/>
         FLOW_TRANSFORM_APEX_CLASS_INCOMPATIBLE,
         
         /// <remarks/>
@@ -4723,10 +4777,25 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_TRANSFORM_ELEMENT_REFERENCE_TYPE_INCOMPATIBLE,
         
         /// <remarks/>
+        FLOW_TRANSFORM_FMLAFOR_COLL_NOT_SUPP,
+        
+        /// <remarks/>
         FLOW_TRANSFORM_FMLA_COLL_MULT_RSRC,
         
         /// <remarks/>
+        FLOW_TRANSFORM_INPUT_PARAM_DUPLICATED,
+        
+        /// <remarks/>
+        FLOW_TRANSFORM_INPUT_PARAM_INVALID,
+        
+        /// <remarks/>
+        FLOW_TRANSFORM_INPUT_PARAM_MISSING,
+        
+        /// <remarks/>
         FLOW_TRANSFORM_MAP_COLL_MISSING,
+        
+        /// <remarks/>
+        FLOW_TRANSFORM_MAP_COLL_MISSING_SOURCE,
         
         /// <remarks/>
         FLOW_TRANSFORM_MAP_COLL_MULT_SOURCE,
@@ -4741,13 +4810,16 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_TRANSFORM_MAP_COL_PRIMITIVE_INCOMPA,
         
         /// <remarks/>
-        FLOW_TRANSFORM_MAP_MULTIPLE_RESOURCES,
-        
-        /// <remarks/>
         FLOW_TRANSFORM_MAP_RSRC_TYPE_NOT_SUPPORTED,
         
         /// <remarks/>
+        FLOW_TRANSFORM_MAP_STATIC_VAL_COLL_MISSING,
+        
+        /// <remarks/>
         FLOW_TRANSFORM_OUTPUT_FIELD_API_NAME_INVALID,
+        
+        /// <remarks/>
+        FLOW_TRANSFORM_SUM_SOURCE_TYPE_INVALID,
         
         /// <remarks/>
         FLOW_TRANSFORM_TYPE_NOT_SUPPORTED,
@@ -4774,10 +4846,16 @@ namespace SalesforceMetadata.PartnerWSDL {
         FORMULA_EXPRESSION_INVALID,
         
         /// <remarks/>
-        FORM_NOT_REFERENCED_BY_LANDING_PAGE,
+        FORM_ALREADY_IN_USE_BY_DRAFT_VERSION,
+        
+        /// <remarks/>
+        FORM_ALREADY_IN_USE_BY_FLOW,
         
         /// <remarks/>
         GLOBAL_VARIABLE_NOT_SUPPORTED_FOR_PROCESSTYPE,
+        
+        /// <remarks/>
+        HELP_TEXT_NOT_SUPPORTED_FOR_SCREEN_FIELD,
         
         /// <remarks/>
         HTTP_METHOD_NOT_SUPPORTED,
@@ -4858,6 +4936,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         INVALID_REGEX_IN_SURVEY_QUESTIONS,
         
         /// <remarks/>
+        INVALID_RUN_CONTEXT,
+        
+        /// <remarks/>
         INVALID_SEGMENT_STATUS_FOR_ACTIVATION,
         
         /// <remarks/>
@@ -4865,6 +4946,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         INVALID_SETUP_REFERENCE_TYPE,
+        
+        /// <remarks/>
+        INVALID_STAGE_STEP_ASSIGNEE_TYPE,
         
         /// <remarks/>
         INVALID_SURVEY_VARIABLE_NAME_OR_TYPE,
@@ -4921,6 +5005,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         MESSAGING_API_ENTITLEMENT_REACHED,
         
         /// <remarks/>
+        MESSAGING_INACTIVE_CHANNEL,
+        
+        /// <remarks/>
         MISSING_ASSIGNEE,
         
         /// <remarks/>
@@ -4928,6 +5015,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         MISSING_EMAIL_RECIPIENTS,
+        
+        /// <remarks/>
+        MISSING_FLOW_TRANSFORM_SUM_FIELD,
+        
+        /// <remarks/>
+        MISSING_MULESOFT_STEP_ASSIGNEE,
         
         /// <remarks/>
         MULTIPLE_ASSIGNEES_NOT_ALLOWED,
@@ -5006,6 +5099,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         PAST_SCHEDULE_FLOW_WILL_NOT_RUN,
+        
+        /// <remarks/>
+        PLATFORM_EVENT_TRIGGERED_FLOW_REQUIRES_DEFAULT_WORKFLOW_USER,
         
         /// <remarks/>
         PRICE_ADJUSTMENT_TIER_VALIDATION_ERROR,
@@ -5104,6 +5200,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         REFERENCED_ELEMENT_NOT_FOUND,
         
         /// <remarks/>
+        REPEATER_API_VERSION_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        REPEATER_COMPONENT_CURRENTLY_NOT_SUPPORTED,
+        
+        /// <remarks/>
         REQUIRED_VARIABLE_INVALID,
         
         /// <remarks/>
@@ -5119,10 +5221,31 @@ namespace SalesforceMetadata.PartnerWSDL {
         RULE_REQUIRE_RECORD_CHANGED_NEVER_CHECKED,
         
         /// <remarks/>
+        RUN_AS_USER_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        RUN_AS_USER_REQUIRED_WHEN_SPECIFYING_ASSIGNEE,
+        
+        /// <remarks/>
         SCHEDULE_TRIGGERED_FLOW_REQUIRES_DEFAULT_WORKFLOW_USER,
         
         /// <remarks/>
+        SCREENACTION_MISSING_REQUIRED_NAME,
+        
+        /// <remarks/>
+        SCREENACTION_MISSING_REQUIRED_TYPE,
+        
+        /// <remarks/>
         SCREENACTION_NOT_SUPPORTED_IN_ORG,
+        
+        /// <remarks/>
+        SCREENACTION_TRIGGER_EVENT_SOURCE_NOT_ON_SAME_SCREEN,
+        
+        /// <remarks/>
+        SCREENACTION_TRIGGER_HANDLER_NOT_VALID_SCREEN_ACTION,
+        
+        /// <remarks/>
+        SCREENACTION_TYPE_NOT_SUPPORTED_IN_ORG,
         
         /// <remarks/>
         SCREENCOMPONENT_CONTAINS_VISIBILITY_RULE,
@@ -5242,6 +5365,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         SCREENFIELD_VALIDATION_RULES_NOT_SUPPORTED_FOR_ENVIRONMENT,
         
         /// <remarks/>
+        SCREENFIELD_VALIDATION_RULES_NOT_SUPPORTED_FOR_EXTENSIONS_WITHOUT_OUTPUTS,
+        
+        /// <remarks/>
         SCREENFOOTER_MERGEFIELD_NOT_SUPPORTED,
         
         /// <remarks/>
@@ -5279,6 +5405,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         SCREENRULE_VISIBILITY_NOT_SUPPORTED_IN_ORG,
+        
+        /// <remarks/>
+        SCREEN_ACTION_NOT_FOUND_WITH_NAME_AND_TYPE,
         
         /// <remarks/>
         SCREEN_ALLOWBACK_ALLOWFINISH_BOTH_FALSE,
@@ -5369,6 +5498,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         STAGE_NAME_NOT_FULLY_QUALIFIED,
+        
+        /// <remarks/>
+        STAGE_STEP_ASSIGNEE_NOT_SUPPORTED,
         
         /// <remarks/>
         START_ELEMENT_MISSING,
@@ -5585,6 +5717,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         VALUE_CHAR_LIMIT_EXCEEDED,
+        
+        /// <remarks/>
+        VARIABLE_FIELD_IS_READ_ONLY,
         
         /// <remarks/>
         VARIABLE_FIELD_NOT_SUPPORTED_FOR_DATATYPE,
@@ -6312,6 +6447,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         CLEAN_SERVICE_ERROR,
+        
+        /// <remarks/>
+        CLM_INSUFFICIENT_ACCESS,
+        
+        /// <remarks/>
+        CLM_RECORD_NOT_FOUND,
         
         /// <remarks/>
         CLONE_FIELD_INTEGRITY_EXCEPTION,
@@ -7130,6 +7271,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         MAX_LIMIT_EXCEEDED,
         
         /// <remarks/>
+        MAX_LOCALES_EXCEEDED,
+        
+        /// <remarks/>
         MAX_RULES_EXCEEDED,
         
         /// <remarks/>
@@ -7164,6 +7308,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         MISSING_OMNI_PROCESS_ID,
+        
+        /// <remarks/>
+        MISSING_PAY_NOW_SITE_URL_ORG_VALUE,
         
         /// <remarks/>
         MISSING_RECEIVEDDOCUMENTID_ATTACHMENT,
@@ -7415,6 +7562,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         RECORD_MISSING_REQUIRED_FIELD,
         
         /// <remarks/>
+        RECORD_TYPE_LIMIT_EXCEEDED,
+        
+        /// <remarks/>
         RECORD_UPDATE_FAILED,
         
         /// <remarks/>
@@ -7497,6 +7647,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         SEARCH_INCLUDE_RULES_MIN_RULE_DEFINITION_NOT_MET,
+        
+        /// <remarks/>
+        SEARCH_PROVIDER_PATH_LIMIT_EXCEEDED,
         
         /// <remarks/>
         SEARCH_PROVIDER_REQUEST_RATE_EXCEEDED,
@@ -7641,6 +7794,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         UNQUALIFIED_CART,
+        
+        /// <remarks/>
+        UNRESOLVABLE_PAY_NOW_WEBSTORE,
         
         /// <remarks/>
         UNSAFE_HTML_CONTENT,
@@ -9889,6 +10045,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         anyType,
+        
+        /// <remarks/>
+        json,
         
         /// <remarks/>
         complexvalue,
@@ -20068,14 +20227,14 @@ namespace SalesforceMetadata.PartnerWSDL {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public partial class LimitInfo {
         
-        private int currentField;
+        private long currentField;
         
-        private int limitField;
+        private long limitField;
         
         private string typeField;
         
         /// <remarks/>
-        public int current {
+        public long current {
             get {
                 return this.currentField;
             }
@@ -20085,7 +20244,7 @@ namespace SalesforceMetadata.PartnerWSDL {
         }
         
         /// <remarks/>
-        public int limit {
+        public long limit {
             get {
                 return this.limitField;
             }

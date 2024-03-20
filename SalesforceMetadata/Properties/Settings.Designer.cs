@@ -62,7 +62,7 @@ namespace SalesforceMetadata.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://test.salesforce.com/services/Soap/u/59.0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://login.salesforce.com/services/Soap/u/60.0")]
         public string SalesforceMetadata_PartnerWSDL_SforceService {
             get {
                 return ((string)(this["SalesforceMetadata_PartnerWSDL_SforceService"]));
@@ -72,7 +72,7 @@ namespace SalesforceMetadata.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://login.salesforce.com/services/Soap/m/59.0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://login.salesforce.com/services/Soap/m/60.0")]
         public string SalesforceMetadata_MetadataWSDL_MetadataService {
             get {
                 return ((string)(this["SalesforceMetadata_MetadataWSDL_MetadataService"]));
@@ -82,7 +82,7 @@ namespace SalesforceMetadata.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://login.salesforce.com/services/Soap/T/59.0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://login.salesforce.com/services/Soap/T/60.0")]
         public string SalesforceMetadata_ToolingWSDL_SforceServiceService {
             get {
                 return ((string)(this["SalesforceMetadata_ToolingWSDL_SforceServiceService"]));
@@ -91,7 +91,7 @@ namespace SalesforceMetadata.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("59.0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("60.0")]
         public string DefaultAPI {
             get {
                 return ((string)(this["DefaultAPI"]));

@@ -220,6 +220,7 @@
           <xsd:enumeration value="ManagedContentFlow" />
           <xsd:enumeration value="CheckoutFlow" />
           <xsd:enumeration value="CartAsyncFlow" />
+          <xsd:enumeration value="DataCaptureFlow" />
           <xsd:enumeration value="CustomerLifecycle" />
           <xsd:enumeration value="Journey" />
           <xsd:enumeration value="RecommendationStrategy" />
@@ -231,6 +232,7 @@
           <xsd:enumeration value="ManagedContentAuthoringWorkflow" />
           <xsd:enumeration value="ActionCadenceAutolaunchedFlow" />
           <xsd:enumeration value="ActionCadenceStepFlow" />
+          <xsd:enumeration value="IndicatorResultFlow" />
           <xsd:enumeration value="IndividualObjectLinkingFlow" />
           <xsd:enumeration value="PromptFlow" />
         </xsd:restriction>
@@ -322,6 +324,8 @@
           <xsd:extension base="tns:Metadata">
             <xsd:sequence>
               <xsd:element minOccurs="0" name="enableAIReplyRecommendations" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableGenReplyRecommendations" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableServiceEinsteinGPTGrounding" type="xsd:boolean" />
             </xsd:sequence>
           </xsd:extension>
         </xsd:complexContent>
@@ -360,15 +364,6 @@
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="aiScoringModelDefVersions" type="tns:AIScoringModelDefVersion" />
               <xsd:element minOccurs="0" name="description" type="xsd:string" />
               <xsd:element name="masterLabel" type="xsd:string" />
-            </xsd:sequence>
-          </xsd:extension>
-        </xsd:complexContent>
-      </xsd:complexType>
-      <xsd:complexType name="AccountInsightsSettings">
-        <xsd:complexContent mixed="false">
-          <xsd:extension base="tns:Metadata">
-            <xsd:sequence>
-              <xsd:element minOccurs="0" name="enableAccountInsights" type="xsd:boolean" />
             </xsd:sequence>
           </xsd:extension>
         </xsd:complexContent>
@@ -601,6 +596,36 @@
           </xsd:extension>
         </xsd:complexContent>
       </xsd:complexType>
+      <xsd:complexType name="ActnblListKeyPrfmIndDef">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element name="aggregateOperationName" type="tns:ActionableListKPIAggType" />
+              <xsd:element minOccurs="0" name="description" type="xsd:string" />
+              <xsd:element name="fieldName" type="xsd:string" />
+              <xsd:element minOccurs="0" name="filterExpression" type="xsd:string" />
+              <xsd:element name="masterLabel" type="xsd:string" />
+              <xsd:element name="objectName" type="xsd:string" />
+              <xsd:element name="status" type="tns:ActionableListKPIStType" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:simpleType name="ActionableListKPIAggType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="SUM" />
+          <xsd:enumeration value="COUNT" />
+          <xsd:enumeration value="MIN" />
+          <xsd:enumeration value="MAX" />
+          <xsd:enumeration value="AVG" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="ActionableListKPIStType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="ACTIVE" />
+          <xsd:enumeration value="INACTIVE" />
+        </xsd:restriction>
+      </xsd:simpleType>
       <xsd:complexType name="AddressSettings">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
@@ -678,6 +703,7 @@
           <xsd:enumeration value="Minimum" />
           <xsd:enumeration value="Unique" />
           <xsd:enumeration value="Median" />
+          <xsd:enumeration value="Noop" />
           <xsd:enumeration value="None" />
         </xsd:restriction>
       </xsd:simpleType>
@@ -702,6 +728,7 @@
               <xsd:element minOccurs="0" name="canExploreDataConversationally" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="canShareAppsWithCommunities" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="canViewThumbnailAssets" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="concurrencyLimitSharing" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableAmazonRedshiftOutputConnector" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableAnalyticsEncryption" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableAnalyticsSharingEnable" type="xsd:boolean" />
@@ -711,7 +738,6 @@
               <xsd:element minOccurs="0" name="enableC360GlobalProfileData" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableCreateLegacyDataflows" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableCrmaDataCloudIntegration" type="xsd:boolean" />
-              <xsd:element minOccurs="0" name="enableDashboardChangeOwnerPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableDashboardComponentSnapshot" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableDashboardFlexiTable" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableDashboardToPDFEnable" type="xsd:boolean" />
@@ -744,6 +770,7 @@
               <xsd:element minOccurs="0" name="enableSalesforceOutputConnector" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableSecureImageSharing" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableSnowflakeOutputConnector" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableSummaryFilterOrgPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableTableauHyperOutputConnector" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableUseOldChartsLookAndFeel" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableWaveAssetsNewDateVersion" type="xsd:boolean" />
@@ -756,6 +783,7 @@
               <xsd:element minOccurs="0" name="enableWaveSharingInheritance" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableWaveSqlCFIndexing" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableWaveTrendedDatasetCleanup" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableWriteToDataCloud" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="etlOrchestrationPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="isDiscoveryOptimizationEnabled" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="isHighVolumePushbackEnabled" type="xsd:boolean" />
@@ -819,7 +847,6 @@
               <xsd:element minOccurs="0" name="enableAuraApexCtrlGuestUserAccessCheckPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableCompileOnDeploy" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableDisableParallelApexTesting" type="xsd:boolean" />
-              <xsd:element minOccurs="0" name="enableDoNotEmailDebugLog" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableGaplessTestAutoNum" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableMngdCtrlActionAccessPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableNonCertifiedApexMdCrud" type="xsd:boolean" />
@@ -1105,15 +1132,6 @@
           <xsd:enumeration value="AdminOrCurrentApprover" />
         </xsd:restriction>
       </xsd:simpleType>
-      <xsd:complexType name="ArchiveSettings">
-        <xsd:complexContent mixed="false">
-          <xsd:extension base="tns:Metadata">
-            <xsd:sequence>
-              <xsd:element minOccurs="0" name="enableEntityArchivingEnabled" type="xsd:boolean" />
-            </xsd:sequence>
-          </xsd:extension>
-        </xsd:complexContent>
-      </xsd:complexType>
       <xsd:complexType name="AssignmentRule">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
@@ -1455,8 +1473,10 @@
               <xsd:element minOccurs="0" name="description" type="xsd:string" />
               <xsd:element minOccurs="0" name="label" type="xsd:string" />
               <xsd:element minOccurs="0" name="logPrivateConversationData" type="xsd:boolean" />
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="pageContextVariables" type="tns:PageContextVariable" />
               <xsd:element minOccurs="0" name="richContentEnabled" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="sessionTimeout" type="xsd:int" />
+              <xsd:element minOccurs="0" name="type" type="tns:BotType" />
             </xsd:sequence>
           </xsd:extension>
         </xsd:complexContent>
@@ -1543,6 +1563,9 @@
           <xsd:enumeration value="eu" />
           <xsd:enumeration value="cy" />
           <xsd:enumeration value="is" />
+          <xsd:enumeration value="cac" />
+          <xsd:enumeration value="quc" />
+          <xsd:enumeration value="cak" />
           <xsd:enumeration value="ms" />
           <xsd:enumeration value="tl" />
           <xsd:enumeration value="lb" />
@@ -1637,6 +1660,7 @@
           <xsd:enumeration value="en_CY" />
           <xsd:enumeration value="en_DE" />
           <xsd:enumeration value="en_IL" />
+          <xsd:enumeration value="en_IT" />
           <xsd:enumeration value="en_NL" />
           <xsd:enumeration value="en_MT" />
           <xsd:enumeration value="el_CY" />
@@ -1701,17 +1725,20 @@
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="botDialogGroups" type="tns:BotDialogGroup" />
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="botDialogs" type="tns:BotDialog" />
               <xsd:element minOccurs="0" name="citationsEnabled" type="xsd:boolean" />
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="conversationDefinitionPlanners" type="tns:ConversationDefinitionPlanner" />
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="conversationGoals" type="tns:ConversationDefinitionGoal" />
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="conversationSystemDialogs" type="tns:ConversationSystemDialog" />
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="conversationVariables" type="tns:ConversationVariable" />
+              <xsd:element minOccurs="0" name="copilotPrimaryLanguage" type="tns:Language" />
               <xsd:element name="entryDialog" type="xsd:string" />
               <xsd:element minOccurs="0" name="intentDisambiguationEnabled" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="intentV3Enabled" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="knowledgeFallbackEnabled" type="xsd:boolean" />
-              <xsd:element name="mainMenuDialog" type="xsd:string" />
+              <xsd:element minOccurs="0" name="mainMenuDialog" type="xsd:string" />
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="nlpProviders" type="tns:ConversationDefinitionNlpProvider" />
               <xsd:element minOccurs="0" name="responseDelayMilliseconds" type="xsd:int" />
               <xsd:element minOccurs="0" name="smallTalkEnabled" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="toneType" type="tns:GenAiBotToneType" />
             </xsd:sequence>
           </xsd:extension>
         </xsd:complexContent>
@@ -1794,6 +1821,7 @@
         <xsd:restriction base="xsd:string">
           <xsd:enumeration value="ConversationVariable" />
           <xsd:enumeration value="ContextVariable" />
+          <xsd:enumeration value="PageContextVariable" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="BotMessage">
@@ -2018,6 +2046,11 @@
           <xsd:enumeration value="GoalStep" />
         </xsd:restriction>
       </xsd:simpleType>
+      <xsd:complexType name="ConversationDefinitionPlanner">
+        <xsd:sequence>
+          <xsd:element name="genAiPlannerName" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
       <xsd:complexType name="ConversationDefinitionGoal">
         <xsd:sequence>
           <xsd:element name="developerName" type="xsd:string" />
@@ -2078,6 +2111,13 @@
           <xsd:enumeration value="Apex" />
         </xsd:restriction>
       </xsd:simpleType>
+      <xsd:simpleType name="GenAiBotToneType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Casual" />
+          <xsd:enumeration value="Neutral" />
+          <xsd:enumeration value="Formal" />
+        </xsd:restriction>
+      </xsd:simpleType>
       <xsd:complexType name="ConversationContextVariable">
         <xsd:sequence>
           <xsd:element minOccurs="0" name="SObjectType" type="xsd:string" />
@@ -2118,6 +2158,22 @@
           <xsd:element name="chatButtonName" type="xsd:string" />
         </xsd:sequence>
       </xsd:complexType>
+      <xsd:complexType name="PageContextVariable">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="SObjectType" type="xsd:string" />
+          <xsd:element name="dataType" type="tns:ConversationDataType" />
+          <xsd:element minOccurs="0" name="description" type="xsd:string" />
+          <xsd:element name="developerName" type="xsd:string" />
+          <xsd:element name="label" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="BotType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Bot" />
+          <xsd:enumeration value="InternalCopilot" />
+          <xsd:enumeration value="ExternalCopilot" />
+        </xsd:restriction>
+      </xsd:simpleType>
       <xsd:complexType name="BotBlock">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
@@ -2180,6 +2236,7 @@
               <xsd:element minOccurs="0" name="mlDomain" type="tns:LocalMlDomain" />
               <xsd:element minOccurs="0" name="permissionSet" type="xsd:string" />
               <xsd:element minOccurs="0" name="richContentEnabled" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="type" type="tns:BotType" />
             </xsd:sequence>
           </xsd:extension>
         </xsd:complexContent>
@@ -2539,6 +2596,9 @@
       <xsd:complexType name="ContactCenterChannel">
         <xsd:sequence>
           <xsd:element name="channel" type="xsd:string" />
+          <xsd:element name="contactCenter" type="xsd:string" />
+          <xsd:element minOccurs="0" name="voiceMailFallbackQueue" type="xsd:string" />
+          <xsd:element minOccurs="0" name="voiceMailHandler" type="xsd:string" />
         </xsd:sequence>
       </xsd:complexType>
       <xsd:complexType name="CallCenterSection">
@@ -2789,17 +2849,25 @@
       <xsd:complexType name="EmailToCaseSettings">
         <xsd:sequence>
           <xsd:element minOccurs="0" name="enableE2CAttachmentAsFile" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="enableE2CDeduplicateAttachments" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="enableE2CExternalServer" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="enableE2CSourceTracking" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="enableEmailToCase" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="enableHtmlEmail" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="enableNewToReadTriggers" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="enableOnDemandEmailToCase" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="enableThreadIDInBody" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="enableThreadIDInSubject" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="enableThreadTokenInBody" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="enableThreadTokenInSubject" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="notifyOwnerOnNewCaseEmail" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="overEmailLimitAction" type="tns:EmailToCaseOnFailureActionType" />
           <xsd:element minOccurs="0" name="preQuoteSignature" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="replyWithNewContentOnly" type="xsd:boolean" />
           <xsd:element minOccurs="0" maxOccurs="unbounded" name="routingAddresses" type="tns:EmailToCaseRoutingAddress" />
+          <xsd:element minOccurs="0" name="showGeneratedEmailCheckbox" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="unauthorizedSenderAction" type="tns:EmailToCaseOnFailureActionType" />
+          <xsd:element minOccurs="0" name="useEmailHeadersForThreading" type="xsd:boolean" />
         </xsd:sequence>
       </xsd:complexType>
       <xsd:simpleType name="EmailToCaseOnFailureActionType">
@@ -3116,6 +3184,9 @@
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
             <xsd:sequence>
+              <xsd:element minOccurs="0" name="commerceAnalyticsEnabled" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="commerceConciergeEnabled" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="commerceDiscoveryExpansion" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="commerceEnabled" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="lowestUnitPriceTracking" type="xsd:boolean" />
             </xsd:sequence>
@@ -3500,7 +3571,10 @@
           <xsd:element minOccurs="0" name="isIntrospectAllTokens" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="isNamedUserJwtEnabled" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="isPkceRequired" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="isRefreshTokenRotationEnabled" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="isSecretRequiredForRefreshToken" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="isSecretRequiredForTokenExchange" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="isTokenExchangeEnabled" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="oauthClientCredentialUser" type="xsd:string" />
           <xsd:element minOccurs="0" maxOccurs="unbounded" name="scopes" type="tns:ConnectedAppOauthAccessScope" />
           <xsd:element minOccurs="0" name="singleLogoutUrl" type="xsd:string" />
@@ -3564,6 +3638,7 @@
       <xsd:complexType name="ConnectedAppOauthPolicy">
         <xsd:sequence>
           <xsd:element name="ipRelaxation" type="xsd:string" />
+          <xsd:element minOccurs="0" name="isTokenExchangeFlowEnabled" type="xsd:boolean" />
           <xsd:element name="refreshTokenPolicy" type="xsd:string" />
           <xsd:element minOccurs="0" name="singleLogoutUrl" type="xsd:string" />
         </xsd:sequence>
@@ -3687,13 +3762,16 @@
           <xsd:extension base="tns:Metadata">
             <xsd:sequence>
               <xsd:element name="connectedAppOauthLink" type="xsd:string" />
+              <xsd:element minOccurs="0" name="consentOwner" type="tns:ConsentOwner" />
               <xsd:element minOccurs="0" name="conversationVendorInfo" type="xsd:string" />
-              <xsd:element name="customEventChnlAddrIdField" type="xsd:string" />
+              <xsd:element minOccurs="0" name="customEventChnlAddrIdField" type="xsd:string" />
               <xsd:element name="customEventPayloadField" type="xsd:string" />
-              <xsd:element name="customEventRecipientField" type="xsd:string" />
+              <xsd:element minOccurs="0" name="customEventRecipientField" type="xsd:string" />
+              <xsd:element minOccurs="0" name="customEventTypeField" type="xsd:string" />
               <xsd:element name="customPlatformEvent" type="xsd:string" />
               <xsd:element name="developerName" type="xsd:string" />
               <xsd:element name="masterLabel" type="xsd:string" />
+              <xsd:element minOccurs="0" name="routingOwner" type="tns:RoutingOwner" />
               <xsd:element minOccurs="0" name="supportsDoubleOptInConsent" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="supportsExplicitConsent" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="supportsImplicitConsent" type="xsd:boolean" />
@@ -3703,6 +3781,18 @@
           </xsd:extension>
         </xsd:complexContent>
       </xsd:complexType>
+      <xsd:simpleType name="ConsentOwner">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Salesforce" />
+          <xsd:enumeration value="Partner" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="RoutingOwner">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Salesforce" />
+          <xsd:enumeration value="Partner" />
+        </xsd:restriction>
+      </xsd:simpleType>
       <xsd:complexType name="ConversationMessageDefinition">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
@@ -4016,6 +4106,7 @@
           <xsd:enumeration value="ServiceCloudVoicePartner" />
           <xsd:enumeration value="Amazon_Connect" />
           <xsd:enumeration value="BringYourOwnChannelPartner" />
+          <xsd:enumeration value="BringYourOwnContactCenter" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="ConversationalIntelligenceSettings">
@@ -4024,6 +4115,7 @@
             <xsd:sequence>
               <xsd:element minOccurs="0" name="enableCallCoaching" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableCallCoachingZoom" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableCallExplorer" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableCallSummarization" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableDiarizationPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableOpptyMatching" type="xsd:boolean" />
@@ -4106,6 +4198,7 @@
               <xsd:element minOccurs="0" name="isNavAutoTempTabsDisabled" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="isNavPersonalizationDisabled" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="isNavTabPersistenceDisabled" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="isOmniPinnedViewEnabled" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="isServiceCloudConsole" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="label" type="xsd:string" />
               <xsd:element minOccurs="0" name="logo" type="xsd:string" />
@@ -4357,6 +4450,7 @@
               <xsd:element minOccurs="0" name="deprecated" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="description" type="xsd:string" />
               <xsd:element minOccurs="0" name="displayFormat" type="xsd:string" />
+              <xsd:element minOccurs="0" name="elementType" type="tns:ElementType" />
               <xsd:element minOccurs="0" name="encryptionScheme" type="tns:EncryptionScheme" />
               <xsd:element minOccurs="0" name="escapeMarkup" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="externalDeveloperName" type="xsd:string" />
@@ -4414,6 +4508,11 @@
           <xsd:enumeration value="Cascade" />
           <xsd:enumeration value="Restrict" />
           <xsd:enumeration value="SetNull" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="ElementType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Float" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:simpleType name="EncryptionScheme">
@@ -4487,11 +4586,16 @@
           <xsd:enumeration value="Bridge" />
           <xsd:enumeration value="Curated" />
           <xsd:enumeration value="Segment_Membership" />
+          <xsd:enumeration value="Calculated_Insight" />
           <xsd:enumeration value="Ml_Prediction" />
           <xsd:enumeration value="Activation_Audience" />
           <xsd:enumeration value="Transform" />
           <xsd:enumeration value="ADG" />
           <xsd:enumeration value="External" />
+          <xsd:enumeration value="Vector_Embedding" />
+          <xsd:enumeration value="Chunk" />
+          <xsd:enumeration value="Directory_Table" />
+          <xsd:enumeration value="Semantic" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:simpleType name="UsageTag">
@@ -4563,6 +4667,7 @@
           <xsd:enumeration value="CustomDataType" />
           <xsd:enumeration value="Time" />
           <xsd:enumeration value="Address" />
+          <xsd:enumeration value="Array" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="ValueSet">
@@ -4835,6 +4940,7 @@
       </xsd:complexType>
       <xsd:complexType name="FieldSetItem">
         <xsd:sequence>
+          <xsd:element minOccurs="0" name="alternativeDisplayFormat" type="xsd:string" />
           <xsd:element minOccurs="0" name="field" type="xsd:string" />
           <xsd:element minOccurs="0" name="isFieldManaged" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="isRequired" type="xsd:boolean" />
@@ -4943,6 +5049,8 @@
         <xsd:sequence>
           <xsd:element minOccurs="0" name="creationType" type="tns:DefinitionCreationType" />
           <xsd:element minOccurs="0" name="dataModelTaxonomy" type="xsd:string" />
+          <xsd:element minOccurs="0" name="dataSpaceName" type="xsd:string" />
+          <xsd:element minOccurs="0" name="dataSpacePrefix" type="xsd:string" />
           <xsd:element minOccurs="0" name="description" type="xsd:string" />
           <xsd:element minOccurs="0" name="isEnabled" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="isSegmentable" type="xsd:boolean" />
@@ -6134,6 +6242,7 @@
           <xsd:element minOccurs="0" name="displayOrder" type="xsd:int" />
           <xsd:element minOccurs="0" name="isDefault" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="isGroupedByListDefObj" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="isTypeAheadSearchEnabled" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="objectName" type="xsd:string" />
           <xsd:element minOccurs="0" name="sourceColumnApiName" type="xsd:string" />
           <xsd:element minOccurs="0" name="sourceFieldName" type="xsd:string" />
@@ -6406,6 +6515,7 @@
           <xsd:enumeration value="LearningCourse" />
           <xsd:enumeration value="LearningProgram" />
           <xsd:enumeration value="AchievementGroup" />
+          <xsd:enumeration value="Skill" />
           <xsd:enumeration value="Custom" />
         </xsd:restriction>
       </xsd:simpleType>
@@ -6427,12 +6537,7 @@
           <xsd:enumeration value="Commerce_Domain_Pricing_Service" />
           <xsd:enumeration value="Commerce_Domain_Tax_Service" />
           <xsd:enumeration value="Commerce_Domain_Checkout_CreateOrder" />
-          <xsd:enumeration value="Product_Inventory_CheckInventory" />
-          <xsd:enumeration value="Cart_Prices_Extension" />
-          <xsd:enumeration value="Checkout_CartSummary_ComputePromotions" />
-          <xsd:enumeration value="Checkout_CartSummary_PriceCart" />
-          <xsd:enumeration value="Checkout_Update_CalcCartSummary" />
-          <xsd:enumeration value="Checkout_CartSummary_Inventory" />
+          <xsd:enumeration value="Commerce_Domain_Shipping_SplitShipment" />
           <xsd:enumeration value="Commerce_Domain_OrderManagement_Product" />
           <xsd:enumeration value="Commerce_Endpoint_Account_Addresses" />
           <xsd:enumeration value="Commerce_Endpoint_Account_Address" />
@@ -6583,12 +6688,30 @@
           </xsd:extension>
         </xsd:complexContent>
       </xsd:complexType>
+      <xsd:complexType name="ProductConfiguratorSettings">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="enableProductConfigurator" type="xsd:boolean" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
       <xsd:complexType name="DataImportManagementSettings">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
             <xsd:sequence>
               <xsd:element minOccurs="0" name="enableDataConnectorHubspot" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableEasyImport" type="xsd:boolean" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="RevenueManagementSettings">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="enableCoreCPQ" type="xsd:boolean" />
             </xsd:sequence>
           </xsd:extension>
         </xsd:complexContent>
@@ -6723,6 +6846,24 @@
           </xsd:extension>
         </xsd:complexContent>
       </xsd:complexType>
+      <xsd:complexType name="IncludeEstTaxInQuoteCPQSettings">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="enableQuoteEstimatedTaxCPQ" type="xsd:boolean" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="SceGlobalModelOptOutSettings">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="sceGlobalModelOptOut" type="xsd:boolean" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
       <xsd:complexType name="SandboxSettings">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
@@ -6737,6 +6878,35 @@
           <xsd:extension base="tns:Metadata">
             <xsd:sequence>
               <xsd:element minOccurs="0" name="enableInterestTagging" type="xsd:boolean" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="ConversationServiceIntegrationSettings">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="enableConvoCatchUpForAgents" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableConvoCatchUpForSupervisors" type="xsd:boolean" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="EinsteinAISettings">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="enableAIFeedbackWithDC" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableTrustPIIMasking" type="xsd:boolean" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="IndustriesGamificationSettings">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="enableGamification" type="xsd:boolean" />
             </xsd:sequence>
           </xsd:extension>
         </xsd:complexContent>
@@ -6792,6 +6962,7 @@
               <xsd:element minOccurs="0" name="enableDevOpsCenterGA" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enablePackaging2" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableScratchOrgManagementPref" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableScratchOrgSnapshotPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableShapeExportPref" type="xsd:boolean" />
             </xsd:sequence>
           </xsd:extension>
@@ -6873,6 +7044,7 @@
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
             <xsd:sequence>
+              <xsd:element minOccurs="0" name="enableAppAnalyticsOptOut" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableSimulationMode" type="xsd:boolean" />
             </xsd:sequence>
           </xsd:extension>
@@ -7775,6 +7947,7 @@
               <xsd:element minOccurs="0" name="einsteinAgentRecommendations" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="reRunAttributeBasedRules" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="runAssignmentRules" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="summarizationCopilot" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="summarizationRecs" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="voiceWrapUpRecs" type="xsd:boolean" />
             </xsd:sequence>
@@ -7831,6 +8004,7 @@
               <xsd:element minOccurs="0" name="enableSendThroughGmailPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableSendViaExchangePref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableSendViaGmailPref" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableTinyMceSalesEmailEnabled" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableUseOrgFootersForExtTrans" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableVerifyEmailDomainByDkim" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="sendEmailsEvenWhenAutomationUpdatesSameRecord" type="xsd:boolean" />
@@ -8020,6 +8194,7 @@
           <xsd:enumeration value="LA_PlainTextChatMessage" />
           <xsd:enumeration value="LA_ChatHeader" />
           <xsd:enumeration value="MIAW_Prechat" />
+          <xsd:enumeration value="MIAW_Header" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="EmbeddedServiceCustomLabel">
@@ -8366,6 +8541,17 @@
           <xsd:enumeration value="EM_Chat_SecureForms_CloseConfirmationConfirmButtonLabel" />
           <xsd:enumeration value="EM_Chat_SecureForms_CloseConfirmationCancelButtonLabel" />
           <xsd:enumeration value="EM_Chat_SecureForms_RequiredSelectInputMissing" />
+          <xsd:enumeration value="EM_Chat_ChatBody_UnsupportedMessageTypeText" />
+          <xsd:enumeration value="EM_Container_Base_PrechatLoading" />
+          <xsd:enumeration value="EM_Container_Base_RequestTranscriptMenuOption" />
+          <xsd:enumeration value="EM_Container_Base_DownloadInProgressNotification" />
+          <xsd:enumeration value="EM_Container_Base_DownloadSuccessNotification" />
+          <xsd:enumeration value="EM_Container_Base_DownloadErrorNotification" />
+          <xsd:enumeration value="EM_Container_Base_CloseNotification" />
+          <xsd:enumeration value="EM_Chat_Carousels_PreviousCardButtonAssistiveText" />
+          <xsd:enumeration value="EM_Chat_Carousels_NextCardButtonAssistiveText" />
+          <xsd:enumeration value="EM_Chat_Carousels_CarouselDescriptionAssistiveText" />
+          <xsd:enumeration value="EM_Container_Base_InputFooterTextAreaPlaceHolderAwaitingResponse" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="EmbeddedServiceCustomization">
@@ -8556,6 +8742,7 @@
           <xsd:extension base="tns:Metadata">
             <xsd:sequence>
               <xsd:element minOccurs="0" name="canOptOutOfDerivationWithBYOK" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="dataCloudEncryption" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableBringYourOwnkms" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableCacheOnlyKeys" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableReplayDetection" type="xsd:boolean" />
@@ -8705,6 +8892,21 @@
           </xsd:extension>
         </xsd:complexContent>
       </xsd:complexType>
+      <xsd:complexType name="EventLogObjectSettings">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="eventLogObjects" type="tns:EventLogObject" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="EventLogObject">
+        <xsd:sequence>
+          <xsd:element name="eventLogName" type="xsd:string" />
+          <xsd:element name="isEnabled" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
       <xsd:complexType name="EventRelayConfig">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
@@ -8798,6 +9000,8 @@
       <xsd:simpleType name="ExperienceContainerType">
         <xsd:restriction base="xsd:string">
           <xsd:enumeration value="SFS" />
+          <xsd:enumeration value="SAPP" />
+          <xsd:enumeration value="TEST" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="ExperiencePropertyTypeBundle">
@@ -8822,8 +9026,10 @@
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
             <xsd:sequence>
+              <xsd:element minOccurs="0" name="enableClientSecretInRestApiAccess" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableConsumerSecretApiAccess" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableExternalClientApps" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enablePackageEcaOauthFromDevOrg" type="xsd:boolean" />
             </xsd:sequence>
           </xsd:extension>
         </xsd:complexContent>
@@ -8849,6 +9055,7 @@
           <xsd:enumeration value="Jwt" />
           <xsd:enumeration value="JwtExchange" />
           <xsd:enumeration value="Custom" />
+          <xsd:enumeration value="Basic" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="ExternalCredentialParameter">
@@ -8953,12 +9160,19 @@
         <xsd:restriction base="xsd:string">
           <xsd:enumeration value="AmazonAthena" />
           <xsd:enumeration value="AmazonDynamoDb" />
+          <xsd:enumeration value="ASPAttribute" />
           <xsd:enumeration value="contentHubItem" />
           <xsd:enumeration value="Datacloud" />
           <xsd:enumeration value="Datajourney" />
+          <xsd:enumeration value="FAAttribute" />
           <xsd:enumeration value="FLAttribute" />
           <xsd:enumeration value="GraphQl" />
+          <xsd:enumeration value="IAItemProdtAttr" />
           <xsd:enumeration value="Identity" />
+          <xsd:enumeration value="InsPolicyAttribute" />
+          <xsd:enumeration value="IPAAttribute" />
+          <xsd:enumeration value="IPCAttribute" />
+          <xsd:enumeration value="IPPAttribute" />
           <xsd:enumeration value="OData" />
           <xsd:enumeration value="OData4" />
           <xsd:enumeration value="OData401" />
@@ -8966,10 +9180,12 @@
           <xsd:enumeration value="OpenSearch" />
           <xsd:enumeration value="outgoingemail" />
           <xsd:enumeration value="QLIAttribute" />
+          <xsd:enumeration value="SAPAttribute" />
           <xsd:enumeration value="SciApi" />
           <xsd:enumeration value="SelectableEmailAddressView" />
           <xsd:enumeration value="SfdcOrg" />
           <xsd:enumeration value="SimpleURL" />
+          <xsd:enumeration value="Snowflake" />
           <xsd:enumeration value="TrailheadEditWithId" />
           <xsd:enumeration value="usermobileconfig" />
           <xsd:enumeration value="usrconnectionstatus" />
@@ -9066,6 +9282,7 @@
               <xsd:element minOccurs="0" name="doesShareSaParentWoWithAr" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="doesShareSaWithAr" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableBatchWindow" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableDocumentBuilder" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableFloatingWorkOrder" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enablePopulateWorkOrderAddress" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableWorkOrders" type="xsd:boolean" />
@@ -9557,6 +9774,7 @@
           <xsd:enumeration value="CardPage" />
           <xsd:enumeration value="VoiceExtension" />
           <xsd:enumeration value="ConfiguratorAppPage" />
+          <xsd:enumeration value="OmniSupervisorPage" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="Flow">
@@ -9737,8 +9955,8 @@
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:FlowBaseElement">
             <xsd:sequence>
-              <xsd:element name="assignToReference" type="xsd:string" />
-              <xsd:element name="operator" type="tns:FlowAssignmentOperator" />
+              <xsd:element minOccurs="0" name="assignToReference" type="xsd:string" />
+              <xsd:element minOccurs="0" name="operator" type="tns:FlowAssignmentOperator" />
               <xsd:element minOccurs="0" name="value" type="tns:FlowElementReferenceOrValue" />
             </xsd:sequence>
           </xsd:extension>
@@ -9746,6 +9964,7 @@
       </xsd:complexType>
       <xsd:simpleType name="FlowAssignmentOperator">
         <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="None" />
           <xsd:enumeration value="Assign" />
           <xsd:enumeration value="Add" />
           <xsd:enumeration value="Subtract" />
@@ -9867,7 +10086,7 @@
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:FlowBaseElement">
             <xsd:sequence>
-              <xsd:element name="field" type="xsd:string" />
+              <xsd:element minOccurs="0" name="field" type="xsd:string" />
               <xsd:element minOccurs="0" name="value" type="tns:FlowElementReferenceOrValue" />
             </xsd:sequence>
           </xsd:extension>
@@ -9887,8 +10106,8 @@
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:FlowBaseElement">
             <xsd:sequence>
-              <xsd:element name="field" type="xsd:string" />
-              <xsd:element name="operator" type="tns:FlowRecordFilterOperator" />
+              <xsd:element minOccurs="0" name="field" type="xsd:string" />
+              <xsd:element minOccurs="0" name="operator" type="tns:FlowRecordFilterOperator" />
               <xsd:element minOccurs="0" name="value" type="tns:FlowElementReferenceOrValue" />
             </xsd:sequence>
           </xsd:extension>
@@ -9999,6 +10218,7 @@
           <xsd:enumeration value="User" />
           <xsd:enumeration value="Group" />
           <xsd:enumeration value="Queue" />
+          <xsd:enumeration value="Invalid" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="FlowStageStepEntryActionInputParameter">
@@ -10075,7 +10295,7 @@
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:FlowBaseElement">
             <xsd:sequence>
-              <xsd:element name="assignToReference" type="xsd:string" />
+              <xsd:element minOccurs="0" name="assignToReference" type="xsd:string" />
               <xsd:element name="name" type="xsd:string" />
             </xsd:sequence>
           </xsd:extension>
@@ -10094,8 +10314,20 @@
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:FlowBaseElement">
             <xsd:sequence>
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="inputParameters" type="tns:FlowTransformValueActionInputParameter" />
+              <xsd:element minOccurs="0" name="name" type="xsd:string" />
               <xsd:element minOccurs="0" name="outputFieldApiName" type="xsd:string" />
               <xsd:element name="transformType" type="tns:FlowTransformValueActionType" />
+              <xsd:element minOccurs="0" name="value" type="tns:FlowElementReferenceOrValue" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="FlowTransformValueActionInputParameter">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:FlowBaseElement">
+            <xsd:sequence>
+              <xsd:element name="name" type="xsd:string" />
               <xsd:element minOccurs="0" name="value" type="tns:FlowElementReferenceOrValue" />
             </xsd:sequence>
           </xsd:extension>
@@ -10104,6 +10336,8 @@
       <xsd:simpleType name="FlowTransformValueActionType">
         <xsd:restriction base="xsd:string">
           <xsd:enumeration value="Map" />
+          <xsd:enumeration value="Count" />
+          <xsd:enumeration value="Sum" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="FlowVisibilityRule">
@@ -10120,7 +10354,7 @@
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:FlowBaseElement">
             <xsd:sequence>
-              <xsd:element name="name" type="xsd:string" />
+              <xsd:element minOccurs="0" name="name" type="xsd:string" />
               <xsd:element minOccurs="0" name="value" type="tns:FlowElementReferenceOrValue" />
             </xsd:sequence>
           </xsd:extension>
@@ -10132,6 +10366,27 @@
             <xsd:sequence>
               <xsd:element name="assignToReference" type="xsd:string" />
               <xsd:element name="name" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="FlowCapability">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:FlowElement">
+            <xsd:sequence>
+              <xsd:element name="capabilityName" type="xsd:string" />
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="inputs" type="tns:FlowCapabilityInput" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="FlowCapabilityInput">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:FlowElement">
+            <xsd:sequence>
+              <xsd:element name="capabilityInputName" type="xsd:string" />
+              <xsd:element minOccurs="0" name="dataType" type="xsd:string" />
+              <xsd:element name="isCollection" type="xsd:boolean" />
             </xsd:sequence>
           </xsd:extension>
         </xsd:complexContent>
@@ -10357,6 +10612,8 @@
           <xsd:enumeration value="cancelCartAsyncOperation" />
           <xsd:enumeration value="createCart" />
           <xsd:enumeration value="addCartItem" />
+          <xsd:enumeration value="getCartItems" />
+          <xsd:enumeration value="getCartPromotions" />
           <xsd:enumeration value="deleteCart" />
           <xsd:enumeration value="cancelFulfillmentOrderItem" />
           <xsd:enumeration value="createFulfillmentOrder" />
@@ -10526,11 +10783,13 @@
           <xsd:enumeration value="getDataCategoryDetails" />
           <xsd:enumeration value="getDataCategoryGroups" />
           <xsd:enumeration value="searchKnowledgeArticles" />
+          <xsd:enumeration value="knowledgeSearch" />
           <xsd:enumeration value="cdpPublishCalculatedInsight" />
           <xsd:enumeration value="cdpGetMlPrediction" />
           <xsd:enumeration value="cdpTriggerModelPredJob" />
           <xsd:enumeration value="scheduleHomeVisit" />
           <xsd:enumeration value="scheduleRecurringHomeVisit" />
+          <xsd:enumeration value="rescheduleRecurringHomeVisits" />
           <xsd:enumeration value="generateAssessmentEnvelopeSignature" />
           <xsd:enumeration value="sendChannelMessage" />
           <xsd:enumeration value="createInvRsvForCart" />
@@ -10552,6 +10811,7 @@
           <xsd:enumeration value="manageGiftDefaultDesignations" />
           <xsd:enumeration value="manageRcrGiftCmtSchd" />
           <xsd:enumeration value="updateProcessedGiftEntries" />
+          <xsd:enumeration value="createEnrichedPrompt" />
           <xsd:enumeration value="assignEnablementProgram" />
           <xsd:enumeration value="inviteToReorderPortal" />
           <xsd:enumeration value="runRecordAggrBatchProcDef" />
@@ -10561,10 +10821,16 @@
           <xsd:enumeration value="creaUsersFromGrpCensusMembers" />
           <xsd:enumeration value="enrollMembers" />
           <xsd:enumeration value="initiateAmendQuantity" />
+          <xsd:enumeration value="initiateAmendment" />
+          <xsd:enumeration value="initiateRenewal" />
+          <xsd:enumeration value="initiateCancellation" />
           <xsd:enumeration value="manageGiftTrxnDesignations" />
           <xsd:enumeration value="processReceivedDocument" />
-          <xsd:enumeration value="getEffectiveAccountsForStoreUser" />
+          <xsd:enumeration value="getEffAccountsForStoreUser" />
           <xsd:enumeration value="getProductRecommendations" />
+          <xsd:enumeration value="b2bD2cGetOrderSummaries" />
+          <xsd:enumeration value="getB2cProductRecommendations" />
+          <xsd:enumeration value="addEcomProductToCart" />
           <xsd:enumeration value="generateOrderSummaryUrl" />
           <xsd:enumeration value="createBenefitDisbursementForServiceAppointment" />
           <xsd:enumeration value="buildContext" />
@@ -10574,14 +10840,48 @@
           <xsd:enumeration value="sendEsignContract" />
           <xsd:enumeration value="persistContextData" />
           <xsd:enumeration value="createReferral" />
-          <xsd:enumeration value="createChatSessionId" />
+          <xsd:enumeration value="createChatSession" />
           <xsd:enumeration value="addOrderToCart" />
           <xsd:enumeration value="generateUserInputs" />
           <xsd:enumeration value="rateProducts" />
           <xsd:enumeration value="updateCareGapStatus" />
           <xsd:enumeration value="sendConversationMessages" />
           <xsd:enumeration value="initiateNaturalLangProcessing" />
+          <xsd:enumeration value="getRecordDetails" />
           <xsd:enumeration value="fetchBoostBuryRuleRecommendation" />
+          <xsd:enumeration value="createSearchBoostBuryRule" />
+          <xsd:enumeration value="captureUserFeedback" />
+          <xsd:enumeration value="previewCartToExchangeOrder" />
+          <xsd:enumeration value="submitCartToExchangeOrder" />
+          <xsd:enumeration value="dispatchReminders" />
+          <xsd:enumeration value="computeCleanEnergyApplnBen" />
+          <xsd:enumeration value="identifyRecordByName" />
+          <xsd:enumeration value="processReferralEvent" />
+          <xsd:enumeration value="submitOrder" />
+          <xsd:enumeration value="dataCloudIngestionApi" />
+          <xsd:enumeration value="getPaynowWebstoreId" />
+          <xsd:enumeration value="queryRecords" />
+          <xsd:enumeration value="queryRecordsWithAggregate" />
+          <xsd:enumeration value="registerGuestBuyer" />
+          <xsd:enumeration value="identifyObject" />
+          <xsd:enumeration value="scheduleGroupVisits" />
+          <xsd:enumeration value="createSubscriptionRecords" />
+          <xsd:enumeration value="generatePromptResponse" />
+          <xsd:enumeration value="getRelatedList" />
+          <xsd:enumeration value="einsteinGenerateMessages" />
+          <xsd:enumeration value="draftOrReviseEmail" />
+          <xsd:enumeration value="summarizeRecord" />
+          <xsd:enumeration value="einsteinCopilotUpdateRecord" />
+          <xsd:enumeration value="runSalesforcePricing" />
+          <xsd:enumeration value="processFirstPaymentBilling" />
+          <xsd:enumeration value="runSalesforceHeadlessPricing" />
+          <xsd:enumeration value="dstrEnergyAttrCertCredits" />
+          <xsd:enumeration value="getRecordFieldsAndValues" />
+          <xsd:enumeration value="createIntegrationPlan" />
+          <xsd:enumeration value="runIntegrationPlan" />
+          <xsd:enumeration value="getConvTscpForRecord" />
+          <xsd:enumeration value="getActivitySummary" />
+          <xsd:enumeration value="exploreConversation" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="FlowScreenField">
@@ -10692,6 +10992,7 @@
           <xsd:enumeration value="RecommendationMapCollectionProcessor" />
           <xsd:enumeration value="FilterCollectionProcessor" />
           <xsd:enumeration value="WaitDate" />
+          <xsd:enumeration value="WaitUntilEvent" />
           <xsd:enumeration value="WaitAttribute" />
           <xsd:enumeration value="WaitDuration" />
           <xsd:enumeration value="InteractiveStep" />
@@ -10702,7 +11003,7 @@
           <xsd:enumeration value="ManagedContentVariantSetReadyBackgroundStep" />
           <xsd:enumeration value="ManagedContentVariantAutoPublishBackgroundStep" />
           <xsd:enumeration value="ManagedContentVariantAutoUnpublishBackgroundStep" />
-          <xsd:enumeration value="CreatePromptInstructions" />
+          <xsd:enumeration value="AddPromptInstructions" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="FlowTextTemplate">
@@ -10735,16 +11036,21 @@
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:FlowElement">
             <xsd:sequence>
+              <xsd:element minOccurs="0" name="associatedElement" type="xsd:string" />
               <xsd:element minOccurs="0" name="conditionLogic" type="xsd:string" />
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="conditions" type="tns:FlowCondition" />
               <xsd:element minOccurs="0" name="connector" type="tns:FlowConnector" />
               <xsd:element minOccurs="0" name="eventType" type="xsd:string" />
+              <xsd:element minOccurs="0" name="filterLogic" type="xsd:string" />
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="filters" type="tns:FlowRecordFilter" />
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="inputParameters" type="tns:FlowWaitEventInputParameter" />
               <xsd:element name="label" type="xsd:string" />
               <xsd:element minOccurs="0" name="maxBatchSize" type="xsd:int" />
+              <xsd:element minOccurs="0" name="object" type="xsd:string" />
               <xsd:element minOccurs="0" name="offset" type="xsd:int" />
               <xsd:element minOccurs="0" name="offsetUnit" type="tns:FlowScheduledPathOffsetUnit" />
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="outputParameters" type="tns:FlowWaitEventOutputParameter" />
+              <xsd:element minOccurs="0" name="recordTriggerType" type="tns:RecordTriggerType" />
               <xsd:element minOccurs="0" name="resumeDate" type="xsd:date" />
               <xsd:element minOccurs="0" name="resumeDateReference" type="xsd:string" />
               <xsd:element minOccurs="0" name="resumeTime" type="xsd:time" />
@@ -10752,6 +11058,15 @@
           </xsd:extension>
         </xsd:complexContent>
       </xsd:complexType>
+      <xsd:simpleType name="RecordTriggerType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Update" />
+          <xsd:enumeration value="Create" />
+          <xsd:enumeration value="CreateAndUpdate" />
+          <xsd:enumeration value="Delete" />
+          <xsd:enumeration value="None" />
+        </xsd:restriction>
+      </xsd:simpleType>
       <xsd:complexType name="FlowApexPluginCall">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:FlowNode">
@@ -10828,7 +11143,7 @@
           <xsd:extension base="tns:FlowNode">
             <xsd:sequence>
               <xsd:element minOccurs="0" name="assignNextValueToReference" type="xsd:string" />
-              <xsd:element name="collectionReference" type="xsd:string" />
+              <xsd:element minOccurs="0" name="collectionReference" type="xsd:string" />
               <xsd:element minOccurs="0" name="iterationOrder" type="tns:IterationOrder" />
               <xsd:element minOccurs="0" name="nextValueConnector" type="tns:FlowConnector" />
               <xsd:element minOccurs="0" name="noMoreValuesConnector" type="tns:FlowConnector" />
@@ -10898,7 +11213,7 @@
               <xsd:element minOccurs="0" name="filterLogic" type="xsd:string" />
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="filters" type="tns:FlowRecordFilter" />
               <xsd:element minOccurs="0" name="getFirstRecordOnly" type="xsd:boolean" />
-              <xsd:element name="object" type="xsd:string" />
+              <xsd:element minOccurs="0" name="object" type="xsd:string" />
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="outputAssignments" type="tns:FlowOutputFieldAssignment" />
               <xsd:element minOccurs="0" name="outputReference" type="xsd:string" />
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="queriedFields" type="xsd:string" />
@@ -10960,16 +11275,18 @@
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:FlowNode">
             <xsd:sequence>
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="capabilityTypes" type="tns:FlowCapability" />
               <xsd:element minOccurs="0" name="connector" type="tns:FlowConnector" />
               <xsd:element minOccurs="0" name="doesRequireRecordChangedToMeetCriteria" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="entryType" type="tns:FlowEntryType" />
               <xsd:element minOccurs="0" name="filterFormula" type="xsd:string" />
               <xsd:element minOccurs="0" name="filterLogic" type="xsd:string" />
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="filters" type="tns:FlowRecordFilter" />
+              <xsd:element minOccurs="0" name="flowRunAsUser" type="tns:FlowRunAsUser" />
               <xsd:element minOccurs="0" name="form" type="xsd:string" />
-              <xsd:element minOccurs="0" name="landingPage" type="xsd:string" />
               <xsd:element minOccurs="0" name="object" type="xsd:string" />
               <xsd:element minOccurs="0" name="objectContainer" type="xsd:string" />
+              <xsd:element minOccurs="0" name="publishSegment" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="recordTriggerType" type="tns:RecordTriggerType" />
               <xsd:element minOccurs="0" name="schedule" type="tns:FlowSchedule" />
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="scheduledPaths" type="tns:FlowScheduledPath" />
@@ -10985,13 +11302,10 @@
           <xsd:enumeration value="AfterCompletion" />
         </xsd:restriction>
       </xsd:simpleType>
-      <xsd:simpleType name="RecordTriggerType">
+      <xsd:simpleType name="FlowRunAsUser">
         <xsd:restriction base="xsd:string">
-          <xsd:enumeration value="Update" />
-          <xsd:enumeration value="Create" />
-          <xsd:enumeration value="CreateAndUpdate" />
-          <xsd:enumeration value="Delete" />
-          <xsd:enumeration value="None" />
+          <xsd:enumeration value="TriggeringUser" />
+          <xsd:enumeration value="DefaultWorkflowUser" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="FlowSchedule">
@@ -11021,6 +11335,7 @@
           <xsd:enumeration value="Segment" />
           <xsd:enumeration value="DataCloudDataChange" />
           <xsd:enumeration value="FormSubmissionEvent" />
+          <xsd:enumeration value="Capability" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="FlowStep">
@@ -11037,7 +11352,7 @@
           <xsd:extension base="tns:FlowNode">
             <xsd:sequence>
               <xsd:element minOccurs="0" name="connector" type="tns:FlowConnector" />
-              <xsd:element name="flowName" type="xsd:string" />
+              <xsd:element minOccurs="0" name="flowName" type="xsd:string" />
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="inputAssignments" type="tns:FlowSubflowInputAssignment" />
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="outputAssignments" type="tns:FlowSubflowOutputAssignment" />
               <xsd:element minOccurs="0" name="storeOutputAutomatically" type="xsd:boolean" />
@@ -11137,6 +11452,7 @@
               <xsd:element minOccurs="0" name="doesFormulaEnforceDataAccess" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="doesFormulaGenerateHtmlOutput" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableEmailSimpleRespectProfiles" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableEmailsimpleSecureProfiles" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableFlowBREncodedFixEnabled" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableFlowCustomPropertyEditor" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableFlowDeployAsActiveEnabled" type="xsd:boolean" />
@@ -11145,7 +11461,7 @@
               <xsd:element minOccurs="0" name="enableFlowInterviewSharingEnabled" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableFlowNullPreviousValueFix" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableFlowPauseEnabled" type="xsd:boolean" />
-              <xsd:element minOccurs="0" name="enableFlowReactiveDisplayText" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableFlowReactiveChoiceOptions" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableFlowReactiveScreens" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableFlowUseApexExceptionEmail" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableFlowViaRestUsesUserCtxt" type="xsd:boolean" />
@@ -11155,7 +11471,6 @@
               <xsd:element minOccurs="0" name="isFlowBlockAccessToSessionIDEnabled" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="isManageFlowRequiredForAutomationCharts" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="isSupportRollbackOnErrorForApexInvocableActionsEnabled" type="xsd:boolean" />
-              <xsd:element minOccurs="0" name="isTimeResumedInSameRunContext" type="xsd:boolean" />
             </xsd:sequence>
           </xsd:extension>
         </xsd:complexContent>
@@ -11460,6 +11775,7 @@
       </xsd:complexType>
       <xsd:complexType name="AdjustmentsSettings">
         <xsd:sequence>
+          <xsd:element name="allowExpandedColumns" type="xsd:boolean" />
           <xsd:element name="enableAdjustments" type="xsd:boolean" />
           <xsd:element name="enableOwnerAdjustments" type="xsd:boolean" />
         </xsd:sequence>
@@ -11574,7 +11890,6 @@
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
             <xsd:sequence>
-              <xsd:element minOccurs="0" maxOccurs="unbounded" name="attributes" type="tns:GenAiPlannerAttr" />
               <xsd:element minOccurs="0" name="description" type="xsd:string" />
               <xsd:element name="invocationTarget" type="xsd:string" />
               <xsd:element name="invocationTargetType" type="tns:PlannerFunctionInvocableTargetType" />
@@ -11584,39 +11899,39 @@
           </xsd:extension>
         </xsd:complexContent>
       </xsd:complexType>
-      <xsd:complexType name="GenAiPlannerAttr">
-        <xsd:sequence>
-          <xsd:element minOccurs="0" name="allowedValues" type="xsd:string" />
-          <xsd:element name="dataType" type="tns:PlannerAttrDataType" />
-          <xsd:element minOccurs="0" name="description" type="xsd:string" />
-          <xsd:element name="developerName" type="xsd:string" />
-          <xsd:element minOccurs="0" name="isDisplayable" type="xsd:boolean" />
-          <xsd:element minOccurs="0" name="isPersIdentInfo" type="xsd:boolean" />
-          <xsd:element minOccurs="0" name="isRequired" type="xsd:boolean" />
-          <xsd:element minOccurs="0" name="isUserInput" type="xsd:boolean" />
-          <xsd:element name="mappingType" type="tns:PlannerAttrMappingType" />
-          <xsd:element name="masterLabel" type="xsd:string" />
-          <xsd:element minOccurs="0" name="pattern" type="xsd:string" />
-          <xsd:element minOccurs="0" name="value" type="xsd:string" />
-        </xsd:sequence>
-      </xsd:complexType>
-      <xsd:simpleType name="PlannerAttrDataType">
-        <xsd:restriction base="xsd:string" />
-      </xsd:simpleType>
-      <xsd:simpleType name="PlannerAttrMappingType">
-        <xsd:restriction base="xsd:string">
-          <xsd:enumeration value="input" />
-          <xsd:enumeration value="output" />
-        </xsd:restriction>
-      </xsd:simpleType>
       <xsd:simpleType name="PlannerFunctionInvocableTargetType">
         <xsd:restriction base="xsd:string">
           <xsd:enumeration value="apex" />
           <xsd:enumeration value="flow" />
           <xsd:enumeration value="standardInvocableAction" />
-          <xsd:enumeration value="prompt" />
+          <xsd:enumeration value="generatePromptResponse" />
           <xsd:enumeration value="externalService" />
           <xsd:enumeration value="quickAction" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="GenAiPlanner">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="capabilities" type="xsd:string" />
+              <xsd:element minOccurs="0" name="description" type="xsd:string" />
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="genAiFunctions" type="tns:GenAiPlannerFunctionDef" />
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="genAiPlugins" type="tns:GenAiPlannerFunctionDef" />
+              <xsd:element name="masterLabel" type="xsd:string" />
+              <xsd:element name="plannerType" type="tns:PlannerType" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="GenAiPlannerFunctionDef">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="genAiFunctionName" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="PlannerType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="AiCopilot__SequentialPlannerIntentClassifier" />
+          <xsd:enumeration value="AiCopilot__ReAct" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="GenAiPlugin">
@@ -12014,6 +12329,25 @@
           </xsd:extension>
         </xsd:complexContent>
       </xsd:complexType>
+      <xsd:complexType name="IndustriesEventOrchSettings">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="enableActionableEventOrch" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableEventOrchDecisionTable" type="xsd:boolean" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="IndustriesFieldServiceSettings">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="enableIndustriesFieldService" type="xsd:boolean" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
       <xsd:complexType name="IndustriesManufacturingSettings">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
@@ -12028,7 +12362,10 @@
               <xsd:element minOccurs="0" name="enablePartnerLeadManagement" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enablePartnerPerformanceManagement" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enablePartnerVisitManagement" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enablePtnrLeadMgmtMappings" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableRevMgmtForSlsAgr" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableVehAssetFinAddtnlCmpnts" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableVehicleAndAssetFinance" type="xsd:boolean" />
             </xsd:sequence>
           </xsd:extension>
         </xsd:complexContent>
@@ -12051,6 +12388,8 @@
               <xsd:element minOccurs="0" name="createFinancialAccountsFromLAProperty" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableAIAccelerator" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableAWSTextractAnalyzeIDPref" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableAWSTextractQueriesPref" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableAWSTextractTablesPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableAcademicOperations" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableAccessToMasterListOfCoverageTypes" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableAccountScoreEnabled" type="xsd:boolean" />
@@ -12093,19 +12432,27 @@
               <xsd:element minOccurs="0" name="enableCompliantDataSharingForPreliminaryApplicationRefSiteUsers" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableComprehendMedical" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableContactCenterAccess" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableContractMgmtPref" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableContractsAIPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableCreateMultiAttendeeEventOrgPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableCrisisCenterAccess" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableCriteriaBasedSearchAndFilter" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableCustomFlowsOnCycleCount" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableCustomFlowsOnExpiryPage" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableDCHMSO365AddIn" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableDataCloudEventsOnTimeline" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableDealManagement" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableDeleteCustomObjectParticipantRecordCompliantDataSharing" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableDepriveSoqlAccessGuestUserOrgPref" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableDepriveSoqlAccessOrgPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableDiscoveryFrameworkMetadata" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableDiscoveryFrwrkSampleTemplate" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableDisplaySummaryOnTimeline" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableDpeProviderSearchSettingsOrgPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableDropInAppointmentsOrgPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableDropInFallbackMechOrgPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableDropInSkillMatchingOrgPref" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableEDCGenerativeAI" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableEducationCloud" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableEinsteinDocReader" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableEinsteinVisits" type="xsd:boolean" />
@@ -12121,27 +12468,37 @@
               <xsd:element minOccurs="0" name="enableFinancialDealCallReportPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableFinancialDealRoleHierarchy" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableFundraising" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableGenAIAssessmentQuestions" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableGnrcDisclsFrmwrk" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableGrantmaking" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableGroupMembershipPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableHCReferralScoring" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableHomeHealth" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableHomeHlthRschdFlowRcntVer" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableIESentimentAnalysis" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableIndustriesAssessment" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableIndustriesAssessmentGuestOrgPref" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableIndustriesAssessmentPrefill" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableIndustriesCaptchaVerification" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableIndustriesIntegrationOrchestratorPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableIndustriesKYC" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableIndustriesOnboarding" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableIndustriesRebates" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableIndustriesShipAndDebit" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableIndustriesStageManagementPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableIntegratedCareManagementSetting" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableInteractionCstmSharingPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableInteractionRoleHierarchy" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableInteractionSummaryPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableInteractionSummaryRoleHierarchy" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableLifeSciencesClinialTrailManagement" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableManyToManyRelationships" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableMaterialityAssessment" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableMcgSetting" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableMedRecSetting" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableMedicalDeviceEnabled" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableMedicationManagementEnabled" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableMentoring" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableMicrosoftWordAddInEnabled" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableMortgageRlaTotalsOrgPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableMulesoftFhirR4Apis" type="xsd:boolean" />
@@ -12150,9 +12507,11 @@
               <xsd:element minOccurs="0" name="enableMultipleTopicsForShiftsOrgPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableNZCMngEnrgyAttrCr" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableNZCMngEsgPgm" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableNearcoreRuleProcessingPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableObjectDetection" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableOutcomes" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableOverbookingOrgPref" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enablePCMConfigRules" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enablePatientAppointmentSchedulingOrgPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enablePatientServicesOrchestration" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enablePolicyAdministration" type="xsd:boolean" />
@@ -12161,7 +12520,9 @@
               <xsd:element minOccurs="0" name="enableProviderSearchSyncOrgPref" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableRBLUsingCalcService" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableRecordRollup" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableReferralManagementApp" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableReferralScoring" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableReminders" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableSCAssignFootprint" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableSCBEIEnabled" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableSCCarbonAccounting" type="xsd:boolean" />
@@ -12200,6 +12561,7 @@
               <xsd:element minOccurs="0" name="enableVisitInventoryEnabled" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="loanApplicantAddressAutoCreation" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="loanApplicantAutoCreation" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="mortgageSalesforceSharing" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="rlaEditIfAccHasEdit" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="transformRBLtoDPE" type="xsd:boolean" />
             </xsd:sequence>
@@ -13228,7 +13590,9 @@
               <xsd:element name="isEnabled" type="xsd:boolean" />
               <xsd:element name="pattern" type="xsd:string" />
               <xsd:element name="priority" type="xsd:int" />
+              <xsd:element name="processingType" type="tns:SensitiveDataRuleProcessing" />
               <xsd:element minOccurs="0" name="replacement" type="xsd:string" />
+              <xsd:element name="version" type="tns:SensitiveDataRuleVersion" />
             </xsd:sequence>
           </xsd:extension>
         </xsd:complexContent>
@@ -13237,6 +13601,18 @@
         <xsd:restriction base="xsd:string">
           <xsd:enumeration value="Remove" />
           <xsd:enumeration value="Replace" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="SensitiveDataRuleProcessing">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Persist" />
+          <xsd:enumeration value="RealTime" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="SensitiveDataRuleVersion">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="ONE" />
+          <xsd:enumeration value="TWO" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="LiveMessageSettings">
@@ -13488,6 +13864,33 @@
           <xsd:enumeration value="DATE" />
         </xsd:restriction>
       </xsd:simpleType>
+      <xsd:complexType name="ManagedEventSubscription">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="defaultReplay" type="tns:EventSubscriptionReplayPreset" />
+              <xsd:element minOccurs="0" name="errorRecoveryReplay" type="tns:EventSubscriptionReplayPreset" />
+              <xsd:element minOccurs="0" name="label" type="xsd:string" />
+              <xsd:element minOccurs="0" name="state" type="tns:EventSubscriptionAdminState" />
+              <xsd:element minOccurs="0" name="topicName" type="xsd:string" />
+              <xsd:element minOccurs="0" name="version" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:simpleType name="EventSubscriptionReplayPreset">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="EARLIEST" />
+          <xsd:enumeration value="LATEST" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="EventSubscriptionAdminState">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="RUN" />
+          <xsd:enumeration value="STOP" />
+          <xsd:enumeration value="PAUSE" />
+        </xsd:restriction>
+      </xsd:simpleType>
       <xsd:complexType name="ManagedTopic">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
@@ -13628,6 +14031,7 @@
         <xsd:restriction base="xsd:string">
           <xsd:enumeration value="EmbeddedMessaging" />
           <xsd:enumeration value="Voice" />
+          <xsd:enumeration value="Custom" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:simpleType name="MessagingSessionHandlerType">
@@ -13688,6 +14092,110 @@
           </xsd:extension>
         </xsd:complexContent>
       </xsd:complexType>
+      <xsd:complexType name="MlModelConnection">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="deployStatus" type="tns:MlModelDeployStatus" />
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="endpoints" type="tns:MlModelEndpoint" />
+              <xsd:element minOccurs="0" name="externalSystemRegistry" type="xsd:string" />
+              <xsd:element minOccurs="0" name="foundationalModelName" type="xsd:string" />
+              <xsd:element name="label" type="xsd:string" />
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="outputFeatures" type="tns:MlModelOutput" />
+              <xsd:element minOccurs="0" name="registeredModelApiName" type="xsd:string" />
+              <xsd:element minOccurs="0" name="status" type="tns:MlModelConnectorDefinitionStatus" />
+              <xsd:element name="type" type="tns:MlModelConnectorType" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:simpleType name="MlModelDeployStatus">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="DRAFT" />
+          <xsd:enumeration value="REGISTERED" />
+          <xsd:enumeration value="ACTIVATED" />
+          <xsd:enumeration value="DEACTIVATED" />
+          <xsd:enumeration value="FAILED" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="MlModelEndpoint">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="authHeader" type="xsd:string" />
+          <xsd:element minOccurs="0" name="credential" type="xsd:string" />
+          <xsd:element minOccurs="0" name="inputSchema" type="xsd:string" />
+          <xsd:element name="label" type="xsd:string" />
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element minOccurs="0" name="namedCredential" type="xsd:string" />
+          <xsd:element minOccurs="0" name="outputSchema" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="outputs" type="tns:MlModelOutputEndpoint" />
+          <xsd:element minOccurs="0" name="type" type="tns:MlModelEndpointType" />
+          <xsd:element name="url" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="MlModelOutputEndpoint">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="jsonPath" type="xsd:string" />
+          <xsd:element name="label" type="xsd:string" />
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element name="outputFeature" type="xsd:string" />
+          <xsd:element name="position" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="MlModelEndpointType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="REAL_TIME_INFERENCE" />
+          <xsd:enumeration value="BATCH_INFERENCE" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="MlModelOutput">
+        <xsd:sequence>
+          <xsd:element name="label" type="xsd:string" />
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element name="type" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="MlModelConnectorDefinitionStatus">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="DRAFT" />
+          <xsd:enumeration value="REGISTERED" />
+          <xsd:enumeration value="FAILED" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="MlModelConnectorType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="SAGEMAKER_DEPLOYED" />
+          <xsd:enumeration value="OPEN_AI" />
+          <xsd:enumeration value="AZURE_OPEN_AI" />
+          <xsd:enumeration value="GENERIC" />
+          <xsd:enumeration value="DATABRICKS" />
+          <xsd:enumeration value="VERTEX_AI" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="MlModelSchema">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="format" type="tns:MlInferenceFormat" />
+              <xsd:element minOccurs="0" name="isMultiRowPrediction" type="xsd:boolean" />
+              <xsd:element name="label" type="xsd:string" />
+              <xsd:element minOccurs="0" name="multiRowPredictionKey" type="xsd:string" />
+              <xsd:element minOccurs="0" name="multiRowResultKey" type="xsd:string" />
+              <xsd:element name="schema" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:simpleType name="MlInferenceFormat">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="JSON_DENSE" />
+          <xsd:enumeration value="CSV" />
+          <xsd:enumeration value="JSON_INSTANCES" />
+          <xsd:enumeration value="DATAFRAME_RECORDS" />
+          <xsd:enumeration value="DATAFRAME_SPLIT" />
+          <xsd:enumeration value="JSON" />
+          <xsd:enumeration value="COLUMNAR" />
+        </xsd:restriction>
+      </xsd:simpleType>
       <xsd:complexType name="MobileApplicationDetail">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
@@ -13920,6 +14428,8 @@
           <xsd:enumeration value="OutboundNetworkConnection" />
           <xsd:enumeration value="AllowedManagedPackageNamespaces" />
           <xsd:enumeration value="CreatedByNamespace" />
+          <xsd:enumeration value="CustomParameter" />
+          <xsd:enumeration value="StandardNamedCredentialType" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:simpleType name="NamedCredentialType">
@@ -13927,6 +14437,7 @@
           <xsd:enumeration value="Legacy" />
           <xsd:enumeration value="SecuredEndpoint" />
           <xsd:enumeration value="PrivateEndpoint" />
+          <xsd:enumeration value="Standard" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="NavigationMenu">
@@ -13991,6 +14502,7 @@
               <xsd:element minOccurs="0" name="logoutUrl" type="xsd:string" />
               <xsd:element minOccurs="0" name="maxFileSizeKb" type="xsd:int" />
               <xsd:element minOccurs="0" name="navigationLinkSet" type="tns:NavigationLinkSet" />
+              <xsd:element minOccurs="0" name="networkAuthApiSettings" type="tns:NetworkAuthApiSettings" />
               <xsd:element minOccurs="0" name="networkMemberGroups" type="tns:NetworkMemberGroup" />
               <xsd:element minOccurs="0" name="networkPageOverrides" type="tns:NetworkPageOverride" />
               <xsd:element minOccurs="0" name="newSenderAddress" type="xsd:string" />
@@ -14019,6 +14531,33 @@
           <xsd:element minOccurs="0" name="customerUserRole" type="xsd:string" />
           <xsd:element minOccurs="0" name="employeeUserRole" type="xsd:string" />
           <xsd:element minOccurs="0" name="partnerUserRole" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="NetworkAuthApiSettings">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="doesForgotPasswordRequireAuth" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="doesPwdlessLoginRequireAuth" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="doesRegistrationRequireAuth" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="emailTmplsAllowlist" type="tns:NetworkEmailTmplAllowlist" />
+          <xsd:element minOccurs="0" name="isForgotPwdAllowed" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="isForgotPwdEmailTemplateAllowlistingEnabled" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="isHeadlessUserRegistrationAllowed" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="isPwdlessLoginAllowed" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="isRecaptchaRequiredForgotPwd" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="isRecaptchaRequiredPwdlessLogin" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="isRecaptchaRequiredRgstr" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="isUniversalClientRgstrAllowed" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="maxPasswordResetAttempts" type="xsd:int" />
+          <xsd:element minOccurs="0" name="recaptchaScoreThreshold" type="xsd:double" />
+          <xsd:element minOccurs="0" name="recaptchaSecretKey" type="xsd:string" />
+          <xsd:element minOccurs="0" name="registrationExecutionUser" type="xsd:string" />
+          <xsd:element minOccurs="0" name="registrationHandler" type="xsd:string" />
+          <xsd:element minOccurs="0" name="registrationUserDefaultProfile" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="NetworkEmailTmplAllowlist">
+        <xsd:sequence>
+          <xsd:element name="emailTemplate" type="xsd:string" />
         </xsd:sequence>
       </xsd:complexType>
       <xsd:complexType name="NetworkMemberGroup">
@@ -14219,6 +14758,35 @@
           </xsd:extension>
         </xsd:complexContent>
       </xsd:complexType>
+      <xsd:complexType name="OauthTokenExchangeHandler">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element name="description" type="xsd:string" />
+              <xsd:element name="developerName" type="xsd:string" />
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="enablements" type="tns:OauthTokenExchHandlerApp" />
+              <xsd:element name="isAccessTokenSupported" type="xsd:boolean" />
+              <xsd:element name="isEnabled" type="xsd:boolean" />
+              <xsd:element name="isIdTokenSupported" type="xsd:boolean" />
+              <xsd:element name="isJwtSupported" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="isProtected" type="xsd:boolean" />
+              <xsd:element name="isRefreshTokenSupported" type="xsd:boolean" />
+              <xsd:element name="isSaml2Supported" type="xsd:boolean" />
+              <xsd:element name="isUserCreationAllowed" type="xsd:boolean" />
+              <xsd:element name="masterLabel" type="xsd:string" />
+              <xsd:element name="tokenHandlerApex" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="OauthTokenExchHandlerApp">
+        <xsd:sequence>
+          <xsd:element name="apexExecutionUser" type="xsd:string" />
+          <xsd:element minOccurs="0" name="connectedApp" type="xsd:string" />
+          <xsd:element minOccurs="0" name="externalClientApp" type="xsd:string" />
+          <xsd:element name="isDefault" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
       <xsd:complexType name="ObjectLinkingSettings">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
@@ -14376,6 +14944,50 @@
           <xsd:enumeration value="URL" />
         </xsd:restriction>
       </xsd:simpleType>
+      <xsd:complexType name="OmniExtTrackingDef">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="description" type="xsd:string" />
+              <xsd:element name="developerName" type="xsd:string" />
+              <xsd:element name="isActive" type="xsd:boolean" />
+              <xsd:element name="masterLabel" type="xsd:string" />
+              <xsd:element minOccurs="0" name="omniExtTrackingDefKey" type="xsd:string" />
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="omniExtTrackingEventDefs" type="tns:OmniExtTrackingEventDef" />
+              <xsd:element name="trackingFrameworkInformation" type="xsd:string" />
+              <xsd:element name="trackingServiceProvider" type="tns:ExternalTrackingVendor" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="OmniExtTrackingEventDef">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element name="componentType" type="tns:OmniAnalyticsComponentType" />
+              <xsd:element minOccurs="0" name="description" type="xsd:string" />
+              <xsd:element name="developerName" type="xsd:string" />
+              <xsd:element name="inclusionRule" type="xsd:string" />
+              <xsd:element name="masterLabel" type="xsd:string" />
+              <xsd:element minOccurs="0" name="omniExtTrackingDef" type="xsd:string" />
+              <xsd:element minOccurs="0" name="omniExtTrackingEventDefKey" type="xsd:string" />
+              <xsd:element name="payloadTemplate" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:simpleType name="OmniAnalyticsComponentType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Omniscript" />
+          <xsd:enumeration value="Flexcard" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="ExternalTrackingVendor">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Google" />
+          <xsd:enumeration value="Mixpanel" />
+        </xsd:restriction>
+      </xsd:simpleType>
       <xsd:complexType name="OmniIntegrationProcedure">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
@@ -14483,6 +15095,7 @@
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="omniSupervisorConfigProfile" type="tns:OmniSupervisorConfigProfile" />
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="omniSupervisorConfigQueue" type="tns:OmniSupervisorConfigQueue" />
               <xsd:element minOccurs="0" maxOccurs="unbounded" name="omniSupervisorConfigSkill" type="tns:OmniSupervisorConfigSkill" />
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="omniSupervisorConfigTab" type="tns:OmniSupervisorConfigTab" />
               <xsd:element minOccurs="0" name="skillVisibility" type="tns:OmniSuperSkillVisibilityType" />
             </xsd:sequence>
           </xsd:extension>
@@ -14538,10 +15151,66 @@
           <xsd:element name="skill" type="xsd:string" />
         </xsd:sequence>
       </xsd:complexType>
+      <xsd:complexType name="OmniSupervisorConfigTab">
+        <xsd:sequence>
+          <xsd:element name="displayOrder" type="xsd:int" />
+          <xsd:element minOccurs="0" name="flexiPage" type="xsd:string" />
+          <xsd:element name="tabType" type="tns:OmniSupervisorTabType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="OmniSupervisorTabType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Wallboard" />
+          <xsd:enumeration value="Agents" />
+          <xsd:enumeration value="QueuesBacklog" />
+          <xsd:enumeration value="AssignedWork" />
+          <xsd:enumeration value="SkillsBacklog" />
+          <xsd:enumeration value="FlexipageType" />
+        </xsd:restriction>
+      </xsd:simpleType>
       <xsd:simpleType name="OmniSuperSkillVisibilityType">
         <xsd:restriction base="xsd:string">
           <xsd:enumeration value="AllSkills" />
           <xsd:enumeration value="AnySkill" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="OmniTrackingComponentDef">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element name="componentType" type="tns:OmniAnalyticsComponentType" />
+              <xsd:element name="componentVersion" type="xsd:double" />
+              <xsd:element name="developerName" type="xsd:string" />
+              <xsd:element name="masterLabel" type="xsd:string" />
+              <xsd:element minOccurs="0" name="omniTrackingComponentDefKey" type="xsd:string" />
+              <xsd:element minOccurs="0" name="omniTrackingGroup" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="OmniTrackingGroup">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="description" type="xsd:string" />
+              <xsd:element name="developerName" type="xsd:string" />
+              <xsd:element minOccurs="0" name="endDate" type="xsd:date" />
+              <xsd:element name="groupType" type="tns:OmniTrackingGroupType" />
+              <xsd:element name="isActive" type="xsd:boolean" />
+              <xsd:element name="masterLabel" type="xsd:string" />
+              <xsd:element minOccurs="0" name="maxAgeInDays" type="xsd:int" />
+              <xsd:element minOccurs="0" name="omniExtTrackingDef" type="xsd:string" />
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="omniTrackingComponentDefs" type="tns:OmniTrackingComponentDef" />
+              <xsd:element minOccurs="0" name="omniTrackingGroupKey" type="xsd:string" />
+              <xsd:element minOccurs="0" name="startDate" type="xsd:date" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:simpleType name="OmniTrackingGroupType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Internal" />
+          <xsd:enumeration value="External" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="OmniUiCard">
@@ -14570,15 +15239,6 @@
           <xsd:enumeration value="Child" />
         </xsd:restriction>
       </xsd:simpleType>
-      <xsd:complexType name="OpportunityInsightsSettings">
-        <xsd:complexContent mixed="false">
-          <xsd:extension base="tns:Metadata">
-            <xsd:sequence>
-              <xsd:element minOccurs="0" name="enableOpportunityInsights" type="xsd:boolean" />
-            </xsd:sequence>
-          </xsd:extension>
-        </xsd:complexContent>
-      </xsd:complexType>
       <xsd:complexType name="OpportunityScoreSettings">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
@@ -14660,6 +15320,7 @@
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
             <xsd:sequence>
+              <xsd:element minOccurs="0" name="enableB2CHighScaleOrders" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableB2CIntegration" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableDuplicateManagement" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableHighScaleOrders" type="xsd:boolean" />
@@ -14680,6 +15341,7 @@
               <xsd:element minOccurs="0" name="enableNegativeQuantity" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableOptionalPricebook" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableOrderEvents" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableOrderWithMultiplePriceBooks" type="xsd:boolean" />
               <xsd:element name="enableOrders" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableReductionOrders" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableZeroQuantity" type="xsd:boolean" />
@@ -15241,6 +15903,7 @@
               <xsd:element name="label" type="xsd:string" />
               <xsd:element minOccurs="0" name="presenceStatusOnDecline" type="xsd:string" />
               <xsd:element minOccurs="0" name="presenceStatusOnPushTimeout" type="xsd:string" />
+              <xsd:element minOccurs="0" name="userDisplayName" type="xsd:string" />
             </xsd:sequence>
           </xsd:extension>
         </xsd:complexContent>
@@ -16063,6 +16726,9 @@
           <xsd:enumeration value="EnrollInProgram" />
           <xsd:enumeration value="ModifyAppointment" />
           <xsd:enumeration value="PatientDetails" />
+          <xsd:enumeration value="AcceptBroadcast" />
+          <xsd:enumeration value="SelectCoverage" />
+          <xsd:enumeration value="ViewCoverage" />
           <xsd:enumeration value="Quip" />
           <xsd:enumeration value="SendConversationMessage" />
         </xsd:restriction>
@@ -16395,12 +17061,15 @@
           <xsd:enumeration value="Flow" />
           <xsd:enumeration value="QuickAction" />
           <xsd:enumeration value="Omniscript" />
+          <xsd:enumeration value="LWC" />
+          <xsd:enumeration value="WebLink" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:simpleType name="ComponentName">
         <xsd:restriction base="xsd:string">
           <xsd:enumeration value="ActionsAndRecommendations" />
           <xsd:enumeration value="ActionLauncher" />
+          <xsd:enumeration value="BulkActionPanel" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="RecordActionDeploymentContext">
@@ -17027,6 +17696,7 @@
           <xsd:enumeration value="Unique" />
           <xsd:enumeration value="RowCount" />
           <xsd:enumeration value="Median" />
+          <xsd:enumeration value="Noop" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:simpleType name="UserDateGranularity">
@@ -17262,27 +17932,155 @@
           </xsd:extension>
         </xsd:complexContent>
       </xsd:complexType>
-      <xsd:complexType name="RuleDefinition">
-        <xsd:complexContent mixed="false">
-          <xsd:extension base="tns:Metadata">
-            <xsd:sequence />
-          </xsd:extension>
-        </xsd:complexContent>
-      </xsd:complexType>
       <xsd:complexType name="RuleLibraryDefinition">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
-            <xsd:sequence />
+            <xsd:sequence>
+              <xsd:element name="contextDefinition" type="xsd:string" />
+              <xsd:element name="contextRuleStatus" type="tns:ContextRuleStatus" />
+              <xsd:element minOccurs="0" name="description" type="xsd:string" />
+              <xsd:element name="label" type="xsd:string" />
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="ruleLibraryContextTags" type="tns:RuleLibraryContextTag" />
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="rulesetDefinitions" type="tns:RulesetDefinition" />
+              <xsd:element name="usageType" type="tns:ContextRuleUsageType" />
+            </xsd:sequence>
           </xsd:extension>
         </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:simpleType name="ContextRuleStatus">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Draft" />
+          <xsd:enumeration value="Inactive" />
+          <xsd:enumeration value="Active" />
+          <xsd:enumeration value="ActivationInProgress" />
+          <xsd:enumeration value="ActivationFailed" />
+          <xsd:enumeration value="ValidationInProgress" />
+          <xsd:enumeration value="ValidationFailed" />
+          <xsd:enumeration value="ValidationSucceeded" />
+          <xsd:enumeration value="ValidationInterrupted" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="RuleLibraryContextTag">
+        <xsd:sequence>
+          <xsd:element name="hashableContextTag" type="xsd:string" />
+          <xsd:element name="mappingName" type="xsd:string" />
+          <xsd:element name="usageSubType" type="xsd:string" />
+        </xsd:sequence>
       </xsd:complexType>
       <xsd:complexType name="RulesetDefinition">
-        <xsd:complexContent mixed="false">
-          <xsd:extension base="tns:Metadata">
-            <xsd:sequence />
-          </xsd:extension>
-        </xsd:complexContent>
+        <xsd:sequence>
+          <xsd:element name="apiName" type="xsd:string" />
+          <xsd:element minOccurs="0" name="endDate" type="xsd:dateTime" />
+          <xsd:element name="executionType" type="tns:ExecutionType" />
+          <xsd:element name="label" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="ruleDefinitions" type="tns:RuleDefinition" />
+          <xsd:element minOccurs="0" name="startDate" type="xsd:dateTime" />
+          <xsd:element name="status" type="tns:ContextRuleStatus" />
+          <xsd:element name="usageType" type="xsd:string" />
+        </xsd:sequence>
       </xsd:complexType>
+      <xsd:simpleType name="ExecutionType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Sequence" />
+          <xsd:enumeration value="Priority" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="RuleDefinition">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="actions" type="tns:RuleAction" />
+          <xsd:element name="apiName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="criteria" type="tns:RuleFilterCriteria" />
+          <xsd:element minOccurs="0" name="description" type="xsd:string" />
+          <xsd:element minOccurs="0" name="endDate" type="xsd:dateTime" />
+          <xsd:element name="label" type="xsd:string" />
+          <xsd:element name="ruleStatus" type="tns:ContextRuleStatus" />
+          <xsd:element minOccurs="0" name="sequenceNumber" type="xsd:int" />
+          <xsd:element name="startDate" type="xsd:dateTime" />
+          <xsd:element minOccurs="0" name="usageSubType" type="xsd:string" />
+          <xsd:element name="usageType" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="variables" type="tns:RuleReferenceVariable" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="RuleAction">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="actionParameters" type="tns:RuleActionParameter" />
+          <xsd:element name="actionType" type="tns:RuleActionType" />
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element name="sequenceNumber" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="RuleActionParameter">
+        <xsd:sequence>
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element name="sequenceNumber" type="xsd:int" />
+          <xsd:element minOccurs="0" name="sourceCriteriName" type="xsd:string" />
+          <xsd:element name="value" type="xsd:string" />
+          <xsd:element name="valueType" type="tns:VariableValueType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="VariableValueType">
+        <xsd:restriction base="xsd:string" />
+      </xsd:simpleType>
+      <xsd:simpleType name="RuleActionType">
+        <xsd:restriction base="xsd:string" />
+      </xsd:simpleType>
+      <xsd:complexType name="RuleFilterCriteria">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="actions" type="tns:RuleAction" />
+          <xsd:element name="conditionLogic" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="conditions" type="tns:RuleCondition" />
+          <xsd:element name="executionSequence" type="xsd:int" />
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element minOccurs="0" name="parentFilterCriteria" type="xsd:string" />
+          <xsd:element name="type" type="tns:RuleFilterCriteriaType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="RuleCondition">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="matchType" type="tns:ConditionMatchType" />
+          <xsd:element minOccurs="0" name="name" type="xsd:string" />
+          <xsd:element name="operator" type="tns:RuleConditionOperator" />
+          <xsd:element name="sequenceNumber" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="value" type="xsd:string" />
+          <xsd:element name="valueType" type="tns:VariableValueType" />
+          <xsd:element name="variable" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="ConditionMatchType">
+        <xsd:restriction base="xsd:string" />
+      </xsd:simpleType>
+      <xsd:simpleType name="RuleConditionOperator">
+        <xsd:restriction base="xsd:string" />
+      </xsd:simpleType>
+      <xsd:simpleType name="RuleFilterCriteriaType">
+        <xsd:restriction base="xsd:string" />
+      </xsd:simpleType>
+      <xsd:complexType name="RuleReferenceVariable">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="aggregateFunction" type="tns:RuleCondAggregateFunction" />
+          <xsd:element minOccurs="0" name="attributeId" type="xsd:string" />
+          <xsd:element minOccurs="0" name="contextTag" type="xsd:string" />
+          <xsd:element name="dataType" type="tns:RuleRefVariableDataType" />
+          <xsd:element minOccurs="0" name="decimalPlaces" type="xsd:int" />
+          <xsd:element minOccurs="0" name="filterCriteriaName" type="xsd:string" />
+          <xsd:element minOccurs="0" name="groupByTag" type="xsd:string" />
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element name="type" type="tns:RuleRefVariableType" />
+          <xsd:element minOccurs="0" name="value" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="RuleCondAggregateFunction">
+        <xsd:restriction base="xsd:string" />
+      </xsd:simpleType>
+      <xsd:simpleType name="RuleRefVariableDataType">
+        <xsd:restriction base="xsd:string" />
+      </xsd:simpleType>
+      <xsd:simpleType name="RuleRefVariableType">
+        <xsd:restriction base="xsd:string" />
+      </xsd:simpleType>
+      <xsd:simpleType name="ContextRuleUsageType">
+        <xsd:restriction base="xsd:string" />
+      </xsd:simpleType>
       <xsd:complexType name="SalesWorkQueueSettings">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
@@ -17372,9 +18170,12 @@
               <xsd:element minOccurs="0" name="aggrCriteriaFieldset" type="tns:FieldSet" />
               <xsd:element minOccurs="0" name="description" type="xsd:string" />
               <xsd:element minOccurs="0" name="distanceCriteria" type="xsd:string" />
+              <xsd:element minOccurs="0" name="filterType" type="tns:SearchCriteriaConfigurationFilterType" />
               <xsd:element minOccurs="0" name="isActive" type="xsd:boolean" />
               <xsd:element name="masterLabel" type="xsd:string" />
+              <xsd:element minOccurs="0" name="resultDisplayFormat" type="tns:SearchCriteriaConfigurationResultDisplayFormat" />
               <xsd:element minOccurs="0" name="resultFieldset" type="tns:FieldSet" />
+              <xsd:element minOccurs="0" name="resultFlexCard" type="xsd:string" />
               <xsd:element minOccurs="0" name="searchCriteriaFieldset" type="tns:FieldSet" />
               <xsd:element minOccurs="0" name="searchableObjDataSyncInfo" type="xsd:string" />
               <xsd:element name="searchableObject" type="xsd:string" />
@@ -17383,10 +18184,23 @@
           </xsd:extension>
         </xsd:complexContent>
       </xsd:complexType>
+      <xsd:simpleType name="SearchCriteriaConfigurationFilterType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="GROUPING_AND_AGGREGATION" />
+          <xsd:enumeration value="MULTIPLE_FIELDS" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="SearchCriteriaConfigurationResultDisplayFormat">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="LIST" />
+          <xsd:enumeration value="CARD" />
+        </xsd:restriction>
+      </xsd:simpleType>
       <xsd:complexType name="SearchCustomization">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
             <xsd:sequence>
+              <xsd:element name="channel" type="xsd:string" />
               <xsd:element minOccurs="0" name="isProtected" type="xsd:boolean" />
               <xsd:element name="masterLabel" type="xsd:string" />
             </xsd:sequence>
@@ -17399,6 +18213,7 @@
             <xsd:sequence>
               <xsd:element name="documentContentSearchEnabled" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableAdvancedSearchInAlohaSidebar" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableEinsteinSearchAnswersGPT" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableEinsteinSearchAssistantDialog" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableEinsteinSearchEs4kPilot" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableEinsteinSearchNLSFilters" type="xsd:boolean" />
@@ -17588,6 +18403,7 @@
           <xsd:element minOccurs="0" name="sessionTimeout" type="tns:SessionTimeout" />
           <xsd:element minOccurs="0" name="sidToken3rdPartyAuraApp" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="skipSFAWhenMFADirectUILogin" type="xsd:boolean" />
+          <xsd:element minOccurs="0" name="terminateUserSessionsWhenAdminResetsPassword" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="useEAPIRateLimitForConnectAPI" type="xsd:boolean" />
           <xsd:element minOccurs="0" name="useLocalStorageForLogoutUrl" type="xsd:boolean" />
         </xsd:sequence>
@@ -17647,6 +18463,7 @@
           <xsd:enumeration value="RETIRED" />
           <xsd:enumeration value="ARCHIVED" />
           <xsd:enumeration value="READY_FOR_REVIEW" />
+          <xsd:enumeration value="TRAINING_FAILURE" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:complexType name="ServiceAISetupField">
@@ -17710,10 +18527,11 @@
               <xsd:element minOccurs="0" name="enableEndUserForSCV" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableOmniCapacityForSCV" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enablePTQueueManagement" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableRZoneCloudVoiceOptIn" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableSCVBYOT" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableSCVExternalTelephony" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableSCVSupportBannerDisplayed" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableServiceCloudVoice" type="xsd:boolean" />
-              <xsd:element minOccurs="0" name="enableVoiceInGovCloudOptIn" type="xsd:boolean" />
             </xsd:sequence>
           </xsd:extension>
         </xsd:complexContent>
@@ -17930,19 +18748,6 @@
           <xsd:enumeration value="BuildCustom" />
         </xsd:restriction>
       </xsd:simpleType>
-      <xsd:complexType name="SocialProfileSettings">
-        <xsd:complexContent mixed="false">
-          <xsd:extension base="tns:Metadata">
-            <xsd:sequence>
-              <xsd:element minOccurs="0" name="enableSocialProfiles" type="xsd:boolean" />
-              <xsd:element minOccurs="0" name="isFacebookSocialProfilesDisabled" type="xsd:boolean" />
-              <xsd:element minOccurs="0" name="isLinkedInSocialProfilesDisabled" type="xsd:boolean" />
-              <xsd:element minOccurs="0" name="isTwitterSocialProfilesDisabled" type="xsd:boolean" />
-              <xsd:element minOccurs="0" name="isYouTubeSocialProfilesDisabled" type="xsd:boolean" />
-            </xsd:sequence>
-          </xsd:extension>
-        </xsd:complexContent>
-      </xsd:complexType>
       <xsd:complexType name="StandardValueSet">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
@@ -17980,6 +18785,7 @@
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
             <xsd:sequence>
+              <xsd:element minOccurs="0" name="enableGenerativeAISurveys" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableIndustriesCxmEnabled" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableSurvey" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableSurveyOwnerCanManageResponse" type="xsd:boolean" />
@@ -18001,6 +18807,47 @@
           </xsd:extension>
         </xsd:complexContent>
       </xsd:complexType>
+      <xsd:complexType name="SvcCatalogFilterCriteria">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:Metadata">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="conditions" type="tns:SvcCatalogFilterCondition" />
+              <xsd:element name="criteriaRelation" type="tns:CriteriaRelationshipType" />
+              <xsd:element minOccurs="0" name="description" type="xsd:string" />
+              <xsd:element minOccurs="0" name="isActive" type="xsd:boolean" />
+              <xsd:element name="mainLabel" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="SvcCatalogFilterCondition">
+        <xsd:sequence>
+          <xsd:element name="index" type="xsd:int" />
+          <xsd:element name="operator" type="tns:CriterionOperator" />
+          <xsd:element name="source" type="xsd:string" />
+          <xsd:element name="value" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="CriterionOperator">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Equal" />
+          <xsd:enumeration value="NotEqual" />
+          <xsd:enumeration value="GreaterThan" />
+          <xsd:enumeration value="GreaterThanOrEqual" />
+          <xsd:enumeration value="LessThan" />
+          <xsd:enumeration value="LessThanOrEqual" />
+          <xsd:enumeration value="Contains" />
+          <xsd:enumeration value="StartsWith" />
+          <xsd:enumeration value="Includes" />
+          <xsd:enumeration value="NotIncludes" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="CriteriaRelationshipType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="AllConditionsAreMet" />
+          <xsd:enumeration value="AnyConditionIsMet" />
+        </xsd:restriction>
+      </xsd:simpleType>
       <xsd:complexType name="SvcCatalogFulfillmentFlow">
         <xsd:complexContent mixed="false">
           <xsd:extension base="tns:Metadata">
@@ -18299,6 +19146,7 @@
           <xsd:enumeration value="BulkApiResultEventStore" />
           <xsd:enumeration value="PermissionSetEventStore" />
           <xsd:enumeration value="FileEventStore" />
+          <xsd:enumeration value="GuestUserAnomalyEventStore" />
         </xsd:restriction>
       </xsd:simpleType>
       <xsd:simpleType name="MonitoredEvents">
@@ -18733,6 +19581,7 @@
               <xsd:element minOccurs="0" name="enableQuickCreate" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableRelatedListHovers" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableTabOrganizer" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableVerticalNavSeamlessSwitching" type="xsd:boolean" />
             </xsd:sequence>
           </xsd:extension>
         </xsd:complexContent>
@@ -18747,6 +19596,7 @@
               <xsd:element minOccurs="0" name="enableEnhancedConcealPersonalInfo" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableEnhancedPermsetMgmt" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableEnhancedProfileMgmt" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="enableEnhcUiUserAccessPolicies" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableNewProfileUI" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableProfileFiltering" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="enableRestrictEmailDomains" type="xsd:boolean" />
@@ -19355,10 +20205,12 @@
               <xsd:element minOccurs="0" name="orderActivationStatus" type="xsd:string" />
               <xsd:element minOccurs="0" name="orderLifeCycleType" type="tns:OrderLifeCycleType" />
               <xsd:element minOccurs="0" name="paginationSize" type="xsd:int" />
+              <xsd:element name="preserveGuestCartEnabled" type="xsd:boolean" />
               <xsd:element name="pricingStrategy" type="tns:PricingStrategy" />
               <xsd:element minOccurs="0" name="productGrouping" type="tns:ProductGrouping" />
               <xsd:element minOccurs="0" name="skipAdditionalEntitlementCheckForSearch" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="skuDetectionEnabled" type="xsd:boolean" />
+              <xsd:element name="splitShipmentEnabled" type="xsd:boolean" />
               <xsd:element minOccurs="0" name="supportedCurrencies" type="xsd:string" />
               <xsd:element name="supportedLanguages" type="xsd:string" />
               <xsd:element minOccurs="0" name="supportedShipToCountries" type="xsd:string" />
@@ -19834,6 +20686,11 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="ASSIGNEE_REQUIRED_WHEN_SPECIFYING_RUN_AS_USER">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="ASSIGNEE_USER_USERNAME">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
@@ -20104,6 +20961,11 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, environment</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="CONDITIONAL_SCREEN_FIELD_VISIBILITY_NOT_SUPPORTED_FOR_SCREEN_FIELD">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="CONDITION_BUILDER_MISSING_FLOW_VARIABLE">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
@@ -20329,6 +21191,11 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementType, subflowName, triggerType</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="ELEMENT_REQUIRES_PERM">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="ELEMENT_SCALE_SMALLER_THAN_DEFAULTVALUE">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
@@ -20437,6 +21304,11 @@
           <xsd:enumeration value="FIELD_RELATIONSHIP_NOT_SUPPORTED">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, fieldRelationshipName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FIELD_REQUIRES_PERM">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, fieldName</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="FIELD_TYPE_NOT_SUPPORTED_AS_CHILD_OF_SCREENFIELD_REGION_OR_REGIONCONTAINER">
@@ -20572,6 +21444,31 @@
           <xsd:enumeration value="FLOW_ALREADY_OVERRIDDEN">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, flowName, existingOverrideName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_CAPABILITY_INPUT_DATA_TYPE_INVALID">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, processType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_CAPABILITY_INPUT_INVALID">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, processType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_CAPABILITY_INPUT_MISSING">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, processType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_CAPABILITY_INVALID">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, processType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_CAPABILITY_MISSING">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, processType</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="FLOW_COMPLEX_VALUE_COLLECTION_TYPE_EXPECTED">
@@ -20767,6 +21664,11 @@
           <xsd:enumeration value="FLOW_NAME_USED_IN_OTHER_CLIENT">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, flowName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_ORCHESTRATOR_FREEMIUM_PRODUCT">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="FLOW_OVERRIDABLE_CANNOT_BE_OVERRIDE">
@@ -21079,6 +21981,16 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementType, leftReference</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="FLOW_TRANSFORM_AGGR_COLL_NUM_OF_REF">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_TRANSFORM_AGGR_SOURCE_INVALID">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="FLOW_TRANSFORM_APEX_CLASS_INCOMPATIBLE">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
@@ -21099,12 +22011,37 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="FLOW_TRANSFORM_FMLAFOR_COLL_NOT_SUPP">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="FLOW_TRANSFORM_FMLA_COLL_MULT_RSRC">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="FLOW_TRANSFORM_INPUT_PARAM_DUPLICATED">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName, parameterName, transformType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_TRANSFORM_INPUT_PARAM_INVALID">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName, parameterName, transformType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_TRANSFORM_INPUT_PARAM_MISSING">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName, parameterName, transformType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="FLOW_TRANSFORM_MAP_COLL_MISSING">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_TRANSFORM_MAP_COLL_MISSING_SOURCE">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
@@ -21129,12 +22066,12 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
-          <xsd:enumeration value="FLOW_TRANSFORM_MAP_MULTIPLE_RESOURCES">
+          <xsd:enumeration value="FLOW_TRANSFORM_MAP_RSRC_TYPE_NOT_SUPPORTED">
             <xsd:annotation>
-              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
-          <xsd:enumeration value="FLOW_TRANSFORM_MAP_RSRC_TYPE_NOT_SUPPORTED">
+          <xsd:enumeration value="FLOW_TRANSFORM_MAP_STATIC_VAL_COLL_MISSING">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
@@ -21142,6 +22079,11 @@
           <xsd:enumeration value="FLOW_TRANSFORM_OUTPUT_FIELD_API_NAME_INVALID">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_TRANSFORM_SUM_SOURCE_TYPE_INVALID">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="FLOW_TRANSFORM_TYPE_NOT_SUPPORTED">
@@ -21184,7 +22126,12 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, formulaExpression</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
-          <xsd:enumeration value="FORM_NOT_REFERENCED_BY_LANDING_PAGE">
+          <xsd:enumeration value="FORM_ALREADY_IN_USE_BY_DRAFT_VERSION">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FORM_ALREADY_IN_USE_BY_FLOW">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
@@ -21192,6 +22139,11 @@
           <xsd:enumeration value="GLOBAL_VARIABLE_NOT_SUPPORTED_FOR_PROCESSTYPE">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, processType, systemVariable</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="HELP_TEXT_NOT_SUPPORTED_FOR_SCREEN_FIELD">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="HTTP_METHOD_NOT_SUPPORTED">
@@ -21324,6 +22276,11 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="INVALID_RUN_CONTEXT">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="INVALID_SEGMENT_STATUS_FOR_ACTIVATION">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
@@ -21337,6 +22294,11 @@
           <xsd:enumeration value="INVALID_SETUP_REFERENCE_TYPE">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, objectName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="INVALID_STAGE_STEP_ASSIGNEE_TYPE">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="INVALID_SURVEY_VARIABLE_NAME_OR_TYPE">
@@ -21429,6 +22391,11 @@
               <xsd:documentation>Errors with this extended error code have the following properties: </xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="MESSAGING_INACTIVE_CHANNEL">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: </xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="MISSING_ASSIGNEE">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
@@ -21440,6 +22407,16 @@
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="MISSING_EMAIL_RECIPIENTS">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="MISSING_FLOW_TRANSFORM_SUM_FIELD">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="MISSING_MULESOFT_STEP_ASSIGNEE">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
@@ -21572,6 +22549,11 @@
           <xsd:enumeration value="PAST_SCHEDULE_FLOW_WILL_NOT_RUN">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, processType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="PLATFORM_EVENT_TRIGGERED_FLOW_REQUIRES_DEFAULT_WORKFLOW_USER">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="PRICE_ADJUSTMENT_TIER_VALIDATION_ERROR">
@@ -21734,6 +22716,16 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName, mergeFieldReference</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="REPEATER_API_VERSION_NOT_SUPPORTED">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="REPEATER_COMPONENT_CURRENTLY_NOT_SUPPORTED">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="REQUIRED_VARIABLE_INVALID">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, processType</xsd:documentation>
@@ -21759,12 +22751,47 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="RUN_AS_USER_NOT_SUPPORTED">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="RUN_AS_USER_REQUIRED_WHEN_SPECIFYING_ASSIGNEE">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="SCHEDULE_TRIGGERED_FLOW_REQUIRES_DEFAULT_WORKFLOW_USER">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="SCREENACTION_MISSING_REQUIRED_NAME">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="SCREENACTION_MISSING_REQUIRED_TYPE">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="SCREENACTION_NOT_SUPPORTED_IN_ORG">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="SCREENACTION_TRIGGER_EVENT_SOURCE_NOT_ON_SAME_SCREEN">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="SCREENACTION_TRIGGER_HANDLER_NOT_VALID_SCREEN_ACTION">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="SCREENACTION_TYPE_NOT_SUPPORTED_IN_ORG">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
@@ -21964,6 +22991,11 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, environment</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="SCREENFIELD_VALIDATION_RULES_NOT_SUPPORTED_FOR_EXTENSIONS_WITHOUT_OUTPUTS">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="SCREENFOOTER_MERGEFIELD_NOT_SUPPORTED">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
@@ -22025,6 +23057,11 @@
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="SCREENRULE_VISIBILITY_NOT_SUPPORTED_IN_ORG">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="SCREEN_ACTION_NOT_FOUND_WITH_NAME_AND_TYPE">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
@@ -22177,6 +23214,11 @@
           <xsd:enumeration value="STAGE_NAME_NOT_FULLY_QUALIFIED">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, fieldName, parameterName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="STAGE_STEP_ASSIGNEE_NOT_SUPPORTED">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="START_ELEMENT_MISSING">
@@ -22537,6 +23579,11 @@
           <xsd:enumeration value="VALUE_CHAR_LIMIT_EXCEEDED">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName, characterLimit</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="VARIABLE_FIELD_IS_READ_ONLY">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, fieldName</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="VARIABLE_FIELD_NOT_SUPPORTED_FOR_DATATYPE">
@@ -23033,6 +24080,8 @@
           <xsd:enumeration value="CHILD_SHARE_FAILS_PARENT" />
           <xsd:enumeration value="CIRCULAR_DEPENDENCY" />
           <xsd:enumeration value="CLEAN_SERVICE_ERROR" />
+          <xsd:enumeration value="CLM_INSUFFICIENT_ACCESS" />
+          <xsd:enumeration value="CLM_RECORD_NOT_FOUND" />
           <xsd:enumeration value="CLONE_FIELD_INTEGRITY_EXCEPTION" />
           <xsd:enumeration value="CLONE_NOT_SUPPORTED" />
           <xsd:enumeration value="CMS_FOLDER_ITEM_MOVE_FAILED" />
@@ -23305,6 +24354,7 @@
           <xsd:enumeration value="MAX_DEPTH_IN_FLOW_EXECUTION" />
           <xsd:enumeration value="MAX_FORMULAS_PER_RULE_EXCEEDED" />
           <xsd:enumeration value="MAX_LIMIT_EXCEEDED" />
+          <xsd:enumeration value="MAX_LOCALES_EXCEEDED" />
           <xsd:enumeration value="MAX_RULES_EXCEEDED" />
           <xsd:enumeration value="MAX_RULE_ENTRIES_EXCEEDED" />
           <xsd:enumeration value="MAX_TASK_DESCRIPTION_EXCEEEDED" />
@@ -23317,6 +24367,7 @@
           <xsd:enumeration value="MISMATCHING_TYPES" />
           <xsd:enumeration value="MISSING_ARGUMENT" />
           <xsd:enumeration value="MISSING_OMNI_PROCESS_ID" />
+          <xsd:enumeration value="MISSING_PAY_NOW_SITE_URL_ORG_VALUE" />
           <xsd:enumeration value="MISSING_RECEIVEDDOCUMENTID_ATTACHMENT" />
           <xsd:enumeration value="MISSING_RECORD" />
           <xsd:enumeration value="MIXED_DML_OPERATION" />
@@ -23400,6 +24451,7 @@
           <xsd:enumeration value="RECORD_CREATION_FAILED" />
           <xsd:enumeration value="RECORD_IN_USE_BY_WORKFLOW" />
           <xsd:enumeration value="RECORD_MISSING_REQUIRED_FIELD" />
+          <xsd:enumeration value="RECORD_TYPE_LIMIT_EXCEEDED" />
           <xsd:enumeration value="RECORD_UPDATE_FAILED" />
           <xsd:enumeration value="RECOVERABLE_SEARCH_PROVIDER_ERROR" />
           <xsd:enumeration value="REFRESH_FAILED" />
@@ -23428,6 +24480,7 @@
           <xsd:enumeration value="SCREEN_POP_REQUIRED_INPUT_MISSING" />
           <xsd:enumeration value="SEARCH_INCLUDE_RULES_MAX_RULE_DEFINITION_LIMIT_EXCEEDED" />
           <xsd:enumeration value="SEARCH_INCLUDE_RULES_MIN_RULE_DEFINITION_NOT_MET" />
+          <xsd:enumeration value="SEARCH_PROVIDER_PATH_LIMIT_EXCEEDED" />
           <xsd:enumeration value="SEARCH_PROVIDER_REQUEST_RATE_EXCEEDED" />
           <xsd:enumeration value="SEGMENT_COUNT_LIMIT_EXCEEDED" />
           <xsd:enumeration value="SELF_REFERENCE_FROM_FLOW" />
@@ -23476,6 +24529,7 @@
           <xsd:enumeration value="UNKNOWN_TOKEN_ERROR" />
           <xsd:enumeration value="UNPROCESSABLE_REQUEST" />
           <xsd:enumeration value="UNQUALIFIED_CART" />
+          <xsd:enumeration value="UNRESOLVABLE_PAY_NOW_WEBSTORE" />
           <xsd:enumeration value="UNSAFE_HTML_CONTENT" />
           <xsd:enumeration value="UNSPECIFIED_EMAIL_ADDRESS" />
           <xsd:enumeration value="UNSUPPORTED_APEX_TRIGGER_OPERATON" />
@@ -24079,7 +25133,7 @@
   <service name="MetadataService">
     <documentation>Manage your Salesforce.com metadata</documentation>
     <port name="Metadata" binding="tns:MetadataBinding">
-      <soap:address location="https://login.salesforce.com/services/Soap/m/59.0" />
+      <soap:address location="https://login.salesforce.com/services/Soap/m/60.0" />
     </port>
   </service>
 </definitions>

@@ -991,7 +991,9 @@ namespace SalesforceMetadata
 
             Boolean restResource = false;
 
+            Int32 skipTo = 0;
             Boolean skipOne = false;
+            Boolean skipOver = false;
 
             // Remove inline and multi-line comments
             // Consolidate @RestResource (url=
@@ -1000,6 +1002,15 @@ namespace SalesforceMetadata
                 if (skipOne == true)
                 {
                     skipOne = false;
+                }
+                else if (skipOver == true && skipTo > i)
+                {
+                    // Do nothing
+                }
+                else if (skipOver == true && skipTo == i)
+                {
+                    skipTo = 0;
+                    skipOver = false;
                 }
                 else if (charArray[i].ToString().ToLower() == "@"
                     && charArray[i + 1].ToString().ToLower() == "r"
@@ -1011,6 +1022,21 @@ namespace SalesforceMetadata
                     && charArray[i + 7].ToString().ToLower() == "s")
                 {
                     restResource = true;
+                }
+                else if (charArray[i].ToString().ToLower() == "'"
+                    && charArray[i + 1].ToString().ToLower() == "*"
+                    && charArray[i + 2].ToString().ToLower() == "/"
+                    && charArray[i + 3].ToString().ToLower() == "*"
+                    && charArray[i + 4].ToString().ToLower() == "'")
+                {
+                    fileContents1 = fileContents1 + charArray[i].ToString();
+                    fileContents1 = fileContents1 + charArray[i + 1].ToString();
+                    fileContents1 = fileContents1 + charArray[i + 2].ToString();
+                    fileContents1 = fileContents1 + charArray[i + 3].ToString();
+                    fileContents1 = fileContents1 + charArray[i + 4].ToString();
+
+                    skipTo = i + 4;
+                    skipOver = true;
                 }
                 else if (restResource == true
                     && charArray[i].ToString().ToLower() == ")")
@@ -1079,6 +1105,7 @@ namespace SalesforceMetadata
             fileContents1 = fileContents1.Replace(";", " ; ");
             fileContents1 = fileContents1.Replace("\\\\", " \\\\ ");
             fileContents1 = fileContents1.Replace("\\'", " \\' ");
+            fileContents1 = fileContents1.Replace("'*/*'", " '*/*' ");
             fileContents1 = fileContents1.Replace("'", " ' ");
             fileContents1 = fileContents1.Replace("  ", " ");
             fileContents1 = fileContents1.Replace("  ", " ");
@@ -1116,8 +1143,8 @@ namespace SalesforceMetadata
             Boolean firstLessThanFound = false;
             Int32 lessThanCount = 0;
 
-            Int32 skipTo = 0;
-            Boolean skipOver = false;
+            skipTo = 0;
+            skipOver = false;
 
             charArray = fileContents1.ToCharArray();
             for (Int32 i = 0; i < charArray.Length; i++)
@@ -2177,13 +2204,20 @@ namespace SalesforceMetadata
                         else if (filearray[j] == "}")
                         {
                             braceCount--;
-                        }
-                        else if (braceCount == 0
+
+                            if (braceCount == 0
                             && icFirstBraceReached == true)
-                        {
-                            skipTo = j - 1;
-                            break;
+                            {
+                                skipTo = j - 1;
+                                break;
+                            }
                         }
+                        //else if (braceCount == 0
+                        //    && icFirstBraceReached == true)
+                        //{
+                        //    skipTo = j - 1;
+                        //    break;
+                        //}
                     }
                 }
                 else if (inClassName == false
@@ -2319,17 +2353,30 @@ namespace SalesforceMetadata
                     propertyMethodAnnotation = filearray[i];
 
                     Int32 jCount = i + 1;
+                    // This accounts for labels with the possibility of a ( and ) inside the single quote marks
+                    // possibly throwing off when the below loop should stop and missing the real end of the annotation paremeter
+                    // Ex: InvocableMethod(label='Backorder Date Change: Build and Call Requests (Email Service)')
+                    Int32 parenthCount = 0;     
                     String annotationParameters = "";
-                    if (filearray[i + 1] == "(")
+
+                    if (filearray[jCount] == "(")
                     {
                         for (Int32 j = jCount; j < filearray.Length; j++)
                         {
-                            if (filearray[j] == ")")
+                            if (filearray[j] == "(")
                             {
-                                annotationParameters = annotationParameters + filearray[j];
-                                jCount = j;
+                                parenthCount++;
+                            }
+                            else if (filearray[j] == ")")
+                            {
+                                parenthCount--;
 
-                                break;
+                                if (parenthCount == 0)
+                                {
+                                    annotationParameters = annotationParameters + filearray[j];
+                                    jCount = j;
+                                    break;
+                                }
                             }
                             else
                             {

@@ -31,13 +31,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AutomationReporter));
             this.ProjectFolder = new System.Windows.Forms.Label();
             this.SaveResultsTo = new System.Windows.Forms.Label();
-            this.btnRunAutomationReport = new System.Windows.Forms.Button();
+            this.btnRunAutomationFieldExtraction = new System.Windows.Forms.Button();
             this.tbProjectFolder = new System.Windows.Forms.TextBox();
             this.tbFileSaveTo = new System.Windows.Forms.TextBox();
             this.cbWriteToDataDictionary = new System.Windows.Forms.CheckBox();
             this.btnParseObjectsAndFields = new System.Windows.Forms.Button();
             this.tbSearchFilter = new System.Windows.Forms.TextBox();
             this.lblFilter = new System.Windows.Forms.Label();
+            this.btnParseFlows = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ProjectFolder
@@ -45,7 +46,7 @@
             this.ProjectFolder.AutoSize = true;
             this.ProjectFolder.Location = new System.Drawing.Point(12, 30);
             this.ProjectFolder.Name = "ProjectFolder";
-            this.ProjectFolder.Size = new System.Drawing.Size(72, 13);
+            this.ProjectFolder.Size = new System.Drawing.Size(96, 17);
             this.ProjectFolder.TabIndex = 0;
             this.ProjectFolder.Text = "Project Folder";
             // 
@@ -54,25 +55,25 @@
             this.SaveResultsTo.AutoSize = true;
             this.SaveResultsTo.Location = new System.Drawing.Point(12, 66);
             this.SaveResultsTo.Name = "SaveResultsTo";
-            this.SaveResultsTo.Size = new System.Drawing.Size(86, 13);
+            this.SaveResultsTo.Size = new System.Drawing.Size(112, 17);
             this.SaveResultsTo.TabIndex = 2;
             this.SaveResultsTo.Text = "Save Results To";
             // 
-            // btnRunAutomationReport
+            // btnRunAutomationFieldExtraction
             // 
-            this.btnRunAutomationReport.Location = new System.Drawing.Point(237, 161);
-            this.btnRunAutomationReport.Name = "btnRunAutomationReport";
-            this.btnRunAutomationReport.Size = new System.Drawing.Size(199, 23);
-            this.btnRunAutomationReport.TabIndex = 8;
-            this.btnRunAutomationReport.Text = "Run Automation Report";
-            this.btnRunAutomationReport.UseVisualStyleBackColor = true;
-            this.btnRunAutomationReport.Click += new System.EventHandler(this.btnRunAutomationReport_Click);
+            this.btnRunAutomationFieldExtraction.Location = new System.Drawing.Point(15, 195);
+            this.btnRunAutomationFieldExtraction.Name = "btnRunAutomationFieldExtraction";
+            this.btnRunAutomationFieldExtraction.Size = new System.Drawing.Size(240, 27);
+            this.btnRunAutomationFieldExtraction.TabIndex = 8;
+            this.btnRunAutomationFieldExtraction.Text = "Run Automation Field Extraction";
+            this.btnRunAutomationFieldExtraction.UseVisualStyleBackColor = true;
+            this.btnRunAutomationFieldExtraction.Click += new System.EventHandler(this.btnRunAutomationFieldExtraction_Click);
             // 
             // tbProjectFolder
             // 
             this.tbProjectFolder.Location = new System.Drawing.Point(127, 30);
             this.tbProjectFolder.Name = "tbProjectFolder";
-            this.tbProjectFolder.Size = new System.Drawing.Size(521, 20);
+            this.tbProjectFolder.Size = new System.Drawing.Size(895, 23);
             this.tbProjectFolder.TabIndex = 1;
             this.tbProjectFolder.DoubleClick += new System.EventHandler(this.tbProjectFolder_DoubleClick);
             // 
@@ -80,7 +81,7 @@
             // 
             this.tbFileSaveTo.Location = new System.Drawing.Point(127, 66);
             this.tbFileSaveTo.Name = "tbFileSaveTo";
-            this.tbFileSaveTo.Size = new System.Drawing.Size(521, 20);
+            this.tbFileSaveTo.Size = new System.Drawing.Size(895, 23);
             this.tbFileSaveTo.TabIndex = 3;
             this.tbFileSaveTo.DoubleClick += new System.EventHandler(this.tbFileSaveTo_DoubleClick);
             // 
@@ -90,18 +91,18 @@
             this.cbWriteToDataDictionary.Checked = true;
             this.cbWriteToDataDictionary.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbWriteToDataDictionary.Enabled = false;
-            this.cbWriteToDataDictionary.Location = new System.Drawing.Point(747, 32);
+            this.cbWriteToDataDictionary.Location = new System.Drawing.Point(1171, 32);
             this.cbWriteToDataDictionary.Name = "cbWriteToDataDictionary";
-            this.cbWriteToDataDictionary.Size = new System.Drawing.Size(143, 17);
+            this.cbWriteToDataDictionary.Size = new System.Drawing.Size(182, 21);
             this.cbWriteToDataDictionary.TabIndex = 6;
             this.cbWriteToDataDictionary.Text = "Write To Data Dictionary";
             this.cbWriteToDataDictionary.UseVisualStyleBackColor = true;
             // 
             // btnParseObjectsAndFields
             // 
-            this.btnParseObjectsAndFields.Location = new System.Drawing.Point(12, 161);
+            this.btnParseObjectsAndFields.Location = new System.Drawing.Point(15, 163);
             this.btnParseObjectsAndFields.Name = "btnParseObjectsAndFields";
-            this.btnParseObjectsAndFields.Size = new System.Drawing.Size(199, 23);
+            this.btnParseObjectsAndFields.Size = new System.Drawing.Size(240, 26);
             this.btnParseObjectsAndFields.TabIndex = 7;
             this.btnParseObjectsAndFields.Text = "Parse Objects and Fields from XML";
             this.btnParseObjectsAndFields.UseVisualStyleBackColor = true;
@@ -111,7 +112,7 @@
             // 
             this.tbSearchFilter.Location = new System.Drawing.Point(127, 102);
             this.tbSearchFilter.Name = "tbSearchFilter";
-            this.tbSearchFilter.Size = new System.Drawing.Size(162, 20);
+            this.tbSearchFilter.Size = new System.Drawing.Size(162, 23);
             this.tbSearchFilter.TabIndex = 5;
             // 
             // lblFilter
@@ -119,23 +120,35 @@
             this.lblFilter.AutoSize = true;
             this.lblFilter.Location = new System.Drawing.Point(12, 105);
             this.lblFilter.Name = "lblFilter";
-            this.lblFilter.Size = new System.Drawing.Size(29, 13);
+            this.lblFilter.Size = new System.Drawing.Size(39, 17);
             this.lblFilter.TabIndex = 4;
             this.lblFilter.Text = "Filter";
+            // 
+            // btnParseFlows
+            // 
+            this.btnParseFlows.Location = new System.Drawing.Point(15, 228);
+            this.btnParseFlows.Name = "btnParseFlows";
+            this.btnParseFlows.Size = new System.Drawing.Size(240, 26);
+            this.btnParseFlows.TabIndex = 9;
+            this.btnParseFlows.Text = "Parse Flows";
+            this.btnParseFlows.UseVisualStyleBackColor = true;
+            this.btnParseFlows.Click += new System.EventHandler(this.btnParseFlows_Click);
             // 
             // AutomationReporter
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(940, 551);
+            this.ClientSize = new System.Drawing.Size(1382, 551);
+            this.Controls.Add(this.btnParseFlows);
             this.Controls.Add(this.lblFilter);
             this.Controls.Add(this.tbSearchFilter);
             this.Controls.Add(this.btnParseObjectsAndFields);
             this.Controls.Add(this.cbWriteToDataDictionary);
             this.Controls.Add(this.tbFileSaveTo);
             this.Controls.Add(this.tbProjectFolder);
-            this.Controls.Add(this.btnRunAutomationReport);
+            this.Controls.Add(this.btnRunAutomationFieldExtraction);
             this.Controls.Add(this.SaveResultsTo);
             this.Controls.Add(this.ProjectFolder);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AutomationReporter";
             this.Text = "Automation Reporter";
@@ -148,12 +161,13 @@
 
         private System.Windows.Forms.Label ProjectFolder;
         private System.Windows.Forms.Label SaveResultsTo;
-        private System.Windows.Forms.Button btnRunAutomationReport;
+        private System.Windows.Forms.Button btnRunAutomationFieldExtraction;
         private System.Windows.Forms.TextBox tbProjectFolder;
         private System.Windows.Forms.TextBox tbFileSaveTo;
         private System.Windows.Forms.CheckBox cbWriteToDataDictionary;
         private System.Windows.Forms.Button btnParseObjectsAndFields;
         private System.Windows.Forms.TextBox tbSearchFilter;
         private System.Windows.Forms.Label lblFilter;
+        private System.Windows.Forms.Button btnParseFlows;
     }
 }

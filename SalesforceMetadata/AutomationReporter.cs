@@ -42,7 +42,8 @@ namespace SalesforceMetadata
         // We need the objects and fields and the apex classes extracted out first
         private void runObjectFieldExtract()
         {
-            if (Directory.Exists(this.tbProjectFolder.Text + "\\objects"))
+            if (Directory.Exists(this.tbProjectFolder.Text + "\\objects")
+                || this.tbProjectFolder.Text == this.tbProjectFolder.Text + "\\objects")
             {
                 String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\objects");
 
@@ -4048,9 +4049,9 @@ namespace SalesforceMetadata
         }
         ****/
 
-        private void writeExtractedResultsToFile()
+        private void writeAutomationFieldExtractedResultsToFile()
         {
-            StreamWriter sw = new StreamWriter(this.tbFileSaveTo.Text + "\\AutomationReport.txt");
+            StreamWriter sw = new StreamWriter(this.tbFileSaveTo.Text + "\\AutomationFieldExtractionReport.txt");
 
             if (this.objectToTrigger != null
                 && this.objectToTrigger.Count > 0)
@@ -4682,7 +4683,7 @@ namespace SalesforceMetadata
 
 
 
-        private void btnRunAutomationReport_Click(object sender, EventArgs e)
+        private void btnRunAutomationFieldExtraction_Click(object sender, EventArgs e)
         {
             if (this.tbProjectFolder.Text == "")
             {
@@ -4716,9 +4717,86 @@ namespace SalesforceMetadata
             runWorkflowExtract();
 
             // Write the results to a file
-            writeExtractedResultsToFile();
+            writeAutomationFieldExtractedResultsToFile();
 
             MessageBox.Show("Field Reference Extraction Complete");
+        }
+
+        private void btnParseFlows_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(this.tbProjectFolder.Text + "\\flows")
+                || this.tbProjectFolder.Text == this.tbProjectFolder.Text + "\\flows")
+            {
+                String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\flows");
+
+                this.objectToFlow = new Dictionary<string, List<FlowProcess>>();
+
+                foreach (String fl in files)
+                {
+                    runFlowProcessExtract();
+                }
+
+                // Now write out the contents in tabular format
+                Debug.WriteLine("");
+
+                StreamWriter sw = new StreamWriter(this.tbFileSaveTo.Text + "\\FlowAutomation.txt");
+                sw.Write("Triggering sObject\t");
+                sw.Write("Flow API Name\t");
+                sw.Write("Flow Label\t");
+                sw.Write("API Version\t");
+                sw.Write("Process Type\t");
+                sw.Write("Triggered From\t");
+                sw.Write("Run In Mode\t");
+                sw.Write("Is Active" + Environment.NewLine);
+
+                foreach (String flowObj in this.objectToFlow.Keys)
+                {
+                    if (flowObj == "")
+                    {
+                        sw.Write("No triggering sObject");
+
+                        List<FlowProcess> flowProcessList = this.objectToFlow[flowObj];
+
+                        foreach (FlowProcess fp in flowProcessList)
+                        {
+                            sw.Write("\t");
+                            sw.Write(fp.apiName + "\t");
+                            sw.Write(fp.label + "\t");
+                            sw.Write(fp.apiVersion + "\t");
+                            sw.Write(fp.flowProcessType + "\t");
+                            sw.Write(fp.triggerType + "\t");
+                            sw.Write(fp.runInMode + "\t");
+                            sw.Write(fp.isActive + Environment.NewLine);
+                        }
+
+                        sw.Write(Environment.NewLine);
+                    }
+                    else
+                    {
+                        sw.WriteLine(flowObj);
+
+                        List<FlowProcess> flowProcessList = this.objectToFlow[flowObj];
+
+                        foreach (FlowProcess fp in flowProcessList) 
+                        {
+                            sw.Write("\t");
+                            sw.Write(fp.apiName + "\t");
+                            sw.Write(fp.label + "\t");
+                            sw.Write(fp.apiVersion + "\t");
+                            sw.Write(fp.flowProcessType + "\t");
+                            sw.Write(fp.triggerType + "\t");
+                            sw.Write(fp.runInMode + "\t");
+                            sw.Write(fp.isActive + Environment.NewLine);
+                        }
+
+                        sw.Write(Environment.NewLine);
+                    }
+                }
+
+                sw.Close();
+            }
+
+            MessageBox.Show("Flow Extraction Complete");
         }
     }
 }

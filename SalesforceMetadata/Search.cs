@@ -70,7 +70,6 @@ namespace SalesforceMetadata
                     subdirectoriesExist = true;
                 }
 
-
                 while (subdirectoriesExist == true)
                 {
                     if (subDirectoryList.Count == 0) subdirectoriesExist = false;
@@ -85,7 +84,10 @@ namespace SalesforceMetadata
                             {
                                 for (Int32 j = 0; j < files.Length; j++)
                                 {
-                                    if (cbIncludeFileName.Checked == true) this.rtbResults.Text = this.rtbResults.Text + "Searching: " + files[j] + Environment.NewLine;
+                                    if (cbIncludeFileName.Checked == true)
+                                    {
+                                        this.rtbResults.Text = this.rtbResults.Text + "Searching: " + files[j] + Environment.NewLine;
+                                    }
 
                                     FileInfo fi = new FileInfo(files[j]);
                                     if (fi.Extension == this.tbFileExtension.Text)
@@ -252,7 +254,10 @@ namespace SalesforceMetadata
 
                     if (blContinue) continue;
 
-                    if (cbIncludeFileName.Checked == true) this.rtbResults.Text = this.rtbResults.Text + "Searching: " + fl + Environment.NewLine;
+                    if (cbIncludeFileName.Checked == true)
+                    {
+                        this.rtbResults.Text = this.rtbResults.Text + "Searching: " + fl + Environment.NewLine;
+                    }
 
                     // Open each file
                     // Read each line 
@@ -268,13 +273,28 @@ namespace SalesforceMetadata
                         {
                             if (resultsFound == false) resultsFound = true;
 
-                            if (!filePathAdded.Contains(fl))
+                            if (this.cbMetadataFolderAndAPINameOnly.Checked == true)
                             {
-                                this.rtbResults.Text = this.rtbResults.Text + fl + Environment.NewLine;
-                                filePathAdded.Add(fl);
+                                if (!filePathAdded.Contains(fl))
+                                {
+                                    this.rtbResults.Text = this.rtbResults.Text + fileSplit[fileSplit.Length - 2] + "\\" + fileSplit[fileSplit.Length - 1] + Environment.NewLine;
+                                    this.rtbResults.Text = this.rtbResults.Text + "    Line: " + m.ToString() + "  " + srLine + Environment.NewLine + Environment.NewLine;
+                                    filePathAdded.Add(fl);
+                                }
                             }
-                            
-                            this.rtbResults.Text = this.rtbResults.Text + "    Line: " + m.ToString() + "  " + srLine + Environment.NewLine + Environment.NewLine;
+                            else
+                            {
+                                if (!filePathAdded.Contains(fl))
+                                {
+                                    this.rtbResults.Text = this.rtbResults.Text + fl + Environment.NewLine;
+                                    filePathAdded.Add(fl);
+                                }
+
+                                if (this.cbMetadataFolderAndAPINameOnly.Checked == false)
+                                {
+                                    this.rtbResults.Text = this.rtbResults.Text + "    Line: " + m.ToString() + "  " + srLine + Environment.NewLine + Environment.NewLine;
+                                }
+                            }
                         }
                     }
 

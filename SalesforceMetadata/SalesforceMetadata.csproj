@@ -201,11 +201,11 @@
     <Compile Include="ConfigurationWorkbook.Designer.cs">
       <DependentUpon>ConfigurationWorkbook.cs</DependentUpon>
     </Compile>
-    <Compile Include="Search.cs">
+    <Compile Include="SearchForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Search.Designer.cs">
-      <DependentUpon>Search.cs</DependentUpon>
+    <Compile Include="SearchForm.Designer.cs">
+      <DependentUpon>SearchForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SearchUtilityClass.cs" />
     <Compile Include="ToolingApiHelper.cs" />
@@ -308,8 +308,8 @@
     <EmbeddedResource Include="ConfigurationWorkbook.resx">
       <DependentUpon>ConfigurationWorkbook.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Search.resx">
-      <DependentUpon>Search.cs</DependentUpon>
+    <EmbeddedResource Include="SearchForm.resx">
+      <DependentUpon>SearchForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VersionUpdater.resx">
       <DependentUpon>VersionUpdater.cs</DependentUpon>

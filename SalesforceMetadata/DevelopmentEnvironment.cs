@@ -1618,7 +1618,7 @@ namespace SalesforceMetadata
             }
             else
             {
-                frmSearch srch = new frmSearch();
+                SearchForm srch = new SearchForm();
                 srch.tbSearchLocation.Text = this.tbProjectFolder.Text;
                 srch.Show();
             }

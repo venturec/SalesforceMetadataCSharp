@@ -39,6 +39,7 @@
             this.tbSearchFilter = new System.Windows.Forms.TextBox();
             this.lblFilter = new System.Windows.Forms.Label();
             this.btnParseFlows = new System.Windows.Forms.Button();
+            this.btnGetApexClassNamesAndMethods = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ProjectFolder
@@ -61,9 +62,9 @@
             // 
             // btnRunAutomationFieldExtraction
             // 
-            this.btnRunAutomationFieldExtraction.Location = new System.Drawing.Point(15, 195);
+            this.btnRunAutomationFieldExtraction.Location = new System.Drawing.Point(15, 200);
             this.btnRunAutomationFieldExtraction.Name = "btnRunAutomationFieldExtraction";
-            this.btnRunAutomationFieldExtraction.Size = new System.Drawing.Size(240, 27);
+            this.btnRunAutomationFieldExtraction.Size = new System.Drawing.Size(265, 38);
             this.btnRunAutomationFieldExtraction.TabIndex = 8;
             this.btnRunAutomationFieldExtraction.Text = "Run Automation Field Extraction";
             this.btnRunAutomationFieldExtraction.UseVisualStyleBackColor = true;
@@ -100,9 +101,9 @@
             // 
             // btnParseObjectsAndFields
             // 
-            this.btnParseObjectsAndFields.Location = new System.Drawing.Point(15, 163);
+            this.btnParseObjectsAndFields.Location = new System.Drawing.Point(15, 156);
             this.btnParseObjectsAndFields.Name = "btnParseObjectsAndFields";
-            this.btnParseObjectsAndFields.Size = new System.Drawing.Size(240, 26);
+            this.btnParseObjectsAndFields.Size = new System.Drawing.Size(265, 38);
             this.btnParseObjectsAndFields.TabIndex = 7;
             this.btnParseObjectsAndFields.Text = "Parse Objects and Fields from XML";
             this.btnParseObjectsAndFields.UseVisualStyleBackColor = true;
@@ -126,18 +127,29 @@
             // 
             // btnParseFlows
             // 
-            this.btnParseFlows.Location = new System.Drawing.Point(15, 228);
+            this.btnParseFlows.Location = new System.Drawing.Point(15, 288);
             this.btnParseFlows.Name = "btnParseFlows";
-            this.btnParseFlows.Size = new System.Drawing.Size(240, 26);
-            this.btnParseFlows.TabIndex = 9;
+            this.btnParseFlows.Size = new System.Drawing.Size(265, 38);
+            this.btnParseFlows.TabIndex = 10;
             this.btnParseFlows.Text = "Parse Flows";
             this.btnParseFlows.UseVisualStyleBackColor = true;
             this.btnParseFlows.Click += new System.EventHandler(this.btnParseFlows_Click);
+            // 
+            // btnGetApexClassNamesAndMethods
+            // 
+            this.btnGetApexClassNamesAndMethods.Location = new System.Drawing.Point(15, 244);
+            this.btnGetApexClassNamesAndMethods.Name = "btnGetApexClassNamesAndMethods";
+            this.btnGetApexClassNamesAndMethods.Size = new System.Drawing.Size(265, 38);
+            this.btnGetApexClassNamesAndMethods.TabIndex = 9;
+            this.btnGetApexClassNamesAndMethods.Text = "Get Apex Class Names and Methods";
+            this.btnGetApexClassNamesAndMethods.UseVisualStyleBackColor = true;
+            this.btnGetApexClassNamesAndMethods.Click += new System.EventHandler(this.btnGetApexClassNamesAndMethods_Click);
             // 
             // AutomationReporter
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1382, 551);
+            this.Controls.Add(this.btnGetApexClassNamesAndMethods);
             this.Controls.Add(this.btnParseFlows);
             this.Controls.Add(this.lblFilter);
             this.Controls.Add(this.tbSearchFilter);
@@ -169,5 +181,6 @@
         private System.Windows.Forms.TextBox tbSearchFilter;
         private System.Windows.Forms.Label lblFilter;
         private System.Windows.Forms.Button btnParseFlows;
+        private System.Windows.Forms.Button btnGetApexClassNamesAndMethods;
     }
 }

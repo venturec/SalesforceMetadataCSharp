@@ -65,7 +65,7 @@ namespace SalesforceMetadata
 
         private void btnSearchMetadata_Click(object sender, EventArgs e)
         {
-            frmSearch srch = new frmSearch();
+            SearchForm srch = new SearchForm();
             srch.Show();
             srch.Location = this.Location;
         }

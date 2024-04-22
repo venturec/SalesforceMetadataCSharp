@@ -12,11 +12,11 @@ using System.Windows.Forms;
 
 namespace SalesforceMetadata
 {
-    public partial class frmSearch : System.Windows.Forms.Form
+    public partial class SearchForm : System.Windows.Forms.Form
     {
         private List<String> filePathsInDirectory;
 
-        public frmSearch()
+        public SearchForm()
         {
             InitializeComponent();
             populateLastSearchLocation();
@@ -27,23 +27,30 @@ namespace SalesforceMetadata
             this.tbSearchLocation.Text = Properties.Settings.Default.LastSearchLocation;
         }
 
+        private void tbLocation_DoubleClick(object sender, EventArgs e)
+        {
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Select the Directory to search",
+                                                                              false,
+                                                                              FolderEnum.ReadFrom,
+                                                                              Properties.Settings.Default.LastSearchLocation);
+            if (selectedPath != "")
+            {
+                this.tbSearchLocation.Text = selectedPath;
+                Properties.Settings.Default.LastSearchLocation = selectedPath;
+                Properties.Settings.Default.Save();
+            }
+        }
+
         private void btnSearch_Click(object sender, EventArgs e)
         {
             this.rtbResults.Text = "";
 
-            this.searchProgressBar.Visible = true;
-            this.searchProgressBar.Minimum = 1;
-            this.searchProgressBar.Value = 1;
-            this.searchProgressBar.Step = 1;
+            //this.searchProgressBar.Visible = true;
+            //this.searchProgressBar.Minimum = 1;
+            //this.searchProgressBar.Value = 1;
+            //this.searchProgressBar.Step = 1;
 
-            filePathsInDirectory = new List<string>();
-
-            HashSet<String> folderSkips = new HashSet<string>();
-            folderSkips.Add("objectTranslations");
-            folderSkips.Add("profiles");
-            folderSkips.Add("permissionsets");
-            folderSkips.Add("reports");
-            folderSkips.Add("reportTypes");
+            //filePathsInDirectory = new List<string>();
 
             if (this.tbSearchLocation.Text == "")
             {
@@ -152,164 +159,13 @@ namespace SalesforceMetadata
             else if (this.tbSearchString.Text != ""
                     && this.tbFileExtension.Text == "")
             {
-                List<String> subdirectorySearchCompleted = new List<String>();
+                List<String> results = SearchForm.getSearchResults(this.tbSearchString.Text,
+                                                                   this.tbSearchLocation.Text,
+                                                                   this.cbSearchAll.Checked,
+                                                                   this.cbMetadataFolderAndAPINameOnly.Checked,
+                                                                   this.cbIncludeFileName.Checked);
 
-                // Escape any characters in the search String first
-                // Get each folder and subfolder
-                List<String> subDirectoryList = new List<String>();
-                List<String> fileList = new List<string>();
-                subDirectoryList.Add(this.tbSearchLocation.Text);
-                subDirectoryList.AddRange(getSubdirectories(this.tbSearchLocation.Text));
-
-
-                Boolean resultsFound = false;
-                Boolean subdirectoriesExist = false;
-                if (subDirectoryList.Count > 0)
-                {
-                    subdirectoriesExist = true;
-                }
-
-                while (subdirectoriesExist == true)
-                {
-                    if (subDirectoryList.Count == 0) subdirectoriesExist = false;
-
-                    for (Int32 i = 0; i < subDirectoryList.Count; i++)
-                    {
-                        //Debug.WriteLine(subDirectoryList[0]);
-
-                        try
-                        {
-                            // Get all files in the current directory
-                            String[] files = Directory.GetFiles(subDirectoryList[i]);
-                            if (files.Length > 0)
-                            {
-                                fileList.AddRange(files);
-                            }
-                        }
-                        catch (Exception exc)
-                        {
-                            this.rtbResults.Text = this.rtbResults.Text + exc.Message + Environment.NewLine;
-                        }
-
-                        subdirectorySearchCompleted.Add(subDirectoryList[i]);
-                    }
-
-                    // Check if there are any additional sub directories in the current directory and add them to the list
-                    List<String> subDirectories = new List<String>();
-                    for (Int32 i = 0; i < subDirectoryList.Count; i++)
-                    {
-                        if (subDirectoryList[i] != this.tbSearchLocation.Text)
-                        {
-                            List<String> sds = getSubdirectories(subDirectoryList[i]);
-                            if (sds.Count > 0)
-                            {
-                                foreach (String s in sds)
-                                {
-                                    if (!subdirectorySearchCompleted.Contains(s))
-                                    {
-                                        subDirectories.Add(s);
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    // Remove the current directories in subDirectoriesList before adding the additional subdirectories
-                    subDirectoryList.Clear();
-
-                    if (subDirectories.Count > 0)
-                    {
-                        foreach (String s in subDirectories)
-                        {
-                            if (!subDirectoryList.Contains(s))
-                            {
-                                subDirectoryList.Add(s);
-                            }
-                        }
-
-                        subDirectories.Clear();
-                    }
-                }
-
-
-                // Loop through the Files list and search for the text entered
-                this.searchProgressBar.Maximum = fileList.Count;
-
-                List<String> filePathAdded = new List<string>();
-
-                foreach (String fl in fileList)
-                {
-                    Boolean blContinue = false;
-
-                    String[] fileSplit = fl.Split('\\');
-                    for (Int32 i = 0; i < fileSplit.Length; i++)
-                    {
-                        if (fileSplit[i] == "unpackaged" 
-                            && this.cbSearchAll.Checked == false
-                            && folderSkips.Contains(fileSplit[i+1]))
-                        {
-                            blContinue = true;
-                        }
-                    }
-
-                    if (blContinue) continue;
-
-                    if (cbIncludeFileName.Checked == true)
-                    {
-                        this.rtbResults.Text = this.rtbResults.Text + "Searching: " + fl + Environment.NewLine;
-                    }
-
-                    // Open each file
-                    // Read each line 
-                    // Determine if the search String is in the line
-                    // if so, write that file name to the Rich Text Box
-                    StreamReader sr = File.OpenText(fl);
-                    Int32 m = 0;
-                    while (sr.EndOfStream == false)
-                    {
-                        m++;
-                        String srLine = sr.ReadLine();
-                        if (srLine.ToLower().Contains(this.tbSearchString.Text.ToLower()))
-                        {
-                            if (resultsFound == false) resultsFound = true;
-
-                            if (this.cbMetadataFolderAndAPINameOnly.Checked == true)
-                            {
-                                if (!filePathAdded.Contains(fl))
-                                {
-                                    this.rtbResults.Text = this.rtbResults.Text + fileSplit[fileSplit.Length - 2] + "\\" + fileSplit[fileSplit.Length - 1] + Environment.NewLine;
-                                    this.rtbResults.Text = this.rtbResults.Text + "    Line: " + m.ToString() + "  " + srLine + Environment.NewLine + Environment.NewLine;
-                                    filePathAdded.Add(fl);
-                                }
-                            }
-                            else
-                            {
-                                if (!filePathAdded.Contains(fl))
-                                {
-                                    this.rtbResults.Text = this.rtbResults.Text + fl + Environment.NewLine;
-                                    filePathAdded.Add(fl);
-                                }
-
-                                if (this.cbMetadataFolderAndAPINameOnly.Checked == false)
-                                {
-                                    this.rtbResults.Text = this.rtbResults.Text + "    Line: " + m.ToString() + "  " + srLine + Environment.NewLine + Environment.NewLine;
-                                }
-                            }
-                        }
-                    }
-
-                    sr.Close();
-                    sr.Dispose();
-
-                    this.searchProgressBar.PerformStep();
-                }
-
-
-                if (resultsFound == false)
-                {
-                    this.rtbResults.Text = this.rtbResults.Text + "Search complete. No results found in the files searched.";
-                }
-
+                writeResultsToTextBox(results);
             }
             // Search for text in only specific file extensions
             else if (this.tbSearchString.Text != ""
@@ -321,22 +177,206 @@ namespace SalesforceMetadata
             MessageBox.Show("Search Complete");
         }
 
-        private void tbLocation_DoubleClick(object sender, EventArgs e)
+        public static List<String> getSearchResults(String searchString,
+                                                    String folderPath,
+                                                    Boolean searchAllFolderFiles,
+                                                    Boolean metadataFolderAndAPINameOnly,
+                                                    Boolean includeFileName)
         {
-            String selectedPath = UtilityClass.folderBrowserSelectPath("Select the Directory to search",
-                                                                              false,
-                                                                              FolderEnum.ReadFrom,
-                                                                              Properties.Settings.Default.LastSearchLocation);
-            if (selectedPath != "")
+            List<String> results = new List<string>();
+
+            List<String> subdirectorySearchCompleted = new List<String>();
+
+            HashSet<String> folderSkips = new HashSet<String>();
+            if (searchAllFolderFiles == false)
             {
-                this.tbSearchLocation.Text = selectedPath;
-                Properties.Settings.Default.LastSearchLocation = selectedPath;
-                Properties.Settings.Default.Save();
+                folderSkips = SearchForm.populateFolderSkips();
+            }
+
+            // Escape any characters in the search String first
+            // Get each folder and subfolder
+            List<String> subDirectoryList = new List<String>();
+            List<String> fileList = new List<string>();
+            subDirectoryList.Add(folderPath);
+            subDirectoryList.AddRange(SearchForm.getSubdirectories(folderPath));
+
+            Boolean resultsFound = false;
+            Boolean subdirectoriesExist = false;
+            if (subDirectoryList.Count > 0)
+            {
+                subdirectoriesExist = true;
+            }
+
+            while (subdirectoriesExist == true)
+            {
+                if (subDirectoryList.Count == 0) subdirectoriesExist = false;
+
+                for (Int32 i = 0; i < subDirectoryList.Count; i++)
+                {
+                    //Debug.WriteLine(subDirectoryList[0]);
+
+                    try
+                    {
+                        // Get all files in the current directory
+                        String[] files = Directory.GetFiles(subDirectoryList[i]);
+                        if (files.Length > 0)
+                        {
+                            fileList.AddRange(files);
+                        }
+                    }
+                    catch (Exception exc)
+                    {
+                        results.Add(exc.Message);
+                    }
+
+                    subdirectorySearchCompleted.Add(subDirectoryList[i]);
+                }
+
+                // Check if there are any additional sub directories in the current directory and add them to the list
+                List<String> subDirectories = new List<String>();
+                for (Int32 i = 0; i < subDirectoryList.Count; i++)
+                {
+                    if (subDirectoryList[i] != folderPath)
+                    {
+                        List<String> sds = SearchForm.getSubdirectories(subDirectoryList[i]);
+                        if (sds.Count > 0)
+                        {
+                            foreach (String s in sds)
+                            {
+                                if (!subdirectorySearchCompleted.Contains(s))
+                                {
+                                    subDirectories.Add(s);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Remove the current directories in subDirectoriesList before adding the additional subdirectories
+                subDirectoryList.Clear();
+
+                if (subDirectories.Count > 0)
+                {
+                    foreach (String s in subDirectories)
+                    {
+                        if (!subDirectoryList.Contains(s))
+                        {
+                            subDirectoryList.Add(s);
+                        }
+                    }
+
+                    subDirectories.Clear();
+                }
+            }
+
+            // Loop through the Files list and search for the text entered
+            //this.searchProgressBar.Maximum = fileList.Count;
+
+            List<String> filePathAdded = new List<string>();
+
+            foreach (String fl in fileList)
+            {
+                Boolean blContinue = false;
+
+                String[] fileSplit = fl.Split('\\');
+                for (Int32 i = 0; i < fileSplit.Length; i++)
+                {
+                    if (fileSplit[i] == "unpackaged"
+                        && searchAllFolderFiles == false
+                        && folderSkips.Contains(fileSplit[i + 1]))
+                    {
+                        blContinue = true;
+                    }
+                }
+
+                if (blContinue) continue;
+
+                if (includeFileName == true)
+                {
+                    results.Add("Searching: " + fl);
+                }
+
+                // Open each file
+                // Read each line 
+                // Determine if the search String is in the line
+                // if so, write that file name to the Rich Text Box
+                StreamReader sr = File.OpenText(fl);
+                Int32 m = 0;
+                while (sr.EndOfStream == false)
+                {
+                    m++;
+                    String srLine = sr.ReadLine();
+                    if (srLine.ToLower().Contains(searchString.ToLower()))
+                    {
+                        if (resultsFound == false) resultsFound = true;
+
+                        if (metadataFolderAndAPINameOnly == true)
+                        {
+                            if (!filePathAdded.Contains(fl))
+                            {
+                                results.Add(fileSplit[fileSplit.Length - 2] + "\\" + fileSplit[fileSplit.Length - 1]);
+                                results.Add("Line: " + m.ToString() + "  " + srLine);
+                                filePathAdded.Add(fl);
+                            }
+                        }
+                        else
+                        {
+                            if (!filePathAdded.Contains(fl))
+                            {
+                                results.Add(fl);
+                                filePathAdded.Add(fl);
+                            }
+
+                            if (metadataFolderAndAPINameOnly == false)
+                            {
+                                results.Add("Line: " + m.ToString() + "  " + srLine);
+                            }
+                        }
+                    }
+                }
+
+                sr.Close();
+                sr.Dispose();
+
+                //this.searchProgressBar.PerformStep();
+            }
+
+            if (resultsFound == false)
+            {
+                results.Add("Search complete. No results found in the files searched.");
+            }
+
+            return results;
+        }
+
+        public static HashSet<String> populateFolderSkips()
+        {
+            HashSet<String> folderSkips = new HashSet<string>();
+            folderSkips.Add("objectTranslations");
+            folderSkips.Add("profiles");
+            folderSkips.Add("permissionsets");
+            folderSkips.Add("reports");
+            folderSkips.Add("reportTypes");
+
+            return folderSkips;
+        }
+
+        public void writeResultsToTextBox(List<String> results)
+        {
+            foreach (String res in results)
+            {
+                if (res.StartsWith("Line:"))
+                {
+                    this.rtbResults.Text = this.rtbResults.Text + "   " + res + Environment.NewLine;
+                }
+                else
+                {
+                    this.rtbResults.Text = this.rtbResults.Text + Environment.NewLine + Environment.NewLine + res + Environment.NewLine;
+                }
             }
         }
 
-
-        private List<String> getSubdirectories(String folderLocation)
+        private static List<String> getSubdirectories(String folderLocation)
         {
             // Check for additional subdirectories in the current subdirectory list and add them to the list
             List<String> subDirectoryList = new List<String>();
@@ -356,7 +396,6 @@ namespace SalesforceMetadata
 
             return subDirectoryList;
         }
-
 
         private List<String> getApexNamesInSubdirectories(String searchLocation)
         {
@@ -443,7 +482,6 @@ namespace SalesforceMetadata
 
         }
 
-
         private StringBuilder getReferenceToFromOtherApexObjects(List<String> apexObjects)
         {
             // Key will be the file name
@@ -489,7 +527,6 @@ namespace SalesforceMetadata
 
             return results;
         }
-
 
         private void btnSearchFileExtension_Click(object sender, EventArgs e)
         {
@@ -615,4 +652,20 @@ namespace SalesforceMetadata
             }
         }
     }
+
+
+
+
+    public class SearchResults 
+    {
+        public String filePath;
+        public List<String> resultLines;
+
+        public SearchResults()
+        {
+            filePath = "";
+            resultLines = new List<String>();
+        }
+    }
+
 }

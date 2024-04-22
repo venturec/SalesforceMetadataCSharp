@@ -73,6 +73,16 @@ namespace SalesforceMetadata
             }
             else
             {
+                try
+                {
+                    this.sc.salesforceToolingLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                    return;
+                }
+                
                 HashSet<String> selectedItems = new HashSet<string>();
                 foreach (String itm in this.lbToolingObjects.CheckedItems)
                 {
@@ -80,34 +90,19 @@ namespace SalesforceMetadata
                 }
 
                 // Run a thread for obtaining the custom objects and classes
-                Action act = () => buildToolingReport(selectedItems, this.cbRetrieveApexClassCoverage.Checked);
+                Action act = () => buildToolingReport(selectedItems, this);
                 Task tsk = Task.Run(act);
             }
         }
 
-        private void buildToolingReport(HashSet<String> selectedItems, Boolean retrieveCodeCoverage)
+        private void buildToolingReport(HashSet<String> selectedItems, MetadataToolingReportForm toolingForm)
         {
+            // We are going to retrieve these in this method so adding a filter to bypass in case another method requests to retrieve these items, causing a duplicate retrieval
             HashSet<String> bypassObjects = new HashSet<String> {"ApexClass", "CustomObject"};
-
-            try
-            {
-                sc.salesforceToolingLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
-            }
-            catch (Exception exc)
-            {
-                MessageBox.Show(exc.Message);
-                return;
-            }
-
-            if (sc.toolingLoginSuccess == false)
-            {
-                MessageBox.Show("Please check username, password and/or security token");
-                return;
-            }
 
             DateTime dt = DateTime.Now;
             String processingMsg1 = "Tooling Report Started at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
-            var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1); });
+            var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1, toolingForm); });
             var thread1 = new System.Threading.Thread(threadParameters1);
             thread1.Start();
 
@@ -122,27 +117,27 @@ namespace SalesforceMetadata
             // both with the same DeveloperName - Type and the custom one does not have the __c
 
             Dictionary<String, List<String>> objectFieldNameToLabel = new Dictionary<String, List<String>>();
-            parseObjectFiles(objectFieldNameToLabel);
+            parseObjectFiles(objectFieldNameToLabel, toolingForm);
 
             Dictionary<String, ToolingApiHelper.WorkflowRule> workflowRules = new Dictionary<String, ToolingApiHelper.WorkflowRule>();
             Dictionary<String, ToolingApiHelper.WorkflowFieldUpdate> workflowFieldUpdatesByFullName = new Dictionary<String, ToolingApiHelper.WorkflowFieldUpdate>();
             Dictionary<String, ToolingApiHelper.WorkflowFieldUpdate> workflowFieldUpdatesByName = new Dictionary<String, ToolingApiHelper.WorkflowFieldUpdate>();
             //Dictionary<String, WorkflowAlert> workflowAlerts = new Dictionary<String, WorkflowAlert>();
             //Dictionary<String, WorkflowOutboundMessage> workflowOutboundMsgs = new Dictionary<String, WorkflowOutboundMessage>();
-            parseWorkflowRules(workflowRules, workflowFieldUpdatesByFullName, workflowFieldUpdatesByName);
+            parseWorkflowRules(workflowRules, workflowFieldUpdatesByFullName, workflowFieldUpdatesByName, this);
 
             Dictionary<String, String> customObjIdToName = new Dictionary<String, String>();
             Dictionary<String, String> classIdToClassName = new Dictionary<String, String>();
 
-            if (this.cbDefaultCoreObjects.Checked == true || selectedItems.Contains("CustomObject"))
+            if (toolingForm.cbDefaultCoreObjects.Checked == true || selectedItems.Contains("CustomObject"))
             {
-                getCustomObject(xlWorkbook, customObjIdToName);
-                getCustomField(xlWorkbook, customObjIdToName, objectFieldNameToLabel);
+                getCustomObject(xlWorkbook, customObjIdToName, this);
+                getCustomField(xlWorkbook, customObjIdToName, objectFieldNameToLabel, this);
             }
 
-            if (this.cbDefaultCoreObjects.Checked == true || selectedItems.Contains("ApexClass"))
+            if (toolingForm.cbDefaultCoreObjects.Checked == true || selectedItems.Contains("ApexClass"))
             {
-                getApexClass(xlWorkbook, classIdToClassName, retrieveCodeCoverage);
+                getApexClass(xlWorkbook, classIdToClassName, this);
             }
 
             // Run a new Thread for the rest of the objects
@@ -156,24 +151,25 @@ namespace SalesforceMetadata
                                      classIdToClassName,
                                      workflowRules,
                                      workflowFieldUpdatesByName,
-                                     retrieveCodeCoverage);
+                                     toolingForm);
                 }
             }
 
             dt = DateTime.Now;
             String processingMsg2 = "Tooling Retrieval Completed at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
-            var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2); });
+            var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2, toolingForm); });
             var thread2 = new System.Threading.Thread(threadParameters2);
             thread2.Start();
         }
 
 
         private void getCustomObject(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
-                                     Dictionary<String, String> customObjIdToName)
+                                     Dictionary<String, String> customObjIdToName,
+                                     MetadataToolingReportForm toolingForm)
         {
             DateTime dt = DateTime.Now;
             String processingMsg1 = "    CustomObject: Tooling Retrieval Started at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine;
-            var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1); });
+            var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1, toolingForm); });
             var thread1 = new System.Threading.Thread(threadParameters1);
             thread1.Start();
 
@@ -182,18 +178,19 @@ namespace SalesforceMetadata
 
             dt = DateTime.Now;
             String processingMsg2 = "    CustomObject: Tooling Retrieval Completed at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
-            var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2); });
+            var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2, toolingForm); });
             var thread2 = new System.Threading.Thread(threadParameters2);
             thread2.Start();
         }
 
         private void getCustomField(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
                                     Dictionary<String, String> customObjIdToName, 
-                                    Dictionary<String, List<String>> objectFieldNameToLabel)
+                                    Dictionary<String, List<String>> objectFieldNameToLabel,
+                                    MetadataToolingReportForm toolingForm)
         {
             DateTime dt = DateTime.Now;
             String processingMsg1 = "    CustomField: Tooling Retrieval Started at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine;
-            var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1); });
+            var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1, toolingForm); });
             var thread1 = new System.Threading.Thread(threadParameters1);
             thread1.Start();
 
@@ -202,28 +199,28 @@ namespace SalesforceMetadata
 
             dt = DateTime.Now;
             String processingMsg2 = "    CustomField: Tooling Retrieval Completed at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
-            var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2); });
+            var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2, toolingForm); });
             var thread2 = new System.Threading.Thread(threadParameters2);
             thread2.Start();
         }
 
         private void getApexClass(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
                                   Dictionary<String, String> classIdToClassName,
-                                  Boolean retrieveApexCoverage)
+                                  MetadataToolingReportForm toolingForm)
         {
             DateTime dt = DateTime.Now;
             String processingMsg1 = "    ApexClass: Tooling Retrieval Started at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine;
-            var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1); });
+            var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1, toolingForm); });
             var thread1 = new System.Threading.Thread(threadParameters1);
             thread1.Start();
 
             String query = ToolingApiHelper.ApexClassQuery("");
             ToolingApiHelper.getApexClasses(sc, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
-            ToolingApiHelper.apexClassToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName, retrieveApexCoverage);
+            ToolingApiHelper.apexClassToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName, toolingForm.cbRetrieveApexClassCoverage.Checked);
 
             dt = DateTime.Now;
             String processingMsg2 = "    ApexClass: Tooling Retrieval Completed at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
-            var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2); });
+            var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2, toolingForm); });
             var thread2 = new System.Threading.Thread(threadParameters2);
             thread2.Start();
         }
@@ -234,11 +231,11 @@ namespace SalesforceMetadata
                                       Dictionary<String, String> classIdToClassName,
                                       Dictionary<String, ToolingApiHelper.WorkflowRule> workflowRules,
                                       Dictionary<String, ToolingApiHelper.WorkflowFieldUpdate> workflowFieldUpdatesByName,
-                                      Boolean retrieveApexCoverage)
+                                      MetadataToolingReportForm toolingForm)
         {
             DateTime dt = DateTime.Now;
             String processingMsg1 = "    " + toolingObject + ": Tooling Retrieval Started at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine;
-            var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1); });
+            var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1, toolingForm); });
             var thread1 = new System.Threading.Thread(threadParameters1);
             thread1.Start();
 
@@ -263,16 +260,16 @@ namespace SalesforceMetadata
             {
                 if (customObjIdToName.Count == 0)
                 {
-                    getCustomObject(xlWorkbook, customObjIdToName);
+                    getCustomObject(xlWorkbook, customObjIdToName, toolingForm);
                 }
 
                 if (classIdToClassName.Count == 0)
                 {
-                    getApexClass(xlWorkbook, customObjIdToName, retrieveApexCoverage);
+                    getApexClass(xlWorkbook, customObjIdToName, toolingForm);
                 }
 
                 query = ToolingApiHelper.ApexTriggerQuery("");
-                ToolingApiHelper.apexTriggerToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName, customObjIdToName, retrieveApexCoverage);
+                ToolingApiHelper.apexTriggerToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName, customObjIdToName, toolingForm.cbRetrieveApexClassCoverage.Checked);
             }
             else if (toolingObject == "AuraDefinitionBundle")
             {
@@ -308,7 +305,7 @@ namespace SalesforceMetadata
             {
                 if (customObjIdToName.Count == 0)
                 {
-                    getCustomObject(xlWorkbook, customObjIdToName);
+                    getCustomObject(xlWorkbook, customObjIdToName, toolingForm);
                 }
 
                 query = ToolingApiHelper.FlexiPageQuery("");
@@ -333,7 +330,7 @@ namespace SalesforceMetadata
             {
                 if (customObjIdToName.Count == 0)
                 {
-                    getCustomObject(xlWorkbook, customObjIdToName);
+                    getCustomObject(xlWorkbook, customObjIdToName, toolingForm);
                 }
 
                 query = ToolingApiHelper.LayoutQuery("");
@@ -388,7 +385,7 @@ namespace SalesforceMetadata
             {
                 if (customObjIdToName.Count == 0)
                 {
-                    getCustomObject(xlWorkbook, customObjIdToName);
+                    getCustomObject(xlWorkbook, customObjIdToName, toolingForm);
                 }
 
                 query = ToolingApiHelper.ValidationRuleQuery("", "");
@@ -398,7 +395,7 @@ namespace SalesforceMetadata
             {
                 if (customObjIdToName.Count == 0)
                 {
-                    getCustomObject(xlWorkbook, customObjIdToName);
+                    getCustomObject(xlWorkbook, customObjIdToName, toolingForm);
                 }
 
                 query = ToolingApiHelper.WorkflowRuleQuery();
@@ -413,7 +410,7 @@ namespace SalesforceMetadata
             {
                 if (customObjIdToName.Count == 0)
                 {
-                    getCustomObject(xlWorkbook, customObjIdToName);
+                    getCustomObject(xlWorkbook, customObjIdToName, toolingForm);
                 }
 
                 query = ToolingApiHelper.WorkflowFieldUpdateQuery();
@@ -437,7 +434,7 @@ namespace SalesforceMetadata
 
             dt = DateTime.Now;
             String processingMsg2 = "    " + toolingObject + ": Tooling Retrieval Completed at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
-            var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2); });
+            var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2, toolingForm); });
             var thread2 = new System.Threading.Thread(threadParameters2);
             thread2.Start();
         }
@@ -448,11 +445,11 @@ namespace SalesforceMetadata
         // Remove the __c from the object name
         // Do not add standard fields.
         // Check if the field name contains a __c first, remove the __c from the field name and then add it
-        private void parseObjectFiles(Dictionary<String, List<String>> objectFieldNameToLabel)
+        private void parseObjectFiles(Dictionary<String, List<String>> objectFieldNameToLabel, MetadataToolingReportForm toolingForm)
         {
-            if (Directory.Exists(this.tbMetadataFolderLocation.Text + "\\objects"))
+            if (Directory.Exists(toolingForm.tbMetadataFolderLocation.Text + "\\objects"))
             {
-                String[] objectFiles = Directory.GetFiles(this.tbMetadataFolderLocation.Text + "\\objects");
+                String[] objectFiles = Directory.GetFiles(toolingForm.tbMetadataFolderLocation.Text + "\\objects");
                 if (objectFiles.Length > 0)
                 {
                     foreach (String fl in objectFiles)
@@ -533,11 +530,12 @@ namespace SalesforceMetadata
 
         private void parseWorkflowRules(Dictionary<String, ToolingApiHelper.WorkflowRule> workflowRules,
                                         Dictionary<String, ToolingApiHelper.WorkflowFieldUpdate> workflowFieldUpdatesByFullName,
-                                        Dictionary<String, ToolingApiHelper.WorkflowFieldUpdate> workflowFieldUpdatesByName)
+                                        Dictionary<String, ToolingApiHelper.WorkflowFieldUpdate> workflowFieldUpdatesByName,
+                                        MetadataToolingReportForm toolingForm)
         {
-            if (Directory.Exists(this.tbMetadataFolderLocation.Text + "\\workflows"))
+            if (Directory.Exists(toolingForm.tbMetadataFolderLocation.Text + "\\workflows"))
             {
-                String[] workflowFiles = Directory.GetFiles(this.tbMetadataFolderLocation.Text + "\\workflows");
+                String[] workflowFiles = Directory.GetFiles(toolingForm.tbMetadataFolderLocation.Text + "\\workflows");
 
                 if (workflowFiles.Length > 0)
                 {
@@ -690,16 +688,16 @@ namespace SalesforceMetadata
         }
 
         // Threadsafe way to write back to the form's textbox
-        public void tsWriteToTextbox(String tbValue)
+        public void tsWriteToTextbox(String tbValue, MetadataToolingReportForm toolingForm)
         {
-            if (this.rtStatus.InvokeRequired)
+            if (toolingForm.rtStatus.InvokeRequired)
             {
-                Action safeWrite = delegate { tsWriteToTextbox($"{tbValue}"); };
-                this.rtStatus.Invoke(safeWrite);
+                Action safeWrite = delegate { tsWriteToTextbox($"{tbValue}", toolingForm); };
+                toolingForm.rtStatus.Invoke(safeWrite);
             }
             else
             {
-                this.rtStatus.Text = this.rtStatus.Text + tbValue;
+                toolingForm.rtStatus.Text = toolingForm.rtStatus.Text + tbValue;
             }
         }
     }

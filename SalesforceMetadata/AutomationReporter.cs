@@ -509,23 +509,25 @@ namespace SalesforceMetadata
                     XmlDocument objXd = new XmlDocument();
                     objXd.Load(fl);
 
-                    XmlNodeList ndListStatus = objXd.GetElementsByTagName("status");
-                    XmlNodeList ndListLabel = objXd.GetElementsByTagName("label");
+                    XmlNodeList ndListStatus   = objXd.GetElementsByTagName("status");
+                    XmlNodeList ndListLabel    = objXd.GetElementsByTagName("label");
                     XmlNodeList ndListProcType = objXd.GetElementsByTagName("processType");
-                    XmlNodeList ndListObjProc = objXd.GetElementsByTagName("processMetadataValues");
-                    
-                    XmlNodeList ndListStart = objXd.GetElementsByTagName("start");
+                    XmlNodeList ndListObjProc  = objXd.GetElementsByTagName("processMetadataValues");
+
+                    XmlNodeList ndListStart        = objXd.GetElementsByTagName("start");
                     XmlNodeList ndListStartElemRef = objXd.GetElementsByTagName("startElementReference");
 
-                    XmlNodeList ndListApiVs = objXd.GetElementsByTagName("apiVersion");
-                    XmlNodeList ndListRunInMd = objXd.GetElementsByTagName("runInMode");
-                    XmlNodeList ndListVariables = objXd.GetElementsByTagName("variables");
+                    XmlNodeList ndListApiVs       = objXd.GetElementsByTagName("apiVersion");
+                    XmlNodeList ndListRunInMd     = objXd.GetElementsByTagName("runInMode");
+                    XmlNodeList ndListVariables   = objXd.GetElementsByTagName("variables");
                     XmlNodeList ndListAssignments = objXd.GetElementsByTagName("assignments");
 
                     XmlNodeList ndListRecordLookups = objXd.GetElementsByTagName("recordLookups");
                     XmlNodeList ndListRecordCreates = objXd.GetElementsByTagName("recordCreates");
                     XmlNodeList ndListRecordUpdates = objXd.GetElementsByTagName("recordUpdates");
                     XmlNodeList ndListRecordDeletes = objXd.GetElementsByTagName("recordDeletes");
+
+                    XmlNodeList ndListActionCalls = objXd.GetElementsByTagName("actionCalls");
 
                     Boolean continueLoop = true;
                     foreach (XmlNode xn in ndListStatus)
@@ -673,6 +675,10 @@ namespace SalesforceMetadata
                                 {
                                     fv.varName = cn.InnerText;
                                 }
+                                else if (cn.Name == "apexClass")
+                                {
+                                    fv.apexClass = cn.InnerText;
+                                }
                                 else if (cn.Name == "dataType")
                                 {
                                     fv.dataType = cn.InnerText;
@@ -806,6 +812,52 @@ namespace SalesforceMetadata
                         }
                     }
 
+                    foreach (XmlNode xn in ndListActionCalls)
+                    {
+                        if (xn.ParentNode.LocalName == "Flow")
+                        {
+                            FlowActionCalls fac = new FlowActionCalls();
+                            Debug.WriteLine("");
+                            foreach (XmlNode nd1 in xn.ChildNodes)
+                            {
+                                if (nd1.Name == "name")
+                                {
+                                    fac.actionCallAPIName = nd1.InnerText;
+                                }
+                                else if (nd1.Name == "label")
+                                {
+                                    fac.actionCallLabel = nd1.InnerText;
+                                }
+                                else if (nd1.Name == "actionName")
+                                {
+                                    fac.actionName = nd1.InnerText;
+                                }
+                                else if (nd1.Name == "actionType")
+                                {
+                                    fac.actionType = nd1.InnerText;
+                                }
+                                else if (nd1.Name == "inputParameters")
+                                {
+                                    FlowActionInputParameters faip = new FlowActionInputParameters();
+                                    if (nd1.ChildNodes.Count == 1)
+                                    {
+                                        faip.apiName = nd1.ChildNodes[0].InnerText;
+                                        faip.value = "";
+                                    }
+                                    else
+                                    {
+                                        faip.apiName = nd1.ChildNodes[0].InnerText;
+                                        faip.value = nd1.ChildNodes[1].InnerText;
+                                    }
+
+                                    fac.inputParameters.Add(faip);
+                                }
+                            }
+
+                            flowObj.actionCalls.Add(fac);
+                        }
+                    }
+
                     if (this.objectToFlow.ContainsKey(flowObj.objectName))
                     {
                         this.objectToFlow[flowObj.objectName].Add(flowObj);
@@ -901,7 +953,7 @@ namespace SalesforceMetadata
                                 foreach (XmlNode cn2 in nd1.ChildNodes)
                                 {
                                     if (cn2.Name == "fullName")
-                                    { 
+                                    {
                                         wfu.fieldUpdateName = cn2.InnerText;
                                     }
                                     else if (cn2.Name == "field")
@@ -1172,8 +1224,8 @@ namespace SalesforceMetadata
                     filecontents2 = filecontents2 + charArray[i].ToString();
                     inString = false;
                 }
-                else if (inString == false 
-                    && inCollection == true 
+                else if (inString == false
+                    && inCollection == true
                     && charArray[i].ToString().ToLower() != " ")
                 {
                     collectionVar = collectionVar + charArray[i].ToString();
@@ -1563,7 +1615,7 @@ namespace SalesforceMetadata
 
             Boolean inTriggerEvents = false;
             Boolean inTriggerBody = false;
-            
+
             Boolean inSOQLStatement = false;
             String soqlStatement = "";
             String soqlObject = "";
@@ -2357,7 +2409,7 @@ namespace SalesforceMetadata
                     // This accounts for labels with the possibility of a ( and ) inside the single quote marks
                     // possibly throwing off when the below loop should stop and missing the real end of the annotation paremeter
                     // Ex: InvocableMethod(label='Backorder Date Change: Build and Call Requests (Email Service)')
-                    Int32 parenthCount = 0;     
+                    Int32 parenthCount = 0;
                     String annotationParameters = "";
 
                     if (filearray[jCount] == "(")
@@ -3195,15 +3247,15 @@ namespace SalesforceMetadata
             // Account for the allOrNone parameter in the Database.insert/update/delete
             //else
             //{
-                for (Int32 i = arraystart + 1; i < filearray.Length; i++)
+            for (Int32 i = arraystart + 1; i < filearray.Length; i++)
+            {
+                if (filearray[i] == ";")
                 {
-                    if (filearray[i] == ";")
-                    {
-                        ovt.allOrNoneParameter = filearray[i - 2];
-                        lastCharLocation = i;
-                        break;
-                    }
+                    ovt.allOrNoneParameter = filearray[i - 2];
+                    lastCharLocation = i;
+                    break;
                 }
+            }
             //}
 
             cm.methodDmls.Add(ovt);
@@ -3353,7 +3405,7 @@ namespace SalesforceMetadata
 
                     break;
                 }
-                else if(concatRightSide == true)
+                else if (concatRightSide == true)
                 {
                     rightSide = rightSide + filearray[i] + " ";
                 }
@@ -3641,7 +3693,7 @@ namespace SalesforceMetadata
                 }
             }
 
-            if (objectNameFound == false) 
+            if (objectNameFound == false)
             {
                 ovt.leftSideObject = ovt.leftSide;
             }
@@ -4086,7 +4138,7 @@ namespace SalesforceMetadata
                                 {
                                     sw.Write("\t\t" +
                                              ovt.leftSideObject + "\t" +
-                                             ovt.leftSide + "\t" + 
+                                             ovt.leftSide + "\t" +
                                              ovt.varName + "\t=\t" +
                                              ovt.rightSideObject + "\t" +
                                              ovt.rightSide +
@@ -4273,6 +4325,26 @@ namespace SalesforceMetadata
                             }
                         }
                     }
+
+                    sw.Write(Environment.NewLine);
+                    sw.Write(Environment.NewLine);
+                    sw.WriteLine("\tReferenced In (This is a general search and may contain results which are not exact)");
+
+                    List<String> results = SearchForm.getSearchResults(ac.className, this.tbProjectFolder.Text, false, true, false);
+                    foreach (String res in results)
+                    {
+                        if (res.StartsWith("Line:"))
+                        {
+                            sw.Write("\t\t\t\t" + res);
+                            sw.Write(Environment.NewLine);
+                        }
+                        else
+                        {
+                            sw.Write(Environment.NewLine);
+                            sw.Write("\t\t" + res);
+                            sw.Write(Environment.NewLine);
+                        }
+                    }
                 }
             }
 
@@ -4280,57 +4352,119 @@ namespace SalesforceMetadata
             if (this.objectToFlow != null
                 && this.objectToFlow.Count > 0)
             {
-                sw.Write(Environment.NewLine);
-                sw.Write(Environment.NewLine);
-                sw.Write("Flow_Process_Workflow\t" +
-                    "ObjectName\t" +
-                    "FlowApiName\t" +
-                    "FlowLabel\t" +
-                    "ProcessType\t" +
-                    "APIVersion" +
-                    Environment.NewLine);
-
                 foreach (String objName in this.objectToFlow.Keys)
                 {
-                    if (objName != "")
+                    sw.Write(Environment.NewLine);
+                    sw.Write(Environment.NewLine);
+                    sw.Write("Flow_Process_Workflow\t" +
+                        "ObjectName\t" +
+                        "FlowApiName\t" +
+                        "FlowLabel\t" +
+                        "ProcessType\t" +
+                        "APIVersion" +
+                        Environment.NewLine);
+
+                    foreach (FlowProcess fp in objectToFlow[objName])
                     {
-                        foreach (FlowProcess fp in objectToFlow[objName])
+                        sw.Write(Environment.NewLine);
+
+                        sw.Write("\t" +
+                            objName + "\t" +
+                            fp.apiName + "\t" +
+                            fp.label + "\t" +
+                            fp.flowProcessType + "\t" +
+                            fp.apiVersion +
+                            Environment.NewLine);
+
+                        if (fp.variableToObject.Count > 0)
                         {
                             sw.Write(Environment.NewLine);
-
-                            sw.Write("\t" +
-                                objName + "\t" +
-                                fp.apiName + "\t" +
-                                fp.label + "\t" +
-                                fp.flowProcessType + "\t" +
-                                fp.apiVersion +
+                            sw.Write("\t\tFlowVariables\t" +
+                                "FlowVariableName\t" +
+                                "ApexClass\t" +
+                                "FlowObjectType\t" +
+                                "FlowDataType\t" +
+                                "IsCollection\t" +
+                                "IsInput\t" +
+                                "IsOutput" +
                                 Environment.NewLine);
 
-                            if (fp.variableToObject.Count > 0)
+                            foreach (FlowVariable fv in fp.variableToObject.Values)
                             {
-                                sw.Write(Environment.NewLine);
-                                sw.Write("\t\tFlowVariables\t" +
-                                    "FlowVariableName\t" +
-                                    "FlowObjectType\t" +
-                                    "FlowDataType\t" +
-                                    "IsCollection\t" +
-                                    "IsInput\t" +
-                                    "IsOutput" +
+                                sw.Write("\t\t\t" +
+                                    fv.varName + "\t" +
+                                    fv.apexClass + "\t" +
+                                    fv.objectType + "\t" +
+                                    fv.dataType + "\t" +
+                                    fv.isCollection + "\t" +
+                                    fv.isInput + "\t" +
+                                    fv.isOutput +
                                     Environment.NewLine);
-
-                                foreach (FlowVariable fv in fp.variableToObject.Values)
-                                {
-                                    sw.Write("\t\t\t" +
-                                        fv.varName + "\t" +
-                                        fv.objectType + "\t" +
-                                        fv.dataType + "\t" +
-                                        fv.isCollection + "\t" +
-                                        fv.isInput + "\t" +
-                                        fv.isOutput +
-                                        Environment.NewLine);
-                                }
                             }
                         }
+
+                        if (fp.actionCalls.Count > 0)
+                        {
+                            sw.Write(Environment.NewLine);
+                            sw.Write("\t\tFlowActionCalls\t" +
+                                "ActionCallAPIName\t" +
+                                "ActionCallLabel\t" +
+                                "ActionName\t" +
+                                "ActionType\t" +
+                                "InputParameters\t" +
+                                "InputParameterName\t" +
+                                "InputParameterValue\t" +
+                                Environment.NewLine);
+
+                            foreach (FlowActionCalls fac in fp.actionCalls)
+                            {
+                                sw.Write("\t\t\t" +
+                                    fac.actionCallAPIName + "\t" +
+                                    fac.actionCallLabel + "\t" +
+                                    fac.actionName + "\t" +
+                                    fac.actionType + "\t\t");
+
+                                Int32 i = 0;
+                                foreach (FlowActionInputParameters faip in fac.inputParameters)
+                                {
+                                    if (i == 0)
+                                    {
+                                        sw.Write(faip.apiName + "\t" + faip.value + Environment.NewLine);
+                                    }
+                                    else
+                                    {
+                                        sw.Write("\t\t\t\t\t\t\t\t" + faip.apiName + "\t" + faip.value + Environment.NewLine);
+                                    }
+
+                                    i++;
+                                }
+
+                                sw.Write(Environment.NewLine);
+                            }
+                        }
+
+                        sw.Write(Environment.NewLine);
+                        sw.Write(Environment.NewLine);
+                        sw.WriteLine("\t\t\tReferenced In (This is a general search and may contain results which are not exact)");
+
+                        List<String> results = SearchForm.getSearchResults(fp.apiName, this.tbProjectFolder.Text, false, true, false);
+                        foreach (String res in results)
+                        {
+                            if (res.StartsWith("Line:"))
+                            {
+                                sw.Write("\t\t\t\t\t\t" + res);
+                                sw.Write(Environment.NewLine);
+                            }
+                            else
+                            {
+                                sw.Write(Environment.NewLine);
+                                sw.Write("\t\t\t\t" + res);
+                                sw.Write(Environment.NewLine);
+                            }
+                        }
+
+
+                        sw.Write(Environment.NewLine);
                     }
                 }
             }
@@ -4378,6 +4512,190 @@ namespace SalesforceMetadata
             sw.Close();
         }
 
+        private void writeAutomationNamesToFile()
+        {
+            StreamWriter sw = new StreamWriter(this.tbFileSaveTo.Text + "\\AutomationNamesExtractionReport.txt");
+
+            if (this.objectToTrigger != null
+                && this.objectToTrigger.Count > 0)
+            {
+                foreach (String objnm in this.objectToTrigger.Keys)
+                {
+                    foreach (ApexTriggers at in this.objectToTrigger[objnm])
+                    {
+                        sw.Write(Environment.NewLine);
+                        sw.Write(Environment.NewLine);
+                        sw.WriteLine("ApexTrigger\tTriggerName\tObjectType\tBeforeInsert\tBeforeUpdate\tBeforeDelete\tAfterInsert\tAfterUpdate\tAfterDelete\tAfterUndelete");
+                        sw.Write("\t" + at.triggerName + "\t" +
+                                        objnm + "\t" +
+                                        at.isBeforeInsert + "\t" +
+                                        at.isBeforeUpdate + "\t" +
+                                        at.isBeforeDelete + "\t" +
+                                        at.isAfterInsert + "\t" +
+                                        at.isAfterUpdate + "\t" +
+                                        at.isAfterDelete + "\t" +
+                                        at.isAfterUndelete + "\t" +
+                                        Environment.NewLine);
+
+
+                        if (at.triggerDmls.Count > 0)
+                        {
+                            sw.Write(Environment.NewLine);
+                            sw.Write(Environment.NewLine);
+                            sw.WriteLine("\tTriggerDMLs\tDMLType\tObjectType\tDMLVariableName\tSaveResultType\tSaveResultVariable\tDMLValues");
+
+                            foreach (ObjectVarToType ovt in at.triggerDmls)
+                            {
+                                sw.Write("\t\t" +
+                                    ovt.dmlType + "\t" +
+                                    ovt.leftSideObject + "\t" +
+                                    ovt.varName + "\t" +
+                                    ovt.saveResultType + "\t" +
+                                    ovt.saveResultVar + "\t" +
+                                    ovt.rightSide +
+                                    Environment.NewLine);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Write Class / Method results to file
+            if (this.classNmToClass != null
+                && this.classNmToClass.Count > 0)
+            {
+                // Skip test classes
+                foreach (ApexClasses ac in this.classNmToClass.Values)
+                {
+                    if (ac.isTestClass)
+                    {
+                        continue;
+                    }
+
+                    sw.Write(Environment.NewLine);
+                    sw.Write(Environment.NewLine);
+                    sw.WriteLine("ApexClass\tClassName\tAccessModifier\tOptional Modifier\tIs Rest Class\tIs Interface\tExtends Class");
+                    sw.Write("\t" +
+                        ac.className + "\t" +
+                        ac.accessModifier + "\t" +
+                        ac.optionalModifier + "\t" +
+                        ac.isRestClass + "\t" +
+                        ac.isInterface + "\t" +
+                        ac.extendsClassName +
+                        Environment.NewLine);
+
+
+                    if (ac.clsProperties.Count > 0)
+                    {
+                        sw.Write(Environment.NewLine);
+                        sw.Write(Environment.NewLine);
+                        sw.WriteLine("\tClassProperties\tPropertyQualifier\tPropertyDataType\tPropertyName\tIsGetter\tGetterReturnValue\tIsSetter\tSetterValue\tPropertyValue");
+
+                        foreach (String cpKey in ac.clsProperties.Keys)
+                        {
+                            sw.Write("\t\t" +
+                                ac.clsProperties[cpKey].qualifier + "\t" +
+                                ac.clsProperties[cpKey].dataType + "\t" +
+                                ac.clsProperties[cpKey].propertyName + "\t" +
+                                ac.clsProperties[cpKey].isGetter + "\t" +
+                                ac.clsProperties[cpKey].getterReturnValue + "\t" +
+                                ac.clsProperties[cpKey].isSetter + "\t" +
+                                ac.clsProperties[cpKey].setterValue + "\t" +
+                                ac.clsProperties[cpKey].propertyValue +
+                                Environment.NewLine);
+                        }
+                    }
+
+                    if (ac.classMethods.Count > 0)
+                    {
+                        foreach (ClassMethods cm in ac.classMethods)
+                        {
+                            sw.Write(Environment.NewLine);
+                            sw.Write(Environment.NewLine);
+                            sw.WriteLine("\tClassMethod\tMethodName\tMethodQualifier\tReturnDataType\tAnnotation");
+
+                            sw.Write("\t\t" +
+                            ac.className + "." + cm.methodName + "\t" +
+                            cm.qualifier + "\t" +
+                            cm.returnDataType + "\t" +
+                            cm.methodAnnotation +
+                            Environment.NewLine);
+
+                            if (cm.methodParameters.Count > 0)
+                            {
+                                sw.Write(Environment.NewLine);
+                                sw.Write(Environment.NewLine);
+                                sw.WriteLine("\t\tMethodParamers\tParamType\tParamName");
+
+                                foreach (ObjectVarToType methParm in cm.methodParameters)
+                                {
+                                    sw.Write("\t\t\t" +
+                                        methParm.varType + "\t" +
+                                        methParm.varName +
+                                        Environment.NewLine);
+                                }
+                            }
+
+                            if (cm.methodDmls.Count > 0)
+                            {
+                                sw.Write(Environment.NewLine);
+                                sw.Write(Environment.NewLine);
+                                sw.WriteLine("\t\t\tMethodDMLs\tDMLType\tObjectType\tDMLVariableName\tSaveResultType\tSaveResultVariable\tDMLValues");
+
+                                foreach (ObjectVarToType ovt in cm.methodDmls)
+                                {
+                                    sw.Write("\t\t\t\t" +
+                                        ovt.dmlType + "\t" +
+                                        ovt.varType + "\t" +
+                                        ovt.varName + "\t" +
+                                        ovt.saveResultType + "\t" +
+                                        ovt.saveResultVar + "\t" +
+                                        ovt.rightSide +
+                                        Environment.NewLine);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Write Flow results to file
+            if (this.objectToFlow != null
+                && this.objectToFlow.Count > 0)
+            {
+                sw.Write(Environment.NewLine);
+                sw.Write(Environment.NewLine);
+                sw.Write("Flow_Process_Workflow\t" +
+                    "ObjectName\t" +
+                    "FlowApiName\t" +
+                    "FlowLabel\t" +
+                    "ProcessType\t" +
+                    "APIVersion" +
+                    Environment.NewLine);
+
+                foreach (String objName in this.objectToFlow.Keys)
+                {
+                    if (objName != "")
+                    {
+                        foreach (FlowProcess fp in objectToFlow[objName])
+                        {
+                            sw.Write(Environment.NewLine);
+
+                            sw.Write("\t" +
+                                objName + "\t" +
+                                fp.apiName + "\t" +
+                                fp.label + "\t" +
+                                fp.flowProcessType + "\t" +
+                                fp.apiVersion +
+                                Environment.NewLine);
+                        }
+                    }
+                }
+            }
+
+
+            sw.Close();
+        }
         public class ObjectToFields 
         {
             public String objectName = "";
@@ -4606,23 +4924,49 @@ namespace SalesforceMetadata
             public Dictionary<String, List<String>> recordUpdates;
             public Dictionary<String, List<String>> recordDeletes;
 
+            public List<FlowActionCalls> actionCalls;
+
             public FlowProcess()
             {
                 variableToObject = new Dictionary<String, FlowVariable>();
                 recordCreates = new Dictionary<string, List<string>>();
                 recordUpdates = new Dictionary<string, List<string>>();
                 recordDeletes = new Dictionary<string, List<string>>();
+
+                actionCalls = new List<FlowActionCalls>();
             }
         }
 
         public class FlowVariable
         {
             public String varName = "";
+            public String apexClass = "";
             public String dataType = "";
             public String objectType = "";
             public Boolean isCollection = false;
             public Boolean isInput = false;
             public Boolean isOutput = false;
+        }
+
+        public class FlowActionCalls
+        {
+            public String actionCallAPIName = "";
+            public String actionCallLabel = "";
+            public String actionName = "";
+            public String actionType = "";
+            public List<FlowActionInputParameters> inputParameters;
+
+            public FlowActionCalls()
+            {
+                inputParameters = new List<FlowActionInputParameters>();
+            }
+        }
+
+        public class FlowActionInputParameters
+        {
+            public String apiName = "";
+            public String value = "";
+
         }
 
         public class WorkflowRules
@@ -4701,19 +5045,15 @@ namespace SalesforceMetadata
             runObjectFieldExtract();
 
             // Search through Triggers for field references
-            //searchApexTriggersForFields();
             runApexTriggerExtract();
 
             // Search through Classes for field references
-            //searchApexClassForFields();
             runApexClassExtract();
 
             // Search Flows/Processes for field references
-            //searchFlowsProcessesForFields();
             runFlowProcessExtract();
 
             // Search Workflows for field references
-            //searchWorkflowsForFields();
             runWorkflowExtract();
 
             // Write the results to a file
@@ -4797,6 +5137,40 @@ namespace SalesforceMetadata
             }
 
             MessageBox.Show("Flow Extraction Complete");
+        }
+
+        private void btnGetApexClassNamesAndMethods_Click(object sender, EventArgs e)
+        {
+            if (this.tbProjectFolder.Text == "")
+            {
+                MessageBox.Show("Please select a project folder which contains the Salesforce metadata");
+                return;
+            }
+
+            if (this.tbFileSaveTo.Text == "")
+            {
+                MessageBox.Show("Please select a folder location to save the report values to");
+                return;
+            }
+
+            // We need the objects and fields and the apex classes extracted out first
+            runObjectFieldExtract();
+
+            // Search through Triggers for field references
+            runApexTriggerExtract();
+
+            // Search through Classes for field references
+            runApexClassExtract();
+
+            // Search Flows/Processes for field references
+            runFlowProcessExtract();
+
+            // Search Workflows for field references
+            runWorkflowExtract();
+
+            writeAutomationNamesToFile();
+
+            MessageBox.Show("Automation Names Extraction Complete");
         }
     }
 }

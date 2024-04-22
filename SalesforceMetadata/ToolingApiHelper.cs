@@ -4858,6 +4858,8 @@ namespace SalesforceMetadata
             xlWorksheet.Cells[1, 19].Value = "LastModifiedDate";
             xlWorksheet.Cells[1, 20].Value = "TestClasses";
             xlWorksheet.Cells[1, 21].Value = "TestClassesAndMethods";
+            xlWorksheet.Cells[1, 22].Value = "Interfaces";
+            xlWorksheet.Cells[1, 23].Value = "ClassContainsTestMethods";
 
 
             Int32 rowNumber = 2;
@@ -4918,34 +4920,66 @@ namespace SalesforceMetadata
                     }
 
                     // Determine if it is Test Class or not. We don't need to retrieve code coverage for test classes
+                    if (clsSymbols.interfaces != null)
+                    {
+                        String interfaces = "";
+
+                        foreach (String ifc in clsSymbols.interfaces)
+                        {
+                            interfaces = interfaces + ifc + ", ";
+                        }
+
+                        interfaces = interfaces.Substring(0, interfaces.Length - 2);
+                        xlWorksheet.Cells[rowNumber, 22].Value = interfaces;
+                    }
+                    
+                    // Determine if a Class is a test class
+                    if (clsSymbols.tableDeclaration != null)
+                    {
+                        if (clsSymbols.tableDeclaration.annotations != null
+                            && clsSymbols.tableDeclaration.annotations.Length > 0)
+                        {
+                            foreach (SalesforceMetadata.ToolingWSDL.Annotation annot in clsSymbols.tableDeclaration.annotations)
+                            {
+                                if (annot.name == "IsTest")
+                                {
+                                    isTestClass = true;
+                                    xlWorksheet.Cells[rowNumber, 7].Value = true;
+                                }
+                                else
+                                {
+                                    xlWorksheet.Cells[rowNumber, 7].Value = false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            xlWorksheet.Cells[rowNumber, 7].Value = false;
+                        }
+                    }
+                    else
+                    {
+                        xlWorksheet.Cells[rowNumber, 7].Value = false;
+                    }
+
+                    // Determine if Class contains test methods
+                    xlWorksheet.Cells[rowNumber, 23].Value = false;
                     if (clsSymbols.methods != null)
                     {
                         foreach (SalesforceMetadata.ToolingWSDL.Method method in clsSymbols.methods)
                         {
-                            if (method.annotations == null)
-                            {
-                                xlWorksheet.Cells[rowNumber, 7].Value = false;
-                            }
-                            else
+                            if (method.annotations != null)
                             {
                                 foreach (SalesforceMetadata.ToolingWSDL.Annotation annot in method.annotations)
                                 {
                                     if (annot.name == "IsTest")
                                     {
                                         isTestClass = true;
-                                        xlWorksheet.Cells[rowNumber, 7].Value = true;
-                                    }
-                                    else
-                                    {
-                                        xlWorksheet.Cells[rowNumber, 7].Value = false;
+                                        xlWorksheet.Cells[rowNumber, 23].Value = true;
                                     }
                                 }
                             }
                         }
-                    }
-                    else
-                    {
-                        xlWorksheet.Cells[rowNumber, 7].Value = false;
                     }
 
                     // Number of Lines, Number of Lines Covered, Uncovered, and Percentage Covered
@@ -4996,6 +5030,8 @@ namespace SalesforceMetadata
                                     {
                                         testClasses = testClasses + classIdToClassName[acm.ApexTestClassId] + "; ";
                                     }
+
+                                    testClasses = testClasses.Substring(0, testClasses.Length - 2);
 
                                     apexTestClassAndMethod = apexTestClassAndMethod + classIdToClassName[acm.ApexTestClassId] + " - " + acm.TestMethodName + "; ";
                                 }

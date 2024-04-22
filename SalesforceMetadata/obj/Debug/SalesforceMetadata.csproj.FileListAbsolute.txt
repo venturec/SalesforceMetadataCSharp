@@ -328,5 +328,5 @@ C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.UserSettings.resources
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.ParseSalesforceMetadata.resources
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.AddObject.resources
-C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.frmSearch.resources
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\Salesfor.8AEDC7D8.Up2Date
+C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.SearchForm.resources

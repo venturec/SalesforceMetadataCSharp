@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SalesforceMetadata.ToolingWSDL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,6 +7,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,6 +17,10 @@ namespace SalesforceMetadata
 {
     public partial class AutomationReporter : Form
     {
+        public const String FLOW = "Flow";
+        public const String APEX_CLASS = "ApexClass";
+        public const String APEX_CLASS_METHOD = "ApexClassMethod";
+
         // Key = Object API Name
         public Dictionary<String, ObjectToFields> objectToFieldsDictionary;
 
@@ -2213,7 +2219,7 @@ namespace SalesforceMetadata
                     }
                     else if (filearray[i].ToLower() == "implements")
                     {
-                        skipTo = parseClassImplements(filearray, apexCls, i);
+                        skipTo = parseImplementsInterfaces(filearray, apexCls, i);
                         skipOver = true;
                     }
                     else if (filearray[i].ToLower() == "extends")
@@ -2284,25 +2290,42 @@ namespace SalesforceMetadata
             this.classNmToClass.Add(apexCls.className, apexCls);
         }
 
-        public Int32 parseClassImplements(String[] filearray, ApexClasses ac, Int32 arraystart)
+        public Int32 parseImplementsInterfaces(String[] filearray, ApexClasses ac, Int32 arraystart)
         {
             Int32 lastCharLocation = arraystart;
+
+            String interfaceName = "";
+            String interfaceParameters = "";
 
             for (Int32 i = arraystart + 1; i < filearray.Length - 1; i++)
             {
                 if (filearray[i] == "{")
                 {
+                    ac.implementsInterfaces.Add(interfaceName, interfaceParameters);
+
                     // We don't want to skip over the class { so return 1 less than the current filearray i value
                     lastCharLocation = i - 1;
                     break;
                 }
                 else if (filearray[i] == ",")
                 {
+                    ac.implementsInterfaces.Add(interfaceName, interfaceParameters);
+
                     // Don't do anything. Skip over this.
+                    interfaceName = "";
+                    interfaceParameters = "";
                 }
                 else
                 {
-                    ac.implementsClassNames.Add(filearray[i]);
+                    //ac.implementsClassNames.Add(filearray[i]);
+                    if (interfaceName == "")
+                    {
+                        interfaceName = filearray[i];
+                    }
+                    else
+                    {
+                        interfaceParameters += filearray[i];
+                    }
                 }
             }
 
@@ -2373,21 +2396,6 @@ namespace SalesforceMetadata
 
             for (Int32 i = arraystart; i < filearray.Length - 1; i++)
             {
-                //if (filearray[i].ToString() == "}")
-                //{
-                //    Int32 bc = braceCount - 1;
-                //    Debug.WriteLine("BraceCount: " + bc + " i: " + i.ToString() + " skipOver:" + skipOver + " skipTo:" + skipTo + " character:" + filearray[i].ToString());
-                //}
-                //else if (filearray[i].ToString() == "{")
-                //{
-                //    Int32 bc = braceCount + 1;
-                //    Debug.WriteLine("BraceCount: " + bc + " i: " + i.ToString() + " skipOver:" + skipOver + " skipTo:" + skipTo + " character:" + filearray[i].ToString());
-                //}
-                //else
-                //{
-                //    Debug.WriteLine("BraceCount: " + braceCount + " i: " + i.ToString() + " skipOver:" + skipOver + " skipTo:" + skipTo + " character:" + filearray[i].ToString());
-                //}
-
                 //Debug.WriteLine("");
 
                 // TODO: Bypass filearray values as they have been processed in sub-routines
@@ -4810,8 +4818,8 @@ namespace SalesforceMetadata
             public Boolean isTestClass = false;
             public Boolean isRestClass = false;
 
-            public List<String> interfaceClassNames;
-            public List<String> implementsClassNames;
+            //public List<String> interfaceClassNames;
+            public Dictionary<String, String> implementsInterfaces;
             public String extendsClassName = "";
             public Dictionary<String, ClassProperties> clsProperties;
             public Dictionary<String, ApexClasses> innerClasses;
@@ -4820,8 +4828,8 @@ namespace SalesforceMetadata
 
             public ApexClasses()
             {
-                this.interfaceClassNames = new List<String>();
-                this.implementsClassNames = new List<String>();
+                //this.interfaceClassNames = new List<String>();
+                this.implementsInterfaces = new Dictionary<String, String>();
                 this.clsProperties = new Dictionary<string, ClassProperties>();
                 this.innerClasses = new Dictionary<string, ApexClasses>();
                 this.classMethods = new List<ClassMethods>();
@@ -4966,7 +4974,6 @@ namespace SalesforceMetadata
         {
             public String apiName = "";
             public String value = "";
-
         }
 
         public class WorkflowRules
@@ -5171,6 +5178,552 @@ namespace SalesforceMetadata
             writeAutomationNamesToFile();
 
             MessageBox.Show("Automation Names Extraction Complete");
+        }
+
+        private void btnAutomationHierarchy_Click(object sender, EventArgs e)
+        {
+            if (this.tbProjectFolder.Text == "")
+            {
+                MessageBox.Show("Please select a project folder which contains the Salesforce metadata");
+                return;
+            }
+
+            if (this.tbFileSaveTo.Text == "")
+            {
+                MessageBox.Show("Please select a folder location to save the report values to");
+                return;
+            }
+
+            // We need the objects and fields and the apex classes extracted out first
+            runObjectFieldExtract();
+
+            // Search through Triggers for field references
+            runApexTriggerExtract();
+
+            // Search through Classes for field references
+            runApexClassExtract();
+
+            // Search Flows/Processes for field references
+            runFlowProcessExtract();
+
+            Debug.WriteLine("");
+
+            writeAutomationSequenceToFile();
+
+            MessageBox.Show("Automation Hierarchy Report Complete");
+        }
+
+        private void writeAutomationSequenceToFile()
+        {
+            StreamWriter sw = new StreamWriter(this.tbFileSaveTo.Text + "\\AutomationSequencesReport.txt");
+
+            sw.Write("sObject\t");
+            sw.Write("Flow API Name\t");
+            sw.Write("Flow Label\t");
+            sw.Write("API Version\t");
+            sw.Write("Process Type\t");
+            sw.Write("Trigger Type\t");
+            sw.Write("Record Trigger Type\t");
+            sw.Write("Run In Mode\t");
+            sw.Write("Is Active" + Environment.NewLine);
+
+            foreach (String sobj in this.objectToFlow.Keys)
+            {
+                if (sobj != "")
+                {
+                    foreach (FlowProcess fp in this.objectToFlow[sobj])
+                    {
+                        sw.Write(sobj + "\t");
+                        sw.Write(fp.apiName + "\t");
+                        sw.Write(fp.label + "\t");
+                        sw.Write(fp.apiVersion + "\t");
+                        sw.Write(fp.flowProcessType + "\t");
+                        sw.Write(fp.triggerType + "\t");
+                        sw.Write(fp.recordTriggerType + "\t");
+                        sw.Write(fp.runInMode + "\t");
+                        sw.Write(fp.isActive + Environment.NewLine);
+
+                        foreach (FlowActionCalls fac in fp.actionCalls)
+                        {
+                            if (fac.actionCallAPIName.StartsWith("Call_proxy_to_"))
+                            {
+                                String subFlow = fac.actionCallAPIName.Substring(14);
+                                sw.Write("\t\tSubflow: " + subFlow);
+                                sw.Write("\t\tInput Parameters: \t");
+
+                                foreach (FlowActionInputParameters fv in fac.inputParameters)
+                                {
+                                    sw.Write(fv.apiName + " => " + fv.value + "\t\t");
+                                }
+
+                                sw.Write(Environment.NewLine);
+
+                                writeRelatedAutomationToFile(sw, subFlow, "", FLOW, 2);
+                            }
+                            else
+                            {
+                                // Custom Class - Find related automation pieces after writing the class name
+                                if (this.classNmToClass.ContainsKey(fac.actionName))
+                                {
+                                    sw.Write("\t\tApexClass: " + fac.actionName + "\t\t");
+                                    sw.Write("Input Parameters: \t");
+
+                                    foreach (FlowActionInputParameters fv in fac.inputParameters)
+                                    {
+                                        sw.Write(fv.apiName + " => " + fv.value + "\t\t");
+                                    }
+
+                                    sw.Write(Environment.NewLine);
+
+                                    writeRelatedAutomationToFile(sw, fac.actionName, "", APEX_CLASS, 2);
+                                }
+                                // Managed Package class: No need to find any related automation pieces from this
+                                else if (fac.actionType == "apex")
+                                {
+                                    sw.Write("\t\tManagedApexClass: " + fac.actionName);
+                                    sw.Write(Environment.NewLine);
+                                    sw.Write(Environment.NewLine);
+                                }
+                                else
+                                {
+                                    sw.Write("\t\tManagedActionCall: " + fac.actionName);
+                                    sw.Write(Environment.NewLine);
+                                    sw.Write(Environment.NewLine);
+                                }
+                            }
+                        }
+
+                        sw.Write(Environment.NewLine);
+                    }
+                }
+            }
+
+            sw.Write(Environment.NewLine);
+            sw.Write(Environment.NewLine);
+
+            foreach (String sobj in this.objectToFlow.Keys)
+            {
+                if (sobj == "")
+                {
+                    foreach (FlowProcess fp in this.objectToFlow[sobj])
+                    {
+                        sw.Write(sobj + "\t");
+                        sw.Write(fp.apiName + "\t");
+                        sw.Write(fp.label + "\t");
+                        sw.Write(fp.apiVersion + "\t");
+                        sw.Write(fp.flowProcessType + "\t");
+                        sw.Write(fp.triggerType + "\t");
+                        sw.Write(fp.recordTriggerType + "\t");
+                        sw.Write(fp.runInMode + "\t");
+                        sw.Write(fp.isActive + Environment.NewLine);
+
+                        foreach (FlowActionCalls fac in fp.actionCalls)
+                        {
+                            if (fac.actionCallAPIName.StartsWith("Call_proxy_to_"))
+                            {
+                                String subFlow = fac.actionCallAPIName.Substring(14);
+                                sw.Write("\t\tSubflow: " + subFlow);
+                                sw.Write("\t\tInput Parameters: \t");
+
+                                foreach (FlowActionInputParameters fv in fac.inputParameters)
+                                {
+                                    sw.Write(fv.apiName + " => " + fv.value + "\t\t");
+                                }
+
+                                sw.Write(Environment.NewLine);
+
+                                writeRelatedAutomationToFile(sw, subFlow, "", FLOW, 2);
+                            }
+                            else
+                            {
+                                // Custom Class - Find related automation pieces after writing the class name
+                                if (this.classNmToClass.ContainsKey(fac.actionName))
+                                {
+                                    sw.Write("\t\tApexClass: " + fac.actionName + "\t\t");
+                                    sw.Write("Input Parameters: \t");
+
+                                    foreach (FlowActionInputParameters fv in fac.inputParameters)
+                                    {
+                                        sw.Write(fv.apiName + " => " + fv.value + "\t\t");
+                                    }
+
+                                    sw.Write(Environment.NewLine);
+
+                                    writeRelatedAutomationToFile(sw, fac.actionName, "", APEX_CLASS, 2);
+                                }
+                                // Managed Package class: No need to find any related automation pieces from this
+                                else if (fac.actionType == "apex")
+                                {
+                                    sw.Write("\t\tManagedApexClass: " + fac.actionName);
+                                    sw.Write(Environment.NewLine);
+                                    sw.Write(Environment.NewLine);
+                                }
+                                else
+                                {
+                                    sw.Write("\t\tManagedActionCall: " + fac.actionName);
+                                    sw.Write(Environment.NewLine);
+                                    sw.Write(Environment.NewLine);
+                                }
+                            }
+                        }
+
+                        sw.Write(Environment.NewLine);
+                    }
+                }
+            }
+
+            sw.Write(Environment.NewLine);
+            sw.Write(Environment.NewLine);
+
+            sw.Write("ClassName\t");
+            sw.Write("ExtendsClass\t");
+            sw.Write("OptionalModifier\t");
+            sw.Write("IsInterface\t");
+            sw.Write("IsRestClass\t");
+            sw.Write("IsVirtual");
+            sw.Write(Environment.NewLine);
+
+            foreach (String clsnm in this.classNmToClass.Keys)
+            {
+                ApexClasses apxClass = this.classNmToClass[clsnm];
+
+                if (apxClass.isTestClass == true)
+                {
+                    continue;
+                }
+
+                sw.Write(apxClass.className + "\t");
+                sw.Write(apxClass.extendsClassName + "\t");
+                sw.Write(apxClass.optionalModifier + "\t");
+                sw.Write(apxClass.isInterface + "\t");
+                sw.Write(apxClass.isRestClass + "\t");
+                sw.Write(apxClass.isVirtual);
+
+                sw.Write(Environment.NewLine);
+                sw.Write(Environment.NewLine);
+
+                sw.Write("\t");
+                sw.Write("ClassProperties\t");
+                sw.Write("PropertyName\t");
+                sw.Write("DateType\t");
+                sw.Write("PropertyValue\t");
+                sw.Write("PropertyQualifier\t");
+                sw.Write("IsStatic\t");
+                sw.Write("IsFinal\t");
+                sw.Write("IsGetter\t");
+                sw.Write("IsSetter");
+                sw.Write(Environment.NewLine);
+
+                foreach (ClassProperties cp in apxClass.clsProperties.Values)
+                {
+                    sw.Write("\t\t");
+                    sw.Write(cp.propertyName + "\t");
+                    sw.Write(cp.dataType + "\t");
+                    sw.Write(cp.propertyValue + "\t");
+                    sw.Write(cp.qualifier + "\t");
+                    sw.Write(cp.isStatic + "\t");
+                    sw.Write(cp.isFinal + "\t");
+                    sw.Write(cp.isGetter + "\t");
+                    sw.Write(cp.isSetter);
+                    sw.Write(Environment.NewLine);
+                }
+
+                sw.Write(Environment.NewLine);
+
+                sw.Write("\t");
+                sw.Write("ClassMethods\t");
+                sw.Write("MethodName\t");
+                sw.Write("MethodAnnotation\t");
+                sw.Write("MethodQualifier\t");
+                sw.Write("ReturnDataType\t");
+                sw.Write("IsStatic\t");
+                sw.Write("IsVirutual\t");
+                sw.Write("IsTestMethod");
+                sw.Write(Environment.NewLine);
+
+                foreach (ClassMethods cm in apxClass.classMethods)
+                {
+                    sw.Write("\t\t");
+                    sw.Write(cm.methodName + "\t");
+                    sw.Write(cm.methodAnnotation + "\t");
+                    sw.Write(cm.qualifier + "\t");
+                    sw.Write(cm.returnDataType + "\t");
+                    sw.Write(cm.isStatic + "\t");
+                    sw.Write(cm.isVirtual + "\t");
+                    sw.Write(cm.isTestMethod);
+                    sw.Write(Environment.NewLine);
+                }
+
+                sw.Write(Environment.NewLine);
+                sw.Write(Environment.NewLine);
+            }
+
+            sw.Close();
+        }
+
+        private void writeRelatedAutomationToFile(StreamWriter sw, String apiName, String methodName, String automationType, Int32 tabCount)
+        {
+            // Write the incoming value to the file
+            if (automationType == FLOW)
+            {
+                foreach (String sobj in this.objectToFlow.Keys)
+                {
+                    List<FlowProcess> fpList = this.objectToFlow[sobj];
+
+                    foreach (FlowProcess fp in fpList)
+                    {
+                        if (fp.apiName == apiName)
+                        {
+                            tabCount += 2;
+
+                            foreach (FlowActionCalls fac in fp.actionCalls)
+                            {
+                                if (fac.actionCallAPIName.StartsWith("Call_proxy_to_"))
+                                {
+                                    for (Int32 i = 0; i < tabCount; i++)
+                                    {
+                                        sw.Write("\t");
+                                    }
+
+                                    String subFlow = fac.actionCallAPIName.Substring(14);
+                                    sw.Write("Subflow: " + subFlow);
+                                    sw.Write("\t\tInput Parameters: \t");
+
+                                    foreach (FlowActionInputParameters fv in fac.inputParameters)
+                                    {
+                                        sw.Write(fv.apiName + " => " + fv.value + "\t\t");
+                                    }
+
+                                    sw.Write(Environment.NewLine);
+
+                                    writeRelatedAutomationToFile(sw, subFlow, "", FLOW, tabCount);
+                                }
+                                else
+                                {
+                                    // Custom Class - Find related automation pieces after writing the class name
+                                    if (this.classNmToClass.ContainsKey(fac.actionName))
+                                    {
+                                        for (Int32 i = 0; i < tabCount; i++)
+                                        {
+                                            sw.Write("\t");
+                                        }
+
+                                        sw.Write("ApexClass: " + fac.actionName + "\t\t");
+                                        sw.Write("Input Parameters: \t");
+
+                                        foreach (FlowActionInputParameters fv in fac.inputParameters)
+                                        {
+                                            sw.Write(fv.apiName + " => " + fv.value + "\t\t");
+                                        }
+
+                                        sw.Write(Environment.NewLine);
+
+                                        writeRelatedAutomationToFile(sw, fac.actionName, "", APEX_CLASS, tabCount);
+                                    }
+                                    // Managed Package class: No need to find any related automation pieces from this
+                                    else if (fac.actionType == "apex")
+                                    {
+                                        for (Int32 i = 0; i < tabCount; i++)
+                                        {
+                                            sw.Write("\t");
+                                        }
+
+                                        sw.Write("ManagedApexClass: " + fac.actionName);
+                                        sw.Write(Environment.NewLine);
+                                        sw.Write(Environment.NewLine);
+                                    }
+                                    else
+                                    {
+                                        for (Int32 i = 0; i < tabCount; i++)
+                                        {
+                                            sw.Write("\t");
+                                        }
+
+                                        sw.Write("ManagedActionCall: " + fac.actionName);
+                                        sw.Write(Environment.NewLine);
+                                        sw.Write(Environment.NewLine);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (automationType == APEX_CLASS)
+            {
+                foreach (String clsNm in this.classNmToClass.Keys)
+                {
+                    ApexClasses apxClass = this.classNmToClass[clsNm];
+
+                    if (apxClass.className == apiName)
+                    {
+                        tabCount += 2;
+
+                        List<ClassMethods> clsMethods = new List<ClassMethods>();
+                        clsMethods = apxClass.classMethods;
+
+                        foreach (ClassMethods cm in clsMethods)
+                        {
+                            for (Int32 i = 0; i < tabCount; i++)
+                            {
+                                sw.Write("\t");
+                            }
+
+                            sw.Write("MethodName: " + cm.methodName + "\t");
+
+                            if (cm.methodAnnotation != "")
+                            {
+                                sw.Write("Annotation: " + cm.methodAnnotation + "\t");
+                            }
+
+                            sw.Write(Environment.NewLine);
+                            sw.Write(Environment.NewLine);
+
+                            //String apexClassName = "";
+                            //String apexClassVariable = "";
+
+                            foreach (ObjectVarToType ovt in cm.methodBodyVars)
+                            {
+                                if (ovt.leftSideObject.StartsWith("Flow.Interview"))
+                                {
+                                    for (Int32 i = 0; i < tabCount; i++)
+                                    {
+                                        sw.Write("\t");
+                                    }
+
+                                    String flowName = ovt.leftSideObject.Substring(15);
+
+                                    sw.Write("Flow API Name: " + flowName);
+
+                                    sw.Write(Environment.NewLine);
+
+                                    writeRelatedAutomationToFile(sw, flowName, "", FLOW, tabCount);
+                                }
+                                else if (this.classNmToClass.ContainsKey(ovt.leftSideObject))
+                                {
+                                    if (ovt.leftSide != "")
+                                    {
+                                        String[] splitClassMethodLeftSide = ovt.leftSide.Split('.');
+                                        if (splitClassMethodLeftSide.Length >= 2)
+                                        {
+                                            writeRelatedAutomationToFile(sw, ovt.leftSideObject, splitClassMethodLeftSide[1], APEX_CLASS_METHOD, tabCount);
+                                        }
+                                    }
+
+                                    if (ovt.rightSide != "")
+                                    {
+                                        String[] splitClassMethodRightSide = ovt.rightSide.Split('.');
+                                        if (splitClassMethodRightSide.Length >= 2)
+                                        {
+                                            String[] splitMethod = splitClassMethodRightSide[1].Split(' ');
+                                            writeRelatedAutomationToFile(sw, splitClassMethodRightSide[0], splitMethod[0], APEX_CLASS_METHOD, tabCount);
+                                        }
+                                    }
+                                }
+                                else if (ovt.rightSide != "")
+                                {
+                                    String[] splitClassMethodRightSide = ovt.rightSide.Split('.');
+                                    if (splitClassMethodRightSide.Length >= 2)
+                                    {
+                                        String[] splitMethod = splitClassMethodRightSide[1].Split(' ');
+                                        writeRelatedAutomationToFile(sw, splitClassMethodRightSide[0], splitMethod[0], APEX_CLASS_METHOD, tabCount);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (automationType == APEX_CLASS_METHOD)
+            {
+                Debug.WriteLine("");
+
+                foreach (String clsNm in this.classNmToClass.Keys)
+                {
+                    ApexClasses apxClass = this.classNmToClass[clsNm];
+
+                    if (apxClass.className == apiName)
+                    {
+                        List<ClassMethods> clsMethods = new List<ClassMethods>();
+                        clsMethods = apxClass.classMethods;
+
+                        foreach (ClassMethods cm in clsMethods)
+                        {
+                            if (cm.methodName == methodName)
+                            {
+                                tabCount += 2;
+
+                                for (Int32 i = 0; i < tabCount; i++)
+                                {
+                                    sw.Write("\t");
+                                }
+
+                                sw.Write("Class-MethodName: " + apxClass.className + "." + cm.methodName + "\t");
+
+                                if (cm.methodAnnotation != "")
+                                {
+                                    sw.Write("Annotation: " + cm.methodAnnotation + "\t");
+                                }
+
+                                sw.Write(Environment.NewLine);
+                                sw.Write(Environment.NewLine);
+
+                                //String apexClassName = "";
+                                //String apexClassVariable = "";
+
+                                foreach (ObjectVarToType ovt in cm.methodBodyVars)
+                                {
+                                    if (ovt.leftSideObject.StartsWith("Flow.Interview"))
+                                    {
+                                        for (Int32 i = 0; i < tabCount; i++)
+                                        {
+                                            sw.Write("\t");
+                                        }
+
+                                        String flowName = ovt.leftSideObject.Substring(15);
+
+                                        sw.Write("Flow API Name: " + flowName);
+
+                                        sw.Write(Environment.NewLine);
+
+                                        writeRelatedAutomationToFile(sw, flowName, "", FLOW, tabCount);
+                                    }
+                                    else if (this.classNmToClass.ContainsKey(ovt.leftSideObject))
+                                    {
+                                        if (ovt.leftSide != "")
+                                        {
+                                            String[] splitClassMethodLeftSide = ovt.leftSide.Split('.');
+                                            if (splitClassMethodLeftSide.Length >= 2)
+                                            {
+                                                writeRelatedAutomationToFile(sw, ovt.leftSideObject, splitClassMethodLeftSide[1], APEX_CLASS_METHOD, tabCount);
+                                            }
+                                        }
+
+                                        if (ovt.rightSide != "")
+                                        {
+                                            String[] splitClassMethodRightSide = ovt.rightSide.Split('.');
+                                            if (splitClassMethodRightSide.Length >= 2)
+                                            {
+                                                String[] splitMethod = splitClassMethodRightSide[1].Split(' ');
+                                                writeRelatedAutomationToFile(sw, splitClassMethodRightSide[0], splitMethod[0], APEX_CLASS_METHOD, tabCount);
+                                            }
+                                        }
+                                    }
+                                    else if (ovt.rightSide != "")
+                                    {
+                                        String[] splitClassMethodRightSide = ovt.rightSide.Split('.');
+                                        if (splitClassMethodRightSide.Length >= 2)
+                                        {
+                                            String[] splitMethod = splitClassMethodRightSide[1].Split(' ');
+                                            writeRelatedAutomationToFile(sw, splitClassMethodRightSide[0], splitMethod[0], APEX_CLASS_METHOD, tabCount);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

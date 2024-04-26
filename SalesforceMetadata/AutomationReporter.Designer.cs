@@ -40,6 +40,7 @@
             this.lblFilter = new System.Windows.Forms.Label();
             this.btnParseFlows = new System.Windows.Forms.Button();
             this.btnGetApexClassNamesAndMethods = new System.Windows.Forms.Button();
+            this.btnAutomationHierarchy = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ProjectFolder
@@ -145,10 +146,21 @@
             this.btnGetApexClassNamesAndMethods.UseVisualStyleBackColor = true;
             this.btnGetApexClassNamesAndMethods.Click += new System.EventHandler(this.btnGetApexClassNamesAndMethods_Click);
             // 
+            // btnAutomationHierarchy
+            // 
+            this.btnAutomationHierarchy.Location = new System.Drawing.Point(306, 200);
+            this.btnAutomationHierarchy.Name = "btnAutomationHierarchy";
+            this.btnAutomationHierarchy.Size = new System.Drawing.Size(265, 38);
+            this.btnAutomationHierarchy.TabIndex = 11;
+            this.btnAutomationHierarchy.Text = "Automation Sequence Report";
+            this.btnAutomationHierarchy.UseVisualStyleBackColor = true;
+            this.btnAutomationHierarchy.Click += new System.EventHandler(this.btnAutomationHierarchy_Click);
+            // 
             // AutomationReporter
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1382, 551);
+            this.Controls.Add(this.btnAutomationHierarchy);
             this.Controls.Add(this.btnGetApexClassNamesAndMethods);
             this.Controls.Add(this.btnParseFlows);
             this.Controls.Add(this.lblFilter);
@@ -182,5 +194,6 @@
         private System.Windows.Forms.Label lblFilter;
         private System.Windows.Forms.Button btnParseFlows;
         private System.Windows.Forms.Button btnGetApexClassNamesAndMethods;
+        private System.Windows.Forms.Button btnAutomationHierarchy;
     }
 }

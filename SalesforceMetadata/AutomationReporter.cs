@@ -5452,6 +5452,8 @@ namespace SalesforceMetadata
                     sw.Write(cm.isVirtual + "\t");
                     sw.Write(cm.isTestMethod);
                     sw.Write(Environment.NewLine);
+
+                    writeRelatedAutomationToFile(sw, apxClass.className, cm.methodName, APEX_CLASS_METHOD, 2);
                 }
 
                 sw.Write(Environment.NewLine);

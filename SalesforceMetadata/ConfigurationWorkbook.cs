@@ -118,22 +118,21 @@ namespace SalesforceMetadata
             // Bypass Aura and LWC folders
             String[] folders = Directory.GetDirectories(tbSelectedFolder.Text);
 
+            // Build the dictionary for the related items to Profiles and Permission Sets
+            // We will get all of the metadata parsed and then pass this into the 
+            // We'll do this once since it can be a long process
+            // If the Profile/Permission Set contains a key in the Dictionary, then will use the permissions provided in the Profile/Perm Set XML
+
+            // TODO: Debating if this should be here or in the for-loop if statement
+            Dictionary<String, Dictionary<String, MetadataObjectInfo>> typesToName = new Dictionary<String, Dictionary<String, MetadataObjectInfo>>();
+            typesToName = getMetadataTypesToName(tbSelectedFolder.Text);
+
             foreach (String fldr in folders)
             {
                 String[] splitFldrName = fldr.Split('\\');
 
                 if (splitFldrName[splitFldrName.Length - 1] == "profiles" || splitFldrName[splitFldrName.Length - 1] == "permissionsets")
                 {
-                    // Build the dictionary for the related items to Profiles and Permission Sets
-                    // We will get all of the metadata parsed and then pass this into the 
-                    // We'll do this once since it can be a long process
-                    // If the Profile/Permission Set contains a key in the Dictionary, then will use the permissions provided in the Profile/Perm Set XML
-                    // If not, then will add 
-
-                    //         MetadataType
-                    Dictionary<String, Dictionary<String, MetadataObjectInfo>> typesToName = new Dictionary<String, Dictionary<String, MetadataObjectInfo>>();
-                    typesToName = getMetadataTypesToName(tbSelectedFolder.Text);
-
                     Directory.CreateDirectory(tbSaveResultsTo.Text + "\\" + splitFldrName[splitFldrName.Length - 1]);
                     buildProfilePermSetHTMLReport(fldr, swSummary, typesToName);
                 }
@@ -220,7 +219,7 @@ namespace SalesforceMetadata
             styleFile.WriteLine(".textAlignCenter{ text-align:center; }");
             styleFile.WriteLine(".textAlignRight{ text-align:right; }");
 
-            styleFile.WriteLine(".fieldBackgroundGray{ background:#CACFD2; }");
+            styleFile.WriteLine(".fieldBackgroundGray{ background:#ECF0F1; }");
             styleFile.WriteLine(".fieldBackgroundGunmetalBlue{ background:#EAF2F8; }");
             styleFile.WriteLine(".fieldBackgroundLightBlue{ background:#DCE6F1; }");
             styleFile.WriteLine(".fieldBackgroundDarkBlue{ background:#3F62AE; }");
@@ -917,86 +916,89 @@ namespace SalesforceMetadata
             sw.WriteLine("</span>");
             sw.WriteLine("</div>");
 
-            foreach (String nd1 in metadataObjInfo["objects"].Keys)
+            if(metadataObjInfo.ContainsKey("objects"))
             {
-                String dirNameFileName = "objects" + "." + nd1;
-
-                if (!objPermissionsConfigured.Contains(dirNameFileName))
+                foreach (String nd1 in metadataObjInfo["objects"].Keys)
                 {
-                    sw.WriteLine("<div>");
-                    sw.WriteLine("<span class=\"objectValues fieldBackgroundGunmetalBlue columnWidth400\">");
-                    sw.WriteLine(nd1);
-                    sw.WriteLine("</span>");
+                    String dirNameFileName = "objects" + "." + nd1;
 
-                    // Create
-                    sw.WriteLine(checkTrueFalseValueForCSS("false"));
-                    sw.WriteLine("false");
-                    sw.WriteLine("</span>");
-
-                    // Read
-                    sw.WriteLine(checkTrueFalseValueForCSS("false"));
-                    sw.WriteLine("false");
-                    sw.WriteLine("</span>");
-
-                    // Edit
-                    sw.WriteLine(checkTrueFalseValueForCSS("false"));
-                    sw.WriteLine("false");
-                    sw.WriteLine("</span>");
-
-                    // Delete
-                    sw.WriteLine(checkTrueFalseValueForCSS("false"));
-                    sw.WriteLine("false");
-                    sw.WriteLine("</span>");
-
-                    // View All
-                    sw.WriteLine(checkTrueFalseValueForCSS("false"));
-                    sw.WriteLine("false");
-                    sw.WriteLine("</span>");
-
-                    // Modify All
-                    sw.WriteLine(checkTrueFalseValueForCSS("false"));
-                    sw.WriteLine("false");
-                    sw.WriteLine("</span>");
-
-                    // Org Visibility
-                    sw.WriteLine("<span class=\"objectValues fieldBackgroundGunmetalBlue columnWidth120 textAlignCenter\">");
-                    if (metadataObjInfo.ContainsKey("objects"))
+                    if (!objPermissionsConfigured.Contains(dirNameFileName))
                     {
-                        if (metadataObjInfo["objects"].ContainsKey(nd1))
+                        sw.WriteLine("<div>");
+                        sw.WriteLine("<span class=\"objectValues fieldBackgroundGunmetalBlue columnWidth400\">");
+                        sw.WriteLine(nd1);
+                        sw.WriteLine("</span>");
+
+                        // Create
+                        sw.WriteLine(checkTrueFalseValueForCSS("false"));
+                        sw.WriteLine("false");
+                        sw.WriteLine("</span>");
+
+                        // Read
+                        sw.WriteLine(checkTrueFalseValueForCSS("false"));
+                        sw.WriteLine("false");
+                        sw.WriteLine("</span>");
+
+                        // Edit
+                        sw.WriteLine(checkTrueFalseValueForCSS("false"));
+                        sw.WriteLine("false");
+                        sw.WriteLine("</span>");
+
+                        // Delete
+                        sw.WriteLine(checkTrueFalseValueForCSS("false"));
+                        sw.WriteLine("false");
+                        sw.WriteLine("</span>");
+
+                        // View All
+                        sw.WriteLine(checkTrueFalseValueForCSS("false"));
+                        sw.WriteLine("false");
+                        sw.WriteLine("</span>");
+
+                        // Modify All
+                        sw.WriteLine(checkTrueFalseValueForCSS("false"));
+                        sw.WriteLine("false");
+                        sw.WriteLine("</span>");
+
+                        // Org Visibility
+                        sw.WriteLine("<span class=\"objectValues fieldBackgroundGunmetalBlue columnWidth120 textAlignCenter\">");
+                        if (metadataObjInfo.ContainsKey("objects"))
                         {
-                            sw.WriteLine(metadataObjInfo["objects"][nd1].objectVisibility);
+                            if (metadataObjInfo["objects"].ContainsKey(nd1))
+                            {
+                                sw.WriteLine(metadataObjInfo["objects"][nd1].objectVisibility);
+                            }
+                            else
+                            {
+                                sw.WriteLine("");
+                            }
                         }
                         else
                         {
                             sw.WriteLine("");
                         }
-                    }
-                    else
-                    {
-                        sw.WriteLine("");
-                    }
-                    sw.WriteLine("</span>");
+                        sw.WriteLine("</span>");
 
-                    // Sharing Model
-                    sw.WriteLine("<span class=\"objectValues fieldBackgroundGunmetalBlue columnWidth180 textAlignCenter\">");
-                    if (metadataObjInfo.ContainsKey("objects"))
-                    {
-                        if (metadataObjInfo["objects"].ContainsKey(nd1))
+                        // Sharing Model
+                        sw.WriteLine("<span class=\"objectValues fieldBackgroundGunmetalBlue columnWidth180 textAlignCenter\">");
+                        if (metadataObjInfo.ContainsKey("objects"))
                         {
-                            sw.WriteLine(metadataObjInfo["objects"][nd1].objectSharingModel);
+                            if (metadataObjInfo["objects"].ContainsKey(nd1))
+                            {
+                                sw.WriteLine(metadataObjInfo["objects"][nd1].objectSharingModel);
+                            }
+                            else
+                            {
+                                sw.WriteLine("");
+                            }
                         }
                         else
                         {
                             sw.WriteLine("");
                         }
-                    }
-                    else
-                    {
-                        sw.WriteLine("");
-                    }
-                    sw.WriteLine("</span>");
+                        sw.WriteLine("</span>");
 
-                    sw.WriteLine("</div>");
+                        sw.WriteLine("</div>");
+                    }
                 }
             }
 
@@ -1090,58 +1092,62 @@ namespace SalesforceMetadata
             sw.WriteLine("<div class=\"panel\">");
 
             i = 0;
-            foreach (String nd1 in metadataObjInfo["objects"].Keys)
-            {
-                foreach (String nd2 in metadataObjInfo["objects"][nd1].objFieldInfo.Keys)
-                {
-                    String objectFieldName = nd1 + "." + nd2;
 
-                    if (!objFieldPermissionsConfigured.Contains(objectFieldName))
+            if (metadataObjInfo.ContainsKey("objects"))
+            {
+                foreach (String nd1 in metadataObjInfo["objects"].Keys)
+                {
+                    foreach (String nd2 in metadataObjInfo["objects"][nd1].objFieldInfo.Keys)
                     {
-                        if (!objectTitleWritten.Contains(nd1))
+                        String objectFieldName = nd1 + "." + nd2;
+
+                        if (!objFieldPermissionsConfigured.Contains(objectFieldName))
                         {
-                            if (i > 0)
+                            if (!objectTitleWritten.Contains(nd1))
                             {
-                                sw.WriteLine("</div>");
+                                if (i > 0)
+                                {
+                                    sw.WriteLine("</div>");
+                                    sw.WriteLine("<br />");
+                                }
+
                                 sw.WriteLine("<br />");
+                                sw.WriteLine("<button class=\"accordionBlue\">" + nd1 + "</button>");
+                                sw.WriteLine("<div class=\"panel\">");
+                                sw.WriteLine("<div>");
+                                sw.WriteLine("<span class=\"objectTitles fieldBackgroundGreen columnWidth400\">");
+                                sw.WriteLine("Field Name");
+                                sw.WriteLine("</span>");
+                                sw.WriteLine("<span class=\"columnWidth400 displayInlineBlock\">&nbsp;</span>");
+                                sw.WriteLine("<span class=\"objectValues fieldBackgroundGunmetalBlue columnWidth120 fontItalic textAlignCenter\">");
+                                sw.WriteLine("Readable");
+                                sw.WriteLine("</span>");
+                                sw.WriteLine("<span class=\"objectValues fieldBackgroundGunmetalBlue columnWidth120 fontItalic textAlignCenter\">");
+                                sw.WriteLine("Editable");
+                                sw.WriteLine("</span>");
+                                sw.WriteLine("</div>");
+
+                                objectTitleWritten.Add(nd1);
+                                i++;
                             }
 
-                            sw.WriteLine("<br />");
-                            sw.WriteLine("<button class=\"accordionBlue\">" + nd1 + "</button>");
-                            sw.WriteLine("<div class=\"panel\">");
                             sw.WriteLine("<div>");
-                            sw.WriteLine("<span class=\"objectTitles fieldBackgroundGreen columnWidth400\">");
-                            sw.WriteLine("Field Name");
+                            sw.WriteLine("<span class=\"columnWidth400 displayInlineBlock\">");
+                            sw.WriteLine("&nbsp;");
                             sw.WriteLine("</span>");
-                            sw.WriteLine("<span class=\"columnWidth400 displayInlineBlock\">&nbsp;</span>");
-                            sw.WriteLine("<span class=\"objectValues fieldBackgroundGunmetalBlue columnWidth120 fontItalic textAlignCenter\">");
-                            sw.WriteLine("Readable");
+                            sw.WriteLine("<span class=\"objectValues fieldBackgroundLightBlue columnWidth400\">");
+                            sw.WriteLine(nd2);
                             sw.WriteLine("</span>");
-                            sw.WriteLine("<span class=\"objectValues fieldBackgroundGunmetalBlue columnWidth120 fontItalic textAlignCenter\">");
-                            sw.WriteLine("Editable");
+
+                            sw.WriteLine(checkTrueFalseValueForCSS("false"));
+                            sw.WriteLine("false");
+                            sw.WriteLine("</span>");
+                            sw.WriteLine(checkTrueFalseValueForCSS("false"));
+                            sw.WriteLine("false");
                             sw.WriteLine("</span>");
                             sw.WriteLine("</div>");
 
-                            objectTitleWritten.Add(nd1);
-                            i++;
                         }
-
-                        sw.WriteLine("<div>");
-                        sw.WriteLine("<span class=\"columnWidth400 displayInlineBlock\">");
-                        sw.WriteLine("&nbsp;");
-                        sw.WriteLine("</span>");
-                        sw.WriteLine("<span class=\"objectValues fieldBackgroundLightBlue columnWidth400\">");
-                        sw.WriteLine(nd2);
-                        sw.WriteLine("</span>");
-
-                        sw.WriteLine(checkTrueFalseValueForCSS("false"));
-                        sw.WriteLine("false");
-                        sw.WriteLine("</span>");
-                        sw.WriteLine(checkTrueFalseValueForCSS("false"));
-                        sw.WriteLine("false");
-                        sw.WriteLine("</span>");
-                        sw.WriteLine("</div>");
-
                     }
                 }
             }
@@ -1288,26 +1294,29 @@ namespace SalesforceMetadata
             sw.WriteLine("</span>");
             sw.WriteLine("</div>");
 
-            foreach (String nd1 in metadataObjInfo["objects"].Keys)
+            if (metadataObjInfo.ContainsKey("objects"))
             {
-                foreach (String nd2 in metadataObjInfo["objects"][nd1].objRecordTypeInfo.Keys)
+                foreach (String nd1 in metadataObjInfo["objects"].Keys)
                 {
-                    String objRecordtype = nd1 + "." + nd2;
-
-                    if (!objPermissionsConfigured.Contains(objRecordtype))
+                    foreach (String nd2 in metadataObjInfo["objects"][nd1].objRecordTypeInfo.Keys)
                     {
-                        sw.WriteLine("<div>");
-                        sw.WriteLine("<span class=\"objectValues fieldBackgroundGunmetalBlue columnWidth400\">");
-                        sw.WriteLine(nd1);
-                        sw.WriteLine("</span>");
-                        sw.WriteLine("<span class=\"objectValues fieldBackgroundGunmetalBlue columnWidth400\">");
-                        sw.WriteLine(nd2);
-                        sw.WriteLine("</span>");
+                        String objRecordtype = nd1 + "." + nd2;
 
-                        sw.WriteLine(checkTrueFalseValueForCSS("false"));
-                        sw.WriteLine("false");
-                        sw.WriteLine("</span>");
-                        sw.WriteLine("</div>");
+                        if (!objPermissionsConfigured.Contains(objRecordtype))
+                        {
+                            sw.WriteLine("<div>");
+                            sw.WriteLine("<span class=\"objectValues fieldBackgroundGunmetalBlue columnWidth400\">");
+                            sw.WriteLine(nd1);
+                            sw.WriteLine("</span>");
+                            sw.WriteLine("<span class=\"objectValues fieldBackgroundGunmetalBlue columnWidth400\">");
+                            sw.WriteLine(nd2);
+                            sw.WriteLine("</span>");
+
+                            sw.WriteLine(checkTrueFalseValueForCSS("false"));
+                            sw.WriteLine("false");
+                            sw.WriteLine("</span>");
+                            sw.WriteLine("</div>");
+                        }
                     }
                 }
             }
@@ -1470,7 +1479,7 @@ namespace SalesforceMetadata
                 sw.WriteLine("<div class=\"panel\">");
 
                 sw.WriteLine("<div>");
-                sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth400\">");
+                sw.WriteLine("<span class=\"objectTitles fieldBackgroundDarkBlue columnWidth630\">");
                 sw.WriteLine("Flow Name");
                 sw.WriteLine("</span>");
                 sw.WriteLine("<span class=\"objectValues fieldBackgroundGray columnWidth120 textAlignCenter\">");
@@ -1482,7 +1491,7 @@ namespace SalesforceMetadata
                 {
                     sw.WriteLine("<div>");
 
-                    sw.WriteLine("<span class=\"objectValues fieldBackgroundGray columnWidth400 fontItalic textAlignLeft\">");
+                    sw.WriteLine("<span class=\"objectValues fieldBackgroundGray columnWidth630 fontItalic textAlignLeft\">");
                     sw.WriteLine(nd1.ChildNodes[1].InnerText);
                     sw.WriteLine("</span>");
 

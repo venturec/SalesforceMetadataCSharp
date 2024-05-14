@@ -221,6 +221,38 @@ namespace SalesforceMetadata
                             {
                                 break;
                             }
+                            else if (s.Any[1].InnerText == "Contract Manager")
+                            {
+                                allProfileNames.Add("ContractManager");
+                            }
+                            else if (s.Any[1].InnerText == "High Volume Customer Portal")
+                            {
+                                allProfileNames.Add("HighVolumePortal");
+                            }
+                            else if (s.Any[1].InnerText == "Marketing User")
+                            {
+                                allProfileNames.Add("MarketingProfile");
+                            }
+                            else if (s.Any[1].InnerText == "Read Only")
+                            {
+                                allProfileNames.Add("ReadOnly");
+                            }
+                            else if (s.Any[1].InnerText == "Solution Manager")
+                            {
+                                allProfileNames.Add("SolutionManager");
+                            }
+                            else if (s.Any[1].InnerText == "Standard Platform User")
+                            {
+                                allProfileNames.Add("StandardAul");
+                            }
+                            else if (s.Any[1].InnerText == "Standard User")
+                            {
+                                allProfileNames.Add("Standard");
+                            }
+                            else if (s.Any[1].InnerText == "System Administrator")
+                            {
+                                allProfileNames.Add("Admin");
+                            }
                             else
                             {
                                allProfileNames.Add(replaceStringValue(s.Any[1].InnerText));

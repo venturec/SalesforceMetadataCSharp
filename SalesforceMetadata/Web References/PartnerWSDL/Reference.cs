@@ -3095,6 +3095,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         CATEGORY_NOT_FOUND,
         
         /// <remarks/>
+        CDS_TIMEOUT_EXCEPTION,
+        
+        /// <remarks/>
         CIRCULAR_OBJECT_GRAPH,
         
         /// <remarks/>
@@ -3294,6 +3297,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         EXTERNAL_OBJECT_UNSUPPORTED_EXCEPTION,
+        
+        /// <remarks/>
+        EXTERNAL_RECORD_SHARE_EXPORT_ADMIN_EXPORT_NOT_ALLOWED,
+        
+        /// <remarks/>
+        EXTERNAL_RECORD_SHARE_EXPORT_INVALID_FIELD_MAPPING,
         
         /// <remarks/>
         EXTERNAL_SERVICE_AUTHENTICATION_EXCEPTION,
@@ -3892,13 +3901,25 @@ namespace SalesforceMetadata.PartnerWSDL {
         ACTIONCALL_DUPLICATE_OUTPUT_PARAM,
         
         /// <remarks/>
+        ACTIONCALL_FEATURE_NOT_SUPPORTED,
+        
+        /// <remarks/>
         ACTIONCALL_INPUT_VALIDATION_FAILED,
         
         /// <remarks/>
         ACTIONCALL_INVALID_INPUT_PARAM_NAME,
         
         /// <remarks/>
+        ACTIONCALL_INVALID_OFFSET,
+        
+        /// <remarks/>
+        ACTIONCALL_MISSING_EVENT_INFO,
+        
+        /// <remarks/>
         ACTIONCALL_MISSING_NAME,
+        
+        /// <remarks/>
+        ACTIONCALL_MISSING_OFFSET,
         
         /// <remarks/>
         ACTIONCALL_MISSING_REQUIRED_PARAM,
@@ -3916,6 +3937,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         ACTIONCALL_NOT_SUPPORTED_FOR_TRIGGERTYPE,
         
         /// <remarks/>
+        ACTIONCALL_OFFSET_NOT_SUPPORTED,
+        
+        /// <remarks/>
         ACTIONCALL_TRANSACTION_MODEL_NOT_ALLOWED,
         
         /// <remarks/>
@@ -3923,6 +3947,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         ACTIONCALL_TRIGGERING_RECORD_MISMATCHED_OBJECTTYPE,
+        
+        /// <remarks/>
+        ACTION_BUTTON_NOT_SUPPORTED_FOR_API_VERSION_AT_RUNTIME,
+        
+        /// <remarks/>
+        ACTION_BUTTON_NOT_SUPPORTED_FOR_METADATA_API_VERSION,
         
         /// <remarks/>
         ACTION_CALL_INPUT_SETUPREFTYPE_REQUIRES_SETUPREFVALUE,
@@ -4225,6 +4255,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         DATATYPE_INVALID,
         
         /// <remarks/>
+        DATATYPE_MAPPING_BOTH_APEXCLASS_AND_SOBJECT_NOT_SUPPORTED,
+        
+        /// <remarks/>
         DATATYPE_MISSING,
         
         /// <remarks/>
@@ -4468,6 +4501,15 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_COMPLEX_VALUE_SCALAR_TYPE_EXPECTED,
         
         /// <remarks/>
+        FLOW_CONDITION_INVALID_FIELD,
+        
+        /// <remarks/>
+        FLOW_CONDITION_MISSING_FIELD,
+        
+        /// <remarks/>
+        FLOW_CONDITION_NESTING_LIMIT_EXCEEDED,
+        
+        /// <remarks/>
         FLOW_CONTEXT_RECORD_ASSIGNMENT_VARIABLE_INVALID,
         
         /// <remarks/>
@@ -4490,6 +4532,36 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         FLOW_ELEMENT_SCALE_LESS_THAN_ZERO,
+        
+        /// <remarks/>
+        FLOW_EXCEEDED_EXITRULE_MAX_COUNT,
+        
+        /// <remarks/>
+        FLOW_EXITRULE_WITH_NO_CONDITION,
+        
+        /// <remarks/>
+        FLOW_EXPERIMENT_GO_TO_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_EXPERIMENT_INVALID_TOTAL_PATH_PERCENTAGE,
+        
+        /// <remarks/>
+        FLOW_EXPERIMENT_IS_NOT_ALLOWED_WITH_PENDING_DML,
+        
+        /// <remarks/>
+        FLOW_EXPERIMENT_NESTING_IN_SUBFLOW_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_EXPERIMENT_NESTING_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_EXPERIMENT_PATHS_COUNT_ABOVE_MAXIMUM,
+        
+        /// <remarks/>
+        FLOW_EXPERIMENT_PATHS_COUNT_BELOW_MINIMUM,
+        
+        /// <remarks/>
+        FLOW_EXPERIMENT_PATH_PERCENTAGE_INVALID,
         
         /// <remarks/>
         FLOW_FORMULA_FIELD_MISSING,
@@ -4544,6 +4616,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         FLOW_INTERVIEW_RANGE_VALIDATION,
+        
+        /// <remarks/>
+        FLOW_INTERVIEW_RECOVERABLE_ERROR,
         
         /// <remarks/>
         FLOW_INTERVIEW_REGEX_VALIDATION,
@@ -4657,6 +4732,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_SCHEDULE_INFORMATION_INCOMPLETE,
         
         /// <remarks/>
+        FLOW_SEGMENT_AND_DG_NOT_MATCH_ON_DMO,
+        
+        /// <remarks/>
         FLOW_SOBJECT_VARIABLE_NOT_PERSISTED,
         
         /// <remarks/>
@@ -4765,10 +4843,16 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_TRANSFORM_AGGR_SOURCE_INVALID,
         
         /// <remarks/>
+        FLOW_TRANSFORM_AMBIGUOUS_FIELD_REF,
+        
+        /// <remarks/>
         FLOW_TRANSFORM_APEX_CLASS_INCOMPATIBLE,
         
         /// <remarks/>
         FLOW_TRANSFORM_API_VERSION_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_TRANSFORM_COLL_DEPTH_UP_TO_TWO,
         
         /// <remarks/>
         FLOW_TRANSFORM_ELEMENT_REFERENCE_INVALID,
@@ -4790,6 +4874,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         FLOW_TRANSFORM_INPUT_PARAM_MISSING,
+        
+        /// <remarks/>
+        FLOW_TRANSFORM_JOIN_SOURCE_INVALID,
         
         /// <remarks/>
         FLOW_TRANSFORM_MAP_COLL_MISSING,
@@ -4816,6 +4903,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_TRANSFORM_MAP_STATIC_VAL_COLL_MISSING,
         
         /// <remarks/>
+        FLOW_TRANSFORM_NON_EXISTENT_FIELD_REF,
+        
+        /// <remarks/>
+        FLOW_TRANSFORM_NON_EXISTENT_NAME_REF,
+        
+        /// <remarks/>
         FLOW_TRANSFORM_OUTPUT_FIELD_API_NAME_INVALID,
         
         /// <remarks/>
@@ -4823,6 +4916,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         FLOW_TRANSFORM_TYPE_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_TRANSFORM_VALUES_DUPLICATE,
         
         /// <remarks/>
         FLOW_TRANSFORM_VALUES_MISSING,
@@ -4906,6 +5002,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         INPUTVARIABLE_DATATYPE_NOT_SUPPORTED_FOR_ENVIRONMENT,
         
         /// <remarks/>
+        INSUFFICIENT_ACCESS_FOR_UPSERT,
+        
+        /// <remarks/>
         INVALID_ACTION_TYPE_FOR_STEP,
         
         /// <remarks/>
@@ -4925,6 +5024,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         INVALID_FLOW_INTERVIEW,
+        
+        /// <remarks/>
+        INVALID_OPERATION_TYPE,
         
         /// <remarks/>
         INVALID_PROCESSTYPE_ENVIRONMENT_COMBINATION,
@@ -4991,6 +5093,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         LOOP_MISSING_COLLECTION,
+        
+        /// <remarks/>
+        MANAGEDCONTENT_STATUS_INVALID,
+        
+        /// <remarks/>
+        MANUAL_VARIABLE_ASSIGNMENT_NOT_SUPPORTED,
         
         /// <remarks/>
         MAX_CHILD_TYPES,
@@ -5140,10 +5248,16 @@ namespace SalesforceMetadata.PartnerWSDL {
         PROMPT_FLOW_CONTAINS_INVALID_VARIABLE,
         
         /// <remarks/>
+        PROMPT_FLOW_INPUT_TYPE_CONFLICT,
+        
+        /// <remarks/>
         QUERY_LOCATOR_EXPIRED,
         
         /// <remarks/>
         QUERY_LOCATOR_NOT_FOUND,
+        
+        /// <remarks/>
+        QUEUE_DOES_NOT_SUPPORT_ORCHESTRATION_WORK_ITEMS,
         
         /// <remarks/>
         RECOMMENDATION_STRATEGY_EXCEPTION,
@@ -5194,10 +5308,16 @@ namespace SalesforceMetadata.PartnerWSDL {
         RECORD_CHANGE_LISTENER_CONDITIONS_THRESHOLD_BREACHED,
         
         /// <remarks/>
+        RECORD_CREATE_MISSING_FILTERS,
+        
+        /// <remarks/>
         RECORD_PRIOR_VALUE_REMAIN_SAME_BEFORE_TRIGGER,
         
         /// <remarks/>
         REFERENCED_ELEMENT_NOT_FOUND,
+        
+        /// <remarks/>
+        REFERENCE_NOT_SUPPORTED,
         
         /// <remarks/>
         REPEATER_API_VERSION_NOT_SUPPORTED,
@@ -5764,6 +5884,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         WAITEVENT_BATCH_SIZE_NOT_SUPPORTED_FOR_EVENTTYPE,
         
         /// <remarks/>
+        WAITEVENT_CHANNEL_ACTIONCALL_MISMATCH,
+        
+        /// <remarks/>
         WAITEVENT_DEFAULT_CONNECTOR_MISSING_LABEL,
         
         /// <remarks/>
@@ -5789,6 +5912,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         WAITEVENT_MISSING_EVENTTYPE,
+        
+        /// <remarks/>
+        WAITEVENT_NOT_SUCCEEDING_ACTIONCALL,
         
         /// <remarks/>
         WAITEVENT_OBJECT_NOT_SUPPORTED_FOR_EVENTTYPE,
@@ -6305,6 +6431,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         APEX_FAILED,
         
         /// <remarks/>
+        API_TASK_INVALID_REQUEST,
+        
+        /// <remarks/>
+        API_TASK_LIMIT_REACHED,
+        
+        /// <remarks/>
         APPLICATION_ALREADY_EXISTS,
         
         /// <remarks/>
@@ -6422,6 +6554,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         CART_NOT_FOUND,
         
         /// <remarks/>
+        CDS_UNCOMMITTED_WORK,
+        
+        /// <remarks/>
         CHECKOUT_CONFLICT,
         
         /// <remarks/>
@@ -6506,7 +6641,37 @@ namespace SalesforceMetadata.PartnerWSDL {
         CONTENT_TYPE_NOT_FOUND,
         
         /// <remarks/>
+        COPILOT_INACTIVE_CONFIG,
+        
+        /// <remarks/>
+        COPILOT_SESSION_ENDED,
+        
+        /// <remarks/>
         COUPON_REDEMPTION_LIMIT_EXCEEDED,
+        
+        /// <remarks/>
+        CT_ENTITY_DELETE_ERROR,
+        
+        /// <remarks/>
+        CT_ENTITY_SAVE_ERROR,
+        
+        /// <remarks/>
+        CT_INVALID_DEPTH,
+        
+        /// <remarks/>
+        CT_INVALID_QUERY_WORD,
+        
+        /// <remarks/>
+        CT_INVALID_TAXONOMY_ID,
+        
+        /// <remarks/>
+        CT_INVALID_TERM_ID,
+        
+        /// <remarks/>
+        CT_PARENT_TERM_CYCLE,
+        
+        /// <remarks/>
+        CT_TERM_SEARCH_ERROR,
         
         /// <remarks/>
         CUSTOM_APEX_ERROR,
@@ -6563,6 +6728,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         DATA_TRANSFER_RECORD_LIMIT_EXCEEDED,
         
         /// <remarks/>
+        DATA_TRANSLATION_TOGGLED_BEFORE_INCREMENTAL_INDEX,
+        
+        /// <remarks/>
         DATA_TYPE_NOT_SUPPORTED,
         
         /// <remarks/>
@@ -6582,6 +6750,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         DEPENDENCY_EXISTS,
+        
+        /// <remarks/>
+        DOCUMENT_VERSION_EXISTS,
         
         /// <remarks/>
         DUPLICATES_DETECTED,
@@ -6813,6 +6984,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         INDEX_PAYLOAD_NOT_FOUND,
+        
+        /// <remarks/>
+        INDEX_SINGLE_PAYLOAD_SIZE_LIMIT_EXCEEDED,
         
         /// <remarks/>
         INGESTION_JOB_RECORDS_LIMIT_EXCEEDED,
@@ -7178,6 +7352,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         MANAGER_NOT_DEFINED,
         
         /// <remarks/>
+        MAPPING_TYPE_NOT_SUPPORTED,
+        
+        /// <remarks/>
         MASSMAIL_RETRY_LIMIT_EXCEEDED,
         
         /// <remarks/>
@@ -7292,6 +7469,15 @@ namespace SalesforceMetadata.PartnerWSDL {
         MAX_TRIGGERS_EXCEEDED,
         
         /// <remarks/>
+        MCONTENT_TAXONOMY_GET_ERROR,
+        
+        /// <remarks/>
+        MCONTENT_TAXONOMY_PUBLISH_ERROR,
+        
+        /// <remarks/>
+        MCONTENT_TAXONOMY_UPDATE_ERROR,
+        
+        /// <remarks/>
         MERGE_FAILED,
         
         /// <remarks/>
@@ -7361,6 +7547,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         NO_INACTIVE_DIVISION_MEMBERS,
         
         /// <remarks/>
+        NO_INDEXABLE_PRODUCTS,
+        
+        /// <remarks/>
+        NO_INDEXABLE_PRODUCTS_IN_PARTIAL_BUILD,
+        
+        /// <remarks/>
         NO_MASS_MAIL_PERMISSION,
         
         /// <remarks/>
@@ -7371,6 +7563,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         NO_REFRESH_TOKEN,
+        
+        /// <remarks/>
+        NO_SEARCHABLE_PRODUCTS,
         
         /// <remarks/>
         NO_SEARCH_ATTRIBUTES,
@@ -7472,6 +7667,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         PAYLOAD_SIZE_EXCEEDED,
         
         /// <remarks/>
+        PAYMENTS_TOO_MANY_REQUESTS_ERROR,
+        
+        /// <remarks/>
         PA_API_EXCEPTION,
         
         /// <remarks/>
@@ -7557,6 +7755,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         RECORD_IN_USE_BY_WORKFLOW,
+        
+        /// <remarks/>
+        RECORD_LOCKED,
         
         /// <remarks/>
         RECORD_MISSING_REQUIRED_FIELD,
@@ -7721,6 +7922,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         TEMPLATE_NOT_FOUND,
         
         /// <remarks/>
+        TENANT_GROUP_NOT_FOUND,
+        
+        /// <remarks/>
         TERMS_OF_SERVICE_UNREAD,
         
         /// <remarks/>
@@ -7764,6 +7968,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         UISF_USER_MAPPING_FAILED,
+        
+        /// <remarks/>
+        UNABLE_TO_LOCK_RECORD,
         
         /// <remarks/>
         UNABLE_TO_LOCK_ROW,
@@ -10054,6 +10261,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         @long,
+        
+        /// <remarks/>
+        floatarray,
     }
     
     /// <remarks/>
@@ -18719,6 +18929,39 @@ namespace SalesforceMetadata.PartnerWSDL {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
+    public partial class SearchStatus {
+        
+        private string codeField;
+        
+        private string messageField;
+        
+        /// <remarks/>
+        public string code {
+            get {
+                return this.codeField;
+            }
+            set {
+                this.codeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string message {
+            get {
+                return this.messageField;
+            }
+            set {
+                this.messageField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public partial class EntitySpellCorrectionMetadata {
         
         private string correctedQueryField;
@@ -18903,6 +19146,8 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         private EntitySpellCorrectionMetadata spellCorrectionMetadataField;
         
+        private SearchStatus statusField;
+        
         /// <remarks/>
         public string entityName {
             get {
@@ -18961,6 +19206,17 @@ namespace SalesforceMetadata.PartnerWSDL {
             }
             set {
                 this.spellCorrectionMetadataField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public SearchStatus status {
+            get {
+                return this.statusField;
+            }
+            set {
+                this.statusField = value;
             }
         }
     }
@@ -19044,6 +19300,8 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         private EntitySearchMetadata[] entityMetadataField;
         
+        private SearchStatus statusField;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("entityLabelMetadata")]
         public LabelsSearchMetadata[] entityLabelMetadata {
@@ -19063,6 +19321,17 @@ namespace SalesforceMetadata.PartnerWSDL {
             }
             set {
                 this.entityMetadataField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public SearchStatus status {
+            get {
+                return this.statusField;
+            }
+            set {
+                this.statusField = value;
             }
         }
     }

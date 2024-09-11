@@ -332,6 +332,7 @@
           <xsd:enumeration value="CANT_DISABLE_CORP_CURRENCY" />
           <xsd:enumeration value="CANT_UNSET_CORP_CURRENCY" />
           <xsd:enumeration value="CART_DELIVERY_GROUP_NOT_FOUND" />
+          <xsd:enumeration value="CART_ITEM_LIMIT_EXCEEDED_FOR_COUPONS" />
           <xsd:enumeration value="CART_ITEM_NOT_FOUND" />
           <xsd:enumeration value="CART_NOT_FOUND" />
           <xsd:enumeration value="CDS_UNCOMMITTED_WORK" />
@@ -351,6 +352,7 @@
           <xsd:enumeration value="CMS_FOLDER_ITEM_MOVE_FAILED" />
           <xsd:enumeration value="COLLISION_DETECTED" />
           <xsd:enumeration value="COMMERCE_SEARCH_INDEXING_SYSTEM_ERROR" />
+          <xsd:enumeration value="COMMERCE_SEARCH_INVALID_RESOURCE" />
           <xsd:enumeration value="COMMERCE_SEARCH_MQ_ERROR" />
           <xsd:enumeration value="COMMERCE_SEARCH_PROVIDER_LIMIT_EXCEEDED" />
           <xsd:enumeration value="COMMERCE_SEARCH_RESOURCE_NOT_FOUND" />
@@ -366,6 +368,7 @@
           <xsd:enumeration value="COPILOT_INACTIVE_CONFIG" />
           <xsd:enumeration value="COPILOT_SESSION_ENDED" />
           <xsd:enumeration value="COUPON_REDEMPTION_LIMIT_EXCEEDED" />
+          <xsd:enumeration value="CT_DEVELOPER_NAME_NOT_UPDATABLE" />
           <xsd:enumeration value="CT_ENTITY_DELETE_ERROR" />
           <xsd:enumeration value="CT_ENTITY_SAVE_ERROR" />
           <xsd:enumeration value="CT_INVALID_DEPTH" />
@@ -400,6 +403,7 @@
           <xsd:enumeration value="DELETE_OPERATION_TOO_LARGE" />
           <xsd:enumeration value="DELETE_REQUIRED_ON_CASCADE" />
           <xsd:enumeration value="DEPENDENCY_EXISTS" />
+          <xsd:enumeration value="DEPLOYMENT_ERROR" />
           <xsd:enumeration value="DOCUMENT_VERSION_EXISTS" />
           <xsd:enumeration value="DUPLICATES_DETECTED" />
           <xsd:enumeration value="DUPLICATE_CASE_SOLUTION" />
@@ -581,6 +585,7 @@
           <xsd:enumeration value="INVALID_SITE_FILE_IMPORTED_EXCEPTION" />
           <xsd:enumeration value="INVALID_SITE_FILE_TYPE_EXCEPTION" />
           <xsd:enumeration value="INVALID_SOURCE_OBJECT_ID" />
+          <xsd:enumeration value="INVALID_SOURCE_OBJECT_NAME" />
           <xsd:enumeration value="INVALID_STATUS" />
           <xsd:enumeration value="INVALID_SUBDOMAIN" />
           <xsd:enumeration value="INVALID_TARGET_OBJECT_NAME" />
@@ -680,6 +685,7 @@
           <xsd:enumeration value="NUMBER_OUTSIDE_VALID_RANGE" />
           <xsd:enumeration value="NUM_HISTORY_FIELDS_BY_SOBJECT_EXCEEDED" />
           <xsd:enumeration value="OCR_INVALID_REQUEST" />
+          <xsd:enumeration value="OPERATION_CONFLICT" />
           <xsd:enumeration value="OPERATION_ENQUEUED" />
           <xsd:enumeration value="OPERATION_WITH_CALLBACK_ENQUEUED" />
           <xsd:enumeration value="OPTED_OUT_OF_MASS_MAIL" />
@@ -771,6 +777,9 @@
           <xsd:enumeration value="SEGMENT_COUNT_LIMIT_EXCEEDED" />
           <xsd:enumeration value="SELF_REFERENCE_FROM_FLOW" />
           <xsd:enumeration value="SELF_REFERENCE_FROM_TRIGGER" />
+          <xsd:enumeration value="SERVICE_PLAN_INVALID_DATA" />
+          <xsd:enumeration value="SERVICE_PLAN_MISSING_DATA" />
+          <xsd:enumeration value="SERVICE_PLAN_UNKNOWN_EXCEPTION" />
           <xsd:enumeration value="SERVICE_UNAVAILABLE" />
           <xsd:enumeration value="SESSION_EXPIRED" />
           <xsd:enumeration value="SESSION_INVALIDATED" />
@@ -808,6 +817,8 @@
           <xsd:enumeration value="UISF_USER_MAPPING_FAILED" />
           <xsd:enumeration value="UNABLE_TO_LOCK_RECORD" />
           <xsd:enumeration value="UNABLE_TO_LOCK_ROW" />
+          <xsd:enumeration value="UNABLE_TO_UNLOCK_RECORD" />
+          <xsd:enumeration value="UNABLE_TO_UPDATE_RECORD_LOCK" />
           <xsd:enumeration value="UNAUTHORIZED_SEARCH_PROVIDER_REQUEST" />
           <xsd:enumeration value="UNAVAILABLE_RECORDTYPE_EXCEPTION" />
           <xsd:enumeration value="UNAVAILABLE_REF" />
@@ -875,6 +886,11 @@
           <xsd:enumeration value="ACTIONCALL_INVALID_INPUT_PARAM_NAME">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, actionCallName, parameterName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="ACTIONCALL_INVALID_ISWAITUNTILCOMPLETED">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="ACTIONCALL_INVALID_OFFSET">
@@ -972,6 +988,11 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, actionCallName, parameterName</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="ACTION_CALL_MISSING_ELEMENT_DEPENDENCIES">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, missingDependencies</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="ACTION_INPUT_PARAMETER_REQUIRES_ID_TYPE_FOR_SETUP_REFERENCE">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, objectName</xsd:documentation>
@@ -988,6 +1009,21 @@
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="ADDING_ATTACHMENT_QUESTIONS_ADDITION_TO_EXISTING_SURVEY">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="ADVANCED_APPROVALS_LICENSE_REQUIRED_FOR_ACTIVATION">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="ADVANCED_APPROVALS_LICENSE_REQUIRED_FOR_EXECUTION">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="ADVANCED_APPROVALS_LICENSE_REQUIRED_FOR_SAVE">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
@@ -1145,6 +1181,11 @@
           <xsd:enumeration value="ASSIGNMENTITEM_RIGHT_DATATYPE_INVALID_FOR_OPERATOR">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="ASYNC_ACTION_NOT_SUPPORTED_FOR_PROCESSTYPE">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, processType, subflowName</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="AUTOLAUNCHED_CHOICELOOKUP_NOT_SUPPORTED">
@@ -1467,6 +1508,11 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, processType, dataType, elementType</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="DATA_TYPE_NOT_SUPPORTED_IN_CONDITION">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, objectName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="DECISION_DEFAULT_CONNECTOR_MISSING_LABEL">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, flowDecision</xsd:documentation>
@@ -1478,6 +1524,11 @@
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="DETERMINATION_FLOW_ACTION_TYPE_REQUIRED">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="DUPLICATE_QUESTION_NOT_ALLOWED">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
@@ -1605,6 +1656,11 @@
           <xsd:enumeration value="EXTERNAL_OBJECT_FIELDS_NOT_SUPPORTED">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, fieldReference</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="EXTERNAL_SYSTEM_FLOW_INVALID_POLLING_FREQUENCY">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, processType</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="EX_AUTOLAUNCHED_SUBFLOW_INCOMPATIBLE_FLOWTYPE">
@@ -1927,6 +1983,11 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, objectName</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="FLOW_EXPERIMENT_DATA_GRAPH_NAME_NOT_SET">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="FLOW_EXPERIMENT_GO_TO_NOT_SUPPORTED">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
@@ -1967,6 +2028,11 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="FLOW_EXPERIMENT_PERSONALIZATION_SETUP_INCOMPLETE">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="FLOW_FORMULA_FIELD_MISSING">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
@@ -1988,6 +2054,16 @@
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="FLOW_INCLUDES_STEP">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_INLINE_TRANSFORM_API_VERSION_NOT_SUPPORTED">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_INLINE_TRANSFORM_NOT_SUPPORTED">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
             </xsd:annotation>
@@ -2092,6 +2168,16 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="FLOW_INVALID_EVENTNAME">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, processType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_INVALID_EVENTTYPE">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, processType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="FLOW_INVALID_NAME">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, maxDevNameLength</xsd:documentation>
@@ -2178,6 +2264,16 @@
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="FLOW_RULE_REQUIRE_RECORD_CHANGED_NEVER_CHECKED_FOR_RECORD_PRIOR">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_RUN_AS_SYSTEM_MODE_WITHOUT_CONTEXT_WARNING">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_RUN_AS_SYSTEM_MODE_WITH_CONTEXT_WARNING">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
@@ -2275,6 +2371,26 @@
           <xsd:enumeration value="FLOW_STAGE_ORDER_OUT_OF_RANGE">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, stageName, invalidStageOrder, maxOrder, minOrder</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_START_INPUT_INVALID_INPUT">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, inputName, triggerType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_START_INPUT_INVALID_TYPE">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, dataType, inputName, triggerType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_START_INPUT_NOT_ALLOWED">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, inputName, triggerType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_START_INPUT_REQUIRED">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, dataType, inputName, triggerType</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="FLOW_SYSTEM_VARIABLE_NOT_SUPPORTED_FOR_TRIGGERTYPE">
@@ -2432,11 +2548,6 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
-          <xsd:enumeration value="FLOW_TRANSFORM_AMBIGUOUS_FIELD_REF">
-            <xsd:annotation>
-              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
-            </xsd:annotation>
-          </xsd:enumeration>
           <xsd:enumeration value="FLOW_TRANSFORM_APEX_CLASS_INCOMPATIBLE">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
@@ -2458,6 +2569,11 @@
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="FLOW_TRANSFORM_ELEMENT_REFERENCE_TYPE_INCOMPATIBLE">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_TRANSFORM_FIELD_MISSING_PREFIX">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
@@ -2485,6 +2601,41 @@
           <xsd:enumeration value="FLOW_TRANSFORM_INPUT_PARAM_MISSING">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName, parameterName, transformType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_TRANSFORM_INVALID_FEROV_INPUT_TYPE">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_TRANSFORM_INVALID_JOIN_KEY">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_TRANSFORM_INVALID_MULTIPLE_TRANSFORM_VALUE_ACTIONS">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_TRANSFORM_JOIN_NOT_SUPPORTED">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_TRANSFORM_JOIN_SELECTED_FIELD_DUPLICATE">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_TRANSFORM_JOIN_SELECTED_FIELD_INVALID_REFERENCE">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_TRANSFORM_JOIN_SELECTED_FIELD_INVALID_SYNTAX">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="FLOW_TRANSFORM_JOIN_SOURCE_INVALID">
@@ -2528,6 +2679,11 @@
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="FLOW_TRANSFORM_MAP_STATIC_VAL_COLL_MISSING">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_TRANSFORM_MISSING_JOIN_FIELD_MAPPING">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
@@ -2585,6 +2741,31 @@
           <xsd:enumeration value="FLOW_TRIGGER_TYPE_INCOMPATIBLE_WITH_RECORD_TRIGGER_TYPE">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, flowTriggerType, recordTriggerType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_UPSERT_EXTERNAL_ID_FIELD_INVALID">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_UPSERT_EXTERNAL_ID_FIELD_NOT_UNIQUE">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_UPSERT_STANDARD_FIELD_INVALID">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_UPSERT_STANDARD_ID_FIELD_IDLOOKUP_FALSE">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="FLOW_UPSERT_UNIQUE_ID_CONFLICT">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="FORMULA_CMT_LIMIT_EXCEEDED">
@@ -2677,6 +2858,11 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, parameterName</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="INPUTPARAM_VARIABLE_MISSING">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="INPUTVARIABLE_COLLECTION_NOT_SUPPORTED_FOR_DYNAMIC_ACTION">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
@@ -2740,6 +2926,11 @@
           <xsd:enumeration value="INVALID_OPERATION_TYPE">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, fieldName, operationName, validOperationNames</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="INVALID_ORCH_ASSIGNEE_TYPE_FOR_PACKAGE">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="INVALID_PROCESSTYPE_ENVIRONMENT_COMBINATION">
@@ -2877,6 +3068,11 @@
               <xsd:documentation>Errors with this extended error code have the following properties: input, limit</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="MERGE_FIELD_NOT_SUPPORTED_IN_ACTION">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="MESSAGING_API_ENTITLEMENT_REACHED">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: </xsd:documentation>
@@ -2977,12 +3173,22 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="ORCHESTRATION_CAN_ASSIGNEE_EDIT_NOT_SUPPORTED">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="ORCHESTRATION_REQUIRESASYNCPROCESSING_NOT_SUPPORTED">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="ORCHESTRATION_REQUIRESASYNCPROCESSING_REQUIRED">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="ORCHESTRATION_STEP_LOCK_RECORD_NOT_SUPPORTED">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
@@ -3232,7 +3438,22 @@
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
+          <xsd:enumeration value="REPEATER_API_VERSION_UPGRADE">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
           <xsd:enumeration value="REPEATER_COMPONENT_CURRENTLY_NOT_SUPPORTED">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="REPEATER_DATA_SOURCE_INCOMPATIBLE_TYPE">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="REPEATER_REMOVED_FIELD_INVALID">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
             </xsd:annotation>
@@ -3275,6 +3496,16 @@
           <xsd:enumeration value="SCHEDULE_TRIGGERED_FLOW_REQUIRES_DEFAULT_WORKFLOW_USER">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="SCREENACTION_CALLS_FLOW_WITH_INSECURE_RUN_AS_MODE">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="SCREENACTION_INVALID_INPUT_PARAM">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="SCREENACTION_MISSING_REQUIRED_NAME">
@@ -4000,6 +4231,46 @@
           <xsd:enumeration value="SYSTEM_VARIABLE_MISSING_FIELD_REFERENCE">
             <xsd:annotation>
               <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="TEMPLATED_PRVD_TYPE_INCOMPATIBLE_FLOW_TYPE">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName, flowType, templateProviderType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="TEMPLATED_SCREENFIELD_INFO_MISSING">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="TEMPLATED_SCREENFIELD_INVALID">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName, templateApiName, templateProviderType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="TEMPLATED_SCREENFIELD_NOT_SUPPORTED">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="TEMPLATED_SCREENFIELD_PROPERTIES_INVALID">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName, templateApiName, templateProviderType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="TEMPLATED_SCREENFIELD_PROPERTIES_MISSING">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName, templateApiName, templateProviderType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="TEMPLATED_SCREENFIELD_PRVD_TYPE_INVALID">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName, templateProviderType</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="TEMPLATED_SCREENFIELD_RNDR_LWC_INVALID">
+            <xsd:annotation>
+              <xsd:documentation>Errors with this extended error code have the following properties: erroneousElementApiName, erroneousElementType, erroneousFields, severity, elementName, renderingLwcName</xsd:documentation>
             </xsd:annotation>
           </xsd:enumeration>
           <xsd:enumeration value="TEMPORARY_QUERY_MORE_FAILURE">
@@ -6942,6 +7213,7 @@
           <xsd:element name="majorNumber" type="xsd:int" />
           <xsd:element name="minorNumber" type="xsd:int" />
           <xsd:element name="namespace" type="xsd:string" />
+          <xsd:element name="packageId" type="xsd:string" />
         </xsd:sequence>
       </xsd:complexType>
       <xsd:element name="PackageVersionHeader">
@@ -7171,6 +7443,7 @@
           <xsd:enumeration value="EXCEEDED_MAX_SOBJECTS" />
           <xsd:enumeration value="EXCEEDED_MAX_TYPES_LIMIT" />
           <xsd:enumeration value="EXCEEDED_QUOTA" />
+          <xsd:enumeration value="EXCEEDED_SEARCH_QUERY_RATE_LIMIT" />
           <xsd:enumeration value="EXTERNAL_OBJECT_AUTHENTICATION_EXCEPTION" />
           <xsd:enumeration value="EXTERNAL_OBJECT_CONNECTION_EXCEPTION" />
           <xsd:enumeration value="EXTERNAL_OBJECT_EXCEPTION" />
@@ -7301,7 +7574,10 @@
           <xsd:enumeration value="PORTAL_NO_ACCESS" />
           <xsd:enumeration value="POST_BODY_PARSE_ERROR" />
           <xsd:enumeration value="POST_TAX_PROCESSING_ERROR" />
+          <xsd:enumeration value="PREDICTION_REQUEST_TOO_COMPLEX" />
+          <xsd:enumeration value="PREDICTION_REQUEST_TOO_LARGE" />
           <xsd:enumeration value="PRODUCT_NOT_FOUND" />
+          <xsd:enumeration value="PRODUCT_URL_NOT_FOUND" />
           <xsd:enumeration value="QAT_HETEROGENOUS_CONTEXT_IDS" />
           <xsd:enumeration value="QAT_INVALID_CONTEXT_ID" />
           <xsd:enumeration value="QAT_INVALID_QUICK_ACTION" />
@@ -7448,6 +7724,7 @@
           <xsd:enumeration value="fns:EXCEEDED_MAX_SOBJECTS" />
           <xsd:enumeration value="fns:EXCEEDED_MAX_TYPES_LIMIT" />
           <xsd:enumeration value="fns:EXCEEDED_QUOTA" />
+          <xsd:enumeration value="fns:EXCEEDED_SEARCH_QUERY_RATE_LIMIT" />
           <xsd:enumeration value="fns:EXTERNAL_OBJECT_AUTHENTICATION_EXCEPTION" />
           <xsd:enumeration value="fns:EXTERNAL_OBJECT_CONNECTION_EXCEPTION" />
           <xsd:enumeration value="fns:EXTERNAL_OBJECT_EXCEPTION" />
@@ -7578,7 +7855,10 @@
           <xsd:enumeration value="fns:PORTAL_NO_ACCESS" />
           <xsd:enumeration value="fns:POST_BODY_PARSE_ERROR" />
           <xsd:enumeration value="fns:POST_TAX_PROCESSING_ERROR" />
+          <xsd:enumeration value="fns:PREDICTION_REQUEST_TOO_COMPLEX" />
+          <xsd:enumeration value="fns:PREDICTION_REQUEST_TOO_LARGE" />
           <xsd:enumeration value="fns:PRODUCT_NOT_FOUND" />
+          <xsd:enumeration value="fns:PRODUCT_URL_NOT_FOUND" />
           <xsd:enumeration value="fns:QAT_HETEROGENOUS_CONTEXT_IDS" />
           <xsd:enumeration value="fns:QAT_INVALID_CONTEXT_ID" />
           <xsd:enumeration value="fns:QAT_INVALID_QUICK_ACTION" />
@@ -9803,7 +10083,7 @@
   <service name="SforceService">
     <documentation>Sforce SOAP API</documentation>
     <port name="Soap" binding="tns:SoapBinding">
-      <soap:address location="https://login.salesforce.com/services/Soap/u/61.0" />
+      <soap:address location="https://login.salesforce.com/services/Soap/u/62.0" />
     </port>
   </service>
 </definitions>

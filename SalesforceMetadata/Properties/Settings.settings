@@ -12,13 +12,13 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="SalesforceMetadata_PartnerWSDL_SforceService" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">https://login.salesforce.com/services/Soap/u/61.0</Value>
+      <Value Profile="(Default)">https://login.salesforce.com/services/Soap/u/62.0</Value>
     </Setting>
     <Setting Name="SalesforceMetadata_MetadataWSDL_MetadataService" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">https://login.salesforce.com/services/Soap/m/61.0</Value>
+      <Value Profile="(Default)">https://login.salesforce.com/services/Soap/m/62.0</Value>
     </Setting>
     <Setting Name="SalesforceMetadata_ToolingWSDL_SforceServiceService" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">https://login.salesforce.com/services/Soap/T/61.0</Value>
+      <Value Profile="(Default)">https://login.salesforce.com/services/Soap/T/62.0</Value>
     </Setting>
     <Setting Name="DefaultAPI" Type="System.String" Scope="User">
       <Value Profile="(Default)">60.0</Value>

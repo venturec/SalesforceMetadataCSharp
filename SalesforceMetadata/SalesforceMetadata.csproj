@@ -666,10 +666,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="C:\Users\marcu\OneDrive\References\MetadataWSDL.xml">
+    <WebReferenceUrl Include="C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\References\MetadataWSDL.wsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\MetadataWSDL\</RelPath>
-      <UpdateFromURL>C:\Users\marcu\OneDrive\References\MetadataWSDL.xml</UpdateFromURL>
+      <UpdateFromURL>C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\References\MetadataWSDL.wsdl</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -677,10 +677,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SalesforceMetadata_MetadataWSDL_MetadataService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="C:\Users\marcu\OneDrive\References\PartnerWSDL.xml">
+    <WebReferenceUrl Include="C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\References\PartnerWSDL.wsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\PartnerWSDL\</RelPath>
-      <UpdateFromURL>C:\Users\marcu\OneDrive\References\PartnerWSDL.xml</UpdateFromURL>
+      <UpdateFromURL>C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\References\PartnerWSDL.wsdl</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -688,10 +688,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SalesforceMetadata_PartnerWSDL_SforceService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="C:\Users\marcu\OneDrive\References\ToolingWSDL.xml">
+    <WebReferenceUrl Include="C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\References\ToolingWSDL.wsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\ToolingWSDL\</RelPath>
-      <UpdateFromURL>C:\Users\marcu\OneDrive\References\ToolingWSDL.xml</UpdateFromURL>
+      <UpdateFromURL>C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\References\ToolingWSDL.wsdl</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

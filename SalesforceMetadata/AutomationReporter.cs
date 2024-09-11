@@ -1633,7 +1633,7 @@ namespace SalesforceMetadata
             Int32 skipTo = 0;
             Boolean skipOver = false;
 
-            for (Int32 i = 0; i < filearray.Length - 1; i++)
+            for (Int32 i = 0; i < filearray.Length; i++)
             {
                 if (skipOver == true && skipTo > i)
                 {
@@ -1713,7 +1713,7 @@ namespace SalesforceMetadata
                     Boolean inString = true;
 
                     String stringValue = filearray[i];
-                    for (Int32 j = jCount; j <= filearray.Length; j++)
+                    for (Int32 j = jCount; j < filearray.Length; j++)
                     {
                         stringValue = stringValue + " " + filearray[j];
                         jCount = j;
@@ -1948,7 +1948,7 @@ namespace SalesforceMetadata
             // Now get the right side of the equation
             String rightSide = "";
             Boolean inStringValue = false;
-            for (Int32 i = arraystart + 1; i < filearray.Length - 1; i++)
+            for (Int32 i = arraystart + 1; i < filearray.Length; i++)
             {
                 if (filearray[i] == "'"
                     && inStringValue == false)
@@ -2161,7 +2161,7 @@ namespace SalesforceMetadata
             Int32 skipTo = 0;
             Boolean skipOver = false;
 
-            for (Int32 i = 0; i < filearray.Length - 1; i++)
+            for (Int32 i = 0; i < filearray.Length; i++)
             {
                 // This is to skip over inner classes for now
                 if (skipOver == true && skipTo > i)
@@ -2248,7 +2248,7 @@ namespace SalesforceMetadata
 
                     Boolean icFirstBraceReached = false;
                     Int32 braceCount = 0;
-                    for (Int32 j = i; j < filearray.Length - 1; j++)
+                    for (Int32 j = i; j < filearray.Length; j++)
                     {
                         if (filearray[j] == "{"
                             && icFirstBraceReached == false)
@@ -2297,7 +2297,7 @@ namespace SalesforceMetadata
             String interfaceName = "";
             String interfaceParameters = "";
 
-            for (Int32 i = arraystart + 1; i < filearray.Length - 1; i++)
+            for (Int32 i = arraystart + 1; i < filearray.Length; i++)
             {
                 if (filearray[i] == "{")
                 {
@@ -2394,7 +2394,7 @@ namespace SalesforceMetadata
             Int32 skipTo = 0;
             Boolean skipOver = false;
 
-            for (Int32 i = arraystart; i < filearray.Length - 1; i++)
+            for (Int32 i = arraystart; i < filearray.Length; i++)
             {
                 //Debug.WriteLine("");
 
@@ -2460,7 +2460,7 @@ namespace SalesforceMetadata
                     Boolean inString = true;
 
                     String stringValue = filearray[i];
-                    for (Int32 j = jCount; j <= filearray.Length; j++)
+                    for (Int32 j = jCount; j < filearray.Length; j++)
                     {
                         stringValue = stringValue + " " + filearray[j];
                         jCount = j;
@@ -2734,7 +2734,7 @@ namespace SalesforceMetadata
                     }
                     else
                     {
-                        for (Int32 j = i + 1; j < filearray.Length - 1; j++)
+                        for (Int32 j = i + 1; j < filearray.Length; j++)
                         {
                             if (filearray[j] == ";")
                             {
@@ -3339,7 +3339,7 @@ namespace SalesforceMetadata
             }
 
             // Now get the right side of the equation
-            for (Int32 i = arraystart + 1; i < filearray.Length - 1; i++)
+            for (Int32 i = arraystart + 1; i < filearray.Length; i++)
             {
                 if (filearray[i] == "'"
                     && inStringValue == false)
@@ -3385,7 +3385,7 @@ namespace SalesforceMetadata
 
             Boolean concatRightSide = false;
             String rightSide = "";
-            for (Int32 i = arraystart; i < filearray.Length - 1; i++)
+            for (Int32 i = arraystart; i < filearray.Length; i++)
             {
                 if (filearray[i] == ":")
                 {
@@ -3433,7 +3433,7 @@ namespace SalesforceMetadata
 
             String returnValue = "";
 
-            for (Int32 i = arraystart + 1; i < filearray.Length - 1; i++)
+            for (Int32 i = arraystart + 1; i < filearray.Length; i++)
             {
                 if (filearray[i] == "'"
                     && filearray[i - 1] != "\\"
@@ -3792,7 +3792,7 @@ namespace SalesforceMetadata
 
             Boolean inString = false;
 
-            for (Int32 i = arraystart; i < filearray.Length - 1; i++)
+            for (Int32 i = arraystart; i < filearray.Length; i++)
             {
                 if (filearray[i] == "'"
                     && filearray[i - 1] != "\\"
@@ -5066,7 +5066,7 @@ namespace SalesforceMetadata
             // Write the results to a file
             writeAutomationFieldExtractedResultsToFile();
 
-            MessageBox.Show("Field Reference Extraction Complete");
+            MessageBox.Show("Automation Field Reference Extraction Complete");
         }
 
         private void btnParseFlows_Click(object sender, EventArgs e)

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35208.52
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesforceMetadata", "SalesforceMetadata\SalesforceMetadata.csproj", "{00528797-0339-4C77-95D3-2B712254A6A3}"
 EndProject
@@ -13,8 +13,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{00528797-0339-4C77-95D3-2B712254A6A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{00528797-0339-4C77-95D3-2B712254A6A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{00528797-0339-4C77-95D3-2B712254A6A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{00528797-0339-4C77-95D3-2B712254A6A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00528797-0339-4C77-95D3-2B712254A6A3}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{00528797-0339-4C77-95D3-2B712254A6A3}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

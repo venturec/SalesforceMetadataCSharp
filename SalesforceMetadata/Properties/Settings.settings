@@ -21,7 +21,7 @@
       <Value Profile="(Default)">https://login.salesforce.com/services/Soap/T/62.0</Value>
     </Setting>
     <Setting Name="DefaultAPI" Type="System.String" Scope="User">
-      <Value Profile="(Default)">60.0</Value>
+      <Value Profile="(Default)">62.0</Value>
     </Setting>
     <Setting Name="DevelopmentSelectedFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

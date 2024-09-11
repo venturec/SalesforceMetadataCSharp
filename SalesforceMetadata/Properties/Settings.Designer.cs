@@ -91,7 +91,7 @@ namespace SalesforceMetadata.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("60.0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("62.0")]
         public string DefaultAPI {
             get {
                 return ((string)(this["DefaultAPI"]));

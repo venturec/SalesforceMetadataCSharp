@@ -534,6 +534,7 @@ namespace SalesforceMetadata
                 folderSaveLocation += fileNameSplit[i] + "\\";
             }
 
+            folderSaveLocation = folderSaveLocation + "DebugLog_CodeUnits.txt";
 
             //Boolean firstCodeUnitReached = true;
             //String milSecStart = "";
@@ -542,7 +543,7 @@ namespace SalesforceMetadata
             Boolean firstCodeUnitReached = true;
             Int32 tabCount = 0;
 
-            StreamWriter debugSW = new StreamWriter(folderSaveLocation + "DebugLog_CodeUnits.txt");
+            StreamWriter debugSW = new StreamWriter(folderSaveLocation);
 
             // Open file for reading
             StreamReader debugSR = new StreamReader(this.tbDebugFile.Text);

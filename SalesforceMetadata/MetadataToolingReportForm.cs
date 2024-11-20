@@ -71,6 +71,10 @@ namespace SalesforceMetadata
             {
                 MessageBox.Show("Please choose a location to read the metadata from for the proper reporting");
             }
+            else if (String.IsNullOrEmpty(this.cmbUserName.Text))
+            {
+                MessageBox.Show("Please select a user in the picklist before continuing");
+            }
             else
             {
                 try
@@ -82,7 +86,7 @@ namespace SalesforceMetadata
                     MessageBox.Show(exc.Message);
                     return;
                 }
-                
+
                 HashSet<String> selectedItems = new HashSet<string>();
                 foreach (String itm in this.lbToolingObjects.CheckedItems)
                 {

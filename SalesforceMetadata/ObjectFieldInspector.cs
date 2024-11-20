@@ -1073,85 +1073,122 @@ namespace SalesforceMetadata
                 rng.Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbRoyalBlue;
 
 
-                Int32 i = 0;
-                Int32 rowNumber = 2;
+                // Break this down into smaller chunks and instantiate the first list element in the array
+                // Prevents duplication in the code below and simplifies the possible complexity
+                List<List<String>> sobjList = new List<List<string>>();
+                List<string> sobjListVals = new List<string>();
+                sobjList.Add(sobjListVals);
 
-                List<String> sobjList = new List<string>();
-                foreach (String sobj in sobjectListBox.CheckedItems)
+                if (sobjectListBox.CheckedItems.Count > 25)
                 {
-                    sobjList.Add(sobj);
-                }
-
-                DescribeSObjectResult[] dsrList = new DescribeSObjectResult[sobjList.Count];
-                dsrList = sc.fromOrgSS.describeSObjects(sobjList.ToArray());
-
-                foreach (DescribeSObjectResult dsr in dsrList)
-                {
-                    try
+                    Int32 ciCount = 0;
+                    foreach (String sobj in sobjectListBox.CheckedItems)
                     {
-                        foreach (Field cf in dsr.fields)
+                        sobjListVals.Add(sobj);
+                        ciCount++;
+
+                        if (ciCount == 25)
                         {
-                            String referenceToObjects = "";
-                            if (cf.referenceTo != null)
-                            {
-                                referenceToObjects = getReferenceToObjects(cf.referenceTo.ToList());
-                            }
-
-                            String fieldDataType = getFieldDataTypes(cf, cf.type);
-
-                            if (cf.type != fieldType.reference) continue;
-
-                            if (i == 0)
-                            {
-                                xlWorksheet.Cells[rowNumber, 1].Value = dsr.name;
-                                xlWorksheet.Cells[rowNumber, 2].Value = cf.name;
-                                xlWorksheet.Cells[rowNumber, 3].Value = cf.label;
-                                xlWorksheet.Cells[rowNumber, 4].Value = fieldDataType;
-                                xlWorksheet.Cells[rowNumber, 5].Value = referenceToObjects;
-                                xlWorksheet.Cells[rowNumber, 6].Value = cf.referenceTargetField;
-                                xlWorksheet.Cells[rowNumber, 7].Value = cf.relationshipName;
-
-                                rng = xlWorksheet.Range[xlWorksheet.Cells[rowNumber, 1], xlWorksheet.Cells[rowNumber, 7]];
-                                rng.Font.Size = 11;
-                                //rng.Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbAliceBlue;
-
-                                Microsoft.Office.Interop.Excel.Borders border = rng.Borders;
-                                border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
-                                border.Weight = 1d;
-                                border.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbLightGray;
-
-                                i++;
-                                rowNumber++;
-
-                            }
-                            else if (i == 1)
-                            {
-                                xlWorksheet.Cells[rowNumber, 1].Value = dsr.name;
-                                xlWorksheet.Cells[rowNumber, 2].Value = cf.name;
-                                xlWorksheet.Cells[rowNumber, 3].Value = cf.label;
-                                xlWorksheet.Cells[rowNumber, 4].Value = fieldDataType;
-                                xlWorksheet.Cells[rowNumber, 5].Value = referenceToObjects;
-                                xlWorksheet.Cells[rowNumber, 6].Value = cf.referenceTargetField;
-                                xlWorksheet.Cells[rowNumber, 7].Value = cf.relationshipName;
-
-
-                                rng = xlWorksheet.Range[xlWorksheet.Cells[rowNumber, 1], xlWorksheet.Cells[rowNumber, 7]];
-                                rng.Font.Size = 11;
-                                //rng.Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbPaleTurquoise;
-
-                                Microsoft.Office.Interop.Excel.Borders border = rng.Borders;
-                                border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
-                                border.Weight = 1d;
-                                border.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbLightGray;
-
-                                i = 0;
-                                rowNumber++;
-                            }
+                            sobjList.Add(sobjListVals);
+                            sobjListVals = new List<string>();
+                            ciCount = 0;
                         }
                     }
-                    catch (Exception exc)
-                    {
 
+                    if (sobjListVals.Count > 0)
+                    {
+                        sobjList.Add(sobjListVals);
+                    }
+                }
+                else
+                {
+                    foreach (String sobj in sobjectListBox.CheckedItems)
+                    {
+                        sobjListVals.Add(sobj);
+                    }
+
+                    sobjList.Add(sobjListVals);
+                }
+
+                Int32 rowNumber = 2;
+                foreach (List<String> arrayList in sobjList)
+                {
+                    //DescribeSObjectResult[] dsrList = new DescribeSObjectResult[sobjList.Count];
+                    //dsrList = sc.fromOrgSS.describeSObjects(sobjList.ToArray());
+
+                    DescribeSObjectResult[] dsrList = new DescribeSObjectResult[arrayList.Count];
+                    dsrList = sc.fromOrgSS.describeSObjects(arrayList.ToArray());
+
+                    Int32 i = 0;
+
+                    foreach (DescribeSObjectResult dsr in dsrList)
+                    {
+                        try
+                        {
+                            foreach (Field cf in dsr.fields)
+                            {
+                                String referenceToObjects = "";
+                                if (cf.referenceTo != null)
+                                {
+                                    referenceToObjects = getReferenceToObjects(cf.referenceTo.ToList());
+                                }
+
+                                String fieldDataType = getFieldDataTypes(cf, cf.type);
+
+                                if (cf.type != fieldType.reference) continue;
+
+                                if (i == 0)
+                                {
+                                    xlWorksheet.Cells[rowNumber, 1].Value = dsr.name;
+                                    xlWorksheet.Cells[rowNumber, 2].Value = cf.name;
+                                    xlWorksheet.Cells[rowNumber, 3].Value = cf.label;
+                                    xlWorksheet.Cells[rowNumber, 4].Value = fieldDataType;
+                                    xlWorksheet.Cells[rowNumber, 5].Value = referenceToObjects;
+                                    xlWorksheet.Cells[rowNumber, 6].Value = cf.referenceTargetField;
+                                    xlWorksheet.Cells[rowNumber, 7].Value = cf.relationshipName;
+
+                                    rng = xlWorksheet.Range[xlWorksheet.Cells[rowNumber, 1], xlWorksheet.Cells[rowNumber, 7]];
+                                    rng.Font.Size = 11;
+                                    //rng.Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbAliceBlue;
+
+                                    Microsoft.Office.Interop.Excel.Borders border = rng.Borders;
+                                    border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                                    border.Weight = 1d;
+                                    border.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbLightGray;
+
+                                    i++;
+                                    rowNumber++;
+
+                                }
+                                else if (i == 1)
+                                {
+                                    xlWorksheet.Cells[rowNumber, 1].Value = dsr.name;
+                                    xlWorksheet.Cells[rowNumber, 2].Value = cf.name;
+                                    xlWorksheet.Cells[rowNumber, 3].Value = cf.label;
+                                    xlWorksheet.Cells[rowNumber, 4].Value = fieldDataType;
+                                    xlWorksheet.Cells[rowNumber, 5].Value = referenceToObjects;
+                                    xlWorksheet.Cells[rowNumber, 6].Value = cf.referenceTargetField;
+                                    xlWorksheet.Cells[rowNumber, 7].Value = cf.relationshipName;
+
+
+                                    rng = xlWorksheet.Range[xlWorksheet.Cells[rowNumber, 1], xlWorksheet.Cells[rowNumber, 7]];
+                                    rng.Font.Size = 11;
+                                    //rng.Interior.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbPaleTurquoise;
+
+                                    Microsoft.Office.Interop.Excel.Borders border = rng.Borders;
+                                    border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                                    border.Weight = 1d;
+                                    border.Color = Microsoft.Office.Interop.Excel.XlRgbColor.rgbLightGray;
+
+                                    i = 0;
+                                    rowNumber++;
+                                }
+                            }
+                        }
+                        catch (Exception exc)
+                        {
+
+                        }
                     }
                 }
 

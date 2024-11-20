@@ -1194,9 +1194,13 @@ namespace SalesforceMetadata
 
         private List<String> getSObjectMembers(UtilityClass.REQUESTINGORG reqOrg)
         {
-            DescribeGlobalResult dgr = sc.getDescribeGlobalResult(reqOrg);
-
             List<String> members = new List<string>();
+
+            // We need to add these manually since the object itself is not part of the DescribeGlobalResult,
+            // but you won't be able to retrieve the custom fields related to Events and Tasks if not included
+            members.Add("Activity");
+
+            DescribeGlobalResult dgr = sc.getDescribeGlobalResult(reqOrg);
             for (Int32 i = 0; i < dgr.sobjects.Length; i++)
             {
                 String sobj = dgr.sobjects[i].name;

@@ -5995,8 +5995,6 @@ namespace SalesforceMetadata
 
             if (toolingQr.records == null) return;
 
-
-
             toolingRecords = toolingQr.records;
 
             Microsoft.Office.Interop.Excel.Worksheet xlWorksheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkbook.Worksheets.Add

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Office.Interop.Excel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,12 +17,7 @@ namespace SalesforceMetadata
 {
     public partial class ParseDebugLogs : Form
     {
-
         // SUMMARY: The only instances where a new TAB will be added to the text file are when it is a CODE_UNIT_STARTED and METHOD_ENTRY
-
-        // Key is the event tag, value is the tab number. It can be 0 for no tab, 1 to increment the tab count or -1 to decrement the tab count
-        //private HashSet<String> debugEventTags;
-
 
         // The last event tag placed here is what will be searched for.
         // If the debugEventTags dictionary has a key/value pair and the value is not empty, then as the code parses through the text file, it will be looking for that ending tag
@@ -30,21 +27,49 @@ namespace SalesforceMetadata
         // When the code comes across DML_END it writes the text portion of the debug log to the file and removes DML_END from the list
         // When it comes across METHOD_EXIT, it writes the text portion of the debug log to the file and removes METHOD_EXIT from the list
         // The reason for using a List is I need to guarantee the order. A HashSet won't guarantee order
-        //private List<String> eventTagHierarchy;
 
-        Int32 currentLevel = 0;
-        //Int32 lastLevel = 1;
-
-        //List<TreeNode> lastNodes = new List<TreeNode>();
-        //TreeNode lastNode = new TreeNode();
-        //TreeNode priorToLastNode = new TreeNode();
-
-        //TreeNode variableScopeBeginNode = new TreeNode();
+        private SalesforceCredentials sc;
 
         public ParseDebugLogs()
         {
             InitializeComponent();
-            populateDebugLogPath();
+            populateDefaultDebugLogPath();
+            sc = new SalesforceCredentials();
+            populateCredentialsFile();
+        }
+
+        private void populateCredentialsFile()
+        {
+            Boolean encryptionFileSettingsPopulated = true;
+            if (Properties.Settings.Default.UserAndAPIFileLocation == ""
+            || Properties.Settings.Default.SharedSecretLocation == "")
+            {
+                encryptionFileSettingsPopulated = false;
+            }
+
+            if (encryptionFileSettingsPopulated == false)
+            {
+                MessageBox.Show("Please populate the fields in the Settings from the Landing Page first, then use this form to download the Metadata.");
+                return;
+            }
+
+            populateUserNames();
+        }
+
+        private void populateUserNames()
+        {
+            foreach (String un in sc.usernamePartnerUrl.Keys)
+            {
+                this.cmbUserName.Items.Add(un);
+            }
+        }
+
+        private void tbFolderPath_DoubleClick(object sender, EventArgs e)
+        {
+            this.tbFolderPath.Text = UtilityClass.folderBrowserSelectPath("Select the folder containing the debug log files", false, FolderEnum.ReadFrom, Properties.Settings.Default.DebugLogPath);
+            
+            Properties.Settings.Default.DebugLogPath = this.tbFolderPath.Text;
+            Properties.Settings.Default.Save();
         }
 
         private void tbDebugFile_DoubleClick(object sender, EventArgs e)
@@ -52,13 +77,14 @@ namespace SalesforceMetadata
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "All Files (*.*)|*.*";
             ofd.Title = "Debug Log to Parse";
+            ofd.InitialDirectory = Properties.Settings.Default.DebugLogPath;
 
             DialogResult dr = ofd.ShowDialog();
 
-            if (dr == DialogResult.OK) this.tbDebugFile.Text = ofd.FileName;
-
-            Properties.Settings.Default.DebugLogPath = ofd.FileName;
-            Properties.Settings.Default.Save();
+            if (dr == DialogResult.OK)
+            {
+                this.tbDebugFile.Text = ofd.FileName;
+            }
         }
 
         private void btnParseDebugLogFile_Click(object sender, EventArgs e)
@@ -69,31 +95,108 @@ namespace SalesforceMetadata
                 return;
             }
 
+            String debugFileName = "DebugLog_Aggregations.txt";
             String[] fileNameSplit = this.tbDebugFile.Text.Split(char.Parse("\\"));
-            String folderSaveLocation = "";
+            String fileSaveLocation = "";
 
+            Boolean continueProcessing = true;
             for (Int32 i = 0; i < fileNameSplit.Length - 1; i++)
             {
-                folderSaveLocation += fileNameSplit[i] + "\\";
+                if (fileNameSplit[i].Contains(" "))
+                {
+                    continueProcessing = false;
+                    MessageBox.Show("Folder cannot contain spaces");
+                    break;
+                }
+
+                fileSaveLocation += fileNameSplit[i] + "\\";
             }
 
-            folderSaveLocation = folderSaveLocation + "DebugLog_Aggregations.txt";
+            fileSaveLocation = fileSaveLocation + debugFileName;
 
+            StreamWriter debugSW = new StreamWriter(fileSaveLocation);
+
+            parseDebugLogFile(this.tbDebugFile.Text, debugSW);
+
+            if (debugSW != null) debugSW.Close();
+
+            if (Properties.Settings.Default.DefaultTextEditorPath == "")
+            {
+                Process.Start(@"notepad.exe", fileSaveLocation);
+            }
+            else
+            {
+                Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, fileSaveLocation);
+            }
+        }
+
+        private void btnParseFolderDebubLogs_Click(object sender, EventArgs e)
+        {
+            if (this.tbFolderPath.Text == "")
+            {
+                MessageBox.Show("Please select a folder with debug logs to parse to continue");
+                return;
+            }
+
+            String debugFileName = "DebugLog_Aggregations.txt";
+            String[] folderNameSplit = this.tbFolderPath.Text.Split(char.Parse("\\"));
+
+            Boolean continueProcessing = true;
+            for (Int32 i = 0; i < folderNameSplit.Length; i++)
+            {
+                if (folderNameSplit[i].Contains(" "))
+                {
+                    continueProcessing = false;
+                    MessageBox.Show("Folder cannot contain spaces");
+                    break;
+                }
+            }
+
+            if (continueProcessing == false) { return; }
+
+            String[] files = Directory.GetFiles(this.tbFolderPath.Text, "*.log");
+
+            if (files == null || files.Length == 0)
+            {
+                MessageBox.Show("The directory selected does not contain debug logs to parse");
+                return;
+            }
+
+            String fileSaveLocation = this.tbFolderPath.Text + "\\" + debugFileName;
+            StreamWriter debugSW = new StreamWriter(fileSaveLocation);
+
+            foreach (String file in files)
+            {
+                parseDebugLogFile(file, debugSW);
+            }
+
+            if (debugSW != null) debugSW.Close();
+
+            if (Properties.Settings.Default.DefaultTextEditorPath == "")
+            {
+                Process.Start(@"notepad.exe", fileSaveLocation);
+            }
+            else
+            {
+                Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, fileSaveLocation);
+            }
+        }
+
+        private void parseDebugLogFile(String filePath, StreamWriter debugSW)
+        {
             Boolean firstCodeUnitReached = true;
             Int32 tabCount = 0;
             //String milSecStart = "";
             //String milSecEnd = "";
 
-            StreamWriter debugSW = new StreamWriter(folderSaveLocation);
-
             // Open file for reading
-            StreamReader debugSR = new StreamReader(this.tbDebugFile.Text);
+            StreamReader debugSR = new StreamReader(filePath);
             while (debugSR.EndOfStream == false)
             {
                 String line = debugSR.ReadLine();
                 String[] columnElements = line.Split(char.Parse("|"));
 
-                if(columnElements.Length > 1)
+                if (columnElements.Length > 1)
                 {
                     if (columnElements[1] == DebugEventTags.BULK_HEAP_ALLOCATE)
                     {
@@ -450,9 +553,8 @@ namespace SalesforceMetadata
                         writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
                         debugSW.Write("WF_RULE_NOT_EVALUATED");
                         debugSW.Write(Environment.NewLine);
-
                         if (tabCount > 0) tabCount--;
-                        
+
                         writeHierarchy(debugSW, tabCount, columnElements[0].ToString());
                         debugSW.Write("WF_CRITERIA_END");
                         debugSW.Write(Environment.NewLine);
@@ -504,18 +606,6 @@ namespace SalesforceMetadata
             }
 
             debugSR.Close();
-            if (debugSW != null) debugSW.Close();
-
-            //MessageBox.Show("Debug Parsing Complete");
-
-            if (Properties.Settings.Default.DefaultTextEditorPath == "")
-            {
-                Process.Start(@"notepad.exe", folderSaveLocation);
-            }
-            else
-            {
-                Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, folderSaveLocation);
-            }
         }
 
         private void btnParseCodeUnits_Click(object sender, EventArgs e)
@@ -788,6 +878,7 @@ namespace SalesforceMetadata
                 Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, folderSaveLocation);
             }
         }
+
         private void writeHierarchy(StreamWriter debugSW, Int32 tabCount, String columnElements)
         {
             debugSW.Write(tabCount.ToString() + " | ");
@@ -821,6 +912,7 @@ namespace SalesforceMetadata
             List<String> codeBlock;
         }
 
+        /*
         private void btnDebugReplay_Click(object sender, EventArgs e)
         {
             //this.lastNode = new TreeNode();
@@ -1145,11 +1237,358 @@ namespace SalesforceMetadata
                 }
             }
         }
+        */
 
-        private void populateDebugLogPath()
+        private void btnDeleteDebugLogs_Click(object sender, EventArgs e)
         {
-            this.tbDebugFile.Text = Properties.Settings.Default.DebugLogPath;
+            if (String.IsNullOrEmpty(this.cmbUserName.Text))
+            {
+                MessageBox.Show("Please select a username and enter the password first before continuing");
+                return;
+            }
+
+            try
+            {
+                sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+                return;
+            }
+
+            if (sc.loginSuccess == false)
+            {
+                MessageBox.Show("Please check username, password and/or security token");
+                return;
+            }
+
+            String selectStatement = "";
+            if (cbAllDebugLogs.Checked)
+            {
+                // TODO: message box confirmation that they are going to delete everyone's debug log files including their own
+
+                selectStatement = "SELECT Id FROM ApexLog";
+            }
+            else
+            {
+                String userId = "";
+                userId = sc.fromOrgLR.userId;
+
+                selectStatement = "SELECT Id FROM ApexLog WHERE LogUserId = \'" + userId + "\'";
+            }
+
+            SalesforceMetadata.PartnerWSDL.QueryResult qr = new SalesforceMetadata.PartnerWSDL.QueryResult();
+
+            try
+            {
+                qr = sc.fromOrgSS.query(selectStatement);
+
+                if (qr.size > 2000)
+                {
+                    Boolean done = false;
+
+                    while (!done)
+                    {
+                        SalesforceMetadata.PartnerWSDL.sObject[] sobjRecords = qr.records;
+
+                        Dictionary<Int32, List<String>> recordIdsToDelete = new Dictionary<Int32, List<String>>();
+
+                        Int32 i = 0;
+                        List<String> rtds = new List<String>();
+
+                        if (sobjRecords == null)
+                        {
+
+                        }
+                        else
+                        {
+                            foreach (SalesforceMetadata.PartnerWSDL.sObject s in sobjRecords)
+                            {
+                                if (rtds.Count < 200)
+                                {
+                                    rtds.Add(s.Id);
+                                }
+                                else
+                                {
+                                    recordIdsToDelete.Add(i, rtds);
+                                    rtds = new List<String>();
+                                    rtds.Add(s.Id);
+
+                                    i++;
+                                }
+                            }
+
+                            if (rtds.Count > 0)
+                            {
+                                recordIdsToDelete.Add(i, rtds);
+                                rtds = new List<String>();
+                            }
+
+                            foreach (Int32 rtd in recordIdsToDelete.Keys)
+                            {
+                                if (recordIdsToDelete[rtd].Count > 0)
+                                {
+                                    PartnerWSDL.DeleteResult[] dr = sc.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
+                                }
+                            }
+
+                            if (!qr.done)
+                            {
+                                qr = sc.fromOrgSS.queryMore(qr.queryLocator);
+                            }
+                            else
+                            {
+                                done = true;
+                            }
+                        }
+                    }
+                }
+                else if (qr.records != null)
+                {
+                    SalesforceMetadata.PartnerWSDL.sObject[] sobjRecords = qr.records;
+                    Dictionary<Int32, List<String>> recordIdsToDelete = new Dictionary<Int32, List<String>>();
+
+                    Int32 i = 0;
+                    List<String> rtds = new List<String>();
+                    foreach (SalesforceMetadata.PartnerWSDL.sObject s in sobjRecords)
+                    {
+                        if (rtds.Count < 200)
+                        {
+                            rtds.Add(s.Id);
+                        }
+                        else
+                        {
+                            recordIdsToDelete.Add(i, rtds);
+                            rtds = new List<String>();
+                            rtds.Add(s.Id);
+
+                            i++;
+                        }
+                    }
+
+                    if (rtds.Count > 0)
+                    {
+                        recordIdsToDelete.Add(i, rtds);
+                        rtds = new List<String>();
+                    }
+
+                    foreach (Int32 rtd in recordIdsToDelete.Keys)
+                    {
+                        if (recordIdsToDelete[rtd].Count > 0)
+                        {
+                            PartnerWSDL.DeleteResult[] dr = sc.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
+                        }
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+
+            MessageBox.Show("Debug log delete process completed");
+
         }
+
+        private void populateDefaultDebugLogPath()
+        {
+            this.tbFolderPath.Text = Properties.Settings.Default.DebugLogPath;
+        }
+
+        private void btnGetDebugLogs_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(this.cmbUserName.Text))
+            {
+                MessageBox.Show("Please select a username and enter the password first before continuing");
+                return;
+            }
+
+            try
+            {
+                sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+                return;
+            }
+
+            if (sc.loginSuccess == false)
+            {
+                MessageBox.Show("Please check username, password and/or security token");
+                return;
+            }
+
+            String apexLogQuery = "SELECT Id, StartTime, LastModifiedDate, LogLength, DurationMilliseconds, LogUserId, LogUser.Name, Location, Request, Operation, Application, Status, RequestIdentifier FROM ApexLog";
+
+            SalesforceMetadata.PartnerWSDL.QueryResult qr = new SalesforceMetadata.PartnerWSDL.QueryResult();
+
+            Boolean continueExecution = true;
+            try
+            {
+                qr = sc.fromOrgSS.query(apexLogQuery);
+            }
+            catch (Exception exc)
+            {
+                continueExecution = false;
+                MessageBox.Show(exc.Message);
+            }
+
+            if (continueExecution == false) { return; }
+
+            Boolean done = false;
+            Dictionary<String, String> debugLogIds = new Dictionary<String, String>();
+
+            if (this.debugLogsDataTable.Columns.Count > 0) 
+            {
+                this.debugLogsDataTable.Columns.Clear();
+            }
+
+            if (this.debugLogsDataTable.Rows.Count > 0)
+            {
+                this.debugLogsDataTable.Rows.Clear();
+            }
+
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Columns.Add("Id");
+            dt.Columns.Add("StartTime");
+            dt.Columns.Add("LastModifiedDate");
+            dt.Columns.Add("LogLength");
+            dt.Columns.Add("DurationMilliseconds");
+            dt.Columns.Add("LogUserId");
+            dt.Columns.Add("LogUser");
+            dt.Columns.Add("Location");
+            dt.Columns.Add("Request");
+            dt.Columns.Add("Operation");
+            dt.Columns.Add("Application");
+            dt.Columns.Add("Status");
+            dt.Columns.Add("RequestIdentifier");
+
+            while (!done)
+            {
+                SalesforceMetadata.PartnerWSDL.sObject[] sobjRecords = qr.records;
+
+                if (qr.records == null)
+                {
+                    done = true;
+                    break;
+                }
+
+                foreach (SalesforceMetadata.PartnerWSDL.sObject s in sobjRecords)
+                {
+                    debugLogIds.Add(s.Id, s.Id);
+
+                    DataRow dr = dt.NewRow();
+                    dr[0] = s.Any[0].ChildNodes[0].InnerText;
+                    dr[1] = s.Any[1].ChildNodes[0].InnerText;
+                    dr[2] = s.Any[2].ChildNodes[0].InnerText;
+                    dr[3] = s.Any[3].ChildNodes[0].InnerText;
+                    dr[4] = s.Any[4].ChildNodes[0].InnerText;
+                    dr[5] = s.Any[5].ChildNodes[0].InnerText;
+                    dr[6] = s.Any[6].ChildNodes[2].InnerText;
+                    dr[7] = s.Any[7].ChildNodes[0].InnerText;
+                    dr[8] = s.Any[8].ChildNodes[0].InnerText;
+                    dr[9] = s.Any[9].ChildNodes[0].InnerText;
+                    dr[10] = s.Any[10].ChildNodes[0].InnerText;
+                    dr[11] = s.Any[11].ChildNodes[0].InnerText;
+                    dr[12] = s.Any[12].ChildNodes[0].InnerText;
+
+                    dt.Rows.Add(dr);
+
+                    //Debug.WriteLine("");
+                }
+
+                this.debugLogsDataTable.DataSource = dt;
+
+                if (!qr.done)
+                {
+                    qr = sc.fromOrgSS.queryMore(qr.queryLocator);
+                }
+                else
+                {
+                    done = true;
+                }
+            }
+
+            /**** REST URL /sobjects/ApexLog/{id}/Body/  ****/
+            //for (int i = 0; i < debugLogIds.Count; i++)
+            //{
+            //
+            //}
+
+
+        }
+
+/*
+// Get the EventLogFile
+String eventLogQuery = "SELECT Id, ApiVersion, CreatedDate, LogDate, EventType, LogFileContentType, LogFileFieldNames, LogFileFieldTypes, LogFileLength, LogFile FROM EventLogFile";
+
+qr = new SalesforceMetadata.PartnerWSDL.QueryResult();
+
+continueExecution = true;
+try
+{
+    qr = sc.fromOrgSS.query(eventLogQuery);
+}
+catch (Exception exc)
+{
+    continueExecution = false;
+    MessageBox.Show(exc.Message);
+}
+
+if (continueExecution == false) { return; }
+
+done = false;
+while (!done)
+{
+    SalesforceMetadata.PartnerWSDL.sObject[] sobjRecords = qr.records;
+
+    if (qr.records == null)
+    {
+        done = true;
+        break;
+    }
+
+    foreach (SalesforceMetadata.PartnerWSDL.sObject s in sobjRecords)
+    {
+        Debug.WriteLine("");
+    }
+
+    if (!qr.done)
+    {
+        qr = sc.fromOrgSS.queryMore(qr.queryLocator);
+    }
+    else
+    {
+        done = true;
+    }
+}
+
+// Get the EventLogFile
+//for (Int32 i = 0; i < debugLogIds.Count; i++)
+//{
+
+//}
+*/
+
+        private void cbAllDebugLogs_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.cbAllDebugLogs.Checked == true)
+            {
+                this.btnDeleteDebugLogs.Text = "Delete All Debug Logs";
+            }
+            else
+            {
+                this.btnDeleteDebugLogs.Text = "Delete Your Debug Logs";
+            }
+        }
+
+        private void ParseDebugLogs_Load(object sender, EventArgs e)
+        {
+
+        }
+
 
     }
 }

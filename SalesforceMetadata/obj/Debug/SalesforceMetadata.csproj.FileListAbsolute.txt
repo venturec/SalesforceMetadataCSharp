@@ -297,6 +297,8 @@ C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMeta
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe
 C:\Users\marcu\OneDrive\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe.config
+C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe.manifest
+C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\bin\Debug\SalesforceMetadata.application
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\bin\Debug\SalesforceMetadata.exe
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\bin\Debug\SalesforceMetadata.pdb
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\bin\Debug\itextsharp.dll
@@ -328,6 +330,8 @@ C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.VersionUpdater.resources
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.GenerateResource.cache
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.csproj.CoreCompileInputs.cache
+C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe.manifest
+C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.application
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\Salesfor.8AEDC7D8.Up2Date
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb

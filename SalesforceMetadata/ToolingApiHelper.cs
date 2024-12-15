@@ -214,9 +214,10 @@ namespace SalesforceMetadata
 
         public static String ApexLogQuery()
         {
-            String query = "SELECT Id, " +
-            "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
-            "FROM ApexLog";
+            String query = "SELECT Id, Application, DurationMilliseconds, Location, LogLength, LogUserId, Operation, " +
+                           "Request, RequestIdentifier, StartTime, Status, " +
+                           "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
+                           "FROM ApexLog ";
 
             return query;
         }

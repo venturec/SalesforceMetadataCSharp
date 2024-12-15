@@ -3,20 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|c:\\users\\marcu\\documents\\github\\salesforcemetadatacsharp\\salesforcemetadata\\metadatatoolingreportform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\metadatatoolingreportform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|c:\\users\\marcu\\documents\\github\\salesforcemetadatacsharp\\salesforcemetadata\\metadatatoolingreportform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\metadatatoolingreportform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|c:\\users\\marcu\\documents\\github\\salesforcemetadatacsharp\\salesforcemetadata\\landingpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\landingpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|c:\\users\\marcu\\documents\\github\\salesforcemetadatacsharp\\salesforcemetadata\\landingpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\landingpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|c:\\users\\marcu\\documents\\github\\salesforcemetadatacsharp\\salesforcemetadata\\parsedebuglogs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\parsedebuglogs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -34,52 +22,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MetadataToolingReportForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\MetadataToolingReportForm.cs",
-              "RelativeDocumentMoniker": "SalesforceMetadata\\MetadataToolingReportForm.cs",
-              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\MetadataToolingReportForm.cs [Design]",
-              "RelativeToolTip": "SalesforceMetadata\\MetadataToolingReportForm.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-20T21:21:01.718Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "LandingPage.cs",
-              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\LandingPage.cs",
-              "RelativeDocumentMoniker": "SalesforceMetadata\\LandingPage.cs",
-              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\LandingPage.cs",
-              "RelativeToolTip": "SalesforceMetadata\\LandingPage.cs",
-              "ViewState": "AgIAAJEAAAAAAAAAAAAwwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-20T21:20:34.869Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "LandingPage.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\LandingPage.cs",
-              "RelativeDocumentMoniker": "SalesforceMetadata\\LandingPage.cs",
-              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\LandingPage.cs [Design]",
-              "RelativeToolTip": "SalesforceMetadata\\LandingPage.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-20T21:20:21.843Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MetadataToolingReportForm.cs",
-              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\MetadataToolingReportForm.cs",
-              "RelativeDocumentMoniker": "SalesforceMetadata\\MetadataToolingReportForm.cs",
-              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\MetadataToolingReportForm.cs",
-              "RelativeToolTip": "SalesforceMetadata\\MetadataToolingReportForm.cs",
-              "ViewState": "AgIAAKUAAAAAAAAAAAAvwLsAAAAJAAAAAAAAAA==",
+              "Title": "ParseDebugLogs.cs",
+              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\ParseDebugLogs.cs",
+              "RelativeDocumentMoniker": "SalesforceMetadata\\ParseDebugLogs.cs",
+              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\ParseDebugLogs.cs",
+              "RelativeToolTip": "SalesforceMetadata\\ParseDebugLogs.cs",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAAAHQAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-20T21:17:40.267Z",
+              "WhenOpened": "2024-12-14T15:14:47.006Z",
               "EditorCaption": ""
             }
           ]

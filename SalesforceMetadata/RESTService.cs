@@ -67,8 +67,8 @@ namespace SalesforceMetadata
                 FormUrlEncodedContent request = new FormUrlEncodedContent(new Dictionary<string, string>
                 {
                     {"grant_type", "password"},
-                    {"client_id", "3MVG9sLbBxQYwWqsIYFWp3JaVYeIkovLZuXhpT1mB6Kj9K7G8dyhArT1qxmgVY.7JfybbgEQVCIBGNfEAClWl"},
-                    {"client_secret", "1C3E464FAF94A6B1411445CAB875E4773A2D26265BEE8A7352CA8434307F6DEE"},
+                    {"client_id", ""},
+                    {"client_secret", ""},
                     {"username", this.tbUsername.Text},
                     {"password", this.tbPassword.Text + this.tbSecurityToken.Text}
                 });

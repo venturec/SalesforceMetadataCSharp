@@ -36,7 +36,6 @@
             this.lblSalesforce = new System.Windows.Forms.Label();
             this.cmbUserName = new System.Windows.Forms.ComboBox();
             this.btnRetrieveMetadata = new System.Windows.Forms.Button();
-            this.btnDeleteDebugLogs = new System.Windows.Forms.Button();
             this.fromOrgGroup = new System.Windows.Forms.GroupBox();
             this.btnSobjectFieldInspector = new System.Windows.Forms.Button();
             this.btnGenerateToolingReport = new System.Windows.Forms.Button();
@@ -46,7 +45,6 @@
             this.lblSelectNone = new System.Windows.Forms.Label();
             this.btnSelectDefaults = new System.Windows.Forms.Button();
             this.lblSelectDefaults = new System.Windows.Forms.Label();
-            this.cbAllDebugLogs = new System.Windows.Forms.CheckBox();
             this.btnExportMetadataTypes = new System.Windows.Forms.Button();
             this.fromOrgGroup.SuspendLayout();
             this.SuspendLayout();
@@ -134,19 +132,6 @@
             this.btnRetrieveMetadata.Text = "Retrieve Metadata Package";
             this.btnRetrieveMetadata.UseVisualStyleBackColor = false;
             this.btnRetrieveMetadata.Click += new System.EventHandler(this.btnRetrieveMetadata_Click);
-            // 
-            // btnDeleteDebugLogs
-            // 
-            this.btnDeleteDebugLogs.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.btnDeleteDebugLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeleteDebugLogs.Location = new System.Drawing.Point(813, 702);
-            this.btnDeleteDebugLogs.Margin = new System.Windows.Forms.Padding(4);
-            this.btnDeleteDebugLogs.Name = "btnDeleteDebugLogs";
-            this.btnDeleteDebugLogs.Size = new System.Drawing.Size(194, 46);
-            this.btnDeleteDebugLogs.TabIndex = 17;
-            this.btnDeleteDebugLogs.Text = "Delete Debug Logs";
-            this.btnDeleteDebugLogs.UseVisualStyleBackColor = false;
-            this.btnDeleteDebugLogs.Click += new System.EventHandler(this.btnDeleteDebugLogs_Click);
             // 
             // fromOrgGroup
             // 
@@ -254,17 +239,6 @@
             this.lblSelectDefaults.TabIndex = 8;
             this.lblSelectDefaults.Text = "Select Defaults";
             // 
-            // cbAllDebugLogs
-            // 
-            this.cbAllDebugLogs.AutoSize = true;
-            this.cbAllDebugLogs.Location = new System.Drawing.Point(1071, 718);
-            this.cbAllDebugLogs.Margin = new System.Windows.Forms.Padding(6);
-            this.cbAllDebugLogs.Name = "cbAllDebugLogs";
-            this.cbAllDebugLogs.Size = new System.Drawing.Size(132, 17);
-            this.cbAllDebugLogs.TabIndex = 18;
-            this.cbAllDebugLogs.Text = "Delete All Debug Logs";
-            this.cbAllDebugLogs.UseVisualStyleBackColor = true;
-            // 
             // btnExportMetadataTypes
             // 
             this.btnExportMetadataTypes.Enabled = false;
@@ -284,7 +258,6 @@
             this.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.ClientSize = new System.Drawing.Size(1254, 771);
             this.Controls.Add(this.btnExportMetadataTypes);
-            this.Controls.Add(this.cbAllDebugLogs);
             this.Controls.Add(this.lblSelectDefaults);
             this.Controls.Add(this.btnSelectDefaults);
             this.Controls.Add(this.lblSelectNone);
@@ -294,7 +267,6 @@
             this.Controls.Add(this.btnGenerateToolingReport);
             this.Controls.Add(this.btnSobjectFieldInspector);
             this.Controls.Add(this.fromOrgGroup);
-            this.Controls.Add(this.btnDeleteDebugLogs);
             this.Controls.Add(this.btnRetrieveMetadata);
             this.Controls.Add(this.lblSalesforce);
             this.Controls.Add(this.lbMetadataTypes);
@@ -319,7 +291,6 @@
         private System.Windows.Forms.Label lblSalesforce;
         private System.Windows.Forms.ComboBox cmbUserName;
         private System.Windows.Forms.Button btnRetrieveMetadata;
-        private System.Windows.Forms.Button btnDeleteDebugLogs;
         private System.Windows.Forms.GroupBox fromOrgGroup;
         private System.Windows.Forms.Button btnSobjectFieldInspector;
         private System.Windows.Forms.Button btnGenerateToolingReport;
@@ -329,7 +300,6 @@
         private System.Windows.Forms.Label lblSelectNone;
         private System.Windows.Forms.Button btnSelectDefaults;
         private System.Windows.Forms.Label lblSelectDefaults;
-        private System.Windows.Forms.CheckBox cbAllDebugLogs;
         private System.Windows.Forms.Button btnExportMetadataTypes;
     }
 }

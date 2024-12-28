@@ -1463,7 +1463,7 @@ namespace SalesforceMetadata
             dt.Columns.Add("Operation");
             dt.Columns.Add("Application");
             dt.Columns.Add("Status");
-            dt.Columns.Add("RequestIdentifier");
+            //dt.Columns.Add("RequestIdentifier");
 
             while (!done)
             {
@@ -1492,7 +1492,7 @@ namespace SalesforceMetadata
                     dr[9] = s.Any[9].ChildNodes[0].InnerText;
                     dr[10] = s.Any[10].ChildNodes[0].InnerText;
                     dr[11] = s.Any[11].ChildNodes[0].InnerText;
-                    dr[12] = s.Any[12].ChildNodes[0].InnerText;
+                    //dr[12] = s.Any[12].ChildNodes[0].InnerText;
 
                     dt.Rows.Add(dr);
 

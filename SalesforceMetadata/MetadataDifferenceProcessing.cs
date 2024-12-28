@@ -3059,6 +3059,10 @@ namespace SalesforceMetadata
             {
                 typeName = "DuplicateRule";
             }
+            else if (folderName == "dw")
+            {
+                typeName = "DataWeaveResource";
+            }
             else if (folderName == "eclair")
             {
                 typeName = "EclairGeoData";

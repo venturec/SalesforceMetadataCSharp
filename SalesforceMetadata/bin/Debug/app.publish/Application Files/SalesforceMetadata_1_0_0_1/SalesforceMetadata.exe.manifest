@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="SalesforceMetadata.exe" version="1.0.0.1" publicKeyToken="e5c1ed6e7a8ef16f" language="neutral" processorArchitecture="msil" type="win32" />
+  <description asmv2:iconFile="ColoredGears.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="SalesforceMetadata" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="SalesforceMetadata.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the
+          requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         If you want to utilize File and Registry Virtualization for backward
+         compatibility then delete the requestedExecutionLevel node.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="itextsharp.dll" size="4401664">
+      <assemblyIdentity name="itextsharp" version="5.5.14.0" publicKeyToken="8354AE6D2174DDCA" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>IGc+TPtZdkEA8uqZpqNZZsVMnuOu0m00aDd6NeAQB0M=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SalesforceMetadata.exe" size="7248320">
+      <assemblyIdentity name="SalesforceMetadata" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>WuEIdtGFgUc3QqscTVHPvnnwagQ1bFLS15ZKOLBE/6M=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="ColoredGears.ico" size="10142">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>pCmRygLfDyU/oJQdzPsvRvQ+Ki5mHj5eXtr61Qys7HA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="SalesforceMetadata.exe.config" size="5900">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>y8yw4OoMdI115D3rsGYP79lAKOvTkRCwlWF/pubLie8=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=HOMEGAMING\marcu" issuerKeyHash="722fc3083a00e19b529cff48d403cb76a57d826d" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>JvqZM2ZQ2OONZVAkD4z5Ny10Kj4Lq11aUiTve5cHnCk=</DigestValue></Reference></SignedInfo><SignatureValue>hnMJ/NrcRt9Ok8Da9SpIwKAufPT3ORAlfBwyB++iP78oSP6llzuJXMpHFLSknFOMdFkOjO7f0ghSHtgPw0VjO/dI+Z7CnQzfDkRdzOsDxho5p8juOTerkNBNflbRsRdbxbGKeZHOQVJH1AuU0KpIOEj7ISAv/HzNqkhmc0kSvFE=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>wmeQjzYIH+p1jpQlL8M3YTURC1oKe3qsd58EX9QJSWnWf0D0TcISGndyA82oI2M77XHdkPCKdAg+4axZSXRtPf3Spv6Ys+ozRkBIASNIS2VlTxUz6/CiTQ7nlUgwsPzA/iJsdi2unShjyZ/2Qf7PbgKqP2Br8HjRqaIu/BaIZ2U=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="299c07977bef24525a5dab0b3e2a742d37f98c0f2450658de3d850663399fa26" Description="" Url=""><as:assemblyIdentity name="SalesforceMetadata.exe" version="1.0.0.1" publicKeyToken="e5c1ed6e7a8ef16f" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=HOMEGAMING\marcu</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>f2jQi/6GRy3YsXMQddqsf8ZGJ5nRtYJgFd2PoCSs33g=</DigestValue></Reference></SignedInfo><SignatureValue>FYLAsE8UEO9WPIINNIpisBG4rb0QVfYoLzB1H4J7Dkh6zoeasX4x9N1+ehgxVQEstGBskRmL7QqDMXIKrJgLX2Lawzr77OtJVV8qaIix7C2i0z4u1i5pLRhW1+8tWz8UbqwCzVykyQZZgkvZJg9UwqRFPPQjQVnnkm69wZSgWd0=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>wmeQjzYIH+p1jpQlL8M3YTURC1oKe3qsd58EX9QJSWnWf0D0TcISGndyA82oI2M77XHdkPCKdAg+4axZSXRtPf3Spv6Ys+ozRkBIASNIS2VlTxUz6/CiTQ7nlUgwsPzA/iJsdi2unShjyZ/2Qf7PbgKqP2Br8HjRqaIu/BaIZ2U=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB2TCCAUKgAwIBAgIQZEBeTgWZYrFOoyQojEHyizANBgkqhkiG9w0BAQsFADArMSkwJwYDVQQDHiAASABPAE0ARQBHAEEATQBJAE4ARwBcAG0AYQByAGMAdTAeFw0yNDEyMTUwMTI0NTNaFw0yNTEyMTUwNzI0NTNaMCsxKTAnBgNVBAMeIABIAE8ATQBFAEcAQQBNAEkATgBHAFwAbQBhAHIAYwB1MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDCZ5CPNggf6nWOlCUvwzdhNRELWgp7eqx3nwRf1AlJadZ/QPRNwhIad3IDzagjYzvtcd2Q8Ip0CD7hrFlJdG09/dKm/piz6jNGQEgBI0hLZWVPFTPr8KJNDueVSDCw/MD+Imx2La6dKGPJn/ZB/s9uAqo/YGvweNGpoi78FohnZQIDAQABMA0GCSqGSIb3DQEBCwUAA4GBACGd7p9lJdxTq/VgnPXKF0tJkeKHmlEJe+G5cga6ePa/GOGym9kzdGgKRnwO8r7nyktW0h9E66d2IuwgvvFpz+iBq+VQlUHdECxETAAb7OyV7r7kBIFvAZILKCXd9IYpwv0OB7RuKolxaT8oCg8/p6ZOTKMyY8Ol9WbfnA90Vezk</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>

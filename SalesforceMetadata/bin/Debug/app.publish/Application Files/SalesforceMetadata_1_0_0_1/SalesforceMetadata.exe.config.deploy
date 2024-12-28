@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <configSections>
+        <sectionGroup name="userSettings" type="System.Configuration.UserSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+            <section name="SalesforceMetadata.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" allowExeDefinition="MachineToLocalUser" requirePermission="false"/>
+        </sectionGroup>
+        <sectionGroup name="applicationSettings" type="System.Configuration.ApplicationSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+            <section name="SalesforceMetadata.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false"/>
+        </sectionGroup>
+    </configSections>
+    <startup> 
+        <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.8.1"/>
+    </startup>
+    <userSettings>
+        <SalesforceMetadata.Properties.Settings>
+            <setting name="UserAndAPIFileLocation" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="SharedSecretLocation" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="Salt" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="DefaultAPI" serializeAs="String">
+                <value>62.0</value>
+            </setting>
+            <setting name="DevelopmentSelectedFolder" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="DevelopmentDeploymentFolder" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="AutomationReportLastReadLocation" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="AutomationReportLastSaveLocation" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="ConfigurationWorkbookLastReadLocation" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="ConfigurationWorkbookLastSaveLocation" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="UrlExtractSaveToLocation" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="DeploymentPackageLastSaveLocation" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="DeploymentPackageLastReadLocation" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="LWCLastReadLocation" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="LWCLastSaveLocation" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="MetadataComparisonLastCompareFrom" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="MetadataComparisonLastCompareTo" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="MetadataToolingLastReadFrom" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="ObjectModificationLastReadFrom" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="MetadataLastSaveToLocation" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="LastSearchLocation" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="ApiVersionUpdaterLastReadLocation" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="SobjectReportLocation" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="DefaultTextEditorPath" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="MetadataFolderPath" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="ParseMetadataFolderaPath" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="RepositoryPath" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="IDEProjectRoot" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="DebugLogPath" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="MetadataAynchrounsThreads" serializeAs="String">
+                <value>1</value>
+            </setting>
+        </SalesforceMetadata.Properties.Settings>
+    </userSettings>
+    <applicationSettings>
+        <SalesforceMetadata.Properties.Settings>
+            <setting name="SalesforceMetadata_PartnerWSDL_SforceService"
+                serializeAs="String">
+                <value>https://login.salesforce.com/services/Soap/u/62.0</value>
+            </setting>
+            <setting name="SalesforceMetadata_MetadataWSDL_MetadataService"
+                serializeAs="String">
+                <value>https://login.salesforce.com/services/Soap/m/62.0</value>
+            </setting>
+            <setting name="SalesforceMetadata_ToolingWSDL_SforceServiceService"
+                serializeAs="String">
+                <value>https://login.salesforce.com/services/Soap/T/62.0</value>
+            </setting>
+        </SalesforceMetadata.Properties.Settings>
+    </applicationSettings>
+</configuration>

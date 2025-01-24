@@ -54,7 +54,6 @@ namespace SalesforceMetadata
 
             populateUserNames();
         }
-
         private void populateUserNames()
         {
             foreach (String un in sc.usernamePartnerUrl.Keys)
@@ -62,7 +61,6 @@ namespace SalesforceMetadata
                 this.cmbUserName.Items.Add(un);
             }
         }
-
         public void populateTreeView()
         {
             if (Directory.Exists(this.tbProjectFolder.Text))
@@ -167,7 +165,6 @@ namespace SalesforceMetadata
         {
             treeViewNodeAfterCheck(e.Node);
         }
-
         public void treeViewNodeAfterCheck(TreeNode tn)
         {
             if (runTreeNodeSelector == true)
@@ -280,7 +277,31 @@ namespace SalesforceMetadata
 
             runTreeNodeSelector = true;
         }
+        private void treeViewMetadata_DoubleClick(object sender, EventArgs e)
+        {
+            System.Windows.Forms.MouseEventArgs evtArgs = (System.Windows.Forms.MouseEventArgs)e;
 
+            if (evtArgs.Button == MouseButtons.Left)
+            {
+                TreeView tv = (TreeView)sender;
+
+                if (tv.SelectedNode != null)
+                {
+                    String pathToFile = "\"" + this.tbProjectFolder.Text + "\\" + tv.SelectedNode.FullPath;
+
+                    checkArchiveDirectory(this.tbProjectFolder.Text + "\\" + tv.SelectedNode.FullPath);
+
+                    if (Properties.Settings.Default.DefaultTextEditorPath == "")
+                    {
+                        Process proc = Process.Start(@"notepad.exe", pathToFile);
+                    }
+                    else
+                    {
+                        Process proc = Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, pathToFile);
+                    }
+                }
+            }
+        }
         public void addDependencies(TreeNode tn)
         {
             //Debug.WriteLine("public void addDependencies(TreeNode tn)");
@@ -330,7 +351,6 @@ namespace SalesforceMetadata
                 }
             }
         }
-
         private void removeDependencies(TreeNode tn)
         {
             // TODO: This will be very complex especially with custom objects if multiple fields are selected and then one is deselected.
@@ -1253,54 +1273,6 @@ namespace SalesforceMetadata
             }
         }
 
-        private void projectSolutionToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            bypassTextChange = true;
-
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "sln files (*.sln)|*.sln|All Files (*.*)|*.*";
-            ofd.Title = "Please select a Project/Solution file";
-            ofd.ShowDialog();
-
-            if (ofd.FileName.Length > 0)
-            {
-                Properties.Settings.Default.IDEProjectRoot = ofd.FileName;
-
-                StreamReader sr = new StreamReader(ofd.FileName);
-
-                String username = sr.ReadLine();
-                if (this.cmbUserName.Items.Contains(username))
-                {
-                    this.cmbUserName.Text = username;
-                }
-                
-                this.tbProjectFolder.Text = sr.ReadLine();
-                this.tbDeployFrom.Text = sr.ReadLine();
-                this.tbRepository.Text = sr.ReadLine();
-                this.tbRootFolder.Text = sr.ReadLine();
-                this.tbOutboundChangeSetName.Text = sr.ReadLine();
-
-                Properties.Settings.Default.DevelopmentSelectedFolder = this.tbProjectFolder.Text;
-                Properties.Settings.Default.DevelopmentDeploymentFolder = this.tbDeployFrom.Text;
-                Properties.Settings.Default.RepositoryPath = this.tbRepository.Text;
-                Properties.Settings.Default.IDEProjectRoot = this.tbRootFolder.Text;
-
-                //if (!Properties.Settings.Default.RecentProjects.Contains(ofd.FileName))
-                //{
-                //    //Properties.Settings.Default.RecentProjects.Add(ofd.FileName);
-                //    //this.recentToolStripMenuItem.
-                //}
-
-                Properties.Settings.Default.Save();
-
-                sr.Close();
-            }
-
-            populateTreeView();
-
-            bypassTextChange = false;
-        }
-
         private void tbProjectFolder_DoubleClick(object sender, EventArgs e)
         {
             String selectedPath = UtilityClass.folderBrowserSelectPath("Select Your Project Folder",
@@ -1360,7 +1332,7 @@ namespace SalesforceMetadata
         private void tbRepository_DoubleClick(object sender, EventArgs e)
         {
             String selectedPath = UtilityClass.folderBrowserSelectPath("Select the path to the Repository",
-                                                                       false,
+                                                                       true,
                                                                        FolderEnum.SaveTo,
                                                                        Properties.Settings.Default.RepositoryPath);
 
@@ -1388,32 +1360,6 @@ namespace SalesforceMetadata
                 Properties.Settings.Default.Save();
 
                 this.projectValuesChanged = true;
-            }
-        }
-
-        private void treeViewMetadata_DoubleClick(object sender, EventArgs e)
-        {
-            System.Windows.Forms.MouseEventArgs evtArgs = (System.Windows.Forms.MouseEventArgs)e;
-
-            if (evtArgs.Button == MouseButtons.Left)
-            {
-                TreeView tv = (TreeView)sender;
-
-                if (tv.SelectedNode != null)
-                {
-                    String pathToFile = "\"" + this.tbProjectFolder.Text + "\\" + tv.SelectedNode.FullPath;
-
-                    checkArchiveDirectory(this.tbProjectFolder.Text + "\\" + tv.SelectedNode.FullPath);
-
-                    if (Properties.Settings.Default.DefaultTextEditorPath == "")
-                    {
-                        Process proc = Process.Start(@"notepad.exe", pathToFile);
-                    }
-                    else
-                    {
-                        Process proc = Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, pathToFile);
-                    }
-                }
             }
         }
 
@@ -1481,63 +1427,17 @@ namespace SalesforceMetadata
                          "Opened" + Environment.NewLine);
                 sw.Close();
             }
+        }
+
+        private void checkRepositoryForFile()
+        {
 
         }
+
         private void btnBuildERD_Click(object sender, EventArgs e)
         {
 
         }
-
-        private void updateProjectFile()
-        {
-            if (Properties.Settings.Default.IDEProjectRoot != null)
-            {
-                StreamWriter sw = new StreamWriter(Properties.Settings.Default.IDEProjectRoot + "\\project.sln", false);
-
-                sw.WriteLine(this.cmbUserName.Text);
-                sw.WriteLine(Properties.Settings.Default.DevelopmentSelectedFolder);
-                sw.WriteLine(Properties.Settings.Default.DevelopmentDeploymentFolder);
-                sw.WriteLine(Properties.Settings.Default.RepositoryPath);
-                sw.WriteLine(Properties.Settings.Default.IDEProjectRoot);
-
-                if (this.tbOutboundChangeSetName.Text != "")
-                {
-                    sw.WriteLine(this.tbOutboundChangeSetName.Text);
-                }
-                else
-                {
-                    sw.WriteLine("");
-                }
-
-                sw.Close();
-            }
-            else
-            {
-                MessageBox.Show("Please select a Root folder to save your project/solution in, then save again");
-            }
-        }
-
-        private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.cmbUserName.Text = "";
-            this.tbDeployFrom.Text = "";
-            this.tbProjectFolder.Text = "";
-            this.tbRepository.Text = "";
-            this.tbRootFolder.Text = "";
-
-            Properties.Settings.Default.DevelopmentSelectedFolder = "";
-            Properties.Settings.Default.DevelopmentDeploymentFolder = "";
-            Properties.Settings.Default.RepositoryPath = "";
-            Properties.Settings.Default.IDEProjectRoot = "";
-
-            Properties.Settings.Default.Save();
-        }
-
-        private void saveProjectToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            updateProjectFile();
-        }
-
         private void DevelopmentEnvironment_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.projectValuesChanged == true)
@@ -1557,12 +1457,6 @@ namespace SalesforceMetadata
                 }
             }
         }
-
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void AddObject_ObjectAdded(object sender, AddObjectEvent e)
         {
             if (e.refreshParentForm == true)
@@ -1639,65 +1533,6 @@ namespace SalesforceMetadata
                 this.treeViewMetadata.SelectedNode = this.treeViewMetadata.GetNodeAt(evtArgs.X, evtArgs.Y);
             }
         }
-
-        private void addApexTriggerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.tbProjectFolder.Text == "")
-            {
-                MessageBox.Show("Please select a Project Solution / Folder before adding new objects");
-            }
-            else
-            {
-                AddObject ao = new AddObject();
-                ao.projectFolderPath = this.tbProjectFolder.Text;
-                ao.loadSobjectsToCombobox();
-                ao.tbTriggerName.Select();
-                ao.ObjectAdded += AddObject_ObjectAdded;
-                ao.Show();
-            }
-        }
-
-        private void addApexClassToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.tbProjectFolder.Text == "")
-            {
-                MessageBox.Show("Please select a Project Solution / Folder before adding new objects");
-            }
-            else
-            {
-                AddObject ao = new AddObject();
-                ao.projectFolderPath = this.tbProjectFolder.Text;
-                ao.loadSobjectsToCombobox();
-                ao.tbClassName.Select();
-                ao.ObjectAdded += AddObject_ObjectAdded;
-                ao.Show();
-            }
-        }
-
-        private void addLightningWebComponentToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddObject ao = new AddObject();
-            ao.projectFolderPath = this.tbProjectFolder.Text;
-            ao.tbLWCName.Select();
-            ao.ObjectAdded += AddObject_ObjectAdded;
-            ao.Show();
-        }
-
-        private void customObjectToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void visualforcePageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void visualforceComponentToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void delMyDebugLogs_Click(object sender, EventArgs e)
         {
             if (String.IsNullOrEmpty(this.cmbUserName.Text))
@@ -1863,6 +1698,180 @@ namespace SalesforceMetadata
 
             ToolTip tt = new ToolTip();
             tt.Show("If you have a open Salesforce Outbound Change Set, add the Change Set Name here. When deployed, your changes will be added to the change set.", TB, 0, 0, VisibleTime);
+        }
+
+        // Toolstrip Menu Items
+        private void projectSolutionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bypassTextChange = true;
+
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "sln files (*.sln)|*.sln|All Files (*.*)|*.*";
+            ofd.Title = "Please select a Project/Solution file";
+            ofd.ShowDialog();
+
+            if (ofd.FileName.Length > 0)
+            {
+                this.loadProject(ofd.FileName);
+            }
+        }
+
+        private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.cmbUserName.Text = "";
+            this.tbDeployFrom.Text = "";
+            this.tbProjectFolder.Text = "";
+            this.tbRepository.Text = "";
+            this.tbRootFolder.Text = "";
+
+            Properties.Settings.Default.DevelopmentSelectedFolder = "";
+            Properties.Settings.Default.DevelopmentDeploymentFolder = "";
+            Properties.Settings.Default.RepositoryPath = "";
+            Properties.Settings.Default.IDEProjectRoot = "";
+            Properties.Settings.Default.RecentProjectPath = "";
+
+            Properties.Settings.Default.Save();
+        }
+
+        private void saveProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            updateProjectFile();
+        }
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void loadRecentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(Properties.Settings.Default.RecentProjectPath) == false)
+            {
+                this.loadProject(Properties.Settings.Default.RecentProjectPath);
+            }
+        }
+        private void updateProjectFile()
+        {
+            if (this.tbRootFolder.Text != "")
+            {
+                StreamWriter sw = new StreamWriter(this.tbRootFolder.Text + "\\project.sln", false);
+
+                sw.WriteLine(this.cmbUserName.Text);
+                sw.WriteLine(Properties.Settings.Default.DevelopmentSelectedFolder);
+                sw.WriteLine(Properties.Settings.Default.DevelopmentDeploymentFolder);
+                sw.WriteLine(Properties.Settings.Default.RepositoryPath);
+                sw.WriteLine(Properties.Settings.Default.IDEProjectRoot);
+
+                if (this.tbOutboundChangeSetName.Text != "")
+                {
+                    sw.WriteLine(this.tbOutboundChangeSetName.Text);
+                }
+                else
+                {
+                    sw.WriteLine("");
+                }
+
+                sw.Close();
+            }
+            else
+            {
+                MessageBox.Show("Please select a Root folder to save your project/solution in, then save again");
+            }
+        }
+
+        private void loadProject(String projectFilePath)
+        {
+            Properties.Settings.Default.RecentProjectPath = projectFilePath;
+
+            StreamReader sr = new StreamReader(projectFilePath);
+
+            String username = sr.ReadLine();
+            if (this.cmbUserName.Items.Contains(username))
+            {
+                this.cmbUserName.Text = username;
+            }
+
+            this.tbProjectFolder.Text = sr.ReadLine();
+            this.tbDeployFrom.Text = sr.ReadLine();
+            this.tbRepository.Text = sr.ReadLine();
+            this.tbRootFolder.Text = sr.ReadLine();
+
+            this.tbOutboundChangeSetName.Text = sr.ReadLine();
+
+            Properties.Settings.Default.DevelopmentSelectedFolder = this.tbProjectFolder.Text;
+            Properties.Settings.Default.DevelopmentDeploymentFolder = this.tbDeployFrom.Text;
+            Properties.Settings.Default.RepositoryPath = this.tbRepository.Text;
+            Properties.Settings.Default.IDEProjectRoot = this.tbRootFolder.Text;
+
+            //if (!Properties.Settings.Default.RecentProjects.Contains(ofd.FileName))
+            //{
+            //    //Properties.Settings.Default.RecentProjects.Add(ofd.FileName);
+            //    //this.recentToolStripMenuItem.
+            //}
+
+            Properties.Settings.Default.Save();
+
+            sr.Close();
+
+            populateTreeView();
+
+            bypassTextChange = false;
+        }
+
+        private void addApexTriggerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.tbProjectFolder.Text == "")
+            {
+                MessageBox.Show("Please select a Project Solution / Folder before adding new objects");
+            }
+            else
+            {
+                AddObject ao = new AddObject();
+                ao.projectFolderPath = this.tbProjectFolder.Text;
+                ao.loadSobjectsToCombobox();
+                ao.tbTriggerName.Select();
+                ao.ObjectAdded += AddObject_ObjectAdded;
+                ao.Show();
+            }
+        }
+
+        private void addApexClassToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.tbProjectFolder.Text == "")
+            {
+                MessageBox.Show("Please select a Project Solution / Folder before adding new objects");
+            }
+            else
+            {
+                AddObject ao = new AddObject();
+                ao.projectFolderPath = this.tbProjectFolder.Text;
+                ao.loadSobjectsToCombobox();
+                ao.tbClassName.Select();
+                ao.ObjectAdded += AddObject_ObjectAdded;
+                ao.Show();
+            }
+        }
+
+        private void addLightningWebComponentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddObject ao = new AddObject();
+            ao.projectFolderPath = this.tbProjectFolder.Text;
+            ao.tbLWCName.Select();
+            ao.ObjectAdded += AddObject_ObjectAdded;
+            ao.Show();
+        }
+        private void customObjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void visualforcePageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void visualforceComponentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

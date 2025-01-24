@@ -37,7 +37,7 @@
             this.saveProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.recentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadRecentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addApexTriggerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addApexClassToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addLightningWebComponentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -97,7 +97,7 @@
             this.saveProjectToolStripMenuItem,
             this.exitToolStripMenuItem,
             this.toolStripMenuItem2,
-            this.recentToolStripMenuItem});
+            this.loadRecentToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(41, 23);
             this.fileToolStripMenuItem.Text = "File";
@@ -144,11 +144,12 @@
             this.toolStripMenuItem2.Size = new System.Drawing.Size(252, 24);
             this.toolStripMenuItem2.Text = "-----------------------------";
             // 
-            // recentToolStripMenuItem
+            // loadRecentToolStripMenuItem
             // 
-            this.recentToolStripMenuItem.Name = "recentToolStripMenuItem";
-            this.recentToolStripMenuItem.Size = new System.Drawing.Size(252, 24);
-            this.recentToolStripMenuItem.Text = "Recent Projects";
+            this.loadRecentToolStripMenuItem.Name = "loadRecentToolStripMenuItem";
+            this.loadRecentToolStripMenuItem.Size = new System.Drawing.Size(252, 24);
+            this.loadRecentToolStripMenuItem.Text = "Load Recent Project";
+            this.loadRecentToolStripMenuItem.Click += new System.EventHandler(this.loadRecentToolStripMenuItem_Click);
             // 
             // addApexTriggerToolStripMenuItem
             // 
@@ -381,7 +382,7 @@
             // 
             this.lblRootFolder.AutoSize = true;
             this.lblRootFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRootFolder.Location = new System.Drawing.Point(16, 176);
+            this.lblRootFolder.Location = new System.Drawing.Point(16, 182);
             this.lblRootFolder.Name = "lblRootFolder";
             this.lblRootFolder.Size = new System.Drawing.Size(93, 17);
             this.lblRootFolder.TabIndex = 7;
@@ -390,7 +391,7 @@
             // tbRootFolder
             // 
             this.tbRootFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbRootFolder.Location = new System.Drawing.Point(184, 176);
+            this.tbRootFolder.Location = new System.Drawing.Point(184, 182);
             this.tbRootFolder.Name = "tbRootFolder";
             this.tbRootFolder.Size = new System.Drawing.Size(704, 23);
             this.tbRootFolder.TabIndex = 8;
@@ -433,7 +434,7 @@
             // 
             this.lblOutboundChangeSetName.AutoSize = true;
             this.lblOutboundChangeSetName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOutboundChangeSetName.Location = new System.Drawing.Point(17, 214);
+            this.lblOutboundChangeSetName.Location = new System.Drawing.Point(17, 217);
             this.lblOutboundChangeSetName.Name = "lblOutboundChangeSetName";
             this.lblOutboundChangeSetName.Size = new System.Drawing.Size(214, 17);
             this.lblOutboundChangeSetName.TabIndex = 9;
@@ -442,7 +443,7 @@
             // tbOutboundChangeSetName
             // 
             this.tbOutboundChangeSetName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbOutboundChangeSetName.Location = new System.Drawing.Point(254, 211);
+            this.tbOutboundChangeSetName.Location = new System.Drawing.Point(254, 214);
             this.tbOutboundChangeSetName.Name = "tbOutboundChangeSetName";
             this.tbOutboundChangeSetName.Size = new System.Drawing.Size(633, 23);
             this.tbOutboundChangeSetName.TabIndex = 10;
@@ -518,7 +519,7 @@
         private System.Windows.Forms.Button btnSearchMetadata;
         private System.Windows.Forms.Button btnDebugLogs;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem recentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadRecentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addApexTriggerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addApexClassToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addOtherToolStripMenuItem;

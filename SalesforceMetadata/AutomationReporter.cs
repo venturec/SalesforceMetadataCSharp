@@ -1,5 +1,4 @@
-﻿using SalesforceMetadata.ToolingWSDL;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -5726,6 +5725,11 @@ namespace SalesforceMetadata
                     }
                 }
             }
+        }
+
+        private void btnParseApprovalProcesses_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

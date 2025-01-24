@@ -31,7 +31,7 @@ namespace SalesforceMetadata
         }
 
         private void checkCredentialFiles()
-        { 
+        {
             String fileName = Properties.Settings.Default.UserAndAPIFileLocation;
 
             if (fileName == "" || !File.Exists(fileName))

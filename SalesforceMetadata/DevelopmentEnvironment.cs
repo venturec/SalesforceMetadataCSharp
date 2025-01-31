@@ -880,10 +880,7 @@ namespace SalesforceMetadata
                 return;
             }
 
-            if (!String.IsNullOrEmpty(this.tbRepository.Text))
-            {
-                this.copySelectedToRepository();
-            }
+            this.copySelectedToRepository();
 
             String zipFilePath = buildZipFileWithPackageXml();
 

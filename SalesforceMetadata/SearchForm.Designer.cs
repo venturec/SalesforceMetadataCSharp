@@ -204,8 +204,6 @@
             // cbMetadataFolderAndAPINameOnly
             // 
             this.cbMetadataFolderAndAPINameOnly.AutoSize = true;
-            this.cbMetadataFolderAndAPINameOnly.Checked = true;
-            this.cbMetadataFolderAndAPINameOnly.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbMetadataFolderAndAPINameOnly.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbMetadataFolderAndAPINameOnly.Location = new System.Drawing.Point(1112, 84);
             this.cbMetadataFolderAndAPINameOnly.Name = "cbMetadataFolderAndAPINameOnly";
@@ -214,7 +212,7 @@
             this.cbMetadataFolderAndAPINameOnly.Text = "Return Metadata Folder and API Name Only";
             this.cbMetadataFolderAndAPINameOnly.UseVisualStyleBackColor = true;
             // 
-            // frmSearch
+            // SearchForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1428, 869);

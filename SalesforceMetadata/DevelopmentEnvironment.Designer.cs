@@ -68,6 +68,7 @@
             this.delMyDebugLogs = new System.Windows.Forms.Button();
             this.lblOutboundChangeSetName = new System.Windows.Forms.Label();
             this.tbOutboundChangeSetName = new System.Windows.Forms.TextBox();
+            this.btnCopySelectedToRepository = new System.Windows.Forms.Button();
             msIDE = new System.Windows.Forms.MenuStrip();
             msIDE.SuspendLayout();
             this.fromOrgGroup.SuspendLayout();
@@ -449,11 +450,23 @@
             this.tbOutboundChangeSetName.TabIndex = 10;
             this.tbOutboundChangeSetName.MouseHover += new System.EventHandler(this.tbOutboundChangeSetName_MouseHover);
             // 
+            // btnCopySelectedToRepository
+            // 
+            this.btnCopySelectedToRepository.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCopySelectedToRepository.Location = new System.Drawing.Point(920, 310);
+            this.btnCopySelectedToRepository.Name = "btnCopySelectedToRepository";
+            this.btnCopySelectedToRepository.Size = new System.Drawing.Size(162, 44);
+            this.btnCopySelectedToRepository.TabIndex = 22;
+            this.btnCopySelectedToRepository.Text = "Copy Selected to Repository";
+            this.btnCopySelectedToRepository.UseVisualStyleBackColor = true;
+            this.btnCopySelectedToRepository.Click += new System.EventHandler(this.btnCopySelectedToRepository_Click);
+            // 
             // DevelopmentEnvironment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1481, 960);
+            this.Controls.Add(this.btnCopySelectedToRepository);
             this.Controls.Add(this.lblOutboundChangeSetName);
             this.Controls.Add(this.tbOutboundChangeSetName);
             this.Controls.Add(this.delMyDebugLogs);
@@ -530,5 +543,6 @@
         private System.Windows.Forms.Button delMyDebugLogs;
         private System.Windows.Forms.Label lblOutboundChangeSetName;
         private System.Windows.Forms.TextBox tbOutboundChangeSetName;
+        private System.Windows.Forms.Button btnCopySelectedToRepository;
     }
 }

@@ -308,29 +308,27 @@ namespace SalesforceMetadata
                     String srLine = sr.ReadLine();
                     if (srLine.ToLower().Contains(searchString.ToLower()))
                     {
-                        if (resultsFound == false) resultsFound = true;
+                        if (resultsFound == false)
+                        {
+                            resultsFound = true;
+                        }
 
+                        if (!filePathAdded.Contains(fl))
+                        {
+                            results.Add(fileSplit[fileSplit.Length - 2] + "\\" + fileSplit[fileSplit.Length - 1]);
+                            filePathAdded.Add(fl);
+                        }
+
+                        // TODO: Come back to this and find a way to break out of the loop if the
+                        // metadataFolderAndAPINameOnly is checked so that you are not having to continually 
+                        // read additional lines unnecessarily
                         if (metadataFolderAndAPINameOnly == true)
                         {
-                            if (!filePathAdded.Contains(fl))
-                            {
-                                results.Add(fileSplit[fileSplit.Length - 2] + "\\" + fileSplit[fileSplit.Length - 1]);
-                                results.Add("Line: " + m.ToString() + "  " + srLine);
-                                filePathAdded.Add(fl);
-                            }
+                            break;
                         }
                         else
                         {
-                            if (!filePathAdded.Contains(fl))
-                            {
-                                results.Add(fl);
-                                filePathAdded.Add(fl);
-                            }
-
-                            if (metadataFolderAndAPINameOnly == false)
-                            {
-                                results.Add("Line: " + m.ToString() + "  " + srLine);
-                            }
+                            results.Add("Line: " + m.ToString() + "  " + srLine);
                         }
                     }
                 }
@@ -363,15 +361,25 @@ namespace SalesforceMetadata
 
         public void writeResultsToTextBox(List<String> results)
         {
-            foreach (String res in results)
+            if (this.cbMetadataFolderAndAPINameOnly.Checked == true)
             {
-                if (res.StartsWith("Line:"))
+                foreach (String res in results)
                 {
-                    this.rtbResults.Text = this.rtbResults.Text + "   " + res + Environment.NewLine;
+                    this.rtbResults.Text = this.rtbResults.Text + Environment.NewLine + res;
                 }
-                else
+            }
+            else
+            {
+                foreach (String res in results)
                 {
-                    this.rtbResults.Text = this.rtbResults.Text + Environment.NewLine + Environment.NewLine + res + Environment.NewLine;
+                    if (res.StartsWith("Line:"))
+                    {
+                        this.rtbResults.Text = this.rtbResults.Text + "   " + res + Environment.NewLine;
+                    }
+                    else
+                    {
+                        this.rtbResults.Text = this.rtbResults.Text + Environment.NewLine + Environment.NewLine + res + Environment.NewLine;
+                    }
                 }
             }
         }

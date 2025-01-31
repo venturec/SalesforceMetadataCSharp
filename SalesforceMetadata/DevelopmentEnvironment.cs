@@ -880,6 +880,11 @@ namespace SalesforceMetadata
                 return;
             }
 
+            if (!String.IsNullOrEmpty(this.tbRepository.Text))
+            {
+                this.copySelectedToRepository();
+            }
+
             String zipFilePath = buildZipFileWithPackageXml();
 
             DeployMetadata dm = new DeployMetadata();
@@ -891,7 +896,7 @@ namespace SalesforceMetadata
             dm.Show();
         }
 
-        public String buildZipFileWithPackageXml()
+        private String buildZipFileWithPackageXml()
         {
             String codeArchiveRootPath = this.tbRootFolder.Text + "\\Code Archive";
             String logFile = this.tbRootFolder.Text + "\\Code Archive\\LogFile.txt";
@@ -1213,6 +1218,59 @@ namespace SalesforceMetadata
             ZipFile.CreateFromDirectory(folderPath, zipPathAndName, CompressionLevel.Fastest, false);
 
             return zipPathAndName;
+        }
+
+        private void copySelectedToRepository()
+        {
+            // Check if the tbRepositoryPath is populated and valid first
+
+            if(this.tbRepository.Text == "") { return; }
+
+            String folderPath = this.tbRepository.Text;
+
+            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+            {
+                String metadataType = MetadataDifferenceProcessing.folderToType(tnd1.Text, "");
+
+                if (tnd1.Nodes.Count > 0)
+                {
+                    foreach (TreeNode tnd2 in tnd1.Nodes)
+                    {
+                        if (tnd2.Checked == true)
+                        {
+                            Debug.WriteLine("");
+
+                            String[] tnd2NodeFullPath = tnd2.FullPath.Split('\\');
+
+                            DirectoryInfo di;
+                            if (!Directory.Exists(folderPath + "\\" + tnd1.Text))
+                            {
+                                di = Directory.CreateDirectory(folderPath + "\\" + tnd1.Text);
+                            }
+                            else
+                            {
+                                di = new DirectoryInfo(folderPath + "\\" + tnd1.Text);
+                            }
+
+                            // tnd2.FullPath will be something like this: "classes\\AccOppTerritoryBatch.cls"
+                            // Copy the file into the folder
+                            // If it is an aura / lwc folder, then follow the same processes as you have for the buildMetadataPackage.
+                            if (metadataType == "AuraDefinitionBundle" || metadataType == "LightningComponentBundle")
+                            {
+                                UtilityClass.copyDirectory(this.tbProjectFolder.Text + "\\" + tnd1.Text + "\\" + tnd2NodeFullPath[1],
+                                                           folderPath + "\\" + tnd1.Text + "\\" + tnd2NodeFullPath[1],
+                                                           true);
+                            }
+                            else
+                            {
+                                File.Copy(this.tbProjectFolder.Text + "\\" + tnd1.Text + "\\" + tnd2NodeFullPath[1],
+                                          folderPath + "\\" + tnd1.Text + "\\" + tnd2NodeFullPath[1], 
+                                          true);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void btnObjectFieldInspector_Click(object sender, EventArgs e)
@@ -1872,6 +1930,11 @@ namespace SalesforceMetadata
         private void visualforceComponentToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnCopySelectedToRepository_Click(object sender, EventArgs e)
+        {
+            this.copySelectedToRepository();
         }
     }
 }

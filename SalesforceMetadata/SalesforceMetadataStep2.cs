@@ -21,6 +21,7 @@ using System.Web.UI.MobileControls.Adapters;
 using System.Security.Cryptography;
 using System.Web.Services.Protocols;
 using System.Web.UI.MobileControls;
+//using SalesforceMetadata.ToolingWSDL;
 
 namespace SalesforceMetadata
 {
@@ -152,6 +153,9 @@ namespace SalesforceMetadata
                 Directory.Delete(target_dir, true);
                 DirectoryInfo di = Directory.CreateDirectory(target_dir);
             }
+
+            // Break the RetrieveRequest down into blocks or chunks if the package.xml contains Profiles and/or Permission Sets
+            // Then split out the retrieval requests by the number of threads available
 
             RetrieveRequest retrieveRequest = new RetrieveRequest();
             retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
@@ -298,7 +302,7 @@ namespace SalesforceMetadata
                 }
 
                 QueryResult qr = new QueryResult();
-                qr = sc.fromOrgSS.query("SELECT Id, Name FROM PermissionSet ORDER BY Name");
+                qr = sc.fromOrgSS.query("SELECT Id, NamespacePrefix, Name, Type FROM PermissionSet ORDER BY Name");
 
                 Boolean done = false;
                 while (done == false)
@@ -315,7 +319,16 @@ namespace SalesforceMetadata
                             }
                             else
                             {
-                                allPermSetNames.Add(replaceStringValue(s.Any[1].InnerText));
+                                if (s.Any[1].InnerText == "")
+                                {
+                                    allPermSetNames.Add(replaceStringValue(s.Any[2].InnerText));
+                                }
+                                else
+                                {
+                                    String managedPermSet = "";
+                                    managedPermSet = (s.Any[1].InnerText + "__" + replaceStringValue(s.Any[2].InnerText));
+                                    allPermSetNames.Add(managedPermSet);
+                                }
                             }
                         }
                     }

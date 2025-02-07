@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Office.Interop.Excel;
+using SalesforceMetadata.ToolingWSDL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,17 +26,17 @@ namespace SalesforceMetadata
         public Dictionary<String, ObjectToFields> objectToFieldsDictionary;
 
         // Key = class name
-        public Dictionary<String, ApexClasses> classNmToClass;
+        public Dictionary<String, ApexClassStructure> classNmToClass;
 
         // Variable names used in Triggers and classes
         // Object
         // Trigger Name
         // Trigger Type - insert, update, delete, undelete
-        public Dictionary<String, List<ApexTriggers>> objectToTrigger;
+        public Dictionary<String, List<ApexTriggerStructure>> objectToTrigger;
 
         public Dictionary<String, List<FlowProcess>> objectToFlow;
 
-        public Dictionary<String, List<WorkflowRules>> workflowObj;
+        public Dictionary<String, List<WorkflowRule>> workflowObj;
         public Dictionary<String, List<WorkflowFieldUpdates>> workflowFldUpdates;
 
         List<FieldExtractor> fieldExtractorList = new List<FieldExtractor>();
@@ -410,7 +412,7 @@ namespace SalesforceMetadata
             {
                 String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\classes");
 
-                this.classNmToClass = new Dictionary<string, ApexClasses>();
+                this.classNmToClass = new Dictionary<string, ApexClassStructure>();
 
                 foreach (String fl in files)
                 {
@@ -459,7 +461,7 @@ namespace SalesforceMetadata
         // Note: The , may or may not be there in the trigger types
         private void runApexTriggerExtract()
         {
-            this.objectToTrigger = new Dictionary<string, List<ApexTriggers>>();
+            this.objectToTrigger = new Dictionary<string, List<ApexTriggerStructure>>();
 
             if (Directory.Exists(this.tbProjectFolder.Text + "\\triggers"))
             {
@@ -822,7 +824,7 @@ namespace SalesforceMetadata
                         if (xn.ParentNode.LocalName == "Flow")
                         {
                             FlowActionCalls fac = new FlowActionCalls();
-                            Debug.WriteLine("");
+                            //Debug.WriteLine("");
                             foreach (XmlNode nd1 in xn.ChildNodes)
                             {
                                 if (nd1.Name == "name")
@@ -879,7 +881,7 @@ namespace SalesforceMetadata
         {
             if (Directory.Exists(this.tbProjectFolder.Text + "\\workflows"))
             {
-                this.workflowObj = new Dictionary<string, List<WorkflowRules>>();
+                this.workflowObj = new Dictionary<string, List<WorkflowRule>>();
                 this.workflowFldUpdates = new Dictionary<String, List<WorkflowFieldUpdates>>();
 
                 String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\workflows");
@@ -901,7 +903,7 @@ namespace SalesforceMetadata
                         {
                             if (nd1.ParentNode.Name == "Workflow")
                             {
-                                WorkflowRules wrkFlowObj = new WorkflowRules();
+                                WorkflowRule wrkFlowObj = new WorkflowRule();
                                 wrkFlowObj.objectName = flNameSplit[0];
 
                                 HashSet<String> fieldUpdates = new HashSet<String>();
@@ -937,7 +939,7 @@ namespace SalesforceMetadata
                                 }
                                 else
                                 {
-                                    this.workflowObj.Add(wrkFlowObj.objectName, new List<WorkflowRules> { wrkFlowObj });
+                                    this.workflowObj.Add(wrkFlowObj.objectName, new List<WorkflowRule> { wrkFlowObj });
                                 }
                             }
                         }
@@ -945,7 +947,7 @@ namespace SalesforceMetadata
 
                     if (wfFieldUpdates.Count > 0)
                     {
-                        WorkflowRules wrkFlowObj = new WorkflowRules();
+                        WorkflowRule wrkFlowObj = new WorkflowRule();
                         wrkFlowObj.objectName = flNameSplit[0];
 
                         foreach (XmlNode nd1 in wfFieldUpdates)
@@ -1616,7 +1618,7 @@ namespace SalesforceMetadata
 
         private void parseApexTrigger(String[] filearray)
         {
-            ApexTriggers at = new ApexTriggers();
+            ApexTriggerStructure at = new ApexTriggerStructure();
 
             Boolean inTriggerEvents = false;
             Boolean inTriggerBody = false;
@@ -1811,7 +1813,6 @@ namespace SalesforceMetadata
                     // 
                     // Database.SaveResult[] sr;
                     // try { sr = database.update(updateBillingDocuments) } catch(Exception e) {};
-
                     if (filearray[i + 1] == "[")
                     {
                         saveResultType = filearray[i] + filearray[i + 1] + filearray[i + 2];
@@ -1864,7 +1865,7 @@ namespace SalesforceMetadata
                 {
                     at.logicContainedInTrigger = true;
 
-                    String varName = filearray[i + 2].ToLower();
+                    String varName = filearray[i + 2];
                     skipTo = parseTriggerDmlVars(filearray, varName, filearray[i], saveResultType, saveResultVar, at, i + 2);
                     skipOver = true;
                 }
@@ -1876,7 +1877,7 @@ namespace SalesforceMetadata
                 {
                     at.logicContainedInTrigger = true;
 
-                    String varName = filearray[i + 1].ToLower();
+                    String varName = filearray[i + 1];
                     skipTo = parseTriggerDmlVars(filearray, varName, filearray[i], saveResultType, saveResultVar, at, i + 1);
                     skipOver = true;
                 }
@@ -1888,11 +1889,11 @@ namespace SalesforceMetadata
             }
             else
             {
-                this.objectToTrigger.Add(at.objectName, new List<ApexTriggers> { at });
+                this.objectToTrigger.Add(at.objectName, new List<ApexTriggerStructure> { at });
             }
         }
 
-        public Int32 parseTriggerVariables(String[] filearray, ApexTriggers at, Int32 arraystart)
+        public Int32 parseTriggerVariables(String[] filearray, ApexTriggerStructure at, Int32 arraystart)
         {
             Int32 lastCharLocation = arraystart;
 
@@ -1998,7 +1999,7 @@ namespace SalesforceMetadata
             String dmlType,
             String saveResultType,
             String saveResultVar,
-            ApexTriggers at,
+            ApexTriggerStructure at,
             Int32 arraystart)
         {
             ObjectVarToType ovt = new ObjectVarToType();
@@ -2059,8 +2060,48 @@ namespace SalesforceMetadata
             // Now loop backwards through the array to find the property if it still has not been found to get the object type this dml var is referencing
             if (objectNameFound == false)
             {
+                if (filearray[arraystart].ToLower() == "[")
+                {
+                    ovt.varName = "";
+
+                    String rightSide = "";
+                    List<String> rightSideList = new List<String>();
+                    for (Int32 i = arraystart; i < filearray.Length; i++)
+                    {
+                        if (filearray[i] == ";")
+                        {
+                            ovt.rightSide = rightSide.Trim();
+                            lastCharLocation = i;
+
+                            // Loop through the rightSideList to capture the object
+                            for (Int32 s = 0; s < rightSideList.Count; s++)
+                            {
+                                if (rightSideList[s].ToLower() == "from")
+                                {
+                                    ovt.rightSideObject = rightSideList[s + 1];
+                                    break;
+                                }
+                            }
+
+                            break;
+                        }
+                        else if (filearray[i] == "[")
+                        {
+                            rightSide = rightSide + filearray[i] + " ";
+                        }
+                        else if (filearray[i] == "]")
+                        {
+                            rightSide = rightSide + filearray[i] + " ";
+                        }
+                        else
+                        {
+                            rightSideList.Add(filearray[i]);
+                            rightSide = rightSide + filearray[i] + " ";
+                        }
+                    }
+                }
                 // Inline variable dynamically created
-                if (filearray[arraystart].ToLower() == "new")
+                else if (filearray[arraystart].ToLower() == "new")
                 {
                     ovt.leftSideObject = filearray[arraystart + 1];
                     ovt.varType = filearray[arraystart + 1];
@@ -2106,23 +2147,23 @@ namespace SalesforceMetadata
                 }
             }
 
-            if (filearray[lastCharLocation] == ";")
-            {
-                lastCharLocation++;
-            }
+            //if (filearray[lastCharLocation] == ";")
+            //{
+            //    lastCharLocation++;
+            //}
             // Account for the allOrNone parameter in the Database.insert/update/delete
-            else
+            //else
+            //{
+            for (Int32 i = arraystart + 1; i < filearray.Length; i++)
             {
-                for (Int32 i = arraystart + 1; i < filearray.Length; i++)
+                if (filearray[i] == ";")
                 {
-                    if (filearray[i] == ";")
-                    {
-                        ovt.allOrNoneParameter = filearray[i - 2];
-                        lastCharLocation = i;
-                        break;
-                    }
+                    ovt.allOrNoneParameter = filearray[i - 2];
+                    lastCharLocation = i;
+                    break;
                 }
             }
+            //}
 
             at.triggerDmls.Add(ovt);
 
@@ -2131,7 +2172,7 @@ namespace SalesforceMetadata
 
         private void parseApexClass(String[] filearray)
         {
-            ApexClasses apexCls = new ApexClasses();
+            ApexClassStructure apexCls = new ApexClassStructure();
 
             HashSet<String> methodStartVariables = new HashSet<string> {"@auraenabled",
                 "@deprecated",
@@ -2289,7 +2330,7 @@ namespace SalesforceMetadata
             this.classNmToClass.Add(apexCls.className, apexCls);
         }
 
-        public Int32 parseImplementsInterfaces(String[] filearray, ApexClasses ac, Int32 arraystart)
+        public Int32 parseImplementsInterfaces(String[] filearray, ApexClassStructure ac, Int32 arraystart)
         {
             Int32 lastCharLocation = arraystart;
 
@@ -2331,7 +2372,7 @@ namespace SalesforceMetadata
             return lastCharLocation;
         }
 
-        public Int32 parsePropertyOrMethod(String[] filearray, ApexClasses ac, Int32 arraystart)
+        public Int32 parsePropertyOrMethod(String[] filearray, ApexClassStructure ac, Int32 arraystart)
         {
             HashSet<String> methodAnnotations = new HashSet<string> {"@auraenabled",
                 "@deprecated",
@@ -2382,8 +2423,8 @@ namespace SalesforceMetadata
             String soqlObject = "";
             String soqlStatement = "";
 
-            ClassMethods cm = new ClassMethods();
-            ClassProperties cp = new ClassProperties();
+            ClassMethod cm = new ClassMethod();
+            ClassProperty cp = new ClassProperty();
 
             // Key = Method Name - Value = SOQL Statements
             Dictionary<String, List<String>> soqlStatements = new Dictionary<String, List<String>>();
@@ -3031,12 +3072,12 @@ namespace SalesforceMetadata
                     String varName = "";
                     if (filearray[i + 1].ToLower() == "new")
                     {
-                        varName = filearray[i + 2].ToLower();
+                        varName = filearray[i + 2];
                         skipTo = parseMethodDmlVars(filearray, varName, filearray[i], "", "", ac, cm, i + 2);
                     }
                     else
                     {
-                        varName = filearray[i + 1].ToLower();
+                        varName = filearray[i + 1];
                         skipTo = parseMethodDmlVars(filearray, varName, filearray[i], "", "", ac, cm, i + 1);
                     }
 
@@ -3112,8 +3153,8 @@ namespace SalesforceMetadata
             String dmlType,
             String saveResultType,
             String saveResultVar,
-            ApexClasses ac,
-            ClassMethods cm,
+            ApexClassStructure ac,
+            ClassMethod cm,
             Int32 arraystart)
         {
             ObjectVarToType ovt = new ObjectVarToType();
@@ -3200,8 +3241,49 @@ namespace SalesforceMetadata
             // Now loop backwards through the array to find the property if it still has not been found to get the object type this dml var is referencing
             if (objectNameFound == false)
             {
+                // Example: delete [SELECT Id FROM Custom_Field_Definition_To_Account__c WHERE Id = :relationshipId];
+                if (filearray[arraystart].ToLower() == "[")
+                {
+                    ovt.varName = "";
+
+                    String rightSide = "";
+                    List<String> rightSideList = new List<String>();
+                    for (Int32 i = arraystart; i < filearray.Length; i++)
+                    {
+                        if (filearray[i] == ";")
+                        {
+                            ovt.rightSide = rightSide.Trim();
+                            lastCharLocation = i;
+
+                            // Loop through the rightSideList to capture the object
+                            for (Int32 s = 0; s < rightSideList.Count; s++)
+                            {
+                                if (rightSideList[s].ToLower() == "from") 
+                                {
+                                    ovt.rightSideObject = rightSideList[s + 1];
+                                    break;
+                                }
+                            }
+
+                            break;
+                        }
+                        else if (filearray[i] == "[")
+                        {
+                            rightSide = rightSide + filearray[i] + " ";
+                        }
+                        else if (filearray[i] == "]")
+                        {
+                            rightSide = rightSide + filearray[i] + " ";
+                        }
+                        else 
+                        {
+                            rightSideList.Add(filearray[i]);
+                            rightSide = rightSide + filearray[i] + " ";
+                        }
+                    }
+                }
                 // Inline variable dynamically created
-                if (filearray[arraystart].ToLower() == "new")
+                else if (filearray[arraystart].ToLower() == "new")
                 {
                     ovt.leftSideObject = filearray[arraystart + 1];
                     ovt.varType = filearray[arraystart + 1];
@@ -3270,7 +3352,7 @@ namespace SalesforceMetadata
             return lastCharLocation;
         }
 
-        public Int32 parseMethodVariables(String[] filearray, ClassMethods cm, Int32 arraystart)
+        public Int32 parseMethodVariables(String[] filearray, ClassMethod cm, Int32 arraystart)
         {
             Int32 lastCharLocation = arraystart;
 
@@ -3425,7 +3507,7 @@ namespace SalesforceMetadata
             return lastCharLocation;
         }
 
-        public Int32 parseReturnValue(String[] filearray, ClassMethods cm, Int32 arraystart)
+        public Int32 parseReturnValue(String[] filearray, ClassMethod cm, Int32 arraystart)
         {
             Int32 lastCharLocation = arraystart;
             Boolean inString = false;
@@ -3464,7 +3546,7 @@ namespace SalesforceMetadata
             return lastCharLocation;
         }
 
-        public void findObjectNameFromVar(ObjectVarToType ovt, ApexTriggers at)
+        public void findObjectNameFromVar(ObjectVarToType ovt, ApexTriggerStructure at)
         {
             String[] splitLeftSide = ovt.leftSide.Split('.');
             String[] splitRightSide = ovt.rightSide.Split('.');
@@ -3577,7 +3659,7 @@ namespace SalesforceMetadata
             }
         }
 
-        public void findObjectNameFromVar(ClassMethods cm, ObjectVarToType ovt, ApexClasses ac)
+        public void findObjectNameFromVar(ClassMethod cm, ObjectVarToType ovt, ApexClassStructure ac)
         {
             String[] splitLeftSide = ovt.leftSide.Split('.');
             String[] splitRightSide = ovt.rightSide.Split('.');
@@ -3676,7 +3758,7 @@ namespace SalesforceMetadata
             // Loop through classProperties
             if (objectNameFound == false)
             {
-                foreach (ClassProperties cp in ac.clsProperties.Values)
+                foreach (ClassProperty cp in ac.clsProperties.Values)
                 {
                     if (splitLeftSide[0] == cp.propertyName)
                     {
@@ -3760,7 +3842,7 @@ namespace SalesforceMetadata
             // Loop through classProperties
             if (objectNameFound == false)
             {
-                foreach (ClassProperties cp in ac.clsProperties.Values)
+                foreach (ClassProperty cp in ac.clsProperties.Values)
                 {
                     if (splitLeftSide[0] == cp.propertyName)
                     {
@@ -4117,7 +4199,7 @@ namespace SalesforceMetadata
             {
                 foreach (String objnm in this.objectToTrigger.Keys)
                 {
-                    foreach (ApexTriggers at in this.objectToTrigger[objnm])
+                    foreach (ApexTriggerStructure at in this.objectToTrigger[objnm])
                     {
                         sw.Write(Environment.NewLine);
                         sw.Write(Environment.NewLine);
@@ -4191,6 +4273,28 @@ namespace SalesforceMetadata
                                     Environment.NewLine);
                             }
                         }
+
+                        if (at.soqlStatements.Count > 0) 
+                        {
+                            sw.Write(Environment.NewLine);
+                            sw.Write(Environment.NewLine);
+                            sw.WriteLine("\tTriggerSOQLStatements\tObjectQueried\tSOQLStatement");
+                            foreach (String objNm in at.soqlStatements.Keys)
+                            {
+                                sw.Write("\t\t" +
+                                    objNm +
+                                    Environment.NewLine);
+
+                                foreach (String soql in at.soqlStatements[objNm])
+                                {
+                                    sw.Write("\t\t\t" +
+                                        soql +
+                                        Environment.NewLine);
+                                }
+
+                                sw.Write(Environment.NewLine);
+                            }
+                        }
                     }
                 }
             }
@@ -4200,7 +4304,7 @@ namespace SalesforceMetadata
                 && this.classNmToClass.Count > 0)
             {
                 // Skip test classes
-                foreach (ApexClasses ac in this.classNmToClass.Values)
+                foreach (ApexClassStructure ac in this.classNmToClass.Values)
                 {
                     if (ac.isTestClass)
                     {
@@ -4243,7 +4347,7 @@ namespace SalesforceMetadata
 
                     if (ac.classMethods.Count > 0)
                     {
-                        foreach (ClassMethods cm in ac.classMethods)
+                        foreach (ClassMethod cm in ac.classMethods)
                         {
                             sw.Write(Environment.NewLine);
                             sw.Write(Environment.NewLine);
@@ -4330,6 +4434,29 @@ namespace SalesforceMetadata
                                         Environment.NewLine);
                                 }
                             }
+
+                            if (cm.soqlStatements.Count > 0)
+                            {
+                                sw.Write(Environment.NewLine);
+                                sw.Write(Environment.NewLine);
+                                sw.WriteLine("\t\t\tSOQLStatements\tObjectQueried\tSOQLStatement");
+                                foreach (String objNm in cm.soqlStatements.Keys)
+                                {
+                                    sw.Write("\t\t\t\t" +
+                                        objNm +
+                                        Environment.NewLine);
+
+                                    foreach (String soql in cm.soqlStatements[objNm])
+                                    {
+                                        sw.Write("\t\t\t\t\t" +
+                                            soql +
+                                            Environment.NewLine);
+                                    }
+
+                                    sw.Write(Environment.NewLine);
+                                }
+                            }
+
                         }
                     }
 
@@ -4518,7 +4645,141 @@ namespace SalesforceMetadata
 
             sw.Close();
         }
+        /// <summary>
+        /// There will be a lot of recursive loops here so might need to find a way to make this more efficient
+        /// Parse the triggers and class-methods (done above)
+        /// Loop through the Apex Class Methods and if there are methodDmls, then loop through those
+        ///      Upserts will have to be handled as an Insert and Update
+        ///         database.insert
+        ///         database.update
+        ///         database.delete
+        ///         database.undelete
+        ///         database.upsert
+        ///         
+        ///         insert
+        ///         update
+        ///         delete
+        ///         undelete
+        ///         upsert
+        /// 
+        /// Find the trigger in the mix with the related sObject and find the related automation pieces in the triggers and related class/method calls for the operation.
+        /// </summary>
+        private void writeAutomationHierarchyResults()
+        {
+            StreamWriter sw = new StreamWriter(this.tbFileSaveTo.Text + "\\AutomationHierarchyReport.txt");
+            //sw.WriteLine("ObjectName\tDMLType\tIsList\tAutomation Paths");
 
+            foreach (ApexClassStructure ac in classNmToClass.Values)
+            {
+                if (ac.classMethods.Count > 0) 
+                {
+                    sw.WriteLine(ac.className + '\t' + ac.accessModifier + '\t' + ac.optionalModifier + '\t' + ac.isTestClass);
+
+                    foreach (ClassMethod cm in ac.classMethods) 
+                    {
+                        if (cm.methodDmls.Count > 0) 
+                        {
+                            foreach (ObjectVarToType mdml in cm.methodDmls)
+                            {
+                                String objectName = "";
+                                Boolean isList = false;
+
+                                if (mdml.leftSideObject != "")
+                                {
+                                    String[] splitObj = mdml.leftSideObject.Split(new char[2] { '<', '>' });
+                                    // List
+                                    if (splitObj.Length == 3)
+                                    {
+                                        objectName = splitObj[1];
+                                    }
+                                    else if (splitObj.Length == 1)
+                                    {
+                                        objectName = splitObj[0];
+                                    }
+                                    //else
+                                    //{
+                                    //    Debug.WriteLine("");
+                                    //}
+                                }
+                                else if (mdml.rightSideObject != "")
+                                {
+                                    String[] splitObj = mdml.rightSideObject.Split(new char[2] { '<', '>' });
+                                    // List
+                                    if (splitObj.Length == 3)
+                                    {
+                                        objectName = splitObj[1];
+                                    }
+                                    else if (splitObj.Length == 1)
+                                    {
+                                        objectName = splitObj[0];
+                                    }
+                                    //else
+                                    //{
+                                    //    Debug.WriteLine("");
+                                    //}
+                                }
+
+                                sw.WriteLine('\t' + objectName + '\t' + mdml.dmlType + '\t' + isList.ToString());
+                                writeRelatedApexTrigger(objectName, sw, 2);
+                            }
+                        }
+                    }
+
+                    sw.Write(Environment.NewLine);
+                }
+            }
+
+            sw.Close();
+        }
+
+        private void writeRelatedApexTrigger(String objectName, StreamWriter sw, Int32 tabCount)
+        {
+            //Int32 tabCount = 2;
+
+            if (objectToTrigger.ContainsKey(objectName))
+            {
+                List<ApexTriggerStructure> triggerStruct = objectToTrigger[objectName];
+                foreach (ApexTriggerStructure at in triggerStruct) 
+                {
+                    writeTabs(tabCount, sw);
+                    sw.Write("Apex Trigger" + '\t' + at.triggerName);
+                    foreach (String triggerEvt in at.triggerEvents)
+                    {
+                        sw.Write('\t' + triggerEvt);
+                    }
+
+                    sw.Write(Environment.NewLine);
+                }
+            }
+
+            sw.Write(Environment.NewLine);
+
+            if (objectToFlow.ContainsKey(objectName)) 
+            {
+                List<FlowProcess> objFlowProc = objectToFlow[objectName];
+                foreach (FlowProcess fp in objFlowProc)
+                {
+                    if (fp.isActive == true && fp.flowProcessType == "AutoLaunchedFlow")
+                    {
+                        writeTabs(tabCount, sw);
+                        sw.WriteLine("Record Triggered Flow" + '\t' + fp.label + '\t' + fp.apiName + '\t' + fp.triggerType + '\t' + fp.recordTriggerType + '\t' + fp.runInMode);
+                    }
+                    //else if (fp.isActive == true)
+                    //{
+                    //    Debug.WriteLine("");
+                    //}
+                }
+            }
+
+            sw.Write(Environment.NewLine);
+        }
+        private void writeTabs(Int32 tabCount, StreamWriter sw)
+        {
+            for (Int32 i = 0; i < tabCount; i++)
+            {
+                sw.Write('\t');
+            }
+        }
         private void writeAutomationNamesToFile()
         {
             StreamWriter sw = new StreamWriter(this.tbFileSaveTo.Text + "\\AutomationNamesExtractionReport.txt");
@@ -4528,7 +4789,7 @@ namespace SalesforceMetadata
             {
                 foreach (String objnm in this.objectToTrigger.Keys)
                 {
-                    foreach (ApexTriggers at in this.objectToTrigger[objnm])
+                    foreach (ApexTriggerStructure at in this.objectToTrigger[objnm])
                     {
                         sw.Write(Environment.NewLine);
                         sw.Write(Environment.NewLine);
@@ -4543,7 +4804,6 @@ namespace SalesforceMetadata
                                         at.isAfterDelete + "\t" +
                                         at.isAfterUndelete + "\t" +
                                         Environment.NewLine);
-
 
                         if (at.triggerDmls.Count > 0)
                         {
@@ -4572,7 +4832,7 @@ namespace SalesforceMetadata
                 && this.classNmToClass.Count > 0)
             {
                 // Skip test classes
-                foreach (ApexClasses ac in this.classNmToClass.Values)
+                foreach (ApexClassStructure ac in this.classNmToClass.Values)
                 {
                     if (ac.isTestClass)
                     {
@@ -4590,7 +4850,6 @@ namespace SalesforceMetadata
                         ac.isInterface + "\t" +
                         ac.extendsClassName +
                         Environment.NewLine);
-
 
                     if (ac.clsProperties.Count > 0)
                     {
@@ -4615,7 +4874,7 @@ namespace SalesforceMetadata
 
                     if (ac.classMethods.Count > 0)
                     {
-                        foreach (ClassMethods cm in ac.classMethods)
+                        foreach (ClassMethod cm in ac.classMethods)
                         {
                             sw.Write(Environment.NewLine);
                             sw.Write(Environment.NewLine);
@@ -4771,7 +5030,7 @@ namespace SalesforceMetadata
             public Boolean isActive = false;
         }
 
-        public class ApexTriggers 
+        public class ApexTriggerStructure
         {
             public String triggerName = "";
             public String objectName = "";
@@ -4795,7 +5054,7 @@ namespace SalesforceMetadata
             public Dictionary<String, List<ObjectVarToType>> triggerBodyVars;
             public List<ObjectVarToType> triggerDmls;
 
-            public ApexTriggers()
+            public ApexTriggerStructure()
             {
                 triggerEvents = new HashSet<string>();
                 soqlStatements = new Dictionary<String, List<String>>();
@@ -4806,7 +5065,7 @@ namespace SalesforceMetadata
             }
         }
 
-        public class ApexClasses
+        public class ApexClassStructure
         {
             public string className = "";
             public string accessModifier = "";
@@ -4820,18 +5079,18 @@ namespace SalesforceMetadata
             //public List<String> interfaceClassNames;
             public Dictionary<String, String> implementsInterfaces;
             public String extendsClassName = "";
-            public Dictionary<String, ClassProperties> clsProperties;
-            public Dictionary<String, ApexClasses> innerClasses;
-            public List<ClassMethods> classMethods;
+            public Dictionary<String, ClassProperty> clsProperties;
+            public Dictionary<String, ApexClassStructure> innerClasses;
+            public List<ClassMethod> classMethods;
             public Dictionary<String, String> objToFieldsReferenced;
 
-            public ApexClasses()
+            public ApexClassStructure()
             {
                 //this.interfaceClassNames = new List<String>();
                 this.implementsInterfaces = new Dictionary<String, String>();
-                this.clsProperties = new Dictionary<string, ClassProperties>();
-                this.innerClasses = new Dictionary<string, ApexClasses>();
-                this.classMethods = new List<ClassMethods>();
+                this.clsProperties = new Dictionary<string, ClassProperty>();
+                this.innerClasses = new Dictionary<string, ApexClassStructure>();
+                this.classMethods = new List<ClassMethod>();
                 this.objToFieldsReferenced = new Dictionary<String, String>();
             }
         }
@@ -4868,7 +5127,7 @@ namespace SalesforceMetadata
             public Boolean objectFromInlineVariable = false;
         }
 
-        public class ClassProperties 
+        public class ClassProperty 
         {
             public String propertyName = "";
             public String propertyAnnotation = "";
@@ -4884,7 +5143,7 @@ namespace SalesforceMetadata
             public String setterValue = "";
         }
 
-        public class ClassMethods
+        public class ClassMethod
         {
             public String methodName = "";
             public String methodAnnotation = "";
@@ -4904,7 +5163,7 @@ namespace SalesforceMetadata
             public List<ObjectVarToType> methodDmls;
             public Dictionary<String, List<String>> soqlStatements;
 
-            public ClassMethods() 
+            public ClassMethod() 
             {
                 this.methodParameters = new List<ObjectVarToType>();
                 this.methodBodyVars = new List<ObjectVarToType>();
@@ -4975,7 +5234,7 @@ namespace SalesforceMetadata
             public String value = "";
         }
 
-        public class WorkflowRules
+        public class WorkflowRule
         {
             // These are the rules
             public String objectName = "";
@@ -4984,7 +5243,7 @@ namespace SalesforceMetadata
             public Boolean isActive = false;
             public HashSet<String> wfFieldUpdates;
 
-            public WorkflowRules()
+            public WorkflowRule()
             {
                 wfFieldUpdates = new HashSet<String>();
             }
@@ -5031,8 +5290,6 @@ namespace SalesforceMetadata
             MessageBox.Show("Sobject and Fields Extract Complete");
         }
 
-
-
         private void btnRunAutomationFieldExtraction_Click(object sender, EventArgs e)
         {
             if (this.tbProjectFolder.Text == "")
@@ -5062,8 +5319,14 @@ namespace SalesforceMetadata
             // Search Workflows for field references
             runWorkflowExtract();
 
+            // Run the custom Quick Action parsing
+            // TODO: 
+
+
             // Write the results to a file
             writeAutomationFieldExtractedResultsToFile();
+
+            writeAutomationHierarchyResults();
 
             MessageBox.Show("Automation Field Reference Extraction Complete");
         }
@@ -5083,8 +5346,6 @@ namespace SalesforceMetadata
                 }
 
                 // Now write out the contents in tabular format
-                Debug.WriteLine("");
-
                 StreamWriter sw = new StreamWriter(this.tbFileSaveTo.Text + "\\FlowAutomation.txt");
                 sw.Write("Triggering sObject\t");
                 sw.Write("Flow API Name\t");
@@ -5204,8 +5465,6 @@ namespace SalesforceMetadata
 
             // Search Flows/Processes for field references
             runFlowProcessExtract();
-
-            Debug.WriteLine("");
 
             writeAutomationSequenceToFile();
 
@@ -5384,7 +5643,7 @@ namespace SalesforceMetadata
 
             foreach (String clsnm in this.classNmToClass.Keys)
             {
-                ApexClasses apxClass = this.classNmToClass[clsnm];
+                ApexClassStructure apxClass = this.classNmToClass[clsnm];
 
                 if (apxClass.isTestClass == true)
                 {
@@ -5413,7 +5672,7 @@ namespace SalesforceMetadata
                 sw.Write("IsSetter");
                 sw.Write(Environment.NewLine);
 
-                foreach (ClassProperties cp in apxClass.clsProperties.Values)
+                foreach (ClassProperty cp in apxClass.clsProperties.Values)
                 {
                     sw.Write("\t\t");
                     sw.Write(cp.propertyName + "\t");
@@ -5440,7 +5699,7 @@ namespace SalesforceMetadata
                 sw.Write("IsTestMethod");
                 sw.Write(Environment.NewLine);
 
-                foreach (ClassMethods cm in apxClass.classMethods)
+                foreach (ClassMethod cm in apxClass.classMethods)
                 {
                     sw.Write("\t\t");
                     sw.Write(cm.methodName + "\t");
@@ -5554,16 +5813,16 @@ namespace SalesforceMetadata
             {
                 foreach (String clsNm in this.classNmToClass.Keys)
                 {
-                    ApexClasses apxClass = this.classNmToClass[clsNm];
+                    ApexClassStructure apxClass = this.classNmToClass[clsNm];
 
                     if (apxClass.className == apiName)
                     {
                         tabCount += 2;
 
-                        List<ClassMethods> clsMethods = new List<ClassMethods>();
+                        List<ClassMethod> clsMethods = new List<ClassMethod>();
                         clsMethods = apxClass.classMethods;
 
-                        foreach (ClassMethods cm in clsMethods)
+                        foreach (ClassMethod cm in clsMethods)
                         {
                             for (Int32 i = 0; i < tabCount; i++)
                             {
@@ -5637,18 +5896,16 @@ namespace SalesforceMetadata
             }
             else if (automationType == APEX_CLASS_METHOD)
             {
-                Debug.WriteLine("");
-
                 foreach (String clsNm in this.classNmToClass.Keys)
                 {
-                    ApexClasses apxClass = this.classNmToClass[clsNm];
+                    ApexClassStructure apxClass = this.classNmToClass[clsNm];
 
                     if (apxClass.className == apiName)
                     {
-                        List<ClassMethods> clsMethods = new List<ClassMethods>();
+                        List<ClassMethod> clsMethods = new List<ClassMethod>();
                         clsMethods = apxClass.classMethods;
 
-                        foreach (ClassMethods cm in clsMethods)
+                        foreach (ClassMethod cm in clsMethods)
                         {
                             if (cm.methodName == methodName)
                             {

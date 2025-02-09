@@ -35,7 +35,6 @@
             this.tbProjectFolder = new System.Windows.Forms.TextBox();
             this.tbFileSaveTo = new System.Windows.Forms.TextBox();
             this.cbWriteToDataDictionary = new System.Windows.Forms.CheckBox();
-            this.btnParseObjectsAndFields = new System.Windows.Forms.Button();
             this.tbSearchFilter = new System.Windows.Forms.TextBox();
             this.lblFilter = new System.Windows.Forms.Label();
             this.btnParseFlows = new System.Windows.Forms.Button();
@@ -64,7 +63,7 @@
             // 
             // btnRunAutomationFieldExtraction
             // 
-            this.btnRunAutomationFieldExtraction.Location = new System.Drawing.Point(15, 200);
+            this.btnRunAutomationFieldExtraction.Location = new System.Drawing.Point(15, 159);
             this.btnRunAutomationFieldExtraction.Name = "btnRunAutomationFieldExtraction";
             this.btnRunAutomationFieldExtraction.Size = new System.Drawing.Size(265, 38);
             this.btnRunAutomationFieldExtraction.TabIndex = 8;
@@ -101,16 +100,6 @@
             this.cbWriteToDataDictionary.Text = "Write To Data Dictionary";
             this.cbWriteToDataDictionary.UseVisualStyleBackColor = true;
             // 
-            // btnParseObjectsAndFields
-            // 
-            this.btnParseObjectsAndFields.Location = new System.Drawing.Point(15, 156);
-            this.btnParseObjectsAndFields.Name = "btnParseObjectsAndFields";
-            this.btnParseObjectsAndFields.Size = new System.Drawing.Size(265, 38);
-            this.btnParseObjectsAndFields.TabIndex = 7;
-            this.btnParseObjectsAndFields.Text = "Parse Objects and Fields from XML";
-            this.btnParseObjectsAndFields.UseVisualStyleBackColor = true;
-            this.btnParseObjectsAndFields.Click += new System.EventHandler(this.btnParseObjectsAndFields_Click);
-            // 
             // tbSearchFilter
             // 
             this.tbSearchFilter.Location = new System.Drawing.Point(127, 102);
@@ -129,7 +118,7 @@
             // 
             // btnParseFlows
             // 
-            this.btnParseFlows.Location = new System.Drawing.Point(15, 288);
+            this.btnParseFlows.Location = new System.Drawing.Point(15, 247);
             this.btnParseFlows.Name = "btnParseFlows";
             this.btnParseFlows.Size = new System.Drawing.Size(265, 38);
             this.btnParseFlows.TabIndex = 10;
@@ -139,7 +128,7 @@
             // 
             // btnGetApexClassNamesAndMethods
             // 
-            this.btnGetApexClassNamesAndMethods.Location = new System.Drawing.Point(15, 244);
+            this.btnGetApexClassNamesAndMethods.Location = new System.Drawing.Point(15, 203);
             this.btnGetApexClassNamesAndMethods.Name = "btnGetApexClassNamesAndMethods";
             this.btnGetApexClassNamesAndMethods.Size = new System.Drawing.Size(265, 38);
             this.btnGetApexClassNamesAndMethods.TabIndex = 9;
@@ -149,7 +138,7 @@
             // 
             // btnAutomationHierarchy
             // 
-            this.btnAutomationHierarchy.Location = new System.Drawing.Point(306, 200);
+            this.btnAutomationHierarchy.Location = new System.Drawing.Point(306, 159);
             this.btnAutomationHierarchy.Name = "btnAutomationHierarchy";
             this.btnAutomationHierarchy.Size = new System.Drawing.Size(265, 38);
             this.btnAutomationHierarchy.TabIndex = 12;
@@ -159,7 +148,7 @@
             // 
             // btnParseApprovalProcesses
             // 
-            this.btnParseApprovalProcesses.Location = new System.Drawing.Point(15, 332);
+            this.btnParseApprovalProcesses.Location = new System.Drawing.Point(15, 291);
             this.btnParseApprovalProcesses.Name = "btnParseApprovalProcesses";
             this.btnParseApprovalProcesses.Size = new System.Drawing.Size(265, 38);
             this.btnParseApprovalProcesses.TabIndex = 11;
@@ -177,7 +166,6 @@
             this.Controls.Add(this.btnParseFlows);
             this.Controls.Add(this.lblFilter);
             this.Controls.Add(this.tbSearchFilter);
-            this.Controls.Add(this.btnParseObjectsAndFields);
             this.Controls.Add(this.cbWriteToDataDictionary);
             this.Controls.Add(this.tbFileSaveTo);
             this.Controls.Add(this.tbProjectFolder);
@@ -201,7 +189,6 @@
         private System.Windows.Forms.TextBox tbProjectFolder;
         private System.Windows.Forms.TextBox tbFileSaveTo;
         private System.Windows.Forms.CheckBox cbWriteToDataDictionary;
-        private System.Windows.Forms.Button btnParseObjectsAndFields;
         private System.Windows.Forms.TextBox tbSearchFilter;
         private System.Windows.Forms.Label lblFilter;
         private System.Windows.Forms.Button btnParseFlows;

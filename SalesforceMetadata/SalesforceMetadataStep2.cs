@@ -121,12 +121,326 @@ namespace SalesforceMetadata
             }
         }
 
+        private void btnRetrieveProfilesPermSets_Click(object sender, EventArgs e)
+        {
+            if (this.tbFromOrgSaveLocation.Text == "")
+            {
+                MessageBox.Show("Please select a directory to save the results to");
+            }
+            else if (this.selectedItems.Count > 0)
+            {
+                try
+                {
+                    sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                    return;
+                }
+
+                if (sc.loginSuccess == false)
+                {
+                    MessageBox.Show("Please check username, password and/or security token");
+                    return;
+                }
+
+                this.rtMessages.Text = "";
+                this.extractToFolder = "";
+                String target_dir = this.tbFromOrgSaveLocation.Text;
+
+                // Now build the target_dir and extractToFolder
+                String[] urlParsed = sc.fromOrgLR.serverUrl.Split('/');
+                urlParsed = urlParsed[2].Split('.');
+                extractToFolder = urlParsed[0];
+
+                if (extractToFolder.Contains("--"))
+                {
+                    extractToFolder = extractToFolder.Replace("--", "__");
+                }
+                else
+                {
+                    extractToFolder = extractToFolder + "__production";
+                }
+
+                target_dir = target_dir + '\\' + extractToFolder;
+
+                if (!Directory.Exists(target_dir))
+                {
+                    DirectoryInfo di = Directory.CreateDirectory(target_dir);
+                }
+                else if (this.cbRebuildFolder.Checked == true)
+                {
+                    Directory.Delete(target_dir, true);
+                    DirectoryInfo di = Directory.CreateDirectory(target_dir);
+                }
+
+                // Build the Package XML for retrieval
+                // In order to retrieve the Profiles/Permission sets, we have to include the metadata objects related to them, otherwise it only returns the system values.
+                if (this.selectedItems.ContainsKey("Profile"))
+                { 
+                    List<String> allProfileNames = new List<string>();
+                    int waitTimeMilliSecs = 6000;
+
+                    QueryResult qr = new QueryResult();
+                    qr = sc.fromOrgSS.query("SELECT Id, Name FROM Profile ORDER BY Name");
+
+                    Boolean done = false;
+                    while (done == false)
+                    {
+                        if (qr.size > 0)
+                        {
+                            sObject[] sobjRecordsToProcess = qr.records;
+
+                            foreach (sObject s in sobjRecordsToProcess)
+                            {
+                                if (s.Any == null)
+                                {
+                                    continue;
+                                }
+                                else if (s.Any[1].InnerText == "Contract Manager")
+                                {
+                                    allProfileNames.Add("ContractManager");
+                                }
+                                else if (s.Any[1].InnerText == "High Volume Customer Portal")
+                                {
+                                    allProfileNames.Add("HighVolumePortal");
+                                }
+                                else if (s.Any[1].InnerText == "Marketing User")
+                                {
+                                    allProfileNames.Add("MarketingProfile");
+                                }
+                                else if (s.Any[1].InnerText == "Read Only")
+                                {
+                                    allProfileNames.Add("ReadOnly");
+                                }
+                                else if (s.Any[1].InnerText == "Solution Manager")
+                                {
+                                    allProfileNames.Add("SolutionManager");
+                                }
+                                else if (s.Any[1].InnerText == "Standard Platform User")
+                                {
+                                    allProfileNames.Add("StandardAul");
+                                }
+                                else if (s.Any[1].InnerText == "Standard User")
+                                {
+                                    allProfileNames.Add("Standard");
+                                }
+                                else if (s.Any[1].InnerText == "System Administrator")
+                                {
+                                    allProfileNames.Add("Admin");
+                                }
+                                else
+                                {
+                                    allProfileNames.Add(replaceStringValue(s.Any[1].InnerText));
+                                }
+                            }
+                        }
+
+                        if (qr.done)
+                        {
+                            done = true;
+                        }
+                        else if (qr.size == 0)
+                        {
+                            done = true;
+                        }
+                        else
+                        {
+                            qr = sc.fromOrgSS.queryMore(qr.queryLocator);
+                        }
+                    }
+
+                    done = false;
+
+                    // Build the partial package XML 
+                    List<String> partialProfileList = new List<String>();
+                    StringBuilder partialPackageXMLXB = buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG.FROMORG, "Profile", partialProfileList, false);
+                    String partialPackageXML = partialPackageXMLXB.ToString();
+
+                    Int32 maxProfilesPerGroup = 10;
+                    Int32 lastPosition = 0;
+                    while (done == false)
+                    {
+                        partialProfileList.Clear();
+
+                        Int32 profileListCounter = 0;
+                        for (Int32 i = lastPosition; i < allProfileNames.Count; i++)
+                        {
+                            partialProfileList.Add(allProfileNames[i]);
+                            profileListCounter++;
+
+                            lastPosition = i + 1;
+                            if (profileListCounter == maxProfilesPerGroup)
+                            {
+                                break;
+                            }
+                        }
+
+                        // Build the RetrieveRequest and send this off to retrieve the profiles which could take a while
+                        // so will need to add a wait on the retrieval process
+                        // When the retrieval is complete, build the next set of retrieval requests
+                        StringBuilder packageXmlSB = new StringBuilder();
+                        packageXmlSB.Append(partialPackageXML);
+
+                        foreach (String prof in partialProfileList)
+                        {
+                            packageXmlSB.Append("<members>" + prof + "</members>" + Environment.NewLine);
+                        }
+
+                        packageXmlSB.Append("<name>PermissionSet</name>" + Environment.NewLine);
+                        packageXmlSB.Append("</types>" + Environment.NewLine);
+                        packageXmlSB.Append("<version>" + Properties.Settings.Default.DefaultAPI + "</version>" + Environment.NewLine);
+                        packageXmlSB.Append("</Package>");
+                        packageXmlSB.Clear();
+
+                        RetrieveRequest retrieveRequest = new RetrieveRequest();
+                        retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
+                        retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
+
+                        Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "Profile", this);
+                        System.Threading.Tasks.Task tsk = System.Threading.Tasks.Task.Run(act);
+
+                        while (tsk.IsCanceled == false && tsk.IsCompleted == false && tsk.IsFaulted == false)
+                        {
+                            tsk.Wait(waitTimeMilliSecs);
+                        }
+
+                        if (lastPosition == allProfileNames.Count)
+                        {
+                            done = true;
+                        }
+                    }
+                }
+
+                // Build the Package XML for retrieval
+                // In order to retrieve the Profiles/Permission sets, we have to include the metadata objects related to them, otherwise it only returns the system values.
+                if (this.selectedItems.ContainsKey("PermissionSet"))
+                {
+                    int waitTimeMilliSecs = 6000;
+
+                    List<String> allPermSetNames = new List<string>();
+
+                    QueryResult qr = new QueryResult();
+                    qr = sc.fromOrgSS.query("SELECT Id, NamespacePrefix, Name, Type FROM PermissionSet ORDER BY Name");
+
+                    Boolean done = false;
+                    while (done == false)
+                    {
+                        if (qr.size > 0)
+                        {
+                            sObject[] sobjRecordsToProcess = qr.records;
+
+                            foreach (sObject s in sobjRecordsToProcess)
+                            {
+                                if (s.Any == null)
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    if (s.Any[1].InnerText == "")
+                                    {
+                                        allPermSetNames.Add(replaceStringValue(s.Any[2].InnerText));
+                                    }
+                                    else
+                                    {
+                                        String managedPermSet = "";
+                                        managedPermSet = (s.Any[1].InnerText + "__" + replaceStringValue(s.Any[2].InnerText));
+                                        allPermSetNames.Add(managedPermSet);
+                                    }
+                                }
+                            }
+                        }
+
+                        if (qr.done)
+                        {
+                            done = true;
+                        }
+                        else if (qr.size == 0)
+                        {
+                            done = true;
+                        }
+                        else
+                        {
+                            qr = sc.fromOrgSS.queryMore(qr.queryLocator);
+                        }
+                    }
+
+                    done = false;
+
+                    List<String> partialPermSetList = new List<String>();
+                    StringBuilder partialPackageXMLSB = buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG.FROMORG, "PermissionSet", partialPermSetList, false);
+                    String partialPackageXML = partialPackageXMLSB.ToString();
+
+                    Int32 maxPermSetsPerGroup = 1000;
+                    Int32 lastPosition = 0;
+                    while (done == false)
+                    {
+                        partialPermSetList.Clear();
+                        Int32 permSetListCounter = 0;
+
+                        for (Int32 i = lastPosition; i < allPermSetNames.Count; i++)
+                        {
+                            partialPermSetList.Add(allPermSetNames[i]);
+                            permSetListCounter++;
+
+                            lastPosition = i + 1;
+                            if (permSetListCounter > allPermSetNames.Count)
+                            {
+                                break;
+                            }
+                            else if (permSetListCounter == maxPermSetsPerGroup)
+                            {
+                                break;
+                            }
+                        }
+
+                        // Build the RetrieveRequest and send this off to retrieve the profiles which could take a while
+                        // so will need to add a wait on the retrieval process
+                        // When the retrieval is complete, build the next set of retrieval requests
+                        StringBuilder packageXmlSB = new StringBuilder();
+                        packageXmlSB.Append(partialPackageXML);
+
+                        foreach (String ps in partialPermSetList)
+                        {
+                            packageXmlSB.Append("<members>" + ps + "</members>" + Environment.NewLine);
+                        }
+
+                        packageXmlSB.Append("<name>PermissionSet</name>" + Environment.NewLine);
+                        packageXmlSB.Append("</types>" + Environment.NewLine);
+                        packageXmlSB.Append("<version>" + Properties.Settings.Default.DefaultAPI + "</version>" + Environment.NewLine);
+                        packageXmlSB.Append("</Package>");
+
+                        RetrieveRequest retrieveRequest = new RetrieveRequest();
+                        retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
+                        retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
+                        packageXmlSB.Clear();
+
+                        Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "PermissionSet", this);
+                        System.Threading.Tasks.Task tsk = System.Threading.Tasks.Task.Run(act);
+
+                        while (tsk.IsCanceled == false && tsk.IsCompleted == false && tsk.IsFaulted == false)
+                        {
+                            tsk.Wait(waitTimeMilliSecs);
+                        }
+
+                        if (lastPosition == allPermSetNames.Count)
+                        {
+                            done = true;
+                        }
+                    }
+                }
+            }
+        }
+
         private void retrieveMetadataWithPackageXML()
         {
             this.rtMessages.Text = "";
             this.extractToFolder = "";
             String target_dir = this.tbFromOrgSaveLocation.Text;
 
+            // TODO: Add try/catch to this?
             sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
 
             String[] urlParsed = sc.fromOrgLR.serverUrl.Split('/');
@@ -222,7 +536,7 @@ namespace SalesforceMetadata
                         {
                             if (s.Any == null)
                             {
-                                break;
+                                continue;
                             }
                             else if (s.Any[1].InnerText == "Contract Manager")
                             {
@@ -278,7 +592,7 @@ namespace SalesforceMetadata
                 }
 
                 StringBuilder packageXmlSB = new StringBuilder();
-                packageXmlSB = buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG.FROMORG, "Profile", allProfileNames);
+                packageXmlSB = buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG.FROMORG, "Profile", allProfileNames, true);
 
                 File.WriteAllText(this.tbFromOrgSaveLocation.Text + "\\package.xml", packageXmlSB.ToString());
 
@@ -315,7 +629,7 @@ namespace SalesforceMetadata
                         {
                             if (s.Any == null)
                             {
-                                break;
+                                continue;
                             }
                             else
                             {
@@ -348,7 +662,7 @@ namespace SalesforceMetadata
                 }
 
                 StringBuilder packageXmlSB = new StringBuilder();
-                packageXmlSB = buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG.FROMORG, "PermissionSet", allPermSetNames);
+                packageXmlSB = buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG.FROMORG, "PermissionSet", allPermSetNames, true);
 
                 File.WriteAllText(this.tbFromOrgSaveLocation.Text + "\\package.xml", packageXmlSB.ToString());
 
@@ -372,7 +686,10 @@ namespace SalesforceMetadata
 
                         foreach (sObject s in sobjRecordsToProcess)
                         {
-                            if (s.Any == null) break;
+                            if (s.Any == null)
+                            {
+                                continue;
+                            }
 
                             String emailFileName = "";
 
@@ -471,7 +788,10 @@ namespace SalesforceMetadata
 
                         foreach (sObject s in sobjRecordsToProcess)
                         {
-                            if (s.Any == null) break;
+                            if (s.Any == null)
+                            {
+                                continue;
+                            }
 
                             if (reportFolders.ContainsKey(s.Any[0].InnerText))
                             {
@@ -690,7 +1010,7 @@ namespace SalesforceMetadata
             return packageXmlSB;
         }
 
-        private StringBuilder buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG reqOrg, String metadataType, List<String> profPermSetMembers)
+        private StringBuilder buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG reqOrg, String metadataType, List<String> profPermSetMembers, Boolean addClosingTags)
         {
             StringBuilder packageXmlSB = new StringBuilder();
             packageXmlSB.Append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine);
@@ -732,15 +1052,18 @@ namespace SalesforceMetadata
 
             packageXmlSB.Append("<types>" + Environment.NewLine);
 
-            foreach (String prof in profPermSetMembers)
+            if (addClosingTags == true)
             {
-                packageXmlSB.Append("<members>" + prof + "</members>" + Environment.NewLine);
-            }
+                foreach (String prof in profPermSetMembers)
+                {
+                    packageXmlSB.Append("<members>" + prof + "</members>" + Environment.NewLine);
+                }
 
-            packageXmlSB.Append("<name>" + metadataType + "</name>" + Environment.NewLine);
-            packageXmlSB.Append("</types>" + Environment.NewLine);
-            packageXmlSB.Append("<version>" + Properties.Settings.Default.DefaultAPI + "</version>" + Environment.NewLine);
-            packageXmlSB.Append("</Package>");
+                packageXmlSB.Append("<name>" + metadataType + "</name>" + Environment.NewLine);
+                packageXmlSB.Append("</types>" + Environment.NewLine);
+                packageXmlSB.Append("<version>" + Properties.Settings.Default.DefaultAPI + "</version>" + Environment.NewLine);
+                packageXmlSB.Append("</Package>");
+            }
 
             alreadyAdded.Add("ApexClass");
             alreadyAdded.Add("ApexComponent");
@@ -1751,6 +2074,7 @@ namespace SalesforceMetadata
 
             return strValue;
         }
+
 
     }
 }

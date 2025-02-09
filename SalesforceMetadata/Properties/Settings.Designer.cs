@@ -12,7 +12,7 @@ namespace SalesforceMetadata.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.11.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.12.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -320,12 +320,12 @@ namespace SalesforceMetadata.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string SobjectReportLocation {
+        public string LastReportLocation {
             get {
-                return ((string)(this["SobjectReportLocation"]));
+                return ((string)(this["LastReportLocation"]));
             }
             set {
-                this["SobjectReportLocation"] = value;
+                this["LastReportLocation"] = value;
             }
         }
         
@@ -368,6 +368,41 @@ namespace SalesforceMetadata.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RecentProjectPath {
+            get {
+                return ((string)(this["RecentProjectPath"]));
+            }
+            set {
+                this["RecentProjectPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection RecentProjects {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["RecentProjects"]));
+            }
+            set {
+                this["RecentProjects"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RecentReportFolderPath {
+            get {
+                return ((string)(this["RecentReportFolderPath"]));
+            }
+            set {
+                this["RecentReportFolderPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string RepositoryPath {
             get {
                 return ((string)(this["RepositoryPath"]));
@@ -403,17 +438,6 @@ namespace SalesforceMetadata.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection RecentProjects {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["RecentProjects"]));
-            }
-            set {
-                this["RecentProjects"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int MetadataAynchrounsThreads {
             get {
@@ -421,21 +445,6 @@ namespace SalesforceMetadata.Properties {
             }
             set {
                 this["MetadataAynchrounsThreads"] = value;
-            }
-        }
-
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RecentProjectPath
-        {
-            get
-            {
-                return ((string)(this["RecentProjectPath"]));
-            }
-            set
-            {
-                this["RecentProjectPath"] = value;
             }
         }
     }

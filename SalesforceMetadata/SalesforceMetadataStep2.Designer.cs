@@ -42,6 +42,7 @@
             this.horizontalLine1 = new System.Windows.Forms.Label();
             this.cbRebuildFolder = new System.Windows.Forms.CheckBox();
             this.lblMessages = new System.Windows.Forms.Label();
+            this.btnRetrieveProfilesPermSets = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblSaveResultsTo
@@ -145,7 +146,7 @@
             // 
             this.cbMDAPISourceStyle.AutoSize = true;
             this.cbMDAPISourceStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbMDAPISourceStyle.Location = new System.Drawing.Point(269, 253);
+            this.cbMDAPISourceStyle.Location = new System.Drawing.Point(463, 253);
             this.cbMDAPISourceStyle.Name = "cbMDAPISourceStyle";
             this.cbMDAPISourceStyle.Size = new System.Drawing.Size(205, 21);
             this.cbMDAPISourceStyle.TabIndex = 10;
@@ -167,7 +168,7 @@
             // 
             this.cbRebuildFolder.AutoSize = true;
             this.cbRebuildFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbRebuildFolder.Location = new System.Drawing.Point(269, 226);
+            this.cbRebuildFolder.Location = new System.Drawing.Point(463, 226);
             this.cbRebuildFolder.Name = "cbRebuildFolder";
             this.cbRebuildFolder.Size = new System.Drawing.Size(119, 21);
             this.cbRebuildFolder.TabIndex = 9;
@@ -184,10 +185,23 @@
             this.lblMessages.TabIndex = 11;
             this.lblMessages.Text = "Retrieve Metadata Messages";
             // 
+            // btnRetrieveProfilesPermSets
+            // 
+            this.btnRetrieveProfilesPermSets.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRetrieveProfilesPermSets.Location = new System.Drawing.Point(234, 226);
+            this.btnRetrieveProfilesPermSets.Margin = new System.Windows.Forms.Padding(2);
+            this.btnRetrieveProfilesPermSets.Name = "btnRetrieveProfilesPermSets";
+            this.btnRetrieveProfilesPermSets.Size = new System.Drawing.Size(194, 46);
+            this.btnRetrieveProfilesPermSets.TabIndex = 13;
+            this.btnRetrieveProfilesPermSets.Text = "Retrieve Profiles and Permission Sets";
+            this.btnRetrieveProfilesPermSets.UseVisualStyleBackColor = true;
+            this.btnRetrieveProfilesPermSets.Click += new System.EventHandler(this.btnRetrieveProfilesPermSets_Click);
+            // 
             // SalesforceMetadataStep2
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1395, 757);
+            this.Controls.Add(this.btnRetrieveProfilesPermSets);
             this.Controls.Add(this.lblMessages);
             this.Controls.Add(this.cbRebuildFolder);
             this.Controls.Add(this.horizontalLine1);
@@ -224,5 +238,6 @@
         private System.Windows.Forms.Label horizontalLine1;
         private System.Windows.Forms.CheckBox cbRebuildFolder;
         private System.Windows.Forms.Label lblMessages;
+        public System.Windows.Forms.Button btnRetrieveProfilesPermSets;
     }
 }

@@ -3,20 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|c:\\users\\marcu\\documents\\github\\salesforcemetadatacsharp\\salesforcemetadata\\parsesalesforcemetadata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\parsesalesforcemetadata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|c:\\users\\marcu\\documents\\github\\salesforcemetadatacsharp\\salesforcemetadata\\parsesalesforcemetadata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\parsesalesforcemetadata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|c:\\users\\marcu\\documents\\github\\salesforcemetadatacsharp\\salesforcemetadata\\automationreporter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\automationreporter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|c:\\users\\marcu\\documents\\github\\salesforcemetadatacsharp\\salesforcemetadata\\parsesalesforcemetadata.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\parsesalesforcemetadata.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|c:\\users\\marcu\\documents\\github\\salesforcemetadatacsharp\\salesforcemetadata\\salesforcemetadatastep2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\salesforcemetadatastep2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,53 +26,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ParseSalesforceMetadata.Designer.cs",
-              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\ParseSalesforceMetadata.Designer.cs",
-              "RelativeDocumentMoniker": "SalesforceMetadata\\ParseSalesforceMetadata.Designer.cs",
-              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\ParseSalesforceMetadata.Designer.cs",
-              "RelativeToolTip": "SalesforceMetadata\\ParseSalesforceMetadata.Designer.cs",
-              "ViewState": "AgIAAFwAAAAAAAAAAAAAAHIAAABwAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-09T15:50:26.02Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AutomationReporter.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\AutomationReporter.cs",
-              "RelativeDocumentMoniker": "SalesforceMetadata\\AutomationReporter.cs",
-              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\AutomationReporter.cs [Design]",
-              "RelativeToolTip": "SalesforceMetadata\\AutomationReporter.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-09T15:21:11.79Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ParseSalesforceMetadata.cs",
-              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\ParseSalesforceMetadata.cs",
-              "RelativeDocumentMoniker": "SalesforceMetadata\\ParseSalesforceMetadata.cs",
-              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\ParseSalesforceMetadata.cs",
-              "RelativeToolTip": "SalesforceMetadata\\ParseSalesforceMetadata.cs",
-              "ViewState": "AgIAAD8BAAAAAAAAAADwvzEBAAA1AAAAAAAAAA==",
+              "Title": "SalesforceMetadataStep2.cs",
+              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\SalesforceMetadataStep2.cs",
+              "RelativeDocumentMoniker": "SalesforceMetadata\\SalesforceMetadataStep2.cs",
+              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\SalesforceMetadataStep2.cs",
+              "RelativeToolTip": "SalesforceMetadata\\SalesforceMetadataStep2.cs",
+              "ViewState": "AgIAADkBAAAAAAAAAAAAAKsBAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-09T15:19:57.403Z",
+              "WhenOpened": "2025-02-12T18:51:06.958Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ParseSalesforceMetadata.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\ParseSalesforceMetadata.cs",
-              "RelativeDocumentMoniker": "SalesforceMetadata\\ParseSalesforceMetadata.cs",
-              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\ParseSalesforceMetadata.cs [Design]",
-              "RelativeToolTip": "SalesforceMetadata\\ParseSalesforceMetadata.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-09T15:18:23.638Z",
-              "EditorCaption": " [Design]"
             }
           ]
         }

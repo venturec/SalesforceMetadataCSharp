@@ -288,11 +288,10 @@ namespace SalesforceMetadata
                             packageXmlSB.Append("<members>" + prof + "</members>" + Environment.NewLine);
                         }
 
-                        packageXmlSB.Append("<name>PermissionSet</name>" + Environment.NewLine);
+                        packageXmlSB.Append("<name>Profile</name>" + Environment.NewLine);
                         packageXmlSB.Append("</types>" + Environment.NewLine);
                         packageXmlSB.Append("<version>" + Properties.Settings.Default.DefaultAPI + "</version>" + Environment.NewLine);
                         packageXmlSB.Append("</Package>");
-                        packageXmlSB.Clear();
 
                         RetrieveRequest retrieveRequest = new RetrieveRequest();
                         retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
@@ -310,6 +309,8 @@ namespace SalesforceMetadata
                         {
                             done = true;
                         }
+
+                        packageXmlSB.Clear();
                     }
                 }
 
@@ -415,7 +416,6 @@ namespace SalesforceMetadata
                         RetrieveRequest retrieveRequest = new RetrieveRequest();
                         retrieveRequest.apiVersion = Convert.ToDouble(Properties.Settings.Default.DefaultAPI);
                         retrieveRequest.unpackaged = parsePackageManifest(packageXmlSB.ToString());
-                        packageXmlSB.Clear();
 
                         Action act = () => retrieveZipFile(UtilityClass.REQUESTINGORG.FROMORG, target_dir, retrieveRequest, "PermissionSet", this);
                         System.Threading.Tasks.Task tsk = System.Threading.Tasks.Task.Run(act);
@@ -429,6 +429,8 @@ namespace SalesforceMetadata
                         {
                             done = true;
                         }
+
+                        packageXmlSB.Clear();
                     }
                 }
             }

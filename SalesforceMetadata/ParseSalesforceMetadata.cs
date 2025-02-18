@@ -199,12 +199,13 @@ namespace SalesforceMetadata
                             {
                                 pps.activationRequired = activationRequired[0].InnerText;
                             }
-                            pps.read = objNode.ChildNodes[3].InnerText;
+
                             pps.create = objNode.ChildNodes[0].InnerText;
-                            pps.edit = objNode.ChildNodes[2].InnerText;
                             pps.delete = objNode.ChildNodes[1].InnerText;
-                            pps.viewAll = objNode.ChildNodes[4].InnerText;
-                            pps.modifyAll = objNode.ChildNodes[6].InnerText;
+                            pps.edit = objNode.ChildNodes[2].InnerText;
+                            pps.read = objNode.ChildNodes[3].InnerText;
+                            pps.modifyAll = objNode.ChildNodes[4].InnerText;
+                            pps.viewAll = objNode.ChildNodes[6].InnerText;
 
                             profPermSetByObjectDict[objName].profPermSetObjectPermsList.Add(pps);
                         }
@@ -228,12 +229,13 @@ namespace SalesforceMetadata
                             {
                                 pps.activationRequired = activationRequired[0].InnerText;
                             }
-                            pps.read = objNode.ChildNodes[3].InnerText;
+
                             pps.create = objNode.ChildNodes[0].InnerText;
-                            pps.edit = objNode.ChildNodes[2].InnerText;
                             pps.delete = objNode.ChildNodes[1].InnerText;
-                            pps.viewAll = objNode.ChildNodes[4].InnerText;
-                            pps.modifyAll = objNode.ChildNodes[6].InnerText;
+                            pps.edit = objNode.ChildNodes[2].InnerText;
+                            pps.read = objNode.ChildNodes[3].InnerText;
+                            pps.modifyAll = objNode.ChildNodes[4].InnerText;
+                            pps.viewAll = objNode.ChildNodes[6].InnerText;
 
                             ppso.profPermSetObjectPermsList.Add(pps);
                             profPermSetByObjectDict.Add(objName, ppso);

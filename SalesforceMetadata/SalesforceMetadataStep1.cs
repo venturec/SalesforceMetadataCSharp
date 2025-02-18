@@ -106,7 +106,6 @@ namespace SalesforceMetadata
             btnExportMetadataTypes.Enabled = true;
         }
 
-
         private void cmbUserName_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.Text = "Salesforce Metadata";
@@ -132,7 +131,6 @@ namespace SalesforceMetadata
 
             this.lbMetadataTypes.Items.Clear();
         }
-
 
         private void btnRetrieveMetadata_Click(object sender, EventArgs e)
         {
@@ -212,7 +210,6 @@ namespace SalesforceMetadata
                 sfMetadataStep2.Location = this.Location;
             }
         }
-
 
         private void populateCredentialsFile()
         {
@@ -414,6 +411,11 @@ namespace SalesforceMetadata
             }
 
             xlapp.Visible = true;
+        }
+
+        private void btnGeneratePackageXML_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

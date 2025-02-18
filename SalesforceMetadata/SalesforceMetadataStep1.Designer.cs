@@ -46,6 +46,7 @@
             this.btnSelectDefaults = new System.Windows.Forms.Button();
             this.lblSelectDefaults = new System.Windows.Forms.Label();
             this.btnExportMetadataTypes = new System.Windows.Forms.Button();
+            this.btnGeneratePackageXML = new System.Windows.Forms.Button();
             this.fromOrgGroup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -243,7 +244,7 @@
             // 
             this.btnExportMetadataTypes.Enabled = false;
             this.btnExportMetadataTypes.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExportMetadataTypes.Location = new System.Drawing.Point(813, 365);
+            this.btnExportMetadataTypes.Location = new System.Drawing.Point(813, 481);
             this.btnExportMetadataTypes.Margin = new System.Windows.Forms.Padding(6);
             this.btnExportMetadataTypes.Name = "btnExportMetadataTypes";
             this.btnExportMetadataTypes.Size = new System.Drawing.Size(194, 46);
@@ -252,11 +253,23 @@
             this.btnExportMetadataTypes.UseVisualStyleBackColor = true;
             this.btnExportMetadataTypes.Click += new System.EventHandler(this.btnExportMetadataTypes_Click);
             // 
+            // btnGeneratePackageXML
+            // 
+            this.btnGeneratePackageXML.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGeneratePackageXML.Location = new System.Drawing.Point(1045, 481);
+            this.btnGeneratePackageXML.Name = "btnGeneratePackageXML";
+            this.btnGeneratePackageXML.Size = new System.Drawing.Size(194, 46);
+            this.btnGeneratePackageXML.TabIndex = 15;
+            this.btnGeneratePackageXML.Text = "Generate Package XML File";
+            this.btnGeneratePackageXML.UseVisualStyleBackColor = true;
+            this.btnGeneratePackageXML.Click += new System.EventHandler(this.btnGeneratePackageXML_Click);
+            // 
             // SalesforceMetadataStep1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.ClientSize = new System.Drawing.Size(1254, 771);
+            this.Controls.Add(this.btnGeneratePackageXML);
             this.Controls.Add(this.btnExportMetadataTypes);
             this.Controls.Add(this.lblSelectDefaults);
             this.Controls.Add(this.btnSelectDefaults);
@@ -301,6 +314,7 @@
         private System.Windows.Forms.Button btnSelectDefaults;
         private System.Windows.Forms.Label lblSelectDefaults;
         private System.Windows.Forms.Button btnExportMetadataTypes;
+        private System.Windows.Forms.Button btnGeneratePackageXML;
     }
 }
 

@@ -508,6 +508,16 @@ namespace SalesforceMetadata
                 // do nothing. Just wait for the thread to complete
             }
 
+            //if (sfMdFrm.selectedItems.ContainsKey("FlexiPage"))
+            //{
+
+            //}
+
+            //if (sfMdFrm.selectedItems.ContainsKey("Layout"))
+            //{
+
+            //}
+
             // Build the Package XML for retrieval
             // In order to retrieve the Profiles/Permission sets, we have to include the metadata objects related to them, otherwise it only returns the system values.
             if (sfMdFrm.selectedItems.ContainsKey("Profile"))
@@ -1138,6 +1148,13 @@ namespace SalesforceMetadata
                     getMetadataTypes("CustomTab", packageXmlSB, members.ToArray());
                     alreadyAdded.Add(selected);
                 }
+                //else if (selected == "Layout" && !alreadyAdded.Contains(selected))
+                //{
+                //    List<String> members = new List<String>();
+                //    members.AddRange(getLayoutDescribe(reqOrg));
+                //    getMetadataTypes("Layout", packageXmlSB, members.ToArray());
+                //    alreadyAdded.Add(selected);
+                //}
                 else if (selected == "StandardValueSet" && !alreadyAdded.Contains(selected))
                 {
                     packageXmlSB.Append("<types>" + Environment.NewLine);
@@ -1516,6 +1533,19 @@ namespace SalesforceMetadata
 
             return result;
         }
+
+        //private List<String> getLayoutDescribe(UtilityClass.REQUESTINGORG reqOrg)
+        //{
+        //    DescribeLayout[] descrLayouts = sc.get(reqOrg);
+
+        //    List<String> members = new List<String>();
+        //    for (Int32 i = 0; i < descrTabs.Length; i++)
+        //    {
+        //        members.Add(descrTabs[i].name);
+        //    }
+
+        //    return members;
+        //}
 
         private List<String> getTabDescribe(UtilityClass.REQUESTINGORG reqOrg)
         {

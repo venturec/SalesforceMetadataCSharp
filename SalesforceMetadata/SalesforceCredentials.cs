@@ -263,6 +263,21 @@ namespace SalesforceMetadata
             return dgr;
         }
 
+        //public SalesforceMetadata.PartnerWSDL.DescribeLayout[] getDescribeLayout(UtilityClass.REQUESTINGORG reqOrg, String[] sobjectType)
+        //{
+        //    SalesforceMetadata.PartnerWSDL.DescribeLayout[] descrLayout;
+
+        //    foreach (String sobjType in sobjectType)
+        //    {
+        //        if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
+        //        {
+        //            descrLayout = this.fromOrgSS.describeLayout();
+        //        }
+        //    }
+
+        //    return descrTabs;
+
+        //}
         public SalesforceMetadata.PartnerWSDL.DescribeTab[] getDescribeTab(UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.PartnerWSDL.DescribeTab[] descrTabs;

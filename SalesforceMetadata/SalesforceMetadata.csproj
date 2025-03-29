@@ -144,6 +144,12 @@
     <Compile Include="ParseSalesforceMetadata.Designer.cs">
       <DependentUpon>ParseSalesforceMetadata.cs</DependentUpon>
     </Compile>
+    <Compile Include="PermissionsUpdater.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PermissionsUpdater.Designer.cs">
+      <DependentUpon>PermissionsUpdater.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -275,6 +281,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ParseSalesforceMetadata.resx">
       <DependentUpon>ParseSalesforceMetadata.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PermissionsUpdater.resx">
+      <DependentUpon>PermissionsUpdater.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserSettings.resx">
       <DependentUpon>UserSettings.cs</DependentUpon>

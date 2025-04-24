@@ -37,6 +37,7 @@
             this.btnConsolidatePermissions = new System.Windows.Forms.Button();
             this.lblDoNotOverride = new System.Windows.Forms.Label();
             this.tbDoNotOverride = new System.Windows.Forms.TextBox();
+            this.btnPopulateTreeView = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // tbSelectFolder
@@ -83,15 +84,15 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tvPermissions.CheckBoxes = true;
-            this.tvPermissions.Location = new System.Drawing.Point(12, 164);
+            this.tvPermissions.Location = new System.Drawing.Point(12, 202);
             this.tvPermissions.Name = "tvPermissions";
-            this.tvPermissions.Size = new System.Drawing.Size(1416, 474);
+            this.tvPermissions.Size = new System.Drawing.Size(1473, 546);
             this.tvPermissions.TabIndex = 4;
             // 
             // btnConsolidatePermissions
             // 
             this.btnConsolidatePermissions.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConsolidatePermissions.Location = new System.Drawing.Point(1186, 24);
+            this.btnConsolidatePermissions.Location = new System.Drawing.Point(1261, 24);
             this.btnConsolidatePermissions.Name = "btnConsolidatePermissions";
             this.btnConsolidatePermissions.Size = new System.Drawing.Size(224, 32);
             this.btnConsolidatePermissions.TabIndex = 5;
@@ -115,14 +116,24 @@
             this.tbDoNotOverride.Name = "tbDoNotOverride";
             this.tbDoNotOverride.Size = new System.Drawing.Size(877, 20);
             this.tbDoNotOverride.TabIndex = 7;
-            this.tbDoNotOverride.Text = "C:\\Users\\marcu\\Documents\\Projects\\CDW\\Permissions\\PermissionSetReview\\PSA_CDW_Ser" +
-    "vice_Operations_Engagement.permissionset";
+            // 
+            // btnPopulateTreeView
+            // 
+            this.btnPopulateTreeView.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPopulateTreeView.Location = new System.Drawing.Point(12, 165);
+            this.btnPopulateTreeView.Name = "btnPopulateTreeView";
+            this.btnPopulateTreeView.Size = new System.Drawing.Size(183, 31);
+            this.btnPopulateTreeView.TabIndex = 8;
+            this.btnPopulateTreeView.Text = "Populate Tree View";
+            this.btnPopulateTreeView.UseVisualStyleBackColor = true;
+            this.btnPopulateTreeView.Click += new System.EventHandler(this.btnPopulateTreeView_Click);
             // 
             // PermissionsUpdater
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1440, 670);
+            this.ClientSize = new System.Drawing.Size(1497, 780);
+            this.Controls.Add(this.btnPopulateTreeView);
             this.Controls.Add(this.tbDoNotOverride);
             this.Controls.Add(this.lblDoNotOverride);
             this.Controls.Add(this.btnConsolidatePermissions);
@@ -149,5 +160,6 @@
         private System.Windows.Forms.Button btnConsolidatePermissions;
         private System.Windows.Forms.Label lblDoNotOverride;
         private System.Windows.Forms.TextBox tbDoNotOverride;
+        private System.Windows.Forms.Button btnPopulateTreeView;
     }
 }

@@ -1692,14 +1692,14 @@ namespace SalesforceMetadata
 
                                                         foreach (TreeNode tnd6 in tnd5.Nodes)
                                                         {
-                                                            xmlFile = xmlFile + tnd6.Text;
+                                                            xmlFile = xmlFile + xmlFriendlyText(tnd6.Text);
                                                         }
 
                                                         xmlFile = xmlFile + "</" + tnd5TextSplit[0].Trim() + ">";
                                                     }
                                                     else
                                                     {
-                                                        xmlFile = xmlFile + tnd5.Text;
+                                                        xmlFile = xmlFile + xmlFriendlyText(tnd5.Text);
                                                     }
                                                 }
 
@@ -1707,7 +1707,7 @@ namespace SalesforceMetadata
                                             }
                                             else
                                             {
-                                                xmlFile = xmlFile + tnd4.Text;
+                                                xmlFile = xmlFile + xmlFriendlyText(tnd4.Text);
                                             }
                                         }
                                     }
@@ -1884,7 +1884,7 @@ namespace SalesforceMetadata
                                 }
                                 else
                                 {
-                                    Debug.WriteLine("");
+                                    // TODO: Add error handling
                                 }
                             }
                         }
@@ -2027,5 +2027,18 @@ namespace SalesforceMetadata
             ToolTip tt = new ToolTip();
             tt.Show("If you have a open Salesforce Outbound Change Set, add the Change Set Name here. When deployed, your changes will be added to the change set.", TB, 0, 0, VisibleTime);
         }
+
+
+        private String xmlFriendlyText(String xmlText)
+        {
+            xmlText = xmlText.Replace(">", "&gt;");
+            xmlText = xmlText.Replace("<", "&lt;");
+            xmlText = xmlText.Replace("&", "&amp;");
+            xmlText = xmlText.Replace("\"", "&quot;");
+            xmlText = xmlText.Replace("\'", "&apos;");
+
+            return xmlText;
+        }
+
     }
 }

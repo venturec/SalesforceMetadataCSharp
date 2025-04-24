@@ -40,7 +40,6 @@
             this.cmbDestructiveChange = new System.Windows.Forms.ComboBox();
             this.lblDestructiveChangeType = new System.Windows.Forms.Label();
             this.lblDestructiveChangesFirst = new System.Windows.Forms.Label();
-            //this.btnNext = new System.Windows.Forms.Button();
             this.lblDefaultAPI = new System.Windows.Forms.Label();
             this.cmbDefaultAPI = new System.Windows.Forms.ComboBox();
             this.tbOutboundChangeSetName = new System.Windows.Forms.TextBox();
@@ -100,9 +99,10 @@
             // 
             // btnBuildZipFile
             // 
-            this.btnBuildZipFile.Location = new System.Drawing.Point(880, 146);
+            this.btnBuildZipFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBuildZipFile.Location = new System.Drawing.Point(1004, 139);
             this.btnBuildZipFile.Name = "btnBuildZipFile";
-            this.btnBuildZipFile.Size = new System.Drawing.Size(215, 23);
+            this.btnBuildZipFile.Size = new System.Drawing.Size(278, 33);
             this.btnBuildZipFile.TabIndex = 13;
             this.btnBuildZipFile.Text = "Build Zip File and Deploy";
             this.btnBuildZipFile.UseVisualStyleBackColor = true;
@@ -110,9 +110,10 @@
             // 
             // btnBuildProfilesAndPermissionSets
             // 
-            this.btnBuildProfilesAndPermissionSets.Location = new System.Drawing.Point(15, 146);
+            this.btnBuildProfilesAndPermissionSets.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBuildProfilesAndPermissionSets.Location = new System.Drawing.Point(1004, 103);
             this.btnBuildProfilesAndPermissionSets.Name = "btnBuildProfilesAndPermissionSets";
-            this.btnBuildProfilesAndPermissionSets.Size = new System.Drawing.Size(215, 23);
+            this.btnBuildProfilesAndPermissionSets.Size = new System.Drawing.Size(278, 33);
             this.btnBuildProfilesAndPermissionSets.TabIndex = 10;
             this.btnBuildProfilesAndPermissionSets.Text = "Build Profiles and Permission Sets";
             this.btnBuildProfilesAndPermissionSets.UseVisualStyleBackColor = true;
@@ -131,15 +132,16 @@
             // 
             // cmbDestructiveChange
             // 
+            this.cmbDestructiveChange.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbDestructiveChange.FormattingEnabled = true;
             this.cmbDestructiveChange.Items.AddRange(new object[] {
             "--none--",
             "destructiveChanges",
             "destructiveChangesPre",
             "destructiveChangesPost"});
-            this.cmbDestructiveChange.Location = new System.Drawing.Point(648, 146);
+            this.cmbDestructiveChange.Location = new System.Drawing.Point(312, 152);
             this.cmbDestructiveChange.Name = "cmbDestructiveChange";
-            this.cmbDestructiveChange.Size = new System.Drawing.Size(206, 21);
+            this.cmbDestructiveChange.Size = new System.Drawing.Size(234, 24);
             this.cmbDestructiveChange.TabIndex = 12;
             this.cmbDestructiveChange.Text = "--none--";
             this.cmbDestructiveChange.SelectedIndexChanged += new System.EventHandler(this.cmbDestructiveChange_SelectedIndexChanged);
@@ -147,9 +149,10 @@
             // lblDestructiveChangeType
             // 
             this.lblDestructiveChangeType.AutoSize = true;
-            this.lblDestructiveChangeType.Location = new System.Drawing.Point(514, 150);
+            this.lblDestructiveChangeType.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDestructiveChangeType.Location = new System.Drawing.Point(12, 155);
             this.lblDestructiveChangeType.Name = "lblDestructiveChangeType";
-            this.lblDestructiveChangeType.Size = new System.Drawing.Size(128, 13);
+            this.lblDestructiveChangeType.Size = new System.Drawing.Size(191, 17);
             this.lblDestructiveChangeType.TabIndex = 11;
             this.lblDestructiveChangeType.Text = "Destructive Change Type";
             // 
@@ -166,17 +169,6 @@
             this.lblDestructiveChangesFirst.Text = "Select your destructive changes first, then click Next to select your Pre / Post " +
     "Deployment Items";
             this.lblDestructiveChangesFirst.Visible = false;
-            // 
-            // btnNext
-            // 
-            //this.btnNext.Location = new System.Drawing.Point(880, 176);
-            //this.btnNext.Name = "btnNext";
-            //this.btnNext.Size = new System.Drawing.Size(215, 23);
-            //this.btnNext.TabIndex = 14;
-            //this.btnNext.Text = "Next";
-            //this.btnNext.UseVisualStyleBackColor = true;
-            //this.btnNext.Visible = false;
-            //this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // lblDefaultAPI
             // 
@@ -224,7 +216,6 @@
             this.Controls.Add(this.tbOutboundChangeSetName);
             this.Controls.Add(this.cmbDefaultAPI);
             this.Controls.Add(this.lblDefaultAPI);
-            //this.Controls.Add(this.btnNext);
             this.Controls.Add(this.lblDestructiveChangesFirst);
             this.Controls.Add(this.lblDestructiveChangeType);
             this.Controls.Add(this.cmbDestructiveChange);

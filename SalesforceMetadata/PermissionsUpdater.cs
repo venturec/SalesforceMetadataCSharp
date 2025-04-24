@@ -64,7 +64,7 @@ namespace SalesforceMetadata
 
             //Boolean overrideObjectPerms = true;
 
-            if (this.tbDoNotOverride.Text != null)
+            if (this.tbDoNotOverride.Text != "")
             {
                 // At this point, just get the objects and load them into the objectPermissions dictionary
                 XmlDocument xd = new XmlDocument();
@@ -100,8 +100,8 @@ namespace SalesforceMetadata
 
             // Write all of the XML to the file
             StreamWriter sw = new StreamWriter(this.tbSaveChangesTo.Text + "\\ConsolidatedPerms.xml");
-            //sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-            //sw.WriteLine("<PermissionSet xmlns=\"http://soap.sforce.com/2006/04/metadata\">");
+            sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            sw.WriteLine("<PermissionSet xmlns=\"http://soap.sforce.com/2006/04/metadata\">");
 
             if (this.applicationVisible.Count > 0)
             {
@@ -202,7 +202,7 @@ namespace SalesforceMetadata
                     sw.Write("<allowRead>" + ols.allowRead + "</allowRead>");
                     sw.Write("<modifyAllRecords>" + ols.modifyAllRecords + "</modifyAllRecords>");
                     sw.Write("<object>" + ols.objectName + "</object>");
-                    //sw.Write("<viewAllFields>" + ols.viewAllFields + "</viewAllFields>"); // TODO: Holding off on this for now as our DevOps center is still using API vs. 60.0
+                    sw.Write("<viewAllFields>" + ols.viewAllFields + "</viewAllFields>");
                     sw.Write("<viewAllRecords>" + ols.viewAllRecords + "</viewAllRecords>");
 
                     sw.Write("</objectPermissions>");
@@ -243,7 +243,7 @@ namespace SalesforceMetadata
                 }
             }
 
-            //sw.WriteLine("</PermissionSet>");
+            sw.WriteLine("</PermissionSet>");
             sw.Close();
         }
 
@@ -494,5 +494,9 @@ namespace SalesforceMetadata
             public String viewAllRecords;
         }
 
+        private void btnPopulateTreeView_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

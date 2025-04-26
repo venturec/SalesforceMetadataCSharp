@@ -476,10 +476,12 @@ namespace SalesforceMetadata
 
         // Directory Name -> File Name -> nd1.Name -> nd2.Name -> nameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name + "|" + nd8.Name -> List of node values
         private void parseXmlDocument(String directoryName, String fileName, XmlDocument xmlDoc,
-                                      HashSet<String> comparisonDictionary)
+                                      HashSet<String> comparisonHashSet)
         {
             // First find the #text node values to determine if there are changes to those vlaues.
             // Use the parent node names up the chain to be the keys with the #text value being the value
+
+            XmlNodeParser ndParser = new XmlNodeParser();
 
             String nodeBlockNameValue = "";
             foreach (XmlNode nd3 in xmlDoc.ChildNodes)
@@ -491,6 +493,8 @@ namespace SalesforceMetadata
 
                 if (nd3.HasChildNodes)
                 {
+                    String startingNodeValue = directoryName + "\\" + fileName + "\\" + nd3.Name;
+
                     foreach (XmlNode nd4 in nd3.ChildNodes)
                     {
                         /****************************************************************/
@@ -508,36 +512,26 @@ namespace SalesforceMetadata
                                 nodeBlockNameValue = nd4.Name + " | " + nodeBlockNameValue;
                             }
 
-                            foreach (XmlNode nd5 in nd4.ChildNodes)
+                            List<XmlNodeParser.XmlNodeValue> ndPathAndValues = ndParser.parseXmlChildNodes1(nd4);
+                            HashSet<String> tempHashSet = ndParser.flattenXmlNodeValue(ndPathAndValues);
+
+                            foreach (String val in tempHashSet)
                             {
-                                if (nd5.HasChildNodes)
-                                {
-                                    foreach (XmlNode nd6 in nd5.ChildNodes)
-                                    {
-                                        comparisonDictionary.Add(directoryName + "\\" + fileName + "\\" + nd3.Name + "\\" + nodeBlockNameValue + "\\" + nd5.Name + "\\" + nd6.OuterXml);
-                                    }
-                                }
-                                else
-                                {
-                                    comparisonDictionary.Add(directoryName + "\\" + fileName + "\\" + nd3.Name + "\\" + nodeBlockNameValue + "\\" + nd5.OuterXml);
-                                }
+                                comparisonHashSet.Add(startingNodeValue + "\\" + nodeBlockNameValue + "\\" + val);
                             }
                         }
                         else
                         {
-                            comparisonDictionary.Add(directoryName + "\\" + fileName + "\\" + nd3.Name + "\\" + nd4.OuterXml);
+                            comparisonHashSet.Add(startingNodeValue + "\\" + ndParser.replaceSpecialCharacters(nd4.OuterXml));
                         }
                     }
                 }
+                else
+                {
+                    Debug.WriteLine("");
+                }
             }
         }
-
-        private String[] parseNodeNameAndValue(String nodeNameWithValue)
-        {
-            String[] parsedNodeNameWithValue = nodeNameWithValue.Split('|');
-            return parsedNodeNameWithValue;
-        }
-
 
         // Helper methods
         /**********************************************************************************************************************/
@@ -658,6 +652,21 @@ namespace SalesforceMetadata
             TreeNode tnd3 = new TreeNode();
             TreeNode tnd4 = new TreeNode();
             TreeNode tnd5 = new TreeNode();
+            //TreeNode tnd6 = new TreeNode();
+            //TreeNode tnd7 = new TreeNode();
+            //TreeNode tnd8 = new TreeNode();
+            //TreeNode tnd9 = new TreeNode();
+            //TreeNode tnd10 = new TreeNode();
+            //TreeNode tnd11 = new TreeNode();
+            //TreeNode tnd12 = new TreeNode();
+            //TreeNode tnd13 = new TreeNode();
+            //TreeNode tnd14 = new TreeNode();
+            //TreeNode tnd15 = new TreeNode();
+            //TreeNode tnd16 = new TreeNode();
+            //TreeNode tnd17 = new TreeNode();
+            //TreeNode tnd18 = new TreeNode();
+            //TreeNode tnd19 = new TreeNode();
+            //TreeNode tnd20 = new TreeNode();
 
             foreach (String stringValue in this.comparisonResults)
             {
@@ -672,12 +681,28 @@ namespace SalesforceMetadata
                         treeViewDifferences.Nodes.Add(tnd0);
                     }
 
+                    // Anticipate a new tree node block and instantiate the variables as new
                     tnd0 = new TreeNode(stringValueSplit[0]);
                     tnd1 = new TreeNode();
                     tnd2 = new TreeNode();
                     tnd3 = new TreeNode();
                     tnd4 = new TreeNode();
                     tnd5 = new TreeNode();
+                    //tnd6 = new TreeNode();
+                    //tnd7 = new TreeNode();
+                    //tnd8 = new TreeNode();
+                    //tnd9 = new TreeNode();
+                    //tnd10 = new TreeNode();
+                    //tnd11 = new TreeNode();
+                    //tnd12 = new TreeNode();
+                    //tnd13 = new TreeNode();
+                    //tnd14 = new TreeNode();
+                    //tnd15 = new TreeNode();
+                    //tnd16 = new TreeNode();
+                    //tnd17 = new TreeNode();
+                    //tnd18 = new TreeNode();
+                    //tnd19 = new TreeNode();
+                    //tnd20 = new TreeNode();
                 }
 
                 if (tnd1.Text != stringValueSplit[1])
@@ -688,10 +713,26 @@ namespace SalesforceMetadata
                         tnd0.Nodes.Add(tnd1);
                     }
 
+                    // Anticipate a new tree node block and instantiate the variables as new
                     tnd2 = new TreeNode();
                     tnd3 = new TreeNode();
                     tnd4 = new TreeNode();
                     tnd5 = new TreeNode();
+                    //tnd6 = new TreeNode();
+                    //tnd7 = new TreeNode();
+                    //tnd8 = new TreeNode();
+                    //tnd9 = new TreeNode();
+                    //tnd10 = new TreeNode();
+                    //tnd11 = new TreeNode();
+                    //tnd12 = new TreeNode();
+                    //tnd13 = new TreeNode();
+                    //tnd14 = new TreeNode();
+                    //tnd15 = new TreeNode();
+                    //tnd16 = new TreeNode();
+                    //tnd17 = new TreeNode();
+                    //tnd18 = new TreeNode();
+                    //tnd19 = new TreeNode();
+                    //tnd20 = new TreeNode();
 
                     if (stringValueSplit[1].StartsWith("[New] "))
                     {
@@ -702,15 +743,31 @@ namespace SalesforceMetadata
                 if (stringValueSplit.Length > 2
                     && tnd2.Text != stringValueSplit[2])
                 {
-                    if (stringValueSplit[1] != "")
+                    if (stringValueSplit[2] != "")
                     {
                         tnd2 = new TreeNode(stringValueSplit[2]);
                         tnd1.Nodes.Add(tnd2);
                     }
 
+                    // Anticipate a new tree node block and instantiate the variables as new
                     tnd3 = new TreeNode();
                     tnd4 = new TreeNode();
                     tnd5 = new TreeNode();
+                    //tnd6 = new TreeNode();
+                    //tnd7 = new TreeNode();
+                    //tnd8 = new TreeNode();
+                    //tnd9 = new TreeNode();
+                    //tnd10 = new TreeNode();
+                    //tnd11 = new TreeNode();
+                    //tnd12 = new TreeNode();
+                    //tnd13 = new TreeNode();
+                    //tnd14 = new TreeNode();
+                    //tnd15 = new TreeNode();
+                    //tnd16 = new TreeNode();
+                    //tnd17 = new TreeNode();
+                    //tnd18 = new TreeNode();
+                    //tnd19 = new TreeNode();
+                    //tnd20 = new TreeNode();
 
                     if (stringValueSplit[2].StartsWith("[New] "))
                     {
@@ -721,14 +778,30 @@ namespace SalesforceMetadata
                 if (stringValueSplit.Length > 3
                     && tnd3.Text != stringValueSplit[3])
                 {
-                    if (stringValueSplit[1] != "")
+                    if (stringValueSplit[3] != "")
                     {
                         tnd3 = new TreeNode(stringValueSplit[3]);
                         tnd2.Nodes.Add(tnd3);
                     }
 
+                    // Anticipate a new tree node block and instantiate the variables as new
                     tnd4 = new TreeNode();
                     tnd5 = new TreeNode();
+                    //tnd6 = new TreeNode();
+                    //tnd7 = new TreeNode();
+                    //tnd8 = new TreeNode();
+                    //tnd9 = new TreeNode();
+                    //tnd10 = new TreeNode();
+                    //tnd11 = new TreeNode();
+                    //tnd12 = new TreeNode();
+                    //tnd13 = new TreeNode();
+                    //tnd14 = new TreeNode();
+                    //tnd15 = new TreeNode();
+                    //tnd16 = new TreeNode();
+                    //tnd17 = new TreeNode();
+                    //tnd18 = new TreeNode();
+                    //tnd19 = new TreeNode();
+                    //tnd20 = new TreeNode();
 
                     if (stringValueSplit[3].StartsWith("[New] "))
                     {
@@ -739,34 +812,426 @@ namespace SalesforceMetadata
                 if (stringValueSplit.Length > 4
                     && tnd4.Text != stringValueSplit[4])
                 {
-                    if (stringValueSplit[1] != "")
+                    if (stringValueSplit[4] != "")
                     {
                         tnd4 = new TreeNode(stringValueSplit[4]);
                         tnd3.Nodes.Add(tnd4);
                     }
 
+                    // Anticipate a new tree node block and instantiate the variables as new
                     tnd5 = new TreeNode();
+                    //tnd6 = new TreeNode();
+                    //tnd7 = new TreeNode();
+                    //tnd8 = new TreeNode();
+                    //tnd9 = new TreeNode();
+                    //tnd10 = new TreeNode();
+                    //tnd11 = new TreeNode();
+                    //tnd12 = new TreeNode();
+                    //tnd13 = new TreeNode();
+                    //tnd14 = new TreeNode();
+                    //tnd15 = new TreeNode();
+                    //tnd16 = new TreeNode();
+                    //tnd17 = new TreeNode();
+                    //tnd18 = new TreeNode();
+                    //tnd19 = new TreeNode();
+                    //tnd20 = new TreeNode();
 
                     if (stringValueSplit[4].StartsWith("[New] "))
                     {
                         tnd4.BackColor = Color.LightBlue;
+                    }
+                    else if (stringValueSplit[1].StartsWith("[Updated] "))
+                    {
+                        tnd1.BackColor = Color.AliceBlue;
                     }
                 }
 
                 if (stringValueSplit.Length > 5
                     && tnd5.Text != stringValueSplit[5])
                 {
-                    if (stringValueSplit[1] != "")
+                    if (stringValueSplit[5] != "")
                     {
-                        tnd5 = new TreeNode(stringValueSplit[5]);
+                        tnd5 = new TreeNode();
+
+                        // Check if there are additional layers to add
+                        String tnd5Text = stringValueSplit[5];
+                        if (stringValueSplit.Length > 6)
+                        {
+                            for (Int32 i = 6; i < stringValueSplit.Length; i++)
+                            {
+                                tnd5Text = tnd5Text + "\\" + stringValueSplit[i];
+                            }
+                        }
+
+                        tnd5.Text = tnd5Text;
                         tnd4.Nodes.Add(tnd5);
                     }
+
+                    //tnd6 = new TreeNode();
+                    //tnd7 = new TreeNode();
+                    //tnd8 = new TreeNode();
+                    //tnd9 = new TreeNode();
+                    //tnd10 = new TreeNode();
+                    //tnd11 = new TreeNode();
+                    //tnd12 = new TreeNode();
+                    //tnd13 = new TreeNode();
+                    //tnd14 = new TreeNode();
+                    //tnd15 = new TreeNode();
+                    //tnd16 = new TreeNode();
+                    //tnd17 = new TreeNode();
+                    //tnd18 = new TreeNode();
+                    //tnd19 = new TreeNode();
+                    //tnd20 = new TreeNode();
 
                     if (stringValueSplit[5].StartsWith("[New] "))
                     {
                         tnd5.BackColor = Color.LightBlue;
                     }
                 }
+
+                //if (stringValueSplit.Length > 6
+                //    && tnd6.Text != stringValueSplit[6])
+                //{
+                //    if (stringValueSplit[6] != "")
+                //    {
+                //        tnd6 = new TreeNode(stringValueSplit[6]);
+                //        tnd5.Nodes.Add(tnd6);
+                //    }
+
+                //    tnd7 = new TreeNode();
+                //    tnd8 = new TreeNode();
+                //    tnd9 = new TreeNode();
+                //    tnd10 = new TreeNode();
+                //    tnd11 = new TreeNode();
+                //    tnd12 = new TreeNode();
+                //    tnd13 = new TreeNode();
+                //    tnd14 = new TreeNode();
+                //    tnd15 = new TreeNode();
+                //    tnd16 = new TreeNode();
+                //    tnd17 = new TreeNode();
+                //    tnd18 = new TreeNode();
+                //    tnd19 = new TreeNode();
+                //    tnd20 = new TreeNode();
+
+                //    if (stringValueSplit[6].StartsWith("[New] "))
+                //    {
+                //        tnd6.BackColor = Color.LightBlue;
+                //    }
+                //}
+
+                //if (stringValueSplit.Length > 7
+                //    && tnd7.Text != stringValueSplit[7])
+                //{
+                //    if (stringValueSplit[7] != "")
+                //    {
+                //        tnd7 = new TreeNode(stringValueSplit[7]);
+                //        tnd6.Nodes.Add(tnd7);
+                //    }
+
+                //    tnd8 = new TreeNode();
+                //    tnd9 = new TreeNode();
+                //    tnd10 = new TreeNode();
+                //    tnd11 = new TreeNode();
+                //    tnd12 = new TreeNode();
+                //    tnd13 = new TreeNode();
+                //    tnd14 = new TreeNode();
+                //    tnd15 = new TreeNode();
+                //    tnd16 = new TreeNode();
+                //    tnd17 = new TreeNode();
+                //    tnd18 = new TreeNode();
+                //    tnd19 = new TreeNode();
+                //    tnd20 = new TreeNode();
+
+                //    if (stringValueSplit[7].StartsWith("[New] "))
+                //    {
+                //        tnd7.BackColor = Color.LightBlue;
+                //    }
+                //}
+
+                //if (stringValueSplit.Length > 8
+                //    && tnd8.Text != stringValueSplit[8])
+                //{
+                //    if (stringValueSplit[8] != "")
+                //    {
+                //        tnd8 = new TreeNode(stringValueSplit[8]);
+                //        tnd7.Nodes.Add(tnd8);
+                //    }
+
+                //    tnd9 = new TreeNode();
+                //    tnd10 = new TreeNode();
+                //    tnd11 = new TreeNode();
+                //    tnd12 = new TreeNode();
+                //    tnd13 = new TreeNode();
+                //    tnd14 = new TreeNode();
+                //    tnd15 = new TreeNode();
+                //    tnd16 = new TreeNode();
+                //    tnd17 = new TreeNode();
+                //    tnd18 = new TreeNode();
+                //    tnd19 = new TreeNode();
+                //    tnd20 = new TreeNode();
+
+                //    if (stringValueSplit[8].StartsWith("[New] "))
+                //    {
+                //        tnd8.BackColor = Color.LightBlue;
+                //    }
+                //}
+
+                //if (stringValueSplit.Length > 9
+                //    && tnd9.Text != stringValueSplit[9])
+                //{
+                //    if (stringValueSplit[9] != "")
+                //    {
+                //        tnd9 = new TreeNode(stringValueSplit[9]);
+                //        tnd8.Nodes.Add(tnd9);
+                //    }
+
+                //    tnd10 = new TreeNode();
+                //    tnd11 = new TreeNode();
+                //    tnd12 = new TreeNode();
+                //    tnd13 = new TreeNode();
+                //    tnd14 = new TreeNode();
+                //    tnd15 = new TreeNode();
+                //    tnd16 = new TreeNode();
+                //    tnd17 = new TreeNode();
+                //    tnd18 = new TreeNode();
+                //    tnd19 = new TreeNode();
+                //    tnd20 = new TreeNode();
+
+                //    if (stringValueSplit[9].StartsWith("[New] "))
+                //    {
+                //        tnd9.BackColor = Color.LightBlue;
+                //    }
+                //}
+
+                //if (stringValueSplit.Length > 10
+                //    && tnd10.Text != stringValueSplit[10])
+                //{
+                //    if (stringValueSplit[10] != "")
+                //    {
+                //        tnd10 = new TreeNode(stringValueSplit[10]);
+                //        tnd9.Nodes.Add(tnd10);
+                //    }
+
+                //    tnd11 = new TreeNode();
+                //    tnd12 = new TreeNode();
+                //    tnd13 = new TreeNode();
+                //    tnd14 = new TreeNode();
+                //    tnd15 = new TreeNode();
+                //    tnd16 = new TreeNode();
+                //    tnd17 = new TreeNode();
+                //    tnd18 = new TreeNode();
+                //    tnd19 = new TreeNode();
+                //    tnd20 = new TreeNode();
+
+                //    if (stringValueSplit[10].StartsWith("[New] "))
+                //    {
+                //        tnd10.BackColor = Color.LightBlue;
+                //    }
+                //}
+
+                //if (stringValueSplit.Length > 11
+                //    && tnd11.Text != stringValueSplit[11])
+                //{
+                //    if (stringValueSplit[11] != "")
+                //    {
+                //        tnd11 = new TreeNode(stringValueSplit[11]);
+                //        tnd10.Nodes.Add(tnd11);
+                //    }
+
+                //    tnd12 = new TreeNode();
+                //    tnd13 = new TreeNode();
+                //    tnd14 = new TreeNode();
+                //    tnd15 = new TreeNode();
+                //    tnd16 = new TreeNode();
+                //    tnd17 = new TreeNode();
+                //    tnd18 = new TreeNode();
+                //    tnd19 = new TreeNode();
+                //    tnd20 = new TreeNode();
+
+                //    if (stringValueSplit[11].StartsWith("[New] "))
+                //    {
+                //        tnd11.BackColor = Color.LightBlue;
+                //    }
+                //}
+
+                //if (stringValueSplit.Length > 12
+                //    && tnd12.Text != stringValueSplit[12])
+                //{
+                //    if (stringValueSplit[12] != "")
+                //    {
+                //        tnd12 = new TreeNode(stringValueSplit[12]);
+                //        tnd11.Nodes.Add(tnd12);
+                //    }
+
+                //    tnd13 = new TreeNode();
+                //    tnd14 = new TreeNode();
+                //    tnd15 = new TreeNode();
+                //    tnd16 = new TreeNode();
+                //    tnd17 = new TreeNode();
+                //    tnd18 = new TreeNode();
+                //    tnd19 = new TreeNode();
+                //    tnd20 = new TreeNode();
+
+                //    if (stringValueSplit[12].StartsWith("[New] "))
+                //    {
+                //        tnd12.BackColor = Color.LightBlue;
+                //    }
+                //}
+
+                //if (stringValueSplit.Length > 13
+                //    && tnd13.Text != stringValueSplit[13])
+                //{
+                //    if (stringValueSplit[13] != "")
+                //    {
+                //        tnd13 = new TreeNode(stringValueSplit[13]);
+                //        tnd12.Nodes.Add(tnd13);
+                //    }
+
+                //    tnd14 = new TreeNode();
+                //    tnd15 = new TreeNode();
+                //    tnd16 = new TreeNode();
+                //    tnd17 = new TreeNode();
+                //    tnd18 = new TreeNode();
+                //    tnd19 = new TreeNode();
+                //    tnd20 = new TreeNode();
+
+                //    if (stringValueSplit[13].StartsWith("[New] "))
+                //    {
+                //        tnd13.BackColor = Color.LightBlue;
+                //    }
+                //}
+
+                //if (stringValueSplit.Length > 14
+                //    && tnd14.Text != stringValueSplit[14])
+                //{
+                //    if (stringValueSplit[14] != "")
+                //    {
+                //        tnd14 = new TreeNode(stringValueSplit[14]);
+                //        tnd13.Nodes.Add(tnd14);
+                //    }
+
+                //    tnd15 = new TreeNode();
+                //    tnd16 = new TreeNode();
+                //    tnd17 = new TreeNode();
+                //    tnd18 = new TreeNode();
+                //    tnd19 = new TreeNode();
+                //    tnd20 = new TreeNode();
+
+                //    if (stringValueSplit[14].StartsWith("[New] "))
+                //    {
+                //        tnd14.BackColor = Color.LightBlue;
+                //    }
+                //}
+
+                //if (stringValueSplit.Length > 15
+                //    && tnd15.Text != stringValueSplit[15])
+                //{
+                //    if (stringValueSplit[15] != "")
+                //    {
+                //        tnd15 = new TreeNode(stringValueSplit[15]);
+                //        tnd14.Nodes.Add(tnd15);
+                //    }
+
+                //    tnd16 = new TreeNode();
+                //    tnd17 = new TreeNode();
+                //    tnd18 = new TreeNode();
+                //    tnd19 = new TreeNode();
+                //    tnd20 = new TreeNode();
+
+                //    if (stringValueSplit[15].StartsWith("[New] "))
+                //    {
+                //        tnd15.BackColor = Color.LightBlue;
+                //    }
+                //}
+
+                //if (stringValueSplit.Length > 16
+                //    && tnd16.Text != stringValueSplit[16])
+                //{
+                //    if (stringValueSplit[16] != "")
+                //    {
+                //        tnd16 = new TreeNode(stringValueSplit[16]);
+                //        tnd15.Nodes.Add(tnd16);
+                //    }
+
+                //    tnd17 = new TreeNode();
+                //    tnd18 = new TreeNode();
+                //    tnd19 = new TreeNode();
+                //    tnd20 = new TreeNode();
+
+                //    if (stringValueSplit[16].StartsWith("[New] "))
+                //    {
+                //        tnd16.BackColor = Color.LightBlue;
+                //    }
+                //}
+
+                //if (stringValueSplit.Length > 17
+                //    && tnd17.Text != stringValueSplit[17])
+                //{
+                //    if (stringValueSplit[17] != "")
+                //    {
+                //        tnd17 = new TreeNode(stringValueSplit[17]);
+                //        tnd16.Nodes.Add(tnd17);
+                //    }
+
+                //    tnd18 = new TreeNode();
+                //    tnd19 = new TreeNode();
+                //    tnd20 = new TreeNode();
+
+                //    if (stringValueSplit[17].StartsWith("[New] "))
+                //    {
+                //        tnd17.BackColor = Color.LightBlue;
+                //    }
+                //}
+
+                //if (stringValueSplit.Length > 18
+                //    && tnd18.Text != stringValueSplit[18])
+                //{
+                //    if (stringValueSplit[18] != "")
+                //    {
+                //        tnd18 = new TreeNode(stringValueSplit[18]);
+                //        tnd17.Nodes.Add(tnd18);
+                //    }
+
+                //    tnd19 = new TreeNode();
+                //    tnd20 = new TreeNode();
+
+                //    if (stringValueSplit[18].StartsWith("[New] "))
+                //    {
+                //        tnd18.BackColor = Color.LightBlue;
+                //    }
+                //}
+
+                //if (stringValueSplit.Length > 19
+                //    && tnd19.Text != stringValueSplit[19])
+                //{
+                //    if (stringValueSplit[19] != "")
+                //    {
+                //        tnd19 = new TreeNode(stringValueSplit[19]);
+                //        tnd18.Nodes.Add(tnd19);
+                //    }
+
+                //    tnd20 = new TreeNode();
+
+                //    if (stringValueSplit[19].StartsWith("[New] "))
+                //    {
+                //        tnd19.BackColor = Color.LightBlue;
+                //    }
+                //}
+
+                //if (stringValueSplit.Length > 20
+                //    && tnd20.Text != stringValueSplit[20])
+                //{
+                //    if (stringValueSplit[20] != "")
+                //    {
+                //        tnd20 = new TreeNode(stringValueSplit[20]);
+                //        tnd19.Nodes.Add(tnd20);
+                //    }
+
+                //    if (stringValueSplit[20].StartsWith("[New] "))
+                //    {
+                //        tnd20.BackColor = Color.LightBlue;
+                //    }
+                //}
             }
 
             treeViewDifferences.Nodes.Add(tnd0);
@@ -1480,7 +1945,6 @@ namespace SalesforceMetadata
         }
 
         /*******************************************************************************************************************************/
-
         private void GenerateDeploymentPackage_Click(object sender, EventArgs e)
         {
             if (this.tbFromFolder.Text == "")

@@ -257,6 +257,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="XmlNodeParser.cs" />
     <EmbeddedResource Include="AddObject.resx">
       <DependentUpon>AddObject.cs</DependentUpon>
     </EmbeddedResource>

@@ -61,7 +61,7 @@
             this.btnMetadataForm.Location = new System.Drawing.Point(9, 46);
             this.btnMetadataForm.Margin = new System.Windows.Forms.Padding(2);
             this.btnMetadataForm.Name = "btnMetadataForm";
-            this.btnMetadataForm.Size = new System.Drawing.Size(190, 35);
+            this.btnMetadataForm.Size = new System.Drawing.Size(220, 35);
             this.btnMetadataForm.TabIndex = 2;
             this.btnMetadataForm.Text = "Metadata Form";
             this.btnMetadataForm.UseVisualStyleBackColor = true;
@@ -109,10 +109,10 @@
             // btnSearchMetadata
             // 
             this.btnSearchMetadata.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearchMetadata.Location = new System.Drawing.Point(399, 46);
+            this.btnSearchMetadata.Location = new System.Drawing.Point(473, 46);
             this.btnSearchMetadata.Margin = new System.Windows.Forms.Padding(2);
             this.btnSearchMetadata.Name = "btnSearchMetadata";
-            this.btnSearchMetadata.Size = new System.Drawing.Size(190, 35);
+            this.btnSearchMetadata.Size = new System.Drawing.Size(220, 35);
             this.btnSearchMetadata.TabIndex = 7;
             this.btnSearchMetadata.Text = "Search Metadata";
             this.btnSearchMetadata.UseVisualStyleBackColor = true;
@@ -121,9 +121,9 @@
             // btnParseDebugLogs
             // 
             this.btnParseDebugLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnParseDebugLogs.Location = new System.Drawing.Point(400, 86);
+            this.btnParseDebugLogs.Location = new System.Drawing.Point(474, 86);
             this.btnParseDebugLogs.Name = "btnParseDebugLogs";
-            this.btnParseDebugLogs.Size = new System.Drawing.Size(190, 35);
+            this.btnParseDebugLogs.Size = new System.Drawing.Size(220, 35);
             this.btnParseDebugLogs.TabIndex = 8;
             this.btnParseDebugLogs.Text = "Parse Debug Logs";
             this.btnParseDebugLogs.UseVisualStyleBackColor = true;
@@ -208,9 +208,9 @@
             // MetadataComparison
             // 
             this.MetadataComparison.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MetadataComparison.Location = new System.Drawing.Point(204, 46);
+            this.MetadataComparison.Location = new System.Drawing.Point(243, 46);
             this.MetadataComparison.Name = "MetadataComparison";
-            this.MetadataComparison.Size = new System.Drawing.Size(190, 35);
+            this.MetadataComparison.Size = new System.Drawing.Size(220, 35);
             this.MetadataComparison.TabIndex = 4;
             this.MetadataComparison.Text = "Metadata Comparison";
             this.MetadataComparison.UseVisualStyleBackColor = true;
@@ -230,9 +230,9 @@
             // btnGenerateDeploymentPackage
             // 
             this.btnGenerateDeploymentPackage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGenerateDeploymentPackage.Location = new System.Drawing.Point(204, 87);
+            this.btnGenerateDeploymentPackage.Location = new System.Drawing.Point(243, 87);
             this.btnGenerateDeploymentPackage.Name = "btnGenerateDeploymentPackage";
-            this.btnGenerateDeploymentPackage.Size = new System.Drawing.Size(190, 35);
+            this.btnGenerateDeploymentPackage.Size = new System.Drawing.Size(220, 35);
             this.btnGenerateDeploymentPackage.TabIndex = 5;
             this.btnGenerateDeploymentPackage.Text = "Generate Deployment Package";
             this.btnGenerateDeploymentPackage.UseVisualStyleBackColor = true;
@@ -253,9 +253,9 @@
             // btnDevelopmentIde
             // 
             this.btnDevelopmentIde.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDevelopmentIde.Location = new System.Drawing.Point(9, 88);
+            this.btnDevelopmentIde.Location = new System.Drawing.Point(9, 86);
             this.btnDevelopmentIde.Name = "btnDevelopmentIde";
-            this.btnDevelopmentIde.Size = new System.Drawing.Size(190, 34);
+            this.btnDevelopmentIde.Size = new System.Drawing.Size(220, 35);
             this.btnDevelopmentIde.TabIndex = 3;
             this.btnDevelopmentIde.Text = "Development IDE";
             this.btnDevelopmentIde.UseVisualStyleBackColor = true;
@@ -264,9 +264,9 @@
             // btnDeployments
             // 
             this.btnDeployments.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeployments.Location = new System.Drawing.Point(204, 127);
+            this.btnDeployments.Location = new System.Drawing.Point(243, 127);
             this.btnDeployments.Name = "btnDeployments";
-            this.btnDeployments.Size = new System.Drawing.Size(190, 35);
+            this.btnDeployments.Size = new System.Drawing.Size(220, 35);
             this.btnDeployments.TabIndex = 6;
             this.btnDeployments.Text = "Deployments";
             this.btnDeployments.UseVisualStyleBackColor = true;

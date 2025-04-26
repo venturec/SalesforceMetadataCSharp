@@ -498,7 +498,8 @@ namespace SalesforceMetadata
                     {
                         foreach (TreeNode tnd2 in tnd1.Nodes)
                         {
-                            if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
+                            if (tnd2.Text == fileNameSplit[0] + ".crt"
+                                || tnd2.Text == fileNameSplit[0] + ".crt-meta.xml")
                             {
                                 tnd2.Checked = true;
                             }
@@ -515,7 +516,8 @@ namespace SalesforceMetadata
                     {
                         foreach (TreeNode tnd2 in tnd1.Nodes)
                         {
-                            if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
+                            if (tnd2.Text == fileNameSplit[0] + ".cls"
+                                || tnd2.Text == fileNameSplit[0] + ".cls-meta.xml")
                             {
                                 tnd2.Checked = true;
                                 if (tnd2.Nodes.Count > 0)
@@ -539,7 +541,8 @@ namespace SalesforceMetadata
                     {
                         foreach (TreeNode tnd2 in tnd1.Nodes)
                         {
-                            if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
+                            if (tnd2.Text == fileNameSplit[0] + ".component"
+                                || tnd2.Text == fileNameSplit[0] + ".component-meta.xml")
                             {
                                 tnd2.Checked = true;
                             }
@@ -555,7 +558,8 @@ namespace SalesforceMetadata
                     {
                         foreach (TreeNode tnd2 in tnd1.Nodes)
                         {
-                            if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
+                            if (tnd2.Text == fileNameSplit[0] + ".asset"
+                                || tnd2.Text == fileNameSplit[0] + ".asset-meta.xml")
                             {
                                 tnd2.Checked = true;
                             }
@@ -605,7 +609,8 @@ namespace SalesforceMetadata
                     {
                         foreach (TreeNode tnd2 in tnd1.Nodes)
                         {
-                            if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
+                            if (tnd2.Text == fileNameSplit[0] + ".page"
+                                || tnd2.Text == fileNameSplit[0] + ".page-meta.xml")
                             {
                                 tnd2.Checked = true;
                             }
@@ -644,13 +649,12 @@ namespace SalesforceMetadata
                     {
                         foreach (TreeNode tnd2 in tnd1.Nodes)
                         {
-                            String[] tnd2FileNameSplit = tnd2.Text.Split('.');
-
-                            //if (tnd2FileNameSplit[0] == fileNameSplit[0]
-                            //    && tnd2.Text.EndsWith("-meta.xml"))
-                            //{
-                            //    tnd2.Checked = true;
-                            //}
+                            if (tnd2.Text == fileNameSplit[0] + ".resource"
+                                || tnd2.Text == fileNameSplit[0] + ".resource-meta.xml")
+                            {
+                                tnd2.Checked = true;
+                                tnd1.Checked = true;
+                            }
                         }
                     }
                 }
@@ -664,7 +668,8 @@ namespace SalesforceMetadata
                     {
                         foreach (TreeNode tnd2 in tnd1.Nodes)
                         {
-                            if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
+                            if (tnd2.Text == fileNameSplit[0] + ".trigger"
+                                || tnd2.Text == fileNameSplit[0] + ".trigger-meta.xml")
                             {
                                 tnd2.Checked = true;
                             }
@@ -1235,8 +1240,6 @@ namespace SalesforceMetadata
                     {
                         if (tnd2.Checked == true)
                         {
-                            Debug.WriteLine("");
-
                             String[] tnd2NodeFullPath = tnd2.FullPath.Split('\\');
 
                             DirectoryInfo di;

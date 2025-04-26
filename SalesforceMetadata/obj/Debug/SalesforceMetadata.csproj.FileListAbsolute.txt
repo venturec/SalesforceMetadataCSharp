@@ -335,3 +335,4 @@ C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\Salesfor.8AEDC7D8.Up2Date
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.exe
 C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.pdb
+C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\SalesforceMetadata\obj\Debug\SalesforceMetadata.PermissionsUpdater.resources

@@ -51,15 +51,17 @@
             this.btnParseMetadataXml = new System.Windows.Forms.Button();
             this.verticalRule1 = new System.Windows.Forms.Label();
             this.btnGenerateToolingReport = new System.Windows.Forms.Button();
+            this.btnPermissionsUpdater = new System.Windows.Forms.Button();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnMetadataForm
             // 
+            this.btnMetadataForm.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMetadataForm.Location = new System.Drawing.Point(9, 46);
             this.btnMetadataForm.Margin = new System.Windows.Forms.Padding(2);
             this.btnMetadataForm.Name = "btnMetadataForm";
-            this.btnMetadataForm.Size = new System.Drawing.Size(190, 35);
+            this.btnMetadataForm.Size = new System.Drawing.Size(220, 35);
             this.btnMetadataForm.TabIndex = 2;
             this.btnMetadataForm.Text = "Metadata Form";
             this.btnMetadataForm.UseVisualStyleBackColor = true;
@@ -73,7 +75,7 @@
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
             this.mainMenuStrip.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.mainMenuStrip.Size = new System.Drawing.Size(937, 27);
+            this.mainMenuStrip.Size = new System.Drawing.Size(1086, 27);
             this.mainMenuStrip.TabIndex = 0;
             this.mainMenuStrip.Text = "Main Menu";
             // 
@@ -101,15 +103,16 @@
             this.horizontalRule1.Location = new System.Drawing.Point(-12, 27);
             this.horizontalRule1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.horizontalRule1.Name = "horizontalRule1";
-            this.horizontalRule1.Size = new System.Drawing.Size(949, 8);
+            this.horizontalRule1.Size = new System.Drawing.Size(1098, 8);
             this.horizontalRule1.TabIndex = 1;
             // 
             // btnSearchMetadata
             // 
-            this.btnSearchMetadata.Location = new System.Drawing.Point(399, 46);
+            this.btnSearchMetadata.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSearchMetadata.Location = new System.Drawing.Point(473, 46);
             this.btnSearchMetadata.Margin = new System.Windows.Forms.Padding(2);
             this.btnSearchMetadata.Name = "btnSearchMetadata";
-            this.btnSearchMetadata.Size = new System.Drawing.Size(190, 35);
+            this.btnSearchMetadata.Size = new System.Drawing.Size(220, 35);
             this.btnSearchMetadata.TabIndex = 7;
             this.btnSearchMetadata.Text = "Search Metadata";
             this.btnSearchMetadata.UseVisualStyleBackColor = true;
@@ -117,9 +120,10 @@
             // 
             // btnParseDebugLogs
             // 
-            this.btnParseDebugLogs.Location = new System.Drawing.Point(400, 86);
+            this.btnParseDebugLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnParseDebugLogs.Location = new System.Drawing.Point(474, 86);
             this.btnParseDebugLogs.Name = "btnParseDebugLogs";
-            this.btnParseDebugLogs.Size = new System.Drawing.Size(190, 35);
+            this.btnParseDebugLogs.Size = new System.Drawing.Size(220, 35);
             this.btnParseDebugLogs.TabIndex = 8;
             this.btnParseDebugLogs.Text = "Parse Debug Logs";
             this.btnParseDebugLogs.UseVisualStyleBackColor = true;
@@ -127,6 +131,7 @@
             // 
             // btnRESTService
             // 
+            this.btnRESTService.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRESTService.Location = new System.Drawing.Point(9, 496);
             this.btnRESTService.Margin = new System.Windows.Forms.Padding(2);
             this.btnRESTService.Name = "btnRESTService";
@@ -139,10 +144,11 @@
             // btnGenerateConfigWorkbook
             // 
             this.btnGenerateConfigWorkbook.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnGenerateConfigWorkbook.Location = new System.Drawing.Point(736, 210);
+            this.btnGenerateConfigWorkbook.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGenerateConfigWorkbook.Location = new System.Drawing.Point(811, 210);
             this.btnGenerateConfigWorkbook.Margin = new System.Windows.Forms.Padding(2);
             this.btnGenerateConfigWorkbook.Name = "btnGenerateConfigWorkbook";
-            this.btnGenerateConfigWorkbook.Size = new System.Drawing.Size(190, 35);
+            this.btnGenerateConfigWorkbook.Size = new System.Drawing.Size(238, 35);
             this.btnGenerateConfigWorkbook.TabIndex = 14;
             this.btnGenerateConfigWorkbook.Text = "Generate Configuration Workbook";
             this.btnGenerateConfigWorkbook.UseVisualStyleBackColor = true;
@@ -151,10 +157,11 @@
             // btnOpenObjectFieldInspector
             // 
             this.btnOpenObjectFieldInspector.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnOpenObjectFieldInspector.Location = new System.Drawing.Point(735, 46);
+            this.btnOpenObjectFieldInspector.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOpenObjectFieldInspector.Location = new System.Drawing.Point(811, 46);
             this.btnOpenObjectFieldInspector.Margin = new System.Windows.Forms.Padding(2);
             this.btnOpenObjectFieldInspector.Name = "btnOpenObjectFieldInspector";
-            this.btnOpenObjectFieldInspector.Size = new System.Drawing.Size(190, 35);
+            this.btnOpenObjectFieldInspector.Size = new System.Drawing.Size(238, 35);
             this.btnOpenObjectFieldInspector.TabIndex = 10;
             this.btnOpenObjectFieldInspector.Text = "Object / Field Inspector";
             this.btnOpenObjectFieldInspector.UseVisualStyleBackColor = true;
@@ -162,6 +169,7 @@
             // 
             // btnOpenObjectModification
             // 
+            this.btnOpenObjectModification.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnOpenObjectModification.Location = new System.Drawing.Point(9, 458);
             this.btnOpenObjectModification.Margin = new System.Windows.Forms.Padding(2);
             this.btnOpenObjectModification.Name = "btnOpenObjectModification";
@@ -174,10 +182,11 @@
             // btnExtractHTMLPages
             // 
             this.btnExtractHTMLPages.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnExtractHTMLPages.Location = new System.Drawing.Point(736, 421);
+            this.btnExtractHTMLPages.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExtractHTMLPages.Location = new System.Drawing.Point(811, 421);
             this.btnExtractHTMLPages.Margin = new System.Windows.Forms.Padding(2);
             this.btnExtractHTMLPages.Name = "btnExtractHTMLPages";
-            this.btnExtractHTMLPages.Size = new System.Drawing.Size(190, 35);
+            this.btnExtractHTMLPages.Size = new System.Drawing.Size(238, 35);
             this.btnExtractHTMLPages.TabIndex = 15;
             this.btnExtractHTMLPages.Text = "Extract HTML Pages";
             this.btnExtractHTMLPages.UseVisualStyleBackColor = true;
@@ -186,9 +195,10 @@
             // btnExtractClassesMethods
             // 
             this.btnExtractClassesMethods.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnExtractClassesMethods.Location = new System.Drawing.Point(735, 88);
+            this.btnExtractClassesMethods.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExtractClassesMethods.Location = new System.Drawing.Point(811, 88);
             this.btnExtractClassesMethods.Name = "btnExtractClassesMethods";
-            this.btnExtractClassesMethods.Size = new System.Drawing.Size(190, 35);
+            this.btnExtractClassesMethods.Size = new System.Drawing.Size(238, 35);
             this.btnExtractClassesMethods.TabIndex = 11;
             this.btnExtractClassesMethods.Tag = "Includes Code Coverage";
             this.btnExtractClassesMethods.Text = "Automation Reporter";
@@ -197,9 +207,10 @@
             // 
             // MetadataComparison
             // 
-            this.MetadataComparison.Location = new System.Drawing.Point(204, 46);
+            this.MetadataComparison.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MetadataComparison.Location = new System.Drawing.Point(243, 46);
             this.MetadataComparison.Name = "MetadataComparison";
-            this.MetadataComparison.Size = new System.Drawing.Size(190, 35);
+            this.MetadataComparison.Size = new System.Drawing.Size(220, 35);
             this.MetadataComparison.TabIndex = 4;
             this.MetadataComparison.Text = "Metadata Comparison";
             this.MetadataComparison.UseVisualStyleBackColor = true;
@@ -207,6 +218,7 @@
             // 
             // btnUpdateAPIVersion
             // 
+            this.btnUpdateAPIVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUpdateAPIVersion.Location = new System.Drawing.Point(213, 421);
             this.btnUpdateAPIVersion.Name = "btnUpdateAPIVersion";
             this.btnUpdateAPIVersion.Size = new System.Drawing.Size(190, 35);
@@ -217,9 +229,10 @@
             // 
             // btnGenerateDeploymentPackage
             // 
-            this.btnGenerateDeploymentPackage.Location = new System.Drawing.Point(204, 87);
+            this.btnGenerateDeploymentPackage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGenerateDeploymentPackage.Location = new System.Drawing.Point(243, 87);
             this.btnGenerateDeploymentPackage.Name = "btnGenerateDeploymentPackage";
-            this.btnGenerateDeploymentPackage.Size = new System.Drawing.Size(190, 35);
+            this.btnGenerateDeploymentPackage.Size = new System.Drawing.Size(220, 35);
             this.btnGenerateDeploymentPackage.TabIndex = 5;
             this.btnGenerateDeploymentPackage.Text = "Generate Deployment Package";
             this.btnGenerateDeploymentPackage.UseVisualStyleBackColor = true;
@@ -228,9 +241,10 @@
             // btnParseLWC
             // 
             this.btnParseLWC.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnParseLWC.Location = new System.Drawing.Point(736, 129);
+            this.btnParseLWC.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnParseLWC.Location = new System.Drawing.Point(811, 129);
             this.btnParseLWC.Name = "btnParseLWC";
-            this.btnParseLWC.Size = new System.Drawing.Size(190, 35);
+            this.btnParseLWC.Size = new System.Drawing.Size(238, 35);
             this.btnParseLWC.TabIndex = 12;
             this.btnParseLWC.Text = "Parse LWC Files";
             this.btnParseLWC.UseVisualStyleBackColor = true;
@@ -238,9 +252,10 @@
             // 
             // btnDevelopmentIde
             // 
-            this.btnDevelopmentIde.Location = new System.Drawing.Point(9, 88);
+            this.btnDevelopmentIde.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDevelopmentIde.Location = new System.Drawing.Point(9, 86);
             this.btnDevelopmentIde.Name = "btnDevelopmentIde";
-            this.btnDevelopmentIde.Size = new System.Drawing.Size(190, 34);
+            this.btnDevelopmentIde.Size = new System.Drawing.Size(220, 35);
             this.btnDevelopmentIde.TabIndex = 3;
             this.btnDevelopmentIde.Text = "Development IDE";
             this.btnDevelopmentIde.UseVisualStyleBackColor = true;
@@ -248,9 +263,10 @@
             // 
             // btnDeployments
             // 
-            this.btnDeployments.Location = new System.Drawing.Point(204, 127);
+            this.btnDeployments.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeployments.Location = new System.Drawing.Point(243, 127);
             this.btnDeployments.Name = "btnDeployments";
-            this.btnDeployments.Size = new System.Drawing.Size(190, 35);
+            this.btnDeployments.Size = new System.Drawing.Size(220, 35);
             this.btnDeployments.TabIndex = 6;
             this.btnDeployments.Text = "Deployments";
             this.btnDeployments.UseVisualStyleBackColor = true;
@@ -258,6 +274,7 @@
             // 
             // btnParseMetadataXml
             // 
+            this.btnParseMetadataXml.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnParseMetadataXml.Location = new System.Drawing.Point(9, 421);
             this.btnParseMetadataXml.Name = "btnParseMetadataXml";
             this.btnParseMetadataXml.Size = new System.Drawing.Size(188, 32);
@@ -270,27 +287,40 @@
             // 
             this.verticalRule1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.verticalRule1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.verticalRule1.Location = new System.Drawing.Point(700, 27);
+            this.verticalRule1.Location = new System.Drawing.Point(775, 27);
             this.verticalRule1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.verticalRule1.Name = "verticalRule1";
-            this.verticalRule1.Size = new System.Drawing.Size(15, 510);
+            this.verticalRule1.Size = new System.Drawing.Size(15, 543);
             this.verticalRule1.TabIndex = 9;
             // 
             // btnGenerateToolingReport
             // 
             this.btnGenerateToolingReport.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnGenerateToolingReport.Location = new System.Drawing.Point(736, 170);
+            this.btnGenerateToolingReport.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGenerateToolingReport.Location = new System.Drawing.Point(811, 170);
             this.btnGenerateToolingReport.Name = "btnGenerateToolingReport";
-            this.btnGenerateToolingReport.Size = new System.Drawing.Size(189, 35);
+            this.btnGenerateToolingReport.Size = new System.Drawing.Size(238, 35);
             this.btnGenerateToolingReport.TabIndex = 13;
             this.btnGenerateToolingReport.Text = "Generate Tooling Report";
             this.btnGenerateToolingReport.UseVisualStyleBackColor = true;
             this.btnGenerateToolingReport.Click += new System.EventHandler(this.btnGenerateToolingReport_Click);
             // 
+            // btnPermissionsUpdater
+            // 
+            this.btnPermissionsUpdater.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPermissionsUpdater.Location = new System.Drawing.Point(409, 422);
+            this.btnPermissionsUpdater.Name = "btnPermissionsUpdater";
+            this.btnPermissionsUpdater.Size = new System.Drawing.Size(180, 32);
+            this.btnPermissionsUpdater.TabIndex = 20;
+            this.btnPermissionsUpdater.Text = "Permissions Updater";
+            this.btnPermissionsUpdater.UseVisualStyleBackColor = true;
+            this.btnPermissionsUpdater.Click += new System.EventHandler(this.btnPermissionsUpdater_Click);
+            // 
             // LandingPage
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(937, 536);
+            this.ClientSize = new System.Drawing.Size(1086, 569);
+            this.Controls.Add(this.btnPermissionsUpdater);
             this.Controls.Add(this.btnGenerateToolingReport);
             this.Controls.Add(this.verticalRule1);
             this.Controls.Add(this.btnParseMetadataXml);
@@ -347,5 +377,6 @@
         private System.Windows.Forms.Button btnParseMetadataXml;
         private System.Windows.Forms.Label verticalRule1;
         private System.Windows.Forms.Button btnGenerateToolingReport;
+        private System.Windows.Forms.Button btnPermissionsUpdater;
     }
 }

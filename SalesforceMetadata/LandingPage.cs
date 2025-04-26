@@ -160,5 +160,11 @@ namespace SalesforceMetadata
             MetadataToolingReportForm mtr = new MetadataToolingReportForm();
             mtr.Show();
         }
+
+        private void btnPermissionsUpdater_Click(object sender, EventArgs e)
+        {
+            PermissionsUpdater permUpdater = new PermissionsUpdater();
+            permUpdater.Show();
+        }
     }
 }

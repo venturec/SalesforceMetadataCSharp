@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Office.Interop.Excel;
 using System.Security.Cryptography;
 using System.Xml.Linq;
+using iTextSharp.text.xml;
 
 namespace SalesforceMetadata
 {
@@ -97,6 +98,22 @@ namespace SalesforceMetadata
             this.treeViewMetadata.Nodes.Clear();
 
             String[] folders = Directory.GetDirectories(this.tbProjectFolder.Text);
+
+            // Check if the folders are available, otherwise, split the folder name and move up 1
+            if (folders.Length == 0)
+            {
+                String[] folderSplit = this.tbProjectFolder.Text.Split('\\');
+                String reducedFolderNm = "";
+                for (Int32 fs = 0; fs <= folderSplit.Length - 2; fs++)
+                {
+                    reducedFolderNm = reducedFolderNm + folderSplit[fs] + "\\";
+                }
+
+                reducedFolderNm = reducedFolderNm.Substring(0, reducedFolderNm.Length - 1);
+                folders = Directory.GetDirectories(reducedFolderNm);
+                this.tbProjectFolder.Text = reducedFolderNm;
+            }
+
             foreach (String folderName in folders)
             {
                 String[] folderNameSplit = folderName.Split('\\');
@@ -284,6 +301,8 @@ namespace SalesforceMetadata
 
         private void parseXmlDocument(TreeNode tnd2, XmlDocument xmlDoc)
         {
+            XmlNodeParser ndParser = new XmlNodeParser();
+
             String nodeBlockNameValue = "";
             foreach (XmlNode nd3 in xmlDoc.ChildNodes) 
             {
@@ -315,36 +334,21 @@ namespace SalesforceMetadata
                                 tnd4.Text = nd4.Name + " | " + nodeBlockNameValue;
                             }
 
-                            foreach (XmlNode nd5 in nd4.ChildNodes)
-                            {
-                                if (nd5.HasChildNodes)
-                                {
-                                    TreeNode tnd5 = new TreeNode(nd5.Name);
-
-                                    foreach (XmlNode nd6 in nd5.ChildNodes)
-                                    {
-                                        TreeNode tnd6 = new TreeNode(nd6.OuterXml);
-                                        tnd5.Nodes.Add(tnd6);
-                                    }
-
-                                    tnd4.Nodes.Add(tnd5);
-                                }
-                                else if (nd5.Name == "#text")
-                                {
-                                    TreeNode tnd5 = new TreeNode(nd5.Value);
-                                    tnd4.Nodes.Add(tnd5);
-                                }
-                            }
-
+                            List<XmlNodeParser.XmlNodeValue> ndPathAndValues = ndParser.parseXmlChildNodes1(nd4);
+                            ndParser.buildTreeNodeWithValuesMini(tnd4, ndPathAndValues);
                             tnd3.Nodes.Add(tnd4);
                         }
-                        else if (nd4.Name == "#text")
+                        else if (nd4.NodeType == XmlNodeType.Text)
                         {
                             TreeNode tnd4 = new TreeNode(nd4.Value);
                             tnd3.Nodes.Add(tnd4);
                         }
                     }
                 }
+                //else
+                //{
+                //    Debug.WriteLine("");
+                //}
 
                 tnd2.Nodes.Add(tnd3);
             }
@@ -602,7 +606,8 @@ namespace SalesforceMetadata
                     {
                         foreach (TreeNode tnd2 in tnd1.Nodes)
                         {
-                            if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
+                            if (tnd2.Text == fileNameSplit[0] + ".crt"
+                                || tnd2.Text == fileNameSplit[0] + ".crt-meta.xml")
                             {
                                 tnd2.Checked = true;
                                 tnd1.Checked = true;
@@ -621,7 +626,8 @@ namespace SalesforceMetadata
                     {
                         foreach (TreeNode tnd2 in tnd1.Nodes)
                         {
-                            if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
+                            if (tnd2.Text == fileNameSplit[0] + ".cls"
+                                || tnd2.Text == fileNameSplit[0] + ".cls-meta.xml")
                             {
                                 tnd2.Checked = true;
                                 tnd1.Checked = true;
@@ -640,7 +646,8 @@ namespace SalesforceMetadata
                     {
                         foreach (TreeNode tnd2 in tnd1.Nodes)
                         {
-                            if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
+                            if (tnd2.Text == fileNameSplit[0] + ".component"
+                                || tnd2.Text == fileNameSplit[0] + ".component-meta.xml")
                             {
                                 tnd2.Checked = true;
                                 tnd1.Checked = true;
@@ -658,7 +665,8 @@ namespace SalesforceMetadata
                     {
                         foreach (TreeNode tnd2 in tnd1.Nodes)
                         {
-                            if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
+                            if (tnd2.Text == fileNameSplit[0] + ".asset"
+                                || tnd2.Text == fileNameSplit[0] + ".asset-meta.xml")
                             {
                                 tnd2.Checked = true;
                                 tnd1.Checked = true;
@@ -687,7 +695,8 @@ namespace SalesforceMetadata
                     {
                         foreach (TreeNode tnd2 in tnd1.Nodes)
                         {
-                            if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
+                            if (tnd2.Text == fileNameSplit[0] + ".page"
+                                || tnd2.Text == fileNameSplit[0] + ".page-meta.xml")
                             {
                                 tnd2.Checked = true;
                                 tnd1.Checked = true;
@@ -728,10 +737,8 @@ namespace SalesforceMetadata
                     {
                         foreach (TreeNode tnd2 in tnd1.Nodes)
                         {
-                            String[] tnd2FileNameSplit = tnd2.Text.Split('.');
-
-                            if (tnd2FileNameSplit[0] == fileNameSplit[0]
-                                && tnd2.Text.EndsWith("-meta.xml"))
+                            if (tnd2.Text == fileNameSplit[0] + ".resource"
+                                || tnd2.Text == fileNameSplit[0] + ".resource-meta.xml")
                             {
                                 tnd2.Checked = true;
                                 tnd1.Checked = true;
@@ -750,7 +757,8 @@ namespace SalesforceMetadata
                     {
                         foreach (TreeNode tnd2 in tnd1.Nodes)
                         {
-                            if (tnd2.Text == nodeFullPath[1] + "-meta.xml")
+                            if (tnd2.Text == fileNameSplit[0] + ".trigger"
+                                || tnd2.Text == fileNameSplit[0] + ".trigger-meta.xml")
                             {
                                 tnd2.Checked = true;
                                 tnd1.Checked = true;
@@ -1640,9 +1648,6 @@ namespace SalesforceMetadata
                             }
                             else if (metadataType == "CustomObject" || metadataType == "CustomObjectTranslation")
                             {
-                                //objSw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-                                //objSw.WriteLine("<CustomObject xmlns=\"http://soap.sforce.com/2006/04/metadata\">");
-
                                 String xmlFile = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
                                 xmlFile = xmlFile + "<CustomObject xmlns=\"http://soap.sforce.com/2006/04/metadata\">";
 
@@ -1884,7 +1889,7 @@ namespace SalesforceMetadata
                                 }
                                 else
                                 {
-                                    Debug.WriteLine("");
+                                    // TODO: Add error handling
                                 }
                             }
                         }
@@ -2027,5 +2032,17 @@ namespace SalesforceMetadata
             ToolTip tt = new ToolTip();
             tt.Show("If you have a open Salesforce Outbound Change Set, add the Change Set Name here. When deployed, your changes will be added to the change set.", TB, 0, 0, VisibleTime);
         }
+
+        private String replaceSpecialCharacters(String xmlText)
+        {
+            xmlText = xmlText.Replace(">", "&gt;");
+            xmlText = xmlText.Replace("<", "&lt;");
+            xmlText = xmlText.Replace("&", "&amp;");
+            xmlText = xmlText.Replace("\"", "&quot;");
+            xmlText = xmlText.Replace("\'", "&apos;");
+
+            return xmlText;
+        }
+
     }
 }

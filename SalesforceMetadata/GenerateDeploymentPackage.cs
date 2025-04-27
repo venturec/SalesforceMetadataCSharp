@@ -499,18 +499,20 @@ namespace SalesforceMetadata
         public void treeNodeAfterCheck(TreeNode tnd)
         {
             String[] nodeFullPath = tnd.FullPath.Split('\\');
-            String[] fileNameSplit = new string[3];
             String[] objectName = new string[2];
+            String[] fileNameSplit = new string[3];
 
             if (nodeFullPath.Length > 1)
             {
                 objectName = nodeFullPath[1].Split('.');
-                fileNameSplit = nodeFullPath[1].Split('.');
+                fileNameSplit = nodeFullPath[0].Split('.');
             }
 
             // TODO:
             // If a standard picklist field is selected, make sure to also select the related StandardValueSet. You will need a separate method for determining
             //      if a field selected translates to a StandardValueSet
+            // For object selection: The idea of the length > 2 is if you select the top node, we don't have to select the required fields
+            // However for Metadata object selection, we still need to select the related Metadatata types
             if (nodeFullPath.Length > 2
                 && nodeFullPath[0] == "customMetadata")
             {
@@ -548,49 +550,20 @@ namespace SalesforceMetadata
                 }
             }
             else if (nodeFullPath.Length > 2
-                && nodeFullPath[0] == "objects"
-                && nodeFullPath[1].Contains("__c"))
+                     && nodeFullPath[0] == "objects"
+                     && nodeFullPath[1].Contains("__c"))
             {
                 selectRequiredObjectFields(nodeFullPath[1]);
             }
-            else if (nodeFullPath.Length > 2
-                && nodeFullPath[0] == "objects"
-                && nodeFullPath[1].Contains("__mdt"))
+            else if (nodeFullPath[0] == "objects"
+                     && nodeFullPath[1].Contains("__mdt"))
             {
                 // Select the proper metadata object fields first
                 selectRequiredObjectFields(nodeFullPath[1]);
-
-                // Check off the Metadata Types in the customMetadata folder related to the metadata type checked.
-                foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
-                {
-                    if (tnd1.Text == "customMetadata")
-                    {
-                        String[] splitObjectFileName = nodeFullPath[1].Split(new String[] { "__" }, StringSplitOptions.None);
-
-                        foreach (TreeNode tnd2 in tnd1.Nodes)
-                        {
-                            String[] splitTND2Node = tnd2.Text.Split('.');
-                            if (splitTND2Node[0] == splitObjectFileName[0])
-                            {
-                                tnd2.Checked = true;
-                                tnd1.Checked = true;
-
-                                foreach (TreeNode tnd3 in tnd2.Nodes)
-                                {
-                                    tnd3.Checked = true;
-
-                                    foreach (TreeNode tnd4 in tnd3.Nodes)
-                                    {
-                                        tnd4.Checked = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                selectMetadataObjects(nodeFullPath[1]);
             }
             else if (nodeFullPath.Length > 2
-                    && nodeFullPath[0] == "objects")
+                     && nodeFullPath[0] == "objects")
             {
                 if (tnd.Text.StartsWith("fields"))
                 {
@@ -600,7 +573,7 @@ namespace SalesforceMetadata
                 }
             }
             else if (nodeFullPath.Length == 2
-                    && nodeFullPath[0] == "certs")
+                     && nodeFullPath[0] == "certs")
             {
                 // Get the class name and then make sure the XML file is checked too
                 foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
@@ -620,7 +593,7 @@ namespace SalesforceMetadata
                 }
             }
             else if (nodeFullPath.Length == 2
-                    && nodeFullPath[0] == "classes")
+                     && nodeFullPath[0] == "classes")
             {
                 // Get the class name and then make sure the XML file is checked too
                 foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
@@ -640,7 +613,7 @@ namespace SalesforceMetadata
                 }
             }
             else if (nodeFullPath.Length == 2
-                    && nodeFullPath[0] == "components")
+                     && nodeFullPath[0] == "components")
             {
                 // Get the class name and then make sure the XML file is checked too
                 foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
@@ -660,7 +633,7 @@ namespace SalesforceMetadata
                 }
             }
             else if (nodeFullPath.Length == 2
-                        && nodeFullPath[0] == "contentassets")
+                     && nodeFullPath[0] == "contentassets")
             {
                 foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
                 {
@@ -686,10 +659,11 @@ namespace SalesforceMetadata
 
                 // Second, get the related object and fields from the layout
                 // Third, go back to the object in the Tree View and select all fields which are on the layout based on the object selected
+                // TODO: This needs to be cleaned up. There are a lot of nested loops here
                 selectObjectFieldsFromLayout(objectNameSplit[0], xmlFile);
             }
             else if (nodeFullPath.Length == 2
-                    && nodeFullPath[0] == "pages")
+                     && nodeFullPath[0] == "pages")
             {
                 // Get the class name and then make sure the XML file is checked too
                 foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
@@ -731,7 +705,7 @@ namespace SalesforceMetadata
                 }
             }
             else if (nodeFullPath.Length == 2
-                    && nodeFullPath[0] == "staticresources")
+                     && nodeFullPath[0] == "staticresources")
             {
                 // Get the class name and then make sure the XML file is checked too
                 foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
@@ -751,7 +725,7 @@ namespace SalesforceMetadata
                 }
             }
             else if (nodeFullPath.Length == 2
-                    && nodeFullPath[0] == "triggers")
+                     && nodeFullPath[0] == "triggers")
             {
                 // Get the trigger name and then make sure the XML file is checked too
                 foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
@@ -780,7 +754,64 @@ namespace SalesforceMetadata
                 selectStandardValueSets(standardValueSets);
             }
         }
+        public void selectObjectFieldsFromLayout(String objectName, String xmlDocument)
+        {
+            HashSet<String> objectFields = new HashSet<string>();
 
+            XmlDocument xd = new XmlDocument();
+            xd.LoadXml(xmlDocument);
+            XmlNodeList nodeList = xd.GetElementsByTagName("field");
+            foreach (XmlNode nd in nodeList)
+            {
+                if (nd.Name == "field")
+                {
+                    objectFields.Add(nd.InnerText);
+                }
+            }
+
+            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+            {
+                if (tnd1.Text == "objects")
+                {
+                    foreach (TreeNode tnd2 in tnd1.Nodes)
+                    {
+                        if (tnd2.Text == objectName + ".object")
+                        {
+                            foreach (TreeNode tnd3 in tnd2.Nodes)
+                            {
+                                foreach (TreeNode tnd4 in tnd3.Nodes)
+                                {
+                                    if (tnd4.Text.StartsWith("fields"))
+                                    {
+                                        String[] fieldSplit = tnd4.Text.Split('|');
+
+                                        if (objectFields.Contains(fieldSplit[1].Trim()))
+                                        {
+                                            tnd4.Checked = true;
+                                            treeNodeSelectParentChildNodes(tnd4);
+
+                                            if (objectName.EndsWith("__c"))
+                                            {
+                                                selectRequiredObjectFields(objectName + ".object");
+                                            }
+                                            else if (objectName.EndsWith("__mdt"))
+                                            {
+                                                selectRequiredObjectFields(objectName + ".object");
+                                                selectMetadataObjects(objectName);
+                                            }
+
+                                            // If a standard value set is available on the page layout, make sure to include it in the HashSet to add to the deployment package
+                                            String objectFieldCombo = objectName + "." + fieldSplit[1].Trim();
+                                            populateStandardValueSetHashSet(objectFieldCombo);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         public void selectRequiredObjectFields(String objectName)
         {
             foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
@@ -839,53 +870,30 @@ namespace SalesforceMetadata
                 }
             }
         }
-
-        public void selectObjectFieldsFromLayout(String objectName, String xmlDocument)
+        public void selectMetadataObjects(String objectName)
         {
-            HashSet<String> objectFields = new HashSet<string>();
-
-            XmlDocument xd = new XmlDocument();
-            xd.LoadXml(xmlDocument);
-            XmlNodeList nodeList = xd.GetElementsByTagName("field");
-            foreach (XmlNode nd in nodeList)
-            {
-                if (nd.Name == "field")
-                {
-                    objectFields.Add(nd.InnerText);
-                }
-            }
-
+            // Check off the Metadata Types in the customMetadata folder related to the metadata type checked.
             foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
             {
-                if (tnd1.Text == "objects")
+                if (tnd1.Text == "customMetadata")
                 {
+                    String[] splitObjectFileName = objectName.Split(new String[] { "__" }, StringSplitOptions.None);
+
                     foreach (TreeNode tnd2 in tnd1.Nodes)
                     {
-                        if (tnd2.Text == objectName + ".object")
+                        String[] splitTND2Node = tnd2.Text.Split('.');
+                        if (splitTND2Node[0] == splitObjectFileName[0])
                         {
+                            tnd2.Checked = true;
+                            tnd1.Checked = true;
+
                             foreach (TreeNode tnd3 in tnd2.Nodes)
                             {
+                                tnd3.Checked = true;
+
                                 foreach (TreeNode tnd4 in tnd3.Nodes)
                                 {
-                                    if (tnd4.Text.StartsWith("fields"))
-                                    {
-                                        String[] fieldSplit = tnd4.Text.Split('|');
-
-                                        if (objectFields.Contains(fieldSplit[1].Trim()))
-                                        {
-                                            tnd4.Checked = true;
-                                            treeNodeSelectParentChildNodes(tnd4);
-
-                                            if (objectName.EndsWith("__c"))
-                                            {
-                                                selectRequiredObjectFields(objectName + ".object");
-                                            }
-
-                                            // If a standard value set is available on the page layout, make sure to include it in the HashSet to add to the deployment package
-                                            String objectFieldCombo = objectName + "." + fieldSplit[1].Trim();
-                                            populateStandardValueSetHashSet(objectFieldCombo);
-                                        }
-                                    }
+                                    tnd4.Checked = true;
                                 }
                             }
                         }
@@ -893,7 +901,24 @@ namespace SalesforceMetadata
                 }
             }
         }
-
+        public void selectStandardValueSets(HashSet<String> standardValueSets)
+        {
+            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+            {
+                if (tnd1.Text == "standardValueSets")
+                {
+                    foreach (TreeNode tnd2 in tnd1.Nodes)
+                    {
+                        String[] objectNameSplit = tnd2.Text.Split('.');
+                        if (standardValueSets.Contains(objectNameSplit[0]))
+                        {
+                            tnd2.Checked = true;
+                            treeNodeSelectParentChildNodes(tnd2);
+                        }
+                    }
+                }
+            }
+        }
         public void populateStandardValueSetHashSet(String objectFieldCombo)
         {
             if (objectFieldCombo == "Account.Industry"
@@ -957,26 +982,6 @@ namespace SalesforceMetadata
                 standardValueSets.Add("Product2Family");
             }
         }
-
-        public void selectStandardValueSets(HashSet<String> standardValueSets)
-        {
-            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
-            {
-                if (tnd1.Text == "standardValueSets")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        String[] objectNameSplit = tnd2.Text.Split('.');
-                        if (standardValueSets.Contains(objectNameSplit[0]))
-                        {
-                            tnd2.Checked = true;
-                            treeNodeSelectParentChildNodes(tnd2);
-                        }
-                    }
-                }
-            }
-        }
-
         private void btnBuildProfilesAndPermissionSets_Click(object sender, EventArgs e)
         {
             // Clear all checkboxes as there may have been changes
@@ -1630,7 +1635,7 @@ namespace SalesforceMetadata
                             }
                             else if (metadataType == "CustomMetadata")
                             {
-                                // Loop through the child nodes, get the CMT names and then add an .md before copying to the deployment folder
+                                // Loop through the child nodes, get the CMT names and then add an .mdt before copying to the deployment folder
                                 if (tnd2.Checked == true)
                                 {
                                     foreach (TreeNode tnd3 in tnd2.Nodes)

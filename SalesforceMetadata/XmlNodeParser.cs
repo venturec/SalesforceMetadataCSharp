@@ -17,6 +17,9 @@ namespace SalesforceMetadata
         // When you use the XmlDocument.loadXml or load, it converts all escaped text back to the original format and can't find 
         // a flag available to prevent this from happening, so built this structure to handle adding back the escape sequences.
 
+        // TODO:
+        // Bypass the description field when running the replaceSpecialCharacters
+
         public List<XmlNodeValue> parseXmlChildNodes1(XmlNode nd1)
         {
             List<XmlNodeValue> xmlNodeAndValuesList = new List<XmlNodeValue>();
@@ -386,150 +389,13 @@ namespace SalesforceMetadata
         }
         public String replaceSpecialCharacters(String xmlText)
         {
-            // Prep the incoming XML text 
-            xmlText = xmlText.Replace("\n", " ");
-            xmlText = xmlText.Replace("\r", " ");
-            xmlText = xmlText.Replace("&amp;&amp;", " &amp;&amp; ");
-            xmlText = xmlText.Replace("&lt;&gt;", " &lt;&gt; ");
-            xmlText = xmlText.Replace("&gt;=", " &gt;= ");
-            xmlText = xmlText.Replace("&lt;=", " &lt;= ");
-            xmlText = xmlText.Replace("'", " ' ");
-            xmlText = xmlText.Replace("\"", " \" ");
-            xmlText = xmlText.Replace("&&", " && ");
-            xmlText = xmlText.Replace("<>", " <> ");
-            xmlText = xmlText.Replace(">=", " >= ");
-            xmlText = xmlText.Replace("<=", " <= ");
-            xmlText = xmlText.Replace("||", " || ");
-            xmlText = xmlText.Replace("==", " == ");
-            xmlText = xmlText.Replace(">", " > ");
-            xmlText = xmlText.Replace("<", " < ");
+            xmlText = xmlText.Replace("\'", "&apos;");
+            xmlText = xmlText.Replace("\"", "&quot;");
+            //xmlText = xmlText.Replace("&", "&amp;");
+            xmlText = xmlText.Replace(">", "&gt;");
+            xmlText = xmlText.Replace("<", "&lt;");
 
-            // Reduce whitespace
-            xmlText = xmlText.Replace("  ", " ");
-            xmlText = xmlText.Replace("  ", " ");
-            xmlText = xmlText.Replace("  ", " ");
-            xmlText = xmlText.Replace("  ", " ");
-            xmlText = xmlText.Replace("  ", " ");
-            xmlText = xmlText.Replace("  ", " ");
-            xmlText = xmlText.Replace("  ", " ");
-            xmlText = xmlText.Replace("  ", " ");
-            xmlText = xmlText.Replace("  ", " ");
-            xmlText = xmlText.Replace("  ", " ");
-
-            // Bring the appropriate characters back together
-            xmlText = xmlText.Replace(" & & ", " && ");
-            xmlText = xmlText.Replace(" < > ", " <> ");
-            xmlText = xmlText.Replace(" > = ", " >= ");
-            xmlText = xmlText.Replace(" < = ", " <= ");
-
-            Char[] charCheck = new char[5];
-            charCheck[0] = ' ';
-
-            String[] xmlSplit = xmlText.Split(charCheck);
-
-            for (Int32 i = 0; i < xmlSplit.Length; i++)
-            {
-                if (xmlSplit[i] == "\'")
-                {
-                    xmlSplit[i] = "&apos;";
-                }
-                else if (xmlSplit[i] == "\"")
-                {
-                    xmlSplit[i] = "&quot;";
-                }
-                else if (xmlSplit[i] == "&&")
-                {
-                    xmlSplit[i] = "&amp;&amp;";
-                }
-                else if (xmlSplit[i] == "<>")
-                {
-                    xmlSplit[i] = "&lt;&gt;";
-                }
-                else if (xmlSplit[i] == ">=")
-                {
-                    xmlSplit[i] = "&gt;=";
-                }
-                else if (xmlSplit[i] == "<=")
-                {
-                    xmlSplit[i] = "&lt;=";
-                }
-                else if (xmlSplit[i] == ">")
-                {
-                    xmlSplit[i] = "&gt;";
-                }
-                else if (xmlSplit[i] == "<")
-                {
-                    xmlSplit[i] = "&lt;";
-                }
-                else if (xmlSplit[i] == "&")
-                {
-                    xmlSplit[i] = "&amp;";
-                }
-            }
-
-            String xmlRtnVal = "";
-
-            // will be either 0 or 1.
-            // If 0 add a space before but not after. If 1, add a space after, but not before, then set the value back to 0
-            Int32 quoteCount = 0;
-
-            foreach (String val in xmlSplit)
-            {
-                if (val == "&apos;")
-                {
-                    if (quoteCount == 0)
-                    {
-                        xmlRtnVal = xmlRtnVal + " " + val;
-                        quoteCount++;
-                    }
-                    else
-                    {
-                        xmlRtnVal = xmlRtnVal + val + " ";
-                        quoteCount = 0;
-                    }
-                }
-                else if (val == "&quot;")
-                {
-                    if (quoteCount == 0)
-                    {
-                        xmlRtnVal = xmlRtnVal + " " + val;
-                        quoteCount++;
-                    }
-                    else
-                    {
-                        xmlRtnVal = xmlRtnVal + val + " ";
-                        quoteCount = 0;
-                    }
-                }
-                else
-                {
-                    if (quoteCount == 1)
-                    {
-                        xmlRtnVal = xmlRtnVal + val;
-                    }
-                    else
-                    {
-                        xmlRtnVal = xmlRtnVal + val + " ";
-                    }
-                }
-            }
-
-            // Reduce whitespace
-            xmlText = xmlText.Replace("  ", " ");
-            xmlText = xmlText.Replace("  ", " ");
-            xmlText = xmlText.Replace("  ", " ");
-            xmlText = xmlText.Replace("  ", " ");
-            xmlText = xmlText.Replace("  ", " ");
-            xmlText = xmlText.Replace("  ", " ");
-            xmlText = xmlText.Replace("  ", " ");
-            xmlText = xmlText.Replace("  ", " ");
-            xmlText = xmlText.Replace("  ", " ");
-            xmlText = xmlText.Replace("  ", " ");
-
-            // Trim end
-            xmlRtnVal = xmlRtnVal.TrimEnd(' ');
-
-            return xmlRtnVal;
+            return xmlText;
         }
 
         // This is used for the Metadata Comparison logic and is a flattened version of all elements with their values

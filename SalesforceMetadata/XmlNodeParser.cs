@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -386,6 +387,12 @@ namespace SalesforceMetadata
         public String replaceSpecialCharacters(String xmlText)
         {
             // Prep the incoming XML text 
+            xmlText = xmlText.Replace("\n", " ");
+            xmlText = xmlText.Replace("\r", " ");
+            xmlText = xmlText.Replace("&amp;&amp;", " &amp;&amp; ");
+            xmlText = xmlText.Replace("&lt;&gt;", " &lt;&gt; ");
+            xmlText = xmlText.Replace("&gt;=", " &gt;= ");
+            xmlText = xmlText.Replace("&lt;=", " &lt;= ");
             xmlText = xmlText.Replace("'", " ' ");
             xmlText = xmlText.Replace("\"", " \" ");
             xmlText = xmlText.Replace("&&", " && ");
@@ -748,171 +755,250 @@ namespace SalesforceMetadata
             return flattenedNodeValues;
         }
 
-        public TreeNode buildTreeNodeWithValuesMini(TreeNode parentNode, List<XmlNodeValue> ndPathAndValues)
+        // This accommodates the GenerateDeploymentPackage and the DevelopmentEnvironment objects
+        // The incoming parentNode should be tnd4 with the structure:
+        // folder name \\ file name \\ top xml node \\ parent node | node name (if it exits)
+        // tnd5 will contain element names under tnd4
+        // and tnd6 will contain all other element names and values
+        // We are only going to go to two TreeNode layers
+        // tnd1 will translate to tnd5 - parentNode (tnd4) + tnd5
+        // tnd2 will translate to tnd6 - parentNode (tnd4) + tnd5 + tn6
+        // tnd2 will be the concatenation of all xml elements and any values
+        // We don't want to create any more than this as we will run into memor issues by having a bunch of layered embedded TreeNode elements
+        
+        // tnd5
+        public TreeNode buildTreeNodeWithValues1(TreeNode parentNode, List<XmlNodeValue> ndPathAndValues)
         {
-            // This accommodates the GenerateDeploymentPackage and the DevelopmentEnvironment objects
-            // The incoming parentNode should be tnd4 with the structure:
-            // folder name \\ file name \\ top xml node \\ parent node | node name (if it exits)
-            // tnd5 will contain element names under tnd4
-            // and tnd6 will contain all other element names and values
-            // We are only going to go to two TreeNode layers
-            // tnd1 will translate to tnd5 - parentNode (tnd4) + tnd5
-            // tnd2 will translate to tnd6 - parentNode (tnd4) + tnd5 + tn6
-            // We don't want to create any more than this as we will run into memor issues by having a bunch of layered embedded TreeNode elements
-
-            foreach (XmlNodeValue ndVal1 in ndPathAndValues)
+            foreach (XmlNodeValue ndVal in ndPathAndValues)
             {
-                if (ndVal1.relatedNodeValues.Count > 0)
+                TreeNode tnd1 = new TreeNode();
+
+                // #text node
+                if (ndVal.relatedNodeValues.Count == 0)
                 {
-                    TreeNode tnd1 = new TreeNode(ndVal1.nodeName);
-
-                    foreach (XmlNodeValue ndVal2 in ndVal1.relatedNodeValues)
-                    {
-                        if (ndVal2.relatedNodeValues.Count > 0)
-                        {
-                            TreeNode tnd2 = new TreeNode(ndVal2.nodeName);
-
-                            foreach (XmlNodeValue ndVal3 in ndVal2.relatedNodeValues)
-                            {
-                                tnd2.Text = tnd2.Text + "\\" + ndVal3.nodeName;
-
-                                if (ndVal3.relatedNodeValues.Count > 0)
-                                {
-                                    foreach (XmlNodeValue ndVal4 in ndVal3.relatedNodeValues)
-                                    {
-                                        if (ndVal4.relatedNodeValues.Count > 0)
-                                        {
-                                            tnd2.Text = tnd2.Text + "\\" + ndVal4.nodeName;
-
-                                            foreach (XmlNodeValue ndVal5 in ndVal4.relatedNodeValues)
-                                            {
-                                                if (ndVal5.relatedNodeValues.Count > 0)
-                                                {
-                                                    tnd2.Text = tnd2.Text + "\\" + ndVal5.nodeName;
-
-                                                    foreach (XmlNodeValue ndVal6 in ndVal5.relatedNodeValues)
-                                                    {
-                                                        if (ndVal6.relatedNodeValues.Count > 0)
-                                                        {
-                                                            tnd2.Text = tnd2.Text + "\\" + ndVal6.nodeName;
-
-                                                            foreach (XmlNodeValue ndVal7 in ndVal6.relatedNodeValues)
-                                                            {
-                                                                if (ndVal7.relatedNodeValues.Count > 0)
-                                                                {
-                                                                    tnd2.Text = tnd2.Text + "\\" + ndVal7.nodeName;
-
-                                                                    foreach (XmlNodeValue ndVal8 in ndVal7.relatedNodeValues)
-                                                                    {
-                                                                        if (ndVal8.relatedNodeValues.Count > 0)
-                                                                        {
-                                                                            tnd2.Text = tnd2.Text + "\\" + ndVal8.nodeName;
-
-                                                                            foreach (XmlNodeValue ndVal9 in ndVal8.relatedNodeValues)
-                                                                            {
-                                                                                if (ndVal9.relatedNodeValues.Count > 0)
-                                                                                {
-                                                                                    tnd2.Text = tnd2.Text + "\\" + ndVal9.nodeName;
-
-                                                                                    foreach (XmlNodeValue ndVal10 in ndVal9.relatedNodeValues)
-                                                                                    {
-                                                                                        if (ndVal10.relatedNodeValues.Count > 0)
-                                                                                        {
-                                                                                            tnd2.Text = tnd2.Text + "\\" + ndVal10.nodeName;
-
-                                                                                            foreach (XmlNodeValue ndVal11 in ndVal10.relatedNodeValues)
-                                                                                            {
-                                                                                                if (ndVal11.relatedNodeValues.Count > 0)
-                                                                                                {
-                                                                                                    tnd2.Text = tnd2.Text + "\\" + ndVal11.nodeName;
-
-                                                                                                    foreach (XmlNodeValue ndVal12 in ndVal11.relatedNodeValues)
-                                                                                                    {
-                                                                                                        if (ndVal12.relatedNodeValues.Count > 0)
-                                                                                                        {
-                                                                                                            // I think we are safe to assume the layers don't go this deep, but will monitor 
-                                                                                                            // and possibly throw an error if it gets here to let me know I should add more logical 
-                                                                                                            // layers
-                                                                                                        }
-                                                                                                        else
-                                                                                                        {
-                                                                                                            tnd2.Text = tnd2.Text + "\\" + ndVal12.nodeValue;
-                                                                                                        }
-                                                                                                    }
-                                                                                                }
-                                                                                                else
-                                                                                                {
-                                                                                                    tnd2.Text = tnd2.Text + "\\" + ndVal11.nodeValue;
-                                                                                                }
-                                                                                            }
-                                                                                        }
-                                                                                        else
-                                                                                        {
-                                                                                            tnd2.Text = tnd2.Text + "\\" + ndVal10.nodeValue;
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    tnd2.Text = tnd2.Text + "\\" + ndVal9.nodeValue;
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            tnd2.Text = tnd2.Text + "\\" + ndVal8.nodeValue;
-                                                                        }
-                                                                    }
-                                                                }
-                                                                else
-                                                                {
-                                                                    tnd2.Text = tnd2.Text + "\\" + ndVal7.nodeValue;
-                                                                }
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            tnd2.Text = tnd2.Text + "\\" + ndVal6.nodeValue;
-                                                        }
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    tnd2.Text = tnd2.Text + "\\" + ndVal5.nodeValue;
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            tnd2.Text = tnd2.Text + "\\" + ndVal4.nodeValue;
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    tnd2.Text = tnd2.Text + "\\" + ndVal3.nodeValue;
-                                }
-                            }
-
-                            tnd1.Nodes.Add(tnd2);
-                        }
-                        else
-                        {
-                            TreeNode tnd2 = new TreeNode(ndVal2.nodeValue);
-                            tnd1.Nodes.Add(tnd2);
-                        }
-                    }
-
+                    tnd1.Text = ndVal.nodeValue;
                     parentNode.Nodes.Add(tnd1);
+                    continue;
                 }
                 else
                 {
-                    TreeNode tnd1 = new TreeNode(ndVal1.nodeValue);
+                    tnd1.Text = ndVal.nodeName;
+                    buildTreeNodeWithValues2(tnd1, ndVal.relatedNodeValues);
                     parentNode.Nodes.Add(tnd1);
                 }
             }
 
             return parentNode;
+        }
+
+        // tnd6
+        private void buildTreeNodeWithValues2(TreeNode parentNode, List<XmlNodeValue> ndPathAndValues)
+        {
+            foreach (XmlNodeValue ndVal in ndPathAndValues)
+            {
+                TreeNode tnd2 = new TreeNode();
+
+                // #text node
+                if (ndVal.relatedNodeValues.Count == 0)
+                {
+                    tnd2.Text = ndVal.nodeValue;
+                    parentNode.Nodes.Add(tnd2);
+                    continue;
+                }
+                else
+                {
+                    tnd2.Text = "<" + ndVal.nodeName + ">";
+                    buildTreeNodeWithValues3(tnd2, ndVal.nodeName, ndVal.relatedNodeValues);
+                    tnd2.Text = tnd2.Text + "</" + ndVal.nodeName + ">";
+                    parentNode.Nodes.Add(tnd2);
+                }
+            }
+        }
+
+        // Shift in logic from the above two
+        // We are concatenating the node element names and values
+        private void buildTreeNodeWithValues3(TreeNode parentNode, String nodeName, List<XmlNodeValue> ndPathAndValues)
+        {
+            foreach (XmlNodeValue ndVal in ndPathAndValues)
+            {
+                // #text node
+                if (ndVal.relatedNodeValues.Count == 0)
+                {
+                    parentNode.Text = parentNode.Text + ndVal.nodeValue;
+                    continue;
+                }
+                else
+                {
+                    parentNode.Text = parentNode.Text + "<" + ndVal.nodeName + ">";
+                    buildTreeNodeWithValues4(parentNode, ndVal.relatedNodeValues);
+                    parentNode.Text = parentNode.Text + "</" + ndVal.nodeName + ">";
+                }
+            }
+        }
+        private void buildTreeNodeWithValues4(TreeNode parentNode, List<XmlNodeValue> ndPathAndValues)
+        {
+            foreach (XmlNodeValue ndVal in ndPathAndValues)
+            {
+                // #text node
+                if (ndVal.relatedNodeValues.Count == 0)
+                {
+                    parentNode.Text = parentNode.Text + ndVal.nodeValue;
+                    continue;
+                }
+                else
+                {
+                    parentNode.Text = parentNode.Text + "<" + ndVal.nodeName + ">";
+                    buildTreeNodeWithValues5(parentNode, ndVal.relatedNodeValues);
+                    parentNode.Text = parentNode.Text + "</" + ndVal.nodeName + ">";
+                }
+            }
+        }
+        private void buildTreeNodeWithValues5(TreeNode parentNode, List<XmlNodeValue> ndPathAndValues)
+        {
+            foreach (XmlNodeValue ndVal in ndPathAndValues)
+            {
+                // #text node
+                if (ndVal.relatedNodeValues.Count == 0)
+                {
+                    parentNode.Text = parentNode.Text + ndVal.nodeValue;
+                    continue;
+                }
+                else
+                {
+                    parentNode.Text = parentNode.Text + "<" + ndVal.nodeName + ">";
+                    buildTreeNodeWithValues6(parentNode, ndVal.relatedNodeValues);
+                    parentNode.Text = parentNode.Text + "</" + ndVal.nodeName + ">";
+                }
+            }
+        }
+        private void buildTreeNodeWithValues6(TreeNode parentNode, List<XmlNodeValue> ndPathAndValues)
+        {
+            foreach (XmlNodeValue ndVal in ndPathAndValues)
+            {
+                // #text node
+                if (ndVal.relatedNodeValues.Count == 0)
+                {
+                    parentNode.Text = parentNode.Text + ndVal.nodeValue;
+                    continue;
+                }
+                else
+                {
+                    parentNode.Text = parentNode.Text + "<" + ndVal.nodeName + ">";
+                    buildTreeNodeWithValues7(parentNode, ndVal.relatedNodeValues);
+                    parentNode.Text = parentNode.Text + "</" + ndVal.nodeName + ">";
+                }
+            }
+        }
+        private void buildTreeNodeWithValues7(TreeNode parentNode, List<XmlNodeValue> ndPathAndValues)
+        {
+            foreach (XmlNodeValue ndVal in ndPathAndValues)
+            {
+                // #text node
+                if (ndVal.relatedNodeValues.Count == 0)
+                {
+                    parentNode.Text = parentNode.Text + ndVal.nodeValue;
+                    continue;
+                }
+                else
+                {
+                    parentNode.Text = parentNode.Text + "<" + ndVal.nodeName + ">";
+                    buildTreeNodeWithValues8(parentNode, ndVal.relatedNodeValues);
+                    parentNode.Text = parentNode.Text + "</" + ndVal.nodeName + ">";
+                }
+            }
+        }
+        private void buildTreeNodeWithValues8(TreeNode parentNode, List<XmlNodeValue> ndPathAndValues)
+        {
+            foreach (XmlNodeValue ndVal in ndPathAndValues)
+            {
+                // #text node
+                if (ndVal.relatedNodeValues.Count == 0)
+                {
+                    parentNode.Text = parentNode.Text + ndVal.nodeValue;
+                    continue;
+                }
+                else
+                {
+                    parentNode.Text = parentNode.Text + "<" + ndVal.nodeName + ">";
+                    buildTreeNodeWithValues9(parentNode, ndVal.relatedNodeValues);
+                    parentNode.Text = parentNode.Text + "</" + ndVal.nodeName + ">";
+                }
+            }
+        }
+        private void buildTreeNodeWithValues9(TreeNode parentNode, List<XmlNodeValue> ndPathAndValues)
+        {
+            foreach (XmlNodeValue ndVal in ndPathAndValues)
+            {
+                // #text node
+                if (ndVal.relatedNodeValues.Count == 0)
+                {
+                    parentNode.Text = parentNode.Text + ndVal.nodeValue;
+                    continue;
+                }
+                else
+                {
+                    parentNode.Text = parentNode.Text + "<" + ndVal.nodeName + ">";
+                    buildTreeNodeWithValues10(parentNode, ndVal.relatedNodeValues);
+                    parentNode.Text = parentNode.Text + "</" + ndVal.nodeName + ">";
+                }
+            }
+        }
+        private void buildTreeNodeWithValues10(TreeNode parentNode, List<XmlNodeValue> ndPathAndValues)
+        {
+            foreach (XmlNodeValue ndVal in ndPathAndValues)
+            {
+                // #text node
+                if (ndVal.relatedNodeValues.Count == 0)
+                {
+                    parentNode.Text = parentNode.Text + ndVal.nodeValue;
+                    continue;
+                }
+                else
+                {
+                    parentNode.Text = parentNode.Text + "<" + ndVal.nodeName + ">";
+                    buildTreeNodeWithValues11(parentNode, ndVal.relatedNodeValues);
+                    parentNode.Text = parentNode.Text + "</" + ndVal.nodeName + ">";
+                }
+            }
+        }
+        private void buildTreeNodeWithValues11(TreeNode parentNode, List<XmlNodeValue> ndPathAndValues)
+        {
+            foreach (XmlNodeValue ndVal in ndPathAndValues)
+            {
+                // #text node
+                if (ndVal.relatedNodeValues.Count == 0)
+                {
+                    parentNode.Text = parentNode.Text + ndVal.nodeValue;
+                    continue;
+                }
+                else
+                {
+                    parentNode.Text = parentNode.Text + "<" + ndVal.nodeName + ">";
+                    buildTreeNodeWithValues12(parentNode, ndVal.relatedNodeValues);
+                    parentNode.Text = parentNode.Text + "</" + ndVal.nodeName + ">";
+                }
+            }
+        }
+        private void buildTreeNodeWithValues12(TreeNode parentNode, List<XmlNodeValue> ndPathAndValues)
+        {
+            foreach (XmlNodeValue ndVal in ndPathAndValues)
+            {
+                // #text node
+                if (ndVal.relatedNodeValues.Count == 0)
+                {
+                    parentNode.Text = parentNode.Text + ndVal.nodeValue;
+                    continue;
+                }
+                else
+                {
+                    // I think we are safe to assume the layers don't go this deep, but will monitor 
+                    // and possibly throw an error if it gets here to let me know I should add more logical layers
+
+                    //parentNode.Text = parentNode.Text + "<" + ndVal.nodeName + ">";
+                    //buildTreeNodeWithValues6(parentNode, ndVal.relatedNodeValues);
+                    //parentNode.Text = parentNode.Text + "</" + ndVal.nodeName + ">";
+                }
+            }
         }
 
         public class XmlNodeValue

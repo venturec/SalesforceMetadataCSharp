@@ -335,7 +335,7 @@ namespace SalesforceMetadata
                             }
 
                             List<XmlNodeParser.XmlNodeValue> ndPathAndValues = ndParser.parseXmlChildNodes1(nd4);
-                            ndParser.buildTreeNodeWithValuesMini(tnd4, ndPathAndValues);
+                            ndParser.buildTreeNodeWithValues1(tnd4, ndPathAndValues);
                             tnd3.Nodes.Add(tnd4);
                         }
                         else if (nd4.NodeType == XmlNodeType.Text)
@@ -557,6 +557,9 @@ namespace SalesforceMetadata
                 && nodeFullPath[0] == "objects"
                 && nodeFullPath[1].Contains("__mdt"))
             {
+                // Select the proper metadata object fields first
+                selectRequiredObjectFields(nodeFullPath[1]);
+
                 // Check off the Metadata Types in the customMetadata folder related to the metadata type checked.
                 foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
                 {
@@ -794,7 +797,12 @@ namespace SalesforceMetadata
                             {
                                 foreach (TreeNode tnd4 in tnd3.Nodes)
                                 {
-                                    if (tnd4.Text.StartsWith("deploymentStatus"))
+                                    if (tnd4.Text == "customSettingsType")
+                                    {
+                                        tnd4.Checked = true;
+                                        treeNodeSelectParentChildNodes(tnd4);
+                                    }
+                                    else if (tnd4.Text.StartsWith("deploymentStatus"))
                                     {
                                         tnd4.Checked = true;
                                         treeNodeSelectParentChildNodes(tnd4);

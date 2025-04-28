@@ -3,15 +3,11 @@
   "WorkspaceRootPath": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\salesforcemetadata\\developmentenvironment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\developmentenvironment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\salesforcemetadata\\generatedeploymentpackage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\generatedeploymentpackage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|c:\\users\\marcu\\documents\\github\\salesforcemetadatacsharp\\salesforcemetadata\\xmlnodeparser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\salesforcemetadata\\xmlnodeparser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\xmlnodeparser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -22,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -34,41 +30,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DevelopmentEnvironment.cs",
-              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\DevelopmentEnvironment.cs",
-              "RelativeDocumentMoniker": "SalesforceMetadata\\DevelopmentEnvironment.cs",
-              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\DevelopmentEnvironment.cs",
-              "RelativeToolTip": "SalesforceMetadata\\DevelopmentEnvironment.cs",
-              "ViewState": "AgIAAIsCAAAAAAAAAADgv58CAABMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-26T04:41:34.726Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "GenerateDeploymentPackage.cs",
-              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\GenerateDeploymentPackage.cs",
-              "RelativeDocumentMoniker": "SalesforceMetadata\\GenerateDeploymentPackage.cs",
-              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\GenerateDeploymentPackage.cs",
-              "RelativeToolTip": "SalesforceMetadata\\GenerateDeploymentPackage.cs",
-              "ViewState": "AgIAAPACAAAAAAAAAADgv/cCAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-24T14:18:31.609Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
               "Title": "XmlNodeParser.cs",
               "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\XmlNodeParser.cs",
               "RelativeDocumentMoniker": "SalesforceMetadata\\XmlNodeParser.cs",
               "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\XmlNodeParser.cs",
               "RelativeToolTip": "SalesforceMetadata\\XmlNodeParser.cs",
-              "ViewState": "AgIAAEQAAAAAAAAAAAAIwGMAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAAG4BAAAAAAAAAAAcwI4BAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-24T20:10:30.488Z",
+              "WhenOpened": "2025-04-27T07:34:27.15Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GenerateDeploymentPackage.cs",
+              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\GenerateDeploymentPackage.cs",
+              "RelativeDocumentMoniker": "SalesforceMetadata\\GenerateDeploymentPackage.cs",
+              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\GenerateDeploymentPackage.cs",
+              "RelativeToolTip": "SalesforceMetadata\\GenerateDeploymentPackage.cs",
+              "ViewState": "AgIAAPYBAAAAAAAAAAAQwEICAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-27T07:34:22.812Z",
               "EditorCaption": ""
             }
           ]

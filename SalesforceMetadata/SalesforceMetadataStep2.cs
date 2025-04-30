@@ -1252,31 +1252,29 @@ namespace SalesforceMetadata
                     {
                         members.Add("*");
                     }
-                    else if (fpList[0].id == null || fpList[0].id == "")
+                    // Bypass the managed package objects which cannot be retrieved or modified
+                    else if (selected == "ApexClass"
+                        || selected == "ApexComponent"
+                        || selected == "ApexPage"
+                        || selected == "ApexTrigger"
+                        || selected == "AuraDefinitionBundle"
+                        || selected == "Flow"
+                        || selected == "LightningComponentBundle"
+                        || selected == "Workflow")
                     {
-                        members.Add("*");
+                        foreach (SalesforceMetadata.MetadataWSDL.FileProperties fp in fpList)
+                        {
+                            if (fp.namespacePrefix == null)
+                            {
+                                members.Add(fp.fullName);
+                            }
+                        }
                     }
                     else
                     {
                         foreach (SalesforceMetadata.MetadataWSDL.FileProperties fp in fpList)
                         {
-                            // TODO: I might come back to this in the far future. Not sure if filtering out the metadata FileProperties is needed or not
-                            //if (fp.manageableState == ManageableState.beta
-                            //    || fp.manageableState == ManageableState.deprecatedEditable
-                            //    || fp.manageableState == ManageableState.installedEditable 
-                            //    || fp.manageableState == ManageableState.unmanaged)
-                            //{
-
-                            //}
-
-                            if (fp.namespacePrefix == null)
-                            {
-                                members.Add(fp.fullName);
-                            }
-                            else
-                            { 
-                                members.Add(fp.namespacePrefix + "__" + fp.fullName);
-                            }
+                            members.Add(fp.fullName);
                         }
                     }
                     

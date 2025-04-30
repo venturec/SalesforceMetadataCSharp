@@ -1157,7 +1157,7 @@ namespace SalesforceMetadata
             buildPackageXmlFile(packageXml, folderPath);
 
             // Zip up the contents of the folders and package.xml file
-            String zipPathAndName = zipUpContents(packageXml, folderPath);
+            String zipPathAndName = zipUpContents(folderPath);
 
             StreamWriter sw = new StreamWriter(logFile, true);
             foreach (String objName in filesDeployed)
@@ -1189,9 +1189,7 @@ namespace SalesforceMetadata
 
                 foreach (String memberName in packageXml[typeName])
                 {
-                    String[] objName = memberName.Split('.');
-
-                    sw.WriteLine("<members>" + objName[0] + "</members>");
+                    sw.WriteLine("<members>" + memberName + "</members>");
                 }
 
                 sw.WriteLine("<name>" + typeName + "</name>");
@@ -1210,7 +1208,7 @@ namespace SalesforceMetadata
             sw.Close();
         }
 
-        private String zipUpContents(Dictionary<String, HashSet<String>> packageXml, String folderPath)
+        private String zipUpContents(String folderPath)
         {
             String[] folderPathSplit = folderPath.Split('\\');
 

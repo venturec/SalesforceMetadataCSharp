@@ -129,6 +129,7 @@
             this.treeViewDifferences.Size = new System.Drawing.Size(1732, 523);
             this.treeViewDifferences.TabIndex = 7;
             this.treeViewDifferences.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewDifference_AfterCheck);
+            this.treeViewDifferences.DoubleClick += new System.EventHandler(this.treeViewDifferences_DoubleClick);
             // 
             // cbExportXML
             // 

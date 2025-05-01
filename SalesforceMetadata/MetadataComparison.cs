@@ -2032,5 +2032,41 @@ namespace SalesforceMetadata
             gdp.Show();
         }
 
+        private void treeViewDifferences_DoubleClick(object sender, EventArgs e)
+        {
+            System.Windows.Forms.MouseEventArgs evtArgs = (System.Windows.Forms.MouseEventArgs)e;
+
+            if (evtArgs.Button == MouseButtons.Left)
+            {
+                TreeView tv = (TreeView)sender;
+
+                if (tv.SelectedNode != null)
+                {
+                    String originFile = tv.SelectedNode.FullPath;
+                    if (originFile.Contains("[New]"))
+                    {
+                        originFile = originFile.Replace("[New] ", "");
+                    }
+                    else if (originFile.Contains("[Updated]"))
+                    {
+                        originFile = originFile.Replace("[Updated] ", "");
+                    }
+
+                    String pathToOriginFile = "\"" + this.tbFromFolder.Text + "\\" + originFile;
+                    String pathToCompareFile = "\"" + this.tbToFolder.Text + "\\" + originFile;
+
+                    if (Properties.Settings.Default.DefaultTextEditorPath == "")
+                    {
+                        Process procOrigin = Process.Start(@"notepad.exe", pathToOriginFile);
+                        Process procCompare = Process.Start(@"notepad.exe", pathToCompareFile);
+                    }
+                    else
+                    {
+                        Process procOrigin = Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, pathToOriginFile);
+                        Process procCompare = Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, pathToCompareFile);
+                    }
+                }
+            }
+        }
     }
 }

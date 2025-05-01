@@ -86,7 +86,7 @@
             this.addOtherToolStripMenuItem});
             msIDE.Location = new System.Drawing.Point(0, 0);
             msIDE.Name = "msIDE";
-            msIDE.Size = new System.Drawing.Size(1481, 27);
+            msIDE.Size = new System.Drawing.Size(1479, 27);
             msIDE.TabIndex = 20;
             msIDE.Text = "IDE Menu";
             // 
@@ -218,11 +218,13 @@
             // 
             // treeViewMetadata
             // 
+            this.treeViewMetadata.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.treeViewMetadata.CheckBoxes = true;
             this.treeViewMetadata.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeViewMetadata.Location = new System.Drawing.Point(14, 310);
             this.treeViewMetadata.Name = "treeViewMetadata";
-            this.treeViewMetadata.Size = new System.Drawing.Size(880, 639);
+            this.treeViewMetadata.Size = new System.Drawing.Size(988, 639);
             this.treeViewMetadata.TabIndex = 14;
             this.treeViewMetadata.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMetadata_AfterCheck);
             this.treeViewMetadata.Click += new System.EventHandler(this.treeViewMetadata_Click);
@@ -292,11 +294,12 @@
             // 
             // fromOrgGroup
             // 
+            this.fromOrgGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.fromOrgGroup.BackColor = System.Drawing.SystemColors.Control;
             this.fromOrgGroup.Controls.Add(this.lblSFUsername);
             this.fromOrgGroup.Controls.Add(this.cmbUserName);
             this.fromOrgGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fromOrgGroup.Location = new System.Drawing.Point(939, 70);
+            this.fromOrgGroup.Location = new System.Drawing.Point(944, 70);
             this.fromOrgGroup.Name = "fromOrgGroup";
             this.fromOrgGroup.Size = new System.Drawing.Size(523, 81);
             this.fromOrgGroup.TabIndex = 21;
@@ -307,7 +310,7 @@
             // 
             this.lblSFUsername.AutoSize = true;
             this.lblSFUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSFUsername.Location = new System.Drawing.Point(29, 30);
+            this.lblSFUsername.Location = new System.Drawing.Point(35, 30);
             this.lblSFUsername.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSFUsername.Name = "lblSFUsername";
             this.lblSFUsername.Size = new System.Drawing.Size(143, 17);
@@ -339,10 +342,11 @@
             // 
             // btnObjectFieldInspector
             // 
+            this.btnObjectFieldInspector.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnObjectFieldInspector.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnObjectFieldInspector.Location = new System.Drawing.Point(1285, 214);
+            this.btnObjectFieldInspector.Location = new System.Drawing.Point(1287, 213);
             this.btnObjectFieldInspector.Name = "btnObjectFieldInspector";
-            this.btnObjectFieldInspector.Size = new System.Drawing.Size(172, 34);
+            this.btnObjectFieldInspector.Size = new System.Drawing.Size(175, 35);
             this.btnObjectFieldInspector.TabIndex = 15;
             this.btnObjectFieldInspector.Text = "Object Field Inspector";
             this.btnObjectFieldInspector.UseVisualStyleBackColor = true;
@@ -370,10 +374,11 @@
             // 
             // btnBuildERD
             // 
+            this.btnBuildERD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBuildERD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBuildERD.Location = new System.Drawing.Point(1285, 292);
+            this.btnBuildERD.Location = new System.Drawing.Point(1287, 295);
             this.btnBuildERD.Name = "btnBuildERD";
-            this.btnBuildERD.Size = new System.Drawing.Size(171, 34);
+            this.btnBuildERD.Size = new System.Drawing.Size(175, 35);
             this.btnBuildERD.TabIndex = 17;
             this.btnBuildERD.Text = "Build ERD";
             this.btnBuildERD.UseVisualStyleBackColor = true;
@@ -400,10 +405,11 @@
             // 
             // btnSearchMetadata
             // 
+            this.btnSearchMetadata.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSearchMetadata.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearchMetadata.Location = new System.Drawing.Point(1285, 254);
+            this.btnSearchMetadata.Location = new System.Drawing.Point(1287, 254);
             this.btnSearchMetadata.Name = "btnSearchMetadata";
-            this.btnSearchMetadata.Size = new System.Drawing.Size(171, 32);
+            this.btnSearchMetadata.Size = new System.Drawing.Size(175, 35);
             this.btnSearchMetadata.TabIndex = 16;
             this.btnSearchMetadata.Text = "Search Metadata";
             this.btnSearchMetadata.UseVisualStyleBackColor = true;
@@ -411,10 +417,11 @@
             // 
             // btnDebugLogs
             // 
+            this.btnDebugLogs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDebugLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDebugLogs.Location = new System.Drawing.Point(1285, 332);
+            this.btnDebugLogs.Location = new System.Drawing.Point(1287, 336);
             this.btnDebugLogs.Name = "btnDebugLogs";
-            this.btnDebugLogs.Size = new System.Drawing.Size(173, 32);
+            this.btnDebugLogs.Size = new System.Drawing.Size(175, 35);
             this.btnDebugLogs.TabIndex = 18;
             this.btnDebugLogs.Text = "Debug Log Parsing";
             this.btnDebugLogs.UseVisualStyleBackColor = true;
@@ -422,10 +429,11 @@
             // 
             // delMyDebugLogs
             // 
+            this.delMyDebugLogs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.delMyDebugLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.delMyDebugLogs.Location = new System.Drawing.Point(1285, 370);
+            this.delMyDebugLogs.Location = new System.Drawing.Point(1287, 377);
             this.delMyDebugLogs.Name = "delMyDebugLogs";
-            this.delMyDebugLogs.Size = new System.Drawing.Size(171, 32);
+            this.delMyDebugLogs.Size = new System.Drawing.Size(175, 35);
             this.delMyDebugLogs.TabIndex = 19;
             this.delMyDebugLogs.Text = "Delete My Debug Logs";
             this.delMyDebugLogs.UseVisualStyleBackColor = true;
@@ -452,10 +460,11 @@
             // 
             // btnCopySelectedToRepository
             // 
+            this.btnCopySelectedToRepository.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCopySelectedToRepository.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCopySelectedToRepository.Location = new System.Drawing.Point(920, 310);
+            this.btnCopySelectedToRepository.Location = new System.Drawing.Point(1008, 310);
             this.btnCopySelectedToRepository.Name = "btnCopySelectedToRepository";
-            this.btnCopySelectedToRepository.Size = new System.Drawing.Size(162, 44);
+            this.btnCopySelectedToRepository.Size = new System.Drawing.Size(175, 44);
             this.btnCopySelectedToRepository.TabIndex = 22;
             this.btnCopySelectedToRepository.Text = "Copy Selected to Repository";
             this.btnCopySelectedToRepository.UseVisualStyleBackColor = true;
@@ -465,7 +474,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1481, 960);
+            this.ClientSize = new System.Drawing.Size(1479, 961);
             this.Controls.Add(this.btnCopySelectedToRepository);
             this.Controls.Add(this.lblOutboundChangeSetName);
             this.Controls.Add(this.tbOutboundChangeSetName);

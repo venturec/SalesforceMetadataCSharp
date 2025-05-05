@@ -900,8 +900,8 @@ namespace SalesforceMetadata
 
         private String buildZipFileWithPackageXml()
         {
-            String codeArchiveRootPath = this.tbRootFolder.Text + "\\Code Archive";
-            String logFile = this.tbRootFolder.Text + "\\Code Archive\\LogFile.txt";
+            String codeArchiveRootPath = this.tbProjectFile.Text + "\\Code Archive";
+            String logFile = this.tbProjectFile.Text + "\\Code Archive\\LogFile.txt";
 
             if (!Directory.Exists(codeArchiveRootPath))
             {
@@ -1317,14 +1317,14 @@ namespace SalesforceMetadata
             }
 
             if (packageXmlMembers.Count > 0
-                && this.tbRootFolder.Text != null)
+                && this.tbProjectFile.Text != null)
             {
                 SalesforceMetadataStep2 sfMetadataStep2 = new SalesforceMetadataStep2();
                 sfMetadataStep2.userName = this.cmbUserName.Text;
                 sfMetadataStep2.selectedItems = packageXmlMembers;
                 sfMetadataStep2.tbFromOrgSaveLocation.Text = this.tbProjectFolder.Text;
 
-                Action act = () => sfMetadataStep2.requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, this.tbRootFolder.Text, sfMetadataStep2);
+                Action act = () => sfMetadataStep2.requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, this.tbProjectFile.Text, sfMetadataStep2);
                 Task tsk = Task.Run(act);
             }
         }
@@ -1383,6 +1383,8 @@ namespace SalesforceMetadata
 
             Properties.Settings.Default.DevelopmentDeploymentFolder = this.tbDeployFrom.Text;
             Properties.Settings.Default.Save();
+
+            this.projectValuesChanged = true;
         }
 
         private void tbRepository_DoubleClick(object sender, EventArgs e)
@@ -1402,21 +1404,14 @@ namespace SalesforceMetadata
             }
         }
 
-        private void tbRootFolder_DoubleClick(object sender, EventArgs e)
+        private void tbRepository_TextChanged(object sender, EventArgs e)
         {
-            String selectedPath = UtilityClass.folderBrowserSelectPath("Select the path to the Project\'s Root Folder",
-                                                                       false,
-                                                                       FolderEnum.SaveTo,
-                                                                       Properties.Settings.Default.IDEProjectRoot);
+            if (bypassTextChange == true) return;
 
-            if (selectedPath != "")
-            {
-                this.tbRootFolder.Text = selectedPath;
-                Properties.Settings.Default.IDEProjectRoot = selectedPath;
-                Properties.Settings.Default.Save();
+            Properties.Settings.Default.RepositoryPath = this.tbRepository.Text;
+            Properties.Settings.Default.Save();
 
-                this.projectValuesChanged = true;
-            }
+            this.projectValuesChanged = true;
         }
 
         // Check if Code Archive directory exists
@@ -1425,8 +1420,8 @@ namespace SalesforceMetadata
             String[] fileToCopySplit = fileToCopy.Split('\\');
             String[] fileNameSplit = fileToCopySplit[fileToCopySplit.Length - 1].Split('.');
 
-            String codeArchiveRootPath = this.tbRootFolder.Text + "\\Code Archive";
-            String logFile = this.tbRootFolder.Text + "\\Code Archive\\LogFile.txt";
+            String codeArchiveRootPath = this.tbProjectFile.Text + "\\Code Archive";
+            String logFile = this.tbProjectFile.Text + "\\Code Archive\\LogFile.txt";
 
             if (fileNameSplit.Length == 1)
             {
@@ -1501,15 +1496,7 @@ namespace SalesforceMetadata
                 DialogResult mbDr = MessageBox.Show("Would you like to save your changes to the Project/Solution file?", "Save Project Settings", MessageBoxButtons.YesNo);
                 if (mbDr.Equals(DialogResult.Yes))
                 {
-                    if (this.tbRootFolder.Text != "")
-                    {
-                        updateProjectFile();
-                    }
-                    else
-                    {
-                        tbRootFolder_DoubleClick(null, null);
-                        updateProjectFile();
-                    }
+                    updateProjectFile();
                 }
             }
         }
@@ -1774,16 +1761,29 @@ namespace SalesforceMetadata
 
         private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            bypassTextChange = true;
+
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "sln files (*.sln)|*.sln|All Files (*.*)|*.*";
+            ofd.Title = "Please select a Project/Solution file";
+            ofd.ShowDialog();
+
+            if (ofd.FileName.Length == 0) 
+            {
+                MessageBox.Show("Please select a Project Solution file (*.sln)");
+                return;
+            }
+
+            this.tbProjectFile.Text = ofd.FileName;
             this.cmbUserName.Text = "";
             this.tbDeployFrom.Text = "";
             this.tbProjectFolder.Text = "";
             this.tbRepository.Text = "";
-            this.tbRootFolder.Text = "";
 
+            Properties.Settings.Default.ProjectFilePath = this.tbProjectFile.Text;
             Properties.Settings.Default.DevelopmentSelectedFolder = "";
             Properties.Settings.Default.DevelopmentDeploymentFolder = "";
             Properties.Settings.Default.RepositoryPath = "";
-            Properties.Settings.Default.IDEProjectRoot = "";
             Properties.Settings.Default.RecentProjectPath = "";
 
             Properties.Settings.Default.Save();
@@ -1807,15 +1807,15 @@ namespace SalesforceMetadata
         }
         private void updateProjectFile()
         {
-            if (this.tbRootFolder.Text != "")
+            if (this.tbProjectFile.Text != "")
             {
-                StreamWriter sw = new StreamWriter(this.tbRootFolder.Text + "\\project.sln", false);
+                StreamWriter sw = new StreamWriter(this.tbProjectFile.Text, false);
 
+                sw.WriteLine(this.tbProjectFile.Text);
                 sw.WriteLine(this.cmbUserName.Text);
                 sw.WriteLine(Properties.Settings.Default.DevelopmentSelectedFolder);
                 sw.WriteLine(Properties.Settings.Default.DevelopmentDeploymentFolder);
                 sw.WriteLine(Properties.Settings.Default.RepositoryPath);
-                sw.WriteLine(Properties.Settings.Default.IDEProjectRoot);
 
                 if (this.tbOutboundChangeSetName.Text != "")
                 {
@@ -1840,6 +1840,8 @@ namespace SalesforceMetadata
 
             StreamReader sr = new StreamReader(projectFilePath);
 
+            this.tbProjectFile.Text = sr.ReadLine();
+
             String username = sr.ReadLine();
             if (this.cmbUserName.Items.Contains(username))
             {
@@ -1849,14 +1851,13 @@ namespace SalesforceMetadata
             this.tbProjectFolder.Text = sr.ReadLine();
             this.tbDeployFrom.Text = sr.ReadLine();
             this.tbRepository.Text = sr.ReadLine();
-            this.tbRootFolder.Text = sr.ReadLine();
 
             this.tbOutboundChangeSetName.Text = sr.ReadLine();
 
             Properties.Settings.Default.DevelopmentSelectedFolder = this.tbProjectFolder.Text;
             Properties.Settings.Default.DevelopmentDeploymentFolder = this.tbDeployFrom.Text;
             Properties.Settings.Default.RepositoryPath = this.tbRepository.Text;
-            Properties.Settings.Default.IDEProjectRoot = this.tbRootFolder.Text;
+            Properties.Settings.Default.ProjectFilePath = this.tbProjectFile.Text;
 
             //if (!Properties.Settings.Default.RecentProjects.Contains(ofd.FileName))
             //{
@@ -1934,5 +1935,7 @@ namespace SalesforceMetadata
         {
             this.copySelectedToRepository();
         }
+
+
     }
 }

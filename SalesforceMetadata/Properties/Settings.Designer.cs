@@ -403,7 +403,8 @@ namespace SalesforceMetadata.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RepositoryPath {
+        public string RepositoryPath
+        {
             get {
                 return ((string)(this["RepositoryPath"]));
             }
@@ -415,12 +416,12 @@ namespace SalesforceMetadata.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string IDEProjectRoot {
+        public string ProjectFilePath {
             get {
-                return ((string)(this["IDEProjectRoot"]));
+                return ((string)(this["ProjectFilePath"]));
             }
             set {
-                this["IDEProjectRoot"] = value;
+                this["ProjectFilePath"] = value;
             }
         }
         

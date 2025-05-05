@@ -61,8 +61,8 @@
             this.lblRepository = new System.Windows.Forms.Label();
             this.tbRepository = new System.Windows.Forms.TextBox();
             this.btnBuildERD = new System.Windows.Forms.Button();
-            this.lblRootFolder = new System.Windows.Forms.Label();
-            this.tbRootFolder = new System.Windows.Forms.TextBox();
+            this.lblProjectFile = new System.Windows.Forms.Label();
+            this.tbProjectFile = new System.Windows.Forms.TextBox();
             this.btnSearchMetadata = new System.Windows.Forms.Button();
             this.btnDebugLogs = new System.Windows.Forms.Button();
             this.delMyDebugLogs = new System.Windows.Forms.Button();
@@ -233,10 +233,10 @@
             // tbProjectFolder
             // 
             this.tbProjectFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbProjectFolder.Location = new System.Drawing.Point(184, 80);
+            this.tbProjectFolder.Location = new System.Drawing.Point(184, 104);
             this.tbProjectFolder.Name = "tbProjectFolder";
             this.tbProjectFolder.Size = new System.Drawing.Size(703, 23);
-            this.tbProjectFolder.TabIndex = 2;
+            this.tbProjectFolder.TabIndex = 4;
             this.tbProjectFolder.TextChanged += new System.EventHandler(this.tbProjectFolder_TextChanged);
             this.tbProjectFolder.DoubleClick += new System.EventHandler(this.tbProjectFolder_DoubleClick);
             // 
@@ -244,29 +244,29 @@
             // 
             this.lblProjectFolder.AutoSize = true;
             this.lblProjectFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProjectFolder.Location = new System.Drawing.Point(16, 80);
+            this.lblProjectFolder.Location = new System.Drawing.Point(17, 104);
             this.lblProjectFolder.Name = "lblProjectFolder";
             this.lblProjectFolder.Size = new System.Drawing.Size(110, 17);
-            this.lblProjectFolder.TabIndex = 1;
+            this.lblProjectFolder.TabIndex = 3;
             this.lblProjectFolder.Text = "Project Folder";
             // 
             // lblDeploymentFolder
             // 
             this.lblDeploymentFolder.AutoSize = true;
             this.lblDeploymentFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDeploymentFolder.Location = new System.Drawing.Point(16, 112);
+            this.lblDeploymentFolder.Location = new System.Drawing.Point(17, 136);
             this.lblDeploymentFolder.Name = "lblDeploymentFolder";
             this.lblDeploymentFolder.Size = new System.Drawing.Size(150, 17);
-            this.lblDeploymentFolder.TabIndex = 3;
+            this.lblDeploymentFolder.TabIndex = 5;
             this.lblDeploymentFolder.Text = "Deploy From Folder";
             // 
             // tbDeployFrom
             // 
             this.tbDeployFrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbDeployFrom.Location = new System.Drawing.Point(184, 112);
+            this.tbDeployFrom.Location = new System.Drawing.Point(185, 136);
             this.tbDeployFrom.Name = "tbDeployFrom";
             this.tbDeployFrom.Size = new System.Drawing.Size(703, 23);
-            this.tbDeployFrom.TabIndex = 4;
+            this.tbDeployFrom.TabIndex = 6;
             this.tbDeployFrom.TextChanged += new System.EventHandler(this.tbDeployFrom_TextChanged);
             this.tbDeployFrom.DoubleClick += new System.EventHandler(this.tbDeployFrom_DoubleClick);
             // 
@@ -356,20 +356,20 @@
             // 
             this.lblRepository.AutoSize = true;
             this.lblRepository.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRepository.Location = new System.Drawing.Point(17, 145);
+            this.lblRepository.Location = new System.Drawing.Point(18, 169);
             this.lblRepository.Name = "lblRepository";
             this.lblRepository.Size = new System.Drawing.Size(124, 17);
-            this.lblRepository.TabIndex = 5;
+            this.lblRepository.TabIndex = 7;
             this.lblRepository.Text = "Repository Path";
             // 
             // tbRepository
             // 
             this.tbRepository.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbRepository.Location = new System.Drawing.Point(184, 144);
+            this.tbRepository.Location = new System.Drawing.Point(185, 169);
             this.tbRepository.Name = "tbRepository";
             this.tbRepository.Size = new System.Drawing.Size(703, 23);
-            this.tbRepository.TabIndex = 6;
-            this.tbRepository.TextChanged += new System.EventHandler(this.tbDeployFrom_TextChanged);
+            this.tbRepository.TabIndex = 8;
+            this.tbRepository.TextChanged += new System.EventHandler(this.tbRepository_TextChanged);
             this.tbRepository.DoubleClick += new System.EventHandler(this.tbRepository_DoubleClick);
             // 
             // btnBuildERD
@@ -384,24 +384,24 @@
             this.btnBuildERD.UseVisualStyleBackColor = true;
             this.btnBuildERD.Click += new System.EventHandler(this.btnBuildERD_Click);
             // 
-            // lblRootFolder
+            // lblProjectFile
             // 
-            this.lblRootFolder.AutoSize = true;
-            this.lblRootFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRootFolder.Location = new System.Drawing.Point(16, 182);
-            this.lblRootFolder.Name = "lblRootFolder";
-            this.lblRootFolder.Size = new System.Drawing.Size(93, 17);
-            this.lblRootFolder.TabIndex = 7;
-            this.lblRootFolder.Text = "Root Folder";
+            this.lblProjectFile.AutoSize = true;
+            this.lblProjectFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProjectFile.Location = new System.Drawing.Point(16, 70);
+            this.lblProjectFile.Name = "lblProjectFile";
+            this.lblProjectFile.Size = new System.Drawing.Size(154, 17);
+            this.lblProjectFile.TabIndex = 1;
+            this.lblProjectFile.Text = "Project Solution File";
             // 
-            // tbRootFolder
+            // tbProjectFile
             // 
-            this.tbRootFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbRootFolder.Location = new System.Drawing.Point(184, 182);
-            this.tbRootFolder.Name = "tbRootFolder";
-            this.tbRootFolder.Size = new System.Drawing.Size(704, 23);
-            this.tbRootFolder.TabIndex = 8;
-            this.tbRootFolder.DoubleClick += new System.EventHandler(this.tbRootFolder_DoubleClick);
+            this.tbProjectFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbProjectFile.Location = new System.Drawing.Point(184, 70);
+            this.tbProjectFile.Name = "tbProjectFile";
+            this.tbProjectFile.ReadOnly = true;
+            this.tbProjectFile.Size = new System.Drawing.Size(704, 23);
+            this.tbProjectFile.TabIndex = 2;
             // 
             // btnSearchMetadata
             // 
@@ -481,8 +481,8 @@
             this.Controls.Add(this.delMyDebugLogs);
             this.Controls.Add(this.btnDebugLogs);
             this.Controls.Add(this.btnSearchMetadata);
-            this.Controls.Add(this.tbRootFolder);
-            this.Controls.Add(this.lblRootFolder);
+            this.Controls.Add(this.tbProjectFile);
+            this.Controls.Add(this.lblProjectFile);
             this.Controls.Add(this.btnBuildERD);
             this.Controls.Add(this.tbRepository);
             this.Controls.Add(this.lblRepository);
@@ -530,8 +530,8 @@
         private System.Windows.Forms.Label lblRepository;
         private System.Windows.Forms.TextBox tbRepository;
         private System.Windows.Forms.Button btnBuildERD;
-        private System.Windows.Forms.Label lblRootFolder;
-        private System.Windows.Forms.TextBox tbRootFolder;
+        private System.Windows.Forms.Label lblProjectFile;
+        private System.Windows.Forms.TextBox tbProjectFile;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectSolutionFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem projectSolutionToolStripMenuItem;

@@ -1198,10 +1198,10 @@ namespace SalesforceMetadata
 
             sw.WriteLine("<version>" + Properties.Settings.Default.DefaultAPI + "</version>");
 
-            if (this.tbOutboundChangeSetName.Text != "")
-            {
-                sw.WriteLine("<fullName>" + this.tbOutboundChangeSetName.Text + "</fullName>");
-            }
+            //if (this.tbOutboundChangeSetName.Text != "")
+            //{
+            //    sw.WriteLine("<fullName>" + this.tbOutboundChangeSetName.Text + "</fullName>");
+            //}
 
             sw.WriteLine("</Package>");
 
@@ -1414,14 +1414,39 @@ namespace SalesforceMetadata
             this.projectValuesChanged = true;
         }
 
+        private void tbBaseFolderPath_DoubleClick(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.Description = "Base folder for references to related development folders such as the Code Archive folder";
+            fbd.ShowNewFolderButton = true;
+
+            fbd.ShowDialog();
+
+            if (fbd.SelectedPath != null)
+            {
+                this.tbBaseFolderPath.Text = fbd.SelectedPath;
+                Properties.Settings.Default.BaseFolderPath = fbd.SelectedPath;
+            }
+        }
+
+        private void tbBaseFolderPath_TextChanged(object sender, EventArgs e)
+        {
+            if (bypassTextChange == true) return;
+
+            Properties.Settings.Default.BaseFolderPath = this.tbBaseFolderPath.Text;
+            Properties.Settings.Default.Save();
+
+            this.projectValuesChanged = true;
+        }
+
         // Check if Code Archive directory exists
         private void checkArchiveDirectory(String fileToCopy)
         {
             String[] fileToCopySplit = fileToCopy.Split('\\');
             String[] fileNameSplit = fileToCopySplit[fileToCopySplit.Length - 1].Split('.');
 
-            String codeArchiveRootPath = this.tbProjectFile.Text + "\\Code Archive";
-            String logFile = this.tbProjectFile.Text + "\\Code Archive\\LogFile.txt";
+            String codeArchiveRootPath = this.tbBaseFolderPath.Text + "\\Code Archive";
+            String logFile = this.tbBaseFolderPath.Text + "\\Code Archive\\LogFile.txt";
 
             if (fileNameSplit.Length == 1)
             {
@@ -1734,13 +1759,20 @@ namespace SalesforceMetadata
             }
         }
 
-        private void tbOutboundChangeSetName_MouseHover(object sender, EventArgs e)
+        //private void tbOutboundChangeSetName_MouseHover(object sender, EventArgs e)
+        //{
+        //    TextBox TB = (TextBox)sender;
+        //    int VisibleTime = 10000;  //in milliseconds
+
+        //    ToolTip tt = new ToolTip();
+        //    tt.Show("If you have a open Salesforce Outbound Change Set, add the Change Set Name here. When deployed, your changes will be added to the change set.", TB, 0, 0, VisibleTime);
+        //}
+
+        private void tbBaseFolderPath_MouseHover(object sender, EventArgs e)
         {
             TextBox TB = (TextBox)sender;
-            int VisibleTime = 10000;  //in milliseconds
-
             ToolTip tt = new ToolTip();
-            tt.Show("If you have a open Salesforce Outbound Change Set, add the Change Set Name here. When deployed, your changes will be added to the change set.", TB, 0, 0, VisibleTime);
+            tt.Show("The base folder where other related folders will be built from such as the path to the Code Archive folder", TB);
         }
 
         // Toolstrip Menu Items
@@ -1785,6 +1817,7 @@ namespace SalesforceMetadata
             Properties.Settings.Default.DevelopmentDeploymentFolder = "";
             Properties.Settings.Default.RepositoryPath = "";
             Properties.Settings.Default.RecentProjectPath = "";
+            Properties.Settings.Default.BaseFolderPath = "";
 
             Properties.Settings.Default.Save();
         }
@@ -1792,6 +1825,7 @@ namespace SalesforceMetadata
         private void saveProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             updateProjectFile();
+            this.projectValuesChanged = false;
         }
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1816,15 +1850,7 @@ namespace SalesforceMetadata
                 sw.WriteLine(Properties.Settings.Default.DevelopmentSelectedFolder);
                 sw.WriteLine(Properties.Settings.Default.DevelopmentDeploymentFolder);
                 sw.WriteLine(Properties.Settings.Default.RepositoryPath);
-
-                if (this.tbOutboundChangeSetName.Text != "")
-                {
-                    sw.WriteLine(this.tbOutboundChangeSetName.Text);
-                }
-                else
-                {
-                    sw.WriteLine("");
-                }
+                sw.WriteLine(this.tbBaseFolderPath.Text);
 
                 sw.Close();
             }
@@ -1851,19 +1877,13 @@ namespace SalesforceMetadata
             this.tbProjectFolder.Text = sr.ReadLine();
             this.tbDeployFrom.Text = sr.ReadLine();
             this.tbRepository.Text = sr.ReadLine();
-
-            this.tbOutboundChangeSetName.Text = sr.ReadLine();
+            this.tbBaseFolderPath.Text = sr.ReadLine();
 
             Properties.Settings.Default.DevelopmentSelectedFolder = this.tbProjectFolder.Text;
             Properties.Settings.Default.DevelopmentDeploymentFolder = this.tbDeployFrom.Text;
             Properties.Settings.Default.RepositoryPath = this.tbRepository.Text;
             Properties.Settings.Default.ProjectFilePath = this.tbProjectFile.Text;
-
-            //if (!Properties.Settings.Default.RecentProjects.Contains(ofd.FileName))
-            //{
-            //    //Properties.Settings.Default.RecentProjects.Add(ofd.FileName);
-            //    //this.recentToolStripMenuItem.
-            //}
+            Properties.Settings.Default.BaseFolderPath = this.tbBaseFolderPath.Text;
 
             Properties.Settings.Default.Save();
 
@@ -1935,7 +1955,5 @@ namespace SalesforceMetadata
         {
             this.copySelectedToRepository();
         }
-
-
     }
 }

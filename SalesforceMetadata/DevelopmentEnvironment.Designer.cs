@@ -66,9 +66,9 @@
             this.btnSearchMetadata = new System.Windows.Forms.Button();
             this.btnDebugLogs = new System.Windows.Forms.Button();
             this.delMyDebugLogs = new System.Windows.Forms.Button();
-            this.lblOutboundChangeSetName = new System.Windows.Forms.Label();
-            this.tbOutboundChangeSetName = new System.Windows.Forms.TextBox();
+            this.lblBaseFolderPath = new System.Windows.Forms.Label();
             this.btnCopySelectedToRepository = new System.Windows.Forms.Button();
+            this.tbBaseFolderPath = new System.Windows.Forms.TextBox();
             msIDE = new System.Windows.Forms.MenuStrip();
             msIDE.SuspendLayout();
             this.fromOrgGroup.SuspendLayout();
@@ -263,9 +263,9 @@
             // tbDeployFrom
             // 
             this.tbDeployFrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbDeployFrom.Location = new System.Drawing.Point(185, 136);
+            this.tbDeployFrom.Location = new System.Drawing.Point(184, 136);
             this.tbDeployFrom.Name = "tbDeployFrom";
-            this.tbDeployFrom.Size = new System.Drawing.Size(703, 23);
+            this.tbDeployFrom.Size = new System.Drawing.Size(704, 23);
             this.tbDeployFrom.TabIndex = 6;
             this.tbDeployFrom.TextChanged += new System.EventHandler(this.tbDeployFrom_TextChanged);
             this.tbDeployFrom.DoubleClick += new System.EventHandler(this.tbDeployFrom_DoubleClick);
@@ -365,9 +365,9 @@
             // tbRepository
             // 
             this.tbRepository.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbRepository.Location = new System.Drawing.Point(185, 169);
+            this.tbRepository.Location = new System.Drawing.Point(184, 169);
             this.tbRepository.Name = "tbRepository";
-            this.tbRepository.Size = new System.Drawing.Size(703, 23);
+            this.tbRepository.Size = new System.Drawing.Size(704, 23);
             this.tbRepository.TabIndex = 8;
             this.tbRepository.TextChanged += new System.EventHandler(this.tbRepository_TextChanged);
             this.tbRepository.DoubleClick += new System.EventHandler(this.tbRepository_DoubleClick);
@@ -439,24 +439,15 @@
             this.delMyDebugLogs.UseVisualStyleBackColor = true;
             this.delMyDebugLogs.Click += new System.EventHandler(this.delMyDebugLogs_Click);
             // 
-            // lblOutboundChangeSetName
+            // lblBaseFolderPath
             // 
-            this.lblOutboundChangeSetName.AutoSize = true;
-            this.lblOutboundChangeSetName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOutboundChangeSetName.Location = new System.Drawing.Point(17, 217);
-            this.lblOutboundChangeSetName.Name = "lblOutboundChangeSetName";
-            this.lblOutboundChangeSetName.Size = new System.Drawing.Size(214, 17);
-            this.lblOutboundChangeSetName.TabIndex = 9;
-            this.lblOutboundChangeSetName.Text = "Outbound Change Set Name";
-            // 
-            // tbOutboundChangeSetName
-            // 
-            this.tbOutboundChangeSetName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbOutboundChangeSetName.Location = new System.Drawing.Point(254, 214);
-            this.tbOutboundChangeSetName.Name = "tbOutboundChangeSetName";
-            this.tbOutboundChangeSetName.Size = new System.Drawing.Size(633, 23);
-            this.tbOutboundChangeSetName.TabIndex = 10;
-            this.tbOutboundChangeSetName.MouseHover += new System.EventHandler(this.tbOutboundChangeSetName_MouseHover);
+            this.lblBaseFolderPath.AutoSize = true;
+            this.lblBaseFolderPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBaseFolderPath.Location = new System.Drawing.Point(17, 216);
+            this.lblBaseFolderPath.Name = "lblBaseFolderPath";
+            this.lblBaseFolderPath.Size = new System.Drawing.Size(133, 17);
+            this.lblBaseFolderPath.TabIndex = 9;
+            this.lblBaseFolderPath.Text = "Base Folder Path";
             // 
             // btnCopySelectedToRepository
             // 
@@ -470,14 +461,25 @@
             this.btnCopySelectedToRepository.UseVisualStyleBackColor = true;
             this.btnCopySelectedToRepository.Click += new System.EventHandler(this.btnCopySelectedToRepository_Click);
             // 
+            // tbBaseFolderPath
+            // 
+            this.tbBaseFolderPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbBaseFolderPath.Location = new System.Drawing.Point(184, 213);
+            this.tbBaseFolderPath.Name = "tbBaseFolderPath";
+            this.tbBaseFolderPath.Size = new System.Drawing.Size(704, 23);
+            this.tbBaseFolderPath.TabIndex = 10;
+            this.tbBaseFolderPath.TextChanged += new System.EventHandler(this.tbBaseFolderPath_TextChanged);
+            this.tbBaseFolderPath.DoubleClick += new System.EventHandler(this.tbBaseFolderPath_DoubleClick);
+            this.tbBaseFolderPath.MouseHover += new System.EventHandler(this.tbBaseFolderPath_MouseHover);
+            // 
             // DevelopmentEnvironment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1479, 961);
             this.Controls.Add(this.btnCopySelectedToRepository);
-            this.Controls.Add(this.lblOutboundChangeSetName);
-            this.Controls.Add(this.tbOutboundChangeSetName);
+            this.Controls.Add(this.lblBaseFolderPath);
+            this.Controls.Add(this.tbBaseFolderPath);
             this.Controls.Add(this.delMyDebugLogs);
             this.Controls.Add(this.btnDebugLogs);
             this.Controls.Add(this.btnSearchMetadata);
@@ -550,8 +552,8 @@
         private System.Windows.Forms.ToolStripMenuItem visualforcePageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem visualforceComponentToolStripMenuItem;
         private System.Windows.Forms.Button delMyDebugLogs;
-        private System.Windows.Forms.Label lblOutboundChangeSetName;
-        private System.Windows.Forms.TextBox tbOutboundChangeSetName;
+        private System.Windows.Forms.Label lblBaseFolderPath;
         private System.Windows.Forms.Button btnCopySelectedToRepository;
+        private System.Windows.Forms.TextBox tbBaseFolderPath;
     }
 }

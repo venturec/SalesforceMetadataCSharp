@@ -101,7 +101,7 @@
     <Setting Name="RepositoryPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="IDEProjectRoot" Type="System.String" Scope="User">
+    <Setting Name="ProjectFilePath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DebugLogPath" Type="System.String" Scope="User">
@@ -109,6 +109,9 @@
     </Setting>
     <Setting Name="MetadataAynchrounsThreads" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="BaseFolderPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

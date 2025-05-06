@@ -900,8 +900,8 @@ namespace SalesforceMetadata
 
         private String buildZipFileWithPackageXml()
         {
-            String codeArchiveRootPath = this.tbProjectFile.Text + "\\Code Archive";
-            String logFile = this.tbProjectFile.Text + "\\Code Archive\\LogFile.txt";
+            String codeArchiveRootPath = this.tbBaseFolderPath.Text + "\\Code Archive";
+            String logFile = this.tbBaseFolderPath.Text + "\\Code Archive\\LogFile.txt";
 
             if (!Directory.Exists(codeArchiveRootPath))
             {
@@ -1317,14 +1317,14 @@ namespace SalesforceMetadata
             }
 
             if (packageXmlMembers.Count > 0
-                && this.tbProjectFile.Text != null)
+                && this.tbBaseFolderPath.Text != null)
             {
                 SalesforceMetadataStep2 sfMetadataStep2 = new SalesforceMetadataStep2();
                 sfMetadataStep2.userName = this.cmbUserName.Text;
                 sfMetadataStep2.selectedItems = packageXmlMembers;
                 sfMetadataStep2.tbFromOrgSaveLocation.Text = this.tbProjectFolder.Text;
 
-                Action act = () => sfMetadataStep2.requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, this.tbProjectFile.Text, sfMetadataStep2);
+                Action act = () => sfMetadataStep2.requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, this.tbBaseFolderPath.Text, sfMetadataStep2);
                 Task tsk = Task.Run(act);
             }
         }
@@ -1811,6 +1811,7 @@ namespace SalesforceMetadata
             this.tbDeployFrom.Text = "";
             this.tbProjectFolder.Text = "";
             this.tbRepository.Text = "";
+            this.tbBaseFolderPath.Text = "";
 
             Properties.Settings.Default.ProjectFilePath = this.tbProjectFile.Text;
             Properties.Settings.Default.DevelopmentSelectedFolder = "";
@@ -1879,10 +1880,10 @@ namespace SalesforceMetadata
             this.tbRepository.Text = sr.ReadLine();
             this.tbBaseFolderPath.Text = sr.ReadLine();
 
+            Properties.Settings.Default.ProjectFilePath = this.tbProjectFile.Text;
             Properties.Settings.Default.DevelopmentSelectedFolder = this.tbProjectFolder.Text;
             Properties.Settings.Default.DevelopmentDeploymentFolder = this.tbDeployFrom.Text;
             Properties.Settings.Default.RepositoryPath = this.tbRepository.Text;
-            Properties.Settings.Default.ProjectFilePath = this.tbProjectFile.Text;
             Properties.Settings.Default.BaseFolderPath = this.tbBaseFolderPath.Text;
 
             Properties.Settings.Default.Save();

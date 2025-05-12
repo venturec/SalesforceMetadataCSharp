@@ -27,7 +27,7 @@ namespace SalesforceMetadata
 {
     public partial class SalesforceMetadataStep2 : System.Windows.Forms.Form
     {
-        private SalesforceCredentials sc;
+        public SalesforceCredentials metaRetrieveSFCreds;
 
         private int ONE_SECOND = 20000;
         private int MAX_NUM_POLL_REQUESTS = 500;
@@ -47,7 +47,7 @@ namespace SalesforceMetadata
         public SalesforceMetadataStep2()
         {
             InitializeComponent();
-            sc = new SalesforceCredentials();
+            metaRetrieveSFCreds = new SalesforceCredentials();
             alreadyAdded = new HashSet<String>();
         }
 
@@ -72,7 +72,7 @@ namespace SalesforceMetadata
             {
                 try
                 {
-                    sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
+                    metaRetrieveSFCreds.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
                 }
                 catch (Exception exc)
                 {
@@ -80,7 +80,7 @@ namespace SalesforceMetadata
                     return;
                 }
 
-                if (sc.loginSuccess == false)
+                if (metaRetrieveSFCreds.loginSuccess == false)
                 {
                     MessageBox.Show("Please check username, password and/or security token");
                     return;
@@ -91,7 +91,7 @@ namespace SalesforceMetadata
                 String target_dir = this.tbFromOrgSaveLocation.Text;
 
                 // Now build the target_dir and extractToFolder
-                String[] urlParsed = sc.fromOrgLR.serverUrl.Split('/');
+                String[] urlParsed = metaRetrieveSFCreds.fromOrgLR.serverUrl.Split('/');
                 urlParsed = urlParsed[2].Split('.');
                 extractToFolder = urlParsed[0];
 
@@ -131,7 +131,7 @@ namespace SalesforceMetadata
             {
                 try
                 {
-                    sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
+                    metaRetrieveSFCreds.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
                 }
                 catch (Exception exc)
                 {
@@ -139,7 +139,7 @@ namespace SalesforceMetadata
                     return;
                 }
 
-                if (sc.loginSuccess == false)
+                if (metaRetrieveSFCreds.loginSuccess == false)
                 {
                     MessageBox.Show("Please check username, password and/or security token");
                     return;
@@ -150,7 +150,7 @@ namespace SalesforceMetadata
                 String target_dir = this.tbFromOrgSaveLocation.Text;
 
                 // Now build the target_dir and extractToFolder
-                String[] urlParsed = sc.fromOrgLR.serverUrl.Split('/');
+                String[] urlParsed = metaRetrieveSFCreds.fromOrgLR.serverUrl.Split('/');
                 urlParsed = urlParsed[2].Split('.');
                 extractToFolder = urlParsed[0];
 
@@ -183,7 +183,7 @@ namespace SalesforceMetadata
                     int waitTimeMilliSecs = 6000;
 
                     QueryResult qr = new QueryResult();
-                    qr = sc.fromOrgSS.query("SELECT Id, Name FROM Profile ORDER BY Name");
+                    qr = metaRetrieveSFCreds.fromOrgSS.query("SELECT Id, Name FROM Profile ORDER BY Name");
 
                     Boolean done = false;
                     while (done == false)
@@ -247,7 +247,7 @@ namespace SalesforceMetadata
                         }
                         else
                         {
-                            qr = sc.fromOrgSS.queryMore(qr.queryLocator);
+                            qr = metaRetrieveSFCreds.fromOrgSS.queryMore(qr.queryLocator);
                         }
                     }
 
@@ -323,7 +323,7 @@ namespace SalesforceMetadata
                     List<String> allPermSetNames = new List<string>();
 
                     QueryResult qr = new QueryResult();
-                    qr = sc.fromOrgSS.query("SELECT Id, NamespacePrefix, Name, Type FROM PermissionSet ORDER BY Name");
+                    qr = metaRetrieveSFCreds.fromOrgSS.query("SELECT Id, NamespacePrefix, Name, Type FROM PermissionSet ORDER BY Name");
 
                     Boolean done = false;
                     while (done == false)
@@ -364,7 +364,7 @@ namespace SalesforceMetadata
                         }
                         else
                         {
-                            qr = sc.fromOrgSS.queryMore(qr.queryLocator);
+                            qr = metaRetrieveSFCreds.fromOrgSS.queryMore(qr.queryLocator);
                         }
                     }
 
@@ -443,9 +443,9 @@ namespace SalesforceMetadata
             String target_dir = this.tbFromOrgSaveLocation.Text;
 
             // TODO: Add try/catch to this?
-            sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
+            metaRetrieveSFCreds.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
 
-            String[] urlParsed = sc.fromOrgLR.serverUrl.Split('/');
+            String[] urlParsed = metaRetrieveSFCreds.fromOrgLR.serverUrl.Split('/');
             urlParsed = urlParsed[2].Split('.');
             extractToFolder = urlParsed[0];
 
@@ -496,7 +496,6 @@ namespace SalesforceMetadata
             foreach (String comp in selectedItems.Keys)
             {
                 componentsToRetrieve = componentsToRetrieve + "    " + comp + Environment.NewLine;
-                
             }
 
             String processingMsg2 = componentsToRetrieve + Environment.NewLine;
@@ -526,7 +525,7 @@ namespace SalesforceMetadata
 
                 try
                 {
-                    sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
+                    metaRetrieveSFCreds.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
                 }
                 catch (Exception exc)
                 {
@@ -535,7 +534,7 @@ namespace SalesforceMetadata
                 }
 
                 QueryResult qr = new QueryResult();
-                qr = sc.fromOrgSS.query("SELECT Id, Name FROM Profile ORDER BY Name");
+                qr = metaRetrieveSFCreds.fromOrgSS.query("SELECT Id, Name FROM Profile ORDER BY Name");
 
                 Boolean done = false;
                 while (done == false)
@@ -599,7 +598,7 @@ namespace SalesforceMetadata
                     }
                     else
                     {
-                        qr = sc.fromOrgSS.queryMore(qr.queryLocator);
+                        qr = metaRetrieveSFCreds.fromOrgSS.queryMore(qr.queryLocator);
                     }
                 }
 
@@ -619,7 +618,7 @@ namespace SalesforceMetadata
 
                 try
                 {
-                    sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
+                    metaRetrieveSFCreds.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
                 }
                 catch (Exception exc)
                 {
@@ -628,7 +627,7 @@ namespace SalesforceMetadata
                 }
 
                 QueryResult qr = new QueryResult();
-                qr = sc.fromOrgSS.query("SELECT Id, NamespacePrefix, Name, Type FROM PermissionSet ORDER BY Name");
+                qr = metaRetrieveSFCreds.fromOrgSS.query("SELECT Id, NamespacePrefix, Name, Type FROM PermissionSet ORDER BY Name");
 
                 Boolean done = false;
                 while (done == false)
@@ -669,7 +668,7 @@ namespace SalesforceMetadata
                     }
                     else
                     {
-                        qr = sc.fromOrgSS.queryMore(qr.queryLocator);
+                        qr = metaRetrieveSFCreds.fromOrgSS.queryMore(qr.queryLocator);
                     }
                 }
 
@@ -687,7 +686,7 @@ namespace SalesforceMetadata
                 List<String> emailMembers = new List<string>();
 
                 QueryResult qr = new QueryResult();
-                qr = sc.fromOrgSS.query("SELECT Folder.DeveloperName, DeveloperName FROM EmailTemplate");
+                qr = metaRetrieveSFCreds.fromOrgSS.query("SELECT Folder.DeveloperName, DeveloperName FROM EmailTemplate");
 
                 Boolean done = false;
                 while (!done)
@@ -729,7 +728,7 @@ namespace SalesforceMetadata
                     }
                     else
                     {
-                        qr = sc.fromOrgSS.queryMore(qr.queryLocator);
+                        qr = metaRetrieveSFCreds.fromOrgSS.queryMore(qr.queryLocator);
                     }
                 }
 
@@ -759,7 +758,7 @@ namespace SalesforceMetadata
                 List<String> selectedReportMembers = new List<string>();
 
                 QueryResult rf = new QueryResult();
-                rf = sc.fromOrgSS.query("SELECT Id, DeveloperName FROM Folder");
+                rf = metaRetrieveSFCreds.fromOrgSS.query("SELECT Id, DeveloperName FROM Folder");
 
                 Boolean done = false;
                 while (!done)
@@ -784,12 +783,12 @@ namespace SalesforceMetadata
                     }
                     else
                     {
-                        rf = sc.fromOrgSS.queryMore(rf.queryLocator);
+                        rf = metaRetrieveSFCreds.fromOrgSS.queryMore(rf.queryLocator);
                     }
                 }
 
                 QueryResult qr = new QueryResult();
-                qr = sc.fromOrgSS.query("SELECT OwnerId, DeveloperName FROM Report");
+                qr = metaRetrieveSFCreds.fromOrgSS.query("SELECT OwnerId, DeveloperName FROM Report");
 
                 done = false;
                 while (!done)
@@ -823,7 +822,7 @@ namespace SalesforceMetadata
                     }
                     else
                     {
-                        qr = sc.fromOrgSS.queryMore(qr.queryLocator);
+                        qr = metaRetrieveSFCreds.fromOrgSS.queryMore(qr.queryLocator);
                     }
                 }
 
@@ -1028,7 +1027,7 @@ namespace SalesforceMetadata
             packageXmlSB.Append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine);
             packageXmlSB.Append("<Package xmlns = \"http://soap.sforce.com/2006/04/metadata\">" + Environment.NewLine);
 
-            MetadataService ms = sc.getMetadataService(reqOrg);
+            MetadataService ms = metaRetrieveSFCreds.getMetadataService(reqOrg);
             ms.AllowAutoRedirect = true;
 
             List<String> members = new List<String>();
@@ -1129,7 +1128,7 @@ namespace SalesforceMetadata
             packageXmlSB.Append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine);
             packageXmlSB.Append("<Package xmlns=\"http://soap.sforce.com/2006/04/metadata\">" + Environment.NewLine);
 
-            MetadataService ms = sc.getMetadataService(reqOrg);
+            MetadataService ms = metaRetrieveSFCreds.getMetadataService(reqOrg);
             ms.AllowAutoRedirect = true;
 
             foreach (String selected in selectedItems)
@@ -1245,7 +1244,7 @@ namespace SalesforceMetadata
                 }
                 else if (!alreadyAdded.Contains(selected))
                 {
-                    SalesforceMetadata.MetadataWSDL.FileProperties[] fpList = sc.listMetadata(selected, reqOrg);
+                    SalesforceMetadata.MetadataWSDL.FileProperties[] fpList = metaRetrieveSFCreds.listMetadata(selected, reqOrg);
 
                     List <String> members = new List<String>();
                     if (fpList[0] == null)
@@ -1303,7 +1302,7 @@ namespace SalesforceMetadata
 
             AsyncResult asyncResult = new AsyncResult();
 
-            MetadataService ms = sc.getMetadataService(reqOrg);
+            MetadataService ms = metaRetrieveSFCreds.getMetadataService(reqOrg);
             ms.AllowAutoRedirect = true;
 
             if (ms != null)
@@ -1534,7 +1533,7 @@ namespace SalesforceMetadata
 
         //private List<String> getLayoutDescribe(UtilityClass.REQUESTINGORG reqOrg)
         //{
-        //    DescribeLayout[] descrLayouts = sc.get(reqOrg);
+        //    DescribeLayout[] descrLayouts = metaRetrieveSFCreds.get(reqOrg);
 
         //    List<String> members = new List<String>();
         //    for (Int32 i = 0; i < descrTabs.Length; i++)
@@ -1547,7 +1546,7 @@ namespace SalesforceMetadata
 
         private List<String> getTabDescribe(UtilityClass.REQUESTINGORG reqOrg)
         {
-            DescribeTab[] descrTabs = sc.getDescribeTab(reqOrg);
+            DescribeTab[] descrTabs = metaRetrieveSFCreds.getDescribeTab(reqOrg);
 
             List<String> members = new List<String>();
             for (Int32 i = 0; i < descrTabs.Length; i++)
@@ -1566,7 +1565,7 @@ namespace SalesforceMetadata
             // but you won't be able to retrieve the custom fields related to Events and Tasks if not included
             members.Add("Activity");
 
-            DescribeGlobalResult dgr = sc.getDescribeGlobalResult(reqOrg);
+            DescribeGlobalResult dgr = metaRetrieveSFCreds.getDescribeGlobalResult(reqOrg);
             for (Int32 i = 0; i < dgr.sobjects.Length; i++)
             {
                 String sobj = dgr.sobjects[i].name;
@@ -1586,7 +1585,7 @@ namespace SalesforceMetadata
 
         //private SalesforceMetadata.MetadataWSDL.FileProperties[] listMetadataMembers(String metadataType, UtilityClass.REQUESTINGORG reqOrg)
         //{
-        //    SalesforceMetadata.MetadataWSDL.FileProperties[] fp = sc.listMetadata(metadataType, reqOrg);
+        //    SalesforceMetadata.MetadataWSDL.FileProperties[] fp = metaRetrieveSFCreds.listMetadata(metadataType, reqOrg);
 
         //    return fp;
         //}
@@ -1694,7 +1693,7 @@ namespace SalesforceMetadata
                                     for (Int32 j = 0; j < files.Length; j++)
                                     {
                                         FileInfo fi = new FileInfo(files[j]);
-                                        fi.CopyTo(files[j] + "-meta.xml");
+                                        fi.CopyTo(files[j] + "-meta.xml", true);
                                         fi.Delete();
                                     }
                                 }

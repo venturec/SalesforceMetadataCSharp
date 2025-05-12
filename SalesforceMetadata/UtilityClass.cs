@@ -122,7 +122,7 @@ namespace SalesforceMetadata
             foreach (FileInfo file in dirInfo.GetFiles())
             {
                 string targetFilePath = Path.Combine(destinationDir, file.Name);
-                file.CopyTo(targetFilePath);
+                file.CopyTo(targetFilePath, true);
             }
 
             // If recursive and copying subdirectories, recursively call this method

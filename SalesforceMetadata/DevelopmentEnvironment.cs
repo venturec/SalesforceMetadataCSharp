@@ -11,12 +11,13 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace SalesforceMetadata
 {
     public partial class DevelopmentEnvironment : Form
     {
-        private SalesforceCredentials sc;
+        private SalesforceCredentials devEnvSFCreds;
 
         private Dictionary<String, String> usernameToSecurityToken;
         HashSet<String> mainFolderNames;
@@ -33,7 +34,7 @@ namespace SalesforceMetadata
         public DevelopmentEnvironment()
         {
             InitializeComponent();
-            sc = new SalesforceCredentials();
+            devEnvSFCreds = new SalesforceCredentials();
             populateCredentialsFile();
         }
 
@@ -56,7 +57,7 @@ namespace SalesforceMetadata
         }
         private void populateUserNames()
         {
-            foreach (String un in sc.usernamePartnerUrl.Keys)
+            foreach (String un in devEnvSFCreds.usernamePartnerUrl.Keys)
             {
                 this.cmbUserName.Items.Add(un);
             }
@@ -1324,6 +1325,22 @@ namespace SalesforceMetadata
                 sfMetadataStep2.selectedItems = packageXmlMembers;
                 sfMetadataStep2.tbFromOrgSaveLocation.Text = this.tbProjectFolder.Text;
 
+                try
+                {
+                    sfMetadataStep2.metaRetrieveSFCreds.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.Message);
+                    return;
+                }
+
+                if (sfMetadataStep2.metaRetrieveSFCreds.loginSuccess == false)
+                {
+                    MessageBox.Show("Please check username, password and/or security token");
+                    return;
+                }
+
                 Action act = () => sfMetadataStep2.requestZipFile(UtilityClass.REQUESTINGORG.FROMORG, this.tbBaseFolderPath.Text, sfMetadataStep2);
                 Task tsk = Task.Run(act);
             }
@@ -1611,7 +1628,7 @@ namespace SalesforceMetadata
 
             try
             {
-                sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
+                devEnvSFCreds.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
             }
             catch (Exception exc)
             {
@@ -1619,7 +1636,7 @@ namespace SalesforceMetadata
                 return;
             }
 
-            if (sc.loginSuccess == false)
+            if (devEnvSFCreds.loginSuccess == false)
             {
                 MessageBox.Show("Please check username, password and/or security token");
                 return;
@@ -1627,7 +1644,7 @@ namespace SalesforceMetadata
 
             String selectStatement = "";
             String userId = "";
-            userId = sc.fromOrgLR.userId;
+            userId = devEnvSFCreds.fromOrgLR.userId;
 
             selectStatement = "SELECT Id FROM ApexLog WHERE LogUserId = \'" + userId + "\'";
 
@@ -1635,7 +1652,7 @@ namespace SalesforceMetadata
 
             try
             {
-                qr = sc.fromOrgSS.query(selectStatement);
+                qr = devEnvSFCreds.fromOrgSS.query(selectStatement);
 
                 if (qr.size > 2000)
                 {
@@ -1682,13 +1699,13 @@ namespace SalesforceMetadata
                             {
                                 if (recordIdsToDelete[rtd].Count > 0)
                                 {
-                                    PartnerWSDL.DeleteResult[] dr = sc.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
+                                    PartnerWSDL.DeleteResult[] dr = devEnvSFCreds.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
                                 }
                             }
 
                             if (!qr.done)
                             {
-                                qr = sc.fromOrgSS.queryMore(qr.queryLocator);
+                                qr = devEnvSFCreds.fromOrgSS.queryMore(qr.queryLocator);
                             }
                             else
                             {
@@ -1730,7 +1747,7 @@ namespace SalesforceMetadata
                     {
                         if (recordIdsToDelete[rtd].Count > 0)
                         {
-                            PartnerWSDL.DeleteResult[] dr = sc.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
+                            PartnerWSDL.DeleteResult[] dr = devEnvSFCreds.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
                         }
                     }
                 }
@@ -1747,7 +1764,7 @@ namespace SalesforceMetadata
         {
             this.Text = "DevelopmentEnvironment";
 
-            if (sc.isProduction[this.cmbUserName.Text] == true)
+            if (devEnvSFCreds.isProduction[this.cmbUserName.Text] == true)
             {
                 this.Text = "DevelopmentEnvironment - PRODUCTION";
             }

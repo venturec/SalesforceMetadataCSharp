@@ -102,13 +102,17 @@ namespace SalesforceMetadata
         private void buildToolingReport(HashSet<String> selectedItems, MetadataToolingReportForm toolingForm)
         {
             // We are going to retrieve these in this method so adding a filter to bypass in case another method requests to retrieve these items, causing a duplicate retrieval
-            HashSet<String> bypassObjects = new HashSet<String> {"ApexClass", "CustomObject"};
+            HashSet<String> bypassObjects = new HashSet<String> { "ApexClass", "CustomObject" };
 
             DateTime dt = DateTime.Now;
             String processingMsg1 = "Tooling Report Started at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
             var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1, toolingForm); });
             var thread1 = new System.Threading.Thread(threadParameters1);
             thread1.Start();
+            while (thread1.ThreadState == System.Threading.ThreadState.Running)
+            {
+                // do nothing. Just want for the thread to complete
+            }
 
             Microsoft.Office.Interop.Excel.Application xlapp = new Microsoft.Office.Interop.Excel.Application();
             Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlapp.Workbooks.Add();
@@ -164,6 +168,10 @@ namespace SalesforceMetadata
             var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2, toolingForm); });
             var thread2 = new System.Threading.Thread(threadParameters2);
             thread2.Start();
+            while (thread2.ThreadState == System.Threading.ThreadState.Running)
+            {
+                // do nothing. Just want for the thread to complete
+            }
         }
 
 
@@ -176,6 +184,10 @@ namespace SalesforceMetadata
             var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1, toolingForm); });
             var thread1 = new System.Threading.Thread(threadParameters1);
             thread1.Start();
+            while (thread1.ThreadState == System.Threading.ThreadState.Running)
+            {
+                // do nothing. Just want for the thread to complete
+            }
 
             String queryString = ToolingApiHelper.CustomObjectQuery();
             ToolingApiHelper.customObjectToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName);
@@ -185,6 +197,10 @@ namespace SalesforceMetadata
             var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2, toolingForm); });
             var thread2 = new System.Threading.Thread(threadParameters2);
             thread2.Start();
+            while (thread2.ThreadState == System.Threading.ThreadState.Running)
+            {
+                // do nothing. Just want for the thread to complete
+            }
         }
 
         private void getCustomField(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
@@ -197,6 +213,10 @@ namespace SalesforceMetadata
             var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1, toolingForm); });
             var thread1 = new System.Threading.Thread(threadParameters1);
             thread1.Start();
+            while (thread1.ThreadState == System.Threading.ThreadState.Running)
+            {
+                // do nothing. Just want for the thread to complete
+            }
 
             String queryString = ToolingApiHelper.CustomFieldQuery();
             ToolingApiHelper.customFieldToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName, objectFieldNameToLabel);
@@ -206,6 +226,10 @@ namespace SalesforceMetadata
             var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2, toolingForm); });
             var thread2 = new System.Threading.Thread(threadParameters2);
             thread2.Start();
+            while (thread2.ThreadState == System.Threading.ThreadState.Running)
+            {
+                // do nothing. Just want for the thread to complete
+            }
         }
 
         private void getApexClass(Microsoft.Office.Interop.Excel.Workbook xlWorkbook, 
@@ -217,6 +241,10 @@ namespace SalesforceMetadata
             var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1, toolingForm); });
             var thread1 = new System.Threading.Thread(threadParameters1);
             thread1.Start();
+            while (thread1.ThreadState == System.Threading.ThreadState.Running)
+            {
+                // do nothing. Just want for the thread to complete
+            }
 
             String queryString = ToolingApiHelper.ApexClassQuery("");
             ToolingApiHelper.getApexClasses(sc, queryString, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
@@ -227,6 +255,10 @@ namespace SalesforceMetadata
             var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2, toolingForm); });
             var thread2 = new System.Threading.Thread(threadParameters2);
             thread2.Start();
+            while (thread2.ThreadState == System.Threading.ThreadState.Running)
+            {
+                // do nothing. Just want for the thread to complete
+            }
         }
 
         private void getToolingObject(String toolingObject, 
@@ -242,6 +274,10 @@ namespace SalesforceMetadata
             var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg1, toolingForm); });
             var thread1 = new System.Threading.Thread(threadParameters1);
             thread1.Start();
+            while (thread1.ThreadState == System.Threading.ThreadState.Running)
+            {
+                // do nothing. Just want for the thread to complete
+            }
 
             String queryString = "";
 
@@ -441,6 +477,10 @@ namespace SalesforceMetadata
             var threadParameters2 = new System.Threading.ThreadStart(delegate { tsWriteToTextbox(processingMsg2, toolingForm); });
             var thread2 = new System.Threading.Thread(threadParameters2);
             thread2.Start();
+            while (thread2.ThreadState == System.Threading.ThreadState.Running)
+            {
+                // do nothing. Just want for the thread to complete
+            }
         }
 
 

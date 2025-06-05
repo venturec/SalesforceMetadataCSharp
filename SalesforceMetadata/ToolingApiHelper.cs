@@ -43,18 +43,18 @@ namespace SalesforceMetadata
 
         public static String sObjectQuery(SalesforceMetadata.PartnerWSDL.Field[] dsrFields, String sObject)
         {
-            String query = "SELECT ";
+            String queryString = "SELECT ";
 
             foreach (SalesforceMetadata.PartnerWSDL.Field fld in dsrFields)
             {
-                query = query + fld.name + ',';
+                queryString = queryString + fld.name + ',';
             }
 
-            query = query.Substring(0, query.Length - 1);
+            queryString = queryString.Substring(0, queryString.Length - 1);
 
-            query = query + " FROM " + sObject;
+            queryString = queryString + " FROM " + sObject;
 
-            return query;
+            return queryString;
         }
 
 
@@ -80,1933 +80,1933 @@ namespace SalesforceMetadata
 
         public static String AnimationRuleQuery(String fullName)
         {
-            String query = "";
+            String queryString = "";
             if (fullName == "")
             {
 
-                query = "SELECT Id, AnimationFrequency, DeveloperName, IsActive, Language, MasterLabel, RecordTypeContext, RecordTypeId, SobjectType, TargetField, TargetFieldChangeToValues, " +
+                queryString = "SELECT Id, AnimationFrequency, DeveloperName, IsActive, Language, MasterLabel, RecordTypeContext, RecordTypeId, SobjectType, TargetField, TargetFieldChangeToValues, " +
                         "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate,LastModifiedDate " +
                         "FROM AnimationRule";
             }
             else
             {
-                query = "SELECT Id, AnimationFrequency, DeveloperName, IsActive, Language, MasterLabel, RecordTypeContext, RecordTypeId, SobjectType, TargetField, TargetFieldChangeToValues, " +
+                queryString = "SELECT Id, AnimationFrequency, DeveloperName, IsActive, Language, MasterLabel, RecordTypeContext, RecordTypeId, SobjectType, TargetField, TargetFieldChangeToValues, " +
                         "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate,LastModifiedDate " +
                         "FROM AnimationRule " +
                         "WHERE FullName = '" + fullName + "'";
             }
 
-            return query;
+            return queryString;
         }
 
 
         public static String ApexClassQuery(String fullName)
         {
-            String query = "";
+            String queryString = "";
             if (fullName == "")
             {
-                query = "SELECT Id, ApiVersion, BodyCrc, IsValid, LengthWithoutComments, ManageableState, Name, NamespacePrefix, Status, SymbolTable, " +
+                queryString = "SELECT Id, ApiVersion, BodyCrc, IsValid, LengthWithoutComments, ManageableState, Name, NamespacePrefix, Status, SymbolTable, " +
                         "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
                         "FROM ApexClass";
             }
             else
             {
-                query = "SELECT Id, ApiVersion, BodyCrc, IsValid, LengthWithoutComments, ManageableState, Name, NamespacePrefix, Status, SymbolTable, " +
+                queryString = "SELECT Id, ApiVersion, BodyCrc, IsValid, LengthWithoutComments, ManageableState, Name, NamespacePrefix, Status, SymbolTable, " +
                         "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
                         "FROM ApexClass " +
                         "WHERE FullName = '" + fullName + "'";
 
             }
 
-            return query;
+            return queryString;
         }
 
 
         public static String ApexClassMemberQuery(String fullName, String contentEntityId)
         {
-            String query = "";
+            String queryString = "";
 
             if (fullName == "" && contentEntityId == "")
             {
-                query = "ERROR: Either the FullName or ContentEntityId is required";
+                queryString = "ERROR: Either the FullName or ContentEntityId is required";
             }
             else if (fullName != "" && contentEntityId == "")
             {
-                query = "SELECT Id, Content, ContentEntityId, FullName, LastSyncDate, SymbolTable, " +
+                queryString = "SELECT Id, Content, ContentEntityId, FullName, LastSyncDate, SymbolTable, " +
                         "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
                         "FROM ApexClassMember " +
                         "WHERE FullName = '" + fullName + "'";
             }
             else if (fullName == "" && contentEntityId != "")
             {
-                query = "SELECT Id, Content, ContentEntityId, FullName, LastSyncDate, SymbolTable, " +
+                queryString = "SELECT Id, Content, ContentEntityId, FullName, LastSyncDate, SymbolTable, " +
                         "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
                         "FROM ApexClassMember " +
                         "WHERE ContentEntityId = '" + contentEntityId + "'";
             }
 
-            return query;
+            return queryString;
         }
 
         public static String ApexCodeCoverageQuery(String apexClassOrTriggerId)
         {
-            String query = "SELECT ApexTestClassId,TestMethodName,ApexClassorTriggerId,NumLinesCovered,NumLinesUncovered,Coverage " +
+            String queryString = "SELECT ApexTestClassId,TestMethodName,ApexClassorTriggerId,NumLinesCovered,NumLinesUncovered,Coverage " +
                            "FROM ApexCodeCoverage " +
                            "WHERE ApexClassorTriggerId = '" + apexClassOrTriggerId + "'";
 
-            return query;
+            return queryString;
         }
 
         public static String ApexCodeCoverageAggregateQuery(String apexClassOrTriggerId)
         {
-            String query = "SELECT ApexClassorTriggerId,NumLinesCovered,NumLinesUncovered,Coverage " +
+            String queryString = "SELECT ApexClassorTriggerId,NumLinesCovered,NumLinesUncovered,Coverage " +
                            "FROM ApexCodeCoverageAggregate " +
                            "WHERE ApexClassorTriggerId = '" + apexClassOrTriggerId + "'";
 
-            return query;
+            return queryString;
         }
 
 
         public static String ApexComponentQuery()
         {
-            String query = "SELECT Id, Name, MasterLabel, NamespacePrefix, ApiVersion, ControllerKey, ControllerType, ManageableState, " +
+            String queryString = "SELECT Id, Name, MasterLabel, NamespacePrefix, ApiVersion, ControllerKey, ControllerType, ManageableState, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ApexComponent";
 
-            return query;
+            return queryString;
         }
 
         public static String ApexComponentMemberQuery(String fullName, String contentEntityId)
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ApexComponentMember";
 
-            return query;
+            return queryString;
         }
 
         public static String ApexEmailNotificationQuery()
         {
-            String query = "SELECT Id, Email, UserId, " +
+            String queryString = "SELECT Id, Email, UserId, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ApexEmailNotification";
 
-            return query;
+            return queryString;
         }
 
         public static String ApexExecutionOverlayActionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ApexExecutionOverlayAction";
 
-            return query;
+            return queryString;
         }
 
         public static String ApexExecutionOverlayResultQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ApexExecutionOverlayResult";
 
-            return query;
+            return queryString;
         }
 
         public static String ApexLogQuery()
         {
-            String query = "SELECT Id, Application, DurationMilliseconds, Location, LogLength, LogUserId, Operation, " +
+            String queryString = "SELECT Id, Application, DurationMilliseconds, Location, LogLength, LogUserId, Operation, " +
                            "Request, RequestIdentifier, StartTime, Status, " +
                            "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
                            "FROM ApexLog ";
 
-            return query;
+            return queryString;
         }
 
         public static String ApexOrgWideCoverageQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ApexOrgWideCoverage";
 
-            return query;
+            return queryString;
         }
 
         public static String ApexPageQuery()
         {
-            String query = "SELECT Id, Name, MasterLabel, NamespacePrefix, ApiVersion, ControllerKey, ControllerType, ManageableState, " +
+            String queryString = "SELECT Id, Name, MasterLabel, NamespacePrefix, ApiVersion, ControllerKey, ControllerType, ManageableState, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ApexPage";
 
-            return query;
+            return queryString;
         }
 
         public static String ApexPageInfoQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ApexPageInfo";
 
-            return query;
+            return queryString;
         }
 
         public static String ApexPageMemberQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ApexPageMember";
 
-            return query;
+            return queryString;
         }
 
         public static String ApexResultQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ApexResult";
 
-            return query;
+            return queryString;
         }
 
         public static String ApexTestQueueItemQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ApexTestQueueItem";
 
-            return query;
+            return queryString;
         }
 
         public static String ApexTestResultQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ApexTestResult";
 
-            return query;
+            return queryString;
         }
 
         public static String ApexTestResultLimitsQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ApexTestResultLimits";
 
-            return query;
+            return queryString;
         }
 
         public static String ApexTestRunResultQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ApexTestRunResult";
 
-            return query;
+            return queryString;
         }
 
         public static String ApexTestSuiteQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ApexTestSuite";
 
-            return query;
+            return queryString;
         }
 
         public static String ApexTriggerQuery(String fullName)
         {
-            String query = "";
+            String queryString = "";
             if (fullName == "")
             {
-                query = "SELECT Id, Name, NamespacePrefix, ApiVersion, BodyCrc, EntityDefinitionId, IsValid, LengthWithoutComments, ManageableState, Status, TableEnumOrId, " +
+                queryString = "SELECT Id, Name, NamespacePrefix, ApiVersion, BodyCrc, EntityDefinitionId, IsValid, LengthWithoutComments, ManageableState, Status, TableEnumOrId, " +
                                "UsageAfterDelete, UsageAfterInsert, UsageAfterUndelete, UsageAfterUpdate, UsageBeforeDelete, UsageBeforeInsert, UsageBeforeUpdate, UsageIsBulk, " +
                                "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
                          "FROM ApexTrigger";
             }
             else
             {
-                query = "SELECT Id, Name, NamespacePrefix, ApiVersion, BodyCrc, EntityDefinitionId, IsValid, LengthWithoutComments, ManageableState, Status, TableEnumOrId, " +
+                queryString = "SELECT Id, Name, NamespacePrefix, ApiVersion, BodyCrc, EntityDefinitionId, IsValid, LengthWithoutComments, ManageableState, Status, TableEnumOrId, " +
                                "UsageAfterDelete, UsageAfterInsert, UsageAfterUndelete, UsageAfterUpdate, UsageBeforeDelete, UsageBeforeInsert, UsageBeforeUpdate, UsageIsBulk, " +
                                "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
                          "FROM ApexTrigger " +
                          "WHERE Name = '" + fullName + "'";
             }
 
-            return query;
+            return queryString;
         }
 
         public static String ApexTriggerMemberQuery(String fullName)
         {
-            String query = "";
+            String queryString = "";
             if (fullName == "")
             {
-                query = "SELECT Id, ContentEntityId, LastSyncDate, MetadataContainerId, SymbolTable, " +
+                queryString = "SELECT Id, ContentEntityId, LastSyncDate, MetadataContainerId, SymbolTable, " +
                                "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
                          "FROM ApexTriggerMember";
             }
             else
             {
-                query = "SELECT Id, FullName, ContentEntityId, LastSyncDate, MetadataContainerId, SymbolTable, " +
+                queryString = "SELECT Id, FullName, ContentEntityId, LastSyncDate, MetadataContainerId, SymbolTable, " +
                                "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
                           "FROM ApexTriggerMember " +
                          "WHERE FullName = '" + fullName + "'";
             }
 
-            return query;
+            return queryString;
         }
 
         public static String AssignmentRuleQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM AssignmentRule";
 
-            return query;
+            return queryString;
         }
 
         public static String AuraDefinitionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM AuraDefinition";
 
-            return query;
+            return queryString;
         }
 
         public static String AuraDefinitionBundleQuery()
         {
-            String query = "SELECT Id, DeveloperName, NamespacePrefix, ApiVersion, " +
+            String queryString = "SELECT Id, DeveloperName, NamespacePrefix, ApiVersion, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM AuraDefinitionBundle";
 
-            return query;
+            return queryString;
         }
 
         public static String AutoResponseRuleQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM AutoResponseRule";
 
-            return query;
+            return queryString;
         }
 
         public static String BrandingSetQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM BrandingSet";
 
-            return query;
+            return queryString;
         }
 
         public static String BrandingSetPropertyQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM BrandingSetProperty";
 
-            return query;
+            return queryString;
         }
 
         public static String BriefcaseDefinitionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM BriefcaseDefinition";
 
-            return query;
+            return queryString;
         }
 
         public static String BusinessProcessQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM BusinessProcess";
 
-            return query;
+            return queryString;
         }
 
         public static String BusinessProcessDefinitionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM BusinessProcessDefinition";
 
-            return query;
+            return queryString;
         }
 
         public static String BusinessProcessFeedbackQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM BusinessProcessFeedback";
 
-            return query;
+            return queryString;
         }
 
         public static String BusinessProcessGroupQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM BusinessProcessGroup";
 
-            return query;
+            return queryString;
         }
 
         public static String BusProcessFeedbackConfigQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM BusProcessFeedbackConfig";
 
-            return query;
+            return queryString;
         }
 
         public static String CertificateQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM Certificate";
 
-            return query;
+            return queryString;
         }
 
         public static String CleanDataServiceQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM CleanDataService";
 
-            return query;
+            return queryString;
         }
 
         public static String CleanRuleQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM CleanRule";
 
-            return query;
+            return queryString;
         }
 
         public static String ColorDefinitionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ColorDefinition";
 
-            return query;
+            return queryString;
         }
 
         public static String CommunityWorkspacesNodeQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM CommunityWorkspacesNode";
 
-            return query;
+            return queryString;
         }
 
         public static String CompactLayoutQuery()
         {
-            String query = "SELECT Id, DeveloperName, ManageableState, MasterLabel, NamespacePrefix, SobjectType, " +
+            String queryString = "SELECT Id, DeveloperName, ManageableState, MasterLabel, NamespacePrefix, SobjectType, " +
             "LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM CompactLayout";
 
-            return query;
+            return queryString;
         }
 
         public static String CompactLayoutInfoQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM CompactLayoutInfo";
 
-            return query;
+            return queryString;
         }
 
         public static String CompactLayoutItemInfoQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM CompactLayoutItemInfo";
 
-            return query;
+            return queryString;
         }
 
         public static String ContainerAsyncRequestQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ContainerAsyncRequest";
 
-            return query;
+            return queryString;
         }
 
         public static String CspTrustedSiteQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM CspTrustedSite";
 
-            return query;
+            return queryString;
         }
 
         public static String CustomApplicationQuery()
         {
-            String query = "SELECT Id, Label, DeveloperName, NamespacePrefix, NavType, " +
+            String queryString = "SELECT Id, Label, DeveloperName, NamespacePrefix, NavType, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM CustomApplication";
 
-            return query;
+            return queryString;
         }
 
         public static String CustomFieldQuery()
         {
-            String query = "SELECT Id, TableEnumOrId, DeveloperName, RelationshipLabel, ManageableState, NamespacePrefix, " +
+            String queryString = "SELECT Id, TableEnumOrId, DeveloperName, RelationshipLabel, ManageableState, NamespacePrefix, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM CustomField";
 
-            return query;
+            return queryString;
         }
 
         public static String CustomFieldMemberQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM CustomFieldMember";
 
-            return query;
+            return queryString;
         }
 
         public static String CustomHelpMenuSectionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM CustomHelpMenuSection";
 
-            return query;
+            return queryString;
         }
 
         public static String CustomHttpHeaderQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM CustomHttpHeader";
 
-            return query;
+            return queryString;
         }
 
         public static String CustomNotificationTypeQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM CustomNotificationType";
 
-            return query;
+            return queryString;
         }
 
         public static String CustomObjectQuery()
         {
-            String query = "SELECT Id, DeveloperName, NamespacePrefix, ExternalName, ExternalRepository, ManageableState, SharingModel, " +
+            String queryString = "SELECT Id, DeveloperName, NamespacePrefix, ExternalName, ExternalRepository, ManageableState, SharingModel, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM CustomObject";
 
-            return query;
+            return queryString;
         }
 
         public static String CustomTabQuery()
         {
-            String query = "SELECT Id, DeveloperName, NamespacePrefix, MasterLabel, MotifName, Type, " +
+            String queryString = "SELECT Id, DeveloperName, NamespacePrefix, MasterLabel, MotifName, Type, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM CustomTab";
 
-            return query;
+            return queryString;
         }
 
         public static String DataAssessmentConfigItemQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM DataAssessmentConfigItem";
 
-            return query;
+            return queryString;
         }
 
         public static String DataIntegrationRecordPurchasePermissionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM DataIntegrationRecordPurchasePermission";
 
-            return query;
+            return queryString;
         }
 
         public static String DataTypeQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM DataType";
 
-            return query;
+            return queryString;
         }
 
         public static String DebugLevelQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM DebugLevel";
 
-            return query;
+            return queryString;
         }
 
         public static String DeployDetailsQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM DeployDetails";
 
-            return query;
+            return queryString;
         }
 
         public static String DocumentQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM Document";
 
-            return query;
+            return queryString;
         }
 
         public static String DuplicateJobDefinitionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM DuplicateJobDefinition";
 
-            return query;
+            return queryString;
         }
 
         public static String DuplicateJobMatchingRuleDefinitionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM DuplicateJobMatchingRuleDefinition";
 
-            return query;
+            return queryString;
         }
 
         public static String EmailTemplateQuery()
         {
-            String query = "SELECT Id, Name, Subject, ApiVersion, " +
+            String queryString = "SELECT Id, Name, Subject, ApiVersion, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM EmailTemplate";
 
-            return query;
+            return queryString;
         }
 
         public static String EmbeddedServiceBrandingQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM EmbeddedServiceBranding";
 
-            return query;
+            return queryString;
         }
 
         public static String EmbeddedServiceConfigQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM EmbeddedServiceConfig";
 
-            return query;
+            return queryString;
         }
 
         public static String EmbeddedServiceCustomComponentQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM EmbeddedServiceCustomComponent";
 
-            return query;
+            return queryString;
         }
 
         public static String EmbeddedServiceCustomLabelQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM EmbeddedServiceCustomLabel";
 
-            return query;
+            return queryString;
         }
 
         public static String EmbeddedServiceFieldServiceQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM EmbeddedServiceFieldService";
 
-            return query;
+            return queryString;
         }
 
         public static String EmbeddedServiceFlowQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM EmbeddedServiceFlow";
 
-            return query;
+            return queryString;
         }
 
         public static String EmbeddedServiceFlowConfigQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM EmbeddedServiceFlowConfig";
 
-            return query;
+            return queryString;
         }
 
         public static String EmbeddedServiceLiveAgentQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM EmbeddedServiceLiveAgent";
 
-            return query;
+            return queryString;
         }
 
         public static String EmbeddedServiceMenuItemQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM EmbeddedServiceMenuItem";
 
-            return query;
+            return queryString;
         }
 
         public static String EmbeddedServiceMenuSettingsQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM EmbeddedServiceMenuSettings";
 
-            return query;
+            return queryString;
         }
 
         public static String EmbeddedServiceQuickActionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM EmbeddedServiceQuickAction";
 
-            return query;
+            return queryString;
         }
 
         public static String EnrichedFieldQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM EnrichedField";
 
-            return query;
+            return queryString;
         }
 
         public static String EntityLimitQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM EntityLimit";
 
-            return query;
+            return queryString;
         }
 
         public static String EntityParticleQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM EntityParticle";
 
-            return query;
+            return queryString;
         }
 
         public static String EventDeliveryQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM EventDelivery";
 
-            return query;
+            return queryString;
         }
 
         public static String EventSubscriptionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM EventSubscription";
 
-            return query;
+            return queryString;
         }
 
         public static String ExternalDataSourceQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ExternalDataSource";
 
-            return query;
+            return queryString;
         }
 
         public static String ExternalServiceRegistrationQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ExternalServiceRegistration";
 
-            return query;
+            return queryString;
         }
 
         public static String ExternalStringQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ExternalString";
 
-            return query;
+            return queryString;
         }
 
         public static String ExternalStringLocalizationQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ExternalStringLocalization";
 
-            return query;
+            return queryString;
         }
 
         public static String FieldDefinitionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM FieldDefinition";
 
-            return query;
+            return queryString;
         }
 
         public static String FieldMappingQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM FieldMapping";
 
-            return query;
+            return queryString;
         }
 
         public static String FieldMappingFieldQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM FieldMappingField";
 
-            return query;
+            return queryString;
         }
 
         public static String FieldMappingRowQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM FieldMappingRow";
 
-            return query;
+            return queryString;
         }
 
         public static String FieldSetQuery()
         {
-            String query = "SELECT Id, MasterLabel, DeveloperName, NamespacePrefix, " +
+            String queryString = "SELECT Id, MasterLabel, DeveloperName, NamespacePrefix, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM FieldSet";
 
-            return query;
+            return queryString;
         }
 
         public static String FlexiPageQuery(String fullName)
         {
-            String query = "";
+            String queryString = "";
 
             if (fullName == "")
             {
-                query = "SELECT Id, Description, DeveloperName, EntityDefinitionId, ManageableState, MasterLabel, NamespacePrefix, ParentFlexiPage, Type, " +
+                queryString = "SELECT Id, Description, DeveloperName, EntityDefinitionId, ManageableState, MasterLabel, NamespacePrefix, ParentFlexiPage, Type, " +
                         "CreatedDate, LastModifiedDate " +
                         "FROM FlexiPage";
             }
             else
             {
-                query = "SELECT Id, Description, DeveloperName, EntityDefinitionId, ManageableState, MasterLabel, NamespacePrefix, ParentFlexiPage, Type, " +
+                queryString = "SELECT Id, Description, DeveloperName, EntityDefinitionId, ManageableState, MasterLabel, NamespacePrefix, ParentFlexiPage, Type, " +
                         "CreatedDate, LastModifiedDate " +
                         "FROM FlexiPage " +
                         "WHERE FullName = '" + fullName + "'";
             }
 
-            return query;
+            return queryString;
         }
 
         public static String FlowQuery()
         {
-            String query = "SELECT Id, MasterLabel, DefinitionId, IsTemplate, ManageableState, ProcessType, RunInMode, Status, VersionNumber, " +
+            String queryString = "SELECT Id, MasterLabel, DefinitionId, IsTemplate, ManageableState, ProcessType, RunInMode, Status, VersionNumber, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM Flow " + 
             "WHERE Status = 'Active'";
 
-            return query;
+            return queryString;
         }
 
         public static String FlowDefinitionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM FlowDefinition";
 
-            return query;
+            return queryString;
         }
 
         public static String FlowElementTestCoverageQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM FlowElementTestCoverage";
 
-            return query;
+            return queryString;
         }
 
         public static String FlowTestCoverageQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM FlowTestCoverage";
 
-            return query;
+            return queryString;
         }
 
         public static String ForecastingDisplayedFamilyQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ForecastingDisplayedFamily";
 
-            return query;
+            return queryString;
         }
 
         public static String FormulaFunctionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM FormulaFunction";
 
-            return query;
+            return queryString;
         }
 
         public static String FormulaFunctionAllowedTypeQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM FormulaFunctionAllowedType";
 
-            return query;
+            return queryString;
         }
 
         public static String FormulaOperatorQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM FormulaOperator";
 
-            return query;
+            return queryString;
         }
 
         public static String GlobalValueSetQuery()
         {
-            String query = "SELECT Id, MasterLabel, " +
+            String queryString = "SELECT Id, MasterLabel, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM GlobalValueSet";
 
-            return query;
+            return queryString;
         }
 
         public static String GroupQuery()
         {
-            String query = "SELECT Id, Name, DeveloperName, Type, DoesIncludeBosses, OwnerId, RelatedId, " +
+            String queryString = "SELECT Id, Name, DeveloperName, Type, DoesIncludeBosses, OwnerId, RelatedId, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM Group";
 
-            return query;
+            return queryString;
         }
 
         public static String HeapDumpQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM HeapDump";
 
-            return query;
+            return queryString;
         }
 
         public static String HistoryRetentionJobQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM HistoryRetentionJob";
 
-            return query;
+            return queryString;
         }
 
         public static String HomePageComponentQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM HomePageComponent";
 
-            return query;
+            return queryString;
         }
 
         public static String HomePageLayoutQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM HomePageLayout";
 
-            return query;
+            return queryString;
         }
 
         public static String IconDefinitionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM IconDefinition";
 
-            return query;
+            return queryString;
         }
 
         public static String InboundNetworkConnectionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM InboundNetworkConnection";
 
-            return query;
+            return queryString;
         }
 
         public static String InboundNetworkConnPropertyQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM InboundNetworkConnProperty";
 
-            return query;
+            return queryString;
         }
 
         public static String IndexQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM Index";
 
-            return query;
+            return queryString;
         }
 
         public static String IndexFieldQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM IndexField";
 
-            return query;
+            return queryString;
         }
 
         public static String InstalledSubscriberPackageQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM InstalledSubscriberPackage";
 
-            return query;
+            return queryString;
         }
 
         public static String InstalledSubscriberPackageVersionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM InstalledSubscriberPackageVersion";
 
-            return query;
+            return queryString;
         }
 
         public static String KeywordListQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM KeywordList";
 
-            return query;
+            return queryString;
         }
 
         public static String LayoutQuery(String fullName)
         {
-            String query = "";
+            String queryString = "";
 
             if (fullName == "")
             {
 
-                query = "SELECT Id, EntityDefinitionId, LayoutType, ManageableState, Name, NamespacePrefix, ShowSubmitAndAttachButton, TableEnumOrId, " +
+                queryString = "SELECT Id, EntityDefinitionId, LayoutType, ManageableState, Name, NamespacePrefix, ShowSubmitAndAttachButton, TableEnumOrId, " +
                         "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
                         "FROM Layout";
             }
             else
             {
-                query = "SELECT Id, EntityDefinitionId, FullName, LayoutType, ManageableState, Name, NamespacePrefix, ShowSubmitAndAttachButton, TableEnumOrId, " +
+                queryString = "SELECT Id, EntityDefinitionId, FullName, LayoutType, ManageableState, Name, NamespacePrefix, ShowSubmitAndAttachButton, TableEnumOrId, " +
                         "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
                         "FROM Layout " +
                         "WHERE FullName = '" + fullName + "'";
             }
 
-            return query;
+            return queryString;
         }
 
         public static String LightningComponentBundleQuery()
         {
-            String query = "SELECT Id, DeveloperName, ApiVersion, IsExposed, TargetConfigs, NamespacePrefix, " +
+            String queryString = "SELECT Id, DeveloperName, ApiVersion, IsExposed, TargetConfigs, NamespacePrefix, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM LightningComponentBundle";
 
-            return query;
+            return queryString;
         }
 
         public static String LightningComponentResourceQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM LightningComponentResource";
 
-            return query;
+            return queryString;
         }
 
         public static String LookupFilterQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM LookupFilter";
 
-            return query;
+            return queryString;
         }
 
         public static String ManagedContentNodeTypeQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ManagedContentNodeType";
 
-            return query;
+            return queryString;
         }
 
         public static String ManagedContentTypeQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ManagedContentType";
 
-            return query;
+            return queryString;
         }
 
         public static String MatchingRuleQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM MatchingRule";
 
-            return query;
+            return queryString;
         }
 
         public static String MenuItemQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM MenuItem";
 
-            return query;
+            return queryString;
         }
 
         public static String MetadataContainerQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM MetadataContainer";
 
-            return query;
+            return queryString;
         }
 
         public static String MetadataPackageQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM MetadataPackage";
 
-            return query;
+            return queryString;
         }
 
         public static String MetadataPackageVersionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM MetadataPackageVersion";
 
-            return query;
+            return queryString;
         }
 
         public static String ModerationRuleQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ModerationRule";
 
-            return query;
+            return queryString;
         }
 
         public static String MyDomainLogQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM MyDomainLog";
 
-            return query;
+            return queryString;
         }
 
         public static String NamedCredentialQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM NamedCredential";
 
-            return query;
+            return queryString;
         }
 
         public static String OperationLogQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM OperationLog";
 
-            return query;
+            return queryString;
         }
 
         public static String OpportunitySplitTypeQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM OpportunitySplitType";
 
-            return query;
+            return queryString;
         }
 
         public static String OutboundNetworkConnectionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM OutboundNetworkConnection";
 
-            return query;
+            return queryString;
         }
 
         public static String OutboundNetworkConnPropertyQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM OutboundNetworkConnProperty";
 
-            return query;
+            return queryString;
         }
 
         public static String OwnerChangeOptionInfoQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM OwnerChangeOptionInfo";
 
-            return query;
+            return queryString;
         }
 
         public static String PackageInstallRequestQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM PackageInstallRequest";
 
-            return query;
+            return queryString;
         }
 
         public static String PackageUploadRequestQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM PackageUploadRequest";
 
-            return query;
+            return queryString;
         }
 
         public static String PackageVersionUninstallRequestErrorQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM PackageVersionUninstallRequestError";
 
-            return query;
+            return queryString;
         }
 
         public static String PathAssistantQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM PathAssistant";
 
-            return query;
+            return queryString;
         }
 
         public static String Package2Query()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM Package2";
 
-            return query;
+            return queryString;
         }
 
         public static String Package2MemberQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM Package2Member";
 
-            return query;
+            return queryString;
         }
 
         public static String Package2VersionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM Package2Version";
 
-            return query;
+            return queryString;
         }
 
         public static String Package2VersionCreateRequestQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM Package2VersionCreateRequest";
 
-            return query;
+            return queryString;
         }
 
         public static String Package2VersionCreateRequestErrorQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM Package2VersionCreateRequestError";
 
-            return query;
+            return queryString;
         }
 
         public static String PathAssistantStepInfoQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM PathAssistantStepInfo";
 
-            return query;
+            return queryString;
         }
 
         public static String PathAssistantStepItemQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM PathAssistantStepItem";
 
-            return query;
+            return queryString;
         }
 
         public static String PermissionDependencyQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM PermissionDependency";
 
-            return query;
+            return queryString;
         }
 
         public static String PermissionSetQuery()
         {
-            String query = "SELECT Id, Label, Name, NamespacePrefix, PermissionSetGroupId, ProfileId, Type, " +
+            String queryString = "SELECT Id, Label, Name, NamespacePrefix, PermissionSetGroupId, ProfileId, Type, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM PermissionSet";
 
-            return query;
+            return queryString;
         }
 
         public static String PermissionSetGroupQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM PermissionSetGroup";
 
-            return query;
+            return queryString;
         }
 
         public static String PermissionSetGroupComponentQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM PermissionSetGroupComponent";
 
-            return query;
+            return queryString;
         }
 
         public static String PermissionSetTabSettingQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM PermissionSetTabSetting";
 
-            return query;
+            return queryString;
         }
 
         public static String PlatformEventChannelQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM PlatformEventChannel";
 
-            return query;
+            return queryString;
         }
 
         public static String PlatformEventChannelMemberQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM PlatformEventChannelMember";
 
-            return query;
+            return queryString;
         }
 
         public static String PlatformEventSubscriberConfigQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM PlatformEventSubscriberConfig";
 
-            return query;
+            return queryString;
         }
 
         public static String PostTemplateQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM PostTemplate";
 
-            return query;
+            return queryString;
         }
 
         public static String ProfileQuery()
         {
-            String query = "SELECT Id, Name, " +
+            String queryString = "SELECT Id, Name, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM Profile";
 
-            return query;
+            return queryString;
         }
 
         public static String ProfileLayoutQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ProfileLayout";
 
-            return query;
+            return queryString;
         }
 
         public static String PublisherQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM Publisher";
 
-            return query;
+            return queryString;
         }
 
         public static String QueryResultQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM QueryResult";
 
-            return query;
+            return queryString;
         }
 
         public static String QuickActionDefinitionQuery()
         {
-            String query = "SELECT Id, Description, DeveloperName, Height, IconId, Label, Language, ManageableState, MasterLabel, NamespacePrefix, OptionsCreateFeedItem, SobjectType, " + 
+            String queryString = "SELECT Id, Description, DeveloperName, Height, IconId, Label, Language, ManageableState, MasterLabel, NamespacePrefix, OptionsCreateFeedItem, SobjectType, " + 
                             "StandardLabel, SuccessMessage, TargetField, TargetRecordTypeId, TargetSobjectType, Type, Width, " +
                            "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
                            "FROM QuickActionDefinition";
 
-            return query;
+            return queryString;
         }
 
         public static String QuickActionListQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM QuickActionList";
 
-            return query;
+            return queryString;
         }
 
         public static String QuickActionListItemQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM QuickActionListItem";
 
-            return query;
+            return queryString;
         }
 
         public static String RecentlyViewedQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM RecentlyViewed";
 
-            return query;
+            return queryString;
         }
 
         public static String RecommendationStrategyQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM RecommendationStrategy";
 
-            return query;
+            return queryString;
         }
 
         public static String RecordActionDeploymentQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM RecordActionDeployment";
 
-            return query;
+            return queryString;
         }
 
         public static String RecordTypeQuery()
         {
-            String query = "SELECT Id, BusinessProcessId, Description, EntityDefinitionId, IsActive, ManageableState, Name, NamespacePrefix, SobjectType, " +
+            String queryString = "SELECT Id, BusinessProcessId, Description, EntityDefinitionId, IsActive, ManageableState, Name, NamespacePrefix, SobjectType, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM RecordType";
 
-            return query;
+            return queryString;
         }
 
         public static String RelationshipDomainQuery(String parentObject, String fieldName)
         {
-            String query = "SELECT Id, ChildSobjectId, ChildSobject.DeveloperName, DurableId, FieldId, Field.DeveloperName, " + 
+            String queryString = "SELECT Id, ChildSobjectId, ChildSobject.DeveloperName, DurableId, FieldId, Field.DeveloperName, " + 
                            "IsCascadeDelete, IsDeprecatedAndHidden, IsRestrictedDelete, JunctionIdListNames, ParentSobjectId, " + 
                            "ParentSobject.DeveloperName, RelationshipInfoId, RelationshipName " +
                            "FROM RelationshipDomain " +
                            "WHERE ParentSobject.DeveloperName = '" + parentObject + "'";
 
-            return query;
+            return queryString;
         }
 
         public static String RelationshipInfoQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM RelationshipInfo";
 
-            return query;
+            return queryString;
         }
 
         public static String ReleaseUpdateQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ReleaseUpdate";
 
-            return query;
+            return queryString;
         }
 
         public static String RemoteProxyQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM RemoteProxy";
 
-            return query;
+            return queryString;
         }
 
         public static String SandboxInfoQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM SandboxInfo";
 
-            return query;
+            return queryString;
         }
 
         public static String SandboxProcessQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM SandboxProcess";
 
-            return query;
+            return queryString;
         }
 
         public static String SearchLayoutQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM SearchLayout";
 
-            return query;
+            return queryString;
         }
 
         public static String SecurityHealthCheckQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM SecurityHealthCheck";
 
-            return query;
+            return queryString;
         }
 
         public static String SecurityHealthCheckRisksQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM SecurityHealthCheckRisks";
 
-            return query;
+            return queryString;
         }
 
         public static String ServiceFieldDataTypeQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM ServiceFieldDataType";
 
-            return query;
+            return queryString;
         }
 
         public static String ScontrolQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM Scontrol";
 
-            return query;
+            return queryString;
         }
 
         public static String SiteDetailQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM SiteDetail";
 
-            return query;
+            return queryString;
         }
 
         public static String SOQLResultQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM SOQLResult";
 
-            return query;
+            return queryString;
         }
 
         public static String SourceMemberQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM SourceMember";
 
-            return query;
+            return queryString;
         }
 
         public static String StandardActionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM StandardAction";
 
-            return query;
+            return queryString;
         }
 
         public static String StandardValueSetQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM StandardValueSet";
 
-            return query;
+            return queryString;
         }
 
         public static String StaticResourceQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM StaticResource";
 
-            return query;
+            return queryString;
         }
 
         public static String SubscriberPackageQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM SubscriberPackage";
 
-            return query;
+            return queryString;
         }
 
         public static String SubscriberPackageVersionQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM SubscriberPackageVersion";
 
-            return query;
+            return queryString;
         }
 
         public static String SubscriberPackageVersionUninstallRequestQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM SubscriberPackageVersionUninstallRequest";
 
-            return query;
+            return queryString;
         }
 
         public static String SymbolTableQuery()
         {
-            String query = "SELECT Id, namespace, name, parentClass, constructors, properties, externalReferences, innerClasses, interfaces, methods, tableDeclaration, variables, " +
+            String queryString = "SELECT Id, namespace, name, parentClass, constructors, properties, externalReferences, innerClasses, interfaces, methods, tableDeclaration, variables, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM SymbolTable";
 
-            return query;
+            return queryString;
         }
 
         public static String TabDefinitionQuery()
         {
-            String query = "SELECT Id, Name, Label, IsCustom, IsAvailableInDesktop, IsAvailableInLightning, IsAvailableInMobile " +
+            String queryString = "SELECT Id, Name, Label, IsCustom, IsAvailableInDesktop, IsAvailableInLightning, IsAvailableInMobile " +
             "FROM TabDefinition";
 
-            return query;
+            return queryString;
         }
 
         public static String TestSuiteMembershipQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM TestSuiteMembership";
 
-            return query;
+            return queryString;
         }
 
         public static String TimeSheetTemplateQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM TimeSheetTemplate";
 
-            return query;
+            return queryString;
         }
 
         public static String TimeSheetTemplateAssignmentQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM TimeSheetTemplateAssignment";
 
-            return query;
+            return queryString;
         }
 
         public static String TraceFlagQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM TraceFlag";
 
-            return query;
+            return queryString;
         }
 
         public static String TransactionSecurityPolicyQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM TransactionSecurityPolicy";
 
-            return query;
+            return queryString;
         }
 
         public static String UserQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM User";
 
-            return query;
+            return queryString;
         }
 
         public static String UserCriteriaQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM UserCriteria";
 
-            return query;
+            return queryString;
         }
 
         public static String UserEntityAccessQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM UserEntityAccess";
 
-            return query;
+            return queryString;
         }
 
         public static String UserFieldAccessQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM UserFieldAccess";
 
-            return query;
+            return queryString;
         }
 
         public static String ValidationRuleQuery(String fullName, String entityDefinitionId)
         {
-            String query = "";
+            String queryString = "";
 
             if (fullName == "")
             {
-                query = "SELECT Id, NamespacePrefix, ValidationName, Active, EntityDefinitionId, ErrorDisplayField, " +
+                queryString = "SELECT Id, NamespacePrefix, ValidationName, Active, EntityDefinitionId, ErrorDisplayField, " +
                                "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
                           "FROM ValidationRule";
             }
             else
             {
-                query = "SELECT Id, NamespacePrefix, ValidationName, Active, EntityDefinitionId, ErrorDisplayField, Metadata, " +
+                queryString = "SELECT Id, NamespacePrefix, ValidationName, Active, EntityDefinitionId, ErrorDisplayField, Metadata, " +
                                "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
                           "FROM ValidationRule " +
                           "WHERE ValidationName = '" + fullName + "' AND EntityDefinitionId = '" + entityDefinitionId + "'";
             }
 
-            return query;
+            return queryString;
         }
 
         public static String WebLinkQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM WebLink";
 
-            return query;
+            return queryString;
         }
 
         public static String WorkflowAlertQuery()
         {
-            String query = "SELECT Id, DeveloperName, EntityDefinitionId, SenderType, CcEmails, TemplateId, " +
+            String queryString = "SELECT Id, DeveloperName, EntityDefinitionId, SenderType, CcEmails, TemplateId, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM WorkflowAlert";
 
-            return query;
+            return queryString;
         }
 
         public static String WorkflowFieldUpdateQuery()
         {
-            String query = "SELECT Id, Name, SourceTableEnumOrId, EntityDefinitionId, FieldDefinitionId, LiteralValue, LookupValueId, " +
+            String queryString = "SELECT Id, Name, SourceTableEnumOrId, EntityDefinitionId, FieldDefinitionId, LiteralValue, LookupValueId, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM WorkflowFieldUpdate";
 
-            return query;
+            return queryString;
         }
 
         public static String WorkflowOutboundMessageQuery()
         {
-            String query = "SELECT Id, Name, NamespacePrefix, EntityDefinitionId, IntegrationUserId, " +
+            String queryString = "SELECT Id, Name, NamespacePrefix, EntityDefinitionId, IntegrationUserId, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM WorkflowOutboundMessage";
 
-            return query;
+            return queryString;
         }
 
         public static String WorkflowRuleQuery()
         {
-            String query = "SELECT Id, Name, NamespacePrefix, TableEnumOrId, " +
+            String queryString = "SELECT Id, Name, NamespacePrefix, TableEnumOrId, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM WorkflowRule";
 
-            return query;
+            return queryString;
         }
 
         public static String WorkflowTaskQuery()
         {
-            String query = "SELECT Id, Subject, NamespacePrefix, Priority, Status, EntityDefinitionId, " +
+            String queryString = "SELECT Id, Subject, NamespacePrefix, Priority, Status, EntityDefinitionId, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM WorkflowTask";
 
-            return query;
+            return queryString;
         }
 
         public static String WorkSkillRoutingQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM WorkSkillRouting";
 
-            return query;
+            return queryString;
         }
 
         public static String WorkSkillRoutingAttributeQuery()
         {
-            String query = "SELECT Id, " +
+            String queryString = "SELECT Id, " +
             "CreatedById, CreatedBy.Name, LastModifiedById, LastModifiedBy.Name, CreatedDate, LastModifiedDate " +
             "FROM WorkSkillRoutingAttribute";
 
-            return query;
+            return queryString;
         }
 
         /*
         public static String apexTriggerQuery(String triggerName)
         {
-            String query = "SELECT ApiVersion,BodyCrc,EntityDefinitionId,IsValid,LengthWithoutComments,ManageableState,Metadata,Status," +
+            String queryString = "SELECT ApiVersion,BodyCrc,EntityDefinitionId,IsValid,LengthWithoutComments,ManageableState,Metadata,Status," +
                                    "UsageAfterDelete,UsageAfterInsert,UsageAfterUndelete,UsageAfterUpdate,UsageBeforeDelete,UsageBeforeInsert," +
                                    "UsageBeforeUpdate,UsageIsBulk " +
                                    "FROM ApexTrigger " +
                                    "WHERE Name = '" + triggerName + "'" +
                                    "AND NamespacePrefix = null";
 
-            return query;
+            return queryString;
         }
 
         public static String apexClassMemberQuery(String classTriggerId)
         {
-            String query = "SELECT Content,ContentEntityId,FullName,LastSyncDate,Metadata,MetadataContainerId,SymbolTable " +
+            String queryString = "SELECT Content,ContentEntityId,FullName,LastSyncDate,Metadata,MetadataContainerId,SymbolTable " +
                            "FROM ApexClassMember " +
                            "WHERE ContentEntityId = '" + classTriggerId + "'";
 
-            return query;
+            return queryString;
         }
         */
 
@@ -4764,7 +4764,7 @@ namespace SalesforceMetadata
         }
 
 
-        public static void getApexClasses(SalesforceCredentials sc, String query, UtilityClass.REQUESTINGORG reqOrg, Dictionary<String, String> classIdToClassName)
+        public static void getApexClasses(SalesforceCredentials sc, String queryString, UtilityClass.REQUESTINGORG reqOrg, Dictionary<String, String> classIdToClassName)
         {
             // Make a call to the Tooling API to retrieve the ApexClassMember passing in the ApexClass IDs
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
@@ -4772,7 +4772,7 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
@@ -4809,7 +4809,7 @@ namespace SalesforceMetadata
 
         public static void apexClassToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                             SalesforceCredentials sc,
-                                            String query, 
+                                            String queryString, 
                                             UtilityClass.REQUESTINGORG reqOrg, 
                                             Dictionary<String, String> classIdToClassName, 
                                             Boolean retrieveAggregateCoverage)
@@ -4822,7 +4822,7 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
@@ -5058,7 +5058,7 @@ namespace SalesforceMetadata
 
         public static void apexComponentToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                                 SalesforceCredentials sc,
-                                                String query, 
+                                                String queryString, 
                                                 UtilityClass.REQUESTINGORG reqOrg, 
                                                 Dictionary<String, String> classIdToClassName) 
         {
@@ -5067,11 +5067,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -5157,7 +5157,7 @@ namespace SalesforceMetadata
 
         public static void apexPageToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                            SalesforceCredentials sc,
-                                           String query, 
+                                           String queryString, 
                                            UtilityClass.REQUESTINGORG reqOrg, 
                                            Dictionary<String, String> classIdToClassName) 
         {
@@ -5166,11 +5166,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -5255,7 +5255,7 @@ namespace SalesforceMetadata
 
         public static void apexTriggerToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                               SalesforceCredentials sc,
-                                              String query,
+                                              String queryString,
                                               UtilityClass.REQUESTINGORG reqOrg,
                                               Dictionary<String, String> classIdToClassName,
                                               Dictionary<String, String> customObjIdToName,
@@ -5268,11 +5268,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -5455,7 +5455,7 @@ namespace SalesforceMetadata
 
         public static void auraDefinitionBundleToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                                       SalesforceCredentials sc,
-                                                      String query, 
+                                                      String queryString, 
                                                       UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
@@ -5463,11 +5463,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = sc.toOrgToolingSvc.query(query);
+                //toolingQr = sc.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -5546,7 +5546,7 @@ namespace SalesforceMetadata
 
         public static void compactLayoutToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                                 SalesforceCredentials sc,
-                                                String query, 
+                                                String queryString, 
                                                 UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
@@ -5554,11 +5554,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = sc.toOrgToolingSvc.query(query);
+                //toolingQr = sc.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -5628,7 +5628,7 @@ namespace SalesforceMetadata
 
         public static void customApplicationToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                                     SalesforceCredentials sc,
-                                                    String query, 
+                                                    String queryString, 
                                                     UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
@@ -5636,11 +5636,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = sc.toOrgToolingSvc.query(query);
+                //toolingQr = sc.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -5721,7 +5721,7 @@ namespace SalesforceMetadata
 
         public static void fieldSetToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                            SalesforceCredentials sc,
-                                           String query, 
+                                           String queryString, 
                                            UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
@@ -5729,11 +5729,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = sc.toOrgToolingSvc.query(query);
+                //toolingQr = sc.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -5812,7 +5812,7 @@ namespace SalesforceMetadata
 
         public static void customFieldToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                               SalesforceCredentials sc,
-                                              String query, 
+                                              String queryString, 
                                               UtilityClass.REQUESTINGORG reqOrg, 
                                               Dictionary<String, String> customObjIdToName, 
                                               Dictionary<String, List<String>> objectFieldNameToLabel)
@@ -5822,11 +5822,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = sc.toOrgToolingSvc.query(query);
+                //toolingQr = sc.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -5978,7 +5978,7 @@ namespace SalesforceMetadata
 
         public static void customObjectToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                                SalesforceCredentials sc,
-                                               String query,
+                                               String queryString,
                                                UtilityClass.REQUESTINGORG reqOrg,
                                                Dictionary<String, String> customObjIdToName)
         {
@@ -5987,11 +5987,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = sc.toOrgToolingSvc.query(query);
+                //toolingQr = sc.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -6099,7 +6099,7 @@ namespace SalesforceMetadata
 
         public static void customTabToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                             SalesforceCredentials sc,
-                                            String query,
+                                            String queryString,
                                             UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
@@ -6107,11 +6107,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = sc.toOrgToolingSvc.query(query);
+                //toolingQr = sc.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -6198,7 +6198,7 @@ namespace SalesforceMetadata
 
         public static void emailTemplateToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                                 SalesforceCredentials sc,
-                                                String query, 
+                                                String queryString, 
                                                 UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
@@ -6206,11 +6206,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = sc.toOrgToolingSvc.query(query);
+                //toolingQr = sc.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -6289,7 +6289,7 @@ namespace SalesforceMetadata
 
         public static void flexiPageToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                             SalesforceCredentials sc,
-                                            String query, 
+                                            String queryString, 
                                             UtilityClass.REQUESTINGORG reqOrg,
                                             Dictionary<String, String> customObjIdToName)
         {
@@ -6298,11 +6298,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = sc.toOrgToolingSvc.query(query);
+                //toolingQr = sc.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -6376,7 +6376,7 @@ namespace SalesforceMetadata
 
         public static void flowToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                        SalesforceCredentials sc,
-                                       String query, 
+                                       String queryString, 
                                        UtilityClass.REQUESTINGORG reqOrg)
         {
             // Make a call to the Tooling API to retrieve the ApexClassMember passing in the ApexClass IDs
@@ -6385,11 +6385,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -6498,7 +6498,7 @@ namespace SalesforceMetadata
 
         public static void globalValueSetToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                                  SalesforceCredentials sc,
-                                                 String query, 
+                                                 String queryString, 
                                                  UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
@@ -6506,11 +6506,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -6586,7 +6586,7 @@ namespace SalesforceMetadata
 
         public static void groupToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                         SalesforceCredentials sc,
-                                        String query, 
+                                        String queryString, 
                                         UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
@@ -6594,11 +6594,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -6683,7 +6683,7 @@ namespace SalesforceMetadata
 
         public static void layoutToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                          SalesforceCredentials sc,
-                                         String query, 
+                                         String queryString, 
                                          UtilityClass.REQUESTINGORG reqOrg,
                                          Dictionary<String, String> customObjIdToName)
         {
@@ -6693,11 +6693,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -6799,7 +6799,7 @@ namespace SalesforceMetadata
 
         public static void lwcToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                       SalesforceCredentials sc,
-                                      String query,
+                                      String queryString,
                                       UtilityClass.REQUESTINGORG reqOrg)
         {
             // Make a call to the Tooling API to retrieve the ApexClassMember passing in the ApexClass IDs
@@ -6808,7 +6808,7 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -6892,7 +6892,7 @@ namespace SalesforceMetadata
 
         public static void permissionSetToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                                 SalesforceCredentials sc,
-                                                String query, 
+                                                String queryString, 
                                                 UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
@@ -6900,11 +6900,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -6989,7 +6989,7 @@ namespace SalesforceMetadata
 
         public static void profileToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                           SalesforceCredentials sc,
-                                          String query,
+                                          String queryString,
                                           UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
@@ -6997,11 +6997,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -7076,7 +7076,7 @@ namespace SalesforceMetadata
 
         public static void quickActionDefinitionToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                                         SalesforceCredentials sc,
-                                                        String query, 
+                                                        String queryString, 
                                                         UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
@@ -7084,11 +7084,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -7213,7 +7213,7 @@ namespace SalesforceMetadata
 
         public static void recordTypesToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                               SalesforceCredentials sc,
-                                              String query,
+                                              String queryString,
                                               UtilityClass.REQUESTINGORG reqOrg)
         {
             // Make a call to the Tooling API to retrieve the ApexClassMember passing in the ApexClass IDs
@@ -7222,7 +7222,7 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -7306,7 +7306,7 @@ namespace SalesforceMetadata
 
         public static void tabDefinitionToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                                 SalesforceCredentials sc,
-                                                String query, 
+                                                String queryString, 
                                                 UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
@@ -7314,11 +7314,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -7371,7 +7371,7 @@ namespace SalesforceMetadata
 
         public static void validationRuleToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                                  SalesforceCredentials sc,
-                                                 String query, 
+                                                 String queryString, 
                                                  UtilityClass.REQUESTINGORG reqOrg, 
                                                  Dictionary<String, String> customObjIdToName)
         {
@@ -7380,11 +7380,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -7500,7 +7500,7 @@ namespace SalesforceMetadata
 
         public static void workflowRuleToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                                SalesforceCredentials sc,
-                                               String query, 
+                                               String queryString, 
                                                UtilityClass.REQUESTINGORG reqOrg, 
                                                Dictionary<String, String> customObjIdToName)
         {
@@ -7509,11 +7509,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -7601,7 +7601,7 @@ namespace SalesforceMetadata
 
         public static void workflowAlertToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                                 SalesforceCredentials sc,
-                                                String query, 
+                                                String queryString, 
                                                 UtilityClass.REQUESTINGORG reqOrg,
                                                 Dictionary<String, WorkflowRule> workflowRules)
         {
@@ -7610,11 +7610,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -7702,7 +7702,7 @@ namespace SalesforceMetadata
 
         public static void workflowFieldUpdateToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                                       SalesforceCredentials sc,
-                                                      String query, 
+                                                      String queryString, 
                                                       UtilityClass.REQUESTINGORG reqOrg, 
                                                       Dictionary<String, String> customObjIdToName,
                                                       Dictionary<String, WorkflowFieldUpdate> workflowFieldUpdatesByName)
@@ -7712,11 +7712,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;
@@ -7857,7 +7857,7 @@ namespace SalesforceMetadata
 
         public static void apexClassMemberToExcel(Microsoft.Office.Interop.Excel.Workbook xlWorkbook,
                                                   SalesforceCredentials sc,
-                                                  String query, 
+                                                  String queryString, 
                                                   UtilityClass.REQUESTINGORG reqOrg)
         {
             SalesforceMetadata.ToolingWSDL.QueryResult toolingQr = new SalesforceMetadata.ToolingWSDL.QueryResult();
@@ -7865,11 +7865,11 @@ namespace SalesforceMetadata
 
             if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
             {
-                toolingQr = sc.fromOrgToolingSvc.query(query);
+                toolingQr = sc.fromOrgToolingSvc.query(queryString);
             }
             else
             {
-                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(query);
+                //toolingQr = SalesforceCredentials.toOrgToolingSvc.query(queryString);
             }
 
             if (toolingQr.records == null) return;

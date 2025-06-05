@@ -177,8 +177,8 @@ namespace SalesforceMetadata
             var thread1 = new System.Threading.Thread(threadParameters1);
             thread1.Start();
 
-            String query = ToolingApiHelper.CustomObjectQuery();
-            ToolingApiHelper.customObjectToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName);
+            String queryString = ToolingApiHelper.CustomObjectQuery();
+            ToolingApiHelper.customObjectToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName);
 
             dt = DateTime.Now;
             String processingMsg2 = "    CustomObject: Tooling Retrieval Completed at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
@@ -198,8 +198,8 @@ namespace SalesforceMetadata
             var thread1 = new System.Threading.Thread(threadParameters1);
             thread1.Start();
 
-            String query = ToolingApiHelper.CustomFieldQuery();
-            ToolingApiHelper.customFieldToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName, objectFieldNameToLabel);
+            String queryString = ToolingApiHelper.CustomFieldQuery();
+            ToolingApiHelper.customFieldToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName, objectFieldNameToLabel);
 
             dt = DateTime.Now;
             String processingMsg2 = "    CustomField: Tooling Retrieval Completed at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
@@ -218,9 +218,9 @@ namespace SalesforceMetadata
             var thread1 = new System.Threading.Thread(threadParameters1);
             thread1.Start();
 
-            String query = ToolingApiHelper.ApexClassQuery("");
-            ToolingApiHelper.getApexClasses(sc, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
-            ToolingApiHelper.apexClassToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName, toolingForm.cbRetrieveApexClassCoverage.Checked);
+            String queryString = ToolingApiHelper.ApexClassQuery("");
+            ToolingApiHelper.getApexClasses(sc, queryString, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
+            ToolingApiHelper.apexClassToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName, toolingForm.cbRetrieveApexClassCoverage.Checked);
 
             dt = DateTime.Now;
             String processingMsg2 = "    ApexClass: Tooling Retrieval Completed at: " + dt.Year.ToString() + "-" + dt.Month.ToString() + "-" + dt.Day.ToString() + " " + dt.Hour.ToString() + ":" + dt.Minute.ToString() + ":" + dt.Second.ToString() + "." + dt.Millisecond.ToString() + Environment.NewLine + Environment.NewLine;
@@ -243,12 +243,12 @@ namespace SalesforceMetadata
             var thread1 = new System.Threading.Thread(threadParameters1);
             thread1.Start();
 
-            String query = "";
+            String queryString = "";
 
             if (toolingObject == "ApexComponent")
             {
-                query = ToolingApiHelper.ApexComponentQuery();
-                ToolingApiHelper.apexComponentToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
+                queryString = ToolingApiHelper.ApexComponentQuery();
+                ToolingApiHelper.apexComponentToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
             }
             //else if (toolingObject == "ApexEmailNotification")
             //{
@@ -257,8 +257,8 @@ namespace SalesforceMetadata
             //}
             else if (toolingObject == "ApexPage")
             {
-                query = ToolingApiHelper.ApexPageQuery();
-                ToolingApiHelper.apexPageToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
+                queryString = ToolingApiHelper.ApexPageQuery();
+                ToolingApiHelper.apexPageToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName);
             }
             else if (toolingObject == "ApexTrigger")
             {
@@ -272,38 +272,38 @@ namespace SalesforceMetadata
                     getApexClass(xlWorkbook, customObjIdToName, toolingForm);
                 }
 
-                query = ToolingApiHelper.ApexTriggerQuery("");
-                ToolingApiHelper.apexTriggerToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName, customObjIdToName, toolingForm.cbRetrieveApexClassCoverage.Checked);
+                queryString = ToolingApiHelper.ApexTriggerQuery("");
+                ToolingApiHelper.apexTriggerToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG, classIdToClassName, customObjIdToName, toolingForm.cbRetrieveApexClassCoverage.Checked);
             }
             else if (toolingObject == "AuraDefinitionBundle")
             {
-                query = ToolingApiHelper.AuraDefinitionBundleQuery();
-                ToolingApiHelper.auraDefinitionBundleToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG);
+                queryString = ToolingApiHelper.AuraDefinitionBundleQuery();
+                ToolingApiHelper.auraDefinitionBundleToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "CompactLayout")
             {
-                query = ToolingApiHelper.CompactLayoutQuery();
-                ToolingApiHelper.compactLayoutToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG);
+                queryString = ToolingApiHelper.CompactLayoutQuery();
+                ToolingApiHelper.compactLayoutToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "CustomApplication")
             {
-                query = ToolingApiHelper.CustomApplicationQuery();
-                ToolingApiHelper.customApplicationToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG);
+                queryString = ToolingApiHelper.CustomApplicationQuery();
+                ToolingApiHelper.customApplicationToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "CustomTab")
             {
-                query = ToolingApiHelper.CustomTabQuery();
-                ToolingApiHelper.customTabToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG);
+                queryString = ToolingApiHelper.CustomTabQuery();
+                ToolingApiHelper.customTabToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "EmailTemplate")
             {
-                query = ToolingApiHelper.EmailTemplateQuery();
-                ToolingApiHelper.emailTemplateToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG);
+                queryString = ToolingApiHelper.EmailTemplateQuery();
+                ToolingApiHelper.emailTemplateToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "FieldSet")
             {
-                query = ToolingApiHelper.FieldSetQuery();
-                ToolingApiHelper.fieldSetToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG);
+                queryString = ToolingApiHelper.FieldSetQuery();
+                ToolingApiHelper.fieldSetToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "FlexiPage")
             {
@@ -312,23 +312,23 @@ namespace SalesforceMetadata
                     getCustomObject(xlWorkbook, customObjIdToName, toolingForm);
                 }
 
-                query = ToolingApiHelper.FlexiPageQuery("");
-                ToolingApiHelper.flexiPageToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName);
+                queryString = ToolingApiHelper.FlexiPageQuery("");
+                ToolingApiHelper.flexiPageToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName);
             }
             else if (toolingObject == "Flow")
             {
-                query = ToolingApiHelper.FlowQuery();
-                ToolingApiHelper.flowToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG);
+                queryString = ToolingApiHelper.FlowQuery();
+                ToolingApiHelper.flowToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "GlobalValueSet")
             {
-                query = ToolingApiHelper.GlobalValueSetQuery();
-                ToolingApiHelper.globalValueSetToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG);
+                queryString = ToolingApiHelper.GlobalValueSetQuery();
+                ToolingApiHelper.globalValueSetToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "Group")
             {
-                query = ToolingApiHelper.GroupQuery();
-                ToolingApiHelper.groupToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG);
+                queryString = ToolingApiHelper.GroupQuery();
+                ToolingApiHelper.groupToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "Layout")
             {
@@ -337,53 +337,53 @@ namespace SalesforceMetadata
                     getCustomObject(xlWorkbook, customObjIdToName, toolingForm);
                 }
 
-                query = ToolingApiHelper.LayoutQuery("");
-                ToolingApiHelper.layoutToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName);
+                queryString = ToolingApiHelper.LayoutQuery("");
+                ToolingApiHelper.layoutToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName);
             }
             else if (toolingObject == "LightningComponentBundle")
             {
-                query = ToolingApiHelper.LightningComponentBundleQuery();
-                ToolingApiHelper.lwcToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG);
+                queryString = ToolingApiHelper.LightningComponentBundleQuery();
+                ToolingApiHelper.lwcToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "LightningComponentBundle")
             {
-                query = ToolingApiHelper.LightningComponentBundleQuery();
-                ToolingApiHelper.lwcToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG);
+                queryString = ToolingApiHelper.LightningComponentBundleQuery();
+                ToolingApiHelper.lwcToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "PermissionSet")
             {
-                query = ToolingApiHelper.PermissionSetQuery();
-                ToolingApiHelper.permissionSetToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG);
+                queryString = ToolingApiHelper.PermissionSetQuery();
+                ToolingApiHelper.permissionSetToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "PermissionSetAssignment")
             {
-                //query = ToolingApiHelper.PermissionSetAssignmentQuery();
-                //ToolingApiHelper.permissionSetAssignmentToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+                //queryString = ToolingApiHelper.PermissionSetAssignmentQuery();
+                //ToolingApiHelper.permissionSetAssignmentToExcel(xlWorkbook, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "PermissionSetGroup")
             {
-                //query = ToolingApiHelper.PermissionSetGroupQuery();
-                //ToolingApiHelper.permissionSetGroupToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+                //queryString = ToolingApiHelper.PermissionSetGroupQuery();
+                //ToolingApiHelper.permissionSetGroupToExcel(xlWorkbook, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "Profile")
             {
-                query = ToolingApiHelper.ProfileQuery();
-                ToolingApiHelper.profileToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG);
+                queryString = ToolingApiHelper.ProfileQuery();
+                ToolingApiHelper.profileToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "QuickActionDefinition")
             {
-                query = ToolingApiHelper.QuickActionDefinitionQuery();
-                ToolingApiHelper.quickActionDefinitionToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG);
+                queryString = ToolingApiHelper.QuickActionDefinitionQuery();
+                ToolingApiHelper.quickActionDefinitionToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "RecordType")
             {
-                query = ToolingApiHelper.RecordTypeQuery();
-                ToolingApiHelper.recordTypesToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG);
+                queryString = ToolingApiHelper.RecordTypeQuery();
+                ToolingApiHelper.recordTypesToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "TabDefinition")
             {
-                query = ToolingApiHelper.TabDefinitionQuery();
-                ToolingApiHelper.tabDefinitionToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG);
+                queryString = ToolingApiHelper.TabDefinitionQuery();
+                ToolingApiHelper.tabDefinitionToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             }
             else if (toolingObject == "ValidationRule")
             {
@@ -392,8 +392,8 @@ namespace SalesforceMetadata
                     getCustomObject(xlWorkbook, customObjIdToName, toolingForm);
                 }
 
-                query = ToolingApiHelper.ValidationRuleQuery("", "");
-                ToolingApiHelper.validationRuleToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName);
+                queryString = ToolingApiHelper.ValidationRuleQuery("", "");
+                ToolingApiHelper.validationRuleToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName);
             }
             else if (toolingObject == "WorkflowRule")
             {
@@ -402,13 +402,13 @@ namespace SalesforceMetadata
                     getCustomObject(xlWorkbook, customObjIdToName, toolingForm);
                 }
 
-                query = ToolingApiHelper.WorkflowRuleQuery();
-                ToolingApiHelper.workflowRuleToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName);
+                queryString = ToolingApiHelper.WorkflowRuleQuery();
+                ToolingApiHelper.workflowRuleToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName);
             }
             else if (toolingObject == "WorkflowAlert")
             {
-                query = ToolingApiHelper.WorkflowAlertQuery();
-                ToolingApiHelper.workflowAlertToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG, workflowRules);
+                queryString = ToolingApiHelper.WorkflowAlertQuery();
+                ToolingApiHelper.workflowAlertToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG, workflowRules);
             }
             else if (toolingObject == "WorkflowFieldUpdate")
             {
@@ -417,23 +417,23 @@ namespace SalesforceMetadata
                     getCustomObject(xlWorkbook, customObjIdToName, toolingForm);
                 }
 
-                query = ToolingApiHelper.WorkflowFieldUpdateQuery();
-                ToolingApiHelper.workflowFieldUpdateToExcel(xlWorkbook, sc, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName, workflowFieldUpdatesByName);
+                queryString = ToolingApiHelper.WorkflowFieldUpdateQuery();
+                ToolingApiHelper.workflowFieldUpdateToExcel(xlWorkbook, sc, queryString, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName, workflowFieldUpdatesByName);
             }
             else if (toolingObject == "WorkflowOutboundMessage")
             {
-                //query = ToolingApiHelper.WorkflowOutboundMessageQuery();
-                //ToolingApiHelper.workflowOutboundMessageToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName, workflowFieldUpdatesByName);
+                //queryString = ToolingApiHelper.WorkflowOutboundMessageQuery();
+                //ToolingApiHelper.workflowOutboundMessageToExcel(xlWorkbook, queryString, UtilityClass.REQUESTINGORG.FROMORG, customObjIdToName, workflowFieldUpdatesByName);
             }
             else if (toolingObject == "WorkflowTask")
             {
-                //query = ToolingApiHelper.WorkflowTaskQuery();
-                //ToolingApiHelper.workflowTaskToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+                //queryString = ToolingApiHelper.WorkflowTaskQuery();
+                //ToolingApiHelper.workflowTaskToExcel(xlWorkbook, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             }
             //else if (toolingObject == "WorkSkillRouting")
             //{
-            //    //query = ToolingApiHelper.WorkSkillRoutingQuery();
-            //    //ToolingApiHelper.workSkillRoutingToExcel(xlWorkbook, query, UtilityClass.REQUESTINGORG.FROMORG);
+            //    //queryString = ToolingApiHelper.WorkSkillRoutingQuery();
+            //    //ToolingApiHelper.workSkillRoutingToExcel(xlWorkbook, queryString, UtilityClass.REQUESTINGORG.FROMORG);
             //}
 
             dt = DateTime.Now;

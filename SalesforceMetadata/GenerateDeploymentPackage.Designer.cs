@@ -58,6 +58,7 @@
             this.treeViewMetadata.Size = new System.Drawing.Size(1267, 604);
             this.treeViewMetadata.TabIndex = 9;
             this.treeViewMetadata.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMetadata_AfterCheck);
+            this.treeViewMetadata.DoubleClick += new System.EventHandler(this.treeViewMetadata_DoubleClick);
             // 
             // tbDeployFrom
             // 

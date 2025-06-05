@@ -470,7 +470,7 @@ namespace SalesforceMetadata
                 DirectoryInfo di = Directory.CreateDirectory(target_dir);
             }
 
-            // Break the RetrieveRequest down into blocks or chunks if the package.xml contains Profiles and/or Permission Sets
+            // TODO: Break the RetrieveRequest down into blocks or chunks if the package.xml contains Profiles and/or Permission Sets
             // Then split out the retrieval requests by the number of threads available
 
             RetrieveRequest retrieveRequest = new RetrieveRequest();
@@ -1556,6 +1556,7 @@ namespace SalesforceMetadata
 
             return members;
         }
+
 
         private List<String> getSObjectMembers(UtilityClass.REQUESTINGORG reqOrg)
         {

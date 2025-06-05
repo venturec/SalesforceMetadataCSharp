@@ -177,6 +177,9 @@ namespace SalesforceMetadata
             MessageBox.Show("Search Complete");
         }
 
+
+
+
         public static List<String> getSearchResults(String searchString,
                                                     String folderPath,
                                                     Boolean searchAllFolderFiles,

@@ -166,7 +166,7 @@ namespace SalesforceMetadata
         {
             treeViewNodeAfterCheck(e.Node);
         }
-        public void treeViewNodeAfterCheck(TreeNode tn)
+        public void treeViewNodeAfterCheck(TreeNode tnd)
         {
             if (runTreeNodeSelector == true)
             {
@@ -182,14 +182,14 @@ namespace SalesforceMetadata
             Boolean blAddDependencies = false;
             Boolean blRemoveDependencies = false;
 
-            TreeNode parentTn = tn.Parent;
+            TreeNode parentTn = tnd.Parent;
 
             // This means the selected Node is the top node for that group and the sub-nodes will need to be selected.
-            if (tn.Checked == true && tn.Nodes.Count > 0)
+            if (tnd.Checked == true && tnd.Nodes.Count > 0)
             {
-                //Debug.WriteLine("tn.Checked == true && tn.Nodes.Count > 0 : " + runTreeNodeSelector);
+                //Debug.WriteLine("tnd.Checked == true && tnd.Nodes.Count > 0 : " + runTreeNodeSelector);
 
-                foreach (TreeNode cNode in tn.Nodes)
+                foreach (TreeNode cNode in tnd.Nodes)
                 {
                     cNode.Checked = true;
                     blAddDependencies = true;
@@ -203,11 +203,11 @@ namespace SalesforceMetadata
                     }
                 }
             }
-            else if (tn.Checked == false && tn.Nodes.Count > 0)
+            else if (tnd.Checked == false && tnd.Nodes.Count > 0)
             {
-                //Debug.WriteLine("tn.Checked == false && tn.Nodes.Count > 0 : " + runTreeNodeSelector);
+                //Debug.WriteLine("tnd.Checked == false && tnd.Nodes.Count > 0 : " + runTreeNodeSelector);
 
-                foreach (TreeNode cNode in tn.Nodes)
+                foreach (TreeNode cNode in tnd.Nodes)
                 {
                     cNode.Checked = false;
                     blRemoveDependencies = true;
@@ -223,11 +223,11 @@ namespace SalesforceMetadata
             }
             // Mostly for Aura and LWC components
             // Make sure to check the parent folder and any unchecked
-            else if (tn.Checked == true && parentTn != null)
+            else if (tnd.Checked == true && parentTn != null)
             {
                 if (!mainFolderNames.Contains(parentTn.Text))
                 {
-                    //Debug.WriteLine("tn.Checked == true && parentTn != null && !mainFolderNames.Contains(parentTn.Text) : " + runTreeNodeSelector);
+                    //Debug.WriteLine("tnd.Checked == true && parentTn != null && !mainFolderNames.Contains(parentTn.Text) : " + runTreeNodeSelector);
 
                     parentTn.Checked = true;
                     blAddDependencies = true;
@@ -259,7 +259,7 @@ namespace SalesforceMetadata
                     blAddDependencies = true;
                 }
             }
-            else if (tn.Checked == false && parentTn != null)
+            else if (tnd.Checked == false && parentTn != null)
             {
                 blRemoveDependencies = true;
             }
@@ -267,13 +267,13 @@ namespace SalesforceMetadata
             if (blAddDependencies == true)
             {
                 //Debug.WriteLine("blAddDependencies");
-                addDependencies(tn);
+                addDependencies(tnd);
             }
 
             if (blRemoveDependencies == true)
             {
                 //Debug.WriteLine("");
-                removeDependencies(tn);
+                removeDependencies(tnd);
             }
 
             runTreeNodeSelector = true;
@@ -352,14 +352,14 @@ namespace SalesforceMetadata
                 }
             }
         }
-        private void removeDependencies(TreeNode tn)
+        private void removeDependencies(TreeNode tnd)
         {
             // TODO: This will be very complex especially with custom objects if multiple fields are selected and then one is deselected.
             // Don't want to remove the dependencies if there are more than 1 field or item selected.
             // Then again, what if it is a net new object?
             // Have to think through the logic and processes to make this work.
 
-            String[] nodeFullPath = tn.FullPath.Split('\\');
+            String[] nodeFullPath = tnd.FullPath.Split('\\');
 
             if (nodeFullPath.Length > 2)
             { 
@@ -383,7 +383,7 @@ namespace SalesforceMetadata
 
             }
         }
-        private void selectDependencies(TreeNode tn, String[] nodeFullPath, String[] fileNameSplit)
+        private void selectDependencies(TreeNode tnd, String[] nodeFullPath, String[] fileNameSplit)
         {
             //Debug.WriteLine("public void selectDependencies(TreeNode tn, String[] nodeFullPath, String[] fileNameSplit)");
 
@@ -448,7 +448,7 @@ namespace SalesforceMetadata
                 && nodeFullPath[1].Contains("__mdt"))
             {
                 // First check off the sub-nodes from the parent
-                foreach (TreeNode tnd3 in tn.Nodes)
+                foreach (TreeNode tnd3 in tnd.Nodes)
                 {
                     tnd3.Checked = true;
                 }
@@ -479,9 +479,9 @@ namespace SalesforceMetadata
             // Standard object
             else if (nodeFullPath[0] == "objects")
             {
-                if (tn.Text.StartsWith("<fields"))
+                if (tnd.Text.StartsWith("<fields"))
                 {
-                    String tnd3XmlString = "<document>" + tn.Text + "</document>";
+                    String tnd3XmlString = "<document>" + tnd.Text + "</document>";
                     XmlDocument tnd3Xd = new XmlDocument();
                     tnd3Xd.LoadXml(tnd3XmlString);
 
@@ -1812,25 +1812,59 @@ namespace SalesforceMetadata
         {
             bypassTextChange = true;
 
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "sln files (*.sln)|*.sln|All Files (*.*)|*.*";
-            ofd.Title = "Please select a Project/Solution file";
-            ofd.ShowDialog();
+            NewFilePath nfp = new NewFilePath();
+            nfp.tbSolutionFolderPath.Text = Properties.Settings.Default.ProjectFilePath;
+            nfp.lastSolutionFolder = Properties.Settings.Default.ProjectFilePath;
+            nfp.Show();
 
-            if (ofd.FileName.Length == 0) 
+            Action act = () => createNewProjectFile(nfp, this);
+            System.Threading.Tasks.Task tsk = System.Threading.Tasks.Task.Run(act);
+        }
+
+        private void createNewProjectFile(NewFilePath nfp, DevelopmentEnvironment devEnvFrm)
+        {
+            Boolean windowOpen = true;
+
+            while (windowOpen)
             {
-                MessageBox.Show("Please select a Project Solution file (*.sln)");
-                return;
+                if (nfp.Disposing == true)
+                {
+                    if (nfp.solutionFilePath != null)
+                    {
+                        StreamWriter sw = new StreamWriter(nfp.solutionFilePath);
+                        sw.Close();
+
+                        var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteProjectFileToTB(nfp.solutionFilePath, devEnvFrm); });
+                        var thread1 = new System.Threading.Thread(threadParameters1);
+                        thread1.Start();
+                        while (thread1.ThreadState == System.Threading.ThreadState.Running)
+                        {
+                            // do nothing. Just want for the thread to complete
+                        }
+                    }
+                }
+            }
+        }
+
+        // Threadsafe way to write back to the form's textbox
+        public void tsWriteProjectFileToTB(String tbValue, DevelopmentEnvironment devEnvFrm)
+        {
+            if (devEnvFrm.tbProjectFile.InvokeRequired)
+            {
+                Action safeWrite = delegate { tsWriteProjectFileToTB($"{tbValue}", devEnvFrm); };
+                devEnvFrm.tbProjectFile.Invoke(safeWrite);
+            }
+            else
+            {
+                devEnvFrm.tbProjectFile.Text = tbValue;
+                devEnvFrm.cmbUserName.Text = "";
+                devEnvFrm.tbDeployFrom.Text = "";
+                devEnvFrm.tbProjectFolder.Text = "";
+                devEnvFrm.tbRepository.Text = "";
+                devEnvFrm.tbBaseFolderPath.Text = "";
             }
 
-            this.tbProjectFile.Text = ofd.FileName;
-            this.cmbUserName.Text = "";
-            this.tbDeployFrom.Text = "";
-            this.tbProjectFolder.Text = "";
-            this.tbRepository.Text = "";
-            this.tbBaseFolderPath.Text = "";
-
-            Properties.Settings.Default.ProjectFilePath = this.tbProjectFile.Text;
+            Properties.Settings.Default.ProjectFilePath = tbValue;
             Properties.Settings.Default.DevelopmentSelectedFolder = "";
             Properties.Settings.Default.DevelopmentDeploymentFolder = "";
             Properties.Settings.Default.RepositoryPath = "";

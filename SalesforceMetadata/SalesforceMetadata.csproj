@@ -132,6 +132,12 @@
     <Compile Include="ExtractWebsite.Designer.cs">
       <DependentUpon>ExtractWebsite.cs</DependentUpon>
     </Compile>
+    <Compile Include="NewFilePath.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewFilePath.Designer.cs">
+      <DependentUpon>NewFilePath.cs</DependentUpon>
+    </Compile>
     <Compile Include="ParseDebugLogs.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -276,6 +282,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExtractWebsite.resx">
       <DependentUpon>ExtractWebsite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewFilePath.resx">
+      <DependentUpon>NewFilePath.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ParseDebugLogs.resx">
       <DependentUpon>ParseDebugLogs.cs</DependentUpon>

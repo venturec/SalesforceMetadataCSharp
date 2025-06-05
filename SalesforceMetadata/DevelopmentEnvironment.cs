@@ -1915,10 +1915,15 @@ namespace SalesforceMetadata
         private void loadProject(String projectFilePath)
         {
             Properties.Settings.Default.RecentProjectPath = projectFilePath;
+            this.tbProjectFile.Text = projectFilePath;
 
             StreamReader sr = new StreamReader(projectFilePath);
 
-            this.tbProjectFile.Text = sr.ReadLine();
+            if (sr.EndOfStream == true)
+            {
+
+                return;
+            }
 
             String username = sr.ReadLine();
             if (this.cmbUserName.Items.Contains(username))

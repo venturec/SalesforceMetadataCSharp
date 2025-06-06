@@ -264,6 +264,7 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="XmlNodeParser.cs" />
+    <Compile Include="ZipFileWithPackageXML.cs" />
     <EmbeddedResource Include="AddObject.resx">
       <DependentUpon>AddObject.cs</DependentUpon>
     </EmbeddedResource>

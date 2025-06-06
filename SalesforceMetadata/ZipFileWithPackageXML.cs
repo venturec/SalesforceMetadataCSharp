@@ -40,7 +40,17 @@ namespace SalesforceMetadata
                         if (tnd2.Checked == true)
                         {
                             String[] tnd2NodeFullPath = tnd2.FullPath.Split('\\');
+                            String[] objectNameSplit = tnd2NodeFullPath[1].Split('.');
                             filesDeployed.Add(tnd1.Text + "\\" + tnd2.Text);
+
+                            if (packageXml.ContainsKey(metadataType))
+                            {
+                                packageXml[metadataType].Add(objectNameSplit[0]);
+                            }
+                            else
+                            {
+                                packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] });
+                            }
 
                             DirectoryInfo di;
                             if (!Directory.Exists(folderPath + "\\" + tnd1.Text))
@@ -97,9 +107,7 @@ namespace SalesforceMetadata
                             else if (metadataType == "CustomObject" || metadataType == "CustomObjectTranslation")
                             {
                                 // Create the file and write the selected values to the file
-
                                 StreamWriter objSw = new StreamWriter(di.FullName + "\\" + tnd2NodeFullPath[1]);
-
                                 objSw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
                                 objSw.WriteLine("<CustomObject xmlns=\"http://soap.sforce.com/2006/04/metadata\">");
 
@@ -110,13 +118,10 @@ namespace SalesforceMetadata
                                         objSw.WriteLine(tnd3.Text);
 
                                         String[] tnd3NodeFullPath = tnd3.FullPath.Split('\\');
+                                        String[] objectElementsSplit = tnd3NodeFullPath[1].Split('.');
                                         directoryName = tnd3NodeFullPath[0];
 
-                                        String[] objectNameSplit = tnd3NodeFullPath[1].Split('.');
-
-                                        //String parentNode = MetadataDifferenceProcessing.folderToType(tnd3NodeFullPath[0], "");
-
-                                        // Add the custom field to the dictionary
+                                        // Add the custom field to the packageXml dictionary
                                         if (tnd3NodeFullPath.Length == 3)
                                         {
                                             if (tnd3NodeFullPath[0] == "objects"
@@ -126,7 +131,7 @@ namespace SalesforceMetadata
                                                 XmlDocument xd = new XmlDocument();
                                                 xd.LoadXml(xmlString);
 
-                                                String objectFieldCombo = objectNameSplit[0] + "." + xd.ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
+                                                String objectFieldCombo = objectElementsSplit[0] + "." + xd.ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
 
                                                 // Add the custom field to the packagexml dictionary
                                                 if (packageXml.ContainsKey("CustomField"))
@@ -138,28 +143,21 @@ namespace SalesforceMetadata
                                                     packageXml.Add("CustomField", new HashSet<string> { objectFieldCombo });
                                                 }
 
-                                                // Add the custom object to the packagexml dictionary
-                                                if (packageXml.ContainsKey(metadataType))
-                                                {
-                                                    packageXml[metadataType].Add(objectNameSplit[0]);
-                                                }
-                                                else
-                                                {
-                                                    packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] });
-                                                }
+                                                //// Add the custom object to the packagexml dictionary
+                                                //if (packageXml.ContainsKey(metadataType))
+                                                //{
+                                                //    packageXml[metadataType].Add(objectElementsSplit[0]);
+                                                //}
+                                                //else
+                                                //{
+                                                //    packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] });
+                                                //}
                                             }
                                         }
-                                        else
-                                        {
-                                            if (packageXml.ContainsKey(metadataType))
-                                            {
-                                                packageXml[metadataType].Add(objectNameSplit[0]);
-                                            }
-                                            else
-                                            {
-                                                packageXml.Add(metadataType, new HashSet<string> { objectNameSplit[0] });
-                                            }
-                                        }
+                                        //else
+                                        //{
+
+                                        //}
                                     }
                                 }
 
@@ -183,8 +181,7 @@ namespace SalesforceMetadata
                                 File.Copy(projectFolder + "\\" + tnd1.Text + "\\" + tnd2NodeFullPath[1],
                                           folderPath + "\\" + tnd1.Text + "\\" + tnd2NodeFullPath[1]);
 
-
-                                String[] objectNameSplit = tnd2NodeFullPath[1].Split('.');
+                                //String[] objectNameSplit = tnd2NodeFullPath[1].Split('.');
 
                                 if (metadataType == "ApprovalProcess")
                                 {

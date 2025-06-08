@@ -166,7 +166,162 @@ namespace SalesforceMetadata
         {
             treeViewNodeAfterCheck(e.Node);
         }
-        public void treeViewNodeAfterCheck(TreeNode tnd)
+        private void treeViewMetadata_DoubleClick(object sender, EventArgs e)
+        {
+            System.Windows.Forms.MouseEventArgs evtArgs = (System.Windows.Forms.MouseEventArgs)e;
+
+            if (evtArgs.Button == MouseButtons.Left)
+            {
+                TreeView tv = (TreeView)sender;
+
+                if (tv.SelectedNode != null)
+                {
+                    TreeNode parentFolderNode = null;
+                    TreeNode parentFileNode = null;
+
+                    // Better control over whether the parent nodes are null or not
+                    // Leave this structure in place as I don't think it can be simplified further
+                    if (tv.SelectedNode.Parent != null)
+                    {
+                        if (tv.SelectedNode.Parent.Parent != null)
+                        {
+                            parentFolderNode = tv.SelectedNode.Parent.Parent;
+                            parentFileNode = tv.SelectedNode.Parent;
+                        }
+                        else
+                        {
+                            parentFolderNode = tv.SelectedNode.Parent;
+                            parentFileNode = tv.SelectedNode;
+                        }
+                    }
+
+                    String pathToFile = "\"" + this.tbProjectFolder.Text + "\\" + parentFolderNode.Text + "\\" + parentFileNode.Text;
+
+                    checkArchiveDirectory(this.tbProjectFolder.Text + "\\" + parentFolderNode.Text + "\\" + parentFileNode.Text);
+
+                    if (Properties.Settings.Default.DefaultTextEditorPath == "")
+                    {
+                        Process proc = Process.Start(@"notepad.exe", pathToFile);
+                    }
+                    else
+                    {
+                        Process proc = Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, pathToFile);
+                    }
+                }
+            }
+        }
+
+        private void treeNodeSelectParentChildNodes(TreeNode tnd)
+        {
+            if (tnd.Checked == true)
+            {
+                if (tnd.Nodes.Count > 0)
+                {
+                    foreach (TreeNode cNode in tnd.Nodes)
+                    {
+                        cNode.Checked = true;
+                    }
+                }
+
+                // Now go up the chain to the parent
+                if (tnd.Parent != null)
+                {
+                    tnd.Parent.Checked = true;
+
+                    if (tnd.Parent.Parent != null)
+                    {
+                        tnd.Parent.Parent.Checked = true;
+
+                        if (tnd.Parent.Parent.Parent != null)
+                        {
+                            tnd.Parent.Parent.Parent.Checked = true;
+
+                            if (tnd.Parent.Parent.Parent.Parent != null)
+                            {
+                                tnd.Parent.Parent.Parent.Parent.Checked = true;
+
+                                if (tnd.Parent.Parent.Parent.Parent.Parent != null)
+                                {
+                                    tnd.Parent.Parent.Parent.Parent.Parent.Checked = true;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (tnd.Nodes.Count > 0)
+                {
+                    foreach (TreeNode cnd1 in tnd.Nodes)
+                    {
+                        cnd1.Checked = true;
+
+                        if (cnd1.Nodes.Count > 0)
+                        {
+                            foreach (TreeNode cnd2 in cnd1.Nodes)
+                            {
+                                cnd2.Checked = true;
+
+                                if (cnd2.Nodes.Count > 0)
+                                {
+                                    foreach (TreeNode cnd3 in cnd2.Nodes)
+                                    {
+                                        cnd3.Checked = true;
+
+                                        if (cnd3.Nodes.Count > 0)
+                                        {
+                                            foreach (TreeNode cnd4 in cnd3.Nodes)
+                                            {
+                                                cnd4.Checked = true;
+
+                                                if (cnd4.Nodes.Count > 0)
+                                                {
+                                                    foreach (TreeNode cnd5 in cnd4.Nodes)
+                                                    {
+                                                        cnd5.Checked = true;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (tnd.Checked == false && tnd.Nodes.Count > 0)
+            {
+                foreach (TreeNode cnd1 in tnd.Nodes)
+                {
+                    cnd1.Checked = false;
+
+                    if (cnd1.Nodes.Count > 0)
+                    {
+                        foreach (TreeNode cnd2 in cnd1.Nodes)
+                        {
+                            cnd2.Checked = false;
+
+                            if (cnd2.Nodes.Count > 0)
+                            {
+                                foreach (TreeNode cnd3 in cnd2.Nodes)
+                                {
+                                    cnd3.Checked = false;
+
+                                    if (cnd3.Nodes.Count > 0)
+                                    {
+                                        foreach (TreeNode cnd4 in cnd3.Nodes)
+                                        {
+                                            cnd4.Checked = false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        private void treeViewNodeAfterCheck(TreeNode tnd)
         {
             if (runTreeNodeSelector == true)
             {
@@ -182,208 +337,109 @@ namespace SalesforceMetadata
             Boolean blAddDependencies = false;
             Boolean blRemoveDependencies = false;
 
-            TreeNode parentTn = tnd.Parent;
+            TreeNode parentFolderNode = null;
+            TreeNode parentFileNode = null;
 
-            // This means the selected Node is the top node for that group and the sub-nodes will need to be selected.
-            if (tnd.Checked == true && tnd.Nodes.Count > 0)
+            // Better control over whether the parent nodes are null or not
+            // Leave this structure in place as I don't think it can be simplified further
+            if (tnd.Parent != null)
             {
-                //Debug.WriteLine("tnd.Checked == true && tnd.Nodes.Count > 0 : " + runTreeNodeSelector);
-
-                foreach (TreeNode cNode in tnd.Nodes)
+                if (tnd.Parent.Parent != null)
                 {
-                    cNode.Checked = true;
-                    blAddDependencies = true;
-
-                    if (cNode.Nodes.Count > 0)
-                    {
-                        foreach (TreeNode c2Node in cNode.Nodes)
-                        {
-                            c2Node.Checked = true;
-                        }
-                    }
-                }
-            }
-            else if (tnd.Checked == false && tnd.Nodes.Count > 0)
-            {
-                //Debug.WriteLine("tnd.Checked == false && tnd.Nodes.Count > 0 : " + runTreeNodeSelector);
-
-                foreach (TreeNode cNode in tnd.Nodes)
-                {
-                    cNode.Checked = false;
-                    blRemoveDependencies = true;
-
-                    if (cNode.Nodes.Count > 0)
-                    {
-                        foreach (TreeNode c2Node in cNode.Nodes)
-                        {
-                            c2Node.Checked = false;
-                        }
-                    }
-                }
-            }
-            // Mostly for Aura and LWC components
-            // Make sure to check the parent folder and any unchecked
-            else if (tnd.Checked == true && parentTn != null)
-            {
-                if (!mainFolderNames.Contains(parentTn.Text))
-                {
-                    //Debug.WriteLine("tnd.Checked == true && parentTn != null && !mainFolderNames.Contains(parentTn.Text) : " + runTreeNodeSelector);
-
-                    parentTn.Checked = true;
-                    blAddDependencies = true;
-
-                    String[] nodeFullPath = parentTn.FullPath.Split('\\');
-
-                    if (nodeFullPath[0] != "objects" && nodeFullPath[0] != "objectTranslations")
-                    {
-                        //Debug.WriteLine("if (nodeFullPath[0] != \"objects\" && nodeFullPath[0] != \"objectTranslations\") " + runTreeNodeSelector);
-                        foreach (TreeNode cNode in parentTn.Nodes)
-                        {
-                            //Debug.WriteLine("foreach (TreeNode cNode in parentTn.Nodes) " + runTreeNodeSelector);
-                            cNode.Checked = true;
-
-                            if (cNode.Nodes.Count > 0)
-                            {
-                                //Debug.WriteLine("if (cNode.Nodes.Count > 0) " + runTreeNodeSelector);
-                                foreach (TreeNode c2Node in cNode.Nodes)
-                                {
-                                    //Debug.WriteLine("foreach (TreeNode c2Node in cNode.Nodes) " + runTreeNodeSelector);
-                                    c2Node.Checked = true;
-                                }
-                            }
-                        }
-                    }
+                    parentFolderNode = tnd.Parent.Parent;
+                    parentFileNode = tnd.Parent;
                 }
                 else
                 {
-                    blAddDependencies = true;
+                    parentFolderNode = tnd.Parent;
+                    parentFileNode = tnd;
                 }
             }
-            else if (tnd.Checked == false && parentTn != null)
+
+            // This means the selected Node is the top node for that group and the sub-nodes will need to be selected.
+            if (tnd.Checked == true)
             {
-                blRemoveDependencies = true;
+                //Debug.WriteLine("tnd.Checked == true && tnd.Nodes.Count > 0 : " + runTreeNodeSelector);
+
+                // Select the parent nodes
+                if (parentFolderNode != null)
+                {
+                    parentFolderNode.Checked = true;
+                }
+
+                if (parentFileNode != null)
+                {
+                    parentFileNode.Checked = true;
+                    blAddDependencies = true;
+                }
+
+                // Select the child nodes and their children
+                foreach (TreeNode cNode1 in tnd.Nodes)
+                {
+                    cNode1.Checked = true;
+                    if (cNode1.Nodes.Count > 0)
+                    {
+                        foreach (TreeNode cNode2 in cNode1.Nodes)
+                        {
+                            cNode2.Checked = true;
+                        }
+                    }
+                }
+            }
+            else if (tnd.Checked == false)
+            {
+                // Make sure to check the parent folder unchecked the parent nodes if no other sub-nodes are selected
+                // We need to confirm if there are any other elements checked under the parent node
+                // i.e. : If a flow is selected, then the flows parent node needs to be checked.
+                // If a flow is unselected, then we need to confirm first if there are any other flows checked before unselecting the parent node
+
+                //Debug.WriteLine("tnd.Checked == false && tnd.Nodes.Count > 0 : " + runTreeNodeSelector);
+                // Select the parent nodes
+                if (parentFolderNode != null)
+                {
+                    //parentFolderNode.Checked = true;
+                }
+
+                if (parentFileNode != null)
+                {
+                    //parentFileNode.Checked = true;
+                    blRemoveDependencies = true;
+                }
+
+                // De-select the child nodes and their children
+                foreach (TreeNode cNode1 in tnd.Nodes)
+                {
+                    cNode1.Checked = false;
+                    if (cNode1.Nodes.Count > 0)
+                    {
+                        foreach (TreeNode cNode2 in cNode1.Nodes)
+                        {
+                            cNode2.Checked = false;
+                        }
+                    }
+                }
             }
 
             if (blAddDependencies == true)
             {
-                //Debug.WriteLine("blAddDependencies");
-                addDependencies(tnd);
+                addRemoveDependencies(parentFileNode, true);
             }
 
             if (blRemoveDependencies == true)
             {
-                //Debug.WriteLine("");
-                removeDependencies(tnd);
+                addRemoveDependencies(parentFileNode, false);
             }
 
             runTreeNodeSelector = true;
         }
-        private void treeViewMetadata_DoubleClick(object sender, EventArgs e)
-        {
-            System.Windows.Forms.MouseEventArgs evtArgs = (System.Windows.Forms.MouseEventArgs)e;
-
-            if (evtArgs.Button == MouseButtons.Left)
-            {
-                TreeView tv = (TreeView)sender;
-
-                if (tv.SelectedNode != null)
-                {
-                    String pathToFile = "\"" + this.tbProjectFolder.Text + "\\" + tv.SelectedNode.FullPath;
-
-                    checkArchiveDirectory(this.tbProjectFolder.Text + "\\" + tv.SelectedNode.FullPath);
-
-                    if (Properties.Settings.Default.DefaultTextEditorPath == "")
-                    {
-                        Process proc = Process.Start(@"notepad.exe", pathToFile);
-                    }
-                    else
-                    {
-                        Process proc = Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, pathToFile);
-                    }
-                }
-            }
-        }
-        public void addDependencies(TreeNode tn)
+        private void addRemoveDependencies(TreeNode tn, Boolean checkedState)
         {
             //Debug.WriteLine("public void addDependencies(TreeNode tn)");
-
-            foreach (TreeNode treeNd in this.treeViewMetadata.Nodes)
-            {
-                if (treeNd.Checked == true)
-                {
-                    foreach (TreeNode tnd2 in treeNd.Nodes)
-                    {
-                        String[] nodeFullPath = tnd2.FullPath.Split('\\');
-                        String[] fileNameSplit = nodeFullPath[1].Split('.');
-
-                        if (!this.tnListAddDependencies.ContainsKey(nodeFullPath[0] + "@" + fileNameSplit[0]))
-                        {
-                            this.tnListAddDependencies.Add(nodeFullPath[0] + "@" + fileNameSplit[0], tn);
-                            selectDependencies(tnd2, nodeFullPath, fileNameSplit);
-                        }
-
-                        if (this.tnListRemoveDependencies.ContainsKey(nodeFullPath[0] + "@" + fileNameSplit[0]))
-                        {
-                            this.tnListRemoveDependencies.Remove(nodeFullPath[0] + "@" + fileNameSplit[0]);
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (TreeNode tnd2 in treeNd.Nodes)
-                    {
-                        if (tnd2.Checked == true)
-                        {
-                            String[] nodeFullPath = tnd2.FullPath.Split('\\');
-                            String[] fileNameSplit = nodeFullPath[1].Split('.');
-
-                            if (!this.tnListAddDependencies.ContainsKey(nodeFullPath[0] + "@" + fileNameSplit[0]))
-                            {
-                                this.tnListAddDependencies.Add(nodeFullPath[0] + "@" + fileNameSplit[0], tn);
-                                selectDependencies(tnd2, nodeFullPath, fileNameSplit);
-                            }
-
-                            if (this.tnListRemoveDependencies.ContainsKey(nodeFullPath[0] + "@" + fileNameSplit[0]))
-                            {
-                                this.tnListRemoveDependencies.Remove(nodeFullPath[0] + "@" + fileNameSplit[0]);
-                            }
-                        }
-                    }
-                }
-            }
+            String[] nodeFullPath = tn.FullPath.Split('\\');
+            String[] fileNameSplit = nodeFullPath[1].Split('.');
+            selectDependencies(tn, nodeFullPath, fileNameSplit, checkedState);
         }
-        private void removeDependencies(TreeNode tnd)
-        {
-            // TODO: This will be very complex especially with custom objects if multiple fields are selected and then one is deselected.
-            // Don't want to remove the dependencies if there are more than 1 field or item selected.
-            // Then again, what if it is a net new object?
-            // Have to think through the logic and processes to make this work.
-
-            String[] nodeFullPath = tnd.FullPath.Split('\\');
-
-            if (nodeFullPath.Length > 2)
-            { 
-                // Do something else
-            }
-            else if (nodeFullPath.Length == 2)
-            {
-                String[] fileNameSplit = nodeFullPath[1].Split('.');
-                if (this.tnListAddDependencies.ContainsKey(nodeFullPath[0] + "@" + fileNameSplit[0]))
-                {
-                    this.tnListAddDependencies.Remove(nodeFullPath[0] + "@" + fileNameSplit[0]);
-                }
-
-                //if (!this.tnListRemoveDependencies.ContainsKey(nodeFullPath[0] + "@" + fileNameSplit[0]))
-                //{
-                //    this.tnListRemoveDependencies.Remove(nodeFullPath[0] + "@" + fileNameSplit[0]));
-                //}
-            }
-            else if (nodeFullPath.Length == 1)
-            {
-
-            }
-        }
-        private void selectDependencies(TreeNode tnd, String[] nodeFullPath, String[] fileNameSplit)
+        private void selectDependencies(TreeNode tnd, String[] nodeFullPath, String[] fileNameSplit, Boolean checkedState)
         {
             //Debug.WriteLine("public void selectDependencies(TreeNode tn, String[] nodeFullPath, String[] fileNameSplit)");
 
@@ -407,10 +463,10 @@ namespace SalesforceMetadata
                         {
                             if (tnd2.Text == nodeFullPath[1])
                             {
-                                tnd2.Checked = true;
+                                tnd2.Checked = checkedState;
                                 foreach (TreeNode tnd3 in tnd2.Nodes)
                                 {
-                                    tnd3.Checked = true;
+                                    tnd3.Checked = checkedState;
                                 }
                             }
                         }
@@ -427,10 +483,50 @@ namespace SalesforceMetadata
                         {
                             if (tnd2.Text == nodeFullPath[1])
                             {
-                                tnd2.Checked = true;
+                                tnd2.Checked = checkedState;
                                 foreach (TreeNode tnd3 in tnd2.Nodes)
                                 {
-                                    tnd3.Checked = true;
+                                    tnd3.Checked = checkedState;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (nodeFullPath[0] == "labels")
+            {
+                foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+                {
+                    if (tnd1.Text == "labels")
+                    {
+                        foreach (TreeNode tnd2 in tnd1.Nodes)
+                        {
+                            foreach (TreeNode tnd3 in tnd2.Nodes)
+                            {
+                                if (tnd3.Checked == true)
+                                {
+                                    tnd2.Checked = true;
+                                    tnd1.Checked = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (nodeFullPath[0] == "customMetadata")
+            {
+                foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+                {
+                    if (tnd1.Text == "customMetadata")
+                    {
+                        foreach (TreeNode tnd2 in tnd1.Nodes)
+                        {
+                            if (tnd2.Text == nodeFullPath[1])
+                            {
+                                tnd2.Checked = checkedState;
+                                foreach (TreeNode tnd3 in tnd2.Nodes)
+                                {
+                                    tnd3.Checked = checkedState;
                                 }
                             }
                         }
@@ -465,6 +561,7 @@ namespace SalesforceMetadata
                             String[] splitTND2Node = tnd2.Text.Split('.');
                             if (splitTND2Node[0] == splitObjectFileName[0])
                             {
+                                tnd2.Parent.Checked = true;
                                 tnd2.Checked = true;
 
                                 foreach (TreeNode tnd3 in tnd2.Nodes)
@@ -479,20 +576,20 @@ namespace SalesforceMetadata
             // Standard object
             else if (nodeFullPath[0] == "objects")
             {
-                if (tnd.Text.StartsWith("<fields"))
+                foreach (TreeNode tndObj in tnd.Nodes)
                 {
-                    String tnd3XmlString = "<document>" + tnd.Text + "</document>";
-                    XmlDocument tnd3Xd = new XmlDocument();
-                    tnd3Xd.LoadXml(tnd3XmlString);
-
-                    String objectFieldCombo = objectName[0] + "." + tnd3Xd.ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
-
-                    populateStandardValueSetHashSet(objectFieldCombo);
+                    if (tndObj.Checked == true && tndObj.Text.StartsWith("<fields"))
+                    {
+                        String tndObjXmlString = "<document>" + tndObj.Text + "</document>";
+                        XmlDocument tndObjXd = new XmlDocument();
+                        tndObjXd.LoadXml(tndObjXmlString);
+                        String objectFieldCombo = objectName[0] + "." + tndObjXd.ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
+                        populateStandardValueSetHashSet(objectFieldCombo);
+                    }
                 }
             }
             else if (nodeFullPath[0] == "certs")
             {
-                // Get the class name and then make sure the XML file is checked too
                 foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
                 {
                     if (tnd1.Text == "certs")
@@ -502,7 +599,11 @@ namespace SalesforceMetadata
                             if (tnd2.Text == fileNameSplit[0] + ".crt"
                                 || tnd2.Text == fileNameSplit[0] + ".crt-meta.xml")
                             {
-                                tnd2.Checked = true;
+                                tnd2.Checked = checkedState;
+                                foreach (TreeNode tnd3 in tnd2.Nodes)
+                                {
+                                    tnd3.Checked = checkedState;
+                                }
                             }
                         }
                     }
@@ -520,13 +621,10 @@ namespace SalesforceMetadata
                             if (tnd2.Text == fileNameSplit[0] + ".cls"
                                 || tnd2.Text == fileNameSplit[0] + ".cls-meta.xml")
                             {
-                                tnd2.Checked = true;
-                                if (tnd2.Nodes.Count > 0)
+                                tnd2.Checked = checkedState;
+                                foreach (TreeNode tnd3 in tnd2.Nodes)
                                 {
-                                    foreach (TreeNode tnd3 in tnd2.Nodes)
-                                    {
-                                        tnd3.Checked = true;
-                                    }
+                                    tnd3.Checked = checkedState;
                                 }
                             }
                         }
@@ -535,7 +633,6 @@ namespace SalesforceMetadata
             }
             else if (nodeFullPath[0] == "components")
             {
-                // Get the class name and then make sure the XML file is checked too
                 foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
                 {
                     if (tnd1.Text == "components")
@@ -545,7 +642,11 @@ namespace SalesforceMetadata
                             if (tnd2.Text == fileNameSplit[0] + ".component"
                                 || tnd2.Text == fileNameSplit[0] + ".component-meta.xml")
                             {
-                                tnd2.Checked = true;
+                                tnd2.Checked = checkedState;
+                                foreach (TreeNode tnd3 in tnd2.Nodes)
+                                {
+                                    tnd3.Checked = checkedState;
+                                }
                             }
                         }
                     }
@@ -562,7 +663,11 @@ namespace SalesforceMetadata
                             if (tnd2.Text == fileNameSplit[0] + ".asset"
                                 || tnd2.Text == fileNameSplit[0] + ".asset-meta.xml")
                             {
-                                tnd2.Checked = true;
+                                tnd2.Checked = checkedState;
+                                foreach (TreeNode tnd3 in tnd2.Nodes)
+                                {
+                                    tnd3.Checked = checkedState;
+                                }
                             }
                         }
                     }
@@ -613,7 +718,11 @@ namespace SalesforceMetadata
                             if (tnd2.Text == fileNameSplit[0] + ".page"
                                 || tnd2.Text == fileNameSplit[0] + ".page-meta.xml")
                             {
-                                tnd2.Checked = true;
+                                tnd2.Checked = checkedState;
+                                foreach (TreeNode tnd3 in tnd2.Nodes)
+                                {
+                                    tnd3.Checked = checkedState;
+                                }
                             }
                         }
                     }
@@ -653,8 +762,11 @@ namespace SalesforceMetadata
                             if (tnd2.Text == fileNameSplit[0] + ".resource"
                                 || tnd2.Text == fileNameSplit[0] + ".resource-meta.xml")
                             {
-                                tnd2.Checked = true;
-                                tnd1.Checked = true;
+                                tnd2.Checked = checkedState;
+                                foreach (TreeNode tnd3 in tnd2.Nodes)
+                                {
+                                    tnd3.Checked = checkedState;
+                                }
                             }
                         }
                     }
@@ -672,7 +784,28 @@ namespace SalesforceMetadata
                             if (tnd2.Text == fileNameSplit[0] + ".trigger"
                                 || tnd2.Text == fileNameSplit[0] + ".trigger-meta.xml")
                             {
-                                tnd2.Checked = true;
+                                tnd2.Checked = checkedState;
+                                foreach (TreeNode tnd3 in tnd2.Nodes)
+                                {
+                                    tnd3.Checked = checkedState;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+                {
+                    foreach (TreeNode tnd2 in tnd1.Nodes)
+                    {
+                        if (tnd2.Text == nodeFullPath[1])
+                        {
+                            tnd2.Checked = checkedState;
+                            foreach (TreeNode tnd3 in tnd2.Nodes)
+                            {
+                                tnd3.Checked = checkedState;
                             }
                         }
                     }
@@ -684,7 +817,85 @@ namespace SalesforceMetadata
                 selectStandardValueSets(standardValueSets);
             }
         }
-        private void selectRequiredObjectFields(String objectName)
+        public void selectObjectFieldsFromLayout(String objectName, String xmlDocument)
+        {
+            // We only want the custom ones from the layout, not the standard ones
+            HashSet<String> objectFields = new HashSet<string>();
+
+            XmlDocument xd = new XmlDocument();
+            xd.LoadXml(xmlDocument);
+            XmlNodeList nodeList = xd.GetElementsByTagName("field");
+            foreach (XmlNode nd in nodeList)
+            {
+                if (nd.Name == "field")
+                {
+                    objectFields.Add(nd.InnerText);
+                }
+            }
+
+            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+            {
+                if (tnd1.Text == "objects")
+                {
+                    foreach (TreeNode tnd2 in tnd1.Nodes)
+                    {
+                        if (tnd2.Text == objectName + ".object")
+                        {
+                            foreach (TreeNode tnd3 in tnd2.Nodes)
+                            {
+                                if (tnd3.Text.StartsWith("<fields"))
+                                {
+                                    String tndObjXmlString = "<document>" + tnd3.Text + "</document>";
+                                    XmlDocument tndObjXd = new XmlDocument();
+                                    tndObjXd.LoadXml(tndObjXmlString);
+
+                                    String fieldName = tndObjXd.ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
+
+                                    // Don't deploy Standard Fields
+                                    // Manage package fields are questionable as well but will include them for now
+                                    if (objectFields.Contains(fieldName))
+                                    {
+                                        String[] fieldNameSplit = fieldName.Split(new String[] { "__" }, StringSplitOptions.None);
+                                        if (fieldNameSplit.Length > 3)
+                                        {
+                                            // Throws are not great, but a good stop gap for now until I can figure something else out.
+                                            throw new Exception("Field name split length is greater than 3. This is not expected. Field Name: " + fieldName);
+                                        }
+                                        else if (fieldNameSplit.Length == 3)
+                                        {
+                                            tnd3.Checked = true;
+                                            treeNodeSelectParentChildNodes(tnd3);
+                                        }
+                                        else if (fieldNameSplit.Length == 2)
+                                        {
+                                            tnd3.Checked = true;
+                                            treeNodeSelectParentChildNodes(tnd3);
+                                        }
+
+                                        // I don't like the below because it means multiple loops within loop iterations, but for now
+                                        // I don't want to refactor this
+                                        if (objectName.EndsWith("__c"))
+                                        {
+                                            selectRequiredObjectFields(objectName + ".object");
+                                        }
+                                        else if (objectName.EndsWith("__mdt"))
+                                        {
+                                            selectRequiredObjectFields(objectName + ".object");
+                                            selectMetadataObjects(objectName);
+                                        }
+
+                                        // If a standard value set is available on the page layout, make sure to include it in the HashSet to add to the deployment package
+                                        String objectFieldCombo = objectName + "." + fieldName;
+                                        populateStandardValueSetHashSet(objectFieldCombo);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        public void selectRequiredObjectFields(String objectName)
         {
             foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
             {
@@ -696,27 +907,35 @@ namespace SalesforceMetadata
                         {
                             foreach (TreeNode tnd3 in tnd2.Nodes)
                             {
-                                if (tnd3.Text.StartsWith("<deploymentStatus"))
+                                XmlDocument tnd3Xd = new XmlDocument();
+                                String tnd3XmlString = "<document>" + tnd3.Text + "</document>";
+                                tnd3Xd.LoadXml(tnd3XmlString);
+
+                                if (tnd3Xd.ChildNodes[0].ChildNodes[0].LocalName == "customSettingsType")
                                 {
                                     tnd3.Checked = true;
                                 }
-                                else if (tnd3.Text.StartsWith("<description"))
+                                else if (tnd3Xd.ChildNodes[0].ChildNodes[0].LocalName == "deploymentStatus")
                                 {
                                     tnd3.Checked = true;
                                 }
-                                else if (tnd3.Text.StartsWith("<label"))
+                                else if (tnd3Xd.ChildNodes[0].ChildNodes[0].LocalName == "description")
                                 {
                                     tnd3.Checked = true;
                                 }
-                                else if (tnd3.Text.StartsWith("<nameField"))
+                                else if (tnd3Xd.ChildNodes[0].ChildNodes[0].LocalName == "label")
                                 {
                                     tnd3.Checked = true;
                                 }
-                                else if (tnd3.Text.StartsWith("<pluralLabel"))
+                                else if (tnd3Xd.ChildNodes[0].ChildNodes[0].LocalName == "nameField")
                                 {
                                     tnd3.Checked = true;
                                 }
-                                else if (tnd3.Text.StartsWith("<sharingModel"))
+                                else if (tnd3Xd.ChildNodes[0].ChildNodes[0].LocalName == "pluralLabel")
+                                {
+                                    tnd3.Checked = true;
+                                }
+                                else if (tnd3Xd.ChildNodes[0].ChildNodes[0].LocalName == "sharingModel")
                                 {
                                     tnd3.Checked = true;
                                 }
@@ -726,7 +945,56 @@ namespace SalesforceMetadata
                 }
             }
         }
-        private void populateStandardValueSetHashSet(String objectFieldCombo)
+        public void selectMetadataObjects(String objectName)
+        {
+            // Check off the Metadata Types in the customMetadata folder related to the metadata type checked.
+            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+            {
+                if (tnd1.Text == "customMetadata")
+                {
+                    String[] splitObjectFileName = objectName.Split(new String[] { "__" }, StringSplitOptions.None);
+
+                    foreach (TreeNode tnd2 in tnd1.Nodes)
+                    {
+                        String[] splitTND2Node = tnd2.Text.Split('.');
+                        if (splitTND2Node[0] == splitObjectFileName[0])
+                        {
+                            tnd2.Checked = true;
+                            tnd1.Checked = true;
+
+                            foreach (TreeNode tnd3 in tnd2.Nodes)
+                            {
+                                tnd3.Checked = true;
+
+                                foreach (TreeNode tnd4 in tnd3.Nodes)
+                                {
+                                    tnd4.Checked = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        public void selectStandardValueSets(HashSet<String> standardValueSets)
+        {
+            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
+            {
+                if (tnd1.Text == "standardValueSets")
+                {
+                    foreach (TreeNode tnd2 in tnd1.Nodes)
+                    {
+                        String[] objectNameSplit = tnd2.Text.Split('.');
+                        if (standardValueSets.Contains(objectNameSplit[0]))
+                        {
+                            tnd2.Checked = true;
+                            treeNodeSelectParentChildNodes(tnd2);
+                        }
+                    }
+                }
+            }
+        }
+        public void populateStandardValueSetHashSet(String objectFieldCombo)
         {
             if (objectFieldCombo == "Account.Industry"
                 || objectFieldCombo == "Lead.Industry")
@@ -789,83 +1057,7 @@ namespace SalesforceMetadata
                 standardValueSets.Add("Product2Family");
             }
         }
-        private void selectObjectFieldsFromLayout(String objectName, String xmlDocument)
-        {
-            HashSet<String> objectFields = new HashSet<string>();
 
-            XmlDocument xd = new XmlDocument();
-            xd.LoadXml(xmlDocument);
-            XmlNodeList nodeList = xd.GetElementsByTagName("field");
-            foreach (XmlNode nd in nodeList)
-            {
-                if (nd.Name == "field")
-                {
-                    objectFields.Add(nd.InnerText);
-                }
-            }
-
-            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
-            {
-                if (tnd1.Text == "objects")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        if (tnd2.Text == objectName + ".object")
-                        {
-                            foreach (TreeNode tnd3 in tnd2.Nodes)
-                            {
-                                if (tnd3.Text.StartsWith("<fields"))
-                                {
-                                    String fieldXmlDoc = "<document>" + tnd3.Text + "</document>";
-                                    XmlDocument fieldXd = new XmlDocument();
-                                    fieldXd.LoadXml(fieldXmlDoc);
-
-                                    if (objectFields.Contains(fieldXd.ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText))
-                                    {
-                                        tnd3.Checked = true;
-
-                                        if (objectName.EndsWith("__c"))
-                                        {
-                                            selectRequiredObjectFields(objectName + ".object");
-                                        }
-
-                                        // If a standard value set is available on the page layout, make sure to include it in the HashSet to add to the deployment package
-                                        String tnd3XmlString = "<document>" + tnd3.Text + "</document>";
-                                        XmlDocument tnd3Xd = new XmlDocument();
-                                        tnd3Xd.LoadXml(tnd3XmlString);
-
-                                        String objectFieldCombo = objectName + "." + tnd3Xd.ChildNodes[0].ChildNodes[0].ChildNodes[0].ChildNodes[0].InnerText;
-                                        populateStandardValueSetHashSet(objectFieldCombo);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        private void selectStandardValueSets(HashSet<String> standardValueSets)
-        {
-            foreach (TreeNode tnd1 in this.treeViewMetadata.Nodes)
-            {
-                if (tnd1.Text == "standardValueSets")
-                {
-                    foreach (TreeNode tnd2 in tnd1.Nodes)
-                    {
-                        String[] objectNameSplit = tnd2.Text.Split('.');
-                        if (standardValueSets.Contains(objectNameSplit[0]))
-                        {
-                            tnd2.Checked = true;
-
-                            foreach (TreeNode tnd3 in tnd2.Nodes)
-                            {
-                                tnd3.Checked = true;
-                            }
-                        }
-                    }
-                }
-            }
-        }
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             populateTreeView();
@@ -1091,6 +1283,12 @@ namespace SalesforceMetadata
         // Check if Code Archive directory exists
         private void checkArchiveDirectory(String fileToCopy)
         {
+            if (this.tbBaseFolderPath.Text == "")
+            {
+                MessageBox.Show("Please select a base folder path first to copy the file to the Code Archive folder");
+                return;
+            }
+
             String[] fileToCopySplit = fileToCopy.Split('\\');
             String[] fileNameSplit = fileToCopySplit[fileToCopySplit.Length - 1].Split('.');
 

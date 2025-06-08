@@ -3563,8 +3563,6 @@ namespace SalesforceMetadata
             return typeName;
         }
 
-
-
         public static String typeToFolder(String typeName)
         {
             String folderName = "";

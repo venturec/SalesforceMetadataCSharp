@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using System.Xml;
 using static SalesforceMetadata.XmlNodeParser;
 
@@ -17,9 +18,66 @@ namespace SalesforceMetadata
         // When you use the XmlDocument.loadXml or load, it converts all escaped text back to the original format and can't find 
         // a flag available to prevent this from happening, so built this structure to handle adding back the escape sequences.
 
+        // Directory Name -> File Name -> nd1.Name -> nd2.Name -> nameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name + "|" + nd8.Name -> List of node values
+        public void parseXmlDocument(String directoryName, String fileName, XmlDocument xmlDoc,
+                                      HashSet<String> comparisonHashSet)
+        {
+            // First find the #text node values to determine if there are changes to those vlaues.
+            // Use the parent node names up the chain to be the keys with the #text value being the value
+
+            XmlNodeParser ndParser = new XmlNodeParser();
+
+            String nodeBlockNameValue = "";
+            foreach (XmlNode nd3 in xmlDoc.ChildNodes)
+            {
+                if (nd3.OuterXml == "<?xml version=\"1.0\" encoding=\"UTF-8\"?>")
+                {
+                    continue;
+                }
+
+                if (nd3.HasChildNodes)
+                {
+                    String startingNodeValue = directoryName + "\\" + fileName + "\\" + nd3.Name;
+
+                    foreach (XmlNode nd4 in nd3.ChildNodes)
+                    {
+                        /****************************************************************/
+                        nodeBlockNameValue = MetadataDifferenceProcessing.getNameField(nd3.Name, nd4.Name, nd4.OuterXml);
+                        /****************************************************************/
+
+                        if (nd4.HasChildNodes)
+                        {
+                            if (nodeBlockNameValue == "")
+                            {
+                                nodeBlockNameValue = nd4.Name;
+                            }
+                            else
+                            {
+                                nodeBlockNameValue = nd4.Name + " | " + nodeBlockNameValue;
+                            }
+
+                            List<XmlNodeParser.XmlNodeValue> ndPathAndValues = ndParser.parseXmlChildNodes1(nd4);
+                            HashSet<String> tempHashSet = ndParser.flattenXmlNodeValue(ndPathAndValues);
+
+                            foreach (String val in tempHashSet)
+                            {
+                                comparisonHashSet.Add(startingNodeValue + "\\" + nodeBlockNameValue + "\\" + val);
+                            }
+                        }
+                        else
+                        {
+                            comparisonHashSet.Add(startingNodeValue + "\\" + ndParser.replaceSpecialCharacters(nd4.OuterXml));
+                        }
+                    }
+                }
+                //else
+                //{
+                //}
+            }
+        }
+
         // TODO:
         // Bypass the description field when running the replaceSpecialCharacters
-
         public List<XmlNodeValue> parseXmlChildNodes1(XmlNode nd1)
         {
             List<XmlNodeValue> xmlNodeAndValuesList = new List<XmlNodeValue>();
@@ -382,6 +440,172 @@ namespace SalesforceMetadata
                 XmlNodeValues12.relatedNodeValues.Add(xmlNodeAndValues);
             }
         }
+
+        public HashSet<String> buildTreeNodeDiffs1(TreeNodeCollection tndCollection)
+        {
+            HashSet<String> treeNodeDiffs = new HashSet<string>();
+
+            foreach (TreeNode tndDiff1 in tndCollection)
+            {
+                if (tndDiff1.Checked == true && tndDiff1.Nodes.Count > 0)
+                {
+                    buildTreeNodeDiffs2(tndDiff1, treeNodeDiffs);
+                }
+                else if (tndDiff1.Checked == true)
+                {
+                    treeNodeDiffs.Add(tndDiff1.Text);
+                }
+            }
+
+            return treeNodeDiffs;
+        }
+
+        private void buildTreeNodeDiffs2(TreeNode parentNode, HashSet<String> treeNodeDiffs)
+        {
+            foreach (TreeNode tndDiff2 in parentNode.Nodes)
+            {
+                if (tndDiff2.Checked == true && parentNode.Text == "staticresources")
+                {
+                    String modifiedTndDiff = tndDiff2.FullPath.Replace("[New] ", "");
+                    String[] parsedFullPath = modifiedTndDiff.Split('\\');
+                    treeNodeDiffs.Add(buildParsedFullPath(parsedFullPath));
+                }
+                else if (tndDiff2.Checked == true && tndDiff2.Nodes.Count > 0)
+                {
+                    buildTreeNodeDiffs3(tndDiff2, treeNodeDiffs);
+                }
+                else if (tndDiff2.Checked == true)
+                {
+                    if (tndDiff2.Checked == true && tndDiff2.FullPath.Contains("[New]"))
+                    {
+                        String modifiedTndDiff = tndDiff2.FullPath.Replace("[New] ", "");
+                        String[] parsedFullPath = modifiedTndDiff.Split('\\');
+                        treeNodeDiffs.Add(buildParsedFullPath(parsedFullPath));
+                    }
+                    else if (tndDiff2.Checked == true && tndDiff2.FullPath.Contains("[Updated]"))
+                    {
+                        String modifiedTndDiff = tndDiff2.FullPath.Replace("[Updated] ", "");
+                        String[] parsedFullPath = modifiedTndDiff.Split('\\');
+                        treeNodeDiffs.Add(buildParsedFullPath(parsedFullPath));
+                    }
+                    else if (tndDiff2.Checked == true)
+                    {
+                        String[] parsedFullPath = tndDiff2.FullPath.Split('\\');
+                        treeNodeDiffs.Add(buildParsedFullPath(parsedFullPath));
+                    }
+                }
+            }
+        }
+
+        private void buildTreeNodeDiffs3(TreeNode parentNode, HashSet<String> treeNodeDiffs)
+        {
+            foreach (TreeNode tndDiff3 in parentNode.Nodes)
+            {
+                if (tndDiff3.Checked == true && tndDiff3.Nodes.Count > 0)
+                {
+                    buildTreeNodeDiffs4(tndDiff3, treeNodeDiffs);
+                }
+                else if(tndDiff3.Checked == true)
+                {
+                    if (tndDiff3.Checked == true && tndDiff3.FullPath.Contains("[New]"))
+                    {
+                        String modifiedTndDiff = tndDiff3.FullPath.Replace("[New] ", "");
+                        String[] parsedFullPath = modifiedTndDiff.Split('\\');
+                        treeNodeDiffs.Add(buildParsedFullPath(parsedFullPath));
+                    }
+                    else if (tndDiff3.Checked == true && tndDiff3.FullPath.Contains("[Updated]"))
+                    {
+                        String modifiedTndDiff = tndDiff3.FullPath.Replace("[Updated] ", "");
+                        String[] parsedFullPath = modifiedTndDiff.Split('\\');
+                        treeNodeDiffs.Add(buildParsedFullPath(parsedFullPath));
+                    }
+                    else if (tndDiff3.Checked == true)
+                    {
+                        String[] parsedFullPath = tndDiff3.FullPath.Split('\\');
+                        treeNodeDiffs.Add(buildParsedFullPath(parsedFullPath));
+                    }
+                }
+            }
+        }
+
+        private void buildTreeNodeDiffs4(TreeNode parentNode, HashSet<String> treeNodeDiffs)
+        {
+            foreach (TreeNode tndDiff4 in parentNode.Nodes)
+            {
+                if (tndDiff4.Checked == true && tndDiff4.FullPath.Contains("[New]"))
+                {
+                    String modifiedTndDiff = tndDiff4.FullPath.Replace("[New] ", "");
+                    String[] parsedFullPath = modifiedTndDiff.Split('\\');
+                    treeNodeDiffs.Add(buildParsedFullPath(parsedFullPath));
+                }
+                else if (tndDiff4.Checked == true && tndDiff4.FullPath.Contains("[Updated]"))
+                {
+                    String modifiedTndDiff = tndDiff4.FullPath.Replace("[Updated] ", "");
+                    String[] parsedFullPath = modifiedTndDiff.Split('\\');
+                    treeNodeDiffs.Add(buildParsedFullPath(parsedFullPath));
+                }
+                else if (tndDiff4.Checked == true)
+                {
+                    String[] parsedFullPath = tndDiff4.FullPath.Split('\\');
+                    treeNodeDiffs.Add(buildParsedFullPath(parsedFullPath));
+                }
+            }
+        }
+
+        private String buildParsedFullPath(String[] parsedFullPath) 
+        {
+            String fullPath = "";
+
+            for (Int32 i = 0; i < parsedFullPath.Length; i++) 
+            {
+                if (i == 0)
+                {
+                    fullPath = parsedFullPath[i];
+                }
+                // Skip the top node
+                else if (i == 2)
+                {
+                    //fullPath = fullPath + " \\" + parsedFullPath[i];
+                }
+                else
+                {
+                    fullPath = fullPath + "\\" + parsedFullPath[i];
+                }
+            }
+
+            return fullPath;
+        }
+
+        //private void buildTreeNodeDiffs5(TreeNode parentNode, HashSet<String> treeNodeDiffs)
+        //{
+        //    foreach (TreeNode tndDiff5 in parentNode.Nodes)
+        //    {
+        //        if (tndDiff5.Checked == true && tndDiff5.Nodes.Count > 0)
+        //        {
+        //            buildTreeNodeDiffs6(tndDiff5, treeNodeDiffs);
+        //        }
+        //        else if (tndDiff5.Checked == true)
+        //        {
+        //            Debug.WriteLine("");
+        //        }
+        //    }
+        //}
+
+        //private void buildTreeNodeDiffs6(TreeNode parentNode, HashSet<String> treeNodeDiffs)
+        //{
+        //    foreach (TreeNode tndDiff6 in parentNode.Nodes)
+        //    {
+        //        if (tndDiff6.Checked == true && tndDiff6.Nodes.Count > 0)
+        //        {
+        //            Debug.WriteLine("");
+        //        }
+        //        else if (tndDiff6.Checked == true)
+        //        {
+        //            Debug.WriteLine("");
+        //        }
+        //    }
+        //}
+
         public String[] parseNodeNameAndValue(String nodeNameWithValue)
         {
             String[] parsedNodeNameWithValue = nodeNameWithValue.Split('|');

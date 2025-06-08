@@ -48,6 +48,8 @@ namespace SalesforceMetadata
 
             this.treeViewDifferences.Nodes.Clear();
 
+            XmlNodeParser xmlNdParser = new XmlNodeParser();
+
             // Add all files from the different directory folders to the dictionary
             String[] mstrDir = Directory.GetDirectories(this.tbFromFolder.Text);
             String[] compDir = Directory.GetDirectories(this.tbToFolder.Text);
@@ -285,7 +287,7 @@ namespace SalesforceMetadata
 
                                         if (isXmlDocument == true)
                                         {
-                                            parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
+                                            xmlNdParser.parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
                                         }
                                     }
 
@@ -312,7 +314,7 @@ namespace SalesforceMetadata
 
                                         if (isXmlDocument == true)
                                         {
-                                            parseXmlDocument(mDir, mFile, cDoc, compFileComparison);
+                                            xmlNdParser.parseXmlDocument(mDir, mFile, cDoc, compFileComparison);
                                         }
                                     }
 
@@ -385,7 +387,7 @@ namespace SalesforceMetadata
 
                                     if (isXmlDocument == true)
                                     {
-                                        parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
+                                        xmlNdParser.parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
                                     }
                                 }
 
@@ -441,7 +443,7 @@ namespace SalesforceMetadata
 
                                 if (isXmlDocument == true)
                                 {
-                                    parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
+                                    xmlNdParser.parseXmlDocument(mDir, mFile, mDoc, mstrFileComparison);
                                 }
                             }
 
@@ -470,72 +472,9 @@ namespace SalesforceMetadata
             }
         }
 
-
         /**********************************************************************************************************************/
-        // Utility Nodes for the handling the Dictionaries
-
-        // Directory Name -> File Name -> nd1.Name -> nd2.Name -> nameValue + "|" + nd3.Name + "|" + nd4.Name + "|" + nd5.Name + "|" + nd6.Name + "|" + nd7.Name + "|" + nd8.Name -> List of node values
-        private void parseXmlDocument(String directoryName, String fileName, XmlDocument xmlDoc,
-                                      HashSet<String> comparisonHashSet)
-        {
-            // First find the #text node values to determine if there are changes to those vlaues.
-            // Use the parent node names up the chain to be the keys with the #text value being the value
-
-            XmlNodeParser ndParser = new XmlNodeParser();
-
-            String nodeBlockNameValue = "";
-            foreach (XmlNode nd3 in xmlDoc.ChildNodes)
-            {
-                if (nd3.OuterXml == "<?xml version=\"1.0\" encoding=\"UTF-8\"?>")
-                {
-                    continue;
-                }
-
-                if (nd3.HasChildNodes)
-                {
-                    String startingNodeValue = directoryName + "\\" + fileName + "\\" + nd3.Name;
-
-                    foreach (XmlNode nd4 in nd3.ChildNodes)
-                    {
-                        /****************************************************************/
-                        nodeBlockNameValue = MetadataDifferenceProcessing.getNameField(nd3.Name, nd4.Name, nd4.OuterXml);
-                        /****************************************************************/
-
-                        if (nd4.HasChildNodes)
-                        {
-                            if (nodeBlockNameValue == "")
-                            {
-                                nodeBlockNameValue = nd4.Name;
-                            }
-                            else
-                            {
-                                nodeBlockNameValue = nd4.Name + " | " + nodeBlockNameValue;
-                            }
-
-                            List<XmlNodeParser.XmlNodeValue> ndPathAndValues = ndParser.parseXmlChildNodes1(nd4);
-                            HashSet<String> tempHashSet = ndParser.flattenXmlNodeValue(ndPathAndValues);
-
-                            foreach (String val in tempHashSet)
-                            {
-                                comparisonHashSet.Add(startingNodeValue + "\\" + nodeBlockNameValue + "\\" + val);
-                            }
-                        }
-                        else
-                        {
-                            comparisonHashSet.Add(startingNodeValue + "\\" + ndParser.replaceSpecialCharacters(nd4.OuterXml));
-                        }
-                    }
-                }
-                else
-                {
-                    Debug.WriteLine("");
-                }
-            }
-        }
-
         // Helper methods
         /**********************************************************************************************************************/
-
         private Boolean directoryExists(String directoryName, Boolean appendDirectoryName)
         {
             Boolean directoryExists = false;
@@ -644,6 +583,7 @@ namespace SalesforceMetadata
             return filesAreDifferent;
         }
 
+        // I'm not real happy with this method, but it works for now and needs to be refactored later
         private void populateTreeView()
         {
             TreeNode tnd0 = new TreeNode();
@@ -667,6 +607,7 @@ namespace SalesforceMetadata
             //TreeNode tnd18 = new TreeNode();
             //TreeNode tnd19 = new TreeNode();
             //TreeNode tnd20 = new TreeNode();
+            //TreeNode tnd21 = new TreeNode();
 
             foreach (String stringValue in this.comparisonResults)
             {
@@ -1234,7 +1175,7 @@ namespace SalesforceMetadata
                 //}
             }
 
-            treeViewDifferences.Nodes.Add(tnd0);
+            treeViewDifferences.Nodes.Add(tnd1);
 
             mstrFileComparison.Clear();
             compFileComparison.Clear();
@@ -1954,81 +1895,13 @@ namespace SalesforceMetadata
             }
 
             HashSet<String> treeNodeDiffs = new HashSet<string>();
-
-            foreach (TreeNode tndDiff1 in this.treeViewDifferences.Nodes)
-            {
-                if (tndDiff1.Checked == true && tndDiff1.Nodes.Count > 0)
-                {
-                    foreach (TreeNode tndDiff2 in tndDiff1.Nodes)
-                    {
-                        if (tndDiff2.Checked == true && tndDiff2.Nodes.Count > 0)
-                        {
-                            foreach (TreeNode tndDiff3 in tndDiff2.Nodes)
-                            {
-                                if (tndDiff3.Checked == true && tndDiff3.Nodes.Count > 0)
-                                {
-                                    foreach (TreeNode tndDiff4 in tndDiff3.Nodes)
-                                    {
-                                        if (tndDiff4.Checked == true && tndDiff4.FullPath.Contains("[New]"))
-                                        {
-                                            treeNodeDiffs.Add(tndDiff4.FullPath.Replace("[New] ", ""));
-                                        }
-                                        else if (tndDiff4.Checked == true && tndDiff4.FullPath.Contains("[Updated]"))
-                                        {
-                                            treeNodeDiffs.Add(tndDiff4.FullPath.Replace("[Updated] ", ""));
-                                        }
-                                        else if(tndDiff4.Checked == true)
-                                        {
-                                            treeNodeDiffs.Add(tndDiff4.FullPath);
-                                        }
-                                    }
-                                }
-                                else if (tndDiff3.Checked == true)
-                                {
-                                    if (tndDiff3.FullPath.Contains("[New]"))
-                                    {
-                                        treeNodeDiffs.Add(tndDiff3.FullPath.Replace("[New] ", ""));
-                                    }
-                                    else if (tndDiff3.FullPath.Contains("[Updated]"))
-                                    {
-                                        treeNodeDiffs.Add(tndDiff3.FullPath.Replace("[Updated] ", ""));
-                                    }
-                                    else
-                                    {
-                                        treeNodeDiffs.Add(tndDiff3.FullPath);
-                                    }
-                                }
-                            }
-                        }
-                        else if (tndDiff2.Checked == true)
-                        {
-                            if (tndDiff2.FullPath.Contains("[New]"))
-                            {
-                                treeNodeDiffs.Add(tndDiff2.FullPath.Replace("[New] ", ""));
-                            }
-                            else if (tndDiff2.FullPath.Contains("[Updated]"))
-                            {
-                                treeNodeDiffs.Add(tndDiff2.FullPath.Replace("[Updated] ", ""));
-                            }
-                            else
-                            {
-                                treeNodeDiffs.Add(tndDiff2.FullPath);
-                            }
-                        }
-                    }
-                }
-                else if (tndDiff1.Checked == true)
-                {
-                    treeNodeDiffs.Add(tndDiff1.FullPath);
-                }
-            }
+            XmlNodeParser xmlNodeParser= new XmlNodeParser();
+            treeNodeDiffs = xmlNodeParser.buildTreeNodeDiffs1(this.treeViewDifferences.Nodes);
 
             GenerateDeploymentPackage gdp = new GenerateDeploymentPackage();
 
             gdp.tbProjectFolder.Text = this.tbFromFolder.Text;
-            gdp.treeNodeFromDiff = treeNodeDiffs;
-            
-            gdp.populateMetadataTreeViewFromDiff();
+            gdp.populateMetadataTreeViewFromDiff(treeNodeDiffs);
             gdp.Show();
         }
 

@@ -16,7 +16,8 @@ namespace SalesforceMetadata
         public static String buildZipFileWithPackageXml(TreeNodeCollection tndNodes, 
                                                  String baseFolderPath, 
                                                  String deployFrom,
-                                                 String projectFolder)
+                                                 String projectFolder,
+                                                 String changeSetName)
         {
             Dictionary<String, HashSet<String>> packageXml = new Dictionary<String, HashSet<String>>();
             HashSet<String> directoryFilesDeleted = new HashSet<String>();
@@ -261,7 +262,7 @@ namespace SalesforceMetadata
             }
 
             // Write out the package.xml file and then build the zip file
-            buildPackageXmlFile(packageXml, folderPath);
+            buildPackageXmlFile(packageXml, folderPath, changeSetName);
 
             // Zip up the contents of the folders and package.xml file
             String zipPathAndName = zipUpContents(folderPath, deployFrom);
@@ -294,7 +295,7 @@ namespace SalesforceMetadata
             return zipPathAndName;
         }
 
-        private static void buildPackageXmlFile(Dictionary<String, HashSet<String>> packageXml, String folderPath)
+        private static void buildPackageXmlFile(Dictionary<String, HashSet<String>> packageXml, String folderPath, String changeSetName)
         {
             StreamWriter sw = new StreamWriter(folderPath + "\\package.xml", false);
 
@@ -316,10 +317,10 @@ namespace SalesforceMetadata
 
             sw.WriteLine("<version>" + Properties.Settings.Default.DefaultAPI + "</version>");
 
-            //if (this.tbOutboundChangeSetName.Text != "")
-            //{
-            //    sw.WriteLine("<fullName>" + this.tbOutboundChangeSetName.Text + "</fullName>");
-            //}
+            if (changeSetName != "")
+            {
+                sw.WriteLine("<fullName>" + changeSetName + "</fullName>");
+            }
 
             sw.WriteLine("</Package>");
 

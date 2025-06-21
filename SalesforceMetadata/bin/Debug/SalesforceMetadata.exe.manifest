@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SalesforceMetadata.exe" size="7311808">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SalesforceMetadata.exe" size="7313344">
       <assemblyIdentity name="SalesforceMetadata" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>sbmxcfw2TBqUJiiTyEolB6a7ptfZU84mHgG0bMhUGtA=</dsig:DigestValue>
+        <dsig:DigestValue>SxIiMpzi9r/lkytrC7nC4OnCTtZs5GkhFspcqBSGhO8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

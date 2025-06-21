@@ -181,31 +181,33 @@ namespace SalesforceMetadata
 
                     // Better control over whether the parent nodes are null or not
                     // Leave this structure in place as I don't think it can be simplified further
+                    String pathToFile = "";
                     if (tv.SelectedNode.Parent != null)
                     {
                         if (tv.SelectedNode.Parent.Parent != null)
                         {
                             parentFolderNode = tv.SelectedNode.Parent.Parent;
                             parentFileNode = tv.SelectedNode.Parent;
+                            pathToFile = this.tbProjectFolder.Text + "\\" + parentFolderNode.Text + "\\" + parentFileNode.Text + "\\" + tv.SelectedNode.Text;
                         }
                         else
                         {
                             parentFolderNode = tv.SelectedNode.Parent;
-                            parentFileNode = tv.SelectedNode;
+                            pathToFile = this.tbProjectFolder.Text + "\\" + parentFolderNode.Text + "\\" + tv.SelectedNode.Text;
                         }
                     }
 
-                    String pathToFile = "\"" + this.tbProjectFolder.Text + "\\" + parentFolderNode.Text + "\\" + parentFileNode.Text;
+                    //String pathToFile = this.tbProjectFolder.Text + "\\" + parentFolderNode.Text + "\\" + parentFileNode.Text;
 
-                    checkArchiveDirectory(this.tbProjectFolder.Text + "\\" + parentFolderNode.Text + "\\" + parentFileNode.Text);
+                    checkArchiveDirectory(pathToFile);
 
                     if (Properties.Settings.Default.DefaultTextEditorPath == "")
                     {
-                        Process proc = Process.Start(@"notepad.exe", pathToFile);
+                        Process proc = Process.Start(@"notepad.exe", "\"" + pathToFile);
                     }
                     else
                     {
-                        Process proc = Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, pathToFile);
+                        Process proc = Process.Start(@Properties.Settings.Default.DefaultTextEditorPath, "\"" + pathToFile);
                     }
                 }
             }
@@ -1085,7 +1087,8 @@ namespace SalesforceMetadata
             String zipFilePath = ZipFileWithPackageXML.buildZipFileWithPackageXml(this.treeViewMetadata.Nodes,
                                                                                   this.tbBaseFolderPath.Text,
                                                                                   this.tbDeployFrom.Text,
-                                                                                  this.tbProjectFolder.Text);
+                                                                                  this.tbProjectFolder.Text,
+                                                                                  "");
 
             DeployMetadata dm = new DeployMetadata();
             dm.cmbUserName.SelectedItem = this.cmbUserName.Text;
@@ -1175,7 +1178,7 @@ namespace SalesforceMetadata
             String selectedPath = UtilityClass.folderBrowserSelectPath("Select Your Project Folder",
                                                                        false,
                                                                        FolderEnum.SaveTo,
-                                                                       Properties.Settings.Default.DevelopmentSelectedFolder);
+                                                                       Properties.Settings.Default.BaseFolderPath);
 
             if (selectedPath != "")
             {
@@ -1203,10 +1206,29 @@ namespace SalesforceMetadata
 
         private void tbDeployFrom_DoubleClick(object sender, EventArgs e)
         {
-            String selectedPath = UtilityClass.folderBrowserSelectPath("Select The Deploy From Folder",
-                                                                       true,
-                                                                       FolderEnum.SaveTo,
-                                                                       Properties.Settings.Default.DevelopmentDeploymentFolder);
+            String selectedPath = "";
+
+            if (String.IsNullOrEmpty(Properties.Settings.Default.DevelopmentDeploymentFolder) == false)
+            {
+                selectedPath = UtilityClass.folderBrowserSelectPath("Select The Deploy From Folder",
+                                                                     true,
+                                                                     FolderEnum.SaveTo,
+                                                                     Properties.Settings.Default.DevelopmentDeploymentFolder);
+            }
+            else if (String.IsNullOrEmpty(Properties.Settings.Default.BaseFolderPath) == false)
+            {
+                selectedPath = UtilityClass.folderBrowserSelectPath("Select The Deploy From Folder",
+                                                                     true,
+                                                                     FolderEnum.SaveTo,
+                                                                     Properties.Settings.Default.BaseFolderPath);
+            }
+            else
+            {
+                selectedPath = UtilityClass.folderBrowserSelectPath("Select The Deploy From Folder",
+                                                                     true,
+                                                                     FolderEnum.SaveTo,
+                                                                     "");
+            }
 
             if (selectedPath != "")
             {
@@ -1230,10 +1252,29 @@ namespace SalesforceMetadata
 
         private void tbRepository_DoubleClick(object sender, EventArgs e)
         {
-            String selectedPath = UtilityClass.folderBrowserSelectPath("Select the path to the Repository",
-                                                                       true,
-                                                                       FolderEnum.SaveTo,
-                                                                       Properties.Settings.Default.RepositoryPath);
+            String selectedPath = "";
+
+            if (String.IsNullOrEmpty(Properties.Settings.Default.RepositoryPath) == false)
+            {
+                selectedPath = UtilityClass.folderBrowserSelectPath("Select the path to the Repository",
+                                                                     true,
+                                                                     FolderEnum.SaveTo,
+                                                                     Properties.Settings.Default.RepositoryPath);
+            }
+            else if (String.IsNullOrEmpty(Properties.Settings.Default.BaseFolderPath) == false)
+            {
+                selectedPath = UtilityClass.folderBrowserSelectPath("Select the path to the Repository",
+                                                                     true,
+                                                                     FolderEnum.SaveTo,
+                                                                     Properties.Settings.Default.BaseFolderPath);
+            }
+            else
+            {
+                selectedPath = UtilityClass.folderBrowserSelectPath("Select the path to the Repository",
+                                                                     true,
+                                                                     FolderEnum.SaveTo,
+                                                                     "");
+            }
 
             if (selectedPath != "")
             {
@@ -1267,6 +1308,7 @@ namespace SalesforceMetadata
             {
                 this.tbBaseFolderPath.Text = fbd.SelectedPath;
                 Properties.Settings.Default.BaseFolderPath = fbd.SelectedPath;
+                Properties.Settings.Default.Save();
             }
         }
 
@@ -1335,26 +1377,28 @@ namespace SalesforceMetadata
                                                                    currDtTime.Hour.ToString() + "_" +
                                                                    currDtTime.Minute.ToString() + "_" +
                                                                    currDtTime.Second.ToString() + "." + fileNameSplit[1];
+                try
+                {
+                    File.Copy(fileToCopy, copiedFileName);
 
-                File.Copy(fileToCopy, copiedFileName);
-
-                StreamWriter sw = new StreamWriter(logFile, true);
-                sw.Write(fileNameSplit[0] + "\t" +
-                         fileNameSplit[1] + "\t" +
-                         currDtTime.Year.ToString() + "\t" +
-                         currDtTime.Month.ToString() + "\t" +
-                         currDtTime.Day.ToString() + "\t" +
-                         currDtTime.Hour.ToString() + "\t" +
-                         currDtTime.Minute.ToString() + "\t" +
-                         currDtTime.Second.ToString() + "\t" +
-                         "Opened" + Environment.NewLine);
-                sw.Close();
+                    StreamWriter sw = new StreamWriter(logFile, true);
+                    sw.Write(fileNameSplit[0] + "\t" +
+                             fileNameSplit[1] + "\t" +
+                             currDtTime.Year.ToString() + "\t" +
+                             currDtTime.Month.ToString() + "\t" +
+                             currDtTime.Day.ToString() + "\t" +
+                             currDtTime.Hour.ToString() + "\t" +
+                             currDtTime.Minute.ToString() + "\t" +
+                             currDtTime.Second.ToString() + "\t" +
+                             "Opened" + Environment.NewLine);
+                    sw.Close();
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show("Error copying file to Code Archive folder: " + exc.Message);
+                    return;
+                }
             }
-        }
-
-        private void checkRepositoryForFile()
-        {
-
         }
 
         private void btnBuildERD_Click(object sender, EventArgs e)
@@ -1643,8 +1687,8 @@ namespace SalesforceMetadata
             bypassTextChange = true;
 
             NewFilePath nfp = new NewFilePath();
-            nfp.tbSolutionFolderPath.Text = Properties.Settings.Default.ProjectFilePath;
-            nfp.lastSolutionFolder = Properties.Settings.Default.ProjectFilePath;
+            nfp.baseFolderPath = Properties.Settings.Default.BaseFolderPath;
+            nfp.tbBaseFolderPath.Text = Properties.Settings.Default.BaseFolderPath;
             nfp.Show();
 
             Action act = () => createNewProjectFile(nfp, this);
@@ -1664,7 +1708,7 @@ namespace SalesforceMetadata
                         StreamWriter sw = new StreamWriter(nfp.solutionFilePath);
                         sw.Close();
 
-                        var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteProjectFileToTB(nfp.solutionFilePath, devEnvFrm); });
+                        var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteProjectFileToTB(nfp.baseFolderPath, nfp.solutionFolderPath, nfp.solutionFilePath, devEnvFrm); });
                         var thread1 = new System.Threading.Thread(threadParameters1);
                         thread1.Start();
                         while (thread1.ThreadState == System.Threading.ThreadState.Running)
@@ -1677,30 +1721,29 @@ namespace SalesforceMetadata
         }
 
         // Threadsafe way to write back to the form's textbox
-        public void tsWriteProjectFileToTB(String tbValue, DevelopmentEnvironment devEnvFrm)
+        public void tsWriteProjectFileToTB(String baseFolder, String solutionFolder, String solutionFile, DevelopmentEnvironment devEnvFrm)
         {
             if (devEnvFrm.tbProjectFile.InvokeRequired)
             {
-                Action safeWrite = delegate { tsWriteProjectFileToTB($"{tbValue}", devEnvFrm); };
+                Action safeWrite = delegate { tsWriteProjectFileToTB($"{baseFolder}", $"{solutionFolder}", $"{solutionFile}", devEnvFrm); };
                 devEnvFrm.tbProjectFile.Invoke(safeWrite);
             }
             else
             {
-                devEnvFrm.tbProjectFile.Text = tbValue;
+                devEnvFrm.tbBaseFolderPath.Text = baseFolder;
+                devEnvFrm.tbProjectFolder.Text = solutionFolder;
+                devEnvFrm.tbProjectFile.Text = solutionFile;
                 devEnvFrm.cmbUserName.Text = "";
                 devEnvFrm.tbDeployFrom.Text = "";
-                devEnvFrm.tbProjectFolder.Text = "";
                 devEnvFrm.tbRepository.Text = "";
-                devEnvFrm.tbBaseFolderPath.Text = "";
+
+                Properties.Settings.Default.BaseFolderPath = baseFolder;
+                Properties.Settings.Default.DevelopmentSelectedFolder = solutionFolder;
+                Properties.Settings.Default.RecentProjectPath = solutionFile;
             }
 
-            Properties.Settings.Default.ProjectFilePath = tbValue;
-            Properties.Settings.Default.DevelopmentSelectedFolder = "";
             Properties.Settings.Default.DevelopmentDeploymentFolder = "";
             Properties.Settings.Default.RepositoryPath = "";
-            Properties.Settings.Default.RecentProjectPath = "";
-            Properties.Settings.Default.BaseFolderPath = "";
-
             Properties.Settings.Default.Save();
         }
 

@@ -13,16 +13,43 @@ namespace SalesforceMetadata
     public partial class NewFilePath : Form
     {
         public String lastSolutionFolder;
+        public String baseFolderPath;
+        public String solutionFolderPath;
         public String solutionFilePath;
+
         public NewFilePath()
         {
             InitializeComponent();
         }
 
+        private void tbBaseFolderPath_DoubleClick(object sender, EventArgs e)
+        {
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Select Base Folder", 
+                                                                       true, 
+                                                                       FolderEnum.SaveTo, 
+                                                                       Properties.Settings.Default.BaseFolderPath);
+
+            if (selectedPath != "")
+            {
+                this.tbBaseFolderPath.Text = selectedPath;
+                Properties.Settings.Default.BaseFolderPath = this.tbBaseFolderPath.Text;
+                Properties.Settings.Default.Save();
+            }
+        }
+
         private void tbSolutionFolderPath_DoubleClick(object sender, EventArgs e)
         {
-            this.tbSolutionFolderPath.Text = UtilityClass.folderBrowserSelectPath("Select Solution Folder", true, FolderEnum.SaveTo, lastSolutionFolder);
-            this.lastSolutionFolder = this.tbSolutionFolderPath.Text;
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Select Solution Folder",
+                                                                       true,
+                                                                       FolderEnum.SaveTo,
+                                                                       Properties.Settings.Default.BaseFolderPath);
+
+            if (selectedPath != "")
+            {
+                this.solutionFolderPath = selectedPath;
+                this.tbSolutionFolderPath.Text = selectedPath;
+                this.lastSolutionFolder = selectedPath;
+            }
         }
 
         public void btnOK_Click(object sender, EventArgs e)

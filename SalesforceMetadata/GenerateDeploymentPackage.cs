@@ -1853,7 +1853,8 @@ namespace SalesforceMetadata
                 String zipFilePath = ZipFileWithPackageXML.buildZipFileWithPackageXml(this.treeViewMetadata.Nodes,
                                                                                       "",
                                                                                       this.tbDeployFrom.Text,
-                                                                                      this.tbProjectFolder.Text);
+                                                                                      this.tbProjectFolder.Text,
+                                                                                      this.tbOutboundChangeSetName.Text);
 
                 DeployMetadata dm = new DeployMetadata();
                 dm.tbZipFileLocation.Text = zipFilePath;

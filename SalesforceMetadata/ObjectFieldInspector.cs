@@ -1077,7 +1077,7 @@ namespace SalesforceMetadata
                 // Prevents duplication in the code below and simplifies the possible complexity
                 List<List<String>> sobjList = new List<List<string>>();
                 List<string> sobjListVals = new List<string>();
-                sobjList.Add(sobjListVals);
+                //sobjList.Add(sobjListVals);
 
                 if (sobjectListBox.CheckedItems.Count > 25)
                 {

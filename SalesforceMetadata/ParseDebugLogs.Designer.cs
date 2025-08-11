@@ -45,6 +45,7 @@
             this.lblFolder = new System.Windows.Forms.Label();
             this.tbFolderPath = new System.Windows.Forms.TextBox();
             this.btnParseFolderDebubLogs = new System.Windows.Forms.Button();
+            this.btnDeleteAPILogs = new System.Windows.Forms.Button();
             this.fromOrgGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.debugLogsDataTable)).BeginInit();
             this.SuspendLayout();
@@ -233,10 +234,21 @@
             this.btnParseFolderDebubLogs.UseVisualStyleBackColor = true;
             this.btnParseFolderDebubLogs.Click += new System.EventHandler(this.btnParseFolderDebubLogs_Click);
             // 
+            // btnDeleteAPILogs
+            // 
+            this.btnDeleteAPILogs.Location = new System.Drawing.Point(1042, 97);
+            this.btnDeleteAPILogs.Name = "btnDeleteAPILogs";
+            this.btnDeleteAPILogs.Size = new System.Drawing.Size(194, 23);
+            this.btnDeleteAPILogs.TabIndex = 14;
+            this.btnDeleteAPILogs.Text = "Delete API Logs";
+            this.btnDeleteAPILogs.UseVisualStyleBackColor = true;
+            this.btnDeleteAPILogs.Click += new System.EventHandler(this.btnDeleteAPILogs_Click);
+            // 
             // ParseDebugLogs
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1435, 884);
+            this.Controls.Add(this.btnDeleteAPILogs);
             this.Controls.Add(this.btnParseFolderDebubLogs);
             this.Controls.Add(this.tbFolderPath);
             this.Controls.Add(this.lblFolder);
@@ -281,5 +293,6 @@
         private System.Windows.Forms.Label lblFolder;
         private System.Windows.Forms.TextBox tbFolderPath;
         private System.Windows.Forms.Button btnParseFolderDebubLogs;
+        private System.Windows.Forms.Button btnDeleteAPILogs;
     }
 }

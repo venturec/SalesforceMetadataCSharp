@@ -47,7 +47,7 @@
             this.visualforceComponentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblNote = new System.Windows.Forms.Label();
             this.treeViewMetadata = new System.Windows.Forms.TreeView();
-            this.tbProjectFolder = new System.Windows.Forms.TextBox();
+            this.tbSourceCodeFolder = new System.Windows.Forms.TextBox();
             this.lblProjectFolder = new System.Windows.Forms.Label();
             this.lblDeploymentFolder = new System.Windows.Forms.Label();
             this.tbDeployFrom = new System.Windows.Forms.TextBox();
@@ -230,15 +230,15 @@
             this.treeViewMetadata.Click += new System.EventHandler(this.treeViewMetadata_Click);
             this.treeViewMetadata.DoubleClick += new System.EventHandler(this.treeViewMetadata_DoubleClick);
             // 
-            // tbProjectFolder
+            // tbSourceCodeFolder
             // 
-            this.tbProjectFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbProjectFolder.Location = new System.Drawing.Point(184, 104);
-            this.tbProjectFolder.Name = "tbProjectFolder";
-            this.tbProjectFolder.Size = new System.Drawing.Size(703, 23);
-            this.tbProjectFolder.TabIndex = 4;
-            this.tbProjectFolder.TextChanged += new System.EventHandler(this.tbProjectFolder_TextChanged);
-            this.tbProjectFolder.DoubleClick += new System.EventHandler(this.tbProjectFolder_DoubleClick);
+            this.tbSourceCodeFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbSourceCodeFolder.Location = new System.Drawing.Point(184, 104);
+            this.tbSourceCodeFolder.Name = "tbSourceCodeFolder";
+            this.tbSourceCodeFolder.Size = new System.Drawing.Size(703, 23);
+            this.tbSourceCodeFolder.TabIndex = 4;
+            this.tbSourceCodeFolder.TextChanged += new System.EventHandler(this.tbProjectFolder_TextChanged);
+            this.tbSourceCodeFolder.DoubleClick += new System.EventHandler(this.tbProjectFolder_DoubleClick);
             // 
             // lblProjectFolder
             // 
@@ -246,9 +246,9 @@
             this.lblProjectFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProjectFolder.Location = new System.Drawing.Point(17, 104);
             this.lblProjectFolder.Name = "lblProjectFolder";
-            this.lblProjectFolder.Size = new System.Drawing.Size(110, 17);
+            this.lblProjectFolder.Size = new System.Drawing.Size(152, 17);
             this.lblProjectFolder.TabIndex = 3;
-            this.lblProjectFolder.Text = "Project Folder";
+            this.lblProjectFolder.Text = "Source Code Folder";
             // 
             // lblDeploymentFolder
             // 
@@ -496,7 +496,7 @@
             this.Controls.Add(this.tbDeployFrom);
             this.Controls.Add(this.lblDeploymentFolder);
             this.Controls.Add(this.lblProjectFolder);
-            this.Controls.Add(this.tbProjectFolder);
+            this.Controls.Add(this.tbSourceCodeFolder);
             this.Controls.Add(this.treeViewMetadata);
             this.Controls.Add(this.lblNote);
             this.Controls.Add(msIDE);
@@ -518,7 +518,7 @@
 
         private System.Windows.Forms.Label lblNote;
         public System.Windows.Forms.TreeView treeViewMetadata;
-        public System.Windows.Forms.TextBox tbProjectFolder;
+        public System.Windows.Forms.TextBox tbSourceCodeFolder;
         private System.Windows.Forms.Label lblProjectFolder;
         private System.Windows.Forms.Label lblDeploymentFolder;
         public System.Windows.Forms.TextBox tbDeployFrom;

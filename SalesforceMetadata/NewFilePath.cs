@@ -14,8 +14,9 @@ namespace SalesforceMetadata
     {
         public String lastSolutionFolder;
         public String baseFolderPath;
-        public String solutionFolderPath;
-        public String solutionFilePath;
+        public String sourceCodeFolderPath;
+        public String projectSolutionFolderPath;
+        public String projectSolutionFilePath;
 
         public NewFilePath()
         {
@@ -37,7 +38,20 @@ namespace SalesforceMetadata
             }
         }
 
-        private void tbSolutionFolderPath_DoubleClick(object sender, EventArgs e)
+        private void tbSourceCodeFolder_DoubleClick(object sender, EventArgs e)
+        {
+            String selectedPath = UtilityClass.folderBrowserSelectPath("Select Source Code Folder",
+                                                                       true,
+                                                                       FolderEnum.SaveTo,
+                                                                       Properties.Settings.Default.BaseFolderPath);
+            if (selectedPath != "")
+            {
+                this.sourceCodeFolderPath = selectedPath;
+                this.tbSourceCodeFolder.Text = selectedPath;
+            }
+        }
+
+        private void tbProjectSolutionFolderPath_DoubleClick(object sender, EventArgs e)
         {
             String selectedPath = UtilityClass.folderBrowserSelectPath("Select Solution Folder",
                                                                        true,
@@ -46,21 +60,21 @@ namespace SalesforceMetadata
 
             if (selectedPath != "")
             {
-                this.solutionFolderPath = selectedPath;
-                this.tbSolutionFolderPath.Text = selectedPath;
+                this.projectSolutionFolderPath = selectedPath;
+                this.tbProjectSolutionFolderPath.Text = selectedPath;
                 this.lastSolutionFolder = selectedPath;
             }
         }
 
         public void btnOK_Click(object sender, EventArgs e)
         {
-            if (this.tbSolutionFolderPath.Text == null || this.tbSolutionFileName.Text == null)
+            if (this.tbProjectSolutionFolderPath.Text == null || this.tbSolutionFileName.Text == null)
             {
                 MessageBox.Show("Please popule the Solution Folder and/or Solution File Name first before clicking OK");
             }
             else
             {
-                this.solutionFilePath = this.tbSolutionFolderPath.Text + "\\" + this.tbSolutionFileName.Text + ".sln";
+                this.projectSolutionFilePath = this.tbProjectSolutionFolderPath.Text + "\\" + this.tbSolutionFileName.Text + ".sln";
                 this.Close();
             }
         }

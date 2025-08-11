@@ -1278,114 +1278,116 @@ namespace SalesforceMetadata
                 selectStatement = "SELECT Id FROM ApexLog WHERE LogUserId = \'" + userId + "\'";
             }
 
-            SalesforceMetadata.PartnerWSDL.QueryResult qr = new SalesforceMetadata.PartnerWSDL.QueryResult();
+            deleteDebugLogProcess(selectStatement);
 
-            try
-            {
-                qr = sc.fromOrgSS.query(selectStatement);
+            //SalesforceMetadata.PartnerWSDL.QueryResult qr = new SalesforceMetadata.PartnerWSDL.QueryResult();
 
-                if (qr.size > 2000)
-                {
-                    Boolean done = false;
+            //try
+            //{
+            //    qr = sc.fromOrgSS.query(selectStatement);
 
-                    while (!done)
-                    {
-                        SalesforceMetadata.PartnerWSDL.sObject[] sobjRecords = qr.records;
+            //    if (qr.size > 2000)
+            //    {
+            //        Boolean done = false;
 
-                        Dictionary<Int32, List<String>> recordIdsToDelete = new Dictionary<Int32, List<String>>();
+            //        while (!done)
+            //        {
+            //            SalesforceMetadata.PartnerWSDL.sObject[] sobjRecords = qr.records;
 
-                        Int32 i = 0;
-                        List<String> rtds = new List<String>();
+            //            Dictionary<Int32, List<String>> recordIdsToDelete = new Dictionary<Int32, List<String>>();
 
-                        if (sobjRecords == null)
-                        {
+            //            Int32 i = 0;
+            //            List<String> rtds = new List<String>();
 
-                        }
-                        else
-                        {
-                            foreach (SalesforceMetadata.PartnerWSDL.sObject s in sobjRecords)
-                            {
-                                if (rtds.Count < 200)
-                                {
-                                    rtds.Add(s.Id);
-                                }
-                                else
-                                {
-                                    recordIdsToDelete.Add(i, rtds);
-                                    rtds = new List<String>();
-                                    rtds.Add(s.Id);
+            //            if (sobjRecords == null)
+            //            {
 
-                                    i++;
-                                }
-                            }
+            //            }
+            //            else
+            //            {
+            //                foreach (SalesforceMetadata.PartnerWSDL.sObject s in sobjRecords)
+            //                {
+            //                    if (rtds.Count < 200)
+            //                    {
+            //                        rtds.Add(s.Id);
+            //                    }
+            //                    else
+            //                    {
+            //                        recordIdsToDelete.Add(i, rtds);
+            //                        rtds = new List<String>();
+            //                        rtds.Add(s.Id);
 
-                            if (rtds.Count > 0)
-                            {
-                                recordIdsToDelete.Add(i, rtds);
-                                rtds = new List<String>();
-                            }
+            //                        i++;
+            //                    }
+            //                }
 
-                            foreach (Int32 rtd in recordIdsToDelete.Keys)
-                            {
-                                if (recordIdsToDelete[rtd].Count > 0)
-                                {
-                                    PartnerWSDL.DeleteResult[] dr = sc.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
-                                }
-                            }
+            //                if (rtds.Count > 0)
+            //                {
+            //                    recordIdsToDelete.Add(i, rtds);
+            //                    rtds = new List<String>();
+            //                }
 
-                            if (!qr.done)
-                            {
-                                qr = sc.fromOrgSS.queryMore(qr.queryLocator);
-                            }
-                            else
-                            {
-                                done = true;
-                            }
-                        }
-                    }
-                }
-                else if (qr.records != null)
-                {
-                    SalesforceMetadata.PartnerWSDL.sObject[] sobjRecords = qr.records;
-                    Dictionary<Int32, List<String>> recordIdsToDelete = new Dictionary<Int32, List<String>>();
+            //                foreach (Int32 rtd in recordIdsToDelete.Keys)
+            //                {
+            //                    if (recordIdsToDelete[rtd].Count > 0)
+            //                    {
+            //                        PartnerWSDL.DeleteResult[] dr = sc.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
+            //                    }
+            //                }
 
-                    Int32 i = 0;
-                    List<String> rtds = new List<String>();
-                    foreach (SalesforceMetadata.PartnerWSDL.sObject s in sobjRecords)
-                    {
-                        if (rtds.Count < 200)
-                        {
-                            rtds.Add(s.Id);
-                        }
-                        else
-                        {
-                            recordIdsToDelete.Add(i, rtds);
-                            rtds = new List<String>();
-                            rtds.Add(s.Id);
+            //                if (!qr.done)
+            //                {
+            //                    qr = sc.fromOrgSS.queryMore(qr.queryLocator);
+            //                }
+            //                else
+            //                {
+            //                    done = true;
+            //                }
+            //            }
+            //        }
+            //    }
+            //    else if (qr.records != null)
+            //    {
+            //        SalesforceMetadata.PartnerWSDL.sObject[] sobjRecords = qr.records;
+            //        Dictionary<Int32, List<String>> recordIdsToDelete = new Dictionary<Int32, List<String>>();
 
-                            i++;
-                        }
-                    }
+            //        Int32 i = 0;
+            //        List<String> rtds = new List<String>();
+            //        foreach (SalesforceMetadata.PartnerWSDL.sObject s in sobjRecords)
+            //        {
+            //            if (rtds.Count < 200)
+            //            {
+            //                rtds.Add(s.Id);
+            //            }
+            //            else
+            //            {
+            //                recordIdsToDelete.Add(i, rtds);
+            //                rtds = new List<String>();
+            //                rtds.Add(s.Id);
 
-                    if (rtds.Count > 0)
-                    {
-                        recordIdsToDelete.Add(i, rtds);
-                        rtds = new List<String>();
-                    }
+            //                i++;
+            //            }
+            //        }
 
-                    foreach (Int32 rtd in recordIdsToDelete.Keys)
-                    {
-                        if (recordIdsToDelete[rtd].Count > 0)
-                        {
-                            PartnerWSDL.DeleteResult[] dr = sc.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
-                        }
-                    }
-                }
-            }
-            catch (Exception exc)
-            {
-                MessageBox.Show(exc.Message);
-            }
+            //        if (rtds.Count > 0)
+            //        {
+            //            recordIdsToDelete.Add(i, rtds);
+            //            rtds = new List<String>();
+            //        }
+
+            //        foreach (Int32 rtd in recordIdsToDelete.Keys)
+            //        {
+            //            if (recordIdsToDelete[rtd].Count > 0)
+            //            {
+            //                PartnerWSDL.DeleteResult[] dr = sc.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
+            //            }
+            //        }
+            //    }
+            //}
+            //catch (Exception exc)
+            //{
+            //    MessageBox.Show(exc.Message);
+            //}
 
             MessageBox.Show("Debug log delete process completed");
 
@@ -1589,6 +1591,159 @@ while (!done)
 
         }
 
+        private void btnDeleteAPILogs_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(this.cmbUserName.Text))
+            {
+                MessageBox.Show("Please select a username and enter the password first before continuing");
+                return;
+            }
+
+            try
+            {
+                sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+                return;
+            }
+
+            if (sc.loginSuccess == false)
+            {
+                MessageBox.Show("Please check username, password and/or security token");
+                return;
+            }
+
+            String selectStatement = "";
+            if (cbAllDebugLogs.Checked)
+            {
+                // TODO: message box confirmation that they are going to delete everyone's debug log files including their own
+
+                selectStatement = "SELECT Id FROM ApexLog WHERE Request = \'API\'";
+            }
+            else
+            {
+                String userId = "";
+                userId = sc.fromOrgLR.userId;
+
+                selectStatement = "SELECT Id FROM ApexLog WHERE LogUserId = \'" + userId + "\' AND Request = \'Api\'";
+            }
+
+            deleteDebugLogProcess(selectStatement);
+        }
+
+        private void deleteDebugLogProcess(String selectStatement)
+        {
+            SalesforceMetadata.PartnerWSDL.QueryResult qr = new SalesforceMetadata.PartnerWSDL.QueryResult();
+
+            try
+            {
+                qr = sc.fromOrgSS.query(selectStatement);
+
+                if (qr.size > 2000)
+                {
+                    Boolean done = false;
+
+                    while (!done)
+                    {
+                        SalesforceMetadata.PartnerWSDL.sObject[] sobjRecords = qr.records;
+
+                        Dictionary<Int32, List<String>> recordIdsToDelete = new Dictionary<Int32, List<String>>();
+
+                        Int32 i = 0;
+                        List<String> rtds = new List<String>();
+
+                        if (sobjRecords == null)
+                        {
+
+                        }
+                        else
+                        {
+                            foreach (SalesforceMetadata.PartnerWSDL.sObject s in sobjRecords)
+                            {
+                                if (rtds.Count < 200)
+                                {
+                                    rtds.Add(s.Id);
+                                }
+                                else
+                                {
+                                    recordIdsToDelete.Add(i, rtds);
+                                    rtds = new List<String>();
+                                    rtds.Add(s.Id);
+
+                                    i++;
+                                }
+                            }
+
+                            if (rtds.Count > 0)
+                            {
+                                recordIdsToDelete.Add(i, rtds);
+                                rtds = new List<String>();
+                            }
+
+                            foreach (Int32 rtd in recordIdsToDelete.Keys)
+                            {
+                                if (recordIdsToDelete[rtd].Count > 0)
+                                {
+                                    PartnerWSDL.DeleteResult[] dr = sc.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
+                                }
+                            }
+
+                            if (!qr.done)
+                            {
+                                qr = sc.fromOrgSS.queryMore(qr.queryLocator);
+                            }
+                            else
+                            {
+                                done = true;
+                            }
+                        }
+                    }
+                }
+                else if (qr.records != null)
+                {
+                    SalesforceMetadata.PartnerWSDL.sObject[] sobjRecords = qr.records;
+                    Dictionary<Int32, List<String>> recordIdsToDelete = new Dictionary<Int32, List<String>>();
+
+                    Int32 i = 0;
+                    List<String> rtds = new List<String>();
+                    foreach (SalesforceMetadata.PartnerWSDL.sObject s in sobjRecords)
+                    {
+                        if (rtds.Count < 200)
+                        {
+                            rtds.Add(s.Id);
+                        }
+                        else
+                        {
+                            recordIdsToDelete.Add(i, rtds);
+                            rtds = new List<String>();
+                            rtds.Add(s.Id);
+
+                            i++;
+                        }
+                    }
+
+                    if (rtds.Count > 0)
+                    {
+                        recordIdsToDelete.Add(i, rtds);
+                        rtds = new List<String>();
+                    }
+
+                    foreach (Int32 rtd in recordIdsToDelete.Keys)
+                    {
+                        if (recordIdsToDelete[rtd].Count > 0)
+                        {
+                            PartnerWSDL.DeleteResult[] dr = sc.fromOrgSS.delete(recordIdsToDelete[rtd].ToArray());
+                        }
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+        }
 
     }
 }

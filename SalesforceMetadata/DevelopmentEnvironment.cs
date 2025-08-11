@@ -64,18 +64,18 @@ namespace SalesforceMetadata
         }
         public void populateTreeView()
         {
-            if (Directory.Exists(this.tbProjectFolder.Text))
+            if (Directory.Exists(this.tbSourceCodeFolder.Text))
             {
                 mainFolderNames = new HashSet<string>();
                 tnListAddDependencies = new Dictionary<String, TreeNode>();
                 tnListRemoveDependencies = new Dictionary<String, TreeNode>();
 
-                if (this.tbProjectFolder.Text != null
-                    && this.tbProjectFolder.Text != "")
+                if (this.tbSourceCodeFolder.Text != null
+                    && this.tbSourceCodeFolder.Text != "")
                 {
                     this.treeViewMetadata.Nodes.Clear();
 
-                    String[] folders = Directory.GetDirectories(this.tbProjectFolder.Text);
+                    String[] folders = Directory.GetDirectories(this.tbSourceCodeFolder.Text);
                     foreach (String folderName in folders)
                     {
                         String[] folderNameSplit = folderName.Split('\\');
@@ -188,12 +188,12 @@ namespace SalesforceMetadata
                         {
                             parentFolderNode = tv.SelectedNode.Parent.Parent;
                             parentFileNode = tv.SelectedNode.Parent;
-                            pathToFile = this.tbProjectFolder.Text + "\\" + parentFolderNode.Text + "\\" + parentFileNode.Text + "\\" + tv.SelectedNode.Text;
+                            pathToFile = this.tbSourceCodeFolder.Text + "\\" + parentFolderNode.Text + "\\" + parentFileNode.Text + "\\" + tv.SelectedNode.Text;
                         }
                         else
                         {
                             parentFolderNode = tv.SelectedNode.Parent;
-                            pathToFile = this.tbProjectFolder.Text + "\\" + parentFolderNode.Text + "\\" + tv.SelectedNode.Text;
+                            pathToFile = this.tbSourceCodeFolder.Text + "\\" + parentFolderNode.Text + "\\" + tv.SelectedNode.Text;
                         }
                     }
 
@@ -1081,13 +1081,13 @@ namespace SalesforceMetadata
             }
 
             ZipFileWithPackageXML.copySelectedToRepository(this.treeViewMetadata.Nodes,
-                                                           this.tbProjectFolder.Text,
+                                                           this.tbSourceCodeFolder.Text,
                                                            this.tbRepository.Text);
 
             String zipFilePath = ZipFileWithPackageXML.buildZipFileWithPackageXml(this.treeViewMetadata.Nodes,
                                                                                   this.tbBaseFolderPath.Text,
                                                                                   this.tbDeployFrom.Text,
-                                                                                  this.tbProjectFolder.Text,
+                                                                                  this.tbSourceCodeFolder.Text,
                                                                                   "");
 
             DeployMetadata dm = new DeployMetadata();
@@ -1150,7 +1150,7 @@ namespace SalesforceMetadata
                 SalesforceMetadataStep2 sfMetadataStep2 = new SalesforceMetadataStep2();
                 sfMetadataStep2.userName = this.cmbUserName.Text;
                 sfMetadataStep2.selectedItems = packageXmlMembers;
-                sfMetadataStep2.tbFromOrgSaveLocation.Text = this.tbProjectFolder.Text;
+                sfMetadataStep2.tbFromOrgSaveLocation.Text = this.tbSourceCodeFolder.Text;
 
                 try
                 {
@@ -1182,7 +1182,7 @@ namespace SalesforceMetadata
 
             if (selectedPath != "")
             {
-                this.tbProjectFolder.Text = selectedPath;
+                this.tbSourceCodeFolder.Text = selectedPath;
                 Properties.Settings.Default.DevelopmentSelectedFolder = selectedPath;
                 Properties.Settings.Default.Save();
 
@@ -1196,7 +1196,7 @@ namespace SalesforceMetadata
         {
             if (bypassTextChange == true) return;
 
-            Properties.Settings.Default.DevelopmentSelectedFolder = this.tbProjectFolder.Text;
+            Properties.Settings.Default.DevelopmentSelectedFolder = this.tbSourceCodeFolder.Text;
             Properties.Settings.Default.Save();
 
             this.projectValuesChanged = true;
@@ -1434,7 +1434,7 @@ namespace SalesforceMetadata
                         else if (tnd1.Text == "lwc")
                         {
                             TreeNode tnd2 = tnd1.Nodes.Add(e.filesCreated[0]);
-                            String[] lwcfiles = Directory.GetFiles(this.tbProjectFolder.Text + "\\lwc\\" + e.filesCreated[0]);
+                            String[] lwcfiles = Directory.GetFiles(this.tbSourceCodeFolder.Text + "\\lwc\\" + e.filesCreated[0]);
 
                             foreach (String lwcfile in lwcfiles)
                             {
@@ -1465,14 +1465,14 @@ namespace SalesforceMetadata
         }
         private void btnSearchMetadata_Click(object sender, EventArgs e)
         {
-            if (this.tbProjectFolder.Text == "")
+            if (this.tbSourceCodeFolder.Text == "")
             {
                 MessageBox.Show("Please select a project folder to search first");
             }
             else
             {
                 SearchForm srch = new SearchForm();
-                srch.tbSearchLocation.Text = this.tbProjectFolder.Text;
+                srch.tbSearchLocation.Text = this.tbSourceCodeFolder.Text;
                 srch.Show();
             }
         }
@@ -1693,6 +1693,8 @@ namespace SalesforceMetadata
 
             Action act = () => createNewProjectFile(nfp, this);
             System.Threading.Tasks.Task tsk = System.Threading.Tasks.Task.Run(act);
+
+            //this.populateTreeView();
         }
 
         private void createNewProjectFile(NewFilePath nfp, DevelopmentEnvironment devEnvFrm)
@@ -1703,12 +1705,12 @@ namespace SalesforceMetadata
             {
                 if (nfp.Disposing == true)
                 {
-                    if (nfp.solutionFilePath != null)
+                    if (nfp.projectSolutionFilePath != null)
                     {
-                        StreamWriter sw = new StreamWriter(nfp.solutionFilePath);
+                        StreamWriter sw = new StreamWriter(nfp.projectSolutionFilePath);
                         sw.Close();
 
-                        var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteProjectFileToTB(nfp.baseFolderPath, nfp.solutionFolderPath, nfp.solutionFilePath, devEnvFrm); });
+                        var threadParameters1 = new System.Threading.ThreadStart(delegate { tsWriteProjectFileToTB(nfp.baseFolderPath, nfp.sourceCodeFolderPath, nfp.projectSolutionFilePath, devEnvFrm); });
                         var thread1 = new System.Threading.Thread(threadParameters1);
                         thread1.Start();
                         while (thread1.ThreadState == System.Threading.ThreadState.Running)
@@ -1716,30 +1718,37 @@ namespace SalesforceMetadata
                             // do nothing. Just want for the thread to complete
                         }
                     }
+
+                    windowOpen = false;
                 }
             }
         }
 
         // Threadsafe way to write back to the form's textbox
-        public void tsWriteProjectFileToTB(String baseFolder, String solutionFolder, String solutionFile, DevelopmentEnvironment devEnvFrm)
+        public void tsWriteProjectFileToTB(String baseFolder, String sourceCodeFolderPath, String projectSolutionFilePath, DevelopmentEnvironment devEnvFrm)
         {
             if (devEnvFrm.tbProjectFile.InvokeRequired)
             {
-                Action safeWrite = delegate { tsWriteProjectFileToTB($"{baseFolder}", $"{solutionFolder}", $"{solutionFile}", devEnvFrm); };
+                Action safeWrite = delegate { tsWriteProjectFileToTB($"{baseFolder}", $"{sourceCodeFolderPath}", $"{projectSolutionFilePath}", devEnvFrm); };
                 devEnvFrm.tbProjectFile.Invoke(safeWrite);
             }
             else
             {
+                devEnvFrm.tbProjectFile.Text = projectSolutionFilePath;
+                devEnvFrm.tbSourceCodeFolder.Text = sourceCodeFolderPath;
                 devEnvFrm.tbBaseFolderPath.Text = baseFolder;
-                devEnvFrm.tbProjectFolder.Text = solutionFolder;
-                devEnvFrm.tbProjectFile.Text = solutionFile;
                 devEnvFrm.cmbUserName.Text = "";
                 devEnvFrm.tbDeployFrom.Text = "";
                 devEnvFrm.tbRepository.Text = "";
 
                 Properties.Settings.Default.BaseFolderPath = baseFolder;
-                Properties.Settings.Default.DevelopmentSelectedFolder = solutionFolder;
-                Properties.Settings.Default.RecentProjectPath = solutionFile;
+                Properties.Settings.Default.DevelopmentSelectedFolder = sourceCodeFolderPath;
+                Properties.Settings.Default.RecentProjectPath = projectSolutionFilePath;
+
+                if(devEnvFrm.tbSourceCodeFolder.Text != "")
+                {
+                    devEnvFrm.populateTreeView();
+                }
             }
 
             Properties.Settings.Default.DevelopmentDeploymentFolder = "";
@@ -1805,13 +1814,13 @@ namespace SalesforceMetadata
                 this.cmbUserName.Text = username;
             }
 
-            this.tbProjectFolder.Text = sr.ReadLine();
+            this.tbSourceCodeFolder.Text = sr.ReadLine();
             this.tbDeployFrom.Text = sr.ReadLine();
             this.tbRepository.Text = sr.ReadLine();
             this.tbBaseFolderPath.Text = sr.ReadLine();
 
             Properties.Settings.Default.ProjectFilePath = this.tbProjectFile.Text;
-            Properties.Settings.Default.DevelopmentSelectedFolder = this.tbProjectFolder.Text;
+            Properties.Settings.Default.DevelopmentSelectedFolder = this.tbSourceCodeFolder.Text;
             Properties.Settings.Default.DevelopmentDeploymentFolder = this.tbDeployFrom.Text;
             Properties.Settings.Default.RepositoryPath = this.tbRepository.Text;
             Properties.Settings.Default.BaseFolderPath = this.tbBaseFolderPath.Text;
@@ -1827,14 +1836,14 @@ namespace SalesforceMetadata
 
         private void addApexTriggerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.tbProjectFolder.Text == "")
+            if (this.tbSourceCodeFolder.Text == "")
             {
                 MessageBox.Show("Please select a Project Solution / Folder before adding new objects");
             }
             else
             {
                 AddObject ao = new AddObject();
-                ao.projectFolderPath = this.tbProjectFolder.Text;
+                ao.projectFolderPath = this.tbSourceCodeFolder.Text;
                 ao.loadSobjectsToCombobox();
                 ao.tbTriggerName.Select();
                 ao.ObjectAdded += AddObject_ObjectAdded;
@@ -1844,14 +1853,14 @@ namespace SalesforceMetadata
 
         private void addApexClassToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.tbProjectFolder.Text == "")
+            if (this.tbSourceCodeFolder.Text == "")
             {
                 MessageBox.Show("Please select a Project Solution / Folder before adding new objects");
             }
             else
             {
                 AddObject ao = new AddObject();
-                ao.projectFolderPath = this.tbProjectFolder.Text;
+                ao.projectFolderPath = this.tbSourceCodeFolder.Text;
                 ao.loadSobjectsToCombobox();
                 ao.tbClassName.Select();
                 ao.ObjectAdded += AddObject_ObjectAdded;
@@ -1862,7 +1871,7 @@ namespace SalesforceMetadata
         private void addLightningWebComponentToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddObject ao = new AddObject();
-            ao.projectFolderPath = this.tbProjectFolder.Text;
+            ao.projectFolderPath = this.tbSourceCodeFolder.Text;
             ao.tbLWCName.Select();
             ao.ObjectAdded += AddObject_ObjectAdded;
             ao.Show();
@@ -1885,7 +1894,7 @@ namespace SalesforceMetadata
         private void btnCopySelectedToRepository_Click(object sender, EventArgs e)
         {
             ZipFileWithPackageXML.copySelectedToRepository(this.treeViewMetadata.Nodes,
-                                                           this.tbProjectFolder.Text,
+                                                           this.tbSourceCodeFolder.Text,
                                                            this.tbRepository.Text);
         }
     }

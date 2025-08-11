@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SalesforceMetadata.exe" size="7933376">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SalesforceMetadata.exe" size="8931776">
       <assemblyIdentity name="SalesforceMetadata" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>QT58Btd/Hdl2W724fNTfZRJRq8/jQMj9gd/kjGG5Hjc=</dsig:DigestValue>
+        <dsig:DigestValue>0ywPexTCeN8N5NEEuQQN0hgn1Rtiau9LN0Gf/xCR7UU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -81,7 +81,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>qFTx0xAFtNdx5s0cBfh6LNc7LF7Maq/26mVlX41hRDU=</dsig:DigestValue>
+      <dsig:DigestValue>X+VuQJXTN5aUPDsbsi/OPKt10jU/lGT0sqrLrRmkPXg=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

@@ -18,10 +18,10 @@
       <Value Profile="(Default)">https://login.salesforce.com/services/Soap/m/62.0</Value>
     </Setting>
     <Setting Name="SalesforceMetadata_ToolingWSDL_SforceServiceService" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">https://login.salesforce.com/services/Soap/T/62.0</Value>
+      <Value Profile="(Default)">https://login.salesforce.com/services/Soap/T/64.0</Value>
     </Setting>
     <Setting Name="DefaultAPI" Type="System.String" Scope="User">
-      <Value Profile="(Default)">62.0</Value>
+      <Value Profile="(Default)">64.0</Value>
     </Setting>
     <Setting Name="DevelopmentSelectedFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

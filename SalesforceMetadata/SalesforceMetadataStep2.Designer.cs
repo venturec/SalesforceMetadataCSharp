@@ -43,6 +43,7 @@
             this.cbRebuildFolder = new System.Windows.Forms.CheckBox();
             this.lblMessages = new System.Windows.Forms.Label();
             this.btnRetrieveProfilesPermSets = new System.Windows.Forms.Button();
+            this.btnGeneratePackageXML = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblSaveResultsTo
@@ -197,6 +198,17 @@
             this.btnRetrieveProfilesPermSets.UseVisualStyleBackColor = true;
             this.btnRetrieveProfilesPermSets.Click += new System.EventHandler(this.btnRetrieveProfilesPermSets_Click);
             // 
+            // btnGeneratePackageXML
+            // 
+            this.btnGeneratePackageXML.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGeneratePackageXML.Location = new System.Drawing.Point(1189, 226);
+            this.btnGeneratePackageXML.Name = "btnGeneratePackageXML";
+            this.btnGeneratePackageXML.Size = new System.Drawing.Size(194, 46);
+            this.btnGeneratePackageXML.TabIndex = 15;
+            this.btnGeneratePackageXML.Text = "Generate Package XML File";
+            this.btnGeneratePackageXML.UseVisualStyleBackColor = true;
+            this.btnGeneratePackageXML.Click += new System.EventHandler(this.btnGeneratePackageXML_Click);
+            // 
             // SalesforceMetadataStep2
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -215,6 +227,7 @@
             this.Controls.Add(this.lblSaveResultsTo);
             this.Controls.Add(this.tbFromOrgSaveLocation);
             this.Controls.Add(this.btnRetrieveMetadata);
+            this.Controls.Add(this.btnGeneratePackageXML);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "SalesforceMetadataStep2";
@@ -239,5 +252,6 @@
         private System.Windows.Forms.CheckBox cbRebuildFolder;
         private System.Windows.Forms.Label lblMessages;
         public System.Windows.Forms.Button btnRetrieveProfilesPermSets;
+        private System.Windows.Forms.Button btnGeneratePackageXML;
     }
 }

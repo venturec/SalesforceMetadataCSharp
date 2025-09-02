@@ -34,7 +34,7 @@ namespace SalesforceMetadata
 
         public String userName;
 
-        // This has to be left a Dictionary to allow for deploying a portion of the metadata members from the DevelopmentEnvironment
+        // This has to be left as a Dictionary to allow for deploying a portion of the metadata members from the DevelopmentEnvironment
         // Key = metadata name, Values = members
         // Values can = * if allowed by the metadata api
         public Dictionary<String, List<String>> selectedItems;
@@ -320,6 +320,7 @@ namespace SalesforceMetadata
                 {
                     int waitTimeMilliSecs = 6000;
 
+                    // Get all Perm Set names into an array (list)
                     List<String> allPermSetNames = new List<string>();
 
                     QueryResult qr = new QueryResult();
@@ -370,10 +371,13 @@ namespace SalesforceMetadata
 
                     done = false;
 
+                    // Build the partial Perm Set list from the allPermSetNames list to retrieve only the 
+                    // a subset of perm sets and prevent timeouts
                     List<String> partialPermSetList = new List<String>();
                     StringBuilder partialPackageXMLSB = buildProfilePermissionSetPackageXml(UtilityClass.REQUESTINGORG.FROMORG, "PermissionSet", partialPermSetList, false);
                     String partialPackageXML = partialPackageXMLSB.ToString();
 
+                    // Why 1000? May need review
                     Int32 maxPermSetsPerGroup = 1000;
                     Int32 lastPosition = 0;
                     while (done == false)
@@ -2105,6 +2109,25 @@ namespace SalesforceMetadata
             return strValue;
         }
 
+        private void btnGeneratePackageXML_Click(object sender, EventArgs e)
+        {
+            metaRetrieveSFCreds.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, userName);
 
+            HashSet<String> mObjSet = new HashSet<string>();
+            foreach (String metaObj in this.selectedItems.Keys)
+            {
+                mObjSet.Add(metaObj);
+            }
+
+            StringBuilder packageXmlSB = new StringBuilder();
+            packageXmlSB = buildPackageXml(UtilityClass.REQUESTINGORG.FROMORG, mObjSet);
+
+            File.WriteAllText(this.tbFromOrgSaveLocation.Text + "\\package.xml", packageXmlSB.ToString());
+
+            MessageBox.Show("package.xml file created at: " + this.tbFromOrgSaveLocation.Text + "\\package.xml",
+                            "Package.xml Created",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+        }
     }
 }

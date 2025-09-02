@@ -412,10 +412,5 @@ namespace SalesforceMetadata
 
             xlapp.Visible = true;
         }
-
-        private void btnGeneratePackageXML_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

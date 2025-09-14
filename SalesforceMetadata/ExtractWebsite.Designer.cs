@@ -115,6 +115,7 @@
             // 
             this.cmbLayers.FormattingEnabled = true;
             this.cmbLayers.Items.AddRange(new object[] {
+            "0",
             "1",
             "2",
             "3",
@@ -134,7 +135,7 @@
             this.cmbLayers.Name = "cmbLayers";
             this.cmbLayers.Size = new System.Drawing.Size(92, 21);
             this.cmbLayers.TabIndex = 5;
-            this.cmbLayers.Text = "1";
+            this.cmbLayers.Text = "0";
             // 
             // lblLayers
             // 
@@ -148,6 +149,7 @@
             // 
             // btnHTMLToText
             // 
+            this.btnHTMLToText.Enabled = false;
             this.btnHTMLToText.Location = new System.Drawing.Point(276, 180);
             this.btnHTMLToText.Name = "btnHTMLToText";
             this.btnHTMLToText.Size = new System.Drawing.Size(114, 25);

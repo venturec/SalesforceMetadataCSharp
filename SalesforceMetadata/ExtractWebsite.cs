@@ -70,7 +70,7 @@ namespace SalesforceMetadata
 
             // Now open the file URLsToRetrieve, read each line and update the AnchorTagsToExtract
             // The cmbLayers denotes how many loops to make from the web url entered into the text box
-            for (Int32 i = 0; i < Convert.ToInt32(cmbLayers.Text); i++)
+            for (Int32 i = 1; i <= Convert.ToInt32(cmbLayers.Text); i++)
             {
                 writeToLogFile("btnGetPageLinks_Click For Loop", i.ToString());
 
@@ -96,7 +96,7 @@ namespace SalesforceMetadata
                 sr.Close();
 
                 // At the end of this process, move all URLs in urlsToRetrieveFile to retrievedUrlsfile
-                if (i < Convert.ToInt32(cmbLayers.Text))
+                if (i <= Convert.ToInt32(cmbLayers.Text))
                 {
                     anchorTagsToURL();
                     clearAnchorTagsFile();
@@ -369,7 +369,6 @@ namespace SalesforceMetadata
             {
                 Directory.CreateDirectory(this.tbFileSaveLocation.Text + "\\SavedPages\\");
             }
-
 
             // If the application has an error and stops halfway through, we don't want to rewrite everything
             if (!File.Exists(this.urlsToRetrieveFile))

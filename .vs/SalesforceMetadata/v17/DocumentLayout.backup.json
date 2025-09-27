@@ -3,16 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|c:\\users\\marcu\\documents\\github\\salesforcemetadatacsharp\\salesforcemetadata\\extractwebsite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\extractwebsite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\salesforcemetadata\\landingpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\landingpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\salesforcemetadata\\landingpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\landingpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|c:\\users\\marcu\\documents\\github\\salesforcemetadatacsharp\\salesforcemetadata\\web references\\toolingwsdl\\reference.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00528797-0339-4C77-95D3-2B712254A6A3}|SalesforceMetadata\\SalesforceMetadata.csproj|solutionrelative:salesforcemetadata\\web references\\toolingwsdl\\reference.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,37 +27,15 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ExtractWebsite.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\ExtractWebsite.cs",
-              "RelativeDocumentMoniker": "SalesforceMetadata\\ExtractWebsite.cs",
-              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\ExtractWebsite.cs [Design]",
-              "RelativeToolTip": "SalesforceMetadata\\ExtractWebsite.cs [Design]",
+              "Title": "Reference.cs",
+              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\Web References\\ToolingWSDL\\Reference.cs",
+              "RelativeDocumentMoniker": "SalesforceMetadata\\Web References\\ToolingWSDL\\Reference.cs",
+              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\Web References\\ToolingWSDL\\Reference.cs",
+              "RelativeToolTip": "SalesforceMetadata\\Web References\\ToolingWSDL\\Reference.cs",
+              "ViewState": "AgIAAINXAQAAAAAAAAAiwJFXAQA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-14T22:28:45.94Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "LandingPage.cs",
-              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\LandingPage.cs",
-              "RelativeDocumentMoniker": "SalesforceMetadata\\LandingPage.cs",
-              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\LandingPage.cs",
-              "RelativeToolTip": "SalesforceMetadata\\LandingPage.cs",
-              "ViewState": "AgIAAF0AAAAAAAAAAAAUwGkAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-14T22:28:41.516Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "LandingPage.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\LandingPage.cs",
-              "RelativeDocumentMoniker": "SalesforceMetadata\\LandingPage.cs",
-              "ToolTip": "C:\\Users\\marcu\\Documents\\GitHub\\SalesforceMetadataCSharp\\SalesforceMetadata\\LandingPage.cs [Design]",
-              "RelativeToolTip": "SalesforceMetadata\\LandingPage.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-14T22:28:38.107Z"
+              "WhenOpened": "2025-09-27T23:53:26.735Z",
+              "EditorCaption": ""
             }
           ]
         }

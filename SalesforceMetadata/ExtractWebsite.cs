@@ -10,6 +10,7 @@ using iTextSharp.text.pdf.parser;
 using iTextSharp.text.log;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -63,7 +64,11 @@ namespace SalesforceMetadata
 
             UtilityClass.partialUrl = UtilityClass.partialUrl.Substring(0, UtilityClass.partialUrl.Length - 1);
 
+            Action act = () => retrieveHTMLPage(this.tbURL.Text);
+            System.Threading.Tasks.Task tsk = System.Threading.Tasks.Task.Run(act);
+
             String pageData = retrieveHTMLPage(this.tbURL.Text);
+
             extractAnchorTagsFromPage(pageData);
             anchorTagsToURL();
             clearAnchorTagsFile();
@@ -106,48 +111,46 @@ namespace SalesforceMetadata
             MessageBox.Show("Extraction Complete");
         }
 
-
+        // TODO: Refactor to use HttpClient
         public String retrieveHTMLPage(String strUrl)
         {
-
             String data = "";
-
-            //if (this.cbLoadToBrowser.CheckState == CheckState.Unchecked)
-            //{
-            //    WebRequest request = WebRequest.Create(strUrl);
-            //    WebResponse response = request.GetResponse();
-            //    Stream responseStream = response.GetResponseStream();
-
-            //    using (StreamReader sr = new StreamReader(responseStream))
-            //    {
-            //        data = sr.ReadToEnd();
-            //    }
-            //}
-            //else
-            //{
 
             // Get the domain from strUrl and compare to what you have in the UtilityClass.partialUrl.
             // If they are the same, then proceed to extract the page data.
 
-            WebRequest request = WebRequest.Create(strUrl);
+            //WebRequest request = WebRequest.Create(strUrl);
+            HttpWebRequest request = HttpWebRequest.CreateHttp(strUrl);
             try
             {
-                WebResponse response = request.GetResponse();
-                Stream responseStream = response.GetResponseStream();
+                //WebResponse response = request.GetResponse();
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-                using (StreamReader sr = new StreamReader(responseStream))
+                //while(response.ContentLength == 0)
+                //{
+                //    Debug.WriteLine("Empty response, trying again...");
+                //}
+                if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    data = sr.ReadToEnd();
+                    writeToLogFile("retrieveHTMLPage", "Error retrieving page: " + strUrl + " Status Code: " + response.StatusCode.ToString());
+                    return "";
+                }
+                else
+                {
+                    Stream responseStream = response.GetResponseStream();
+                    using (StreamReader sr = new StreamReader(responseStream))
+                    {
+                        data = sr.ReadToEnd();
+                    }
                 }
             }
-            catch (WebException we)
+            catch (HttpRequestException we)
             {
                 // TODO: Add some error handling here
             }
 
             return data;
         }
-
 
         public void extractAnchorTagsFromPage(String pageData)
         {
@@ -396,6 +399,7 @@ namespace SalesforceMetadata
             while (sr.EndOfStream == false)
             {
                 String url = sr.ReadLine();
+
                 String pageData = retrieveHTMLPage(url);
 
                 if (url.EndsWith("/"))
@@ -476,12 +480,14 @@ namespace SalesforceMetadata
 
         private void btnHTMLToText_Click(object sender, EventArgs e)
         {
-            foreach (String fileName in Directory.GetFiles(this.tbFileSaveLocation.Text + "\\SavedPages\\"))
-            {
-                StreamReader sr = new StreamReader(fileName);
-                List<String> anchorTagList = extractAnchorTags(sr.ReadToEnd());
+            // TODO: Build this functionality out
+            // You will need to have options to extract the text as plain text or with XML tags, but will need an XML schema to follow
+            //foreach (String fileName in Directory.GetFiles(this.tbFileSaveLocation.Text + "\\SavedPages\\"))
+            //{
+            //    StreamReader sr = new StreamReader(fileName);
+            //    List<String> anchorTagList = extractAnchorTags(sr.ReadToEnd());
 
-            }
+            //}
         }
 
 

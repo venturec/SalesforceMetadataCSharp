@@ -22,6 +22,24 @@ namespace SalesforceMetadata
         public const String APEX_CLASS = "ApexClass";
         public const String APEX_CLASS_METHOD = "ApexClassMethod";
 
+        private HashSet<String> methodAnnotations = new HashSet<string> {
+                "@auraenabled",
+                "@deprecated",
+                "@future",
+                "@invocablemethod",
+                "@invocablevariable",
+                "@istest",
+                "@readonly",
+                "@remoteaction",
+                "@testsetup",
+                "@testvisible",
+                "@httpdelete",
+                "@httpget",
+                "@httppatch",
+                "@httppost",
+                "@httpput"
+        };
+
         // Key = class name
         public Dictionary<String, ApexClassStructure> classNmToClass;
 
@@ -38,12 +56,219 @@ namespace SalesforceMetadata
 
         List<FieldExtractor> fieldExtractorList = new List<FieldExtractor>();
 
+        private StreamWriter errorLog;
+
         public AutomationReporter()
         {
             InitializeComponent();
         }
 
+        private void btnRunAutomationFieldExtraction_Click(object sender, EventArgs e)
+        {
+            if (this.tbProjectFolder.Text == "")
+            {
+                MessageBox.Show("Please select a project folder which contains the Salesforce metadata");
+                return;
+            }
+
+            if (this.tbFileSaveTo.Text == "")
+            {
+                MessageBox.Show("Please select a folder location to save the report values to");
+                return;
+            }
+
+            errorLog = new StreamWriter(this.tbFileSaveTo.Text + "\\AutomationFieldExtractionErrors.log", true);
+
+            // We need the objects and fields and the apex classes extracted out first
+            //runObjectFieldExtract();
+
+            // Search through Triggers for field references
+            runApexTriggerExtract();
+
+            // Search through Classes for field references
+            runApexClassExtract();
+
+            // Search Flows/Processes for field references
+            runFlowProcessExtract();
+
+            // Search Workflows for field references
+            runWorkflowExtract();
+
+            // Run the custom Quick Action parsing
+            // TODO: 
+
+
+            // Write the results to a file
+            writeAutomationFieldExtractedResultsToFile();
+
+            writeAutomationHierarchyResults();
+
+            errorLog.Close();
+
+            MessageBox.Show("Automation Field Reference Extraction Complete");
+        }
+
+        private void btnAutomationHierarchy_Click(object sender, EventArgs e)
+        {
+            if (this.tbProjectFolder.Text == "")
+            {
+                MessageBox.Show("Please select a project folder which contains the Salesforce metadata");
+                return;
+            }
+
+            if (this.tbFileSaveTo.Text == "")
+            {
+                MessageBox.Show("Please select a folder location to save the report values to");
+                return;
+            }
+
+            errorLog = new StreamWriter(this.tbFileSaveTo.Text + "\\AutomationFieldExtractionErrors.log", true);
+
+            // We need the objects and fields and the apex classes extracted out first
+            //runObjectFieldExtract();
+
+            // Search through Triggers for field references
+            runApexTriggerExtract();
+
+            // Search through Classes for field references
+            runApexClassExtract();
+
+            // Search Flows/Processes for field references
+            runFlowProcessExtract();
+
+            writeAutomationSequenceToFile();
+
+            errorLog.Close();
+
+            MessageBox.Show("Automation Hierarchy Report Complete");
+        }
+
+        private void btnGetApexClassNamesAndMethods_Click(object sender, EventArgs e)
+        {
+            if (this.tbProjectFolder.Text == "")
+            {
+                MessageBox.Show("Please select a project folder which contains the Salesforce metadata");
+                return;
+            }
+
+            if (this.tbFileSaveTo.Text == "")
+            {
+                MessageBox.Show("Please select a folder location to save the report values to");
+                return;
+            }
+
+            errorLog = new StreamWriter(this.tbFileSaveTo.Text + "\\AutomationFieldExtractionErrors.log", true);
+
+            // We need the objects and fields and the apex classes extracted out first
+            //runObjectFieldExtract();
+
+            // Search through Triggers for field references
+            runApexTriggerExtract();
+
+            // Search through Classes for field references
+            runApexClassExtract();
+
+            // Search Flows/Processes for field references
+            runFlowProcessExtract();
+
+            // Search Workflows for field references
+            runWorkflowExtract();
+
+            writeAutomationNamesToFile();
+
+            errorLog.Close();
+
+            MessageBox.Show("Automation Names Extraction Complete");
+        }
+
+        private void btnParseFlows_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(this.tbProjectFolder.Text + "\\flows")
+                || this.tbProjectFolder.Text == this.tbProjectFolder.Text + "\\flows")
+            {
+
+                errorLog = new StreamWriter(this.tbFileSaveTo.Text + "\\AutomationFieldExtractionErrors.log", true);
+
+                String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\flows");
+
+                this.objectToFlow = new Dictionary<string, List<FlowProcess>>();
+
+                foreach (String fl in files)
+                {
+                    runFlowProcessExtract();
+                }
+
+                // Now write out the contents in tabular format
+                StreamWriter sw = new StreamWriter(this.tbFileSaveTo.Text + "\\FlowAutomation.txt");
+                sw.Write("Triggering sObject\t");
+                sw.Write("Flow API Name\t");
+                sw.Write("Flow Label\t");
+                sw.Write("API Version\t");
+                sw.Write("Process Type\t");
+                sw.Write("Triggered From\t");
+                sw.Write("Run In Mode\t");
+                sw.Write("Is Active" + Environment.NewLine);
+
+                foreach (String flowObj in this.objectToFlow.Keys)
+                {
+                    if (flowObj == "")
+                    {
+                        sw.Write("No triggering sObject");
+
+                        List<FlowProcess> flowProcessList = this.objectToFlow[flowObj];
+
+                        foreach (FlowProcess fp in flowProcessList)
+                        {
+                            sw.Write("\t");
+                            sw.Write(fp.apiName + "\t");
+                            sw.Write(fp.label + "\t");
+                            sw.Write(fp.apiVersion + "\t");
+                            sw.Write(fp.flowProcessType + "\t");
+                            sw.Write(fp.triggerType + "\t");
+                            sw.Write(fp.runInMode + "\t");
+                            sw.Write(fp.isActive + Environment.NewLine);
+                        }
+
+                        sw.Write(Environment.NewLine);
+                    }
+                    else
+                    {
+                        sw.WriteLine(flowObj);
+
+                        List<FlowProcess> flowProcessList = this.objectToFlow[flowObj];
+
+                        foreach (FlowProcess fp in flowProcessList)
+                        {
+                            sw.Write("\t");
+                            sw.Write(fp.apiName + "\t");
+                            sw.Write(fp.label + "\t");
+                            sw.Write(fp.apiVersion + "\t");
+                            sw.Write(fp.flowProcessType + "\t");
+                            sw.Write(fp.triggerType + "\t");
+                            sw.Write(fp.runInMode + "\t");
+                            sw.Write(fp.isActive + Environment.NewLine);
+                        }
+
+                        sw.Write(Environment.NewLine);
+                    }
+                }
+
+                sw.Close();
+                errorLog.Close();
+            }
+
+            MessageBox.Show("Flow Extraction Complete");
+        }
+
+        private void btnParseApprovalProcesses_Click(object sender, EventArgs e)
+        {
+            errorLog = new StreamWriter(this.tbFileSaveTo.Text + "\\AutomationFieldExtractionErrors.log", true);
+
+            errorLog.Close();
+        }
+
         // We need the objects and fields and the apex classes extracted out first
+        // TODO: Is this needed?
         private void runObjectFieldExtract()
         {
             if (Directory.Exists(this.tbProjectFolder.Text + "\\objects")
@@ -53,32 +278,44 @@ namespace SalesforceMetadata
             }
         }
 
-        private void runApexClassExtract()
+        // For triggers only:
+        // before insert,
+        // before update,
+        // before delete,
+        // after insert,
+        // after update,
+        // after delete,
+        // after undelete,
+
+        // Note: The , may or may not be there in the trigger types
+        private void runApexTriggerExtract()
         {
-            if (Directory.Exists(this.tbProjectFolder.Text + "\\classes"))
+            this.objectToTrigger = new Dictionary<string, List<ApexTriggerStructure>>();
+
+            if (!Directory.Exists(this.tbProjectFolder.Text + "\\triggers"))
             {
-                String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\classes");
+                return;
+            }
 
-                this.classNmToClass = new Dictionary<string, ApexClassStructure>();
+            String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\triggers");
 
-                foreach (String fl in files)
-                {
-                    String[] flPathSplit = fl.Split('\\');
-                    String[] flNameSplit = flPathSplit[flPathSplit.Length - 1].Split('.');
+            foreach (String fl in files)
+            {
+                String[] flPathSplit = fl.Split('\\');
+                String[] flNameSplit = flPathSplit[flPathSplit.Length - 1].Split('.');
 
-                    if (flNameSplit[1] == "cls-meta") { continue; }
+                if (flNameSplit[1] == "trigger-meta") { continue; }
 
-                    StreamReader sr = new StreamReader(fl);
-                    String flread = sr.ReadToEnd();
-                    sr.Close();
+                StreamReader sr = new StreamReader(fl);
+                String flread = sr.ReadToEnd();
+                sr.Close();
 
-                    flread = reduceWhitespace(flread);
+                flread = reduceWhitespace(flread);
 
-                    // Break the file contents into an array of string to parse through
-                    String[] filearray = flread.Split(' ');
+                // Break the file contents into an array of string to parse through
+                String[] filearray = flread.Split(' ');
 
-                    parseApexClass(filearray);
-                }
+                parseApexTrigger(filearray);
             }
         }
 
@@ -95,47 +332,40 @@ namespace SalesforceMetadata
         // Bypass the test classes and methods as we don't need these in the current mapping
         // Map the object to what automation pieces are around these as well as the variable names uses so that you can determine when an instantiated variable
         // is used to trigger other automation such as insert, update, delete, undelete
-
-        // For triggers only:
-        // before insert,
-        // before update,
-        // before delete,
-        // after insert,
-        // after update,
-        // after delete,
-        // after undelete,
-
-        // Note: The , may or may not be there in the trigger types
-        private void runApexTriggerExtract()
+        private void runApexClassExtract()
         {
-            this.objectToTrigger = new Dictionary<string, List<ApexTriggerStructure>>();
+            this.classNmToClass = new Dictionary<string, ApexClassStructure>();
 
-            if (Directory.Exists(this.tbProjectFolder.Text + "\\triggers"))
+            if (!Directory.Exists(this.tbProjectFolder.Text + "\\classes"))
             {
-                String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\triggers");
+                return;
+            }
 
-                foreach (String fl in files)
-                {
-                    String[] flPathSplit = fl.Split('\\');
-                    String[] flNameSplit = flPathSplit[flPathSplit.Length - 1].Split('.');
+            String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\classes");
 
-                    if (flNameSplit[1] == "trigger-meta") { continue; }
+            foreach (String fl in files)
+            {
+                String[] flPathSplit = fl.Split('\\');
+                String[] flNameSplit = flPathSplit[flPathSplit.Length - 1].Split('.');
 
-                    StreamReader sr = new StreamReader(fl);
-                    String flread = sr.ReadToEnd();
-                    sr.Close();
+                if (flNameSplit[1] == "cls-meta") { continue; }
 
-                    flread = reduceWhitespace(flread);
+                StreamReader sr = new StreamReader(fl);
+                String flread = sr.ReadToEnd();
+                sr.Close();
 
-                    // Break the file contents into an array of string to parse through
-                    String[] filearray = flread.Split(' ');
+                flread = reduceWhitespace(flread);
 
-                    parseApexTrigger(filearray);
-                }
+                // Break the file contents into an array of string to parse through
+                String[] filearray = flread.Split(' ');
+
+                parseApexClass(filearray);
             }
         }
 
         // TODO: Needs work
+        // We want this to determine if any Flows or LWCs are kicked off from Quick Actions
+        // We are not parsing LWCs at this time, but are parsing Flows
         private void runQuickActionExtract()
         {
             if (Directory.Exists(this.tbProjectFolder.Text + "\\quickActions"))
@@ -146,379 +376,480 @@ namespace SalesforceMetadata
 
         private void runFlowProcessExtract()
         {
-            if (Directory.Exists(this.tbProjectFolder.Text + "\\flows"))
+            objectToFlow = new Dictionary<string, List<FlowProcess>>();
+
+            if (!Directory.Exists(this.tbProjectFolder.Text + "\\flows"))
             {
-                objectToFlow = new Dictionary<string, List<FlowProcess>>();
+                return;
+            }
 
-                String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\flows");
+            String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\flows");
 
-                foreach (String fl in files)
+            foreach (String fl in files)
+            {
+                String[] flPathSplit = fl.Split('\\');
+                String[] flNameSplit = flPathSplit[flPathSplit.Length - 1].Split('.');
+
+                FlowProcess flowObj = new FlowProcess();
+                flowObj.apiName = flNameSplit[0];
+
+                XmlDocument objXd = new XmlDocument();
+                objXd.Load(fl);
+
+                XmlNodeList ndListStatus   = objXd.GetElementsByTagName("status");
+                XmlNodeList ndListLabel    = objXd.GetElementsByTagName("label");
+                XmlNodeList ndListProcType = objXd.GetElementsByTagName("processType");
+                XmlNodeList ndListObjProc  = objXd.GetElementsByTagName("processMetadataValues");
+
+                XmlNodeList ndListStart        = objXd.GetElementsByTagName("start");
+                XmlNodeList ndListStartElemRef = objXd.GetElementsByTagName("startElementReference");
+
+                XmlNodeList ndListApiVs       = objXd.GetElementsByTagName("apiVersion");
+                XmlNodeList ndListRunInMd     = objXd.GetElementsByTagName("runInMode");
+                XmlNodeList ndListVariables   = objXd.GetElementsByTagName("variables");
+                XmlNodeList ndListAssignments = objXd.GetElementsByTagName("assignments");
+
+                XmlNodeList ndListRecordLookups = objXd.GetElementsByTagName("recordLookups");
+                XmlNodeList ndListRecordCreates = objXd.GetElementsByTagName("recordCreates");
+                XmlNodeList ndListRecordUpdates = objXd.GetElementsByTagName("recordUpdates");
+                XmlNodeList ndListRecordDeletes = objXd.GetElementsByTagName("recordDeletes");
+
+                XmlNodeList ndListActionCalls = objXd.GetElementsByTagName("actionCalls");
+
+                Boolean continueLoop = true;
+                foreach (XmlNode xn in ndListStatus)
                 {
-                    String[] flPathSplit = fl.Split('\\');
-                    String[] flNameSplit = flPathSplit[flPathSplit.Length - 1].Split('.');
-
-                    FlowProcess flowObj = new FlowProcess();
-                    flowObj.apiName = flNameSplit[0];
-
-                    XmlDocument objXd = new XmlDocument();
-                    objXd.Load(fl);
-
-                    XmlNodeList ndListStatus   = objXd.GetElementsByTagName("status");
-                    XmlNodeList ndListLabel    = objXd.GetElementsByTagName("label");
-                    XmlNodeList ndListProcType = objXd.GetElementsByTagName("processType");
-                    XmlNodeList ndListObjProc  = objXd.GetElementsByTagName("processMetadataValues");
-
-                    XmlNodeList ndListStart        = objXd.GetElementsByTagName("start");
-                    XmlNodeList ndListStartElemRef = objXd.GetElementsByTagName("startElementReference");
-
-                    XmlNodeList ndListApiVs       = objXd.GetElementsByTagName("apiVersion");
-                    XmlNodeList ndListRunInMd     = objXd.GetElementsByTagName("runInMode");
-                    XmlNodeList ndListVariables   = objXd.GetElementsByTagName("variables");
-                    XmlNodeList ndListAssignments = objXd.GetElementsByTagName("assignments");
-
-                    XmlNodeList ndListRecordLookups = objXd.GetElementsByTagName("recordLookups");
-                    XmlNodeList ndListRecordCreates = objXd.GetElementsByTagName("recordCreates");
-                    XmlNodeList ndListRecordUpdates = objXd.GetElementsByTagName("recordUpdates");
-                    XmlNodeList ndListRecordDeletes = objXd.GetElementsByTagName("recordDeletes");
-
-                    XmlNodeList ndListActionCalls = objXd.GetElementsByTagName("actionCalls");
-
-                    Boolean continueLoop = true;
-                    foreach (XmlNode xn in ndListStatus)
+                    if (xn.ParentNode.LocalName == "Flow")
                     {
-                        if (xn.ParentNode.LocalName == "Flow")
+                        if (xn.InnerText == "Active")
                         {
-                            if (xn.InnerText == "Active")
-                            {
-                                flowObj.isActive = true;
-                            }
-                            else
-                            {
-                                continueLoop = false;
-                            }
+                            flowObj.isActive = true;
+                        }
+                        else
+                        {
+                            continueLoop = false;
                         }
                     }
+                }
 
-                    if (continueLoop == false)
+                if (continueLoop == false)
+                {
+                    continue;
+                }
+
+                foreach (XmlNode xn in ndListLabel)
+                {
+                    if (xn.ParentNode.LocalName == "Flow")
                     {
-                        continue;
+                        flowObj.label = xn.InnerText;
                     }
+                }
 
-                    foreach (XmlNode xn in ndListLabel)
+                foreach (XmlNode xn in ndListProcType)
+                {
+                    if (xn.ParentNode.LocalName == "Flow")
                     {
-                        if (xn.ParentNode.LocalName == "Flow")
+                        flowObj.flowProcessType = xn.InnerText;
+                    }
+                }
+
+                foreach (XmlNode xn in ndListObjProc)
+                {
+                    if (xn.ParentNode.LocalName == "Flow")
+                    {
+                        //Debug.WriteLine(" ");
+                        if (xn.ChildNodes[0].InnerText == "ObjectType")
                         {
-                            flowObj.label = xn.InnerText;
+                            flowObj.objectName = xn.ChildNodes[1].InnerText;
+                        }
+                        else if (xn.ChildNodes[0].InnerText == "TriggerType")
+                        {
+                            flowObj.triggerType = xn.ChildNodes[1].InnerText;
                         }
                     }
+                }
 
-                    foreach (XmlNode xn in ndListProcType)
-                    {
-                        if (xn.ParentNode.LocalName == "Flow")
-                        {
-                            flowObj.flowProcessType = xn.InnerText;
-                        }
-                    }
+                foreach (XmlNode xn in ndListApiVs)
+                {
+                    flowObj.apiVersion = xn.InnerText;
+                }
 
-                    foreach (XmlNode xn in ndListObjProc)
-                    {
-                        if (xn.ParentNode.LocalName == "Flow")
-                        {
-                            //Debug.WriteLine(" ");
-                            if (xn.ChildNodes[0].InnerText == "ObjectType")
-                            {
-                                flowObj.objectName = xn.ChildNodes[1].InnerText;
-                            }
-                            else if (xn.ChildNodes[0].InnerText == "TriggerType")
-                            {
-                                flowObj.triggerType = xn.ChildNodes[1].InnerText;
-                            }
-                        }
-                    }
-
-                    foreach (XmlNode xn in ndListApiVs)
-                    {
-                        flowObj.apiVersion = xn.InnerText;
-                    }
-
-                    foreach (XmlNode xn in ndListStart)
-                    {
-                        if (xn.ParentNode.LocalName == "Flow")
-                        {
-                            String startReference = "";
-
-                            foreach (XmlNode cn1 in xn.ChildNodes)
-                            {
-                                if (cn1.Name == "object")
-                                {
-                                    flowObj.objectName = cn1.InnerText;
-                                }
-                                else if (cn1.Name == "recordTriggerType")
-                                {
-                                    flowObj.recordTriggerType = cn1.InnerText;
-                                }
-                                else if (cn1.Name == "triggerType")
-                                {
-                                    flowObj.triggerType = cn1.InnerText;
-                                }
-                                else if (cn1.Name == "connector")
-                                {
-                                    startReference = cn1.InnerText;
-                                }
-                            }
-
-                            Boolean rlNameMatch = false;
-                            if (startReference != "" && flowObj.objectName == "")
-                            {
-                                foreach (XmlNode rl in ndListRecordLookups)
-                                {
-                                    foreach (XmlNode cn in rl.ChildNodes)
-                                    {
-                                        if (cn.Name == "name" && startReference == cn.InnerText)
-                                        {
-                                            rlNameMatch = true;
-                                        }
-
-                                        if (cn.Name == "object" && rlNameMatch == true)
-                                        {
-                                            flowObj.objectName = cn.InnerText;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    foreach (XmlNode xn in ndListStartElemRef)
+                foreach (XmlNode xn in ndListStart)
+                {
+                    if (xn.ParentNode.LocalName == "Flow")
                     {
                         String startReference = "";
 
-                        if (xn.ParentNode.LocalName == "Flow")
+                        foreach (XmlNode cn1 in xn.ChildNodes)
                         {
-                            startReference = xn.InnerText;
+                            if (cn1.Name == "object")
+                            {
+                                flowObj.objectName = cn1.InnerText;
+                            }
+                            else if (cn1.Name == "recordTriggerType")
+                            {
+                                flowObj.recordTriggerType = cn1.InnerText;
+                            }
+                            else if (cn1.Name == "triggerType")
+                            {
+                                flowObj.triggerType = cn1.InnerText;
+                            }
+                            else if (cn1.Name == "connector")
+                            {
+                                startReference = cn1.InnerText;
+                            }
                         }
 
-                        // Now find the object related to the start variable
                         Boolean rlNameMatch = false;
-                        foreach (XmlNode rl in ndListRecordLookups)
+                        if (startReference != "" && flowObj.objectName == "")
                         {
-                            foreach (XmlNode cn in rl.ChildNodes)
+                            foreach (XmlNode rl in ndListRecordLookups)
                             {
-                                if (cn.Name == "name" && startReference == cn.InnerText)
+                                foreach (XmlNode cn in rl.ChildNodes)
                                 {
-                                    rlNameMatch = true;
-                                }
+                                    if (cn.Name == "name" && startReference == cn.InnerText)
+                                    {
+                                        rlNameMatch = true;
+                                    }
 
-                                if (cn.Name == "object" && rlNameMatch == true)
-                                {
-                                    flowObj.objectName = cn.InnerText;
+                                    if (cn.Name == "object" && rlNameMatch == true)
+                                    {
+                                        flowObj.objectName = cn.InnerText;
+                                    }
                                 }
                             }
                         }
                     }
+                }
 
-                    foreach (XmlNode xn in ndListVariables)
+                foreach (XmlNode xn in ndListStartElemRef)
+                {
+                    String startReference = "";
+
+                    if (xn.ParentNode.LocalName == "Flow")
                     {
-                        if (xn.ParentNode.LocalName == "Flow")
+                        startReference = xn.InnerText;
+                    }
+
+                    // Now find the object related to the start variable
+                    Boolean rlNameMatch = false;
+                    foreach (XmlNode rl in ndListRecordLookups)
+                    {
+                        foreach (XmlNode cn in rl.ChildNodes)
                         {
-                            //Debug.WriteLine("");
-                            FlowVariable fv = new FlowVariable();
-                            foreach (XmlNode cn in xn.ChildNodes)
+                            if (cn.Name == "name" && startReference == cn.InnerText)
                             {
-                                if (cn.Name == "name")
-                                {
-                                    fv.varName = cn.InnerText;
-                                }
-                                else if (cn.Name == "apexClass")
-                                {
-                                    fv.apexClass = cn.InnerText;
-                                }
-                                else if (cn.Name == "dataType")
-                                {
-                                    fv.dataType = cn.InnerText;
-                                }
-                                else if (cn.Name == "objectType")
-                                {
-                                    fv.objectType = cn.InnerText;
-                                }
-                                else if (cn.Name == "isCollection")
-                                {
-                                    fv.isCollection = Boolean.Parse(cn.InnerText);
-                                }
-                                else if (cn.Name == "isInput")
-                                {
-                                    fv.isInput = Boolean.Parse(cn.InnerText);
-                                }
-                                else if (cn.Name == "isOutput")
-                                {
-                                    fv.isOutput = Boolean.Parse(cn.InnerText);
-                                }
+                                rlNameMatch = true;
                             }
 
+                            if (cn.Name == "object" && rlNameMatch == true)
+                            {
+                                flowObj.objectName = cn.InnerText;
+                            }
+                        }
+                    }
+                }
+
+                foreach (XmlNode xn in ndListVariables)
+                {
+                    if (xn.ParentNode.LocalName == "Flow")
+                    {
+                        //Debug.WriteLine("");
+                        FlowVariable fv = new FlowVariable();
+                        foreach (XmlNode cn in xn.ChildNodes)
+                        {
+                            if (cn.Name == "name")
+                            {
+                                fv.varName = cn.InnerText;
+                            }
+                            else if (cn.Name == "apexClass")
+                            {
+                                fv.apexClass = cn.InnerText;
+                            }
+                            else if (cn.Name == "dataType")
+                            {
+                                fv.dataType = cn.InnerText;
+                            }
+                            else if (cn.Name == "objectType")
+                            {
+                                fv.objectType = cn.InnerText;
+                            }
+                            else if (cn.Name == "isCollection")
+                            {
+                                fv.isCollection = Boolean.Parse(cn.InnerText);
+                            }
+                            else if (cn.Name == "isInput")
+                            {
+                                fv.isInput = Boolean.Parse(cn.InnerText);
+                            }
+                            else if (cn.Name == "isOutput")
+                            {
+                                fv.isOutput = Boolean.Parse(cn.InnerText);
+                            }
+                        }
+
+                        try
+                        {
                             flowObj.variableToObject.Add(fv.varName, fv);
                         }
-                    }
-
-                    foreach (XmlNode xn in ndListRunInMd)
-                    {
-                        if (xn.ParentNode.LocalName == "Flow")
+                        catch (Exception ex)
                         {
-                            flowObj.runInMode = xn.InnerText;
+                            errorLog.WriteLine("Flow Object Name: " + flowObj.apiName + 
+                                               ": flowVarName: " + fv.varName + 
+                                               " Error adding variable to flow variable to object map: " + ex.Message);
                         }
                     }
+                }
 
-                    foreach (XmlNode xn in ndListRecordCreates)
+                foreach (XmlNode xn in ndListRunInMd)
+                {
+                    if (xn.ParentNode.LocalName == "Flow")
                     {
-                        if (xn.ParentNode.LocalName == "Flow")
+                        flowObj.runInMode = xn.InnerText;
+                    }
+                }
+
+                foreach (XmlNode xn in ndListRecordCreates)
+                {
+                    if (xn.ParentNode.LocalName == "Flow")
+                    {
+                        String objName = "";
+                        String varName = "";
+
+                        foreach (XmlNode nd1 in xn.ChildNodes)
                         {
-                            String objName = "";
-                            String varName = "";
-
-                            foreach (XmlNode nd1 in xn.ChildNodes)
+                            if (nd1.Name == "object")
                             {
-                                if (nd1.Name == "object")
-                                {
-                                    objName = nd1.InnerText;
-                                }
-                                else if (nd1.Name == "name")
-                                {
-                                    varName = nd1.InnerText;
-                                }
+                                objName = nd1.InnerText;
                             }
-
-                            if (objName != "")
+                            else if (nd1.Name == "name")
                             {
-                                if (flowObj.recordCreates.ContainsKey(objName))
+                                varName = nd1.InnerText;
+                            }
+                        }
+
+                        if (objName != "")
+                        {
+                            if (flowObj.recordCreates.ContainsKey(objName))
+                            {
+                                try
                                 {
                                     flowObj.recordCreates[objName].Add(varName);
                                 }
-                                else
+                                catch (Exception ex)
+                                {
+                                    errorLog.WriteLine("Flow Object Name: " + flowObj.apiName +
+                                                       ": flowVarName: " + varName +
+                                                       " Error adding record create variable to flow record create map: " + ex.Message);
+                                }
+                            }
+                            else
+                            {
+                                try
                                 {
                                     flowObj.recordCreates.Add(objName, new List<String> { varName });
                                 }
+                                catch (Exception ex)
+                                {
+                                    errorLog.WriteLine("Flow Object Name: " + flowObj.apiName +
+                                                       ": flowVarName: " + varName +
+                                                       " Error adding record create variable to flow record create map: " + ex.Message);
+                                }
                             }
                         }
                     }
+                }
 
-                    foreach (XmlNode xn in ndListRecordUpdates)
+                foreach (XmlNode xn in ndListRecordUpdates)
+                {
+                    if (xn.ParentNode.LocalName == "Flow")
                     {
-                        if (xn.ParentNode.LocalName == "Flow")
+                        String objName = "";
+                        String varName = "";
+
+                        foreach (XmlNode nd1 in xn.ChildNodes)
                         {
-                            String objName = "";
-                            String varName = "";
-
-                            foreach (XmlNode nd1 in xn.ChildNodes)
+                            if (nd1.Name == "object")
                             {
-                                if (nd1.Name == "object")
-                                {
-                                    objName = nd1.InnerText;
-                                }
-                                else if (nd1.Name == "name")
-                                {
-                                    varName = nd1.InnerText;
-                                }
+                                objName = nd1.InnerText;
                             }
-
-                            if (objName != "")
+                            else if (nd1.Name == "name")
                             {
-                                if (flowObj.recordUpdates.ContainsKey(objName))
+                                varName = nd1.InnerText;
+                            }
+                        }
+
+                        if (objName != "")
+                        {
+                            if (flowObj.recordUpdates.ContainsKey(objName))
+                            {
+                                try
                                 {
                                     flowObj.recordUpdates[objName].Add(varName);
                                 }
-                                else
+                                catch (Exception ex)
+                                {
+                                    errorLog.WriteLine("Flow Object Name: " + flowObj.apiName +
+                                                       ": flowVarName: " + varName +
+                                                       " Error adding record update variable to flow record update map: " + ex.Message);
+                                }
+                            }
+                            else
+                            {
+                                try
                                 {
                                     flowObj.recordUpdates.Add(objName, new List<String> { varName });
                                 }
+                                catch (Exception ex)
+                                {
+                                    errorLog.WriteLine("Flow Object Name: " + flowObj.apiName +
+                                                       ": flowVarName: " + varName +
+                                                       " Error adding record update variable to flow record update map: " + ex.Message);
+                                }
                             }
                         }
                     }
+                }
 
-                    foreach (XmlNode xn in ndListRecordDeletes)
+                foreach (XmlNode xn in ndListRecordDeletes)
+                {
+                    if (xn.ParentNode.LocalName == "Flow")
                     {
-                        if (xn.ParentNode.LocalName == "Flow")
+                        String objName = "";
+                        String varName = "";
+
+                        foreach (XmlNode nd1 in xn.ChildNodes)
                         {
-                            String objName = "";
-                            String varName = "";
-
-                            foreach (XmlNode nd1 in xn.ChildNodes)
+                            if (nd1.Name == "object")
                             {
-                                if (nd1.Name == "object")
-                                {
-                                    objName = nd1.InnerText;
-                                }
-                                else if (nd1.Name == "name")
-                                {
-                                    varName = nd1.InnerText;
-                                }
+                                objName = nd1.InnerText;
                             }
-
-                            if (objName != "")
+                            else if (nd1.Name == "name")
                             {
-                                if (flowObj.recordDeletes.ContainsKey(objName))
+                                varName = nd1.InnerText;
+                            }
+                        }
+
+                        if (objName != "")
+                        {
+                            if (flowObj.recordDeletes.ContainsKey(objName))
+                            {
+                                try
                                 {
                                     flowObj.recordDeletes[objName].Add(varName);
                                 }
-                                else
+                                catch (Exception ex)
+                                {
+                                    errorLog.WriteLine("Flow Object Name: " + flowObj.apiName +
+                                                       ": flowVarName: " + varName +
+                                                       " Error adding record delete variable to flow record delete map: " + ex.Message);
+                                }
+                            }
+                            else
+                            {
+                                try
                                 {
                                     flowObj.recordDeletes.Add(objName, new List<String> { varName });
                                 }
+                                catch (Exception ex)
+                                {
+                                    errorLog.WriteLine("Flow Object Name: " + flowObj.apiName +
+                                                       ": flowVarName: " + varName +
+                                                       " Error adding record delete variable to flow record delete map: " + ex.Message);
+                                }
                             }
                         }
                     }
+                }
 
-                    foreach (XmlNode xn in ndListActionCalls)
+                foreach (XmlNode xn in ndListActionCalls)
+                {
+                    if (xn.ParentNode.LocalName == "Flow")
                     {
-                        if (xn.ParentNode.LocalName == "Flow")
+                        FlowActionCalls fac = new FlowActionCalls();
+                        //Debug.WriteLine("");
+                        foreach (XmlNode nd1 in xn.ChildNodes)
                         {
-                            FlowActionCalls fac = new FlowActionCalls();
-                            //Debug.WriteLine("");
-                            foreach (XmlNode nd1 in xn.ChildNodes)
+                            if (nd1.Name == "name")
                             {
-                                if (nd1.Name == "name")
+                                fac.actionCallAPIName = nd1.InnerText;
+                            }
+                            else if (nd1.Name == "label")
+                            {
+                                fac.actionCallLabel = nd1.InnerText;
+                            }
+                            else if (nd1.Name == "actionName")
+                            {
+                                fac.actionName = nd1.InnerText;
+                            }
+                            else if (nd1.Name == "actionType")
+                            {
+                                fac.actionType = nd1.InnerText;
+                            }
+                            else if (nd1.Name == "inputParameters")
+                            {
+                                FlowActionInputParameters faip = new FlowActionInputParameters();
+                                if (nd1.ChildNodes.Count == 1)
                                 {
-                                    fac.actionCallAPIName = nd1.InnerText;
+                                    faip.apiName = nd1.ChildNodes[0].InnerText;
+                                    faip.value = "";
                                 }
-                                else if (nd1.Name == "label")
+                                else
                                 {
-                                    fac.actionCallLabel = nd1.InnerText;
+                                    faip.apiName = nd1.ChildNodes[0].InnerText;
+                                    faip.value = nd1.ChildNodes[1].InnerText;
                                 }
-                                else if (nd1.Name == "actionName")
-                                {
-                                    fac.actionName = nd1.InnerText;
-                                }
-                                else if (nd1.Name == "actionType")
-                                {
-                                    fac.actionType = nd1.InnerText;
-                                }
-                                else if (nd1.Name == "inputParameters")
-                                {
-                                    FlowActionInputParameters faip = new FlowActionInputParameters();
-                                    if (nd1.ChildNodes.Count == 1)
-                                    {
-                                        faip.apiName = nd1.ChildNodes[0].InnerText;
-                                        faip.value = "";
-                                    }
-                                    else
-                                    {
-                                        faip.apiName = nd1.ChildNodes[0].InnerText;
-                                        faip.value = nd1.ChildNodes[1].InnerText;
-                                    }
 
+                                try
+                                {
                                     fac.inputParameters.Add(faip);
                                 }
+                                catch (Exception ex)
+                                {
+                                    errorLog.WriteLine("Flow Object Name: " + flowObj.apiName +
+                                                       ": FlowActionInputParameters: " + faip.apiName +
+                                                       " Error adding action input parameter to flow action call input parameter list: " + ex.Message);
+                                }
                             }
+                        }
 
+                        try
+                        {
                             flowObj.actionCalls.Add(fac);
                         }
+                        catch (Exception ex)
+                        {
+                            errorLog.WriteLine("Flow Object Name: " + flowObj.apiName +
+                                               ": FlowActionCalls: " + fac.actionCallAPIName +
+                                               " Error adding action call to flow action call list: " + ex.Message);
+                        }
                     }
+                }
 
-                    if (this.objectToFlow.ContainsKey(flowObj.objectName))
+                if (this.objectToFlow.ContainsKey(flowObj.objectName))
+                {
+                    try
                     {
                         this.objectToFlow[flowObj.objectName].Add(flowObj);
                     }
-                    else
+                    catch (Exception ex)
+                    {
+                        errorLog.WriteLine("Flow Object Name: " + flowObj.apiName +
+                                           ": flowObj.objectName: " + flowObj.objectName +
+                                           " Error adding flow to object to flow map: " + ex.Message);
+                    }
+                }
+                else
+                {
+                    try
                     {
                         this.objectToFlow.Add(flowObj.objectName, new List<FlowProcess> { flowObj });
+                    }
+                    catch (Exception ex)
+                    {
+                        errorLog.WriteLine("Flow Object Name: " + flowObj.apiName +
+                                           ": flowObj.objectName: " + flowObj.objectName +
+                                           " Error adding flow to object to flow map: " + ex.Message);
                     }
                 }
             }
@@ -526,119 +857,166 @@ namespace SalesforceMetadata
 
         private void runWorkflowExtract()
         {
-            if (Directory.Exists(this.tbProjectFolder.Text + "\\workflows"))
+            this.workflowObj = new Dictionary<string, List<WorkflowRule>>();
+            this.workflowFldUpdates = new Dictionary<String, List<WorkflowFieldUpdates>>();
+
+            if (!Directory.Exists(this.tbProjectFolder.Text + "\\workflows"))
             {
-                this.workflowObj = new Dictionary<string, List<WorkflowRule>>();
-                this.workflowFldUpdates = new Dictionary<String, List<WorkflowFieldUpdates>>();
+                return;
+            }
 
-                String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\workflows");
+            String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\workflows");
 
-                foreach (String fl in files)
+            foreach (String fl in files)
+            {
+                String[] flPathSplit = fl.Split('\\');
+                String[] flNameSplit = flPathSplit[flPathSplit.Length - 1].Split('.');
+
+                XmlDocument objXd = new XmlDocument();
+                objXd.Load(fl);
+
+                XmlNodeList wfRules = objXd.GetElementsByTagName("rules");
+                XmlNodeList wfFieldUpdates = objXd.GetElementsByTagName("fieldUpdates");
+
+                if (wfRules.Count > 0)
                 {
-                    String[] flPathSplit = fl.Split('\\');
-                    String[] flNameSplit = flPathSplit[flPathSplit.Length - 1].Split('.');
-
-                    XmlDocument objXd = new XmlDocument();
-                    objXd.Load(fl);
-
-                    XmlNodeList wfRules = objXd.GetElementsByTagName("rules");
-                    XmlNodeList wfFieldUpdates = objXd.GetElementsByTagName("fieldUpdates");
-
-                    if (wfRules.Count > 0)
+                    foreach (XmlNode nd1 in wfRules)
                     {
-                        foreach (XmlNode nd1 in wfRules)
+                        if (nd1.ParentNode.Name == "Workflow")
                         {
-                            if (nd1.ParentNode.Name == "Workflow")
+                            WorkflowRule wrkFlowObj = new WorkflowRule();
+                            wrkFlowObj.objectName = flNameSplit[0];
+
+                            HashSet<String> fieldUpdates = new HashSet<String>();
+
+                            // Make sure the rule is active before adding the values
+                            foreach (XmlNode cn in nd1.ChildNodes)
                             {
-                                WorkflowRule wrkFlowObj = new WorkflowRule();
-                                wrkFlowObj.objectName = flNameSplit[0];
-
-                                HashSet<String> fieldUpdates = new HashSet<String>();
-
-                                // Make sure the rule is active before adding the values
-                                foreach (XmlNode cn in nd1.ChildNodes)
+                                if (cn.Name == "active")
                                 {
-                                    if (cn.Name == "active")
+                                    wrkFlowObj.isActive = Boolean.Parse(cn.InnerText);
+                                }
+                                else if (cn.Name == "fullName")
+                                {
+                                    wrkFlowObj.workflowRuleName = cn.InnerText;
+                                }
+                                else if (cn.Name == "triggerType")
+                                {
+                                    wrkFlowObj.triggerType = cn.InnerText;
+                                }
+                                else if (cn.Name == "actions")
+                                {
+                                    if (cn.ChildNodes[1].InnerText == "FieldUpdate")
                                     {
-                                        wrkFlowObj.isActive = Boolean.Parse(cn.InnerText);
-                                    }
-                                    else if (cn.Name == "fullName")
-                                    {
-                                        wrkFlowObj.workflowRuleName = cn.InnerText;
-                                    }
-                                    else if (cn.Name == "triggerType")
-                                    {
-                                        wrkFlowObj.triggerType = cn.InnerText;
-                                    }
-                                    else if (cn.Name == "actions")
-                                    {
-                                        if (cn.ChildNodes[1].InnerText == "FieldUpdate")
+                                        try
                                         {
                                             wrkFlowObj.wfFieldUpdates.Add(cn.ChildNodes[0].InnerText);
                                         }
+                                        catch (Exception ex)
+                                        {
+                                            errorLog.WriteLine("Workflow Object Name: " + wrkFlowObj.objectName +
+                                                               ": WorkflowRuleName: " + wrkFlowObj.workflowRuleName +
+                                                               " Error adding field update to workflow rule field update set: " + ex.Message);
+                                        }
                                     }
                                 }
+                            }
 
-                                // Add the workflow to the dictionary
-                                if (this.workflowObj.ContainsKey(wrkFlowObj.objectName))
+                            // Add the workflow to the dictionary
+                            if (this.workflowObj.ContainsKey(wrkFlowObj.objectName))
+                            {
+                                try
                                 {
                                     this.workflowObj[wrkFlowObj.objectName].Add(wrkFlowObj);
                                 }
-                                else
+                                catch (Exception ex)
+                                {
+                                    errorLog.WriteLine("Workflow Object Name: " + wrkFlowObj.objectName +
+                                                       ": WorkflowRuleName: " + wrkFlowObj.workflowRuleName +
+                                                       " Error adding workflow rule to workflow object map: " + ex.Message);
+                                }
+                            }
+                            else
+                            {
+                                try
                                 {
                                     this.workflowObj.Add(wrkFlowObj.objectName, new List<WorkflowRule> { wrkFlowObj });
+                                }
+                                catch (Exception ex)
+                                {
+                                    errorLog.WriteLine("Workflow Object Name: " + wrkFlowObj.objectName +
+                                                       ": WorkflowRuleName: " + wrkFlowObj.workflowRuleName +
+                                                       " Error adding workflow rule to workflow object map: " + ex.Message);
                                 }
                             }
                         }
                     }
+                }
 
-                    if (wfFieldUpdates.Count > 0)
+                if (wfFieldUpdates.Count > 0)
+                {
+                    WorkflowRule wrkFlowObj = new WorkflowRule();
+                    wrkFlowObj.objectName = flNameSplit[0];
+
+                    foreach (XmlNode nd1 in wfFieldUpdates)
                     {
-                        WorkflowRule wrkFlowObj = new WorkflowRule();
-                        wrkFlowObj.objectName = flNameSplit[0];
-
-                        foreach (XmlNode nd1 in wfFieldUpdates)
+                        if (nd1.ParentNode.Name == "Workflow")
                         {
-                            if (nd1.ParentNode.Name == "Workflow")
+                            WorkflowFieldUpdates wfu = new WorkflowFieldUpdates();
+                            wfu.objectName = flNameSplit[0];
+
+                            foreach (XmlNode cn2 in nd1.ChildNodes)
                             {
-                                WorkflowFieldUpdates wfu = new WorkflowFieldUpdates();
-                                wfu.objectName = flNameSplit[0];
-
-                                foreach (XmlNode cn2 in nd1.ChildNodes)
+                                if (cn2.Name == "fullName")
                                 {
-                                    if (cn2.Name == "fullName")
-                                    {
-                                        wfu.fieldUpdateName = cn2.InnerText;
-                                    }
-                                    else if (cn2.Name == "field")
-                                    {
-                                        wfu.fieldName = cn2.InnerText;
-                                    }
-                                    else if (cn2.Name == "literalValue")
-                                    {
-                                        wfu.literalValue = cn2.InnerText;
-                                    }
-                                    else if (cn2.Name == "name")
-                                    {
-                                        wfu.fieldUpdateLabel = cn2.InnerText;
-                                    }
-                                    else if (cn2.Name == "notifyAssignee")
-                                    {
-                                        wfu.notifyAssignee = Boolean.Parse(cn2.InnerText);
-                                    }
-                                    else if (cn2.Name == "reevaluateOnChange")
-                                    {
-                                        wfu.reevaluateOnChange = Boolean.Parse(cn2.InnerText);
-                                    }
+                                    wfu.fieldUpdateName = cn2.InnerText;
                                 }
+                                else if (cn2.Name == "field")
+                                {
+                                    wfu.fieldName = cn2.InnerText;
+                                }
+                                else if (cn2.Name == "literalValue")
+                                {
+                                    wfu.literalValue = cn2.InnerText;
+                                }
+                                else if (cn2.Name == "name")
+                                {
+                                    wfu.fieldUpdateLabel = cn2.InnerText;
+                                }
+                                else if (cn2.Name == "notifyAssignee")
+                                {
+                                    wfu.notifyAssignee = Boolean.Parse(cn2.InnerText);
+                                }
+                                else if (cn2.Name == "reevaluateOnChange")
+                                {
+                                    wfu.reevaluateOnChange = Boolean.Parse(cn2.InnerText);
+                                }
+                            }
 
-                                if (this.workflowFldUpdates.ContainsKey(wfu.objectName))
+                            if (this.workflowFldUpdates.ContainsKey(wfu.objectName))
+                            {
+                                try
                                 {
                                     this.workflowFldUpdates[wfu.objectName].Add(wfu);
                                 }
-                                else
+                                catch (Exception ex)
+                                {
+                                    errorLog.WriteLine("Workflow Field Update Object Name: " + wfu.objectName +
+                                                       ": FieldUpdateName: " + wfu.fieldUpdateName +
+                                                       " Error adding workflow field update to workflow field update object map: " + ex.Message);
+                                }
+                            }
+                            else
+                            {
+                                try
                                 {
                                     this.workflowFldUpdates.Add(wfu.objectName, new List<WorkflowFieldUpdates> { wfu });
+                                }
+                                catch (Exception ex)
+                                {
+                                    errorLog.WriteLine("Workflow Field Update Object Name: " + wfu.objectName +
+                                                       ": FieldUpdateName: " + wfu.fieldUpdateName +
+                                                       " Error adding workflow field update to workflow field update object map: " + ex.Message);
                                 }
                             }
                         }
@@ -719,82 +1097,85 @@ namespace SalesforceMetadata
                     skipTo = 0;
                     skipOver = false;
                 }
-                else if (charArray[i].ToString().ToLower() == "@"
-                    && charArray[i + 1].ToString().ToLower() == "r"
-                    && charArray[i + 2].ToString().ToLower() == "e"
-                    && charArray[i + 3].ToString().ToLower() == "s"
-                    && charArray[i + 4].ToString().ToLower() == "t"
-                    && charArray[i + 5].ToString().ToLower() == "r"
-                    && charArray[i + 6].ToString().ToLower() == "e"
-                    && charArray[i + 7].ToString().ToLower() == "s")
+                else if(skipOver == false)
                 {
-                    restResource = true;
-                }
-                else if (charArray[i].ToString().ToLower() == "'"
-                    && charArray[i + 1].ToString().ToLower() == "*"
-                    && charArray[i + 2].ToString().ToLower() == "/"
-                    && charArray[i + 3].ToString().ToLower() == "*"
-                    && charArray[i + 4].ToString().ToLower() == "'")
-                {
-                    fileContents1 = fileContents1 + charArray[i].ToString();
-                    fileContents1 = fileContents1 + charArray[i + 1].ToString();
-                    fileContents1 = fileContents1 + charArray[i + 2].ToString();
-                    fileContents1 = fileContents1 + charArray[i + 3].ToString();
-                    fileContents1 = fileContents1 + charArray[i + 4].ToString();
-
-                    skipTo = i + 4;
-                    skipOver = true;
-                }
-                else if (restResource == true
-                    && charArray[i].ToString().ToLower() == ")")
-                {
-                    restResource = false;
-                }
-                else if (inInlineComment == false
-                    && restResource == false
-                    && charArray[i].ToString() == "/" && charArray[i + 1].ToString() == "*")
-                {
-                    inMultilineComment = true;
-                    mlCommentNotationCount++;
-                }
-                // Inline comment, but avoid skipping over urls
-                else if (i == 0
-                    && inMultilineComment == false
-                    && restResource == false
-                    && charArray[i].ToString() == "/"
-                    && charArray[i + 1].ToString() == "/")
-                {
-                    inInlineComment = true;
-                }
-                else if (i > 0
-                    && inMultilineComment == false
-                    && restResource == false
-                    && charArray[i].ToString() == "/"
-                    && charArray[i + 1].ToString() == "/"
-                    && charArray[i - 1].ToString() != ":")
-                {
-                    inInlineComment = true;
-                }
-                else if (inInlineComment == true
-                    && restResource == false
-                    && charArray[i] == '\n')
-                {
-                    inInlineComment = false;
-                }
-                else if (inInlineComment == false
-                    && restResource == false
-                    && charArray[i].ToString() == "*" && charArray[i + 1].ToString() == "/")
-                {
-                    mlCommentNotationCount--;
-                    if (mlCommentNotationCount == 0)
+                    if (charArray[i].ToString().ToLower() == "@"
+                        && charArray[i + 1].ToString().ToLower() == "r"
+                        && charArray[i + 2].ToString().ToLower() == "e"
+                        && charArray[i + 3].ToString().ToLower() == "s"
+                        && charArray[i + 4].ToString().ToLower() == "t"
+                        && charArray[i + 5].ToString().ToLower() == "r"
+                        && charArray[i + 6].ToString().ToLower() == "e"
+                        && charArray[i + 7].ToString().ToLower() == "s")
                     {
-                        inMultilineComment = false;
-                        skipOne = true;
+                        restResource = true;
                     }
-                }
-                else if (inInlineComment == false && inMultilineComment == false)
-                {
-                    fileContents1 = fileContents1 + charArray[i].ToString();
+                    else if (charArray[i].ToString().ToLower() == "'"
+                        && charArray[i + 1].ToString().ToLower() == "*"
+                        && charArray[i + 2].ToString().ToLower() == "/"
+                        && charArray[i + 3].ToString().ToLower() == "*"
+                        && charArray[i + 4].ToString().ToLower() == "'")
+                    {
+                        fileContents1 = fileContents1 + charArray[i].ToString();
+                        fileContents1 = fileContents1 + charArray[i + 1].ToString();
+                        fileContents1 = fileContents1 + charArray[i + 2].ToString();
+                        fileContents1 = fileContents1 + charArray[i + 3].ToString();
+                        fileContents1 = fileContents1 + charArray[i + 4].ToString();
+
+                        skipTo = i + 4;
+                        skipOver = true;
+                    }
+                    else if (restResource == true
+                        && charArray[i].ToString().ToLower() == ")")
+                    {
+                        restResource = false;
+                    }
+                    else if (inInlineComment == false
+                        && restResource == false
+                        && charArray[i].ToString() == "/" && charArray[i + 1].ToString() == "*")
+                    {
+                        inMultilineComment = true;
+                        mlCommentNotationCount++;
+                    }
+                    // Inline comment, but avoid skipping over urls
+                    else if (i == 0
+                        && inMultilineComment == false
+                        && restResource == false
+                        && charArray[i].ToString() == "/"
+                        && charArray[i + 1].ToString() == "/")
+                    {
+                        inInlineComment = true;
+                    }
+                    else if (i > 0
+                        && inMultilineComment == false
+                        && restResource == false
+                        && charArray[i].ToString() == "/"
+                        && charArray[i + 1].ToString() == "/"
+                        && charArray[i - 1].ToString() != ":")
+                    {
+                        inInlineComment = true;
+                    }
+                    else if (inInlineComment == true
+                        && restResource == false
+                        && charArray[i] == '\n')
+                    {
+                        inInlineComment = false;
+                    }
+                    else if (inInlineComment == false
+                        && restResource == false
+                        && charArray[i].ToString() == "*" && charArray[i + 1].ToString() == "/")
+                    {
+                        mlCommentNotationCount--;
+                        if (mlCommentNotationCount == 0)
+                        {
+                            inMultilineComment = false;
+                            skipOne = true;
+                        }
+                    }
+                    else if (inInlineComment == false && inMultilineComment == false)
+                    {
+                        fileContents1 = fileContents1 + charArray[i].ToString();
+                    }
                 }
             }
 
@@ -865,387 +1246,390 @@ namespace SalesforceMetadata
                     skipTo = 0;
                     skipOver = false;
                 }
-                else if (charArray[i].ToString() == "'"
-                    && inString == false)
+                else if (skipOver == false)
                 {
-                    filecontents2 = filecontents2 + charArray[i].ToString();
-                    inString = true;
-                }
-                else if (charArray[i].ToString() == "'"
-                    && charArray[i - 2].ToString() != "\\"
-                    && inString == true)
-                {
-                    filecontents2 = filecontents2 + charArray[i].ToString();
-                    inString = false;
-                }
-                else if (inString == false
-                    && inCollection == true
-                    && charArray[i].ToString().ToLower() != " ")
-                {
-                    collectionVar = collectionVar + charArray[i].ToString();
-
-                    if (charArray[i].ToString() == "<" && firstLessThanFound == false)
+                    if (charArray[i].ToString() == "'"
+                        && inString == false)
                     {
-                        firstLessThanFound = true;
-                        lessThanCount++;
+                        filecontents2 = filecontents2 + charArray[i].ToString();
+                        inString = true;
                     }
-                    else if (charArray[i].ToString() == "<" && firstLessThanFound == true)
+                    else if (charArray[i].ToString() == "'"
+                        && charArray[i - 2].ToString() != "\\"
+                        && inString == true)
                     {
-                        lessThanCount++;
+                        filecontents2 = filecontents2 + charArray[i].ToString();
+                        inString = false;
                     }
-                    else if (charArray[i].ToString() == ">")
+                    else if (inString == false
+                        && inCollection == true
+                        && charArray[i].ToString().ToLower() != " ")
                     {
-                        lessThanCount--;
+                        collectionVar = collectionVar + charArray[i].ToString();
 
-                        if (firstLessThanFound == true && lessThanCount == 0)
+                        if (charArray[i].ToString() == "<" && firstLessThanFound == false)
                         {
-                            filecontents2 = filecontents2 + " " + collectionVar;
+                            firstLessThanFound = true;
+                            lessThanCount++;
+                        }
+                        else if (charArray[i].ToString() == "<" && firstLessThanFound == true)
+                        {
+                            lessThanCount++;
+                        }
+                        else if (charArray[i].ToString() == ">")
+                        {
+                            lessThanCount--;
 
-                            collectionVar = "";
-                            inCollection = false;
-                            firstLessThanFound = false;
-                            lessThanCount = 0;
+                            if (firstLessThanFound == true && lessThanCount == 0)
+                            {
+                                filecontents2 = filecontents2 + " " + collectionVar;
+
+                                collectionVar = "";
+                                inCollection = false;
+                                firstLessThanFound = false;
+                                lessThanCount = 0;
+                            }
                         }
                     }
-                }
-                else if (inString == false
-                    && charArray.Length - i - 1 > 4
-                    && charArray[i].ToString().ToLower() == "s"
-                    && charArray[i + 1].ToString().ToLower() == "e"
-                    && charArray[i + 2].ToString().ToLower() == "t"
-                    && charArray[i + 3].ToString().ToLower() == "<")
-                {
-                    inCollection = true;
-                    collectionVar = collectionVar + charArray[i].ToString();
-                }
-                else if (inString == false
-                    && charArray.Length - i - 1 > 4
-                    && charArray[i].ToString().ToLower() == "m"
-                    && charArray[i + 1].ToString().ToLower() == "a"
-                    && charArray[i + 2].ToString().ToLower() == "p"
-                    && charArray[i + 3].ToString().ToLower() == "<")
-                {
-                    inCollection = true;
-                    collectionVar = collectionVar + charArray[i].ToString();
-                }
-                else if (inString == false
-                   && charArray.Length - i - 1 > 5
-                   && charArray[i].ToString().ToLower() == "l"
-                   && charArray[i + 1].ToString().ToLower() == "i"
-                   && charArray[i + 2].ToString().ToLower() == "s"
-                   && charArray[i + 3].ToString().ToLower() == "t"
-                   && charArray[i + 4].ToString().ToLower() == "<")
-                {
-                    inCollection = true;
-                    collectionVar = collectionVar + charArray[i].ToString();
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == ">"
-                    && charArray[i + 1].ToString() == ">"
-                    && charArray[i + 2].ToString() == ">"
-                    && charArray[i + 3].ToString() == "=")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + charArray[i + 2].ToString() + charArray[i + 3].ToString() + " ";
-                    skipTo = i + 3;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == ">"
-                    && charArray[i + 1].ToString() == ">"
-                    && charArray[i + 2].ToString() == ">")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + charArray[i + 2].ToString() + " ";
-                    skipTo = i + 2;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == ">"
-                    && charArray[i + 1].ToString() == ">"
-                    && charArray[i + 2].ToString() == "=")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + charArray[i + 2].ToString() + " ";
-                    skipTo = i + 2;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "="
-                    && charArray[i + 1].ToString() == "="
-                    && charArray[i + 2].ToString() == "=")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + charArray[i + 2].ToString() + " ";
-                    skipTo = i + 2;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "<"
-                    && charArray[i + 1].ToString() == "<"
-                    && charArray[i + 2].ToString() == "=")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + charArray[i + 2].ToString() + " ";
-                    skipTo = i + 2;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "!"
-                    && charArray[i + 1].ToString() == "="
-                    && charArray[i + 2].ToString() == "=")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + charArray[i + 2].ToString() + " ";
-                    skipTo = i + 2;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == ">"
-                    && charArray[i + 1].ToString() == ">")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
-                    skipTo = i + 1;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == ">"
-                    && charArray[i + 1].ToString() == "=")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
-                    skipTo = i + 1;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "<"
-                    && charArray[i + 1].ToString() == "=")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
-                    skipTo = i + 1;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "="
-                    && charArray[i + 1].ToString() == ">")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
-                    skipTo = i + 1;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "="
-                    && charArray[i + 1].ToString() == "=")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
-                    skipTo = i + 1;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "-"
-                    && charArray[i + 1].ToString() == "=")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
-                    skipTo = i + 1;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "<"
-                    && charArray[i + 1].ToString() == "<")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
-                    skipTo = i + 1;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "+"
-                    && charArray[i + 1].ToString() == "=")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
-                    skipTo = i + 1;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "+"
-                    && charArray[i + 1].ToString() == "+")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
-                    skipTo = i + 1;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "|"
-                    && charArray[i + 1].ToString() == "=")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
-                    skipTo = i + 1;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "|"
-                    && charArray[i + 1].ToString() == "|")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
-                    skipTo = i + 1;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "^"
-                    && charArray[i + 1].ToString() == "=")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
-                    skipTo = i + 1;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "?"
-                    && charArray[i + 1].ToString() == ".")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
-                    skipTo = i + 1;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "/"
-                    && charArray[i + 1].ToString() == "=")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
-                    skipTo = i + 1;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "*"
-                    && charArray[i + 1].ToString() == "=")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
-                    skipTo = i + 1;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "&"
-                    && charArray[i + 1].ToString() == "=")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
-                    skipTo = i + 1;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "&"
-                    && charArray[i + 1].ToString() == "&")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
-                    skipTo = i + 1;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "!"
-                    && charArray[i + 1].ToString() == "=")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
-                    skipTo = i + 1;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "-"
-                    && charArray[i + 1].ToString() == "-")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
-                    skipTo = i + 1;
-                    skipOver = true;
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == ">")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "=")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "<")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "+")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "~")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "|")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "^")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "/")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "*")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "&")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "!")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
-                }
-                else if (inString == false
-                    && inCollection == false
-                    && charArray[i].ToString() == "-")
-                {
-                    filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
-                }
-                else if (inCollection == false)
-                {
-                    filecontents2 = filecontents2 + charArray[i].ToString();
+                    else if (inString == false
+                        && charArray.Length - i - 1 > 4
+                        && charArray[i].ToString().ToLower() == "s"
+                        && charArray[i + 1].ToString().ToLower() == "e"
+                        && charArray[i + 2].ToString().ToLower() == "t"
+                        && charArray[i + 3].ToString().ToLower() == "<")
+                    {
+                        inCollection = true;
+                        collectionVar = collectionVar + charArray[i].ToString();
+                    }
+                    else if (inString == false
+                        && charArray.Length - i - 1 > 4
+                        && charArray[i].ToString().ToLower() == "m"
+                        && charArray[i + 1].ToString().ToLower() == "a"
+                        && charArray[i + 2].ToString().ToLower() == "p"
+                        && charArray[i + 3].ToString().ToLower() == "<")
+                    {
+                        inCollection = true;
+                        collectionVar = collectionVar + charArray[i].ToString();
+                    }
+                    else if (inString == false
+                       && charArray.Length - i - 1 > 5
+                       && charArray[i].ToString().ToLower() == "l"
+                       && charArray[i + 1].ToString().ToLower() == "i"
+                       && charArray[i + 2].ToString().ToLower() == "s"
+                       && charArray[i + 3].ToString().ToLower() == "t"
+                       && charArray[i + 4].ToString().ToLower() == "<")
+                    {
+                        inCollection = true;
+                        collectionVar = collectionVar + charArray[i].ToString();
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == ">"
+                        && charArray[i + 1].ToString() == ">"
+                        && charArray[i + 2].ToString() == ">"
+                        && charArray[i + 3].ToString() == "=")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + charArray[i + 2].ToString() + charArray[i + 3].ToString() + " ";
+                        skipTo = i + 3;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == ">"
+                        && charArray[i + 1].ToString() == ">"
+                        && charArray[i + 2].ToString() == ">")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + charArray[i + 2].ToString() + " ";
+                        skipTo = i + 2;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == ">"
+                        && charArray[i + 1].ToString() == ">"
+                        && charArray[i + 2].ToString() == "=")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + charArray[i + 2].ToString() + " ";
+                        skipTo = i + 2;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "="
+                        && charArray[i + 1].ToString() == "="
+                        && charArray[i + 2].ToString() == "=")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + charArray[i + 2].ToString() + " ";
+                        skipTo = i + 2;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "<"
+                        && charArray[i + 1].ToString() == "<"
+                        && charArray[i + 2].ToString() == "=")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + charArray[i + 2].ToString() + " ";
+                        skipTo = i + 2;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "!"
+                        && charArray[i + 1].ToString() == "="
+                        && charArray[i + 2].ToString() == "=")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + charArray[i + 2].ToString() + " ";
+                        skipTo = i + 2;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == ">"
+                        && charArray[i + 1].ToString() == ">")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == ">"
+                        && charArray[i + 1].ToString() == "=")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "<"
+                        && charArray[i + 1].ToString() == "=")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "="
+                        && charArray[i + 1].ToString() == ">")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "="
+                        && charArray[i + 1].ToString() == "=")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "-"
+                        && charArray[i + 1].ToString() == "=")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "<"
+                        && charArray[i + 1].ToString() == "<")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "+"
+                        && charArray[i + 1].ToString() == "=")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "+"
+                        && charArray[i + 1].ToString() == "+")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "|"
+                        && charArray[i + 1].ToString() == "=")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "|"
+                        && charArray[i + 1].ToString() == "|")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "^"
+                        && charArray[i + 1].ToString() == "=")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "?"
+                        && charArray[i + 1].ToString() == ".")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "/"
+                        && charArray[i + 1].ToString() == "=")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "*"
+                        && charArray[i + 1].ToString() == "=")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "&"
+                        && charArray[i + 1].ToString() == "=")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "&"
+                        && charArray[i + 1].ToString() == "&")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "!"
+                        && charArray[i + 1].ToString() == "=")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "-"
+                        && charArray[i + 1].ToString() == "-")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + charArray[i + 1].ToString() + " ";
+                        skipTo = i + 1;
+                        skipOver = true;
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == ">")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "=")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "<")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "+")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "~")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "|")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "^")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "/")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "*")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "&")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "!")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                    }
+                    else if (inString == false
+                        && inCollection == false
+                        && charArray[i].ToString() == "-")
+                    {
+                        filecontents2 = filecontents2 + " " + charArray[i].ToString() + " ";
+                    }
+                    else if (inCollection == false)
+                    {
+                        filecontents2 = filecontents2 + charArray[i].ToString();
+                    }
                 }
             }
 
@@ -1292,241 +1676,259 @@ namespace SalesforceMetadata
                     skipTo = 0;
                     skipOver = false;
                 }
-                else if (filearray[i].ToLower() == "trigger")
+                else if (skipOver == false)
                 {
-                    at.triggerName = filearray[i + 1];
-                    at.objectName = filearray[i + 3];
+                    if (filearray[i].ToLower() == "trigger")
+                    {
+                        at.triggerName = filearray[i + 1];
+                        at.objectName = filearray[i + 3];
 
-                    inTriggerEvents = true;
-                }
-                else if (inTriggerEvents == true
-                    && (filearray[i].ToLower() == "before" || filearray[i].ToLower() == "after"))
-                {
-                    String triggerevt = filearray[i] + " " + filearray[i + 1];
-                    if (triggerevt.EndsWith(","))
-                    {
-                        triggerevt = triggerevt.Substring(0, triggerevt.Length - 1);
+                        inTriggerEvents = true;
                     }
-
-                    at.triggerEvents.Add(triggerevt);
-
-                    if (triggerevt == "before insert")
+                    else if (inTriggerEvents == true
+                        && (filearray[i].ToLower() == "before" || filearray[i].ToLower() == "after"))
                     {
-                        at.isBeforeInsert = true;
-                        skipTo = i + 1;
-                        skipOver = true;
-                    }
-                    else if (triggerevt == "before update")
-                    {
-                        at.isBeforeUpdate = true;
-                        skipTo = i + 1;
-                        skipOver = true;
-                    }
-                    else if (triggerevt == "before delete")
-                    {
-                        at.isBeforeDelete = true;
-                        skipTo = i + 1;
-                        skipOver = true;
-                    }
-                    else if (triggerevt == "after insert")
-                    {
-                        at.isAfterInsert = true;
-                        skipTo = i + 1;
-                        skipOver = true;
-                    }
-                    else if (triggerevt == "after update")
-                    {
-                        at.isAfterUpdate = true;
-                        skipTo = i + 1;
-                        skipOver = true;
-                    }
-                    else if (triggerevt == "after delete")
-                    {
-                        at.isAfterDelete = true;
-                        skipTo = i + 1;
-                        skipOver = true;
-                    }
-                    else if (triggerevt == "after undelete")
-                    {
-                        at.isAfterUndelete = true;
-                        skipTo = i + 1;
-                        skipOver = true;
-                    }
-                }
-                else if (filearray[i] == "\'")
-                {
-                    //Debug.WriteLine(i + " " + filearray[i] + " " + filearray[i + 1] + " " + filearray[i + 2]);
-
-                    Int32 jCount = i + 1;
-                    Boolean inString = true;
-
-                    String stringValue = filearray[i];
-                    for (Int32 j = jCount; j < filearray.Length; j++)
-                    {
-                        stringValue = stringValue + " " + filearray[j];
-                        jCount = j;
-
-                        if (filearray[j] == "'"
-                            && filearray[j - 1] != "\\"
-                            && inString == true)
+                        String triggerevt = filearray[i] + " " + filearray[i + 1];
+                        if (triggerevt.EndsWith(","))
                         {
-                            break;
+                            triggerevt = triggerevt.Substring(0, triggerevt.Length - 1);
+                        }
+
+                        at.triggerEvents.Add(triggerevt);
+
+                        if (triggerevt == "before insert")
+                        {
+                            at.isBeforeInsert = true;
+                            skipTo = i + 1;
+                            skipOver = true;
+                        }
+                        else if (triggerevt == "before update")
+                        {
+                            at.isBeforeUpdate = true;
+                            skipTo = i + 1;
+                            skipOver = true;
+                        }
+                        else if (triggerevt == "before delete")
+                        {
+                            at.isBeforeDelete = true;
+                            skipTo = i + 1;
+                            skipOver = true;
+                        }
+                        else if (triggerevt == "after insert")
+                        {
+                            at.isAfterInsert = true;
+                            skipTo = i + 1;
+                            skipOver = true;
+                        }
+                        else if (triggerevt == "after update")
+                        {
+                            at.isAfterUpdate = true;
+                            skipTo = i + 1;
+                            skipOver = true;
+                        }
+                        else if (triggerevt == "after delete")
+                        {
+                            at.isAfterDelete = true;
+                            skipTo = i + 1;
+                            skipOver = true;
+                        }
+                        else if (triggerevt == "after undelete")
+                        {
+                            at.isAfterUndelete = true;
+                            skipTo = i + 1;
+                            skipOver = true;
                         }
                     }
-
-                    skipTo = jCount;
-                    skipOver = true;
-                }
-                else if (inTriggerEvents == true
-                        && filearray[i].ToLower() == ")")
-                {
-                    inTriggerEvents = false;
-                    inTriggerBody = true;
-                }
-                else if (filearray[i] == "="
-                    && inTriggerBody == true)
-                {
-                    // Left side / right side method variable
-                    skipTo = parseTriggerVariables(filearray, at, i);
-                    skipOver = true;
-                }
-                //else if (filearray[i] == "!="
-                //    && inTriggerBody == true)
-                //{
-                //    // Left side / right side method variable
-                //    skipTo = parseTriggerVariables(filearray, at, i);
-                //    skipOver = true;
-                //}
-                else if (filearray[i].ToLower() == "for"
-                    && inTriggerBody == true)
-                {
-                    // Left side / right side method variable
-                    ObjectVarToType ovt = new ObjectVarToType();
-                    skipTo = parseForLoop(filearray, ovt, i);
-                    skipOver = true;
-
-                    if (at.triggerForLoops.ContainsKey(ovt.leftSideObject))
+                    else if (filearray[i] == "'" 
+                             && filearray[i - 1] != "\\")
                     {
-                        at.triggerForLoops[ovt.leftSideObject].Add(ovt);
-                    }
-                    else
-                    {
-                        at.triggerForLoops.Add(ovt.leftSideObject, new List<ObjectVarToType> { ovt });
-                    }
-                }
-                else if (filearray[i].ToLower() == "throw"
-                    && inTriggerBody == true)
-                {
-                    skipTo = bypassCharacters(filearray, i);
-                    skipOver = true;
-                }
-                // bypass the rest of the system.assert and assertEquals
-                else if (filearray[i].ToLower() == "system.assert"
-                    && inTriggerBody == true)
-                {
-                    skipTo = bypassCharacters(filearray, i);
-                    skipOver = true;
-                }
-                else if (filearray[i].ToLower() == "system.assertequals"
-                    && inTriggerBody == true)
-                {
-                    skipTo = bypassCharacters(filearray, i);
-                    skipOver = true;
-                }
-                else if (filearray[i].ToLower() == "system.assertnotequals"
-                    && inTriggerBody == true)
-                {
-                    skipTo = bypassCharacters(filearray, i);
-                    skipOver = true;
-                }
-                else if (filearray[i].ToLower() == "system.debug"
-                    && inTriggerBody == true)
-                {
-                    skipTo = bypassCharacters(filearray, i);
-                    skipOver = true;
-                }
+                        //Debug.WriteLine(i + " " + filearray[i] + " " + filearray[i + 1] + " " + filearray[i + 2]);
 
-                else if ((filearray[i].ToLower() == "database.deleteresult"
-                    || filearray[i].ToLower() == "database.mergeresult"
-                    || filearray[i].ToLower() == "database.undeleteresult"
-                    || filearray[i].ToLower() == "database.upsertresult"
-                    || filearray[i].ToLower() == "database.saveresult")
-                    && inTriggerBody == true)
-                {
-                    // Possible options include:
-                    // Database.SaveResult[] sr = Database.update(updateBillingDocuments, false);
-                    //
-                    // OR another perfectly acceptable way is to declare a null Database.SaveResult[] array
-                    // 
-                    // Database.SaveResult[] sr;
-                    // try { sr = database.update(updateBillingDocuments) } catch(Exception e) {};
-                    if (filearray[i + 1] == "[")
-                    {
-                        saveResultType = filearray[i] + filearray[i + 1] + filearray[i + 2];
-                        saveResultVar = filearray[i + 3];
-                        skipTo = i + 4;
+                        Int32 jCount = i + 1;
+                        Boolean inString = true;
+
+                        String stringValue = filearray[i];
+                        for (Int32 j = jCount; j < filearray.Length; j++)
+                        {
+                            stringValue = stringValue + " " + filearray[j];
+                            jCount = j;
+
+                            if (filearray[j] == "'"
+                                && filearray[j - 1] != "\\"
+                                && inString == true)
+                            {
+                                break;
+                            }
+                        }
+
+                        skipTo = jCount;
                         skipOver = true;
                     }
-                    else
+                    else if (inTriggerEvents == true
+                            && filearray[i].ToLower() == ")")
                     {
-                        saveResultType = filearray[i];
-                        saveResultVar = filearray[i + 1];
-                        skipTo = i + 2;
+                        inTriggerEvents = false;
+                        inTriggerBody = true;
+                    }
+                    else if (filearray[i] == "="
+                        && inTriggerBody == true)
+                    {
+                        // Left side / right side method variable
+                        skipTo = parseTriggerVariables(filearray, at, i);
                         skipOver = true;
                     }
-                }
-                else if (filearray[i].ToLower() == "select" && inSOQLStatement == false)
-                {
-                    inSOQLStatement = true;
-                    at.logicContainedInTrigger = true;
-                }
-                else if (inSOQLStatement == true && filearray[i].ToLower() == "]")
-                {
-                    inSOQLStatement = false;
-
-                    if (at.soqlStatements.ContainsKey(soqlObject))
+                    //else if (filearray[i] == "!="
+                    //    && inTriggerBody == true)
+                    //{
+                    //    // Left side / right side method variable
+                    //    skipTo = parseTriggerVariables(filearray, at, i);
+                    //    skipOver = true;
+                    //}
+                    else if (filearray[i].ToLower() == "for"
+                        && inTriggerBody == true)
                     {
-                        at.soqlStatements[soqlObject].Add(soqlStatement);
+                        // Left side / right side method variable
+                        ObjectVarToType ovt = new ObjectVarToType();
+                        skipTo = parseForLoop(filearray, ovt, i);
+                        skipOver = true;
+
+                        if (at.triggerForLoops.ContainsKey(ovt.leftSideObject))
+                        {
+                            at.triggerForLoops[ovt.leftSideObject].Add(ovt);
+                        }
+                        else
+                        {
+                            try
+                            {
+                                at.triggerForLoops.Add(ovt.leftSideObject, new List<ObjectVarToType> { ovt });
+                            }
+                            catch (Exception ex)
+                            {
+                                errorLog.WriteLine("parseApexTrigger: Exception adding for loop object: " + ovt.leftSideObject + " " + ex.Message);
+                            }
+                        }
                     }
-                    else
+                    else if (filearray[i].ToLower() == "throw"
+                        && inTriggerBody == true)
                     {
-                        at.soqlStatements.Add(soqlObject, new List<string> { soqlStatement });
+                        skipTo = bypassCharacters(filearray, i);
+                        skipOver = true;
                     }
-
-                    soqlObject = "";
-                    soqlStatement = "";
-                }
-                else if (inSOQLStatement == true)
-                {
-                    soqlStatement = soqlStatement + filearray[i] + " ";
-                    if (filearray[i].ToLower() == "from")
+                    // bypass the rest of the system.assert and assertEquals
+                    else if (filearray[i].ToLower() == "system.assert"
+                        && inTriggerBody == true)
                     {
-                        soqlObject = filearray[i + 1];
+                        skipTo = bypassCharacters(filearray, i);
+                        skipOver = true;
                     }
-                }
-                else if ((filearray[i].ToLower() == "database.insert"
-                    || filearray[i].ToLower() == "database.update"
-                    || filearray[i].ToLower() == "database.delete"
-                    || filearray[i].ToLower() == "database.undelete")
-                    && inTriggerBody == true)
-                {
-                    at.logicContainedInTrigger = true;
+                    else if (filearray[i].ToLower() == "system.assertequals"
+                        && inTriggerBody == true)
+                    {
+                        skipTo = bypassCharacters(filearray, i);
+                        skipOver = true;
+                    }
+                    else if (filearray[i].ToLower() == "system.assertnotequals"
+                        && inTriggerBody == true)
+                    {
+                        skipTo = bypassCharacters(filearray, i);
+                        skipOver = true;
+                    }
+                    else if (filearray[i].ToLower() == "system.debug"
+                        && inTriggerBody == true)
+                    {
+                        skipTo = bypassCharacters(filearray, i);
+                        skipOver = true;
+                    }
 
-                    String varName = filearray[i + 2];
-                    skipTo = parseTriggerDmlVars(filearray, varName, filearray[i], saveResultType, saveResultVar, at, i + 2);
-                    skipOver = true;
-                }
-                else if ((filearray[i].ToLower() == "insert"
-                    || filearray[i].ToLower() == "update"
-                    || filearray[i].ToLower() == "delete"
-                    || filearray[i].ToLower() == "undelete")
-                    && inTriggerBody == true)
-                {
-                    at.logicContainedInTrigger = true;
+                    else if ((filearray[i].ToLower() == "database.deleteresult"
+                        || filearray[i].ToLower() == "database.mergeresult"
+                        || filearray[i].ToLower() == "database.undeleteresult"
+                        || filearray[i].ToLower() == "database.upsertresult"
+                        || filearray[i].ToLower() == "database.saveresult")
+                        && inTriggerBody == true)
+                    {
+                        // Possible options include:
+                        // Database.SaveResult[] sr = Database.update(updateBillingDocuments, false);
+                        //
+                        // OR another perfectly acceptable way is to declare a null Database.SaveResult[] array
+                        // 
+                        // Database.SaveResult[] sr;
+                        // try { sr = database.update(updateBillingDocuments) } catch(Exception e) {};
+                        if (filearray[i + 1] == "[")
+                        {
+                            saveResultType = filearray[i] + filearray[i + 1] + filearray[i + 2];
+                            saveResultVar = filearray[i + 3];
+                            skipTo = i + 4;
+                            skipOver = true;
+                        }
+                        else
+                        {
+                            saveResultType = filearray[i];
+                            saveResultVar = filearray[i + 1];
+                            skipTo = i + 2;
+                            skipOver = true;
+                        }
+                    }
+                    else if (filearray[i].ToLower() == "select" && inSOQLStatement == false)
+                    {
+                        inSOQLStatement = true;
+                        at.logicContainedInTrigger = true;
+                    }
+                    else if (inSOQLStatement == true && filearray[i].ToLower() == "]")
+                    {
+                        inSOQLStatement = false;
 
-                    String varName = filearray[i + 1];
-                    skipTo = parseTriggerDmlVars(filearray, varName, filearray[i], saveResultType, saveResultVar, at, i + 1);
-                    skipOver = true;
+                        if (at.soqlStatements.ContainsKey(soqlObject))
+                        {
+                            at.soqlStatements[soqlObject].Add(soqlStatement);
+                        }
+                        else
+                        {
+                            try
+                            {
+                                at.soqlStatements.Add(soqlObject, new List<string> { soqlStatement });
+                            }
+                            catch (Exception ex)
+                            {
+                                errorLog.WriteLine("parseApexTrigger: Exception adding SOQL object: " + soqlObject + " " + ex.Message);
+                            }
+                        }
+
+                        soqlObject = "";
+                        soqlStatement = "";
+                    }
+                    else if (inSOQLStatement == true)
+                    {
+                        soqlStatement = soqlStatement + filearray[i] + " ";
+                        if (filearray[i].ToLower() == "from")
+                        {
+                            soqlObject = filearray[i + 1];
+                        }
+                    }
+                    else if ((filearray[i].ToLower() == "database.insert"
+                        || filearray[i].ToLower() == "database.update"
+                        || filearray[i].ToLower() == "database.delete"
+                        || filearray[i].ToLower() == "database.undelete")
+                        && inTriggerBody == true)
+                    {
+                        at.logicContainedInTrigger = true;
+
+                        String varName = filearray[i + 2];
+                        skipTo = parseTriggerDmlVars(filearray, varName, filearray[i], saveResultType, saveResultVar, at, i + 2);
+                        skipOver = true;
+                    }
+                    else if ((filearray[i].ToLower() == "insert"
+                        || filearray[i].ToLower() == "update"
+                        || filearray[i].ToLower() == "delete"
+                        || filearray[i].ToLower() == "undelete")
+                        && inTriggerBody == true)
+                    {
+                        at.logicContainedInTrigger = true;
+
+                        String varName = filearray[i + 1];
+                        skipTo = parseTriggerDmlVars(filearray, varName, filearray[i], saveResultType, saveResultVar, at, i + 1);
+                        skipOver = true;
+                    }
                 }
             }
 
@@ -1536,11 +1938,18 @@ namespace SalesforceMetadata
             }
             else
             {
-                this.objectToTrigger.Add(at.objectName, new List<ApexTriggerStructure> { at });
+                try
+                {
+                    this.objectToTrigger.Add(at.objectName, new List<ApexTriggerStructure> { at });
+                }
+                catch (Exception ex)
+                {
+                    errorLog.WriteLine("parseApexTrigger: Exception adding trigger for object: " + at.objectName + " " + ex.Message);
+                }
             }
         }
 
-        public Int32 parseTriggerVariables(String[] filearray, ApexTriggerStructure at, Int32 arraystart)
+        private Int32 parseTriggerVariables(String[] filearray, ApexTriggerStructure at, Int32 arraystart)
         {
             Int32 lastCharLocation = arraystart;
 
@@ -1598,12 +2007,14 @@ namespace SalesforceMetadata
             for (Int32 i = arraystart + 1; i < filearray.Length; i++)
             {
                 if (filearray[i] == "'"
+                    && filearray[i - 1] != "\\"
                     && inStringValue == false)
                 {
                     inStringValue = true;
                     rightSide = rightSide + filearray[i] + " ";
                 }
                 else if (filearray[i] == "'"
+                    && filearray[i - 1] != "\\"
                     && inStringValue == true)
                 {
                     inStringValue = false;
@@ -1627,7 +2038,14 @@ namespace SalesforceMetadata
                     }
                     else
                     {
-                        at.triggerBodyVars.Add(triggerObject, new List<ObjectVarToType> { ovt });
+                        try
+                        {
+                            at.triggerBodyVars.Add(triggerObject, new List<ObjectVarToType> { ovt });
+                        }
+                        catch (Exception ex)
+                        {
+                            errorLog.WriteLine("parseTriggerVariables: Exception adding trigger body variable: " + triggerObject + " " + ex.Message);
+                        }
                     }
 
                     break;
@@ -1641,7 +2059,7 @@ namespace SalesforceMetadata
             return lastCharLocation;
         }
 
-        public Int32 parseTriggerDmlVars(String[] filearray,
+        private Int32 parseTriggerDmlVars(String[] filearray,
             String varName,
             String dmlType,
             String saveResultType,
@@ -1850,6 +2268,25 @@ namespace SalesforceMetadata
 
             for (Int32 i = 0; i < filearray.Length; i++)
             {
+                // Debugging only
+                //if ((filearray.Length - 1) > i)
+                //{
+                //    String lastValues = "";
+                //    Int32 k = 0;
+                //    for (Int32 j = i; j < filearray.Length; j++)
+                //    {
+                //        lastValues = lastValues + " " + filearray[j];
+                //        k++;
+                //        if (k == 10) { break; }
+                //    }
+
+                //    Debug.WriteLine(i +
+                //                    " skipOver: " + skipOver +
+                //                    " skipTo: " + skipTo + " " +
+                //                    lastValues);
+
+                //}
+
                 // This is to skip over inner classes for now
                 if (skipOver == true && skipTo > i)
                 {
@@ -1860,124 +2297,180 @@ namespace SalesforceMetadata
                     skipTo = 0;
                     skipOver = false;
                 }
-                else if (inClassName == true
-                         && classDeclarationCount == 1)
+                else if (skipOver == false)
                 {
-                    if (filearray[i].ToLower() == "@istest")
+                    if (inClassName == true
+                             && classDeclarationCount == 1)
                     {
-                        apexCls.isTestClass = true;
-                    }
-                    else if (filearray[i].ToLower() == "@restresource")
-                    {
-                        apexCls.isRestClass = true;
-                    }
-                    else if (filearray[i] == "{")
-                    {
-                        inClassName = false;
-                    }
-                    else if (filearray[i].ToLower() == "protected"
-                            || filearray[i].ToLower() == "private"
-                            || filearray[i].ToLower() == "public"
-                            || filearray[i].ToLower() == "global")
-                    {
-                        apexCls.accessModifier = filearray[i].ToLower();
-                    }
-                    else if (filearray[i].ToLower() == "virtual"
-                        || filearray[i].ToLower() == "abstract")
-                    {
-                        apexCls.optionalModifier = filearray[i].ToLower();
-                    }
-                    else if (filearray[i].ToLower() == "sharing")
-                    {
-                        apexCls.optionalModifier = filearray[i - 1].ToLower() + " " + filearray[i].ToLower();
-                    }
-                    else if (filearray[i].ToLower() == "class")
-                    {
-                        apexCls.className = filearray[i + 1];
-                        skipOver = true;
-                        skipTo = i + 1;
-                    }
-                    else if (filearray[i].ToLower() == "interface")
-                    {
-                        apexCls.className = filearray[i + 1];
-                        apexCls.isInterface = true;
-                        skipOver = true;
-                        skipTo = i + 1;
-                    }
-                    else if (filearray[i].ToLower() == "implements")
-                    {
-                        skipTo = parseImplementsInterfaces(filearray, apexCls, i);
-                        skipOver = true;
-                    }
-                    else if (filearray[i].ToLower() == "extends")
-                    {
-                        apexCls.extendsClassName = filearray[i + 1];
-                        skipTo = i + 1;
-                        skipOver = true;
-                    }
-                }
-                // TODO: Skipping over inner classes for now
-                // Will come back and add these later
-                else if (inClassName == false
-                        && filearray.Length > i + 5
-                        && (filearray[i].ToLower() == "protected"
-                            || filearray[i].ToLower() == "private"
-                            || filearray[i].ToLower() == "public"
-                            || filearray[i].ToLower() == "global")
-                        && (filearray[i + 1] == "class"
-                            || filearray[i + 2] == "class"
-                            || filearray[i + 3] == "class"
-                            || filearray[i + 4] == "class"
-                            || filearray[i + 5] == "class"))
-                {
-                    skipTo = i;
-                    skipOver = true;
-
-                    Boolean icFirstBraceReached = false;
-                    Int32 braceCount = 0;
-                    for (Int32 j = i; j < filearray.Length; j++)
-                    {
-                        if (filearray[j] == "{"
-                            && icFirstBraceReached == false)
+                        if (filearray[i].ToLower() == "@istest")
                         {
-                            braceCount++;
-                            icFirstBraceReached = true;
+                            apexCls.isTestClass = true;
                         }
-                        else if (filearray[j] == "{")
+                        else if (filearray[i].ToLower() == "@restresource")
                         {
-                            braceCount++;
+                            apexCls.isRestClass = true;
                         }
-                        else if (filearray[j] == "}")
+                        else if (filearray[i] == "{")
                         {
-                            braceCount--;
+                            inClassName = false;
+                        }
+                        else if (filearray[i].ToLower() == "protected"
+                                || filearray[i].ToLower() == "private"
+                                || filearray[i].ToLower() == "public"
+                                || filearray[i].ToLower() == "global")
+                        {
+                            apexCls.accessModifier = filearray[i].ToLower();
+                        }
+                        else if (filearray[i].ToLower() == "virtual"
+                                 || filearray[i].ToLower() == "abstract")
+                        {
+                            apexCls.optionalModifier = filearray[i].ToLower();
+                        }
+                        else if (filearray[i].ToLower() == "sharing")
+                        {
+                            apexCls.optionalModifier = filearray[i - 1].ToLower() + " " + filearray[i].ToLower();
+                        }
+                        else if (filearray[i].ToLower() == "class")
+                        {
+                            apexCls.className = filearray[i + 1];
+                            skipOver = true;
+                            skipTo = i + 1;
+                        }
+                        else if (filearray[i].ToLower() == "interface")
+                        {
+                            apexCls.className = filearray[i + 1];
+                            apexCls.isInterface = true;
+                            skipOver = true;
+                            skipTo = i + 1;
+                        }
+                        else if (filearray[i].ToLower() == "implements")
+                        {
+                            skipTo = parseImplementsInterfaces(filearray, apexCls, i);
+                            skipOver = true;
+                        }
+                        else if (filearray[i].ToLower() == "extends")
+                        {
+                            apexCls.extendsClassName = filearray[i + 1];
+                            skipTo = i + 1;
+                            skipOver = true;
+                        }
+                    }
+                    // TODO: Skipping over inner classes for now
+                    // Will come back and add these later
+                    else if (inClassName == false
+                            && filearray.Length > i + 5
+                            && (filearray[i].ToLower() == "protected"
+                                || filearray[i].ToLower() == "private"
+                                || filearray[i].ToLower() == "public"
+                                || filearray[i].ToLower() == "global")
+                            && (filearray[i + 1] == "class"
+                                || filearray[i + 2] == "class"
+                                || filearray[i + 3] == "class"
+                                || filearray[i + 4] == "class"
+                                || filearray[i + 5] == "class"))
+                    {
+                        skipTo = i;
+                        skipOver = true;
 
-                            if (braceCount == 0
-                            && icFirstBraceReached == true)
+                        Boolean icFirstBraceReached = false;
+                        Int32 braceCount = 0;
+                        for (Int32 j = i; j < filearray.Length; j++)
+                        {
+                            if (filearray[j] == "{"
+                                && icFirstBraceReached == false)
                             {
-                                skipTo = j - 1;
-                                break;
+                                braceCount++;
+                                icFirstBraceReached = true;
                             }
+                            else if (filearray[j] == "{")
+                            {
+                                braceCount++;
+                            }
+                            else if (filearray[j] == "}")
+                            {
+                                braceCount--;
+
+                                if (braceCount == 0
+                                && icFirstBraceReached == true)
+                                {
+                                    //skipTo = j - 1;
+                                    skipTo = j;
+                                    break;
+                                }
+                            }
+                            //else if (braceCount == 0
+                            //    && icFirstBraceReached == true)
+                            //{
+                            //    skipTo = j - 1;
+                            //    break;
+                            //}
                         }
-                        //else if (braceCount == 0
-                        //    && icFirstBraceReached == true)
-                        //{
-                        //    skipTo = j - 1;
-                        //    break;
-                        //}
                     }
-                }
-                else if (inClassName == false
-                    && methodStartVariables.Contains(filearray[i].ToLower()))
-                {
-                    skipTo = parsePropertyOrMethod(filearray, apexCls, i);
-                    skipOver = true;
+                    else if (inClassName == false
+                            && filearray.Length > i + 5
+                            && (filearray[i] == "class"
+                                || filearray[i + 1] == "class"
+                                || filearray[i + 2] == "class"
+                                || filearray[i + 3] == "class"
+                                || filearray[i + 4] == "class"))
+                    {
+                        skipTo = i;
+                        skipOver = true;
+
+                        Boolean icFirstBraceReached = false;
+                        Int32 braceCount = 0;
+                        for (Int32 j = i; j < filearray.Length; j++)
+                        {
+                            if (filearray[j] == "{"
+                                && icFirstBraceReached == false)
+                            {
+                                braceCount++;
+                                icFirstBraceReached = true;
+                            }
+                            else if (filearray[j] == "{")
+                            {
+                                braceCount++;
+                            }
+                            else if (filearray[j] == "}")
+                            {
+                                braceCount--;
+
+                                if (braceCount == 0
+                                && icFirstBraceReached == true)
+                                {
+                                    //skipTo = j - 1;
+                                    skipTo = j;
+                                    break;
+                                }
+                            }
+                            //else if (braceCount == 0
+                            //    && icFirstBraceReached == true)
+                            //{
+                            //    skipTo = j - 1;
+                            //    break;
+                            //}
+                        }
+                    }
+                    else if (inClassName == false
+                        && methodStartVariables.Contains(filearray[i].ToLower()))
+                    {
+                        skipTo = parsePropertyOrMethod(filearray, apexCls, i);
+                        skipOver = true;
+                    }
                 }
             }
 
-            this.classNmToClass.Add(apexCls.className, apexCls);
+            try
+            {
+                this.classNmToClass.Add(apexCls.className, apexCls);
+            }
+            catch (Exception ex)
+            {
+                errorLog.WriteLine("parseApexClass: Exception adding class: " + apexCls.className + " " + ex.Message);
+            }
         }
 
-        public Int32 parseImplementsInterfaces(String[] filearray, ApexClassStructure ac, Int32 arraystart)
+        private Int32 parseImplementsInterfaces(String[] filearray, ApexClassStructure ac, Int32 arraystart)
         {
             Int32 lastCharLocation = arraystart;
 
@@ -1988,7 +2481,14 @@ namespace SalesforceMetadata
             {
                 if (filearray[i] == "{")
                 {
-                    ac.implementsInterfaces.Add(interfaceName, interfaceParameters);
+                    try
+                    {
+                        ac.implementsInterfaces.Add(interfaceName, interfaceParameters);
+                    }
+                    catch (Exception ex)
+                    {
+                        errorLog.WriteLine("parseImplementsInterfaces: Exception adding interface: " + interfaceName + " " + ex.Message);
+                    }
 
                     // We don't want to skip over the class { so return 1 less than the current filearray i value
                     lastCharLocation = i - 1;
@@ -1996,7 +2496,14 @@ namespace SalesforceMetadata
                 }
                 else if (filearray[i] == ",")
                 {
-                    ac.implementsInterfaces.Add(interfaceName, interfaceParameters);
+                    try
+                    {
+                        ac.implementsInterfaces.Add(interfaceName, interfaceParameters);
+                    }
+                    catch (Exception ex)
+                    {
+                        errorLog.WriteLine("parseImplementsInterfaces: Exception adding interface: " + interfaceName + " " + ex.Message);
+                    }
 
                     // Don't do anything. Skip over this.
                     interfaceName = "";
@@ -2019,24 +2526,8 @@ namespace SalesforceMetadata
             return lastCharLocation;
         }
 
-        public Int32 parsePropertyOrMethod(String[] filearray, ApexClassStructure ac, Int32 arraystart)
+        private Int32 parsePropertyOrMethod(String[] filearray, ApexClassStructure ac, Int32 arraystart)
         {
-            HashSet<String> methodAnnotations = new HashSet<string> {"@auraenabled",
-                "@deprecated",
-                "@future",
-                "@invocablemethod",
-                "@invocablevariable",
-                "@istest",
-                "@readonly",
-                "@remoteaction",
-                "@testsetup",
-                "@testvisible",
-                "@httpdelete",
-                "@httpget",
-                "@httppatch",
-                "@httppost",
-                "@httpput"};
-
             String propertyMethodAnnotation = "";
             String propertyMethodAnnotationParameters = "";
             String propertyMethodName = "";
@@ -2083,7 +2574,26 @@ namespace SalesforceMetadata
 
             for (Int32 i = arraystart; i < filearray.Length; i++)
             {
-                //Debug.WriteLine("");
+                //Debugging only
+                //if ((filearray.Length - 1) > i)
+                //{
+                //    String lastValues = "";
+                //    Int32 k = 0;
+                //    for (Int32 j = i; j < filearray.Length; j++)
+                //    {
+                //        lastValues = lastValues + " " + filearray[j];
+                //        k++;
+                //        if (k == 10) { break; }
+                //    }
+
+                //    Debug.WriteLine(i +
+                //                    " skipOver: " + skipOver +
+                //                    " skipTo: " + skipTo + " " +
+                //                    " isMethod: " + isMethod +
+                //                    " inMethodBody: " + inMethodBody + " " +
+                //                    lastValues);
+
+                //}
 
                 // TODO: Bypass filearray values as they have been processed in sub-routines
                 if (skipOver == true && skipTo > i)
@@ -2095,171 +2605,149 @@ namespace SalesforceMetadata
                     skipTo = 0;
                     skipOver = false;
                 }
-                // Check for annotations and add them to the Class Method
-                else if (methodAnnotations.Contains(filearray[i].ToLower()))
+                else if (skipOver == false)
                 {
-                    propertyMethodAnnotation = filearray[i];
-
-                    Int32 jCount = i + 1;
-                    // This accounts for labels with the possibility of a ( and ) inside the single quote marks
-                    // possibly throwing off when the below loop should stop and missing the real end of the annotation paremeter
-                    // Ex: InvocableMethod(label='Backorder Date Change: Build and Call Requests (Email Service)')
-                    Int32 parenthCount = 0;
-                    String annotationParameters = "";
-
-                    if (filearray[jCount] == "(")
+                    // Check for annotations and add them to the Class Method
+                    if (this.methodAnnotations.Contains(filearray[i].ToLower()))
                     {
-                        for (Int32 j = jCount; j < filearray.Length; j++)
-                        {
-                            if (filearray[j] == "(")
-                            {
-                                parenthCount++;
-                            }
-                            else if (filearray[j] == ")")
-                            {
-                                parenthCount--;
+                        propertyMethodAnnotation = filearray[i];
 
-                                if (parenthCount == 0)
+                        Int32 jCount = i + 1;
+                        // This accounts for labels with the possibility of a ( and ) inside the single quote marks
+                        // possibly throwing off when the below loop should stop and missing the real end of the annotation paremeter
+                        // Ex: InvocableMethod(label='Backorder Date Change: Build and Call Requests (Email Service)')
+                        Int32 parenthCount = 0;
+                        String annotationParameters = "";
+
+                        if (filearray[jCount] == "(")
+                        {
+                            for (Int32 j = jCount; j < filearray.Length; j++)
+                            {
+                                if (filearray[j] == "(")
+                                {
+                                    parenthCount++;
+                                }
+                                else if (filearray[j] == ")")
+                                {
+                                    parenthCount--;
+
+                                    if (parenthCount == 0)
+                                    {
+                                        annotationParameters = annotationParameters + filearray[j];
+                                        jCount = j;
+                                        break;
+                                    }
+                                }
+                                else
                                 {
                                     annotationParameters = annotationParameters + filearray[j];
-                                    jCount = j;
-                                    break;
                                 }
                             }
-                            else
+
+                            propertyMethodAnnotationParameters = annotationParameters;
+
+                            skipTo = jCount;
+                            skipOver = true;
+                        }
+                    }
+                    // Loop through text values and then skip over those blocks
+                    else if (filearray[i] == "'"
+                             && filearray[i - 1] != "\\")
+                    {
+                        Int32 jCount = i + 1;
+                        Boolean inString = true;
+
+                        String stringValue = filearray[i];
+                        for (Int32 j = jCount; j < filearray.Length; j++)
+                        {
+                            stringValue = stringValue + " " + filearray[j];
+                            jCount = j;
+
+                            if (filearray[j] == "'"
+                                && filearray[j - 1] != "\\"
+                                && inString == true)
                             {
-                                annotationParameters = annotationParameters + filearray[j];
+                                //Debug.WriteLine(stringValue);
+                                break;
                             }
                         }
-
-                        propertyMethodAnnotationParameters = annotationParameters;
 
                         skipTo = jCount;
                         skipOver = true;
                     }
-                }
-                // Loop through text values and then skip over those blocks
-                else if (filearray[i] == "\'")
-                {
-                    //Debug.WriteLine(i + " " + filearray[i] + " " + filearray[i + 1] + " " + filearray[i + 2]);
-
-                    Int32 jCount = i + 1;
-                    Boolean inString = true;
-
-                    String stringValue = filearray[i];
-                    for (Int32 j = jCount; j < filearray.Length; j++)
+                    else if (filearray[i] == "(")
                     {
-                        stringValue = stringValue + " " + filearray[j];
-                        jCount = j;
+                        parenthesesCount++;
+                        //Debug.WriteLine(i + " parenthCount: " + parenthesesCount + " filearray[i] == (");
 
-                        if (filearray[j] == "'"
-                            && filearray[j - 1] != "\\"
-                            && inString == true)
+                        if (propertyMethodName != ""
+                            && propertyMethodRtnDataType != ""
+                            && inMethodBody == false)
                         {
-                            //Debug.WriteLine(stringValue);
-                            break;
+                            isMethod = true;
+                            inMethodBody = true;
+                        }
+                        else if (inMethodBody == false)
+                        {
+                            isConstructor = true;
                         }
                     }
-
-                    skipTo = jCount;
-                    skipOver = true;
-                }
-                else if (filearray[i] == "(")
-                {
-                    parenthesesCount++;
-                    //Debug.WriteLine(i + " parenthCount: " + parenthesesCount + " filearray[i] == (");
-
-                    if (propertyMethodName != ""
-                        && propertyMethodRtnDataType != ""
-                        && inMethodBody == false)
+                    else if (filearray[i] == ")")
                     {
-                        isMethod = true;
-                        inMethodBody = true;
-                    }
-                    else if (inMethodBody == false)
-                    {
-                        isConstructor = true;
-                    }
-                }
-                else if (filearray[i] == ")")
-                {
-                    parenthesesCount--;
-                    //Debug.WriteLine(i + " parenthCount: " + parenthesesCount + " filearray[i] == )");
+                        parenthesesCount--;
 
-                    // METHOD PARAMETERS
-                    // Add the parameters to the methodParameters list
-                    if (parenthesesCount == 0
-                        && braceCount == 0
-                        && methodParameters.Length > 0)
-                    {
-                        String[] mpSplit = methodParameters.Split(new String[] { ",", " " }, StringSplitOptions.None);
-
-                        String methodParameters2 = "";
-                        foreach (String mp in mpSplit)
+                        // METHOD PARAMETERS
+                        // Add the parameters to the methodParameters list
+                        if (parenthesesCount == 0
+                            && braceCount == 0
+                            && methodParameters.Length > 0)
                         {
-                            if (mp == "[")
-                            {
-                                methodParameters2 = methodParameters2.Trim();
-                                methodParameters2 = methodParameters2 + mp;
-                            }
-                            else if (mp == "]")
-                            {
-                                methodParameters2 = methodParameters2 + mp + " ";
-                            }
-                            else
-                            {
-                                methodParameters2 = methodParameters2 + mp + " ";
-                            }
-                        }
+                            String[] mpSplit = methodParameters.Split(new String[] { ",", " " }, StringSplitOptions.None);
 
-                        methodParameters2 = methodParameters2.Trim();
-
-                        Int32 m = 0;
-
-                        String varName = "";
-                        String varType = "";
-                        Boolean varIsMap = false;
-
-                        mpSplit = methodParameters2.Split(new String[] { ",", " " }, StringSplitOptions.None);
-                        foreach (String mp in mpSplit)
-                        {
-                            if (mp != "")
+                            String methodParameters2 = "";
+                            foreach (String mp in mpSplit)
                             {
-                                if (mp.ToLower().StartsWith("map<"))
+                                if (mp == "[")
                                 {
-                                    varType = mp + ",";
-                                    varIsMap = true;
+                                    methodParameters2 = methodParameters2.Trim();
+                                    methodParameters2 = methodParameters2 + mp;
                                 }
-                                else if (varIsMap == true
-                                    && m == 0)
+                                else if (mp == "]")
                                 {
-                                    varType = varType + mp;
-                                    m++;
+                                    methodParameters2 = methodParameters2 + mp + " ";
                                 }
-                                else if (varIsMap == true
-                                    && m == 1)
+                                else
                                 {
-                                    varName = mp;
-                                    m = 0;
-
-                                    ObjectVarToType ovt = new ObjectVarToType();
-                                    ovt.varType = varType;
-                                    ovt.varName = varName;
-
-                                    cm.methodParameters.Add(ovt);
-
-                                    varType = "";
-                                    varName = "";
-                                    varIsMap = false;
+                                    methodParameters2 = methodParameters2 + mp + " ";
                                 }
-                                else if (varIsMap == false)
+                            }
+
+                            methodParameters2 = methodParameters2.Trim();
+
+                            Int32 m = 0;
+
+                            String varName = "";
+                            String varType = "";
+                            Boolean varIsMap = false;
+
+                            mpSplit = methodParameters2.Split(new String[] { ",", " " }, StringSplitOptions.None);
+                            foreach (String mp in mpSplit)
+                            {
+                                if (mp != "")
                                 {
-                                    if (m == 0)
+                                    if (mp.ToLower().StartsWith("map<"))
                                     {
-                                        varType = mp;
+                                        varType = mp + ",";
+                                        varIsMap = true;
+                                    }
+                                    else if (varIsMap == true
+                                        && m == 0)
+                                    {
+                                        varType = varType + mp;
                                         m++;
                                     }
-                                    else if (m == 1)
+                                    else if (varIsMap == true
+                                        && m == 1)
                                     {
                                         varName = mp;
                                         m = 0;
@@ -2272,522 +2760,586 @@ namespace SalesforceMetadata
 
                                         varType = "";
                                         varName = "";
+                                        varIsMap = false;
+                                    }
+                                    else if (varIsMap == false)
+                                    {
+                                        if (m == 0)
+                                        {
+                                            varType = mp;
+                                            m++;
+                                        }
+                                        else if (m == 1)
+                                        {
+                                            varName = mp;
+                                            m = 0;
+
+                                            ObjectVarToType ovt = new ObjectVarToType();
+                                            ovt.varType = varType;
+                                            ovt.varName = varName;
+
+                                            cm.methodParameters.Add(ovt);
+
+                                            varType = "";
+                                            varName = "";
+                                        }
                                     }
                                 }
                             }
                         }
+                        else if (parenthesesCount == 0
+                            && filearray[i + 1] == ",")
+                        {
+                            skipTo = i + 1;
+                            skipOver = true;
+                        }
+                        else if (parenthesesCount == 0
+                            && filearray[i + 1] == ";")
+                        {
+                            skipTo = i + 1;
+                            skipOver = true;
+                        }
                     }
+                    else if (filearray[i] == "{")
+                    {
+                        braceCount++;
+                    }
+                    else if (filearray[i] == "}")
+                    {
+                        braceCount--;
+
+                        if (braceCount == 0
+                            && isMethod == true)
+                        {
+                            cm.methodName = propertyMethodName;
+                            cm.methodAnnotation = propertyMethodAnnotation;
+                            cm.annotationParameters = propertyMethodAnnotationParameters;
+                            cm.qualifier = propertyMethodQualifier;
+                            cm.returnDataType = propertyMethodRtnDataType;
+                            cm.isOverride = isOverride;
+                            cm.isVirtual = isVirtual;
+                            cm.isStatic = isStatic;
+                            cm.isTestMethod = isTestMethod;
+                            cm.soqlStatements = soqlStatements;
+
+                            // Before adding the method, go through the Method variables to determine if there
+                            // is a related Object associated with the left side of the equations.
+                            // The only ones to look for is where the objectName is not set
+
+                            foreach (ObjectVarToType ovt in cm.methodBodyVars)
+                            {
+                                if (ovt.leftSide != "")
+                                {
+                                    findObjectNameFromVar(cm, ovt, ac);
+                                }
+                            }
+
+                            // Run one last loop through the DML lines to see if there are any which are missing the 
+                            // object and variable name association
+                            foreach (ObjectVarToType ovt in cm.methodDmls)
+                            {
+                                if (ovt.leftSideObject == "")
+                                {
+                                    findObjectNameFromVar(cm, ovt, ac);
+                                }
+                            }
+
+                            ac.classMethods.Add(cm);
+                            lastCharLocation = i;
+                            isMethod = false;
+                            inMethodBody = false;
+                            break;
+                        }
+                        else if (braceCount == 0
+                            && isConstructor == true)
+                        {
+                            lastCharLocation = i;
+                            break;
+                        }
+                    }
+                    // Method access
+                    else if (inMethodBody == false
+                        && (filearray[i].ToLower() == "protected"
+                        || filearray[i].ToLower() == "private"
+                        || filearray[i].ToLower() == "public"
+                        || filearray[i].ToLower() == "global"))
+                    {
+                        //Debug.WriteLine(filearray[i] + " " + filearray[i + 1] + " " + filearray[i + 2] + " " + filearray[i + 3] + " " + filearray[i + 4] + " " + filearray[i + 5]);
+                        propertyMethodQualifier = filearray[i].ToLower();
+                    }
+                    else if (inMethodBody == false && filearray[i].ToLower() == "virtual")
+                    {
+                        isVirtual = true;
+                    }
+                    else if (inMethodBody == false && filearray[i].ToLower() == "override")
+                    {
+                        isOverride = true;
+                    }
+                    else if (inMethodBody == false && filearray[i].ToLower() == "static")
+                    {
+                        isStatic = true;
+
+                        if (filearray[i + 1].ToLower() == "testmethod")
+                        {
+                            isTestMethod = true;
+                            skipTo = i + 1;
+                            skipOver = true;
+                        }
+                    }
+                    else if (inMethodBody == false && filearray[i].ToLower() == "final")
+                    {
+                        isFinal = true;
+                    }
+                    // Method return type
                     else if (parenthesesCount == 0
-                        && filearray[i + 1] == ";")
-                    {
-                        skipTo = i + 1;
-                        skipOver = true;
-                    }
-                }
-                else if (filearray[i] == "{")
-                {
-                    braceCount++;
-                    //Debug.WriteLine("filearray[i] == \"{\" reached: " + braceCount + " i: " + i.ToString() + " skipOver:" + skipOver + " skipTo:" + skipTo + " character:" + filearray[i].ToString());
-                }
-                else if (filearray[i] == "}")
-                {
-                    braceCount--;
-                    //Debug.WriteLine("filearray[i] == \"}\" reached: " + braceCount + " i: " + i.ToString() + " skipOver:" + skipOver + " skipTo:" + skipTo + " character:" + filearray[i].ToString());
-
-                    if (braceCount == 0
-                        && isMethod == true)
-                    {
-                        cm.methodName = propertyMethodName;
-                        cm.methodAnnotation = propertyMethodAnnotation;
-                        cm.annotationParameters = propertyMethodAnnotationParameters;
-                        cm.qualifier = propertyMethodQualifier;
-                        cm.returnDataType = propertyMethodRtnDataType;
-                        cm.isOverride = isOverride;
-                        cm.isVirtual = isVirtual;
-                        cm.isStatic = isStatic;
-                        cm.isTestMethod = isTestMethod;
-                        cm.soqlStatements = soqlStatements;
-
-                        // Before adding the method, go through the Method variables to determine if there
-                        // is a related Object associated with the left side of the equations.
-                        // The only ones to look for is where the objectName is not set
-
-                        foreach (ObjectVarToType ovt in cm.methodBodyVars)
-                        {
-                            if (ovt.leftSide != "")
-                            {
-                                findObjectNameFromVar(cm, ovt, ac);
-                            }
-                        }
-
-                        // Run one last loop through the DML lines to see if there are any which are missing the 
-                        // object and variable name association
-                        foreach (ObjectVarToType ovt in cm.methodDmls)
-                        {
-                            if (ovt.leftSideObject == "")
-                            {
-                                findObjectNameFromVar(cm, ovt, ac);
-                            }
-                        }
-
-                        ac.classMethods.Add(cm);
-                        lastCharLocation = i;
-                        break;
-                    }
-                    else if (braceCount == 0
-                        && isConstructor == true)
-                    {
-                        lastCharLocation = i;
-                        break;
-                    }
-                }
-                // Method access
-                else if (inMethodBody == false
-                    && (filearray[i].ToLower() == "protected"
-                    || filearray[i].ToLower() == "private"
-                    || filearray[i].ToLower() == "public"
-                    || filearray[i].ToLower() == "global"))
-                {
-                    // Debug stop filters:
-                    // filearray[i+1].ToLower() == "static" && filearray[i+2].ToLower() == "void" && filearray[i+3].ToLower() == "createUnitsDecrease"
-                    propertyMethodQualifier = filearray[i].ToLower();
-                }
-                else if (inMethodBody == false && filearray[i].ToLower() == "virtual")
-                {
-                    isVirtual = true;
-                }
-                else if (inMethodBody == false && filearray[i].ToLower() == "override")
-                {
-                    isOverride = true;
-                }
-                else if (inMethodBody == false && filearray[i].ToLower() == "static")
-                {
-                    isStatic = true;
-
-                    if (filearray[i + 1].ToLower() == "testmethod")
-                    {
-                        isTestMethod = true;
-                        skipTo = i + 1;
-                        skipOver = true;
-                    }
-
-                }
-                else if (inMethodBody == false && filearray[i].ToLower() == "final")
-                {
-                    isFinal = true;
-                }
-                // Method return type
-                else if (parenthesesCount == 0
-                    && braceCount == 0
-                    && isConstructor == false
-                    && propertyMethodRtnDataType == "")
-                {
-                    propertyMethodRtnDataType = filearray[i];
-
-                    if (filearray[i + 1] == "[")
-                    {
-                        propertyMethodRtnDataType = propertyMethodRtnDataType + filearray[i + 1] + filearray[i + 2];
-                        skipTo = i + 2;
-                        skipOver = true;
-                    }
-                }
-                // Method name
-                else if (parenthesesCount == 0
-                    && braceCount == 0
-                    && isConstructor == false
-                    && propertyMethodName == "")
-                {
-                    propertyMethodName = filearray[i];
-                }
-                // Method parameters
-                else if (isMethod == true
-                    && parenthesesCount == 1
-                    && braceCount == 0)
-                {
-                    methodParameters = methodParameters + filearray[i] + " ";
-                }
-                // Class Property with value
-                else if (filearray[i] == "="
-                    && parenthesesCount == 0
-                    && braceCount == 0
-                    && isConstructor == false
-                    && propertyValue == "")
-                {
-                    if (filearray[i + 2] == ";")
-                    {
-                        propertyValue = filearray[i + 1];
-                        skipTo = i + 1;
-                        skipOver = true;
-                    }
-                    else
-                    {
-                        for (Int32 j = i + 1; j < filearray.Length; j++)
-                        {
-                            if (filearray[j] == ";")
-                            {
-                                // We don't want to skip over the semi-colon, so setting the skipTo to the value just prior in filearray
-                                skipTo = j - 1;
-                                skipOver = true;
-                                break;
-                            }
-                            else
-                            {
-                                propertyValue = propertyValue + " " + filearray[j];
-                                propertyValue = propertyValue.Trim();
-                            }
-                        }
-                    }
-                }
-                // Class Property no value
-                else if (filearray[i] == ";"
-                        && isMethod == false
                         && braceCount == 0
-                        && parenthesesCount == 0)
-                {
-                    // This is a property
-                    cp.propertyName = propertyMethodName;
-                    cp.propertyAnnotation = propertyMethodAnnotation;
-                    cp.annotationParameters = propertyMethodAnnotationParameters;
-                    cp.qualifier = propertyMethodQualifier;
-                    cp.dataType = propertyMethodRtnDataType;
-                    cp.isFinal = isFinal;
-                    cp.isStatic = isStatic;
-                    cp.propertyValue = propertyValue;
-
-                    ac.clsProperties.Add(propertyMethodName, cp);
-
-                    lastCharLocation = i;
-                    break;
-                }
-                // This is a getter setter property
-                else if ((filearray[i].ToLower() == "get"
-                    || filearray[i].ToLower() == "set")
-                    && braceCount == 1)
-                {
-                    // Loop to the last brace and reduce the bracecount
-                    Boolean inGetter = false;
-                    Boolean inSetter = false;
-                    String getterRtnValue = "";
-                    String setterValue = "";
-                    if (filearray[i].ToLower() == "get")
+                        && isConstructor == false
+                        && propertyMethodRtnDataType == "")
                     {
-                        cp.isGetter = true;
-                        inGetter = true;
-                        inSetter = false;
-                    }
-                    else if (filearray[i].ToLower() == "set")
-                    {
-                        cp.isSetter = true;
-                        inGetter = false;
-                        inSetter = true;
-                    }
+                        propertyMethodRtnDataType = filearray[i];
 
-                    // Get the return and setting values in the getter/setter
-                    Int32 gsBraceCount = 1;
-                    Int32 jCount = i + 1;
-                    while (gsBraceCount > 0)
-                    {
-                        if (filearray[jCount] == "{")
+                        if (filearray[i + 1] == "[")
                         {
-                            gsBraceCount++;
+                            propertyMethodRtnDataType = propertyMethodRtnDataType + filearray[i + 1] + filearray[i + 2];
+                            skipTo = i + 2;
+                            skipOver = true;
                         }
-                        else if (filearray[jCount] == "}")
+                    }
+                    // Method name
+                    else if (parenthesesCount == 0
+                        && braceCount == 0
+                        && isConstructor == false
+                        && propertyMethodName == "")
+                    {
+                        propertyMethodName = filearray[i];
+                    }
+                    // Method parameters
+                    else if (isMethod == true
+                        && parenthesesCount == 1
+                        && braceCount == 0)
+                    {
+                        methodParameters = methodParameters + filearray[i] + " ";
+                    }
+                    // Class Property with value
+                    else if (filearray[i] == "="
+                        && parenthesesCount == 0
+                        && braceCount == 0
+                        && isConstructor == false
+                        && propertyValue == "")
+                    {
+                        if (filearray[i + 2] == ";")
                         {
-                            gsBraceCount--;
-
-                            if (gsBraceCount == 0)
+                            propertyValue = filearray[i + 1];
+                            skipTo = i + 1;
+                            skipOver = true;
+                        }
+                        else
+                        {
+                            for (Int32 j = i + 1; j < filearray.Length; j++)
                             {
-                                break;
+                                if (filearray[j] == ";")
+                                {
+                                    // We don't want to skip over the semi-colon, so setting the skipTo to the value just prior in filearray
+                                    skipTo = j - 1;
+                                    skipOver = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    propertyValue = propertyValue + " " + filearray[j];
+                                    propertyValue = propertyValue.Trim();
+                                }
                             }
                         }
-                        else if (filearray[jCount].ToLower() == "get")
+                    }
+                    // Class Property no value
+                    else if (filearray[i] == ";"
+                            && isMethod == false
+                            && braceCount == 0
+                            && parenthesesCount == 0)
+                    {
+                        // This is a property
+                        cp.propertyName = propertyMethodName;
+                        cp.propertyAnnotation = propertyMethodAnnotation;
+                        cp.annotationParameters = propertyMethodAnnotationParameters;
+                        cp.qualifier = propertyMethodQualifier;
+                        cp.dataType = propertyMethodRtnDataType;
+                        cp.isFinal = isFinal;
+                        cp.isStatic = isStatic;
+                        cp.propertyValue = propertyValue;
+
+                        try
                         {
-                            cp.isSetter = true;
+                            ac.clsProperties.Add(propertyMethodName, cp);
+                        }
+                        catch (Exception ex)
+                        {
+                            errorLog.WriteLine("parsePropertyOrMethod: Exception adding property: " + propertyMethodName + " " + ex.Message);
+                        }
+
+                        lastCharLocation = i;
+                        break;
+                    }
+                    // This is a getter setter property
+                    else if ((filearray[i].ToLower() == "get"
+                        || filearray[i].ToLower() == "set")
+                        && braceCount == 1)
+                    {
+                        // Loop to the last brace and reduce the bracecount
+                        Boolean inGetter = false;
+                        Boolean inSetter = false;
+                        String getterRtnValue = "";
+                        String setterValue = "";
+                        if (filearray[i].ToLower() == "get")
+                        {
+                            cp.isGetter = true;
                             inGetter = true;
                             inSetter = false;
                         }
-                        else if (filearray[jCount].ToLower() == "set")
+                        else if (filearray[i].ToLower() == "set")
                         {
                             cp.isSetter = true;
                             inGetter = false;
                             inSetter = true;
                         }
-                        else if (filearray[jCount] != ";"
-                            && inGetter == true)
+
+                        // Get the return and setting values in the getter/setter
+                        Int32 gsBraceCount = 1;
+                        Int32 jCount = i + 1;
+                        while (gsBraceCount > 0)
                         {
-                            getterRtnValue = getterRtnValue + filearray[jCount] + " ";
-                        }
-                        else if (filearray[jCount] != ";"
-                            && inSetter == true)
-                        {
-                            setterValue = setterValue + filearray[jCount] + " ";
+                            if (filearray[jCount] == "{")
+                            {
+                                gsBraceCount++;
+                            }
+                            else if (filearray[jCount] == "}")
+                            {
+                                gsBraceCount--;
+
+                                if (gsBraceCount == 0)
+                                {
+                                    break;
+                                }
+                            }
+                            else if (filearray[jCount].ToLower() == "get")
+                            {
+                                cp.isSetter = true;
+                                inGetter = true;
+                                inSetter = false;
+                            }
+                            else if (filearray[jCount].ToLower() == "set")
+                            {
+                                cp.isSetter = true;
+                                inGetter = false;
+                                inSetter = true;
+                            }
+                            else if (filearray[jCount] != ";"
+                                && inGetter == true)
+                            {
+                                getterRtnValue = getterRtnValue + filearray[jCount] + " ";
+                            }
+                            else if (filearray[jCount] != ";"
+                                && inSetter == true)
+                            {
+                                setterValue = setterValue + filearray[jCount] + " ";
+                            }
+
+                            jCount++;
                         }
 
-                        jCount++;
+                        // This is a property
+                        cp.propertyName = propertyMethodName;
+                        cp.propertyAnnotation = propertyMethodAnnotation;
+                        cp.annotationParameters = propertyMethodAnnotationParameters;
+                        cp.qualifier = propertyMethodQualifier;
+                        cp.dataType = propertyMethodRtnDataType;
+                        cp.isFinal = isFinal;
+                        cp.isStatic = isStatic;
+                        cp.propertyValue = propertyValue;
+                        cp.getterReturnValue = getterRtnValue;
+                        cp.setterValue = setterValue;
+
+                        try
+                        {
+                            ac.clsProperties.Add(propertyMethodName, cp);
+                        }
+                        catch (Exception ex)
+                        {
+                            errorLog.WriteLine("parsePropertyOrMethod: Exception adding property: " + propertyMethodName + " " + ex.Message);
+                        }
+
+                        braceCount = 0;
+                        lastCharLocation = jCount;
+                        break;
                     }
-
-                    // This is a property
-                    cp.propertyName = propertyMethodName;
-                    cp.propertyAnnotation = propertyMethodAnnotation;
-                    cp.annotationParameters = propertyMethodAnnotationParameters;
-                    cp.qualifier = propertyMethodQualifier;
-                    cp.dataType = propertyMethodRtnDataType;
-                    cp.isFinal = isFinal;
-                    cp.isStatic = isStatic;
-                    cp.propertyValue = propertyValue;
-                    cp.getterReturnValue = getterRtnValue;
-                    cp.setterValue = setterValue;
-
-                    ac.clsProperties.Add(propertyMethodName, cp);
-
-                    braceCount = 0;
-                    lastCharLocation = jCount;
-                    break;
-                }
-                // Parse the for loops
-                // We want to determine if there is a for loop first before the database.saveresult 
-                // or =
-                // This is because a database.saveresult can have an = to capture the returned save results
-                else if (filearray[i].ToLower() == "for"
-                    && inMethodBody == true)
-                {
-                    ObjectVarToType ovt = new ObjectVarToType();
-
-                    // Left side / right side method variable
-                    skipTo = parseForLoop(filearray, ovt, i);
-                    skipOver = true;
-
-                    if (ovt.leftSideObject != "")
+                    // Parse the for loops
+                    // We want to determine if there is a for loop first before the database.saveresult 
+                    // or =
+                    // This is because a database.saveresult can have an = to capture the returned save results
+                    else if (filearray[i].ToLower() == "for"
+                        && inMethodBody == true)
                     {
-                        if (cm.methodForLoops.ContainsKey(ovt.leftSideObject))
+                        ObjectVarToType ovt = new ObjectVarToType();
+
+                        // Left side / right side method variable
+                        skipTo = parseForLoop(filearray, ovt, i);
+                        skipOver = true;
+
+                        if (ovt.leftSideObject != "")
                         {
-                            cm.methodForLoops[ovt.leftSideObject].Add(ovt);
+                            if (cm.methodForLoops.ContainsKey(ovt.leftSideObject))
+                            {
+                                cm.methodForLoops[ovt.leftSideObject].Add(ovt);
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    cm.methodForLoops.Add(ovt.leftSideObject, new List<ObjectVarToType> { ovt });
+                                }
+                                catch (Exception ex)
+                                {
+                                    errorLog.WriteLine("parsePropertyOrMethod: Exception adding for loop object: " + ovt.leftSideObject + " " + ex.Message);
+                                }
+                            }
+                        }
+                    }
+                    else if (filearray[i].ToLower() == "throw"
+                        && inMethodBody == true)
+                    {
+                        skipTo = bypassCharacters(filearray, i);
+                        skipOver = true;
+                    }
+                    else if (filearray[i].ToLower() == "database.deleteresult"
+                        || filearray[i].ToLower() == "database.mergeresult"
+                        || filearray[i].ToLower() == "database.undeleteresult"
+                        || filearray[i].ToLower() == "database.upsertresult"
+                        || filearray[i].ToLower() == "database.saveresult")
+                    {
+                        // Possible options include:
+                        // Database.SaveResult[] sr = Database.update(updateBillingDocuments, false);
+                        //
+                        // OR another perfectly acceptable way is to declare a null Database.SaveResult[] array
+                        // 
+                        // Database.SaveResult[] sr;
+                        // try { sr = database.update(updateBillingDocuments) } catch(Exception e) {};
+
+                        if (filearray[i + 1] == "[")
+                        {
+                            saveResultType = filearray[i] + filearray[i + 1] + filearray[i + 2];
+                            saveResultVar = filearray[i + 3];
+                            //saveResultType.Add(filearray[i + 3], filearray[i] + filearray[i + 1] + filearray[i + 2]);
+
+                            skipTo = i + 4;
+                            skipOver = true;
                         }
                         else
                         {
-                            cm.methodForLoops.Add(ovt.leftSideObject, new List<ObjectVarToType> { ovt });
+                            saveResultType = filearray[i];
+                            saveResultVar = filearray[i + 1];
+                            //saveResultType.Add(filearray[i + 1], filearray[i]);
+
+                            skipTo = i + 2;
+                            skipOver = true;
                         }
                     }
-                }
-                else if (filearray[i].ToLower() == "throw"
-                    && inMethodBody == true)
-                {
-                    skipTo = bypassCharacters(filearray, i);
-                    skipOver = true;
-                }
-                else if (filearray[i].ToLower() == "database.deleteresult"
-                    || filearray[i].ToLower() == "database.mergeresult"
-                    || filearray[i].ToLower() == "database.undeleteresult"
-                    || filearray[i].ToLower() == "database.upsertresult"
-                    || filearray[i].ToLower() == "database.saveresult")
-                {
-                    // Possible options include:
-                    // Database.SaveResult[] sr = Database.update(updateBillingDocuments, false);
-                    //
-                    // OR another perfectly acceptable way is to declare a null Database.SaveResult[] array
-                    // 
-                    // Database.SaveResult[] sr;
-                    // try { sr = database.update(updateBillingDocuments) } catch(Exception e) {};
-
-                    if (filearray[i + 1] == "[")
+                    // Method variable with value
+                    else if (filearray[i] == "="
+                        && inMethodBody == true)
                     {
-                        saveResultType = filearray[i] + filearray[i + 1] + filearray[i + 2];
-                        saveResultVar = filearray[i + 3];
-                        //saveResultType.Add(filearray[i + 3], filearray[i] + filearray[i + 1] + filearray[i + 2]);
-
-                        skipTo = i + 4;
+                        if (filearray[i + 1].ToLower() == "database.insert"
+                            || filearray[i + 1].ToLower() == "database.update"
+                            || filearray[i + 1].ToLower() == "database.delete"
+                            || filearray[i + 1].ToLower() == "database.undelete"
+                            || filearray[i + 1].ToLower() == "database.upsert")
+                        {
+                            // Don't do anything. Just skip to the next array value
+                            // This is for the context where a variable is declared for "database.saveresult" before it is being used.
+                            // The saveresult type and variable has already been allocated to a local variable and we do not need to capture anything here
+                            // Database.SaveResult[] sr;
+                            // if (!productsToUpdate.isEmpty())
+                            // {
+                            //     sr = database.update(productsToUpdate);
+                            // }
+                        }
+                        else
+                        {
+                            // Left side / right side method variable
+                            skipTo = parseMethodVariables(filearray, cm, i);
+                            skipOver = true;
+                        }
+                    }
+                    else if (filearray[i].ToLower() == "return"
+                        && inMethodBody == true)
+                    {
+                        skipTo = parseReturnValue(filearray, cm, i);
                         skipOver = true;
                     }
-                    else
+                    else if (inMethodBody == true
+                             && (filearray[i].ToLower().StartsWith("list")
+                                 || filearray[i].ToLower().StartsWith("map")
+                                 || filearray[i].ToLower().StartsWith("set"))
+                            )
                     {
-                        saveResultType = filearray[i];
-                        saveResultVar = filearray[i + 1];
-                        //saveResultType.Add(filearray[i + 1], filearray[i]);
-
-                        skipTo = i + 2;
-                        skipOver = true;
-                    }
-                }
-                // Method variable with value
-                else if (filearray[i] == "="
-                    && inMethodBody == true)
-                {
-                    if (filearray[i + 1].ToLower() == "database.insert"
-                        || filearray[i + 1].ToLower() == "database.update"
-                        || filearray[i + 1].ToLower() == "database.delete"
-                        || filearray[i + 1].ToLower() == "database.undelete"
-                        || filearray[i + 1].ToLower() == "database.upsert")
-                    {
-                        // Don't do anything. Just skip to the next array value
-                        // This is for the context where a variable is declared for "database.saveresult" before it is being used.
-                        // The saveresult type and variable has already been allocated to a local variable and we do not need to capture anything here
-                        // Database.SaveResult[] sr;
-                        // if (!productsToUpdate.isEmpty())
-                        // {
-                        //     sr = database.update(productsToUpdate);
-                        // }
-                    }
-                    else
-                    {
-                        // Left side / right side method variable
                         skipTo = parseMethodVariables(filearray, cm, i);
                         skipOver = true;
                     }
-                }
-                else if (filearray[i].ToLower() == "return"
-                    && inMethodBody == true)
-                {
-                    skipTo = parseReturnValue(filearray, cm, i);
-                    skipOver = true;
-                }
-                // bypass the rest of the system.assert and assertEquals
-                else if (filearray[i].ToLower() == "system.assert"
-                    && inMethodBody == true)
-                {
-                    skipTo = bypassCharacters(filearray, i);
-                    skipOver = true;
-                }
-                else if (filearray[i].ToLower() == "system.assertequals"
-                    && inMethodBody == true)
-                {
-                    skipTo = bypassCharacters(filearray, i);
-                    skipOver = true;
-                }
-                else if (filearray[i].ToLower() == "system.assertnotequals"
-                    && inMethodBody == true)
-                {
-                    skipTo = bypassCharacters(filearray, i);
-                    skipOver = true;
-                }
-                else if (filearray[i].ToLower() == "system.debug"
-                    && inMethodBody == true)
-                {
-                    skipTo = bypassCharacters(filearray, i);
-                    skipOver = true;
-                }
-                else if (filearray[i].ToLower() == "system.runas")
-                {
-                    Int32 jCount = i + 1;
-
-                    for (Int32 j = jCount; j < filearray.Length; j++)
+                    // bypass the rest of the system.assert and assertEquals
+                    else if (filearray[i].ToLower() == "system.assert"
+                        && inMethodBody == true)
                     {
-                        jCount = j;
-                        if (filearray[j] == ")")
+                        skipTo = bypassCharacters(filearray, i);
+                        skipOver = true;
+                    }
+                    else if (filearray[i].ToLower() == "system.assertequals"
+                        && inMethodBody == true)
+                    {
+                        skipTo = bypassCharacters(filearray, i);
+                        skipOver = true;
+                    }
+                    else if (filearray[i].ToLower() == "system.assertnotequals"
+                        && inMethodBody == true)
+                    {
+                        skipTo = bypassCharacters(filearray, i);
+                        skipOver = true;
+                    }
+                    else if (filearray[i].ToLower() == "system.debug"
+                        && inMethodBody == true)
+                    {
+                        skipTo = bypassCharacters(filearray, i);
+                        skipOver = true;
+                    }
+                    else if (filearray[i].ToLower() == "system.runas")
+                    {
+                        Int32 jCount = i + 1;
+
+                        for (Int32 j = jCount; j < filearray.Length; j++)
                         {
-                            break;
+                            jCount = j;
+                            if (filearray[j] == ")")
+                            {
+                                break;
+                            }
+                        }
+
+                        skipTo = jCount;
+                        skipOver = true;
+                    }
+                    else if (filearray[i].ToLower() == "database.insert"
+                        || filearray[i].ToLower() == "database.update"
+                        || filearray[i].ToLower() == "database.delete"
+                        || filearray[i].ToLower() == "database.undelete"
+                        || filearray[i].ToLower() == "database.upsert")
+                    {
+                        String[] varNameSplit = filearray[i + 2].ToLower().Split('.');
+                        String varName = varNameSplit[0];
+
+                        if (filearray[i - 1] == "=")
+                        {
+                            skipTo = parseMethodDmlVars(filearray,
+                                varName,
+                                filearray[i],
+                                saveResultType,
+                                saveResultVar,
+                                ac,
+                                cm,
+                                i + 2);
+                        }
+                        else
+                        {
+                            skipTo = parseMethodDmlVars(filearray, varName, filearray[i], "", "", ac, cm, i + 2);
+                        }
+
+                        skipOver = true;
+                        //saveResultType = "";
+                        //saveResultVar = "";
+                    }
+                    else if (filearray[i].ToLower() == "insert"
+                        || filearray[i].ToLower() == "update"
+                        || filearray[i].ToLower() == "delete"
+                        || filearray[i].ToLower() == "undelete"
+                        || filearray[i].ToLower() == "upsert")
+                    {
+                        String varName = "";
+                        if (filearray[i + 1].ToLower() == "new")
+                        {
+                            varName = filearray[i + 2];
+                            skipTo = parseMethodDmlVars(filearray, varName, filearray[i], "", "", ac, cm, i + 2);
+                        }
+                        else
+                        {
+                            varName = filearray[i + 1];
+                            skipTo = parseMethodDmlVars(filearray, varName, filearray[i], "", "", ac, cm, i + 1);
+                        }
+
+                        skipOver = true;
+                    }
+                    // SOQL query handlers
+                    else if (inMethodBody == true
+                        && filearray[i].ToLower() == "select" && inSOQLStatement == false)
+                    {
+                        inSOQLStatement = true;
+                    }
+                    else if (inMethodBody == true
+                        && inSOQLStatement == true && filearray[i].ToLower() == "]")
+                    {
+                        inSOQLStatement = false;
+
+                        if (soqlStatements.ContainsKey(soqlObject))
+                        {
+                            soqlStatements[soqlObject].Add(soqlStatement);
+                        }
+                        else
+                        {
+                            try
+                            {
+                                soqlStatements.Add(soqlObject, new List<string> { soqlStatement });
+                            }
+                            catch (Exception ex)
+                            {
+                                errorLog.WriteLine("parsePropertyOrMethod: Exception adding SOQL object: " + soqlObject + " " + ex.Message);
+                            }
+                        }
+
+                        soqlObject = "";
+                        soqlStatement = "";
+                    }
+                    else if (inMethodBody == true
+                        && inSOQLStatement == true)
+                    {
+                        soqlStatement = soqlStatement + filearray[i] + " ";
+                        if (filearray[i].ToLower() == "from")
+                        {
+                            soqlObject = filearray[i + 1];
                         }
                     }
+                    else if (filearray[i] == ";"
+                        && inMethodBody == true)
+                    {
+                        //Debug.WriteLine(" ");
 
-                    skipTo = jCount;
-                    skipOver = true;
-                }
-                else if (filearray[i].ToLower() == "database.insert"
-                    || filearray[i].ToLower() == "database.update"
-                    || filearray[i].ToLower() == "database.delete"
-                    || filearray[i].ToLower() == "database.undelete"
-                    || filearray[i].ToLower() == "database.upsert")
-                {
-                    String[] varNameSplit = filearray[i + 2].ToLower().Split('.');
-                    String varName = varNameSplit[0];
+                        // Determine if this is a declared null variable
+                        if (filearray[i - 1] == "break")
+                        {
+                            // Add nothing
+                        }
+                        else if (filearray[i - 1] == "continue")
+                        {
+                            // Add nothing
+                        }
+                        else if (filearray[i - 3] == "{"
+                            || filearray[i - 3] == "}"
+                            || filearray[i - 3] == "("
+                            || filearray[i - 3] == ")"
+                            || filearray[i - 3] == ";")
+                        {
+                            ObjectVarToType ovt = new ObjectVarToType();
+                            ovt.leftSideObject = filearray[i - 2];
+                            ovt.varName = filearray[i - 1];
+                            ovt.nullVariableValue = true;
 
-                    if (filearray[i - 1] == "=")
-                    {
-                        skipTo = parseMethodDmlVars(filearray,
-                            varName,
-                            filearray[i],
-                            saveResultType,
-                            saveResultVar,
-                            ac,
-                            cm,
-                            i + 2);
-                    }
-                    else
-                    {
-                        skipTo = parseMethodDmlVars(filearray, varName, filearray[i], "", "", ac, cm, i + 2);
-                    }
-
-                    skipOver = true;
-                    //saveResultType = "";
-                    //saveResultVar = "";
-                }
-                else if (filearray[i].ToLower() == "insert"
-                    || filearray[i].ToLower() == "update"
-                    || filearray[i].ToLower() == "delete"
-                    || filearray[i].ToLower() == "undelete"
-                    || filearray[i].ToLower() == "upsert")
-                {
-                    String varName = "";
-                    if (filearray[i + 1].ToLower() == "new")
-                    {
-                        varName = filearray[i + 2];
-                        skipTo = parseMethodDmlVars(filearray, varName, filearray[i], "", "", ac, cm, i + 2);
-                    }
-                    else
-                    {
-                        varName = filearray[i + 1];
-                        skipTo = parseMethodDmlVars(filearray, varName, filearray[i], "", "", ac, cm, i + 1);
-                    }
-
-                    skipOver = true;
-                }
-                // SOQL query handlers
-                else if (inMethodBody == true
-                    && filearray[i].ToLower() == "select" && inSOQLStatement == false)
-                {
-                    inSOQLStatement = true;
-                }
-                else if (inMethodBody == true
-                    && inSOQLStatement == true && filearray[i].ToLower() == "]")
-                {
-                    inSOQLStatement = false;
-
-                    if (soqlStatements.ContainsKey(soqlObject))
-                    {
-                        soqlStatements[soqlObject].Add(soqlStatement);
-                    }
-                    else
-                    {
-                        soqlStatements.Add(soqlObject, new List<string> { soqlStatement });
-                    }
-
-                    soqlObject = "";
-                    soqlStatement = "";
-                }
-                else if (inMethodBody == true
-                    && inSOQLStatement == true)
-                {
-                    soqlStatement = soqlStatement + filearray[i] + " ";
-                    if (filearray[i].ToLower() == "from")
-                    {
-                        soqlObject = filearray[i + 1];
-                    }
-                }
-                else if (filearray[i] == ";"
-                    && inMethodBody == true)
-                {
-                    //Debug.WriteLine(" ");
-
-                    // Determine if this is a declared null variable
-                    if (filearray[i - 1] == "break")
-                    {
-                        // Add nothing
-                    }
-                    else if (filearray[i - 1] == "continue")
-                    {
-                        // Add nothing
-                    }
-                    else if (filearray[i - 3] == "{"
-                        || filearray[i - 3] == "}"
-                        || filearray[i - 3] == "("
-                        || filearray[i - 3] == ")"
-                        || filearray[i - 3] == ";")
-                    {
-                        ObjectVarToType ovt = new ObjectVarToType();
-                        ovt.leftSideObject = filearray[i - 2];
-                        ovt.varName = filearray[i - 1];
-                        ovt.nullVariableValue = true;
-
-                        cm.methodBodyVars.Add(ovt);
+                            cm.methodBodyVars.Add(ovt);
+                        }
                     }
                 }
             }
@@ -2795,7 +3347,7 @@ namespace SalesforceMetadata
             return lastCharLocation;
         }
 
-        public Int32 parseMethodDmlVars(String[] filearray,
+        private Int32 parseMethodDmlVars(String[] filearray,
             String varName,
             String dmlType,
             String saveResultType,
@@ -2999,7 +3551,7 @@ namespace SalesforceMetadata
             return lastCharLocation;
         }
 
-        public Int32 parseMethodVariables(String[] filearray, ClassMethod cm, Int32 arraystart)
+        private Int32 parseMethodVariables(String[] filearray, ClassMethod cm, Int32 arraystart)
         {
             Int32 lastCharLocation = arraystart;
 
@@ -3018,6 +3570,21 @@ namespace SalesforceMetadata
             Boolean inStringValue = false;
             for (Int32 i = arraystart - 1; i >= 0; i--)
             {
+                // Debug information
+                //if ((filearray.Length - 1) > i)
+                //{
+                //    String lastValues = "";
+                //    Int32 k = 0;
+                //    for (Int32 j = i; j < filearray.Length; j++)
+                //    {
+                //        lastValues = lastValues + " " + filearray[j];
+                //        k++;
+                //        if (k == 10) { break; }
+                //    }
+
+                //    Debug.WriteLine(i + " " + lastValues);
+                //}
+
                 // We also need to account for inline IF statements
                 if (filearray[i] == ";"
                     || filearray[i] == "{"
@@ -3070,12 +3637,14 @@ namespace SalesforceMetadata
             for (Int32 i = arraystart + 1; i < filearray.Length; i++)
             {
                 if (filearray[i] == "'"
+                    && filearray[i - 1] != "\\"
                     && inStringValue == false)
                 {
                     inStringValue = true;
                     rightSide = rightSide + filearray[i] + " ";
                 }
                 else if (filearray[i] == "'"
+                    && filearray[i - 1] != "\\"
                     && inStringValue == true)
                 {
                     inStringValue = false;
@@ -3107,7 +3676,7 @@ namespace SalesforceMetadata
             return lastCharLocation;
         }
 
-        public Int32 parseForLoop(String[] filearray, ObjectVarToType ovt, Int32 arraystart)
+        private Int32 parseForLoop(String[] filearray, ObjectVarToType ovt, Int32 arraystart)
         {
             Int32 lastCharLocation = arraystart;
 
@@ -3154,7 +3723,7 @@ namespace SalesforceMetadata
             return lastCharLocation;
         }
 
-        public Int32 parseReturnValue(String[] filearray, ClassMethod cm, Int32 arraystart)
+        private Int32 parseReturnValue(String[] filearray, ClassMethod cm, Int32 arraystart)
         {
             Int32 lastCharLocation = arraystart;
             Boolean inString = false;
@@ -3193,7 +3762,7 @@ namespace SalesforceMetadata
             return lastCharLocation;
         }
 
-        public void findObjectNameFromVar(ObjectVarToType ovt, ApexTriggerStructure at)
+        private void findObjectNameFromVar(ObjectVarToType ovt, ApexTriggerStructure at)
         {
             String[] splitLeftSide = ovt.leftSide.Split('.');
             String[] splitRightSide = ovt.rightSide.Split('.');
@@ -3306,7 +3875,7 @@ namespace SalesforceMetadata
             }
         }
 
-        public void findObjectNameFromVar(ClassMethod cm, ObjectVarToType ovt, ApexClassStructure ac)
+        private void findObjectNameFromVar(ClassMethod cm, ObjectVarToType ovt, ApexClassStructure ac)
         {
             String[] splitLeftSide = ovt.leftSide.Split('.');
             String[] splitRightSide = ovt.rightSide.Split('.');
@@ -3514,7 +4083,7 @@ namespace SalesforceMetadata
             }
         }
 
-        public Int32 bypassCharacters(String[] filearray, Int32 arraystart)
+        private Int32 bypassCharacters(String[] filearray, Int32 arraystart)
         {
             Int32 lastCharLocation = arraystart;
 
@@ -3544,165 +4113,6 @@ namespace SalesforceMetadata
 
             return lastCharLocation;
         }
-
-
-
-        /****
-        public void writeClassValuesToDictionary()
-        {
-            StreamWriter apexClassWriter = new StreamWriter(this.tbFileSaveTo.Text + "\\ApexClasses.txt");
-
-            apexClassWriter.WriteLine(
-                "ClassName\t" +
-                "AccessModifier\t" +
-                "OptionalModifier\t" +
-                "IsTestClass\t" +
-                "IsInterface\t" +
-                "IsRestClass\t" +
-                "ExtendsClass\t" +
-                "ImplementsClasses\t" +
-                "ClassProperties\t" + 
-                "PropertyName\t" +
-                "PropertyAnnotation\t" +
-                "Qualifier\t" +
-                "IsStatic\t" +
-                "IsFinal\t" +
-                "PropertyDataType\t" +
-                "PropertyValue\t" +
-                "ClassMethods\t" +
-                "MethodName\t" +
-                "MethodAnnotation\t" +
-                "MethodQualifier\t" +
-                "IsStatic\t" +
-                "IsOverride\t" +
-                "IsVirtual\t" +
-                "ReturnDataType\t" +
-                "ReturnStatement\t" +
-                "MethodParameters\t" +
-                "MethodParameterVarType\t" +
-                "MethodParameterVarName\t" +
-                "MethodDMLs\t" +
-                "DMLType\t" +
-                "DMLObject\t" +
-                "DMLVarName\t" +
-                "SaveResultType\t" +
-                "SaveResultVarName\t" +
-                "SOQLStatements\t" +
-                "SOQLObject\t" +
-                "SOQLStatement"
-                );
-
-            foreach (String clsNm in this.classNmToClass.Keys)
-            {
-                apexClassWriter.Write(classNmToClass[clsNm].className + "\t");
-                apexClassWriter.Write(classNmToClass[clsNm].accessModifier + "\t");
-                apexClassWriter.Write(classNmToClass[clsNm].optionalModifier + "\t");
-                apexClassWriter.Write(classNmToClass[clsNm].isTestClass + "\t");
-                apexClassWriter.Write(classNmToClass[clsNm].isInterface + "\t");
-                apexClassWriter.Write(classNmToClass[clsNm].isRestClass + "\t");
-                apexClassWriter.Write(classNmToClass[clsNm].extendsClassName + "\t");
-                
-                foreach (String extCls in classNmToClass[clsNm].implementsClassNames)
-                {
-                    apexClassWriter.Write(extCls + ",");
-                }
-
-                apexClassWriter.Write("\t");
-                apexClassWriter.Write(Environment.NewLine);
-
-                // Write Class Properties / Variables
-                foreach (String clsPropNm in classNmToClass[clsNm].clsProperties.Keys)
-                {
-                    for (Int32 i = 0; i < 9; i++)
-                    {
-                        apexClassWriter.Write("\t");
-                    }
-
-                    apexClassWriter.Write(classNmToClass[clsNm].clsProperties[clsPropNm].propertyName + "\t");
-                    apexClassWriter.Write(classNmToClass[clsNm].clsProperties[clsPropNm].propertyAnnotation + "\t");
-                    apexClassWriter.Write(classNmToClass[clsNm].clsProperties[clsPropNm].qualifier + "\t");
-                    apexClassWriter.Write(classNmToClass[clsNm].clsProperties[clsPropNm].isStatic + "\t");
-                    apexClassWriter.Write(classNmToClass[clsNm].clsProperties[clsPropNm].isFinal + "\t");
-                    apexClassWriter.Write(classNmToClass[clsNm].clsProperties[clsPropNm].dataType + "\t");
-                    apexClassWriter.Write(classNmToClass[clsNm].clsProperties[clsPropNm].propertyValue + "\t");
-                    apexClassWriter.Write(Environment.NewLine);
-                }
-
-
-                // Write Class Methods
-                foreach (ClassMethods clsMethod in classNmToClass[clsNm].classMethods)
-                {
-                    for (Int32 i = 0; i < 17; i++)
-                    {
-                        apexClassWriter.Write("\t");
-                    }
-
-                    apexClassWriter.Write(clsMethod.methodName + "\t");
-                    apexClassWriter.Write(clsMethod.methodAnnotation + "\t");
-                    apexClassWriter.Write(clsMethod.qualifier + "\t");
-                    apexClassWriter.Write(clsMethod.isStatic + "\t");
-                    apexClassWriter.Write(clsMethod.isOverride + "\t");
-                    apexClassWriter.Write(clsMethod.isVirtual + "\t");
-                    apexClassWriter.Write(clsMethod.returnDataType + "\t");
-                    apexClassWriter.Write(clsMethod.returnStatement + "\t");
-                    apexClassWriter.Write(Environment.NewLine);
-
-                    if (clsMethod.methodParameters.Count > 0)
-                    {
-                        foreach(ObjectVarToType methParam in clsMethod.methodParameters)
-                        {
-                            for (Int32 i = 0; i < 25; i++)
-                            {
-                                apexClassWriter.Write("\t");
-                            }
-
-                            apexClassWriter.Write(methParam.varType + "\t");
-                            apexClassWriter.Write(methParam.varName + "\t");
-                            apexClassWriter.Write(Environment.NewLine);
-                        }
-                    }
-
-                    if (clsMethod.methodDmls.Count > 0)
-                    {
-                        foreach (ObjectVarToType methDml in clsMethod.methodDmls)
-                        {
-                            for (Int32 i = 0; i < 28; i++)
-                            {
-                                apexClassWriter.Write("\t");
-                            }
-                            
-                            apexClassWriter.Write(methDml.dmlType + "\t");
-                            apexClassWriter.Write(methDml.leftSideObject + "\t");
-                            apexClassWriter.Write(methDml.varName + "\t");
-                            apexClassWriter.Write(methDml.saveResultType + "\t");
-                            apexClassWriter.Write(methDml.saveResultVar + "\t");
-                            apexClassWriter.Write(Environment.NewLine);
-                        }
-                    }
-
-                    if (clsMethod.soqlStatements.Count > 0)
-                    {
-                        foreach (String soqlObj in clsMethod.soqlStatements.Keys)
-                        {
-                            for (Int32 i = 0; i < 33; i++)
-                            {
-                                apexClassWriter.Write("\t");
-                            }
-
-                            foreach (String soqlStmnt in clsMethod.soqlStatements[soqlObj])
-                            {
-                                apexClassWriter.Write(soqlObj + "\t");
-                                apexClassWriter.Write(soqlStmnt + "\t");
-                                apexClassWriter.Write(Environment.NewLine);
-                            }
-                        }
-                    }
-                }
-            }
-
-            apexClassWriter.Close();
-        }
-        ****/
 
         private void writeAutomationFieldExtractedResultsToFile()
         {
@@ -4159,6 +4569,7 @@ namespace SalesforceMetadata
 
             sw.Close();
         }
+
         /// <summary>
         /// There will be a lot of recursive loops here so might need to find a way to make this more efficient
         /// Parse the triggers and class-methods (done above)
@@ -4476,6 +4887,518 @@ namespace SalesforceMetadata
 
             sw.Close();
         }
+        private void writeAutomationSequenceToFile()
+        {
+            StreamWriter sw = new StreamWriter(this.tbFileSaveTo.Text + "\\AutomationSequencesReport.txt");
+
+            sw.Write("sObject\t");
+            sw.Write("Flow API Name\t");
+            sw.Write("Flow Label\t");
+            sw.Write("API Version\t");
+            sw.Write("Process Type\t");
+            sw.Write("Trigger Type\t");
+            sw.Write("Record Trigger Type\t");
+            sw.Write("Run In Mode\t");
+            sw.Write("Is Active" + Environment.NewLine);
+
+            foreach (String sobj in this.objectToFlow.Keys)
+            {
+                if (sobj != "")
+                {
+                    foreach (FlowProcess fp in this.objectToFlow[sobj])
+                    {
+                        sw.Write(sobj + "\t");
+                        sw.Write(fp.apiName + "\t");
+                        sw.Write(fp.label + "\t");
+                        sw.Write(fp.apiVersion + "\t");
+                        sw.Write(fp.flowProcessType + "\t");
+                        sw.Write(fp.triggerType + "\t");
+                        sw.Write(fp.recordTriggerType + "\t");
+                        sw.Write(fp.runInMode + "\t");
+                        sw.Write(fp.isActive + Environment.NewLine);
+
+                        foreach (FlowActionCalls fac in fp.actionCalls)
+                        {
+                            if (fac.actionCallAPIName.StartsWith("Call_proxy_to_"))
+                            {
+                                String subFlow = fac.actionCallAPIName.Substring(14);
+                                sw.Write("\t\tSubflow: " + subFlow);
+                                sw.Write("\t\tInput Parameters: \t");
+
+                                foreach (FlowActionInputParameters fv in fac.inputParameters)
+                                {
+                                    sw.Write(fv.apiName + " => " + fv.value + "\t\t");
+                                }
+
+                                sw.Write(Environment.NewLine);
+
+                                writeRelatedAutomationToFile(sw, subFlow, "", FLOW, 2);
+                            }
+                            else
+                            {
+                                // Custom Class - Find related automation pieces after writing the class name
+                                if (this.classNmToClass.ContainsKey(fac.actionName))
+                                {
+                                    sw.Write("\t\tApexClass: " + fac.actionName + "\t\t");
+                                    sw.Write("Input Parameters: \t");
+
+                                    foreach (FlowActionInputParameters fv in fac.inputParameters)
+                                    {
+                                        sw.Write(fv.apiName + " => " + fv.value + "\t\t");
+                                    }
+
+                                    sw.Write(Environment.NewLine);
+
+                                    writeRelatedAutomationToFile(sw, fac.actionName, "", APEX_CLASS, 2);
+                                }
+                                // Managed Package class: No need to find any related automation pieces from this
+                                else if (fac.actionType == "apex")
+                                {
+                                    sw.Write("\t\tManagedApexClass: " + fac.actionName);
+                                    sw.Write(Environment.NewLine);
+                                    sw.Write(Environment.NewLine);
+                                }
+                                else
+                                {
+                                    sw.Write("\t\tManagedActionCall: " + fac.actionName);
+                                    sw.Write(Environment.NewLine);
+                                    sw.Write(Environment.NewLine);
+                                }
+                            }
+                        }
+
+                        sw.Write(Environment.NewLine);
+                    }
+                }
+            }
+
+            sw.Write(Environment.NewLine);
+            sw.Write(Environment.NewLine);
+
+            foreach (String sobj in this.objectToFlow.Keys)
+            {
+                if (sobj == "")
+                {
+                    foreach (FlowProcess fp in this.objectToFlow[sobj])
+                    {
+                        sw.Write(sobj + "\t");
+                        sw.Write(fp.apiName + "\t");
+                        sw.Write(fp.label + "\t");
+                        sw.Write(fp.apiVersion + "\t");
+                        sw.Write(fp.flowProcessType + "\t");
+                        sw.Write(fp.triggerType + "\t");
+                        sw.Write(fp.recordTriggerType + "\t");
+                        sw.Write(fp.runInMode + "\t");
+                        sw.Write(fp.isActive + Environment.NewLine);
+
+                        foreach (FlowActionCalls fac in fp.actionCalls)
+                        {
+                            if (fac.actionCallAPIName.StartsWith("Call_proxy_to_"))
+                            {
+                                String subFlow = fac.actionCallAPIName.Substring(14);
+                                sw.Write("\t\tSubflow: " + subFlow);
+                                sw.Write("\t\tInput Parameters: \t");
+
+                                foreach (FlowActionInputParameters fv in fac.inputParameters)
+                                {
+                                    sw.Write(fv.apiName + " => " + fv.value + "\t\t");
+                                }
+
+                                sw.Write(Environment.NewLine);
+
+                                writeRelatedAutomationToFile(sw, subFlow, "", FLOW, 2);
+                            }
+                            else
+                            {
+                                // Custom Class - Find related automation pieces after writing the class name
+                                if (this.classNmToClass.ContainsKey(fac.actionName))
+                                {
+                                    sw.Write("\t\tApexClass: " + fac.actionName + "\t\t");
+                                    sw.Write("Input Parameters: \t");
+
+                                    foreach (FlowActionInputParameters fv in fac.inputParameters)
+                                    {
+                                        sw.Write(fv.apiName + " => " + fv.value + "\t\t");
+                                    }
+
+                                    sw.Write(Environment.NewLine);
+
+                                    writeRelatedAutomationToFile(sw, fac.actionName, "", APEX_CLASS, 2);
+                                }
+                                // Managed Package class: No need to find any related automation pieces from this
+                                else if (fac.actionType == "apex")
+                                {
+                                    sw.Write("\t\tManagedApexClass: " + fac.actionName);
+                                    sw.Write(Environment.NewLine);
+                                    sw.Write(Environment.NewLine);
+                                }
+                                else
+                                {
+                                    sw.Write("\t\tManagedActionCall: " + fac.actionName);
+                                    sw.Write(Environment.NewLine);
+                                    sw.Write(Environment.NewLine);
+                                }
+                            }
+                        }
+
+                        sw.Write(Environment.NewLine);
+                    }
+                }
+            }
+
+            sw.Write(Environment.NewLine);
+            sw.Write(Environment.NewLine);
+
+            sw.Write("ClassName\t");
+            sw.Write("ExtendsClass\t");
+            sw.Write("OptionalModifier\t");
+            sw.Write("IsInterface\t");
+            sw.Write("IsRestClass\t");
+            sw.Write("IsVirtual");
+            sw.Write(Environment.NewLine);
+
+            foreach (String clsnm in this.classNmToClass.Keys)
+            {
+                ApexClassStructure apxClass = this.classNmToClass[clsnm];
+
+                if (apxClass.isTestClass == true)
+                {
+                    continue;
+                }
+
+                sw.Write(apxClass.className + "\t");
+                sw.Write(apxClass.extendsClassName + "\t");
+                sw.Write(apxClass.optionalModifier + "\t");
+                sw.Write(apxClass.isInterface + "\t");
+                sw.Write(apxClass.isRestClass + "\t");
+                sw.Write(apxClass.isVirtual);
+
+                sw.Write(Environment.NewLine);
+                sw.Write(Environment.NewLine);
+
+                sw.Write("\t");
+                sw.Write("ClassProperties\t");
+                sw.Write("PropertyName\t");
+                sw.Write("DateType\t");
+                sw.Write("PropertyValue\t");
+                sw.Write("PropertyQualifier\t");
+                sw.Write("IsStatic\t");
+                sw.Write("IsFinal\t");
+                sw.Write("IsGetter\t");
+                sw.Write("IsSetter");
+                sw.Write(Environment.NewLine);
+
+                foreach (ClassProperty cp in apxClass.clsProperties.Values)
+                {
+                    sw.Write("\t\t");
+                    sw.Write(cp.propertyName + "\t");
+                    sw.Write(cp.dataType + "\t");
+                    sw.Write(cp.propertyValue + "\t");
+                    sw.Write(cp.qualifier + "\t");
+                    sw.Write(cp.isStatic + "\t");
+                    sw.Write(cp.isFinal + "\t");
+                    sw.Write(cp.isGetter + "\t");
+                    sw.Write(cp.isSetter);
+                    sw.Write(Environment.NewLine);
+                }
+
+                sw.Write(Environment.NewLine);
+
+                sw.Write("\t");
+                sw.Write("ClassMethods\t");
+                sw.Write("MethodName\t");
+                sw.Write("MethodAnnotation\t");
+                sw.Write("MethodQualifier\t");
+                sw.Write("ReturnDataType\t");
+                sw.Write("IsStatic\t");
+                sw.Write("IsVirutual\t");
+                sw.Write("IsTestMethod");
+                sw.Write(Environment.NewLine);
+
+                foreach (ClassMethod cm in apxClass.classMethods)
+                {
+                    sw.Write("\t\t");
+                    sw.Write(cm.methodName + "\t");
+                    sw.Write(cm.methodAnnotation + "\t");
+                    sw.Write(cm.qualifier + "\t");
+                    sw.Write(cm.returnDataType + "\t");
+                    sw.Write(cm.isStatic + "\t");
+                    sw.Write(cm.isVirtual + "\t");
+                    sw.Write(cm.isTestMethod);
+                    sw.Write(Environment.NewLine);
+
+                    writeRelatedAutomationToFile(sw, apxClass.className, cm.methodName, APEX_CLASS_METHOD, 2);
+                }
+
+                sw.Write(Environment.NewLine);
+                sw.Write(Environment.NewLine);
+            }
+
+            sw.Close();
+        }
+        private void writeRelatedAutomationToFile(StreamWriter sw, String apiName, String methodName, String automationType, Int32 tabCount)
+        {
+            // Write the incoming value to the file
+            if (automationType == FLOW)
+            {
+                foreach (String sobj in this.objectToFlow.Keys)
+                {
+                    List<FlowProcess> fpList = this.objectToFlow[sobj];
+
+                    foreach (FlowProcess fp in fpList)
+                    {
+                        if (fp.apiName == apiName)
+                        {
+                            tabCount += 2;
+
+                            foreach (FlowActionCalls fac in fp.actionCalls)
+                            {
+                                if (fac.actionCallAPIName.StartsWith("Call_proxy_to_"))
+                                {
+                                    for (Int32 i = 0; i < tabCount; i++)
+                                    {
+                                        sw.Write("\t");
+                                    }
+
+                                    String subFlow = fac.actionCallAPIName.Substring(14);
+                                    sw.Write("Subflow: " + subFlow);
+                                    sw.Write("\t\tInput Parameters: \t");
+
+                                    foreach (FlowActionInputParameters fv in fac.inputParameters)
+                                    {
+                                        sw.Write(fv.apiName + " => " + fv.value + "\t\t");
+                                    }
+
+                                    sw.Write(Environment.NewLine);
+
+                                    writeRelatedAutomationToFile(sw, subFlow, "", FLOW, tabCount);
+                                }
+                                else
+                                {
+                                    // Custom Class - Find related automation pieces after writing the class name
+                                    if (this.classNmToClass.ContainsKey(fac.actionName))
+                                    {
+                                        for (Int32 i = 0; i < tabCount; i++)
+                                        {
+                                            sw.Write("\t");
+                                        }
+
+                                        sw.Write("ApexClass: " + fac.actionName + "\t\t");
+                                        sw.Write("Input Parameters: \t");
+
+                                        foreach (FlowActionInputParameters fv in fac.inputParameters)
+                                        {
+                                            sw.Write(fv.apiName + " => " + fv.value + "\t\t");
+                                        }
+
+                                        sw.Write(Environment.NewLine);
+
+                                        writeRelatedAutomationToFile(sw, fac.actionName, "", APEX_CLASS, tabCount);
+                                    }
+                                    // Managed Package class: No need to find any related automation pieces from this
+                                    else if (fac.actionType == "apex")
+                                    {
+                                        for (Int32 i = 0; i < tabCount; i++)
+                                        {
+                                            sw.Write("\t");
+                                        }
+
+                                        sw.Write("ManagedApexClass: " + fac.actionName);
+                                        sw.Write(Environment.NewLine);
+                                        sw.Write(Environment.NewLine);
+                                    }
+                                    else
+                                    {
+                                        for (Int32 i = 0; i < tabCount; i++)
+                                        {
+                                            sw.Write("\t");
+                                        }
+
+                                        sw.Write("ManagedActionCall: " + fac.actionName);
+                                        sw.Write(Environment.NewLine);
+                                        sw.Write(Environment.NewLine);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (automationType == APEX_CLASS)
+            {
+                foreach (String clsNm in this.classNmToClass.Keys)
+                {
+                    ApexClassStructure apxClass = this.classNmToClass[clsNm];
+
+                    if (apxClass.className == apiName)
+                    {
+                        tabCount += 2;
+
+                        List<ClassMethod> clsMethods = new List<ClassMethod>();
+                        clsMethods = apxClass.classMethods;
+
+                        foreach (ClassMethod cm in clsMethods)
+                        {
+                            for (Int32 i = 0; i < tabCount; i++)
+                            {
+                                sw.Write("\t");
+                            }
+
+                            sw.Write("MethodName: " + cm.methodName + "\t");
+
+                            if (cm.methodAnnotation != "")
+                            {
+                                sw.Write("Annotation: " + cm.methodAnnotation + "\t");
+                            }
+
+                            sw.Write(Environment.NewLine);
+                            sw.Write(Environment.NewLine);
+
+                            //String apexClassName = "";
+                            //String apexClassVariable = "";
+
+                            foreach (ObjectVarToType ovt in cm.methodBodyVars)
+                            {
+                                if (ovt.leftSideObject.StartsWith("Flow.Interview"))
+                                {
+                                    for (Int32 i = 0; i < tabCount; i++)
+                                    {
+                                        sw.Write("\t");
+                                    }
+
+                                    String flowName = ovt.leftSideObject.Substring(15);
+
+                                    sw.Write("Flow API Name: " + flowName);
+
+                                    sw.Write(Environment.NewLine);
+
+                                    writeRelatedAutomationToFile(sw, flowName, "", FLOW, tabCount);
+                                }
+                                else if (this.classNmToClass.ContainsKey(ovt.leftSideObject))
+                                {
+                                    if (ovt.leftSide != "")
+                                    {
+                                        String[] splitClassMethodLeftSide = ovt.leftSide.Split('.');
+                                        if (splitClassMethodLeftSide.Length >= 2)
+                                        {
+                                            writeRelatedAutomationToFile(sw, ovt.leftSideObject, splitClassMethodLeftSide[1], APEX_CLASS_METHOD, tabCount);
+                                        }
+                                    }
+
+                                    if (ovt.rightSide != "")
+                                    {
+                                        String[] splitClassMethodRightSide = ovt.rightSide.Split('.');
+                                        if (splitClassMethodRightSide.Length >= 2)
+                                        {
+                                            String[] splitMethod = splitClassMethodRightSide[1].Split(' ');
+                                            writeRelatedAutomationToFile(sw, splitClassMethodRightSide[0], splitMethod[0], APEX_CLASS_METHOD, tabCount);
+                                        }
+                                    }
+                                }
+                                else if (ovt.rightSide != "")
+                                {
+                                    String[] splitClassMethodRightSide = ovt.rightSide.Split('.');
+                                    if (splitClassMethodRightSide.Length >= 2)
+                                    {
+                                        String[] splitMethod = splitClassMethodRightSide[1].Split(' ');
+                                        writeRelatedAutomationToFile(sw, splitClassMethodRightSide[0], splitMethod[0], APEX_CLASS_METHOD, tabCount);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (automationType == APEX_CLASS_METHOD)
+            {
+                foreach (String clsNm in this.classNmToClass.Keys)
+                {
+                    ApexClassStructure apxClass = this.classNmToClass[clsNm];
+
+                    if (apxClass.className == apiName)
+                    {
+                        List<ClassMethod> clsMethods = new List<ClassMethod>();
+                        clsMethods = apxClass.classMethods;
+
+                        foreach (ClassMethod cm in clsMethods)
+                        {
+                            if (cm.methodName == methodName)
+                            {
+                                tabCount += 2;
+
+                                for (Int32 i = 0; i < tabCount; i++)
+                                {
+                                    sw.Write("\t");
+                                }
+
+                                sw.Write("Class-MethodName: " + apxClass.className + "." + cm.methodName + "\t");
+
+                                if (cm.methodAnnotation != "")
+                                {
+                                    sw.Write("Annotation: " + cm.methodAnnotation + "\t");
+                                }
+
+                                sw.Write(Environment.NewLine);
+                                sw.Write(Environment.NewLine);
+
+                                //String apexClassName = "";
+                                //String apexClassVariable = "";
+
+                                foreach (ObjectVarToType ovt in cm.methodBodyVars)
+                                {
+                                    if (ovt.leftSideObject.StartsWith("Flow.Interview"))
+                                    {
+                                        for (Int32 i = 0; i < tabCount; i++)
+                                        {
+                                            sw.Write("\t");
+                                        }
+
+                                        String flowName = ovt.leftSideObject.Substring(15);
+
+                                        sw.Write("Flow API Name: " + flowName);
+
+                                        sw.Write(Environment.NewLine);
+
+                                        writeRelatedAutomationToFile(sw, flowName, "", FLOW, tabCount);
+                                    }
+                                    else if (this.classNmToClass.ContainsKey(ovt.leftSideObject))
+                                    {
+                                        if (ovt.leftSide != "")
+                                        {
+                                            String[] splitClassMethodLeftSide = ovt.leftSide.Split('.');
+                                            if (splitClassMethodLeftSide.Length >= 2)
+                                            {
+                                                writeRelatedAutomationToFile(sw, ovt.leftSideObject, splitClassMethodLeftSide[1], APEX_CLASS_METHOD, tabCount);
+                                            }
+                                        }
+
+                                        if (ovt.rightSide != "")
+                                        {
+                                            String[] splitClassMethodRightSide = ovt.rightSide.Split('.');
+                                            if (splitClassMethodRightSide.Length >= 2)
+                                            {
+                                                String[] splitMethod = splitClassMethodRightSide[1].Split(' ');
+                                                writeRelatedAutomationToFile(sw, splitClassMethodRightSide[0], splitMethod[0], APEX_CLASS_METHOD, tabCount);
+                                            }
+                                        }
+                                    }
+                                    else if (ovt.rightSide != "")
+                                    {
+                                        String[] splitClassMethodRightSide = ovt.rightSide.Split('.');
+                                        if (splitClassMethodRightSide.Length >= 2)
+                                        {
+                                            String[] splitMethod = splitClassMethodRightSide[1].Split(' ');
+                                            writeRelatedAutomationToFile(sw, splitClassMethodRightSide[0], splitMethod[0], APEX_CLASS_METHOD, tabCount);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         public class ObjectToFields 
         {
             public String objectName = "";
@@ -4781,705 +5704,6 @@ namespace SalesforceMetadata
             public String automationName = "";
             public String sObjectName = "";
             public String sObjectField = "";
-        }
-
-        private void btnRunAutomationFieldExtraction_Click(object sender, EventArgs e)
-        {
-            if (this.tbProjectFolder.Text == "")
-            {
-                MessageBox.Show("Please select a project folder which contains the Salesforce metadata");
-                return;
-            }
-
-            if (this.tbFileSaveTo.Text == "")
-            {
-                MessageBox.Show("Please select a folder location to save the report values to");
-                return;
-            }
-
-            // We need the objects and fields and the apex classes extracted out first
-            runObjectFieldExtract();
-
-            // Search through Triggers for field references
-            runApexTriggerExtract();
-
-            // Search through Classes for field references
-            runApexClassExtract();
-
-            // Search Flows/Processes for field references
-            runFlowProcessExtract();
-
-            // Search Workflows for field references
-            runWorkflowExtract();
-
-            // Run the custom Quick Action parsing
-            // TODO: 
-
-
-            // Write the results to a file
-            writeAutomationFieldExtractedResultsToFile();
-
-            writeAutomationHierarchyResults();
-
-            MessageBox.Show("Automation Field Reference Extraction Complete");
-        }
-
-        private void btnParseFlows_Click(object sender, EventArgs e)
-        {
-            if (Directory.Exists(this.tbProjectFolder.Text + "\\flows")
-                || this.tbProjectFolder.Text == this.tbProjectFolder.Text + "\\flows")
-            {
-                String[] files = Directory.GetFiles(this.tbProjectFolder.Text + "\\flows");
-
-                this.objectToFlow = new Dictionary<string, List<FlowProcess>>();
-
-                foreach (String fl in files)
-                {
-                    runFlowProcessExtract();
-                }
-
-                // Now write out the contents in tabular format
-                StreamWriter sw = new StreamWriter(this.tbFileSaveTo.Text + "\\FlowAutomation.txt");
-                sw.Write("Triggering sObject\t");
-                sw.Write("Flow API Name\t");
-                sw.Write("Flow Label\t");
-                sw.Write("API Version\t");
-                sw.Write("Process Type\t");
-                sw.Write("Triggered From\t");
-                sw.Write("Run In Mode\t");
-                sw.Write("Is Active" + Environment.NewLine);
-
-                foreach (String flowObj in this.objectToFlow.Keys)
-                {
-                    if (flowObj == "")
-                    {
-                        sw.Write("No triggering sObject");
-
-                        List<FlowProcess> flowProcessList = this.objectToFlow[flowObj];
-
-                        foreach (FlowProcess fp in flowProcessList)
-                        {
-                            sw.Write("\t");
-                            sw.Write(fp.apiName + "\t");
-                            sw.Write(fp.label + "\t");
-                            sw.Write(fp.apiVersion + "\t");
-                            sw.Write(fp.flowProcessType + "\t");
-                            sw.Write(fp.triggerType + "\t");
-                            sw.Write(fp.runInMode + "\t");
-                            sw.Write(fp.isActive + Environment.NewLine);
-                        }
-
-                        sw.Write(Environment.NewLine);
-                    }
-                    else
-                    {
-                        sw.WriteLine(flowObj);
-
-                        List<FlowProcess> flowProcessList = this.objectToFlow[flowObj];
-
-                        foreach (FlowProcess fp in flowProcessList) 
-                        {
-                            sw.Write("\t");
-                            sw.Write(fp.apiName + "\t");
-                            sw.Write(fp.label + "\t");
-                            sw.Write(fp.apiVersion + "\t");
-                            sw.Write(fp.flowProcessType + "\t");
-                            sw.Write(fp.triggerType + "\t");
-                            sw.Write(fp.runInMode + "\t");
-                            sw.Write(fp.isActive + Environment.NewLine);
-                        }
-
-                        sw.Write(Environment.NewLine);
-                    }
-                }
-
-                sw.Close();
-            }
-
-            MessageBox.Show("Flow Extraction Complete");
-        }
-
-        private void btnGetApexClassNamesAndMethods_Click(object sender, EventArgs e)
-        {
-            if (this.tbProjectFolder.Text == "")
-            {
-                MessageBox.Show("Please select a project folder which contains the Salesforce metadata");
-                return;
-            }
-
-            if (this.tbFileSaveTo.Text == "")
-            {
-                MessageBox.Show("Please select a folder location to save the report values to");
-                return;
-            }
-
-            // We need the objects and fields and the apex classes extracted out first
-            runObjectFieldExtract();
-
-            // Search through Triggers for field references
-            runApexTriggerExtract();
-
-            // Search through Classes for field references
-            runApexClassExtract();
-
-            // Search Flows/Processes for field references
-            runFlowProcessExtract();
-
-            // Search Workflows for field references
-            runWorkflowExtract();
-
-            writeAutomationNamesToFile();
-
-            MessageBox.Show("Automation Names Extraction Complete");
-        }
-
-        private void btnAutomationHierarchy_Click(object sender, EventArgs e)
-        {
-            if (this.tbProjectFolder.Text == "")
-            {
-                MessageBox.Show("Please select a project folder which contains the Salesforce metadata");
-                return;
-            }
-
-            if (this.tbFileSaveTo.Text == "")
-            {
-                MessageBox.Show("Please select a folder location to save the report values to");
-                return;
-            }
-
-            // We need the objects and fields and the apex classes extracted out first
-            runObjectFieldExtract();
-
-            // Search through Triggers for field references
-            runApexTriggerExtract();
-
-            // Search through Classes for field references
-            runApexClassExtract();
-
-            // Search Flows/Processes for field references
-            runFlowProcessExtract();
-
-            writeAutomationSequenceToFile();
-
-            MessageBox.Show("Automation Hierarchy Report Complete");
-        }
-
-        private void writeAutomationSequenceToFile()
-        {
-            StreamWriter sw = new StreamWriter(this.tbFileSaveTo.Text + "\\AutomationSequencesReport.txt");
-
-            sw.Write("sObject\t");
-            sw.Write("Flow API Name\t");
-            sw.Write("Flow Label\t");
-            sw.Write("API Version\t");
-            sw.Write("Process Type\t");
-            sw.Write("Trigger Type\t");
-            sw.Write("Record Trigger Type\t");
-            sw.Write("Run In Mode\t");
-            sw.Write("Is Active" + Environment.NewLine);
-
-            foreach (String sobj in this.objectToFlow.Keys)
-            {
-                if (sobj != "")
-                {
-                    foreach (FlowProcess fp in this.objectToFlow[sobj])
-                    {
-                        sw.Write(sobj + "\t");
-                        sw.Write(fp.apiName + "\t");
-                        sw.Write(fp.label + "\t");
-                        sw.Write(fp.apiVersion + "\t");
-                        sw.Write(fp.flowProcessType + "\t");
-                        sw.Write(fp.triggerType + "\t");
-                        sw.Write(fp.recordTriggerType + "\t");
-                        sw.Write(fp.runInMode + "\t");
-                        sw.Write(fp.isActive + Environment.NewLine);
-
-                        foreach (FlowActionCalls fac in fp.actionCalls)
-                        {
-                            if (fac.actionCallAPIName.StartsWith("Call_proxy_to_"))
-                            {
-                                String subFlow = fac.actionCallAPIName.Substring(14);
-                                sw.Write("\t\tSubflow: " + subFlow);
-                                sw.Write("\t\tInput Parameters: \t");
-
-                                foreach (FlowActionInputParameters fv in fac.inputParameters)
-                                {
-                                    sw.Write(fv.apiName + " => " + fv.value + "\t\t");
-                                }
-
-                                sw.Write(Environment.NewLine);
-
-                                writeRelatedAutomationToFile(sw, subFlow, "", FLOW, 2);
-                            }
-                            else
-                            {
-                                // Custom Class - Find related automation pieces after writing the class name
-                                if (this.classNmToClass.ContainsKey(fac.actionName))
-                                {
-                                    sw.Write("\t\tApexClass: " + fac.actionName + "\t\t");
-                                    sw.Write("Input Parameters: \t");
-
-                                    foreach (FlowActionInputParameters fv in fac.inputParameters)
-                                    {
-                                        sw.Write(fv.apiName + " => " + fv.value + "\t\t");
-                                    }
-
-                                    sw.Write(Environment.NewLine);
-
-                                    writeRelatedAutomationToFile(sw, fac.actionName, "", APEX_CLASS, 2);
-                                }
-                                // Managed Package class: No need to find any related automation pieces from this
-                                else if (fac.actionType == "apex")
-                                {
-                                    sw.Write("\t\tManagedApexClass: " + fac.actionName);
-                                    sw.Write(Environment.NewLine);
-                                    sw.Write(Environment.NewLine);
-                                }
-                                else
-                                {
-                                    sw.Write("\t\tManagedActionCall: " + fac.actionName);
-                                    sw.Write(Environment.NewLine);
-                                    sw.Write(Environment.NewLine);
-                                }
-                            }
-                        }
-
-                        sw.Write(Environment.NewLine);
-                    }
-                }
-            }
-
-            sw.Write(Environment.NewLine);
-            sw.Write(Environment.NewLine);
-
-            foreach (String sobj in this.objectToFlow.Keys)
-            {
-                if (sobj == "")
-                {
-                    foreach (FlowProcess fp in this.objectToFlow[sobj])
-                    {
-                        sw.Write(sobj + "\t");
-                        sw.Write(fp.apiName + "\t");
-                        sw.Write(fp.label + "\t");
-                        sw.Write(fp.apiVersion + "\t");
-                        sw.Write(fp.flowProcessType + "\t");
-                        sw.Write(fp.triggerType + "\t");
-                        sw.Write(fp.recordTriggerType + "\t");
-                        sw.Write(fp.runInMode + "\t");
-                        sw.Write(fp.isActive + Environment.NewLine);
-
-                        foreach (FlowActionCalls fac in fp.actionCalls)
-                        {
-                            if (fac.actionCallAPIName.StartsWith("Call_proxy_to_"))
-                            {
-                                String subFlow = fac.actionCallAPIName.Substring(14);
-                                sw.Write("\t\tSubflow: " + subFlow);
-                                sw.Write("\t\tInput Parameters: \t");
-
-                                foreach (FlowActionInputParameters fv in fac.inputParameters)
-                                {
-                                    sw.Write(fv.apiName + " => " + fv.value + "\t\t");
-                                }
-
-                                sw.Write(Environment.NewLine);
-
-                                writeRelatedAutomationToFile(sw, subFlow, "", FLOW, 2);
-                            }
-                            else
-                            {
-                                // Custom Class - Find related automation pieces after writing the class name
-                                if (this.classNmToClass.ContainsKey(fac.actionName))
-                                {
-                                    sw.Write("\t\tApexClass: " + fac.actionName + "\t\t");
-                                    sw.Write("Input Parameters: \t");
-
-                                    foreach (FlowActionInputParameters fv in fac.inputParameters)
-                                    {
-                                        sw.Write(fv.apiName + " => " + fv.value + "\t\t");
-                                    }
-
-                                    sw.Write(Environment.NewLine);
-
-                                    writeRelatedAutomationToFile(sw, fac.actionName, "", APEX_CLASS, 2);
-                                }
-                                // Managed Package class: No need to find any related automation pieces from this
-                                else if (fac.actionType == "apex")
-                                {
-                                    sw.Write("\t\tManagedApexClass: " + fac.actionName);
-                                    sw.Write(Environment.NewLine);
-                                    sw.Write(Environment.NewLine);
-                                }
-                                else
-                                {
-                                    sw.Write("\t\tManagedActionCall: " + fac.actionName);
-                                    sw.Write(Environment.NewLine);
-                                    sw.Write(Environment.NewLine);
-                                }
-                            }
-                        }
-
-                        sw.Write(Environment.NewLine);
-                    }
-                }
-            }
-
-            sw.Write(Environment.NewLine);
-            sw.Write(Environment.NewLine);
-
-            sw.Write("ClassName\t");
-            sw.Write("ExtendsClass\t");
-            sw.Write("OptionalModifier\t");
-            sw.Write("IsInterface\t");
-            sw.Write("IsRestClass\t");
-            sw.Write("IsVirtual");
-            sw.Write(Environment.NewLine);
-
-            foreach (String clsnm in this.classNmToClass.Keys)
-            {
-                ApexClassStructure apxClass = this.classNmToClass[clsnm];
-
-                if (apxClass.isTestClass == true)
-                {
-                    continue;
-                }
-
-                sw.Write(apxClass.className + "\t");
-                sw.Write(apxClass.extendsClassName + "\t");
-                sw.Write(apxClass.optionalModifier + "\t");
-                sw.Write(apxClass.isInterface + "\t");
-                sw.Write(apxClass.isRestClass + "\t");
-                sw.Write(apxClass.isVirtual);
-
-                sw.Write(Environment.NewLine);
-                sw.Write(Environment.NewLine);
-
-                sw.Write("\t");
-                sw.Write("ClassProperties\t");
-                sw.Write("PropertyName\t");
-                sw.Write("DateType\t");
-                sw.Write("PropertyValue\t");
-                sw.Write("PropertyQualifier\t");
-                sw.Write("IsStatic\t");
-                sw.Write("IsFinal\t");
-                sw.Write("IsGetter\t");
-                sw.Write("IsSetter");
-                sw.Write(Environment.NewLine);
-
-                foreach (ClassProperty cp in apxClass.clsProperties.Values)
-                {
-                    sw.Write("\t\t");
-                    sw.Write(cp.propertyName + "\t");
-                    sw.Write(cp.dataType + "\t");
-                    sw.Write(cp.propertyValue + "\t");
-                    sw.Write(cp.qualifier + "\t");
-                    sw.Write(cp.isStatic + "\t");
-                    sw.Write(cp.isFinal + "\t");
-                    sw.Write(cp.isGetter + "\t");
-                    sw.Write(cp.isSetter);
-                    sw.Write(Environment.NewLine);
-                }
-
-                sw.Write(Environment.NewLine);
-
-                sw.Write("\t");
-                sw.Write("ClassMethods\t");
-                sw.Write("MethodName\t");
-                sw.Write("MethodAnnotation\t");
-                sw.Write("MethodQualifier\t");
-                sw.Write("ReturnDataType\t");
-                sw.Write("IsStatic\t");
-                sw.Write("IsVirutual\t");
-                sw.Write("IsTestMethod");
-                sw.Write(Environment.NewLine);
-
-                foreach (ClassMethod cm in apxClass.classMethods)
-                {
-                    sw.Write("\t\t");
-                    sw.Write(cm.methodName + "\t");
-                    sw.Write(cm.methodAnnotation + "\t");
-                    sw.Write(cm.qualifier + "\t");
-                    sw.Write(cm.returnDataType + "\t");
-                    sw.Write(cm.isStatic + "\t");
-                    sw.Write(cm.isVirtual + "\t");
-                    sw.Write(cm.isTestMethod);
-                    sw.Write(Environment.NewLine);
-
-                    writeRelatedAutomationToFile(sw, apxClass.className, cm.methodName, APEX_CLASS_METHOD, 2);
-                }
-
-                sw.Write(Environment.NewLine);
-                sw.Write(Environment.NewLine);
-            }
-
-            sw.Close();
-        }
-
-        private void writeRelatedAutomationToFile(StreamWriter sw, String apiName, String methodName, String automationType, Int32 tabCount)
-        {
-            // Write the incoming value to the file
-            if (automationType == FLOW)
-            {
-                foreach (String sobj in this.objectToFlow.Keys)
-                {
-                    List<FlowProcess> fpList = this.objectToFlow[sobj];
-
-                    foreach (FlowProcess fp in fpList)
-                    {
-                        if (fp.apiName == apiName)
-                        {
-                            tabCount += 2;
-
-                            foreach (FlowActionCalls fac in fp.actionCalls)
-                            {
-                                if (fac.actionCallAPIName.StartsWith("Call_proxy_to_"))
-                                {
-                                    for (Int32 i = 0; i < tabCount; i++)
-                                    {
-                                        sw.Write("\t");
-                                    }
-
-                                    String subFlow = fac.actionCallAPIName.Substring(14);
-                                    sw.Write("Subflow: " + subFlow);
-                                    sw.Write("\t\tInput Parameters: \t");
-
-                                    foreach (FlowActionInputParameters fv in fac.inputParameters)
-                                    {
-                                        sw.Write(fv.apiName + " => " + fv.value + "\t\t");
-                                    }
-
-                                    sw.Write(Environment.NewLine);
-
-                                    writeRelatedAutomationToFile(sw, subFlow, "", FLOW, tabCount);
-                                }
-                                else
-                                {
-                                    // Custom Class - Find related automation pieces after writing the class name
-                                    if (this.classNmToClass.ContainsKey(fac.actionName))
-                                    {
-                                        for (Int32 i = 0; i < tabCount; i++)
-                                        {
-                                            sw.Write("\t");
-                                        }
-
-                                        sw.Write("ApexClass: " + fac.actionName + "\t\t");
-                                        sw.Write("Input Parameters: \t");
-
-                                        foreach (FlowActionInputParameters fv in fac.inputParameters)
-                                        {
-                                            sw.Write(fv.apiName + " => " + fv.value + "\t\t");
-                                        }
-
-                                        sw.Write(Environment.NewLine);
-
-                                        writeRelatedAutomationToFile(sw, fac.actionName, "", APEX_CLASS, tabCount);
-                                    }
-                                    // Managed Package class: No need to find any related automation pieces from this
-                                    else if (fac.actionType == "apex")
-                                    {
-                                        for (Int32 i = 0; i < tabCount; i++)
-                                        {
-                                            sw.Write("\t");
-                                        }
-
-                                        sw.Write("ManagedApexClass: " + fac.actionName);
-                                        sw.Write(Environment.NewLine);
-                                        sw.Write(Environment.NewLine);
-                                    }
-                                    else
-                                    {
-                                        for (Int32 i = 0; i < tabCount; i++)
-                                        {
-                                            sw.Write("\t");
-                                        }
-
-                                        sw.Write("ManagedActionCall: " + fac.actionName);
-                                        sw.Write(Environment.NewLine);
-                                        sw.Write(Environment.NewLine);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else if (automationType == APEX_CLASS)
-            {
-                foreach (String clsNm in this.classNmToClass.Keys)
-                {
-                    ApexClassStructure apxClass = this.classNmToClass[clsNm];
-
-                    if (apxClass.className == apiName)
-                    {
-                        tabCount += 2;
-
-                        List<ClassMethod> clsMethods = new List<ClassMethod>();
-                        clsMethods = apxClass.classMethods;
-
-                        foreach (ClassMethod cm in clsMethods)
-                        {
-                            for (Int32 i = 0; i < tabCount; i++)
-                            {
-                                sw.Write("\t");
-                            }
-
-                            sw.Write("MethodName: " + cm.methodName + "\t");
-
-                            if (cm.methodAnnotation != "")
-                            {
-                                sw.Write("Annotation: " + cm.methodAnnotation + "\t");
-                            }
-
-                            sw.Write(Environment.NewLine);
-                            sw.Write(Environment.NewLine);
-
-                            //String apexClassName = "";
-                            //String apexClassVariable = "";
-
-                            foreach (ObjectVarToType ovt in cm.methodBodyVars)
-                            {
-                                if (ovt.leftSideObject.StartsWith("Flow.Interview"))
-                                {
-                                    for (Int32 i = 0; i < tabCount; i++)
-                                    {
-                                        sw.Write("\t");
-                                    }
-
-                                    String flowName = ovt.leftSideObject.Substring(15);
-
-                                    sw.Write("Flow API Name: " + flowName);
-
-                                    sw.Write(Environment.NewLine);
-
-                                    writeRelatedAutomationToFile(sw, flowName, "", FLOW, tabCount);
-                                }
-                                else if (this.classNmToClass.ContainsKey(ovt.leftSideObject))
-                                {
-                                    if (ovt.leftSide != "")
-                                    {
-                                        String[] splitClassMethodLeftSide = ovt.leftSide.Split('.');
-                                        if (splitClassMethodLeftSide.Length >= 2)
-                                        {
-                                            writeRelatedAutomationToFile(sw, ovt.leftSideObject, splitClassMethodLeftSide[1], APEX_CLASS_METHOD, tabCount);
-                                        }
-                                    }
-
-                                    if (ovt.rightSide != "")
-                                    {
-                                        String[] splitClassMethodRightSide = ovt.rightSide.Split('.');
-                                        if (splitClassMethodRightSide.Length >= 2)
-                                        {
-                                            String[] splitMethod = splitClassMethodRightSide[1].Split(' ');
-                                            writeRelatedAutomationToFile(sw, splitClassMethodRightSide[0], splitMethod[0], APEX_CLASS_METHOD, tabCount);
-                                        }
-                                    }
-                                }
-                                else if (ovt.rightSide != "")
-                                {
-                                    String[] splitClassMethodRightSide = ovt.rightSide.Split('.');
-                                    if (splitClassMethodRightSide.Length >= 2)
-                                    {
-                                        String[] splitMethod = splitClassMethodRightSide[1].Split(' ');
-                                        writeRelatedAutomationToFile(sw, splitClassMethodRightSide[0], splitMethod[0], APEX_CLASS_METHOD, tabCount);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else if (automationType == APEX_CLASS_METHOD)
-            {
-                foreach (String clsNm in this.classNmToClass.Keys)
-                {
-                    ApexClassStructure apxClass = this.classNmToClass[clsNm];
-
-                    if (apxClass.className == apiName)
-                    {
-                        List<ClassMethod> clsMethods = new List<ClassMethod>();
-                        clsMethods = apxClass.classMethods;
-
-                        foreach (ClassMethod cm in clsMethods)
-                        {
-                            if (cm.methodName == methodName)
-                            {
-                                tabCount += 2;
-
-                                for (Int32 i = 0; i < tabCount; i++)
-                                {
-                                    sw.Write("\t");
-                                }
-
-                                sw.Write("Class-MethodName: " + apxClass.className + "." + cm.methodName + "\t");
-
-                                if (cm.methodAnnotation != "")
-                                {
-                                    sw.Write("Annotation: " + cm.methodAnnotation + "\t");
-                                }
-
-                                sw.Write(Environment.NewLine);
-                                sw.Write(Environment.NewLine);
-
-                                //String apexClassName = "";
-                                //String apexClassVariable = "";
-
-                                foreach (ObjectVarToType ovt in cm.methodBodyVars)
-                                {
-                                    if (ovt.leftSideObject.StartsWith("Flow.Interview"))
-                                    {
-                                        for (Int32 i = 0; i < tabCount; i++)
-                                        {
-                                            sw.Write("\t");
-                                        }
-
-                                        String flowName = ovt.leftSideObject.Substring(15);
-
-                                        sw.Write("Flow API Name: " + flowName);
-
-                                        sw.Write(Environment.NewLine);
-
-                                        writeRelatedAutomationToFile(sw, flowName, "", FLOW, tabCount);
-                                    }
-                                    else if (this.classNmToClass.ContainsKey(ovt.leftSideObject))
-                                    {
-                                        if (ovt.leftSide != "")
-                                        {
-                                            String[] splitClassMethodLeftSide = ovt.leftSide.Split('.');
-                                            if (splitClassMethodLeftSide.Length >= 2)
-                                            {
-                                                writeRelatedAutomationToFile(sw, ovt.leftSideObject, splitClassMethodLeftSide[1], APEX_CLASS_METHOD, tabCount);
-                                            }
-                                        }
-
-                                        if (ovt.rightSide != "")
-                                        {
-                                            String[] splitClassMethodRightSide = ovt.rightSide.Split('.');
-                                            if (splitClassMethodRightSide.Length >= 2)
-                                            {
-                                                String[] splitMethod = splitClassMethodRightSide[1].Split(' ');
-                                                writeRelatedAutomationToFile(sw, splitClassMethodRightSide[0], splitMethod[0], APEX_CLASS_METHOD, tabCount);
-                                            }
-                                        }
-                                    }
-                                    else if (ovt.rightSide != "")
-                                    {
-                                        String[] splitClassMethodRightSide = ovt.rightSide.Split('.');
-                                        if (splitClassMethodRightSide.Length >= 2)
-                                        {
-                                            String[] splitMethod = splitClassMethodRightSide[1].Split(' ');
-                                            writeRelatedAutomationToFile(sw, splitClassMethodRightSide[0], splitMethod[0], APEX_CLASS_METHOD, tabCount);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private void btnParseApprovalProcesses_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

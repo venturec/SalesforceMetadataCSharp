@@ -10233,7 +10233,7 @@ All Rights Reserved
     <service name="SforceService">
         <documentation>Sforce SOAP API</documentation>
         <port binding="tns:SoapBinding" name="Soap">
-            <soap:address location="https://login.salesforce.com/services/Soap/u/66.0"/>
+            <soap:address location="https://login.salesforce.com/services/Soap/u/64.0"/>
         </port>
     </service>
 </definitions>

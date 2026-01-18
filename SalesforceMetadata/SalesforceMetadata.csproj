@@ -55,10 +55,10 @@
     <ApplicationIcon>ColoredGears.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>137912FFEF98C56D567A99D86AE3E37C1C80B803</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>92D31B19783EC2705363CB6FA02F7D41E6C6CB29</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>SalesforceMetadata_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>SalesforceMetadata_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -357,6 +357,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="SalesforceMetadata_1_TemporaryKey.pfx" />
     <None Include="SalesforceMetadata_TemporaryKey.pfx" />
     <None Include="Web References\MetadataWSDL\AsyncResult.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -700,10 +701,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\References\MetadataWSDL.wsdl">
+    <WebReferenceUrl Include="D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\WSDLFiles\MetadataWSDL.xml">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\MetadataWSDL\</RelPath>
-      <UpdateFromURL>C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\References\MetadataWSDL.wsdl</UpdateFromURL>
+      <UpdateFromURL>D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\WSDLFiles\MetadataWSDL.xml</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -711,10 +712,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SalesforceMetadata_MetadataWSDL_MetadataService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\References\PartnerWSDL.wsdl">
+    <WebReferenceUrl Include="D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\WSDLFiles\PartnerWSDL.xml">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\PartnerWSDL\</RelPath>
-      <UpdateFromURL>C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\References\PartnerWSDL.wsdl</UpdateFromURL>
+      <UpdateFromURL>D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\WSDLFiles\PartnerWSDL.xml</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -722,10 +723,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SalesforceMetadata_PartnerWSDL_SforceService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\References\ToolingWSDL.wsdl">
+    <WebReferenceUrl Include="D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\WSDLFiles\ToolingWSDL.xml">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\ToolingWSDL\</RelPath>
-      <UpdateFromURL>C:\Users\marcu\Documents\GitHub\SalesforceMetadataCSharp\References\ToolingWSDL.wsdl</UpdateFromURL>
+      <UpdateFromURL>D:\marcus\Documents\GitHub\SalesforceMetadataCSharp\WSDLFiles\ToolingWSDL.xml</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

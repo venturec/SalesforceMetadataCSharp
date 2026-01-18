@@ -399,3 +399,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+.vs/SalesforceMetadata/v17/DocumentLayout.backup.json
+.vs/SalesforceMetadata/v17/DocumentLayout.json
+SalesforceMetadata/obj/Debug/SalesforceMetadata.csproj.FileListAbsolute.txt

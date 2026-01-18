@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using SalesforceMetadata.MetadataWSDL;
+using System.Web.Services.Protocols;
 
 namespace SalesforceMetadata
 {
@@ -38,11 +39,12 @@ namespace SalesforceMetadata
             populateUsernameMaps();
         }
 
-        public void salesforceLogin(UtilityClass.REQUESTINGORG reqOrg, String userName)
+        public String salesforceLogin(UtilityClass.REQUESTINGORG reqOrg, String userName)
         {
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 
             loginSuccess = false;
+            String loginMessage = "SUCCESS";
 
             if (this.fromOrgSS != null)
             {
@@ -79,24 +81,22 @@ namespace SalesforceMetadata
                 this.fromOrgLR = new SalesforceMetadata.PartnerWSDL.LoginResult();
                 this.fromOrgMS = new SalesforceMetadata.MetadataWSDL.MetadataService();
 
+                this.fromOrgSS.Timeout = 15000;
+                this.fromOrgSS.Url = this.usernamePartnerUrl[userName];
+
+                if (this.isProduction[userName] == false)
+                {
+                    this.fromOrgLR.sandbox = true;
+                }
+                    
+                Dictionary<String, String> passwordSecurityToken = new Dictionary<String, String>();
+                passwordSecurityToken = getUsernameCredentials(userName);
+
                 try
                 {
-                    this.fromOrgSS.Timeout = 15000;
-                    this.fromOrgSS.Url = this.usernamePartnerUrl[userName];
-
-                    if (this.isProduction[userName] == false)
-                    {
-                        this.fromOrgLR.sandbox = true;
-                    }
-                    
-                    Dictionary<String, String> passwordSecurityToken = new Dictionary<String, String>();
-                    passwordSecurityToken = getUsernameCredentials(userName);
-
                     if (passwordSecurityToken.ContainsKey("password") && passwordSecurityToken.ContainsKey("securitytoken"))
                     {
-                        String pwdSecToken = passwordSecurityToken["password"] + passwordSecurityToken["securitytoken"];
-
-                        this.fromOrgLR = this.fromOrgSS.login(userName, pwdSecToken);
+                        this.fromOrgLR = this.fromOrgSS.login(userName, passwordSecurityToken["password"] + passwordSecurityToken["securitytoken"]);
                         if (this.fromOrgLR.sessionId != null && this.fromOrgLR.passwordExpired == false)
                         {
                             this.loginSuccess = true;
@@ -110,23 +110,24 @@ namespace SalesforceMetadata
                             this.loginSuccess = true;
                         }
                     }
-
-                    // Get the login result and update the Salesforce Service object
-                    this.fromOrgSS.Url = this.fromOrgLR.serverUrl;
-                    this.fromOrgSS.SessionHeaderValue = new PartnerWSDL.SessionHeader();
-                    this.fromOrgSS.SessionHeaderValue.sessionId = this.fromOrgLR.sessionId;
-
-                    // Set up the Metadata Service connection including the All Or None Header
-                    this.fromOrgMS.Url = this.fromOrgLR.metadataServerUrl;
-                    this.fromOrgMS.SessionHeaderValue = new MetadataWSDL.SessionHeader();
-                    this.fromOrgMS.SessionHeaderValue.sessionId = this.fromOrgLR.sessionId;
                 }
-                catch (Exception loginFromExc1)
+                catch (SoapException se)
                 {
-                    Console.WriteLine("loginFromExc1: " + loginFromExc1.Message);
+                    loginMessage = "Salesforce Login Exception: " + se.Message;
+                    return loginMessage;
                 }
-            }
 
+                // Get the login result and update the Salesforce Service object
+                this.fromOrgSS.Url = this.fromOrgLR.serverUrl;
+                this.fromOrgSS.SessionHeaderValue = new PartnerWSDL.SessionHeader();
+                this.fromOrgSS.SessionHeaderValue.sessionId = this.fromOrgLR.sessionId;
+
+                // Set up the Metadata Service connection including the All Or None Header
+                this.fromOrgMS.Url = this.fromOrgLR.metadataServerUrl;
+                this.fromOrgMS.SessionHeaderValue = new MetadataWSDL.SessionHeader();
+                this.fromOrgMS.SessionHeaderValue.sessionId = this.fromOrgLR.sessionId;
+
+            }
 
             ///* TOORG Login Credentials */
             if (reqOrg == UtilityClass.REQUESTINGORG.TOORG
@@ -136,24 +137,22 @@ namespace SalesforceMetadata
                 this.toOrgLR = new SalesforceMetadata.PartnerWSDL.LoginResult();
                 this.toOrgMS = new SalesforceMetadata.MetadataWSDL.MetadataService();
 
+                this.toOrgSS.Timeout = 15000;
+                this.toOrgSS.Url = this.usernamePartnerUrl[userName];
+
+                if (this.isProduction[userName] == false)
+                {
+                    this.toOrgLR.sandbox = true;
+                }
+
+                Dictionary<String, String> passwordSecurityToken = new Dictionary<String, String>();
+                passwordSecurityToken = getUsernameCredentials(userName);
+
                 try
                 {
-                    this.toOrgSS.Timeout = 15000;
-                    this.toOrgSS.Url = this.usernamePartnerUrl[userName];
-
-                    if (this.isProduction[userName] == false)
-                    {
-                        this.toOrgLR.sandbox = true;
-                    }
-
-                    Dictionary<String, String> passwordSecurityToken = new Dictionary<String, String>();
-                    passwordSecurityToken = getUsernameCredentials(userName);
-
                     if (passwordSecurityToken.ContainsKey("password") && passwordSecurityToken.ContainsKey("securitytoken"))
                     {
-                        String pwdSecToken = passwordSecurityToken["password"] + passwordSecurityToken["securitytoken"];
-
-                        this.toOrgLR = this.toOrgSS.login(userName, pwdSecToken);
+                        this.toOrgLR = this.toOrgSS.login(userName, passwordSecurityToken["password"] + passwordSecurityToken["securitytoken"]);
                         if (this.toOrgLR.sessionId != null && this.toOrgLR.passwordExpired == false)
                         {
                             this.loginSuccess = true;
@@ -167,22 +166,25 @@ namespace SalesforceMetadata
                             this.loginSuccess = true;
                         }
                     }
-
-                    // Get the login result and update the Salesforce Service object
-                    this.toOrgSS.Url = toOrgLR.serverUrl;
-                    this.toOrgSS.SessionHeaderValue = new PartnerWSDL.SessionHeader();
-                    this.toOrgSS.SessionHeaderValue.sessionId = toOrgLR.sessionId;
-
-                    // Set up the Metadata Service connection including the All Or None Header
-                    this.toOrgMS.Url = toOrgLR.metadataServerUrl;
-                    this.toOrgMS.SessionHeaderValue = new MetadataWSDL.SessionHeader();
-                    this.toOrgMS.SessionHeaderValue.sessionId = toOrgLR.sessionId;
                 }
-                catch (Exception loginToExc2)
+                catch (SoapException se)
                 {
-                    Console.WriteLine("loginToExc2: " + loginToExc2.Message);
+                    loginMessage = "Salesforce Login Exception: " + se.Message;
+                    return loginMessage;
                 }
+
+                // Get the login result and update the Salesforce Service object
+                this.toOrgSS.Url = toOrgLR.serverUrl;
+                this.toOrgSS.SessionHeaderValue = new PartnerWSDL.SessionHeader();
+                this.toOrgSS.SessionHeaderValue.sessionId = toOrgLR.sessionId;
+
+                // Set up the Metadata Service connection including the All Or None Header
+                this.toOrgMS.Url = toOrgLR.metadataServerUrl;
+                this.toOrgMS.SessionHeaderValue = new MetadataWSDL.SessionHeader();
+                this.toOrgMS.SessionHeaderValue.sessionId = toOrgLR.sessionId;
             }
+
+            return loginMessage;
         }
 
         public void salesforceToolingLogin(UtilityClass.REQUESTINGORG reqOrg, String userName)
@@ -262,22 +264,6 @@ namespace SalesforceMetadata
 
             return dgr;
         }
-
-        //public SalesforceMetadata.PartnerWSDL.DescribeLayout[] getDescribeLayout(UtilityClass.REQUESTINGORG reqOrg, String[] sobjectType)
-        //{
-        //    SalesforceMetadata.PartnerWSDL.DescribeLayout[] descrLayout;
-
-        //    foreach (String sobjType in sobjectType)
-        //    {
-        //        if (reqOrg == UtilityClass.REQUESTINGORG.FROMORG)
-        //        {
-        //            descrLayout = this.fromOrgSS.describeLayout();
-        //        }
-        //    }
-
-        //    return descrTabs;
-
-        //}
 
         public SalesforceMetadata.PartnerWSDL.DescribeTab[] getDescribeTab(UtilityClass.REQUESTINGORG reqOrg)
         {

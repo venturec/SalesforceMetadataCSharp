@@ -23,7 +23,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="SoapBinding", Namespace="urn:partner.soap.sforce.com")]
@@ -2904,7 +2904,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -2927,7 +2927,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -2995,7 +2995,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(MalformedQueryFault))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(InvalidSObjectFault))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(InvalidFieldFault))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -3041,7 +3041,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:fault.partner.soap.sforce.com")]
     public enum ExceptionCode {
@@ -3087,6 +3087,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         BILLING_ENTITIES_NO_ACCESS,
+        
+        /// <remarks/>
+        BUSINESS_UNIT_NOT_ASSOCIATED,
         
         /// <remarks/>
         BUYER_ACCOUNT_NOT_FOUND,
@@ -3227,6 +3230,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         DATACLOUD_FILE_UPLOAD_DATA_STREAM_LIMIT_EXCEEDED,
         
         /// <remarks/>
+        DATASTREAM_DEPLOY_ERROR_DUPLICATE_TOPIC,
+        
+        /// <remarks/>
         DATA_INTEGRATION_INPUT_ERROR,
         
         /// <remarks/>
@@ -3257,7 +3263,13 @@ namespace SalesforceMetadata.PartnerWSDL {
         DUPLICATE_VALUE,
         
         /// <remarks/>
+        DYNAMIC_BUNDLE_REORDER_ACTION_NOT_ALLOWED,
+        
+        /// <remarks/>
         EASY_ROUTING_CREATION_NOT_ALLOWED,
+        
+        /// <remarks/>
+        EMAILS_PER_CASE_LIMIT_EXCEEDED,
         
         /// <remarks/>
         EMAIL_BATCH_SIZE_LIMIT_EXCEEDED,
@@ -3671,6 +3683,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         NO_BUYER_GROUPS_FOUND,
         
         /// <remarks/>
+        NO_DATASPACE_ACCESS,
+        
+        /// <remarks/>
         NO_DEFINITION_ASSOCIATED,
         
         /// <remarks/>
@@ -3722,6 +3737,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         PENDING_COMMIT,
         
         /// <remarks/>
+        PENDING_TRACEABILITY_RECORDS,
+        
+        /// <remarks/>
         PORTAL_NO_ACCESS,
         
         /// <remarks/>
@@ -3764,6 +3782,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         RECORD_NOT_FOUND,
         
         /// <remarks/>
+        REFERENCE_DOCUMENT_CODE_MISSING,
+        
+        /// <remarks/>
         REPORT_EXPORT_LIMIT_EXCEEDED,
         
         /// <remarks/>
@@ -3791,13 +3812,34 @@ namespace SalesforceMetadata.PartnerWSDL {
         SITE_PUBLISH_FAILED,
         
         /// <remarks/>
+        SLACK_AUTO_SALESFORCE_CANNOT_DEACTIVATE_SELF,
+        
+        /// <remarks/>
+        SLACK_AUTO_SALESFORCE_CANNOT_DEACTIVATE_USER,
+        
+        /// <remarks/>
+        SLACK_BRIDGE_ACCOUNT_INACTIVE,
+        
+        /// <remarks/>
+        SLACK_BRIDGE_CHANNEL_IS_LIMITED_ACCESS,
+        
+        /// <remarks/>
+        SLACK_BRIDGE_MIGRATION_IN_PROGRESS,
+        
+        /// <remarks/>
         SLACK_BRIDGE_OBJECT_NOT_ENABLED,
+        
+        /// <remarks/>
+        SLACK_BRIDGE_OBJECT_NOT_ENABLED_IN_SLACK,
         
         /// <remarks/>
         SLACK_BRIDGE_OBJECT_NOT_SUPPORTED,
         
         /// <remarks/>
-        SLACK_BRIDGE_RECORD_CHANNEL_NOT_FOUND,
+        SLACK_BRIDGE_RECORD_CHANNEL_NOT_FOUND_CANNOT_CREATE,
+        
+        /// <remarks/>
+        SLACK_BRIDGE_RECORD_CHANNEL_NOT_FOUND_CAN_CREATE,
         
         /// <remarks/>
         SLACK_BRIDGE_RESOURCE_NOT_FOUND,
@@ -3807,6 +3849,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         SLACK_BRIDGE_TEAM_CONNECTION_NOT_FOUND,
+        
+        /// <remarks/>
+        SLACK_BRIDGE_USER_DEACTIVATED,
         
         /// <remarks/>
         SLACK_BRIDGE_USER_MAPPING_DISABLED,
@@ -3960,7 +4005,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -3994,7 +4039,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum ExtendedErrorCode {
@@ -4024,6 +4069,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         ACTIONCALL_INVALID_OFFSET,
         
         /// <remarks/>
+        ACTIONCALL_INVALID_TIMEOUTPATHUSAGE,
+        
+        /// <remarks/>
         ACTIONCALL_MISSING_EVENT_INFO,
         
         /// <remarks/>
@@ -4037,6 +4085,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         ACTIONCALL_MISSING_REQUIRED_TYPE,
+        
+        /// <remarks/>
+        ACTIONCALL_NOT_ACTIVE_FOR_API_VERSION,
         
         /// <remarks/>
         ACTIONCALL_NOT_FOUND_WITH_NAME_AND_TYPE,
@@ -4066,6 +4117,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         ACTION_BUTTON_NOT_SUPPORTED_FOR_METADATA_API_VERSION,
         
         /// <remarks/>
+        ACTION_CALL_DM_NO_EMAIL_TEMPLATES,
+        
+        /// <remarks/>
+        ACTION_CALL_DM_TOO_MANY_EMAIL_TEMPLATES,
+        
+        /// <remarks/>
         ACTION_CALL_INPUT_SETUPREFTYPE_REQUIRES_SETUPREFVALUE,
         
         /// <remarks/>
@@ -4090,6 +4147,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         ACTION_CALL_MISSING_ELEMENT_DEPENDENCIES,
         
         /// <remarks/>
+        ACTION_CALL_MISSING_PLATFORM_EVENT_ATTRIBUTE,
+        
+        /// <remarks/>
         ACTION_INPUT_PARAMETER_REQUIRES_ID_TYPE_FOR_SETUP_REFERENCE,
         
         /// <remarks/>
@@ -4097,6 +4157,42 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         ACTION_TYPE_REQUIRED_FOR_STEP,
+        
+        /// <remarks/>
+        ACTIVATION_TEMPLATE_CONTAINS_UNSUPPORTED_CHANNELS,
+        
+        /// <remarks/>
+        ACTIVATION_TEMPLATE_DATA_GRAPH_MISSING_CONTACT_POINT_DMO,
+        
+        /// <remarks/>
+        ACTIVATION_TEMPLATE_DATA_GRAPH_MISSING_DATA_SOURCE_ID_FIELD,
+        
+        /// <remarks/>
+        ACTIVATION_TEMPLATE_DATA_GRAPH_MISSING_FIELDS,
+        
+        /// <remarks/>
+        ACTIVATION_TEMPLATE_DATA_GRAPH_MISSING_FILTER_FIELD,
+        
+        /// <remarks/>
+        ACTIVATION_TEMPLATE_DATA_GRAPH_MISSING_PREFERENCE_FIELDS,
+        
+        /// <remarks/>
+        ACTIVATION_TEMPLATE_DATA_GRAPH_MISSING_SORT_FIELD,
+        
+        /// <remarks/>
+        ACTIVATION_TEMPLATE_DATA_GRAPH_RELATED_OBJECT_LEVEL_UNSUPPORTED,
+        
+        /// <remarks/>
+        ACTIVATION_TEMPLATE_MISSING_REQUIRED_CHANNEL,
+        
+        /// <remarks/>
+        ACTIVATION_TEMPLATE_NOT_FOUND,
+        
+        /// <remarks/>
+        ACTIVATION_TEMPLATE_REQUIRED_FOR_NON_UNIFIED_INDIVIDUAL,
+        
+        /// <remarks/>
+        ACTIVATION_TEMPLATE_WHATSAPP_USES_SMS_CHANNEL,
         
         /// <remarks/>
         ADDING_ATTACHMENT_QUESTIONS_ADDITION_TO_EXISTING_SURVEY,
@@ -4205,6 +4301,15 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         ASYNC_ACTION_NOT_SUPPORTED_FOR_PROCESSTYPE,
+        
+        /// <remarks/>
+        ASYNC_ACTION_TIMEOUT_ERROR,
+        
+        /// <remarks/>
+        ATTRIBUTE_INVALID_OUTCOME_VALUE,
+        
+        /// <remarks/>
+        ATTRIBUTE_INVALID_VALUE,
         
         /// <remarks/>
         AUTOLAUNCHED_CHOICELOOKUP_NOT_SUPPORTED,
@@ -4393,6 +4498,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         CUSTOMEVENT_PROCESSMETADATAVALUES_MORE_THAN_ONE_NAME,
         
         /// <remarks/>
+        CUSTOM_EMAIL_MISSING_FIELD_VALUE,
+        
+        /// <remarks/>
         CUSTOM_EVENT_RELATED_OBJECT_UNSUPPORTED,
         
         /// <remarks/>
@@ -4423,6 +4531,27 @@ namespace SalesforceMetadata.PartnerWSDL {
         DATATYPE_MAPPING_BOTH_APEXCLASS_AND_SOBJECT_NOT_SUPPORTED,
         
         /// <remarks/>
+        DATATYPE_MAPPING_BOTH_TYPENAME_AND_VALUE_MAPPING_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        DATATYPE_MAPPING_OUTPUT_KEY_INVALID,
+        
+        /// <remarks/>
+        DATATYPE_MAPPING_OUTPUT_KEY_NOT_A_COLLECTION,
+        
+        /// <remarks/>
+        DATATYPE_MAPPING_OUTPUT_TARGET_AND_KEY_SAME,
+        
+        /// <remarks/>
+        DATATYPE_MAPPING_OUTPUT_TARGET_REPLACE_ANOTHER_OUTPUT,
+        
+        /// <remarks/>
+        DATATYPE_MAPPING_OUTPUT_TRANSFORM_TARGET_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        DATATYPE_MAPPING_OUTPUT_TRANSFORM_TYPE_NOT_SUPPORTED,
+        
+        /// <remarks/>
         DATATYPE_MISSING,
         
         /// <remarks/>
@@ -4447,10 +4576,22 @@ namespace SalesforceMetadata.PartnerWSDL {
         DATA_GRAPH_DMO_NOT_UNIFIED_INDIVIDUAL,
         
         /// <remarks/>
+        DATA_SPACE_REQUIRED_FOR_FLOW_TYPE,
+        
+        /// <remarks/>
+        DATA_SPACE_UNSUPPORTED_FOR_FLOW_TYPE,
+        
+        /// <remarks/>
         DATA_TYPE_NOT_SUPPORTED_FOR_PROCESSTYPE,
         
         /// <remarks/>
         DATA_TYPE_NOT_SUPPORTED_IN_CONDITION,
+        
+        /// <remarks/>
+        DECISION_AI_MODE_FLOW_TYPE_NOT_ALLOWED,
+        
+        /// <remarks/>
+        DECISION_AI_MODE_NO_EINSTEIN_GPT_ENABLED,
         
         /// <remarks/>
         DECISION_DEFAULT_CONNECTOR_MISSING_LABEL,
@@ -4465,10 +4606,16 @@ namespace SalesforceMetadata.PartnerWSDL {
         DUPLICATE_CUSTOM_PROPERTY_NAME,
         
         /// <remarks/>
+        DUPLICATE_FLOW_TEST_POINT,
+        
+        /// <remarks/>
         DUPLICATE_QUESTION_NOT_ALLOWED,
         
         /// <remarks/>
         DYNAMIC_TYPE_MAPPING_MISSING,
+        
+        /// <remarks/>
+        DYNAMIC_TYPE_NOT_SUPPORTED_FOR_METADATA_API_VERSION,
         
         /// <remarks/>
         EITHER_CONDITIONS_OR_ACTION_NOT_SUPPORTED,
@@ -4508,6 +4655,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         ELEMENT_NEVER_USED,
+        
+        /// <remarks/>
+        ELEMENT_NOT_FOUND,
         
         /// <remarks/>
         ELEMENT_NOT_SUPPORTED_IN_SUBFLOW_FOR_TRIGGER_TYPE,
@@ -4553,6 +4703,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         FEATURE_DISABLED,
+        
+        /// <remarks/>
+        FEROV_INVALID_INPUT_CONFIGURATOR_MODE,
         
         /// <remarks/>
         FIELDASSIGNMENT_FIELD_INCOMPATIBLE_DATATYPE,
@@ -4681,6 +4834,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_APPROVAL_RECALL_TOO_MANY_PATHS,
         
         /// <remarks/>
+        FLOW_CAMPAIGN_BUSINESS_UNIT_NO_ACCESS,
+        
+        /// <remarks/>
         FLOW_CAPABILITY_INPUT_DATA_TYPE_INVALID,
         
         /// <remarks/>
@@ -4694,6 +4850,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         FLOW_CAPABILITY_MISSING,
+        
+        /// <remarks/>
+        FLOW_COMPLEX_OBJECT_FIELD_DETAILS_INVALID_FEROV,
         
         /// <remarks/>
         FLOW_COMPLEX_VALUE_COLLECTION_TYPE_EXPECTED,
@@ -4768,6 +4927,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_CUSTOM_ERROR_NO_FIELD_SELECTION_FOR_FIELD_ERROR,
         
         /// <remarks/>
+        FLOW_DATA_PROCESSING_LIMIT_EXCEEDED,
+        
+        /// <remarks/>
         FLOW_ELEMENT_SCALE_LESS_THAN_ZERO,
         
         /// <remarks/>
@@ -4789,7 +4951,13 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_EXPERIMENT_DURATION_UNIT_INVALID_VALUE,
         
         /// <remarks/>
+        FLOW_EXPERIMENT_EINSTEIN_GUARD_NOT_ENABLED,
+        
+        /// <remarks/>
         FLOW_EXPERIMENT_GO_TO_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_EXPERIMENT_INVALID_PRIMARY_METRIC,
         
         /// <remarks/>
         FLOW_EXPERIMENT_INVALID_TOTAL_PATH_PERCENTAGE,
@@ -4798,10 +4966,16 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_EXPERIMENT_IS_NOT_ALLOWED_WITH_PENDING_DML,
         
         /// <remarks/>
+        FLOW_EXPERIMENT_MISSING_FALLBACK_MODE,
+        
+        /// <remarks/>
         FLOW_EXPERIMENT_NESTING_IN_SUBFLOW_NOT_SUPPORTED,
         
         /// <remarks/>
         FLOW_EXPERIMENT_NESTING_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_EXPERIMENT_OOTB_EMAIL_REQUIRES_SEND_EMAIL,
         
         /// <remarks/>
         FLOW_EXPERIMENT_PATHS_COUNT_ABOVE_MAXIMUM,
@@ -4939,6 +5113,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_METRICS_NOT_SUPPORTED,
         
         /// <remarks/>
+        FLOW_MISMATCHING_DATA_SPACES,
+        
+        /// <remarks/>
         FLOW_NAME_USED_IN_OTHER_CLIENT,
         
         /// <remarks/>
@@ -5074,6 +5251,15 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_START_INPUT_REQUIRED,
         
         /// <remarks/>
+        FLOW_START_MISMATCHING_DATA_SPACES,
+        
+        /// <remarks/>
+        FLOW_START_OPTION_REQUIRES_FLOW_RUN_INSTALLED,
+        
+        /// <remarks/>
+        FLOW_STATIC_INDEX_UNSUPPORTED,
+        
+        /// <remarks/>
         FLOW_SYSTEM_VARIABLE_NOT_SUPPORTED_FOR_TRIGGERTYPE,
         
         /// <remarks/>
@@ -5101,7 +5287,19 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_TEST_DATATYPE_INVALID,
         
         /// <remarks/>
+        FLOW_TEST_DUPLICATED_OBJECT,
+        
+        /// <remarks/>
+        FLOW_TEST_DUPLICATE_OBJECT_FIELD,
+        
+        /// <remarks/>
+        FLOW_TEST_ELEMENT_UNAVAILABLE,
+        
+        /// <remarks/>
         FLOW_TEST_FLOW_INVALID,
+        
+        /// <remarks/>
+        FLOW_TEST_FLOW_VERSION_INVALID_VERSION_NUMBER,
         
         /// <remarks/>
         FLOW_TEST_HAS_ERROR_ASSERTION_UNAVAILABLE,
@@ -5110,10 +5308,43 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_TEST_IMMEDIATE_PATH_MISSING,
         
         /// <remarks/>
+        FLOW_TEST_INCOMPATIBLE_DATATYPE,
+        
+        /// <remarks/>
+        FLOW_TEST_INCOMPATIBLE_PARAMETER_TYPE,
+        
+        /// <remarks/>
+        FLOW_TEST_INVALID_APEX_CLASS,
+        
+        /// <remarks/>
+        FLOW_TEST_INVALID_DATA_SOURCE,
+        
+        /// <remarks/>
+        FLOW_TEST_INVALID_OBJECT_FIELD,
+        
+        /// <remarks/>
+        FLOW_TEST_INVALID_OBJECT_RECORD,
+        
+        /// <remarks/>
+        FLOW_TEST_INVALID_PARAMETER_VALUE,
+        
+        /// <remarks/>
+        FLOW_TEST_INVALID_REFERENCE,
+        
+        /// <remarks/>
+        FLOW_TEST_JSON_PARAMETER_INVALID,
+        
+        /// <remarks/>
         FLOW_TEST_MERGE_FIELD_INVALID,
         
         /// <remarks/>
         FLOW_TEST_MERGE_FIELD_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        FLOW_TEST_MISSING_DATA_SOURCE_TYPE,
+        
+        /// <remarks/>
+        FLOW_TEST_NO_FIELD_SELECTED,
         
         /// <remarks/>
         FLOW_TEST_OPERATOR_INVALID,
@@ -5140,6 +5371,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_TEST_PARAMETER_TYPE_INVALID,
         
         /// <remarks/>
+        FLOW_TEST_PARAMETER_TYPE_MISMATCH,
+        
+        /// <remarks/>
         FLOW_TEST_PARAMETER_VALUE_INVALID,
         
         /// <remarks/>
@@ -5149,19 +5383,25 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_TEST_PARAMS_REQUIRED,
         
         /// <remarks/>
-        FLOW_TEST_POINTS_DUPLICATED,
-        
-        /// <remarks/>
         FLOW_TEST_POINT_MISSING,
         
         /// <remarks/>
         FLOW_TEST_POINT_NOT_SUPPORTED,
         
         /// <remarks/>
+        FLOW_TEST_POINT_UNSUPPORTED,
+        
+        /// <remarks/>
         FLOW_TEST_PROCESSTYPE_INVALID,
         
         /// <remarks/>
         FLOW_TEST_RIGHTVALUE_INVALID,
+        
+        /// <remarks/>
+        FLOW_TEST_UNSUPPORTED_PARAMETER_VALUE,
+        
+        /// <remarks/>
+        FLOW_TEST_UNSUPPORTED_REFERENCE,
         
         /// <remarks/>
         FLOW_TRANSFORM_AGGR_COLL_NUM_OF_REF,
@@ -5177,6 +5417,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         FLOW_TRANSFORM_ASSIGN_TO_REFERENCE_UNSUPPORTED,
+        
+        /// <remarks/>
+        FLOW_TRANSFORM_COLL_DEPTH_NOT_SUPPORTED,
         
         /// <remarks/>
         FLOW_TRANSFORM_COLL_DEPTH_UP_TO_TWO,
@@ -5224,10 +5467,19 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_TRANSFORM_INPUT_PARAM_MISSING,
         
         /// <remarks/>
+        FLOW_TRANSFORM_INVALID_COLLECTION_INDEX,
+        
+        /// <remarks/>
+        FLOW_TRANSFORM_INVALID_COLLECTION_MAPPING,
+        
+        /// <remarks/>
         FLOW_TRANSFORM_INVALID_INPUT_PARAMETER_VALUE,
         
         /// <remarks/>
         FLOW_TRANSFORM_INVALID_JOIN_KEYS,
+        
+        /// <remarks/>
+        FLOW_TRANSFORM_INVALID_MIXED_STATIC_MAPPING,
         
         /// <remarks/>
         FLOW_TRANSFORM_INVALID_MULTIPLE_TRANSFORM_VALUE_ACTIONS,
@@ -5299,6 +5551,15 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_TRANSFORM_SPLIT_JOIN_FIELD_MAPPING,
         
         /// <remarks/>
+        FLOW_TRANSFORM_STATIC_COLLECTION_DISABLED,
+        
+        /// <remarks/>
+        FLOW_TRANSFORM_STATIC_COLLECTION_UNSUPPORTED,
+        
+        /// <remarks/>
+        FLOW_TRANSFORM_STATIC_ITEM_MISSING_VALUE,
+        
+        /// <remarks/>
         FLOW_TRANSFORM_SUM_SOURCE_TYPE_INVALID,
         
         /// <remarks/>
@@ -5350,6 +5611,15 @@ namespace SalesforceMetadata.PartnerWSDL {
         FLOW_UPSERT_UNIQUE_ID_CONFLICT,
         
         /// <remarks/>
+        FLOW_VALUE_MAP_DUPLICATE_SOURCE_VALUE,
+        
+        /// <remarks/>
+        FLOW_VALUE_MAP_MISSING_DEFAULT_VALUE,
+        
+        /// <remarks/>
+        FLOW_VALUE_MAP_TOO_MANY_ENTRIES,
+        
+        /// <remarks/>
         FORMULA_CMT_LIMIT_EXCEEDED,
         
         /// <remarks/>
@@ -5368,6 +5638,30 @@ namespace SalesforceMetadata.PartnerWSDL {
         GOTO_NOT_SUPPORTED_FOR_PROCESS_TYPE,
         
         /// <remarks/>
+        GROUP_ACTION_NOT_ALLOWED_AS_CHILD,
+        
+        /// <remarks/>
+        GROUP_CHILDREN_NOT_CONTIGUOUS,
+        
+        /// <remarks/>
+        GROUP_ENTRY_ACTION_NOT_MATCHING,
+        
+        /// <remarks/>
+        GROUP_EXIT_ACTION_NOT_MATCHING,
+        
+        /// <remarks/>
+        GROUP_GROUP_NOT_ALLOWED_AS_CHILD,
+        
+        /// <remarks/>
+        GROUP_NAME_MISSING,
+        
+        /// <remarks/>
+        GROUP_REQUIRES_CHILDREN,
+        
+        /// <remarks/>
+        GROUP_TYPE_MISSING,
+        
+        /// <remarks/>
         HAS_ERROR_OPERATOR_UNAVAILABLE,
         
         /// <remarks/>
@@ -5378,6 +5672,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         INACCESSIBLE_EVENT_TYPE,
+        
+        /// <remarks/>
+        INCOMPATIBLE_DEBUG_CONFIG_OUTPUT_PARAM_DATA_TYPE,
+        
+        /// <remarks/>
+        INCOMPATIBLE_FLOW_PATH,
         
         /// <remarks/>
         INCONSISTENT_ACTION_VERSIONS,
@@ -5428,6 +5728,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         INPUTVARIABLE_DATATYPE_NOT_SUPPORTED_FOR_ENVIRONMENT,
         
         /// <remarks/>
+        INPUT_PARAMETER_INVALID_SCHEMA_URI,
+        
+        /// <remarks/>
+        INPUT_PARAMETER_SCHEMA_DISABLED,
+        
+        /// <remarks/>
         INSUFFICIENT_ACCESS_FOR_UPSERT,
         
         /// <remarks/>
@@ -5440,7 +5746,7 @@ namespace SalesforceMetadata.PartnerWSDL {
         INVALID_CONTENT_TYPE,
         
         /// <remarks/>
-        INVALID_DEBUG_CONFIG_OUTPUT_PARAM,
+        INVALID_ELEMENT_ON_PATH,
         
         /// <remarks/>
         INVALID_EMAIL_ADDRESS,
@@ -5455,10 +5761,19 @@ namespace SalesforceMetadata.PartnerWSDL {
         INVALID_FLOW_INTERVIEW,
         
         /// <remarks/>
+        INVALID_FLOW_TEST_PARAMETER_REFERENCE,
+        
+        /// <remarks/>
+        INVALID_FLOW_TEST_TYPE,
+        
+        /// <remarks/>
         INVALID_ID,
         
         /// <remarks/>
         INVALID_INPUT,
+        
+        /// <remarks/>
+        INVALID_INPUT_PARAMETER_VALUE,
         
         /// <remarks/>
         INVALID_OPERATION_TYPE,
@@ -5551,7 +5866,16 @@ namespace SalesforceMetadata.PartnerWSDL {
         MANAGEDCONTENT_STATUS_INVALID,
         
         /// <remarks/>
+        MANUALLY_SET_OUTPUT_DATA_TYPE_MISMATCH,
+        
+        /// <remarks/>
+        MANUALLY_SET_OUTPUT_INVALID_PARAM,
+        
+        /// <remarks/>
         MANUAL_VARIABLE_ASSIGNMENT_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        MAX_ACTIVE_FLOWS_PER_OBJECT,
         
         /// <remarks/>
         MAX_CHILD_TYPES,
@@ -5585,6 +5909,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         MISSING_MULESOFT_STEP_ASSIGNEE,
+        
+        /// <remarks/>
+        MISSING_REQUIRED_OUTPUT_VARIABLE,
         
         /// <remarks/>
         MULTIPLE_ASSIGNEES_NOT_ALLOWED,
@@ -5788,6 +6115,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         REFERENCE_NOT_SUPPORTED,
         
         /// <remarks/>
+        RELATED_RECORD_REQUIRED_WORK_ACTION,
+        
+        /// <remarks/>
         REPEATER_API_VERSION_NOT_SUPPORTED,
         
         /// <remarks/>
@@ -5816,6 +6146,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         RESOURCE_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        RULE_MISSING,
+        
+        /// <remarks/>
+        RULE_MISSING_ATTRIBUTES,
         
         /// <remarks/>
         RULE_MISSING_CONDITION,
@@ -6133,6 +6469,15 @@ namespace SalesforceMetadata.PartnerWSDL {
         STYLE_PROPERTIES_UNSUPPORTED_BY_SCREEN_FIELD_TYPE,
         
         /// <remarks/>
+        STYLE_SETTING_INVALID_SCOPE,
+        
+        /// <remarks/>
+        STYLE_SETTING_SCOPE_NOT_ALLOWED,
+        
+        /// <remarks/>
+        STYLE_SETTING_SCOPE_REQUIRED,
+        
+        /// <remarks/>
         SUBFLOW_DESKTOP_DESIGNER_FLOWS_NOT_SUPPORTED,
         
         /// <remarks/>
@@ -6346,6 +6691,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         TYPE_MAPPING_DUPLICATED,
         
         /// <remarks/>
+        TYPE_MAPPING_INVALID_SCHEMA_URI,
+        
+        /// <remarks/>
         TYPE_MAPPING_NAME_MISSING,
         
         /// <remarks/>
@@ -6361,10 +6709,28 @@ namespace SalesforceMetadata.PartnerWSDL {
         TYPE_MAPPING_NOT_SUPPORTED_FOR_PROCESS_TYPE,
         
         /// <remarks/>
+        TYPE_MAPPING_SCHEMA_URI_INVALID_ACTION_TYPE,
+        
+        /// <remarks/>
+        TYPE_MAPPING_SCHEMA_URI_INVALID_SCHEMA_TYPE,
+        
+        /// <remarks/>
+        TYPE_MAPPING_SCHEMA_URI_MISSING_DELIMITER,
+        
+        /// <remarks/>
         UNAUTHORIZED_USER_FOR_CURSOR,
         
         /// <remarks/>
         UNEXPECTED_ERROR,
+        
+        /// <remarks/>
+        UNSUPPORTED_FLOW_TEST_ASSERTION_FOR_TEST_POINT,
+        
+        /// <remarks/>
+        UNSUPPORTED_FLOW_TEST_PARAMETER_TYPE,
+        
+        /// <remarks/>
+        UNSUPPORTED_FLOW_TEST_POINT_FOR_ELEMENT,
         
         /// <remarks/>
         VALIDATION_EXCEPTION,
@@ -6451,10 +6817,16 @@ namespace SalesforceMetadata.PartnerWSDL {
         WAITEVENT_NOT_SUCCEEDING_ACTIONCALL,
         
         /// <remarks/>
+        WAITEVENT_NO_FIELDS_SET_FOR_DATE_WAIT,
+        
+        /// <remarks/>
         WAITEVENT_OBJECT_NOT_SUPPORTED_FOR_EVENTTYPE,
         
         /// <remarks/>
         WAITEVENT_OUTPUT_NOT_SUPPORTED_FOR_EVENTTYPE,
+        
+        /// <remarks/>
+        WAITEVENT_PATHS_MISSING_CONNECTOR,
         
         /// <remarks/>
         WAITEVENT_RELATIVEALARM_INVALID_DATETIME_FIELD,
@@ -6479,6 +6851,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         WAITEVENT_TYPE_INVALID_OR_NOT_SUPPORTED,
+        
+        /// <remarks/>
+        WAIT_ELEMENT_NOT_ALLOWED_IN_SYNC_BROADCAST_FLOW,
         
         /// <remarks/>
         WORKFLOW_MISSING_PROCESSMETADATAVALUES,
@@ -6515,7 +6890,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -6524,7 +6899,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -6533,7 +6908,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -6542,7 +6917,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -6551,7 +6926,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -6560,7 +6935,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -6573,7 +6948,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(MalformedQueryFault))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(InvalidSObjectFault))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(InvalidFieldFault))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -6606,7 +6981,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -6615,7 +6990,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -6624,7 +6999,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -6633,7 +7008,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -6642,7 +7017,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -6675,7 +7050,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum OwnerChangeOptionType {
@@ -6733,7 +7108,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -6766,7 +7141,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum LogCategory {
@@ -6800,7 +7175,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum LogCategoryLevel {
@@ -6831,7 +7206,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -6879,7 +7254,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(DuplicateError))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -6938,7 +7313,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum StatusCode {
@@ -7008,6 +7383,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         BLOCKED_EXCLUSIVE,
+        
+        /// <remarks/>
+        BOT_INACTIVE_CONFIG,
         
         /// <remarks/>
         CANNOT_CASCADE_PRODUCT_ACTIVE,
@@ -7370,6 +7748,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         DUPLICATE_VALUE,
         
         /// <remarks/>
+        DYNAMIC_BUNDLE_REORDER_ACTION_NOT_ALLOWED,
+        
+        /// <remarks/>
         EMAIL_ADDRESS_BOUNCED,
         
         /// <remarks/>
@@ -7470,6 +7851,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         EXTERNAL_RESOURCE_FORBIDDEN,
+        
+        /// <remarks/>
+        FACETABLE_ATTRIBUTE_MAX_LIMIT_EXCEEDED,
         
         /// <remarks/>
         FAILED_ACTIVATION,
@@ -8054,6 +8438,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         MAX_RULE_ENTRIES_EXCEEDED,
         
         /// <remarks/>
+        MAX_STREAM_SUBSCRIPTIONS_EXCEEDED,
+        
+        /// <remarks/>
         MAX_TASK_DESCRIPTION_EXCEEEDED,
         
         /// <remarks/>
@@ -8217,6 +8604,9 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         ORDER_MANAGEMENT_ACTION_NOT_ALLOWED,
+        
+        /// <remarks/>
+        ORDER_MANAGEMENT_DUPLICATE_ORDER_REFERENCE_NUMBER,
         
         /// <remarks/>
         ORDER_MANAGEMENT_INVALID_RECORD,
@@ -8463,6 +8853,12 @@ namespace SalesforceMetadata.PartnerWSDL {
         
         /// <remarks/>
         SCREEN_POP_REQUIRED_INPUT_MISSING,
+        
+        /// <remarks/>
+        SEARCHABLE_ATTRIBUTE_MAX_LIMIT_EXCEEDED,
+        
+        /// <remarks/>
+        SEARCHABLE_FACETABLE_ATTRIBUTE_MAX_LIMIT_EXCEEDED,
         
         /// <remarks/>
         SEARCH_INCLUDE_RULES_MAX_RULE_DEFINITION_LIMIT_EXCEEDED,
@@ -8766,7 +9162,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -8787,7 +9183,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -8858,7 +9254,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -8953,7 +9349,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -9012,7 +9408,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -9045,7 +9441,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -9078,7 +9474,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum differenceType {
@@ -9097,7 +9493,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -9157,7 +9553,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -9452,7 +9848,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -9537,7 +9933,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum SendEmailOptOutPolicy {
@@ -9555,7 +9951,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(SingleEmailMessage))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(MassEmailMessage))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -9655,7 +10051,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum EmailPriority {
@@ -9677,7 +10073,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -9737,7 +10133,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -9820,7 +10216,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum AttachmentRetrievalOption {
@@ -9836,7 +10232,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -9883,7 +10279,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -9930,7 +10326,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -9987,7 +10383,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -10058,7 +10454,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -10178,7 +10574,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -10223,7 +10619,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -10294,7 +10690,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -10388,7 +10784,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -10433,7 +10829,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -10466,7 +10862,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -10524,7 +10920,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -10597,7 +10993,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -10631,7 +11027,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -10726,7 +11122,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -10871,7 +11267,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum orderByDirection {
@@ -10884,7 +11280,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum fieldType {
@@ -10978,7 +11374,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -11050,7 +11446,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -11097,7 +11493,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum orderByNullsPosition {
@@ -11110,7 +11506,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -11148,7 +11544,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(SoqlConditionGroup))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(SoqlNotCondition))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(SoqlCondition))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -11157,7 +11553,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -11202,7 +11598,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum soqlOperator {
@@ -11248,7 +11644,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -11282,7 +11678,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum soqlConjunction {
@@ -11295,7 +11691,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -11316,7 +11712,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -11362,7 +11758,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -11484,7 +11880,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -11518,7 +11914,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -11577,7 +11973,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -11598,7 +11994,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -11717,7 +12113,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -11751,7 +12147,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -11822,7 +12218,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -11903,7 +12299,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -11936,7 +12332,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -12032,7 +12428,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -12167,7 +12563,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum ShareAccessLevel {
@@ -12183,7 +12579,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -12515,7 +12911,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum WebLinkWindowType {
@@ -12537,7 +12933,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum WebLinkType {
@@ -12559,7 +12955,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum WebLinkPosition {
@@ -12575,7 +12971,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -12596,7 +12992,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -12699,7 +13095,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(VisualforcePage))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FieldLayoutComponent))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(FieldComponent))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -12757,7 +13153,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum layoutComponentType {
@@ -12797,7 +13193,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -12818,7 +13214,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -12911,7 +13307,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -13004,7 +13400,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum ReportChartSize {
@@ -13020,7 +13416,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -13101,7 +13497,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -13170,7 +13566,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -13204,7 +13600,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -13225,7 +13621,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -14115,7 +14511,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -14161,7 +14557,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum soapType {
@@ -14260,7 +14656,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum UiBehavior {
@@ -14276,7 +14672,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -14398,7 +14794,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -14443,7 +14839,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum FeedLayoutFilterType {
@@ -14459,7 +14855,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -14597,7 +14993,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -14729,7 +15125,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -14763,7 +15159,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum TabOrderType {
@@ -14776,7 +15172,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -14823,7 +15219,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -14881,7 +15277,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -14938,7 +15334,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -15046,7 +15442,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -15128,7 +15524,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -15237,7 +15633,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -15307,7 +15703,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -15403,7 +15799,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -15450,7 +15846,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -15471,7 +15867,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -15505,7 +15901,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -15550,7 +15946,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -15571,7 +15967,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -15643,7 +16039,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -15689,7 +16085,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -15784,7 +16180,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -15831,7 +16227,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -15905,7 +16301,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum Article {
@@ -15921,7 +16317,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum CaseType {
@@ -16018,7 +16414,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum GrammaticalNumber {
@@ -16034,7 +16430,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum Possessive {
@@ -16050,7 +16446,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -16135,7 +16531,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum Gender {
@@ -16187,7 +16583,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum StartsWith {
@@ -16203,7 +16599,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -16249,7 +16645,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -16295,7 +16691,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -16412,7 +16808,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -16445,7 +16841,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -16491,7 +16887,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -16561,7 +16957,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -16630,7 +17026,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -16787,7 +17183,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum changeEventType {
@@ -16818,7 +17214,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -16851,7 +17247,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -16898,7 +17294,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -16932,7 +17328,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -16979,7 +17375,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -17352,7 +17748,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -17450,7 +17846,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -17675,7 +18071,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -17722,7 +18118,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -17781,7 +18177,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -17828,7 +18224,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -17875,7 +18271,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -17974,7 +18370,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -17995,7 +18391,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -18040,7 +18436,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum QuickActionParameterType {
@@ -18053,7 +18449,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -18087,7 +18483,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -18532,7 +18928,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -18589,7 +18985,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -18638,7 +19034,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ProcessWorkitemRequest))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ProcessSubmitRequest))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -18673,7 +19069,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -18706,7 +19102,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -18766,7 +19162,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -18839,7 +19235,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -18886,7 +19282,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -18959,7 +19355,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19057,7 +19453,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19116,7 +19512,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19163,7 +19559,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19184,7 +19580,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19193,7 +19589,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19202,7 +19598,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19236,7 +19632,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19257,7 +19653,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19290,7 +19686,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19336,7 +19732,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19370,7 +19766,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19403,7 +19799,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19448,7 +19844,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19495,7 +19891,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19540,7 +19936,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19574,7 +19970,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19607,7 +20003,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19641,7 +20037,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19735,7 +20131,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19768,7 +20164,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19801,7 +20197,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19822,7 +20218,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19856,7 +20252,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19903,7 +20299,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -19938,7 +20334,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -20033,7 +20429,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -20067,7 +20463,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -20100,7 +20496,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -20148,7 +20544,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -20183,7 +20579,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -20216,7 +20612,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -20262,7 +20658,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -20309,7 +20705,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -20369,7 +20765,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(address))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -20404,7 +20800,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -20517,7 +20913,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -20637,7 +21033,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -20708,7 +21104,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -21300,7 +21696,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -21345,7 +21741,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -21647,7 +22043,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -21744,7 +22140,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -21779,7 +22175,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -21802,7 +22198,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -21825,7 +22221,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -21861,7 +22257,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -21883,7 +22279,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -21905,7 +22301,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -21927,7 +22323,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -21950,7 +22346,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -21985,7 +22381,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum DebugLevel {
@@ -22010,7 +22406,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -22056,7 +22452,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -22092,7 +22488,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -22138,7 +22534,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -22185,7 +22581,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -22219,7 +22615,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -22241,7 +22637,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -22263,7 +22659,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -22285,7 +22681,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -22307,7 +22703,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum AppMenuType {
@@ -22323,7 +22719,7 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:partner.soap.sforce.com")]
     public enum listViewIsSoqlCompatible {
@@ -22339,11 +22735,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void loginCompletedEventHandler(object sender, loginCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class loginCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22365,11 +22761,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeSObjectCompletedEventHandler(object sender, describeSObjectCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeSObjectCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22391,11 +22787,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeSObjectsCompletedEventHandler(object sender, describeSObjectsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeSObjectsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22417,11 +22813,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeGlobalCompletedEventHandler(object sender, describeGlobalCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeGlobalCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22443,11 +22839,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeDataCategoryGroupsCompletedEventHandler(object sender, describeDataCategoryGroupsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeDataCategoryGroupsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22469,11 +22865,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeDataCategoryGroupStructuresCompletedEventHandler(object sender, describeDataCategoryGroupStructuresCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeDataCategoryGroupStructuresCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22495,11 +22891,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeDataCategoryMappingsCompletedEventHandler(object sender, describeDataCategoryMappingsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeDataCategoryMappingsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22521,11 +22917,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeKnowledgeSettingsCompletedEventHandler(object sender, describeKnowledgeSettingsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeKnowledgeSettingsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22547,11 +22943,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeAppMenuCompletedEventHandler(object sender, describeAppMenuCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeAppMenuCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22573,11 +22969,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeGlobalThemeCompletedEventHandler(object sender, describeGlobalThemeCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeGlobalThemeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22599,11 +22995,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeThemeCompletedEventHandler(object sender, describeThemeCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeThemeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22625,11 +23021,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeLayoutCompletedEventHandler(object sender, describeLayoutCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeLayoutCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22651,11 +23047,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeSoftphoneLayoutCompletedEventHandler(object sender, describeSoftphoneLayoutCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeSoftphoneLayoutCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22677,11 +23073,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeSearchLayoutsCompletedEventHandler(object sender, describeSearchLayoutsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeSearchLayoutsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22703,11 +23099,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeSearchableEntitiesCompletedEventHandler(object sender, describeSearchableEntitiesCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeSearchableEntitiesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22729,11 +23125,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeSearchScopeOrderCompletedEventHandler(object sender, describeSearchScopeOrderCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeSearchScopeOrderCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22755,11 +23151,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeCompactLayoutsCompletedEventHandler(object sender, describeCompactLayoutsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeCompactLayoutsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22781,11 +23177,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describePathAssistantsCompletedEventHandler(object sender, describePathAssistantsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describePathAssistantsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22807,11 +23203,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeApprovalLayoutCompletedEventHandler(object sender, describeApprovalLayoutCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeApprovalLayoutCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22833,11 +23229,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeSoqlListViewsCompletedEventHandler(object sender, describeSoqlListViewsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeSoqlListViewsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22859,11 +23255,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void executeListViewCompletedEventHandler(object sender, executeListViewCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class executeListViewCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22885,11 +23281,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeSObjectListViewsCompletedEventHandler(object sender, describeSObjectListViewsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeSObjectListViewsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22911,11 +23307,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeTabsCompletedEventHandler(object sender, describeTabsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeTabsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22937,11 +23333,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeAllTabsCompletedEventHandler(object sender, describeAllTabsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeAllTabsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22963,11 +23359,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describePrimaryCompactLayoutsCompletedEventHandler(object sender, describePrimaryCompactLayoutsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describePrimaryCompactLayoutsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -22989,11 +23385,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void createCompletedEventHandler(object sender, createCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class createCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23015,11 +23411,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void updateCompletedEventHandler(object sender, updateCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class updateCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23041,11 +23437,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void upsertCompletedEventHandler(object sender, upsertCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class upsertCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23067,11 +23463,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void mergeCompletedEventHandler(object sender, mergeCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class mergeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23093,11 +23489,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void deleteCompletedEventHandler(object sender, deleteCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class deleteCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23119,11 +23515,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void undeleteCompletedEventHandler(object sender, undeleteCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class undeleteCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23145,11 +23541,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void emptyRecycleBinCompletedEventHandler(object sender, emptyRecycleBinCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class emptyRecycleBinCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23171,11 +23567,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void retrieveCompletedEventHandler(object sender, retrieveCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class retrieveCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23197,11 +23593,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void processCompletedEventHandler(object sender, processCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class processCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23223,11 +23619,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void convertLeadCompletedEventHandler(object sender, convertLeadCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class convertLeadCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23249,15 +23645,15 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void logoutCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void invalidateSessionsCompletedEventHandler(object sender, invalidateSessionsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class invalidateSessionsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23279,11 +23675,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void getDeletedCompletedEventHandler(object sender, getDeletedCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class getDeletedCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23305,11 +23701,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void getUpdatedCompletedEventHandler(object sender, getUpdatedCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class getUpdatedCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23331,11 +23727,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void queryCompletedEventHandler(object sender, queryCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class queryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23357,11 +23753,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void queryAllCompletedEventHandler(object sender, queryAllCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class queryAllCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23383,11 +23779,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void queryMoreCompletedEventHandler(object sender, queryMoreCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class queryMoreCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23409,11 +23805,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void searchCompletedEventHandler(object sender, searchCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class searchCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23435,11 +23831,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void getServerTimestampCompletedEventHandler(object sender, getServerTimestampCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class getServerTimestampCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23461,11 +23857,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void setPasswordCompletedEventHandler(object sender, setPasswordCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class setPasswordCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23487,11 +23883,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void changeOwnPasswordCompletedEventHandler(object sender, changeOwnPasswordCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class changeOwnPasswordCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23513,11 +23909,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void resetPasswordCompletedEventHandler(object sender, resetPasswordCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class resetPasswordCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23539,11 +23935,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void getUserInfoCompletedEventHandler(object sender, getUserInfoCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class getUserInfoCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23565,11 +23961,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void deleteByExampleCompletedEventHandler(object sender, deleteByExampleCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class deleteByExampleCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23591,11 +23987,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void sendEmailMessageCompletedEventHandler(object sender, sendEmailMessageCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class sendEmailMessageCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23617,11 +24013,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void sendEmailCompletedEventHandler(object sender, sendEmailCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class sendEmailCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23643,11 +24039,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void renderEmailTemplateCompletedEventHandler(object sender, renderEmailTemplateCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class renderEmailTemplateCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23669,11 +24065,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void renderStoredEmailTemplateCompletedEventHandler(object sender, renderStoredEmailTemplateCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class renderStoredEmailTemplateCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23695,11 +24091,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void performQuickActionsCompletedEventHandler(object sender, performQuickActionsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class performQuickActionsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23721,11 +24117,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeQuickActionsCompletedEventHandler(object sender, describeQuickActionsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeQuickActionsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23747,11 +24143,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeQuickActionsForRecordTypeCompletedEventHandler(object sender, describeQuickActionsForRecordTypeCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeQuickActionsForRecordTypeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23773,11 +24169,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeAvailableQuickActionsCompletedEventHandler(object sender, describeAvailableQuickActionsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeAvailableQuickActionsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23799,11 +24195,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void retrieveQuickActionTemplatesCompletedEventHandler(object sender, retrieveQuickActionTemplatesCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class retrieveQuickActionTemplatesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23825,11 +24221,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void retrieveMassQuickActionTemplatesCompletedEventHandler(object sender, retrieveMassQuickActionTemplatesCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class retrieveMassQuickActionTemplatesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23851,11 +24247,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeVisualForceCompletedEventHandler(object sender, describeVisualForceCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeVisualForceCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23877,11 +24273,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void findDuplicatesCompletedEventHandler(object sender, findDuplicatesCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class findDuplicatesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23903,11 +24299,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void findDuplicatesByIdsCompletedEventHandler(object sender, findDuplicatesByIdsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class findDuplicatesByIdsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -23929,11 +24325,11 @@ namespace SalesforceMetadata.PartnerWSDL {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void describeNounsCompletedEventHandler(object sender, describeNounsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class describeNounsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {

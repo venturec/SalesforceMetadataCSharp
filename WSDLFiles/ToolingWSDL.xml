@@ -44171,7 +44171,7 @@ Copyright 2006-2026 Salesforce.com, inc. All Rights Reserved
  <service name="SforceServiceService">
   <documentation></documentation>
   <port binding="tns:SforceServiceBinding" name="SforceService">
-   <soap:address location="https://login.salesforce.com/services/Soap/T/66.0"/>
+   <soap:address location="https://login.salesforce.com/services/Soap/T/64.0"/>
   </port>
  </service>
 </definitions>

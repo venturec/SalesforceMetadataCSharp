@@ -51,9 +51,11 @@ namespace SalesforceMetadata
 
         private void getMetadataTypes(String userName)
         {
+            String loginMessage = "SUCCESS";
+
             try
             {
-                sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
+                loginMessage = sc.salesforceLogin(UtilityClass.REQUESTINGORG.FROMORG, this.cmbUserName.Text);
             }
             catch (Exception exc)
             {
@@ -63,7 +65,7 @@ namespace SalesforceMetadata
 
             if (sc.loginSuccess == false)
             {
-                MessageBox.Show("Please check username, password and/or security token");
+                MessageBox.Show(loginMessage);
                 return;
             }
 

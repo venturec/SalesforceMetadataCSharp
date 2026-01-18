@@ -127,7 +127,7 @@
             this.btnParseDebugLogs.TabIndex = 8;
             this.btnParseDebugLogs.Text = "Parse Debug Logs";
             this.btnParseDebugLogs.UseVisualStyleBackColor = true;
-            this.btnParseDebugLogs.Click += new System.EventHandler(this.BtnParseDebugLogs_Click);
+            this.btnParseDebugLogs.Click += new System.EventHandler(this.btnParseDebugLogs_Click);
             // 
             // btnRESTService
             // 

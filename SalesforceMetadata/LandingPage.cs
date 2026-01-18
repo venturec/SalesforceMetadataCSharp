@@ -70,7 +70,7 @@ namespace SalesforceMetadata
             srch.Location = this.Location;
         }
 
-        private void BtnParseDebugLogs_Click(object sender, EventArgs e)
+        private void btnParseDebugLogs_Click(object sender, EventArgs e)
         {
             ParseDebugLogs parseDebugs = new ParseDebugLogs();
             parseDebugs.Show();

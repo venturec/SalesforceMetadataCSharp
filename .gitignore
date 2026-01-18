@@ -9,6 +9,9 @@
 *.user
 *.userosscache
 *.sln.docstates
+DocumentLayout.backup.json
+DocumentLayout.json
+SalesforceMetadata.csproj.FileListAbsolute.txt
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

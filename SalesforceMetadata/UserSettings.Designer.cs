@@ -61,7 +61,7 @@
             this.lblSelectLocation.Name = "lblSelectLocation";
             this.lblSelectLocation.Size = new System.Drawing.Size(703, 23);
             this.lblSelectLocation.TabIndex = 0;
-            this.lblSelectLocation.Text = "Please select the XML file whcih contains your Username, Enterprise WSDL URL and " +
+            this.lblSelectLocation.Text = "Please select the XML file which contains your Username, Enterprise WSDL URL and " +
     "Metadata WSL URL";
             // 
             // tbXmlFileLocation
